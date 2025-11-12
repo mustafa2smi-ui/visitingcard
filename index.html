@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>डिजिटल विजिटिंग कार्ड मेकर - Star Digital</title>
+    <meta name="description" content="Star Digital का फ्री ऑनलाइन विजिटिंग कार्ड मेकर। अपना नाम, फोटो, संपर्क और व्यवसाय दर्ज करें और तुरंत शेयर करने योग्य डिजिटल कार्ड बनाएं।">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Custom styles for gradients and general look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --primary-color: #007bff; /* Star Digital Blue */
+            --dark-bg: #1e1e2d; /* Main Background */
+            --card-text: #ffffff;
+            --card-border-color: #007bff; /* New: Border color, matching primary */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--card-text);
+        }
+
+        /* Input and Button Styling */
+        input[type="text"], input[type="email"], input[type="tel"], textarea, input[type="number"] {
+            padding: 10px;
+            border: 1px solid #444;
+            background: #2b2b40;
+            color: var(--card-text);
+            border-radius: 8px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="number"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+        
+        /* The Card Design (Crucial for Preview and Capture) */
+        #cardPreview {
+            width: 300px; /* Standard business card width */
+            height: 180px; /* Standard business card height */
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transform: scale(1.1); /* Slightly larger for better mobile view */
+            transform-origin: top center;
+            
+            /* NEW: Card Border and Glow Effect */
+            border: 2px solid var(--card-border-color); /* Initial border */
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.6), /* Glow effect */
+                        0 10px 25px rgba(0, 0, 0, 0.5); /* Existing shadow */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover/focus */
+        }
+
+        /* Optional: Add a subtle hover effect to the card */
+        #cardPreview:hover {
+            transform: scale(1.12);
+            box-shadow: 0 0 25px rgba(0, 123, 255, 0.8), /* More intense glow on hover */
+                        0 15px 35px rgba(0, 0, 0, 0.7); /* Deeper shadow on hover */
+        }
+        
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .name-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Text in the card should use white or a very light color */
+        #cardName, #cardOccupation { color: white; }
+        #cardContact, #cardEmail, #cardLocation { color: #f0f0f0; font-size: 0.85rem; }
+
+        /* Icon styling */
+        .icon {
+            width: 16px;
+            height: 16px;
+            fill: white; /* Icons color */
+            margin-right: 5px;
+        }
+        
+        .gradient-selector button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .gradient-selector button.selected {
+            border-color: var(--primary-color);
+            transform: scale(1.15);
+        }
+        
+        /* Helper class to ensure card text contrast for lighter backgrounds */
+        .dark-text {
+            color: #1e1e2d !important;
+        }
+        .dark-border {
+            border: 3px solid #1e1e2d !important;
+        }
+
+        /* Utility class to hide overflow when capturing */
+        .overflow-hidden-capture {
+            overflow: hidden !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* --- GRADIENT CLASSES (12 Total) --- */
+        .grad-1 { background-image: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%); } /* Emerald-Mint (Light) */
+        .grad-2 { background-image: linear-gradient(135deg, #007bff 0%, #6ecbff 100%); } /* Star Digital Blue (Light) */
+        .grad-3 { background-image: linear-gradient(135deg, #d31027 0%, #ea384d 100%); } /* Hot Red */
+        .grad-4 { background-image: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); } /* Dark Blue-Purple (Dark) */
+        .grad-5 { background-image: linear-gradient(135deg, #4b6cb7 0%, #182848 100%); } /* Indigo-Midnight (Dark) */
+        .grad-6 { background-image: linear-gradient(135deg, #ff994d 0%, #ff5e3a 100%); } /* Sunset Orange (Light) */
+        .grad-7 { background-image: linear-gradient(135deg, #f09819 0%, #ff5858 100%); } /* Gold-Crimson (Light) */
+        .grad-8 { background-image: linear-gradient(135deg, #34e89e 0%, #0f3443 100%); } /* Green-Deep Teal (Mixed) */
+        .grad-9 { background-image: linear-gradient(135deg, #8A2387 0%, #E94057 100%); } /* Pink-Purple (Dark) */
+        .grad-10 { background-image: linear-gradient(135deg, #0f0c29 0%, #302b63 100%); } /* Deep Violet (Dark) */
+        .grad-11 { background-image: linear-gradient(135deg, #cc2b5e 0%, #753a88 100%); } /* Rose-Purple (Dark) */
+        .grad-12 { background-image: linear-gradient(135deg, #ECE9E6 0%, #FFFFFF 100%); } /* Pure White/Light Gray (Light) */
+    </style>
+</head>
+<body class="p-4">
+
+    <header class="text-center mb-6">
+        <h1 class="text-2xl font-extrabold text-white">⭐️ डिजिटल बिज़नेस कार्ड मेकर</h1>
+        <p class="text-sm text-gray-400 mt-1">तुरंत अपना विजिटिंग कार्ड बनाएं और शेयर करें।</p>
+    </header>
+
+    <div class="text-center mb-6">
+        <div id="cardPreview" class="grad-5 card-with-border transition-all duration-300"> 
+            <div class="name-section">
+                <img id="cardPhoto" class="profile-pic dark-border" src="https://placehold.co/60x60/3b3b4d/ffffff?text=P" alt="Profile Picture">
+                <div>
+                    <h2 id="cardName" class="text-xl font-bold leading-tight">आपका नाम</h2>
+                    <p id="cardOccupation" class="text-sm font-light italic leading-tight mt-0.5">आपका व्यवसाय</p>
+                </div>
+                <div id="cardEmoji" class="text-3xl ml-auto">✨</div>
+            </div>
+
+            <div class="mt-4 space-y-1">
+                <div class="flex items-center">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/>
+                    </svg>
+                    <span id="cardContact">9876543210</span>
+                </div>
+                <div class="flex items-center">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    <span id="cardEmail">email@example.com</span>
+                </div>
+                <div class="flex items-center">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span id="cardLocation">शहर, 110001</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mb-8">
+        <h3 class="text-md font-semibold mb-3">🎨 बैकग्राउंड चुनें (12 ग्रेडिएंट)</h3>
+        <div id="gradientSelector" class="gradient-selector flex flex-wrap justify-center gap-3">
+            </div>
+    </div>
+    
+    <div class="max-w-md mx-auto p-4 bg-gray-800 rounded-xl shadow-lg">
+        <h3 class="text-xl font-semibold mb-4 text-center text-yellow-300">जानकारी भरें</h3>
+        <div class="space-y-4">
+            
+            <div>
+                <label for="nameInput" class="block text-sm font-medium mb-1">आपका पूरा नाम *</label>
+                <input type="text" id="nameInput" placeholder="जैसे: रोहित कुमार" maxlength="30" value="आपका नाम">
+            </div>
+
+            <div class="flex space-x-2">
+                <div class="w-1/2">
+                    <label for="occupationInput" class="block text-sm font-medium mb-1">आपका व्यवसाय</label>
+                    <input type="text" id="occupationInput" placeholder="जैसे: डिजिटल मार्केटर" maxlength="25" value="आपका व्यवसाय">
+                </div>
+                <div class="w-1/2">
+                    <label for="emojiInput" class="block text-sm font-medium mb-1">आपका पसंदीदा इमोजी</label>
+                    <input type="text" id="emojiInput" placeholder="जैसे: 🔥, 💼, 💡" maxlength="2" value="✨">
+                </div>
+            </div>
+
+            <div>
+                <label for="contactInput" class="block text-sm font-medium mb-1">संपर्क नंबर (केवल 10 अंक) *</label>
+                <input type="tel" id="contactInput" placeholder="जैसे: 9876543210" maxlength="10" value="9876543210">
+            </div>
+            
+            <div>
+                <label for="emailInput" class="block text-sm font-medium mb-1">ईमेल ID</label>
+                <input type="email" id="emailInput" placeholder="जैसे: email@example.com" maxlength="40" value="email@example.com">
+            </div>
+
+            <div class="flex space-x-2">
+                <div class="w-2/3">
+                    <label for="locationInput" class="block text-sm font-medium mb-1">शहर/स्थान</label>
+                    <input type="text" id="locationInput" placeholder="जैसे: मुंबई, महाराष्ट्र" maxlength="20" value="शहर">
+                </div>
+                <div class="w-1/3">
+                    <label for="pincodeInput" class="block text-sm font-medium mb-1">पिन कोड</label>
+                    <input type="number" id="pincodeInput" placeholder="जैसे: 110001" maxlength="6" value="110001" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">फोटो अपलोड (PNG/JPG)</label>
+                <button type="button" onclick="document.getElementById('photoInput').click()"
+                        class="w-full py-2 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-lg transition duration-300">
+                    🖼 गैलरी या 📸 कैमरा चुनें
+                </button>
+                <input type="file" id="photoInput" accept="image/*" class="hidden">
+            </div>
+            </div>
+    </div>
+    
+    <div class="max-w-md mx-auto mt-6 flex space-x-4">
+        <button id="downloadBtn" onclick="downloadCard()" 
+                class="w-1/2 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-md transition duration-300 flex items-center justify-center">
+            🖼 डाउनलोड PNG
+        </button>
+        <button id="shareBtn" onclick="shareCard()" 
+                class="w-1/2 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-md transition duration-300 flex items-center justify-center">
+            📲 शेयर करें
+        </button>
+    </div>
+    
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-700 p-6 rounded-lg max-w-sm w-full shadow-2xl">
+            <h3 id="modalTitle" class="text-xl font-bold mb-3 text-yellow-300"></h3>
+            <p id="modalMessage" class="text-gray-200 mb-4"></p>
+            <button onclick="document.getElementById('customModal').classList.add('hidden')" class="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURATION AND DATA ---
+        const gradientClasses = [
+            'grad-1', 'grad-2', 'grad-3', 'grad-4', 'grad-5', 'grad-6',
+            'grad-7', 'grad-8', 'grad-9', 'grad-10', 'grad-11', 'grad-12'
+        ];
+        
+        // Backgrounds where white text should turn dark for contrast
+        const lightBackgrounds = ['grad-1', 'grad-2', 'grad-6', 'grad-7', 'grad-12'];
+
+        let currentGradient = 'grad-5';
+        let imageUrl = "https://placehold.co/60x60/3b3b4d/ffffff?text=P";
+
+        // --- 2. DOM ELEMENTS ---
+        const elements = {
+            preview: document.getElementById('cardPreview'),
+            photo: document.getElementById('cardPhoto'),
+            name: document.getElementById('cardName'),
+            occupation: document.getElementById('cardOccupation'),
+            contact: document.getElementById('cardContact'),
+            email: document.getElementById('cardEmail'),
+            location: document.getElementById('cardLocation'),
+            emoji: document.getElementById('cardEmoji'),
+            
+            nameInput: document.getElementById('nameInput'),
+            occupationInput: document.getElementById('occupationInput'),
+            contactInput: document.getElementById('contactInput'),
+            emailInput: document.getElementById('emailInput'),
+            locationInput: document.getElementById('locationInput'),
+            pincodeInput: document.getElementById('pincodeInput'), 
+            emojiInput: document.getElementById('emojiInput'),
+            photoInput: document.getElementById('photoInput'),
+            gradientSelector: document.getElementById('gradientSelector'),
+            downloadBtn: document.getElementById('downloadBtn'),
+            shareBtn: document.getElementById('shareBtn'),
+        };
+        
+        // --- 3. HELPER FUNCTIONS ---
+
+        // Custom Modal Alert (instead of alert/confirm)
+        function showMessage(title, message) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        // Checks if the current background is light, requiring dark text
+        function requiresDarkText(gradient) {
+            return lightBackgrounds.includes(gradient);
+        }
+
+        // Updates all text/icon colors based on the current gradient
+        function updateCardColorContrast() {
+            const isLight = requiresDarkText(currentGradient);
+            const textElements = [
+                elements.name, elements.occupation, elements.contact, elements.email, elements.location, elements.emoji
+            ];
+            
+            const iconSVGs = elements.preview.querySelectorAll('.icon');
+
+            // Toggle dark-text class on all relevant elements
+            textElements.forEach(el => el.classList.toggle('dark-text', isLight));
+            iconSVGs.forEach(svg => svg.style.fill = isLight ? '#1e1e2d' : 'white');
+            elements.photo.classList.toggle('dark-border', isLight);
+        }
+
+        // --- 4. CORE LOGIC: PREVIEW UPDATE ---
+        function updatePreview() {
+            // Update Text content 
+            elements.name.innerText = elements.nameInput.value || "आपका नाम";
+            elements.occupation.innerText = elements.occupationInput.value || "आपका व्यवसाय";
+            elements.contact.innerText = elements.contactInput.value || "9876543210";
+            elements.email.innerText = elements.emailInput.value || "email@example.com";
+            
+            const locationText = elements.locationInput.value || "शहर";
+            const pincodeText = elements.pincodeInput.value ? `, ${elements.pincodeInput.value}` : '';
+            elements.location.innerText = locationText + pincodeText;
+            
+            elements.emoji.innerText = elements.emojiInput.value.slice(0, 2) || "✨"; // Max 2 characters for emoji
+
+            // Update Card Gradient and Contrast
+            elements.preview.className = `grad-${currentGradient.slice(5)} transition-all duration-300`;
+            elements.preview.classList.add('transition-all', 'duration-300', 'card-with-border'); // Ensure other classes remain
+            updateCardColorContrast();
+        }
+
+        // --- 5. INITIALIZATION ---
+        function initialize() {
+            // 5a. Set up input listeners
+            const inputFields = [
+                elements.nameInput, elements.occupationInput, elements.contactInput,
+                elements.emailInput, elements.locationInput, elements.emojiInput, elements.pincodeInput 
+            ];
+            inputFields.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+            
+            // Force number input for Pincode
+            elements.pincodeInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                updatePreview();
+            });
+
+            // 5b. Handle Photo Upload
+            elements.photoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    if (file.size > 2 * 1024 * 1024) { // Max 2MB file size
+                         showMessage("त्रुटि", "फोटो 2MB से छोटी होनी चाहिए।");
+                         event.target.value = ''; // Clear file input
+                         return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageUrl = e.target.result;
+                        elements.photo.src = imageUrl;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 5c. Initialize Gradient Selector
+            gradientClasses.forEach(grad => {
+                const btn = document.createElement('button');
+                btn.className = grad;
+                btn.classList.add('grad-button');
+                btn.setAttribute('data-grad', grad);
+                btn.onclick = () => selectGradient(grad);
+                elements.gradientSelector.appendChild(btn);
+            });
+
+            // Select the initial gradient
+            selectGradient(currentGradient);
+
+            // Initial preview render
+            updatePreview();
+        }
+        
+        function selectGradient(grad) {
+            currentGradient = grad;
+            // Remove selection class from all
+            elements.gradientSelector.querySelectorAll('.grad-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            // Add selection class to the clicked one
+            document.querySelector(`[data-grad="${grad}"]`).classList.add('selected');
+            updatePreview();
+        }
+
+
+        // --- 6. ACTION FUNCTIONS (DOWNLOAD & SHARE) ---
+
+        function processCardCapture(action) {
+            // 1. Validation: Name, Contact
+            const contactNumber = elements.contactInput.value;
+            if (!elements.nameInput.value) {
+                showMessage("ज़रूरी जानकारी", "कृपया नाम भरें।");
+                return;
+            }
+            // 10-digit validation
+            if (!contactNumber || contactNumber.length !== 10 || isNaN(contactNumber)) {
+                showMessage("ज़रूरी जानकारी", "कृपया 10 अंकों का सही संपर्क नंबर भरें।");
+                return;
+            }
+
+            // 2. Prepare for Capture (remove zoom effect)
+            const card = elements.preview;
+            const originalTransform = card.style.transform;
+            const originalMargin = card.style.margin;
+            
+            // Remove transform for accurate capture
+            card.style.transform = 'none';
+            card.style.margin = '0';
+            
+            // Temporary hide buttons while capturing (to prevent interference)
+            elements.downloadBtn.disabled = true;
+            elements.shareBtn.disabled = true;
+
+            html2canvas(card, { 
+                scale: 3, // High resolution capture
+                useCORS: true, // Needed for potential external images
+                allowTaint: true 
+            }).then(canvas => {
+                // 3. Restore original styles
+                card.style.transform = originalTransform;
+                card.style.margin = originalMargin;
+                elements.downloadBtn.disabled = false;
+                elements.shareBtn.disabled = false;
+
+                const name = elements.nameInput.value.replace(/\s/g, '_');
+                const filename = `Digital_Card_${name}.png`;
+
+                if (action === 'download') {
+                    // Download Logic
+                    let link = document.createElement("a");
+                    link.download = filename;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    showMessage("सफलता!", "आपका डिजिटल कार्ड PNG इमेज के रूप में डाउनलोड हो गया है।");
+
+                } else if (action === 'share') {
+                    // Share Logic
+                    canvas.toBlob(function(blob) {
+                        if (navigator.share) {
+                            const file = new File([blob], filename, { type: 'image/png' });
+                            const shareText = `मेरा नया डिजिटल विजिटिंग कार्ड! देखिए मेरे संपर्क डिटेल्स। मैंने इसे Star Digital के फ्री टूल से बनाया है।`;
+                            
+                            navigator.share({
+                                title: 'Digital Business Card',
+                                text: shareText,
+                                files: [file],
+                            }).catch((error) => {
+                                console.log('Error sharing:', error);
+                                // Fallback to download if share fails
+                                showMessage("शेयरिंग विफल", "आपके डिवाइस पर शेयरिंग सपोर्ट नहीं है। इमेज डाउनलोड हो जाएगी।");
+                                fallbackDownload(canvas, filename);
+                            });
+                        } else {
+                            // Fallback for non-supporting browsers
+                            showMessage("शेयरिंग विफल", "आपका ब्राउज़र Share API को सपोर्ट नहीं करता है। इमेज डाउनलोड हो जाएगी।");
+                            fallbackDownload(canvas, filename);
+                        }
+                    }, 'image/png');
+                }
+            });
+        }
+        
+        function fallbackDownload(canvas, filename) {
+            let link = document.createElement("a");
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function downloadCard() {
+            processCardCapture('download');
+        }
+
+        function shareCard() {
+            processCardCapture('share');
+        }
+
+        // Initialize the app when the window loads
+        window.onload = initialize;
+
+    </script>
+
+</body>
+</html>
