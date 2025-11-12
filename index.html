@@ -6,8 +6,10 @@
     <title>डिजिटल विजिटिंग कार्ड मेकर - Star Digital</title>
     <meta name="description" content="Star Digital का फ्री ऑनलाइन विजिटिंग कार्ड मेकर। अपना नाम, फोटो, संपर्क और व्यवसाय दर्ज करें और तुरंत शेयर करने योग्य डिजिटल कार्ड बनाएं।">
     
-    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- HTML2Canvas for image generation --><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HTML2Canvas for image generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         /* Custom styles for gradients and general look */
@@ -126,69 +128,21 @@
         .grad-10 { background-image: linear-gradient(135deg, #0f0c29 0%, #302b63 100%); } /* Deep Violet (Dark) */
         .grad-11 { background-image: linear-gradient(135deg, #cc2b5e 0%, #753a88 100%); } /* Rose-Purple (Dark) */
         .grad-12 { background-image: linear-gradient(135deg, #ECE9E6 0%, #FFFFFF 100%); } /* Pure White/Light Gray (Light) */
-
-        /* Camera Modal Specific Styles */
-        #cameraModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            flex-direction: column;
-        }
-
-        #videoElement {
-            max-width: 90%;
-            max-height: 70vh;
-            border-radius: 8px;
-            background-color: black;
-        }
-
-        #cameraControls {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-        }
-
-        #cameraControls button {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        #capturePhotoBtn {
-            background-color: #28a745; /* Green */
-            color: white;
-        }
-        #capturePhotoBtn:hover {
-            background-color: #218838;
-        }
-
-        #cancelCameraBtn {
-            background-color: #dc3545; /* Red */
-            color: white;
-        }
-        #cancelCameraBtn:hover {
-            background-color: #c82333;
-        }
-
     </style>
 </head>
 <body class="p-4">
 
-    <!-- Header --><header class="text-center mb-6">
+    <!-- Header -->
+    <header class="text-center mb-6">
         <h1 class="text-2xl font-extrabold text-white">⭐️ डिजिटल बिज़नेस कार्ड मेकर</h1>
         <p class="text-sm text-gray-400 mt-1">तुरंत अपना विजिटिंग कार्ड बनाएं और शेयर करें।</p>
     </header>
 
-    <!-- Card Preview Section --><div class="text-center mb-6">
+    <!-- Card Preview Section -->
+    <div class="text-center mb-6">
         <div id="cardPreview" class="grad-5 transition-all duration-300">
-            <!-- Top Section: Name and Photo --><div class="name-section">
+            <!-- Top Section: Name and Photo -->
+            <div class="name-section">
                 <img id="cardPhoto" class="profile-pic dark-border" src="https://placehold.co/60x60/3b3b4d/ffffff?text=P" alt="Profile Picture">
                 <div>
                     <h2 id="cardName" class="text-xl font-bold leading-tight">आपका नाम</h2>
@@ -197,21 +151,28 @@
                 <div id="cardEmoji" class="text-3xl ml-auto">✨</div>
             </div>
 
-            <!-- Bottom Section: Contact Details --><div class="mt-4 space-y-1">
-                <!-- Contact Number --><div class="flex items-center">
-                    <!-- Phone Icon SVG --><svg class="icon" viewBox="0 0 24 24">
+            <!-- Bottom Section: Contact Details -->
+            <div class="mt-4 space-y-1">
+                <!-- Contact Number -->
+                <div class="flex items-center">
+                    <!-- Phone Icon SVG -->
+                    <svg class="icon" viewBox="0 0 24 24">
                         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/>
                     </svg>
                     <span id="cardContact">+91 98765 43210</span>
                 </div>
-                <!-- Email ID --><div class="flex items-center">
-                    <!-- Mail Icon SVG --><svg class="icon" viewBox="0 0 24 24">
+                <!-- Email ID -->
+                <div class="flex items-center">
+                    <!-- Mail Icon SVG -->
+                    <svg class="icon" viewBox="0 0 24 24">
                         <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                     </svg>
                     <span id="cardEmail">email@example.com</span>
                 </div>
-                <!-- Location --><div class="flex items-center">
-                    <!-- Location Icon SVG --><svg class="icon" viewBox="0 0 24 24">
+                <!-- Location -->
+                <div class="flex items-center">
+                    <!-- Location Icon SVG -->
+                    <svg class="icon" viewBox="0 0 24 24">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     </svg>
                     <span id="cardLocation">आपका शहर</span>
@@ -220,13 +181,16 @@
         </div>
     </div>
     
-    <!-- Gradient Selector --><div class="text-center mb-8">
+    <!-- Gradient Selector -->
+    <div class="text-center mb-8">
         <h3 class="text-md font-semibold mb-3">🎨 बैकग्राउंड चुनें (12 ग्रेडिएंट)</h3>
         <div id="gradientSelector" class="gradient-selector flex flex-wrap justify-center gap-3">
-            <!-- Buttons will be injected by JavaScript --></div>
+            <!-- Buttons will be injected by JavaScript -->
+        </div>
     </div>
     
-    <!-- Input Form --><div class="max-w-md mx-auto p-4 bg-gray-800 rounded-xl shadow-lg">
+    <!-- Input Form -->
+    <div class="max-w-md mx-auto p-4 bg-gray-800 rounded-xl shadow-lg">
         <h3 class="text-xl font-semibold mb-4 text-center text-yellow-300">जानकारी भरें</h3>
         <div class="space-y-4">
             
@@ -261,19 +225,15 @@
                 <input type="text" id="locationInput" placeholder="जैसे: मुंबई, महाराष्ट्र" maxlength="30" value="आपका शहर">
             </div>
 
-            <!-- Photo Upload and Camera Section --><div>
-                <label class="block text-sm font-medium mb-1">प्रोफाइल फोटो</label>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input type="file" id="photoInput" accept="image/*" class="flex-grow w-full sm:w-auto text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <button id="openCameraBtn" class="py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md flex-shrink-0">
-                        📸 कैमरा से फोटो लें
-                    </button>
-                </div>
+            <div>
+                <label for="photoInput" class="block text-sm font-medium mb-1">फोटो अपलोड (PNG/JPG)</label>
+                <input type="file" id="photoInput" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
             </div>
         </div>
     </div>
     
-    <!-- Action Buttons --><div class="max-w-md mx-auto mt-6 flex space-x-4">
+    <!-- Action Buttons -->
+    <div class="max-w-md mx-auto mt-6 flex space-x-4">
         <button id="downloadBtn" onclick="downloadCard()" 
                 class="w-1/2 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-md transition duration-300 flex items-center justify-center">
             🖼 डाउनलोड PNG
@@ -284,7 +244,8 @@
         </button>
     </div>
     
-    <!-- Custom Modal for Messages/Alerts --><div id="customModal" class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center z-50">
+    <!-- Custom Modal for Messages/Alerts -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center z-50">
         <div class="bg-gray-700 p-6 rounded-lg max-w-sm w-full shadow-2xl">
             <h3 id="modalTitle" class="text-xl font-bold mb-3 text-yellow-300"></h3>
             <p id="modalMessage" class="text-gray-200 mb-4"></p>
@@ -292,15 +253,6 @@
                 OK
             </button>
         </div>
-    </div>
-
-    <!-- Camera Modal (New) --><div id="cameraModal" class="hidden">
-        <video id="videoElement" autoplay playsinline></video>
-        <div id="cameraControls">
-            <button id="capturePhotoBtn">📷 फोटो लें</button>
-            <button id="cancelCameraBtn">❌ कैंसिल</button>
-        </div>
-        <canvas id="cameraCanvas" style="display:none;"></canvas>
     </div>
 
     <script>
@@ -315,7 +267,6 @@
 
         let currentGradient = 'grad-5';
         let imageUrl = "https://placehold.co/60x60/3b3b4d/ffffff?text=P";
-        let videoStream; // To store camera stream
 
         // --- 2. DOM ELEMENTS ---
         const elements = {
@@ -338,14 +289,6 @@
             gradientSelector: document.getElementById('gradientSelector'),
             downloadBtn: document.getElementById('downloadBtn'),
             shareBtn: document.getElementById('shareBtn'),
-
-            // Camera elements (New)
-            openCameraBtn: document.getElementById('openCameraBtn'),
-            cameraModal: document.getElementById('cameraModal'),
-            videoElement: document.getElementById('videoElement'),
-            capturePhotoBtn: document.getElementById('capturePhotoBtn'),
-            cancelCameraBtn: document.getElementById('cancelCameraBtn'),
-            cameraCanvas: document.getElementById('cameraCanvas'),
         };
         
         // --- 3. HELPER FUNCTIONS ---
@@ -379,7 +322,7 @@
 
         // --- 4. CORE LOGIC: PREVIEW UPDATE ---
         function updatePreview() {
-            // Update Text content (XSS protection is not strictly needed here as we use innerText/value, but sanitization is good practice)
+            // Update Text content 
             elements.name.innerText = elements.nameInput.value || "आपका नाम";
             elements.occupation.innerText = elements.occupationInput.value || "आपका व्यवसाय";
             elements.contact.innerText = elements.contactInput.value || "+91 98765 43210";
@@ -438,11 +381,6 @@
 
             // Initial preview render
             updatePreview();
-
-            // 5d. Camera Button Event Listeners (New)
-            elements.openCameraBtn.addEventListener('click', openCamera);
-            elements.capturePhotoBtn.addEventListener('click', capturePhoto);
-            elements.cancelCameraBtn.addEventListener('click', closeCamera);
         }
         
         function selectGradient(grad) {
@@ -457,44 +395,7 @@
         }
 
 
-        // --- 6. CAMERA FUNCTIONS (New) ---
-
-        async function openCamera() {
-            elements.cameraModal.classList.remove('hidden');
-            try {
-                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } }); // 'user' for front camera, 'environment' for back
-                elements.videoElement.srcObject = videoStream;
-            } catch (err) {
-                console.error("Error accessing camera: ", err);
-                showMessage("कैमरा एक्सेस त्रुटि", "कैमरा एक्सेस नहीं हो पा रहा है। कृपया सुनिश्चित करें कि आपने अनुमति दी है।");
-                closeCamera();
-            }
-        }
-
-        function closeCamera() {
-            if (videoStream) {
-                videoStream.getTracks().forEach(track => track.stop());
-                elements.videoElement.srcObject = null;
-            }
-            elements.cameraModal.classList.add('hidden');
-        }
-
-        function capturePhoto() {
-            const video = elements.videoElement;
-            const canvas = elements.cameraCanvas;
-            const context = canvas.getContext('2d');
-
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            imageUrl = canvas.toDataURL('image/png');
-            elements.photo.src = imageUrl;
-            closeCamera();
-        }
-
-
-        // --- 7. ACTION FUNCTIONS (DOWNLOAD & SHARE) ---
+        // --- 6. ACTION FUNCTIONS (DOWNLOAD & SHARE) ---
 
         function processCardCapture(action) {
             // 1. Validation
