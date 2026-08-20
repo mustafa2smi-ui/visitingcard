@@ -1,43 +1,40 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>डिजिटल विजिटिंग कार्ड मेकर - Star Digital</title>
     <meta name="description" content="Star Digital का फ्री डिजिटल विजिटिंग कार्ड मेकर। मिनटों में प्रोफेशनल कार्ड बनाएं।">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Royal / Calligraphy Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel+Decorative:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #3b82f6;
-            --bg-body: #0b0f19;
-            --card-surface: #111827;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-body);
-            color: #f3f4f6;
+            touch-action: pan-y;
         }
 
-        /* Compact Inputs */
+        /* Prevent auto-scroll hiding pinned top section */
         .form-input {
             padding: 6px 10px;
             font-size: 0.82rem;
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #ffffff;
             border-radius: 6px;
             width: 100%;
             transition: all 0.2s;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+            scroll-margin-top: 270px; /* Crucial for Mobile Keyboard freeze */
         }
 
         /* --- FANCY CARD CONTAINER --- */
@@ -51,118 +48,148 @@
             justify-content: space-between;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.1);
-            color: white;
             flex-shrink: 0;
+            transition: border 0.2s, box-shadow 0.2s;
         }
 
-        /* 3D Initial Style */
+        /* Floral Calligraphy Initial with Neon Ring */
         #cardInitial {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            font-family: 'Great Vibes', cursive;
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            text-shadow: 1px 1px 0 #000, 2px 2px 0 var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), inset 0 0 6px rgba(255, 255, 255, 0.5);
             flex-shrink: 0;
             z-index: 2;
+            line-height: 1;
         }
 
-        /* Dual Tone Curve Shapes */
-        .card-dual-1 {
-            background: #1e293b;
-            background-image: radial-gradient(circle at 100% 0%, #3b82f6 48%, transparent 49%);
+        /* --- NEW COLOR PRESETS --- */
+        /* Dual Tone Half Curves */
+        .card-dual-wb {
+            background: #ffffff;
+            background-image: radial-gradient(circle at 100% 0%, #1d4ed8 55%, transparent 56%);
+            color: #1e293b;
         }
-        .card-dual-2 {
+        .card-dual-wg {
+            background: #ffffff;
+            background-image: radial-gradient(circle at 100% 100%, #064e3b 55%, transparent 56%);
+            color: #1e293b;
+        }
+        .card-dual-gc {
+            background: #2b1810; /* Coffee */
+            background-image: radial-gradient(circle at 0% 0%, #d4af37 55%, transparent 56%); /* Gold */
+            color: #ffffff;
+        }
+        .card-dual-bp {
             background: #0f172a;
-            background-image: radial-gradient(circle at 0% 100%, #10b981 55%, transparent 56%);
+            background-image: radial-gradient(circle at 100% 0%, #3b82f6 50%, transparent 51%);
+            color: #ffffff;
         }
-        .card-dual-3 {
+        .card-dual-rose {
             background: #18181b;
-            background-image: radial-gradient(circle at 100% 100%, #f43f5e 50%, transparent 51%);
-        }
-        .card-dual-4 {
-            background: #2e1065;
-            background-image: radial-gradient(circle at 0% 0%, #a855f7 50%, transparent 51%);
-        }
-        .card-dual-5 {
-            background: #064e3b;
-            background-image: radial-gradient(circle at 100% 50%, #f59e0b 45%, transparent 46%);
-        }
-        .card-dual-6 {
-            background: #451a03;
-            background-image: radial-gradient(circle at 0% 50%, #ea580c 50%, transparent 51%);
+            background-image: radial-gradient(circle at 100% 100%, #e11d48 52%, transparent 53%);
+            color: #ffffff;
         }
 
-        /* UI Theme Palettes Buttons */
-        .style-btn {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
+        /* Solid Colors */
+        .card-solid-dark { background: #0f172a; color: #ffffff; }
+        .card-solid-royal { background: #1e3a8a; color: #ffffff; }
+        .card-solid-emerald { background: #064e3b; color: #ffffff; }
+        .card-solid-burgundy { background: #4c0519; color: #ffffff; }
+        .card-solid-black { background: #000000; color: #ffffff; }
+
+        /* Text Contrast Tweaks for White side */
+        .card-dual-wb #cardName, .card-dual-wg #cardName { color: #0f172a !important; }
+        .card-dual-wb #cardOccupation, .card-dual-wg #cardOccupation { color: #475569 !important; }
+        .card-dual-wb #cardInitial, .card-dual-wg #cardInitial { 
+            color: #0f172a; 
+            border-color: #0f172a;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .palette-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
             border: 2px solid transparent;
             transition: all 0.2s;
             cursor: pointer;
+            flex-shrink: 0;
         }
-        .style-btn.selected {
+        .palette-btn.selected {
             border-color: #ffffff;
-            transform: scale(1.15);
-            box-shadow: 0 0 8px rgba(255,255,255,0.7);
+            transform: scale(1.2);
+            box-shadow: 0 0 6px rgba(0,0,0,0.5);
         }
 
-        /* Sidebar Drawer */
-        #mobileDrawer {
-            transition: transform 0.3s ease-in-out;
+        /* Fixed Top Offset Area */
+        #topPinnedWrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
         }
-        #mobileDrawer.closed {
-            transform: translateX(100%);
+
+        #scrollContent {
+            margin-top: 260px; /* Equal to Top pinned container height */
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="bg-gray-100 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-100 min-h-screen flex flex-col justify-between transition-colors duration-200">
 
-    <!-- TOP FIXED SECTION: HEADER + STICKY LIVE CARD -->
-    <div class="sticky top-0 z-40 bg-[#0b0f19]/95 backdrop-blur-md border-b border-gray-800/80 shadow-lg">
+    <!-- STRICT FIXED TOP CONTAINER (Header + Card Always Visible) -->
+    <div id="topPinnedWrapper" class="bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-md">
         <!-- Main Navbar -->
-        <header class="max-w-md mx-auto px-4 py-2 flex items-center justify-between">
+        <header class="max-w-md mx-auto px-4 py-1.5 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="text-xl">⭐️</span>
-                <h1 class="text-sm font-extrabold tracking-wide text-white">STAR DIGITAL</h1>
+                <span class="text-lg">⭐️</span>
+                <h1 class="text-xs font-extrabold tracking-wider">STAR DIGITAL</h1>
             </div>
-            <button onclick="toggleMenu()" class="p-1.5 text-gray-300 hover:text-white rounded-lg focus:bg-gray-800" aria-label="Menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </button>
+            
+            <div class="flex items-center gap-2">
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleTheme()" class="p-1.5 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-yellow-400 text-xs flex items-center justify-center" title="Toggle Theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <!-- Menu Button -->
+                <button onclick="toggleMenu()" class="p-1.5 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800" aria-label="Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
         </header>
 
-        <!-- Pinned Live Card Preview Area -->
-        <div class="py-2 flex justify-center items-center">
-            <div id="cardPreview" class="card-dual-1">
+        <!-- Pinned Live Card Preview -->
+        <div class="py-1.5 flex justify-center items-center">
+            <div id="cardPreview" class="card-dual-gc">
                 <!-- Top Row: Avatar, Names, Emoji -->
                 <div class="flex items-center gap-2.5 z-10">
                     <div id="cardInitial">A</div>
                     <div class="flex-1 min-w-0 pr-1">
-                        <h2 id="cardName" class="text-sm font-bold leading-tight truncate text-white">आपका नाम</h2>
-                        <p id="cardOccupation" class="text-[10px] text-gray-200 opacity-90 truncate leading-tight mt-0.5">आपका व्यवसाय</p>
+                        <h2 id="cardName" class="text-sm font-bold leading-tight truncate">आपका नाम</h2>
+                        <p id="cardOccupation" class="text-[10px] opacity-90 truncate leading-tight mt-0.5">आपका व्यवसाय</p>
                     </div>
                     <div id="cardEmoji" class="text-xl flex-shrink-0">✨</div>
                 </div>
 
-                <!-- Middle Row: Services Badges (NEW) -->
-                <div id="cardServicesWrap" class="z-10 flex flex-wrap gap-1 my-1">
-                    <span id="badge1" class="text-[9px] px-1.5 py-0.5 rounded bg-black/30 border border-white/10 truncate max-w-[90px]">वेबसाइट</span>
-                    <span id="badge2" class="text-[9px] px-1.5 py-0.5 rounded bg-black/30 border border-white/10 truncate max-w-[90px]">बिलिंग सॉफ़्टवेयर</span>
-                    <span id="badge3" class="text-[9px] px-1.5 py-0.5 rounded bg-black/30 border border-white/10 truncate max-w-[90px]">मार्केटिंग</span>
+                <!-- Middle Row: Services Badges -->
+                <div id="cardServicesWrap" class="z-10 flex flex-wrap gap-1 my-0.5">
+                    <span id="badge1" class="text-[8.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[90px]">वेबसाइट</span>
+                    <span id="badge2" class="text-[8.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[90px]">सॉफ्टवेयर</span>
+                    <span id="badge3" class="text-[8.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[90px]">मार्केटिंग</span>
                 </div>
 
                 <!-- Bottom Row: Contact Details & Watermark -->
-                <div class="z-10 text-[10px] space-y-0.5">
+                <div class="z-10 text-[9.5px] space-y-0.5">
                     <div class="flex items-center gap-1.5 opacity-95 truncate">
                         <svg class="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg>
                         <span id="cardContact" class="truncate">9876543210</span>
@@ -177,69 +204,100 @@
                     </div>
                 </div>
 
-                <div class="absolute bottom-1 right-2 text-[7px] font-bold tracking-wider text-white/50 pointer-events-none">STAR DIGITAL</div>
+                <div class="absolute bottom-1 right-2 text-[7px] font-bold tracking-wider opacity-60 pointer-events-none">STAR DIGITAL</div>
             </div>
         </div>
     </div>
 
-    <!-- SCROLLABLE FORM CONTENT (COMPACT SIZING) -->
-    <main class="max-w-md mx-auto w-full px-4 pt-3 pb-8">
+    <!-- SCROLLABLE FORM & CONTROLS -->
+    <main id="scrollContent" class="max-w-md mx-auto w-full px-4 pt-2 pb-8">
         
-        <!-- Shape Style Selector -->
-        <div class="mb-3 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
-            <h3 class="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2">🎨 फैंसी डुअल-कलर स्टाइल</h3>
-            <div id="shapeSelector" class="flex justify-between gap-1"></div>
+        <!-- CARD DESIGN CONTROLS (Colors, Border & Glow) -->
+        <div class="mb-3 bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-2.5">
+            
+            <!-- Dual Color Palette -->
+            <div>
+                <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">🎨 डुअल कलर (Dual Colors)</h4>
+                <div id="dualSelector" class="flex gap-2"></div>
+            </div>
+
+            <!-- Single Solid Color Palette -->
+            <div>
+                <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">🎯 सिंगल कलर (Solid Colors)</h4>
+                <div id="solidSelector" class="flex gap-2"></div>
+            </div>
+
+            <!-- Border & Glow Controls -->
+            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-gray-200 dark:border-gray-800 text-[11px]">
+                <div>
+                    <label class="block text-gray-500 dark:text-gray-400 text-[10px] mb-1">बॉर्डर मोटाई (Border)</label>
+                    <select id="borderWidth" onchange="applyFrameStyles()" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 py-1">
+                        <option value="0">कोई नहीं (0px)</option>
+                        <option value="1">पतला (1px)</option>
+                        <option value="2" selected>मध्यम (2px)</option>
+                        <option value="4">मोटा (4px)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-500 dark:text-gray-400 text-[10px] mb-1">ग्लो इफ़ेक्ट (Glow)</label>
+                    <select id="glowEffect" onchange="applyFrameStyles()" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 py-1">
+                        <option value="none">Normal (No Glow)</option>
+                        <option value="soft" selected>Soft Glow ✨</option>
+                        <option value="neon">Neon Strong ⚡️</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <!-- Compact Form -->
-        <div class="bg-gray-900 p-3.5 rounded-xl border border-gray-800 shadow-xl space-y-2.5">
-            <h3 class="text-xs font-bold text-yellow-400 uppercase tracking-wide">विवरण दर्ज करें</h3>
+        <!-- Compact Form Input Fields -->
+        <div class="bg-white dark:bg-gray-900 p-3.5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-2.5">
+            <h3 class="text-xs font-bold text-blue-600 dark:text-yellow-400 uppercase tracking-wide">कार्ड की जानकारी भरें</h3>
             
             <div class="grid grid-cols-3 gap-2">
                 <div class="col-span-2">
-                    <label class="block text-[10px] text-gray-400 mb-0.5">पूरा नाम *</label>
-                    <input type="text" id="nameInput" class="form-input" placeholder="रोहित कुमार" maxlength="35" value="आपका नाम">
+                    <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">पूरा नाम *</label>
+                    <input type="text" id="nameInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="रोहित कुमार" maxlength="35" value="आपका नाम">
                 </div>
                 <div>
-                    <label class="block text-[10px] text-gray-400 mb-0.5">इमोजी</label>
-                    <input type="text" id="emojiInput" class="form-input text-center" placeholder="✨" maxlength="2" value="✨">
+                    <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">इमोजी</label>
+                    <input type="text" id="emojiInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-center" placeholder="✨" maxlength="2" value="✨">
                 </div>
             </div>
 
             <div>
-                <label class="block text-[10px] text-gray-400 mb-0.5">व्यवसाय / पद</label>
-                <input type="text" id="occupationInput" class="form-input" placeholder="वेब डेवलपर & मार्केटर" maxlength="30" value="आपका व्यवसाय">
+                <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">व्यवसाय / पद</label>
+                <input type="text" id="occupationInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="वेब डेवलपर & मार्केटर" maxlength="30" value="आपका व्यवसाय">
             </div>
 
-            <!-- OUR SERVICES INPUTS (NEW) -->
+            <!-- OUR SERVICES INPUTS -->
             <div>
-                <label class="block text-[10px] text-gray-400 mb-0.5">हमारी सेवाएं (Our Services - 3 मुख्य)</label>
+                <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">हमारी सेवाएं (Our Services - 3 मुख्य)</label>
                 <div class="grid grid-cols-3 gap-1.5">
-                    <input type="text" id="srv1" class="form-input" placeholder="सेवा 1" maxlength="14" value="वेबसाइट">
-                    <input type="text" id="srv2" class="form-input" placeholder="सेवा 2" maxlength="14" value="बिलिंग सॉफ़्टवेयर">
-                    <input type="text" id="srv3" class="form-input" placeholder="सेवा 3" maxlength="14" value="मार्केटिंग">
+                    <input type="text" id="srv1" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="सेवा 1" maxlength="14" value="वेबसाइट">
+                    <input type="text" id="srv2" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="सेवा 2" maxlength="14" value="सॉफ्टवेयर">
+                    <input type="text" id="srv3" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="सेवा 3" maxlength="14" value="मार्केटिंग">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="block text-[10px] text-gray-400 mb-0.5">मोबाइल नंबर *</label>
-                    <input type="tel" id="contactInput" class="form-input" placeholder="10 अंक" maxlength="10" value="9876543210">
+                    <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">मोबाइल नंबर *</label>
+                    <input type="tel" id="contactInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="10 अंक" maxlength="10" value="9876543210">
                 </div>
                 <div>
-                    <label class="block text-[10px] text-gray-400 mb-0.5">पिन कोड</label>
-                    <input type="tel" id="pincodeInput" class="form-input" placeholder="110001" maxlength="6" value="110001">
+                    <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">पिन कोड</label>
+                    <input type="tel" id="pincodeInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="110001" maxlength="6" value="110001">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="block text-[10px] text-gray-400 mb-0.5">ईमेल ID</label>
-                    <input type="email" id="emailInput" class="form-input" placeholder="email@example.com" maxlength="35" value="email@example.com">
+                    <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">ईमेल ID</label>
+                    <input type="email" id="emailInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="email@example.com" maxlength="35" value="email@example.com">
                 </div>
                 <div>
-                    <label class="block text-[10px] text-gray-400 mb-0.5">शहर / राज्य</label>
-                    <input type="text" id="locationInput" class="form-input" placeholder="नई दिल्ली" maxlength="20" value="नई दिल्ली">
+                    <label class="block text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">शहर / राज्य</label>
+                    <input type="text" id="locationInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="नई दिल्ली" maxlength="20" value="नई दिल्ली">
                 </div>
             </div>
         </div>
@@ -256,39 +314,39 @@
     </main>
 
     <!-- FOOTER WITH LEGAL LINKS -->
-    <footer class="bg-gray-950 border-t border-gray-800 text-center py-4 px-4 text-xs text-gray-500">
+    <footer class="bg-gray-200 dark:bg-gray-950 border-t border-gray-300 dark:border-gray-800 text-center py-4 px-4 text-xs text-gray-600 dark:text-gray-500">
         <div class="flex justify-center flex-wrap gap-4 mb-2">
-            <a href="javascript:void(0)" onclick="openPage('Privacy Policy', 'हम आपकी कोई भी निजी जानकारी स्टोर नहीं करते। सारा डेटा आपके ब्राउज़र में ही प्रोसेस होता है।')" class="hover:text-gray-300 transition">Privacy Policy</a>
-            <a href="javascript:void(0)" onclick="openPage('Terms of Service', 'यह टूल व्यक्तिगत और व्यावसायिक उपयोग के लिए पूरी तरह फ्री है।')" class="hover:text-gray-300 transition">Terms</a>
-            <a href="javascript:void(0)" onclick="openPage('Contact Us', 'सपोर्ट या सहायता के लिए ईमेल करें: contact@stardigital.com')" class="hover:text-gray-300 transition">Contact</a>
+            <a href="javascript:void(0)" onclick="openPage('Privacy Policy', 'हम आपकी कोई भी निजी जानकारी स्टोर नहीं करते। सारा डेटा आपके ब्राउज़र में ही प्रोसेस होता है।')" class="hover:underline">Privacy Policy</a>
+            <a href="javascript:void(0)" onclick="openPage('Terms of Service', 'यह टूल व्यक्तिगत और व्यावसायिक उपयोग के लिए पूरी तरह फ्री है।')" class="hover:underline">Terms</a>
+            <a href="javascript:void(0)" onclick="openPage('Contact Us', 'सपोर्ट या सहायता के लिए ईमेल करें: contact@stardigital.com')" class="hover:underline">Contact</a>
         </div>
         <p>© 2026 Star Digital. सर्वाधिकार सुरक्षित।</p>
     </footer>
 
     <!-- SIDEBAR DRAWER MENU -->
     <div id="drawerOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity"></div>
-    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-64 bg-gray-900 border-l border-gray-800 z-50 p-5 flex flex-col justify-between closed shadow-2xl">
+    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 z-50 p-5 flex flex-col justify-between translate-x-full transition-transform duration-300 shadow-2xl">
         <div>
-            <div class="flex items-center justify-between pb-4 border-b border-gray-800">
-                <h3 class="font-bold text-white text-sm">मेनू</h3>
-                <button onclick="toggleMenu()" class="text-gray-400 hover:text-white text-lg">✕</button>
+            <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800">
+                <h3 class="font-bold text-sm">मेनू</h3>
+                <button onclick="toggleMenu()" class="text-gray-500 hover:text-gray-700 dark:hover:text-white text-lg">✕</button>
             </div>
             <div class="mt-4 space-y-3 text-xs font-medium">
-                <a href="#" class="block text-gray-300 hover:text-blue-400 py-1.5">🏠 होम</a>
-                <a href="javascript:void(0)" onclick="openPage('About Us', 'Star Digital छोटे और मध्यम व्यवसायों के लिए आधुनिक डिजिटल टूल्स और वेबसाइट समाधान प्रदान करता है।')" class="block text-gray-300 hover:text-blue-400 py-1.5">ℹ️ हमारे बारे में</a>
-                <a href="javascript:void(0)" onclick="openPage('Privacy Policy', 'हम आपकी कोई भी निजी जानकारी स्टोर नहीं करते। सारा डेटा आपके ब्राउज़र में ही प्रोसेस होता है।')" class="block text-gray-300 hover:text-blue-400 py-1.5">🔒 Privacy Policy</a>
-                <a href="javascript:void(0)" onclick="openPage('Terms & Conditions', 'यह टूल पूरी तरह सुरक्षित और फ्री है।')" class="block text-gray-300 hover:text-blue-400 py-1.5">📜 Terms of Service</a>
-                <a href="javascript:void(0)" onclick="openPage('Contact Support', 'ईमेल: contact@stardigital.com')" class="block text-gray-300 hover:text-blue-400 py-1.5">📞 Contact Support</a>
+                <a href="#" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500 py-1.5">🏠 होम</a>
+                <a href="javascript:void(0)" onclick="openPage('About Us', 'Star Digital छोटे और मध्यम व्यवसायों के लिए आधुनिक डिजिटल टूल्स और वेबसाइट समाधान प्रदान करता है।')" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500 py-1.5">ℹ️ हमारे बारे में</a>
+                <a href="javascript:void(0)" onclick="openPage('Privacy Policy', 'हम आपकी कोई भी निजी जानकारी स्टोर नहीं करते। सारा डेटा आपके ब्राउज़र में ही प्रोसेस होता है।')" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500 py-1.5">🔒 Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="openPage('Terms & Conditions', 'यह टूल पूरी तरह सुरक्षित और फ्री है।')" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500 py-1.5">📜 Terms of Service</a>
+                <a href="javascript:void(0)" onclick="openPage('Contact Support', 'ईमेल: contact@stardigital.com')" class="block text-gray-700 dark:text-gray-300 hover:text-blue-500 py-1.5">📞 Contact Support</a>
             </div>
         </div>
-        <p class="text-[10px] text-gray-500 text-center">Version 2.0 • Star Digital</p>
+        <p class="text-[10px] text-gray-400 text-center">Version 3.0 • Star Digital</p>
     </div>
 
     <!-- MODAL POPUP -->
     <div id="infoModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="bg-gray-800 border border-gray-700 p-5 rounded-xl max-w-xs w-full shadow-2xl text-center">
-            <h3 id="modalHead" class="text-sm font-bold mb-2 text-yellow-400"></h3>
-            <p id="modalBody" class="text-xs text-gray-300 mb-4 leading-relaxed"></p>
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 rounded-xl max-w-xs w-full shadow-2xl text-center">
+            <h3 id="modalHead" class="text-sm font-bold mb-2 text-blue-600 dark:text-yellow-400"></h3>
+            <p id="modalBody" class="text-xs text-gray-600 dark:text-gray-300 mb-4 leading-relaxed"></p>
             <button onclick="document.getElementById('infoModal').classList.replace('flex', 'hidden')" class="w-full py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg">
                 ठीक है
             </button>
@@ -296,8 +354,23 @@
     </div>
 
     <script>
-        const dualStyles = ['card-dual-1', 'card-dual-2', 'card-dual-3', 'card-dual-4', 'card-dual-5', 'card-dual-6'];
-        let activeStyle = 'card-dual-1';
+        const dualStyles = [
+            { cls: 'card-dual-wb', label: 'White & Blue', bg: 'linear-gradient(135deg, #fff 50%, #1d4ed8 50%)' },
+            { cls: 'card-dual-wg', label: 'White & Green', bg: 'linear-gradient(135deg, #fff 50%, #064e3b 50%)' },
+            { cls: 'card-dual-gc', label: 'Gold & Coffee', bg: 'linear-gradient(135deg, #d4af37 50%, #2b1810 50%)' },
+            { cls: 'card-dual-bp', label: 'Navy & Blue', bg: 'linear-gradient(135deg, #0f172a 50%, #3b82f6 50%)' },
+            { cls: 'card-dual-rose', label: 'Black & Rose', bg: 'linear-gradient(135deg, #18181b 50%, #e11d48 50%)' }
+        ];
+
+        const solidStyles = [
+            { cls: 'card-solid-dark', bg: '#0f172a' },
+            { cls: 'card-solid-royal', bg: '#1e3a8a' },
+            { cls: 'card-solid-emerald', bg: '#064e3b' },
+            { cls: 'card-solid-burgundy', bg: '#4c0519' },
+            { cls: 'card-solid-black', bg: '#000000' }
+        ];
+
+        let activeStyle = 'card-dual-gc';
 
         const dom = {
             preview: document.getElementById('cardPreview'),
@@ -311,6 +384,8 @@
             badge1: document.getElementById('badge1'),
             badge2: document.getElementById('badge2'),
             badge3: document.getElementById('badge3'),
+            borderWidth: document.getElementById('borderWidth'),
+            glowEffect: document.getElementById('glowEffect'),
             
             nameIn: document.getElementById('nameInput'),
             occIn: document.getElementById('occupationInput'),
@@ -323,21 +398,35 @@
             locIn: document.getElementById('locationInput'),
             pinIn: document.getElementById('pincodeInput'),
             
-            shapeSelector: document.getElementById('shapeSelector'),
+            dualSelector: document.getElementById('dualSelector'),
+            solidSelector: document.getElementById('solidSelector'),
             dlBtn: document.getElementById('downloadBtn'),
             shBtn: document.getElementById('shareBtn')
         };
 
+        // Theme Toggle (Dark / Light)
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.innerText = '☀️';
+            } else {
+                html.classList.add('dark');
+                icon.innerText = '🌙';
+            }
+        }
+
         function toggleMenu() {
             const drawer = document.getElementById('mobileDrawer');
             const overlay = document.getElementById('drawerOverlay');
-            const isClosed = drawer.classList.contains('closed');
+            const isClosed = drawer.classList.contains('translate-x-full');
             
             if (isClosed) {
-                drawer.classList.remove('closed');
+                drawer.classList.remove('translate-x-full');
                 overlay.classList.remove('hidden');
             } else {
-                drawer.classList.add('closed');
+                drawer.classList.add('translate-x-full');
                 overlay.classList.add('hidden');
             }
         }
@@ -349,6 +438,21 @@
             const modal = document.getElementById('infoModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+        }
+
+        function applyFrameStyles() {
+            const width = dom.borderWidth.value;
+            const glow = dom.glowEffect.value;
+            
+            dom.preview.style.border = `${width}px solid rgba(255, 255, 255, 0.4)`;
+            
+            if (glow === 'soft') {
+                dom.preview.style.boxShadow = '0 0 15px rgba(59, 130, 246, 0.5), 0 10px 20px rgba(0,0,0,0.4)';
+            } else if (glow === 'neon') {
+                dom.preview.style.boxShadow = '0 0 25px rgba(234, 179, 8, 0.85), 0 0 10px rgba(255,255,255,0.6)';
+            } else {
+                dom.preview.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+            }
         }
 
         function updateCard() {
@@ -365,17 +469,17 @@
             const pin = dom.pinIn.value.trim() ? `, ${dom.pinIn.value.trim()}` : '';
             dom.loc.innerText = city + pin;
 
-            // Services Badges
             dom.badge1.innerText = dom.srv1In.value.trim() || "सेवा 1";
             dom.badge2.innerText = dom.srv2In.value.trim() || "सेवा 2";
             dom.badge3.innerText = dom.srv3In.value.trim() || "सेवा 3";
 
             dom.preview.className = activeStyle;
+            applyFrameStyles();
         }
 
         function setStyle(cls) {
             activeStyle = cls;
-            document.querySelectorAll('#shapeSelector button').forEach(b => {
+            document.querySelectorAll('.palette-btn').forEach(b => {
                 b.classList.toggle('selected', b.dataset.cls === cls);
             });
             updateCard();
@@ -395,13 +499,25 @@
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
 
-            // Build Style Palette
-            dualStyles.forEach(cls => {
+            // Build Dual Color Palette Buttons
+            dualStyles.forEach(item => {
                 const btn = document.createElement('button');
-                btn.className = `${cls} style-btn`;
-                btn.dataset.cls = cls;
-                btn.onclick = () => setStyle(cls);
-                dom.shapeSelector.appendChild(btn);
+                btn.className = `palette-btn`;
+                btn.style.background = item.bg;
+                btn.dataset.cls = item.cls;
+                btn.title = item.label;
+                btn.onclick = () => setStyle(item.cls);
+                dom.dualSelector.appendChild(btn);
+            });
+
+            // Build Solid Color Palette Buttons
+            solidStyles.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = `palette-btn`;
+                btn.style.background = item.bg;
+                btn.dataset.cls = item.cls;
+                btn.onclick = () => setStyle(item.cls);
+                dom.solidSelector.appendChild(btn);
             });
 
             setStyle(activeStyle);
@@ -426,7 +542,7 @@
             html2canvas(dom.preview, {
                 scale: 3,
                 useCORS: true,
-                backgroundColor: '#111827'
+                backgroundColor: null
             }).then(canvas => {
                 dom.dlBtn.disabled = false;
                 dom.shBtn.disabled = false;
