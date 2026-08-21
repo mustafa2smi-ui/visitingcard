@@ -2,7 +2,7 @@
 <html lang="hi" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>डिजिटल विजिटिंग कार्ड मेकर - Star Digital</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,20 +18,28 @@
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
         }
 
         .form-input {
-            padding: 6px 10px;
-            font-size: 0.82rem;
+            padding: 6px 8px;
+            font-size: 0.8rem;
             border-radius: 6px;
             width: 100%;
             transition: all 0.2s;
         }
 
-        /* --- COMPACT PERFECT RATIO CARD (285px x 165px) --- */
+        /* --- STICKY FREEZE TOP CONTAINER --- */
+        #topFrozenArea {
+            flex-shrink: 0;
+            z-index: 30;
+        }
+
+        /* --- COMPACT PERFECT RATIO CARD --- */
         #cardPreview {
-            width: 285px;
-            height: 165px;
+            width: 300px;
+            height: 170px;
             border-radius: 12px;
             padding: 10px 12px;
             display: flex;
@@ -60,6 +68,13 @@
             box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
             flex-shrink: 0;
             line-height: 1;
+        }
+
+        /* Top Corner Flag Styling */
+        #cardFlag {
+            font-size: 22px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         /* --- 10 DUAL CURVED PRESETS --- */
@@ -103,49 +118,62 @@
             transform: scale(1.25);
             box-shadow: 0 0 5px rgba(0,0,0,0.6);
         }
+
+        .flag-btn {
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .flag-btn.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.15);
+        }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-100 min-h-screen flex flex-col justify-between">
+<body class="bg-gray-100 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-100 flex flex-col h-screen select-none">
 
-    <!-- NORMAL HEADER (Not pinned/frozen) -->
-    <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0b0f19] py-2 px-4 shadow-sm">
-        <div class="max-w-md mx-auto flex items-center justify-between">
+    <!-- 1. FREEZE / PINNED TOP SECTION (Header + Live Card) -->
+    <div id="topFrozenArea" class="bg-white/95 dark:bg-[#0b0f19]/95 border-b border-gray-200 dark:border-gray-800 shadow-md">
+        
+        <!-- Header -->
+        <header class="max-w-md mx-auto px-4 py-1.5 flex items-center justify-between">
             <div class="flex items-center gap-1.5">
-                <span class="text-lg">⭐️</span>
+                <span class="text-base">⭐️</span>
                 <h1 class="text-xs font-extrabold tracking-wider">STAR DIGITAL</h1>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="toggleTheme()" class="p-1.5 rounded bg-gray-200 dark:bg-gray-800 text-xs">
+                <button onclick="toggleTheme()" class="p-1 rounded bg-gray-200 dark:bg-gray-800 text-xs">
                     <span id="themeIcon">🌙</span>
                 </button>
-                <button onclick="toggleMenu()" class="p-1.5 text-gray-600 dark:text-gray-300">
+                <button onclick="toggleMenu()" class="p-1 text-gray-600 dark:text-gray-300">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- MAIN NORMAL SCROLLABLE BODY -->
-    <main class="max-w-md mx-auto w-full px-3 py-3 space-y-3">
-        
-        <!-- CARD PREVIEW (Compact & Clean) -->
-        <div class="py-1">
+        <!-- Pinned Card Preview -->
+        <div class="py-1.5 flex justify-center items-center">
             <div id="cardPreview" class="card-dual-gc shadow-lg">
                 
-                <!-- Row 1: Avatar, Name + Flag, Emoji -->
-                <div class="flex items-center justify-between gap-2 z-10">
+                <!-- Row 1: Avatar, Name + Occupation, Top Corner Flag -->
+                <div class="flex items-start justify-between gap-2 z-10">
                     <div class="flex items-center gap-2 flex-1 min-w-0">
                         <div id="cardInitial">A</div>
                         <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-1">
-                                <span id="cardFlag" class="text-xs flex-shrink-0">🇮🇳</span>
-                                <h2 id="cardName" class="text-xs font-bold leading-tight truncate">आपका नाम</h2>
-                            </div>
+                            <h2 id="cardName" class="text-xs font-bold leading-tight truncate">आपका नाम</h2>
                             <p id="cardOccupation" class="text-[9px] opacity-90 truncate leading-tight mt-0.5">आपका व्यवसाय</p>
                         </div>
                     </div>
-                    <!-- Emoji Back on Top -->
-                    <div id="cardEmoji" class="text-xl flex-shrink-0">✨</div>
+                    <!-- Flag in Top Corner -->
+                    <div class="flex items-center gap-1 flex-shrink-0">
+                        <span id="cardEmoji" class="text-base">✨</span>
+                        <span id="cardFlag">🇮🇳</span>
+                    </div>
                 </div>
 
                 <!-- Row 2: Services Badges -->
@@ -155,7 +183,7 @@
                     <span id="badge3" class="text-[7.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[80px]">मार्केटिंग</span>
                 </div>
 
-                <!-- Row 3: Contacts Left + QR Code Bottom Right -->
+                <!-- Row 3: Contacts Left + LARGER QR Code Bottom Right -->
                 <div class="z-10 flex items-end justify-between gap-1 text-[8.5px]">
                     <div class="space-y-0.5 flex-1 min-w-0 truncate">
                         <div class="flex items-center gap-1 opacity-95 truncate">
@@ -172,14 +200,24 @@
                         </div>
                     </div>
 
-                    <!-- Mini UPI/PhonePe QR at Bottom-Right -->
+                    <!-- Increased QR Code Size -->
                     <div class="flex flex-col items-center bg-white p-0.5 rounded shadow flex-shrink-0">
-                        <img id="cardQr" class="w-7 h-7 object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=9876543210@upi" alt="UPI QR">
-                        <span class="text-[5.5px] font-black text-purple-900 tracking-tighter leading-none">PAY QR</span>
+                        <img id="cardQr" class="w-10 h-10 object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=9876543210@upi" alt="UPI QR">
+                        <span class="text-[6px] font-black text-purple-900 tracking-tighter leading-none mt-0.5">PAY QR</span>
                     </div>
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <!-- 2. SCROLLABLE FORM AREA (Independent scrolling) -->
+    <div class="flex-1 overflow-y-auto px-3 py-2 max-w-md mx-auto w-full space-y-2.5">
+        
+        <!-- Visual Emoji Flag Selector Grid -->
+        <div class="bg-white dark:bg-gray-900 p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-1.5">
+            <span class="text-[9.5px] font-bold uppercase text-gray-500 dark:text-gray-400">🚩 देश का फ्लैग चुनें (Flag)</span>
+            <div id="flagSelector" class="flex flex-wrap gap-1.5"></div>
         </div>
 
         <!-- STYLES & CONTROLS -->
@@ -214,61 +252,48 @@
         </div>
 
         <!-- FORM INPUTS -->
-        <div class="bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-2.5">
+        <div class="bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-2">
             <h3 class="text-xs font-bold text-blue-600 dark:text-yellow-400 uppercase tracking-wide">कार्ड की जानकारी भरें</h3>
             
-            <div class="grid grid-cols-12 gap-1.5">
-                <div class="col-span-3">
-                    <label class="block text-[9.5px] text-gray-400">फ्लैग</label>
-                    <select id="flagInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm">
-                        <option value="🇮🇳" selected>🇮🇳 भारत</option>
-                        <option value="🇸🇦">🇸🇦 सऊदी अरब</option>
-                        <option value="🇦🇪">🇦🇪 UAE</option>
-                        <option value="🇺🇸">🇺🇸 USA</option>
-                        <option value="🇬🇧">🇬🇧 UK</option>
-                        <option value="🇶🇦">🇶🇦 कतर</option>
-                        <option value="🇴🇲">🇴🇲 ओमान</option>
-                        <option value="🇰🇼">🇰🇼 कुवैत</option>
-                    </select>
-                </div>
-                <div class="col-span-6">
+            <div class="grid grid-cols-3 gap-2">
+                <div class="col-span-2">
                     <label class="block text-[9.5px] text-gray-400">पूरा नाम *</label>
-                    <input type="text" id="nameInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="30" value="आपका नाम">
+                    <input type="text" id="nameInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="30" value="आपका नाम">
                 </div>
-                <div class="col-span-3">
+                <div>
                     <label class="block text-[9.5px] text-gray-400">इमोजी</label>
-                    <input type="text" id="emojiInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-center" maxlength="2" value="✨">
+                    <input type="text" id="emojiInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-center" maxlength="2" value="✨">
                 </div>
             </div>
 
             <div>
                 <label class="block text-[9.5px] text-gray-400">व्यवसाय / पद</label>
-                <input type="text" id="occupationInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="30" value="वेब डेवलपर & मार्केटर">
+                <input type="text" id="occupationInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="30" value="वेब डेवलपर & मार्केटर">
             </div>
 
             <div>
                 <label class="block text-[9.5px] text-gray-400">3 मुख्य सेवाएं (Our Services)</label>
                 <div class="grid grid-cols-3 gap-1">
-                    <input type="text" id="srv1" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="वेबसाइट">
-                    <input type="text" id="srv2" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="सॉफ्टवेयर">
-                    <input type="text" id="srv3" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="मार्केटिंग">
+                    <input type="text" id="srv1" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="वेबसाइट">
+                    <input type="text" id="srv2" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="सॉफ्टवेयर">
+                    <input type="text" id="srv3" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="मार्केटिंग">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <label class="block text-[9.5px] text-gray-400">मोबाइल (QR Link) *</label>
-                    <input type="tel" id="contactInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 font-mono" maxlength="10" value="9876543210">
+                    <input type="tel" id="contactInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 font-mono" maxlength="10" value="9876543210">
                 </div>
                 <div>
                     <label class="block text-[9.5px] text-gray-400">शहर और पिन कोड</label>
-                    <input type="text" id="locationInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="25" value="नई दिल्ली, 110001">
+                    <input type="text" id="locationInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="25" value="नई दिल्ली, 110001">
                 </div>
             </div>
 
             <div>
                 <label class="block text-[9.5px] text-gray-400">ईमेल ID</label>
-                <input type="email" id="emailInput" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="35" value="email@example.com">
+                <input type="email" id="emailInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="35" value="email@example.com">
             </div>
         </div>
 
@@ -281,17 +306,7 @@
                 📲 शेयर करें
             </button>
         </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 text-center py-4 px-4 text-xs text-gray-500">
-        <div class="flex justify-center flex-wrap gap-4 mb-1 text-[11px]">
-            <a href="javascript:void(0)" onclick="alert('हम आपकी कोई निजी जानकारी स्टोर नहीं करते।')" class="hover:underline">Privacy Policy</a>
-            <a href="javascript:void(0)" onclick="alert('यह टूल पूरी तरह फ्री है।')" class="hover:underline">Terms</a>
-            <a href="javascript:void(0)" onclick="alert('ईमेल: contact@stardigital.com')" class="hover:underline">Contact</a>
-        </div>
-        <p class="text-[10px]">© 2026 Star Digital. सर्वाधिकार सुरक्षित।</p>
-    </footer>
+    </div>
 
     <!-- SIDEBAR DRAWER MENU -->
     <div id="drawerOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 z-50 hidden"></div>
@@ -310,6 +325,9 @@
     </div>
 
     <script>
+        const flagsList = ['🇮🇳', '🇸🇦', '🇦🇪', '🇺🇸', '🇬🇧', '🇶🇦', '🇴🇲', '🇰🇼', '🇧🇭', '🇵🇰', '🇧🇩'];
+        let selectedFlag = '🇮🇳';
+
         const dualStyles = [
             { cls: 'card-dual-gc', bg: 'linear-gradient(135deg, #d4af37 50%, #2b1810 50%)' },
             { cls: 'card-dual-wb', bg: 'linear-gradient(135deg, #fff 50%, #1d4ed8 50%)' },
@@ -353,7 +371,7 @@
             borderWidth: document.getElementById('borderWidth'),
             glowEffect: document.getElementById('glowEffect'),
             
-            flagIn: document.getElementById('flagInput'),
+            flagSelector: document.getElementById('flagSelector'),
             nameIn: document.getElementById('nameInput'),
             emojiIn: document.getElementById('emojiInput'),
             occIn: document.getElementById('occupationInput'),
@@ -404,11 +422,19 @@
             }
         }
 
+        function setFlag(flag) {
+            selectedFlag = flag;
+            document.querySelectorAll('#flagSelector button').forEach(btn => {
+                btn.classList.toggle('selected', btn.innerText === flag);
+            });
+            updateCard();
+        }
+
         function updateCard() {
             const rawName = dom.nameIn.value.trim();
             const phone = dom.contactIn.value.trim();
 
-            dom.flag.innerText = dom.flagIn.value;
+            dom.flag.innerText = selectedFlag;
             dom.name.innerText = rawName || "आपका नाम";
             dom.initial.innerText = rawName ? rawName.charAt(0).toUpperCase() : 'A';
             dom.occ.innerText = dom.occIn.value.trim() || "आपका व्यवसाय";
@@ -424,7 +450,7 @@
 
             // Dynamic UPI QR Code
             const cleanPhone = phone || "9876543210";
-            dom.qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(rawName || 'User')}`;
+            dom.qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(rawName || 'User')}`;
 
             dom.preview.className = activeStyle;
             applyFrameStyles();
@@ -439,12 +465,21 @@
         }
 
         function init() {
-            [dom.flagIn, dom.nameIn, dom.emojiIn, dom.occIn, dom.srv1In, dom.srv2In, dom.srv3In, dom.contactIn, dom.emailIn, dom.locIn].forEach(el => {
+            [dom.nameIn, dom.emojiIn, dom.occIn, dom.srv1In, dom.srv2In, dom.srv3In, dom.contactIn, dom.emailIn, dom.locIn].forEach(el => {
                 el.addEventListener('input', updateCard);
             });
 
             dom.contactIn.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Populate Visual Flag Selector
+            flagsList.forEach(flag => {
+                const btn = document.createElement('button');
+                btn.className = `flag-btn ${flag === selectedFlag ? 'selected' : ''}`;
+                btn.innerText = flag;
+                btn.onclick = () => setFlag(flag);
+                dom.flagSelector.appendChild(btn);
             });
 
             // Populate Dual Themes
