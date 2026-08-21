@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>प्रोफेशनल डिजिटल कार्ड स्टूडियो - Star Digital</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Modern Luxury Studio Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Syne', sans-serif;
+            --font-mono: 'Cinzel', serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            overflow: hidden;
+            height: 100vh;
+            background-color: #090d16;
+            color: #f1f5f9;
+        }
+
+        /* --- STUDIO GRADE CARD RATIO (310px x 175px) --- */
+        #cardPreview {
+            width: 310px;
+            height: 175px;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .display-font { font-family: var(--font-display); }
+        .mono-font { font-family: var(--font-mono); }
+
+        /* --- 6 STUDIO-GRADE COLOR THEMES (Zero Eye Strain) --- */
+        
+        /* 1. Executive Gold on Obsidian */
+        .theme-obsidian {
+            background: #0d1117;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.6);
+            color: #ffffff;
+        }
+        .theme-obsidian .accent-text { color: #f59e0b; }
+        .theme-obsidian .sub-text { color: #94a3b8; }
+        .theme-obsidian .badge-style { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #fcd34d; }
+        .theme-obsidian .avatar-box { background: linear-gradient(135deg, #f59e0b, #78350f); color: #fff; }
+
+        /* 2. Matte Royal Sapphire */
+        .theme-sapphire {
+            background: #0f172a;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.6);
+            color: #ffffff;
+        }
+        .theme-sapphire .accent-text { color: #60a5fa; }
+        .theme-sapphire .sub-text { color: #94a3b8; }
+        .theme-sapphire .badge-style { background: rgba(96, 165, 250, 0.12); border: 1px solid rgba(96, 165, 250, 0.3); color: #93c5fd; }
+        .theme-sapphire .avatar-box { background: linear-gradient(135deg, #2563eb, #1e3a8a); color: #fff; }
+
+        /* 3. Pure Minimal White & Slate */
+        .theme-marble {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.15);
+            color: #0f172a;
+        }
+        .theme-marble .accent-text { color: #0284c7; }
+        .theme-marble .sub-text { color: #64748b; }
+        .theme-marble .badge-style { background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; }
+        .theme-marble .avatar-box { background: #0f172a; color: #ffffff; }
+
+        /* 4. Deep Emerald & Mint */
+        .theme-emerald {
+            background: #062419;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.6);
+            color: #ffffff;
+        }
+        .theme-emerald .accent-text { color: #34d399; }
+        .theme-emerald .sub-text { color: #a7f3d0; }
+        .theme-emerald .badge-style { background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.3); color: #6ee7b7; }
+        .theme-emerald .avatar-box { background: linear-gradient(135deg, #059669, #064e3b); color: #fff; }
+
+        /* 5. Luxury Velvet Burgundy */
+        .theme-velvet {
+            background: #20050d;
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.6);
+            color: #ffffff;
+        }
+        .theme-velvet .accent-text { color: #fb7185; }
+        .theme-velvet .sub-text { color: #fda4af; }
+        .theme-velvet .badge-style { background: rgba(251, 113, 133, 0.12); border: 1px solid rgba(251, 113, 133, 0.3); color: #fecdd3; }
+        .theme-velvet .avatar-box { background: linear-gradient(135deg, #e11d48, #881337); color: #fff; }
+
+        /* 6. Titanium Slate */
+        .theme-titanium {
+            background: #1e293b;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.6);
+            color: #ffffff;
+        }
+        .theme-titanium .accent-text { color: #38bdf8; }
+        .theme-titanium .sub-text { color: #94a3b8; }
+        .theme-titanium .badge-style { background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #7dd3fc; }
+        .theme-titanium .avatar-box { background: linear-gradient(135deg, #475569, #0f172a); color: #fff; }
+
+        .form-input {
+            padding: 7px 10px;
+            font-size: 0.82rem;
+            background: #131b2e;
+            border: 1px solid #23304d;
+            color: #ffffff;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #18223a;
+        }
+
+        .theme-dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .theme-dot.selected {
+            border-color: #ffffff;
+            transform: scale(1.18);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen select-none">
+
+    <!-- 1. STICKY TOP STUDIO (Header & Ultra-Crisp Card Preview) -->
+    <header class="flex-none bg-[#090d16]/95 border-b border-gray-800/80 shadow-md z-30">
+        <div class="max-w-md mx-auto px-4 py-1.5 flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+                <span class="text-amber-400 font-bold text-sm">✦</span>
+                <h1 class="text-xs font-bold tracking-widest text-slate-200">CARD STUDIO</h1>
+            </div>
+            <button onclick="toggleMenu()" class="p-1 text-slate-400 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+
+        <!-- Live Card Screen (Photoshop Crisp Preview) -->
+        <div class="py-2 flex justify-center items-center">
+            <div id="cardPreview" class="theme-obsidian">
+                
+                <!-- Top Row: Avatar Initial + Name/Title + Left Flag -->
+                <div class="flex items-start justify-between gap-2 z-10">
+                    <div class="flex items-center gap-2.5 flex-1 min-w-0">
+                        <div id="cardInitial" class="avatar-box w-9 h-9 rounded-lg flex items-center justify-center font-bold text-base shadow-sm flex-shrink-0">
+                            R
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <span id="cardFlag" class="text-sm flex-shrink-0">🇮🇳</span>
+                                <h2 id="cardName" class="display-font text-[13px] font-extrabold leading-none truncate tracking-tight">रोहित कुमार</h2>
+                            </div>
+                            <p id="cardOccupation" class="sub-text text-[9.5px] font-medium leading-none mt-1 truncate">वेब कंसलटेंट & मार्केटर</p>
+                        </div>
+                    </div>
+                    <span id="cardEmoji" class="text-base flex-shrink-0">✨</span>
+                </div>
+
+                <!-- Middle Row: Conditional Services (Auto Hidden when empty) -->
+                <div id="cardServicesWrap" class="z-10 flex flex-wrap gap-1 my-auto">
+                    <span id="badge1" class="badge-style text-[8px] font-semibold px-2 py-0.5 rounded tracking-wide truncate max-w-[85px]">वेबसाइट डेवलपमेंट</span>
+                    <span id="badge2" class="badge-style text-[8px] font-semibold px-2 py-0.5 rounded tracking-wide truncate max-w-[85px]">बिलिंग सॉफ्टवेयर</span>
+                    <span id="badge3" class="badge-style text-[8px] font-semibold px-2 py-0.5 rounded tracking-wide truncate max-w-[85px]">डिजिटल एड्स</span>
+                </div>
+
+                <!-- Bottom Row: Contact Matrix + Sharp Vector QR -->
+                <div class="z-10 flex items-end justify-between gap-1 pt-1 border-t border-white/10">
+                    <div class="space-y-0.5 text-[9px] font-medium flex-1 min-w-0">
+                        <div class="flex items-center gap-1.5 sub-text truncate">
+                            <svg class="w-2.5 h-2.5 flex-shrink-0 opacity-80" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg>
+                            <span id="cardContact" class="text-white font-semibold tracking-wide truncate">9876543210</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 sub-text truncate">
+                            <svg class="w-2.5 h-2.5 flex-shrink-0 opacity-80" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <span id="cardEmail" class="truncate">rohit@business.com</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 sub-text truncate">
+                            <svg class="w-2.5 h-2.5 flex-shrink-0 opacity-80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            <span id="cardLocation" class="truncate">नई दिल्ली, 110001</span>
+                        </div>
+                    </div>
+
+                    <!-- Direct Connect/Pay QR -->
+                    <div class="bg-white p-1 rounded-md shadow-md flex-shrink-0 text-center">
+                        <img id="cardQr" class="w-9 h-9 object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=9876543210@upi" alt="QR">
+                        <span class="text-[5.5px] font-extrabold text-black tracking-tighter leading-none block mt-0.5">SCAN ME</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. SCROLLABLE FORM CONTROLS (Smooth, No Obstruction) -->
+    <main class="flex-1 overflow-y-auto px-4 py-3 max-w-md mx-auto w-full space-y-3 pb-28">
+        
+        <!-- Studio Themes Palette -->
+        <div class="bg-[#111827] p-2.5 rounded-xl border border-gray-800">
+            <span class="text-[10px] font-bold tracking-wider uppercase text-slate-400 block mb-2">🎨 स्टूडियो थीम पैलेट (High Contrast)</span>
+            <div id="themeSelector" class="flex justify-between items-center gap-2"></div>
+        </div>
+
+        <!-- Quick Flag Selection -->
+        <div class="bg-[#111827] p-2.5 rounded-xl border border-gray-800">
+            <span class="text-[10px] font-bold tracking-wider uppercase text-slate-400 block mb-1.5">🚩 देश चुनें (Flag Badge)</span>
+            <div id="flagSelector" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Form Inputs -->
+        <div class="bg-[#111827] p-3.5 rounded-xl border border-gray-800 space-y-2.5 shadow-lg">
+            <h3 class="text-xs font-bold text-amber-400 tracking-wide uppercase">व्यक्तिगत विवरण</h3>
+            
+            <div class="grid grid-cols-4 gap-2">
+                <div class="col-span-3">
+                    <label class="block text-[10px] text-slate-400 mb-0.5">पूरा नाम *</label>
+                    <input type="text" id="nameInput" class="form-input" maxlength="28" value="रोहित कुमार">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">इमोजी</label>
+                    <input type="text" id="emojiInput" class="form-input text-center" maxlength="2" value="✨">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] text-slate-400 mb-0.5">व्यवसाय / पदवी</label>
+                <input type="text" id="occupationInput" class="form-input" maxlength="32" value="वेब कंसलटेंट & मार्केटर">
+            </div>
+
+            <!-- OUR SERVICES (Leave blank to hide completely) -->
+            <div>
+                <div class="flex justify-between items-center mb-0.5">
+                    <label class="text-[10px] text-slate-400">मुख्य सेवाएं (खाली छोड़ने पर कार्ड सादा रहेगा)</label>
+                </div>
+                <div class="grid grid-cols-3 gap-1.5">
+                    <input type="text" id="srv1" class="form-input text-xs" placeholder="सेवा 1" maxlength="16" value="वेबसाइट डेवलपमेंट">
+                    <input type="text" id="srv2" class="form-input text-xs" placeholder="सेवा 2" maxlength="16" value="बिलिंग सॉफ्टवेयर">
+                    <input type="text" id="srv3" class="form-input text-xs" placeholder="सेवा 3" maxlength="16" value="डिजिटल एड्स">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">मोबाइल (UPI Link) *</label>
+                    <input type="tel" id="contactInput" class="form-input font-mono" maxlength="10" value="9876543210">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-0.5">शहर और पिन कोड</label>
+                    <input type="text" id="locationInput" class="form-input" maxlength="25" value="नई दिल्ली, 110001">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] text-slate-400 mb-0.5">ईमेल ID</label>
+                <input type="email" id="emailInput" class="form-input" maxlength="35" value="rohit@business.com">
+            </div>
+        </div>
+
+        <!-- Export Buttons -->
+        <div class="flex gap-2 pt-1">
+            <button id="downloadBtn" onclick="exportCard('download')" class="w-1/2 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-lg text-xs shadow-lg transition flex items-center justify-center gap-1">
+                📥 4K डाउनलोड JPEG
+            </button>
+            <button id="shareBtn" onclick="exportCard('share')" class="w-1/2 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-lg text-xs shadow-lg transition flex items-center justify-center gap-1">
+                📲 शेयर करें
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="pt-3 pb-6 text-center text-[10px] text-slate-500 border-t border-gray-800/80">
+            <div class="flex justify-center gap-3 mb-1">
+                <a href="javascript:void(0)" onclick="alert('हम कोई डेटा सर्वर पर स्टोर नहीं करते।')" class="hover:underline">Privacy</a>
+                <a href="javascript:void(0)" onclick="alert('यह टूल 100% फ्री है।')" class="hover:underline">Terms</a>
+                <a href="javascript:void(0)" onclick="alert('सपोर्ट: support@stardigital.com')" class="hover:underline">Contact</a>
+            </div>
+            <p>© 2026 Star Digital Studio. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <!-- Sidebar Drawer -->
+    <div id="drawerOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/70 z-50 hidden"></div>
+    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-60 bg-[#0d1117] border-l border-gray-800 z-50 p-4 flex flex-col justify-between translate-x-full transition-transform duration-200 shadow-2xl">
+        <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center pb-2 border-b border-gray-800 font-bold text-white">
+                <span>कार्ड स्टूडियो मेनू</span>
+                <button onclick="toggleMenu()" class="text-base">✕</button>
+            </div>
+            <a href="#" class="block py-1.5 text-slate-300">🏠 होम</a>
+            <a href="javascript:void(0)" onclick="alert('क्लीन, शार्प और प्रोफेशनल कार्ड डिज़ाइनर।')" class="block py-1.5 text-slate-300">ℹ️ स्टूडियो गाइड</a>
+            <a href="javascript:void(0)" onclick="alert('क्लाइंट साइड रेंडरिंग तकनीक।')" class="block py-1.5 text-slate-300">🔒 डेटा सुरक्षा</a>
+        </div>
+        <p class="text-[9px] text-slate-500 text-center">Studio Edition 5.0</p>
+    </div>
+
+    <script>
+        const studioThemes = [
+            { id: 'theme-obsidian', name: 'Obsidian Gold', dot: '#d4af37' },
+            { id: 'theme-sapphire', name: 'Sapphire Blue', dot: '#3b82f6' },
+            { id: 'theme-marble', name: 'White Marble', dot: '#ffffff' },
+            { id: 'theme-emerald', name: 'Deep Emerald', dot: '#10b981' },
+            { id: 'theme-velvet', name: 'Rose Velvet', dot: '#f43f5e' },
+            { id: 'theme-titanium', name: 'Titanium Slate', dot: '#64748b' }
+        ];
+
+        const flagList = ['🇮🇳', '🇸🇦', '🇦🇪', '🇺🇸', '🇬🇧', '🇶🇦', '🇰🇼', '🇴🇲', '🇧🇭'];
+        let activeTheme = 'theme-obsidian';
+        let activeFlag = '🇮🇳';
+
+        const dom = {
+            preview: document.getElementById('cardPreview'),
+            initial: document.getElementById('cardInitial'),
+            flag: document.getElementById('cardFlag'),
+            name: document.getElementById('cardName'),
+            occ: document.getElementById('cardOccupation'),
+            emoji: document.getElementById('cardEmoji'),
+            servicesWrap: document.getElementById('cardServicesWrap'),
+            badge1: document.getElementById('badge1'),
+            badge2: document.getElementById('badge2'),
+            badge3: document.getElementById('badge3'),
+            contact: document.getElementById('cardContact'),
+            email: document.getElementById('cardEmail'),
+            loc: document.getElementById('cardLocation'),
+            qr: document.getElementById('cardQr'),
+            
+            themeSelector: document.getElementById('themeSelector'),
+            flagSelector: document.getElementById('flagSelector'),
+            nameIn: document.getElementById('nameInput'),
+            emojiIn: document.getElementById('emojiInput'),
+            occIn: document.getElementById('occupationInput'),
+            srv1In: document.getElementById('srv1'),
+            srv2In: document.getElementById('srv2'),
+            srv3In: document.getElementById('srv3'),
+            contactIn: document.getElementById('contactInput'),
+            emailIn: document.getElementById('emailInput'),
+            locIn: document.getElementById('locationInput'),
+            dlBtn: document.getElementById('downloadBtn'),
+            shBtn: document.getElementById('shareBtn')
+        };
+
+        function toggleMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function setFlag(flag) {
+            activeFlag = flag;
+            document.querySelectorAll('#flagSelector button').forEach(b => {
+                b.classList.toggle('bg-blue-600/30', b.innerText === flag);
+                b.classList.toggle('border-blue-500', b.innerText === flag);
+            });
+            updateCard();
+        }
+
+        function setTheme(themeId) {
+            activeTheme = themeId;
+            document.querySelectorAll('.theme-dot').forEach(b => {
+                b.classList.toggle('selected', b.dataset.theme === themeId);
+            });
+            dom.preview.className = themeId;
+        }
+
+        function updateCard() {
+            const nameVal = dom.nameIn.value.trim();
+            const phoneVal = dom.contactIn.value.trim();
+            
+            dom.name.innerText = nameVal || "आपका नाम";
+            dom.initial.innerText = nameVal ? nameVal.charAt(0).toUpperCase() : 'A';
+            dom.flag.innerText = activeFlag;
+            dom.occ.innerText = dom.occIn.value.trim() || "व्यवसाय";
+            dom.emoji.innerText = dom.emojiIn.value.slice(0, 2) || "✨";
+            
+            dom.contact.innerText = phoneVal || "9876543210";
+            dom.email.innerText = dom.emailIn.value.trim() || "email@business.com";
+            dom.loc.innerText = dom.locIn.value.trim() || "स्थान";
+
+            // Conditional Service Rendering (Leaves blank if empty)
+            const s1 = dom.srv1In.value.trim();
+            const s2 = dom.srv2In.value.trim();
+            const s3 = dom.srv3In.value.trim();
+
+            dom.badge1.style.display = s1 ? 'inline-block' : 'none';
+            dom.badge1.innerText = s1;
+
+            dom.badge2.style.display = s2 ? 'inline-block' : 'none';
+            dom.badge2.innerText = s2;
+
+            dom.badge3.style.display = s3 ? 'inline-block' : 'none';
+            dom.badge3.innerText = s3;
+
+            if (!s1 && !s2 && !s3) {
+                dom.servicesWrap.style.display = 'none';
+            } else {
+                dom.servicesWrap.style.display = 'flex';
+            }
+
+            // Realtime Vector QR Code
+            const cleanPhone = phoneVal || "9876543210";
+            dom.qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(nameVal || 'User')}`;
+        }
+
+        function init() {
+            [dom.nameIn, dom.emojiIn, dom.occIn, dom.srv1In, dom.srv2In, dom.srv3In, dom.contactIn, dom.emailIn, dom.locIn].forEach(el => {
+                el.addEventListener('input', updateCard);
+            });
+
+            dom.contactIn.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Build Theme Palette Buttons
+            studioThemes.forEach(t => {
+                const btn = document.createElement('button');
+                btn.className = `theme-dot ${t.id === activeTheme ? 'selected' : ''}`;
+                btn.style.backgroundColor = t.dot;
+                btn.dataset.theme = t.id;
+                btn.title = t.name;
+                btn.onclick = () => setTheme(t.id);
+                dom.themeSelector.appendChild(btn);
+            });
+
+            // Build Flag Selector
+            flagList.forEach(f => {
+                const btn = document.createElement('button');
+                btn.className = `p-1 px-2 rounded-md text-sm border border-gray-700 bg-gray-800/60 ${f === activeFlag ? 'border-blue-500 bg-blue-600/30' : ''}`;
+                btn.innerText = f;
+                btn.onclick = () => setFlag(f);
+                dom.flagSelector.appendChild(btn);
+            });
+
+            setTheme(activeTheme);
+            updateCard();
+        }
+
+        // 4K Ultra-Sharp Export Engine
+        function exportCard(action) {
+            const nameVal = dom.nameIn.value.trim();
+            const contactVal = dom.contactIn.value.trim();
+
+            if (!nameVal) { alert("कृपया अपना नाम दर्ज करें।"); return; }
+            if (contactVal.length !== 10) { alert("कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।"); return; }
+
+            dom.dlBtn.disabled = true;
+            dom.shBtn.disabled = true;
+
+            html2canvas(dom.preview, {
+                scale: 4, // 4K Crisp Resolution
+                useCORS: true,
+                logging: false,
+                backgroundColor: null,
+                windowWidth: 1200
+            }).then(canvas => {
+                dom.dlBtn.disabled = false;
+                dom.shBtn.disabled = false;
+
+                const filename = `Studio_Card_${nameVal.replace(/\s+/g, '_')}.jpg`;
+
+                if (action === 'download') {
+                    const a = document.createElement('a');
+                    a.download = filename;
+                    a.href = canvas.toDataURL('image/jpeg', 0.98);
+                    a.click();
+                } else if (action === 'share') {
+                    canvas.toBlob(blob => {
+                        const file = new File([blob], filename, { type: 'image/jpeg' });
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                            navigator.share({
+                                title: 'Digital Business Card',
+                                text: 'मेरा डिजिटल बिज़नेस कार्ड देखें:',
+                                files: [file]
+                            }).catch(() => {});
+                        } else {
+                            const a = document.createElement('a');
+                            a.download = filename;
+                            a.href = canvas.toDataURL('image/jpeg', 0.98);
+                            a.click();
+                            alert("कार्ड डाउनलोड कर दिया गया है।");
+                        }
+                    }, 'image/jpeg', 0.98);
+                }
+            }).catch(() => {
+                dom.dlBtn.disabled = false;
+                dom.shBtn.disabled = false;
+                alert("इमेज तैयार करने में समस्या आई।");
+            });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
