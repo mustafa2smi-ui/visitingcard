@@ -138,21 +138,6 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .card-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            flex-shrink: 0;
-        }
-
         /* Sticky Freeze Top Header */
         #stickyHeader {
             position: sticky;
@@ -313,10 +298,6 @@
                                 <input type="checkbox" id="inputShowQR" class="w-3.5 h-3.5 rounded" checked onchange="updateCard()">
                                 <span>UPI QR कोड</span>
                             </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="checkbox" id="inputShowAvatar" class="w-3.5 h-3.5 rounded" checked onchange="updateCard()">
-                                <span>अवतार इनिशियल</span>
-                            </label>
                         </div>
                     </div>
                 </div>
@@ -475,7 +456,6 @@
         const inputWebsite = document.getElementById('inputWebsite');
         const inputFontSize = document.getElementById('inputFontSize');
         const inputShowQR = document.getElementById('inputShowQR');
-        const inputShowAvatar = document.getElementById('inputShowAvatar');
 
         function toggleMenu() {
             const drawer = document.getElementById('mobileDrawer');
@@ -545,7 +525,6 @@
             const website = inputWebsite.value.trim();
             const fontSize = inputFontSize.value;
             const showQR = inputShowQR.checked;
-            const showAvatar = inputShowAvatar.checked;
 
             card.style.background = currentTheme.bg;
             card.style.color = currentTheme.textColor;
@@ -558,7 +537,7 @@
             if (currentLayout.id === 'layout-centered') {
                 card.innerHTML = `
                     <div class="flex items-center justify-between z-10 w-full">
-                        ${showAvatar ? `<div class="card-avatar" style="width:28px;height:28px;font-size:15px;">${name.charAt(0).toUpperCase()}</div>` : '<div></div>'}
+                        <div></div>
                         <div class="text-sm">${emoji}</div>
                     </div>
 
@@ -603,28 +582,22 @@
                             ${email ? `<div class="break-all">✉️ ${email}</div>` : ''}
                             ${location ? `<div class="break-all opacity-90">📍 ${location}</div>` : ''}
                         </div>
-                        <div class="flex items-center gap-1.5 flex-shrink-0">
-                            ${showAvatar ? `<div class="card-avatar" style="width:32px;height:32px;font-size:16px;">${name.charAt(0).toUpperCase()}</div>` : ''}
-                            ${showQR ? `
-                                <div class="card-qr" style="width:38px;height:38px;">
-                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
-                                </div>
-                            ` : ''}
-                        </div>
+                        ${showQR ? `
+                            <div class="card-qr" style="width:38px;height:38px;">
+                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             } else {
-                // Classic Layout - Fixed for proper text wrapping
+                // Classic Layout - Without avatar, with email fix
                 card.innerHTML = `
                     <div class="flex items-start justify-between gap-2 h-full">
                         <div class="flex-1 space-y-1 min-w-0 pr-1 flex flex-col justify-between h-full overflow-hidden">
                             <div class="space-y-1">
-                                <div class="flex items-center gap-2">
-                                    ${showAvatar ? `<div class="card-avatar">${name.charAt(0).toUpperCase()}</div>` : ''}
-                                    <div class="min-w-0 flex-1">
-                                        <div class="card-name ${nameClass}">${name}</div>
-                                        ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
-                                    </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="card-name ${nameClass}">${name}</div>
+                                    ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
                                 </div>
 
                                 ${(company || tagline) ? `
