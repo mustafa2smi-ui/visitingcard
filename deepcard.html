@@ -11,7 +11,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -42,7 +42,6 @@
             background: #0f172a;
         }
 
-        /* Form inputs - prevent iOS zoom */
         input, select, textarea {
             font-size: 16px;
             -webkit-appearance: none;
@@ -57,12 +56,12 @@
 
         .form-input {
             width: 100%;
-            padding: 10px 12px;
+            padding: 8px 12px;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
             background: #ffffff;
             transition: all 0.2s;
-            font-weight: 400;
+            font-size: 13px;
         }
 
         .dark .form-input {
@@ -74,163 +73,87 @@
         .form-input:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
-        /* Premium Card Styles */
+        /* --- Business Card Engine --- */
         #businessCard {
             width: var(--card-width);
             height: var(--card-height);
             position: relative;
             border-radius: 16px;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateZ(0);
-            backface-visibility: hidden;
+            box-sizing: border-box;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
             -webkit-font-smoothing: antialiased;
-        }
-
-        /* Card content animation */
-        #businessCard * {
-            transition: all 0.2s ease;
-        }
-
-        /* Card layouts */
-        .card-layout-classic {
+            text-rendering: optimizeLegibility;
+            padding: 14px 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 24px;
         }
 
-        .card-layout-centered {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 24px;
-        }
-
-        .card-layout-minimal {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 28px;
-        }
-
-        /* Card themes */
-        .theme-midnight {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #f8fafc;
-        }
-
-        .theme-royal {
-            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-            color: #ffffff;
-        }
-
-        .theme-emerald {
-            background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
-            color: #f0fdf4;
-        }
-
-        .theme-premium-dark {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: #fafafa;
-        }
-
-        .theme-clean-white {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            color: #1e293b;
-            border: 1px solid #e2e8f0;
-        }
-
-        .theme-crimson {
-            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
-            color: #fef2f2;
-        }
-
-        .theme-ocean {
-            background: linear-gradient(135deg, #0c4a6e 0%, #082f49 100%);
-            color: #f0f9ff;
-        }
-
-        .theme-purple {
-            background: linear-gradient(135deg, #4c1d95 0%, #2e1065 100%);
-            color: #f5f3ff;
-        }
-
-        /* Name typography */
         .card-name {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 22px;
             line-height: 1.2;
-            letter-spacing: -0.5px;
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
-        /* Designation */
         .card-designation {
-            font-size: 11px;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            opacity: 0.8;
+            opacity: 0.85;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.3;
         }
 
-        /* Contact items */
         .card-contact-item {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
+            align-items: flex-start;
+            gap: 6px;
             font-weight: 400;
-            opacity: 0.9;
+            opacity: 0.95;
+            min-width: 0;
+            line-height: 1.3;
         }
 
-        /* Decorative elements */
-        .card-accent-line {
-            width: 40px;
-            height: 3px;
-            border-radius: 2px;
-            background: currentColor;
-            opacity: 0.6;
+        .card-contact-item span {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            min-width: 0;
+            flex: 1;
         }
 
-        .card-divider {
-            width: 100%;
-            height: 1px;
-            background: currentColor;
-            opacity: 0.15;
-        }
-
-        /* QR Code styling */
         .card-qr {
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             border-radius: 8px;
             background: white;
-            padding: 3px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2.5px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
-        /* Avatar */
         .card-avatar {
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Playfair Display', serif;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            flex-shrink: 0;
         }
 
-        /* Sticky top area */
+        /* Sticky Freeze Top Header */
         #stickyHeader {
             position: sticky;
             top: 0;
@@ -239,8 +162,6 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid #e2e8f0;
-            transform: translateZ(0);
-            will-change: transform;
         }
 
         .dark #stickyHeader {
@@ -248,39 +169,32 @@
             border-bottom: 1px solid #334155;
         }
 
-        /* Theme selector buttons */
         .theme-btn {
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            touch-action: manipulation;
+            transition: transform 0.2s;
+            flex-shrink: 0;
         }
-
-        .theme-btn:hover {
-            transform: scale(1.1);
-        }
-
         .theme-btn.selected {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-            transform: scale(1.15);
+            transform: scale(1.2);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
         }
 
-        /* Layout buttons */
         .layout-btn {
-            padding: 8px 16px;
+            flex: 1;
+            padding: 7px 10px;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
             background: #ffffff;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 12px;
-            font-weight: 500;
-            touch-action: manipulation;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
         }
 
         .dark .layout-btn {
@@ -295,266 +209,263 @@
             border-color: #3b82f6;
         }
 
-        /* Scrollable area */
-        #scrollableArea {
-            -webkit-overflow-scrolling: touch;
-            overflow-y: auto;
-            overscroll-behavior: contain;
-        }
-
-        #scrollableArea::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        #scrollableArea::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        #scrollableArea::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 2px;
-        }
-
-        .dark #scrollableArea::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Button styles */
         .action-btn {
-            padding: 12px 24px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.2s;
-            touch-action: manipulation;
             cursor: pointer;
-            border: none;
         }
+        .action-btn:active { transform: scale(0.98); }
 
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        .action-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Section cards */
         .section-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
-
         .dark .section-card {
             background: #1e293b;
             border-color: #334155;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
-        /* Labels */
         .field-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #64748b;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            display: block;
         }
-
-        .dark .field-label {
-            color: #94a3b8;
-        }
-
-        /* Icons */
-        .icon {
-            width: 14px;
-            height: 14px;
+        .dark .field-label { color: #94a3b8; }
+        .icon { 
+            width: 12px; 
+            height: 12px; 
             flex-shrink: 0;
+            margin-top: 1px;
         }
     </style>
 </head>
 <body class="flex flex-col h-screen">
 
-    <!-- Sticky Header with Card Preview -->
+    <!-- Sticky Header with Realtime Live Card Preview -->
     <div id="stickyHeader">
         <div class="max-w-md mx-auto px-4 py-2">
-            <!-- Top Bar -->
-            <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center gap-2">
-                    <span class="text-lg">💎</span>
-                    <h1 class="text-sm font-bold tracking-tight">Premium Card Maker</h1>
+            <div class="flex items-center justify-between mb-1.5">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-base">💎</span>
+                    <h1 class="text-xs font-bold tracking-tight">Star Digital Studio</h1>
                 </div>
-                <div class="flex items-center gap-1">
-                    <button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Toggle theme">
-                        <span id="themeIcon" class="text-sm">🌙</span>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="toggleTheme()" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Toggle theme">
+                        <span id="themeIcon" class="text-xs">🌙</span>
+                    </button>
+                    <!-- Hamburg Menu Button -->
+                    <button onclick="toggleMenu()" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition" aria-label="Open menu">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
                 </div>
             </div>
             
-            <!-- Card Preview -->
             <div class="flex justify-center pb-2">
-                <div id="businessCard" class="theme-midnight card-layout-classic shadow-xl">
-                    <!-- Dynamic content will be rendered here -->
+                <div id="businessCard">
+                    <!-- Live Content injected here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scrollable Content -->
+    <!-- Scrollable Controls & Inputs Area -->
     <div id="scrollableArea" class="flex-1 overflow-y-auto">
-        <div class="max-w-md mx-auto px-4 py-4 space-y-4 pb-24">
+        <div class="max-w-md mx-auto px-4 py-3 space-y-3 pb-24">
             
-            <!-- Personal Information -->
-            <div class="section-card space-y-3">
-                <h2 class="text-sm font-bold text-blue-600 dark:text-blue-400">👤 Personal Information</h2>
+            <!-- Theme Selector -->
+            <div class="section-card space-y-2">
+                <span class="field-label">🎨 कलर थीम (Dual, Solid & Gradients)</span>
+                <div id="themeSelector" class="flex gap-2 overflow-x-auto py-1"></div>
+            </div>
+
+            <!-- Layout & Font Size Selector -->
+            <div class="section-card space-y-2.5">
+                <h2 class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">📐 कार्ड लेआउट & फ़ॉन्ट साइज़</h2>
                 
                 <div>
-                    <label class="field-label" for="inputName">Full Name *</label>
-                    <input type="text" id="inputName" class="form-input" placeholder="Enter your name" value="Rahul Sharma" maxlength="30" autocomplete="off">
+                    <label class="field-label">कार्ड लेआउट (Card Layout)</label>
+                    <div id="layoutSelector" class="flex gap-2"></div>
                 </div>
-                
-                <div>
-                    <label class="field-label" for="inputDesignation">Designation / Profession</label>
-                    <input type="text" id="inputDesignation" class="form-input" placeholder="e.g., Business Consultant" value="Business Consultant" maxlength="40" autocomplete="off">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3">
+
+                <div class="grid grid-cols-2 gap-2 pt-1">
                     <div>
-                        <label class="field-label" for="inputCompany">Company (Optional)</label>
-                        <input type="text" id="inputCompany" class="form-input" placeholder="Company name" value="Star Enterprises" maxlength="30" autocomplete="off">
+                        <label class="field-label" for="inputFontSize">फ़ॉन्ट साइज़ (Text Size)</label>
+                        <select id="inputFontSize" class="form-input" onchange="updateCard()">
+                            <option value="small">Small (छोटा)</option>
+                            <option value="medium" selected>Medium (मध्यम)</option>
+                            <option value="large">Large (बड़ा)</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="field-label" for="inputTagline">Tagline (Optional)</label>
-                        <input type="text" id="inputTagline" class="form-input" placeholder="Short tagline" value="Excellence in Service" maxlength="40" autocomplete="off">
+                        <label class="field-label">अतिरिक्त तत्व</label>
+                        <div class="space-y-1 pt-1 text-xs">
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" id="inputShowQR" class="w-3.5 h-3.5 rounded" checked onchange="updateCard()">
+                                <span>UPI QR कोड</span>
+                            </label>
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" id="inputShowAvatar" class="w-3.5 h-3.5 rounded" checked onchange="updateCard()">
+                                <span>अवतार इनिशियल</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Information -->
+            <div class="section-card space-y-2.5">
+                <h2 class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">👤 व्यक्तिगत विवरण</h2>
+                
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="col-span-3">
+                        <label class="field-label" for="inputName">पूरा नाम *</label>
+                        <input type="text" id="inputName" class="form-input" placeholder="जैसे: रोहित कुमार" value="रोहित कुमार" maxlength="32" autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="field-label" for="inputEmoji">इमोजी</label>
+                        <input type="text" id="inputEmoji" class="form-input text-center" value="✨" maxlength="2" autocomplete="off">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="field-label" for="inputDesignation">व्यवसाय / पद</label>
+                    <input type="text" id="inputDesignation" class="form-input" placeholder="जैसे: बिज़नेस कंसलटेंट" value="वेब कंसलटेंट & मार्केटर" maxlength="35" autocomplete="off">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="field-label" for="inputCompany">कंपनी (Optional)</label>
+                        <input type="text" id="inputCompany" class="form-input" placeholder="कंपनी का नाम" value="Star Digital" maxlength="25" autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="field-label" for="inputTagline">टैगलाइन (Optional)</label>
+                        <input type="text" id="inputTagline" class="form-input" placeholder="छोटा स्लोगन" value="Excellence in Service" maxlength="30" autocomplete="off">
                     </div>
                 </div>
             </div>
 
             <!-- Contact Information -->
-            <div class="section-card space-y-3">
-                <h2 class="text-sm font-bold text-blue-600 dark:text-blue-400">📞 Contact Details</h2>
+            <div class="section-card space-y-2.5">
+                <h2 class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">📞 संपर्क विवरण</h2>
                 
-                <div>
-                    <label class="field-label" for="inputPhone">Phone Number *</label>
-                    <input type="tel" id="inputPhone" class="form-input" placeholder="10-digit mobile number" value="9876543210" maxlength="10" autocomplete="off">
-                </div>
-                
-                <div>
-                    <label class="field-label" for="inputEmail">Email Address</label>
-                    <input type="email" id="inputEmail" class="form-input" placeholder="your@email.com" value="rahul@example.com" maxlength="40" autocomplete="off">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="field-label" for="inputLocation">Location</label>
-                        <input type="text" id="inputLocation" class="form-input" placeholder="City" value="New Delhi" maxlength="25" autocomplete="off">
+                        <label class="field-label" for="inputPhone">मोबाइल नंबर *</label>
+                        <input type="tel" id="inputPhone" class="form-input font-mono" placeholder="10 अंक" value="9876543210" maxlength="10" autocomplete="off">
                     </div>
                     <div>
-                        <label class="field-label" for="inputWebsite">Website (Optional)</label>
-                        <input type="text" id="inputWebsite" class="form-input" placeholder="www.example.com" value="" maxlength="30" autocomplete="off">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card Design -->
-            <div class="section-card space-y-3">
-                <h2 class="text-sm font-bold text-blue-600 dark:text-blue-400">🎨 Card Design</h2>
-                
-                <!-- Themes -->
-                <div>
-                    <label class="field-label">Color Theme</label>
-                    <div id="themeSelector" class="flex gap-2 flex-wrap"></div>
-                </div>
-                
-                <!-- Layouts -->
-                <div>
-                    <label class="field-label">Card Layout</label>
-                    <div id="layoutSelector" class="flex gap-2"></div>
-                </div>
-                
-                <!-- Options -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="field-label" for="inputFontSize">Text Size</label>
-                        <select id="inputFontSize" class="form-input" onchange="updateCard()">
-                            <option value="small">Small</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="large">Large</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="field-label" for="inputCornerRadius">Corner Style</label>
-                        <select id="inputCornerRadius" class="form-input" onchange="updateCard()">
-                            <option value="8">Slightly Rounded</option>
-                            <option value="16" selected>Rounded</option>
-                            <option value="24">Very Rounded</option>
-                            <option value="0">Square</option>
-                        </select>
+                        <label class="field-label" for="inputLocation">शहर और पिन कोड</label>
+                        <input type="text" id="inputLocation" class="form-input" placeholder="नई दिल्ली, 110001" value="नई दिल्ली, 110001" maxlength="25" autocomplete="off">
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" id="inputShowQR" class="w-4 h-4" checked onchange="updateCard()">
-                    <label for="inputShowQR" class="text-xs text-gray-600 dark:text-gray-400">Show QR Code</label>
-                    
-                    <input type="checkbox" id="inputShowAvatar" class="w-4 h-4 ml-4" checked onchange="updateCard()">
-                    <label for="inputShowAvatar" class="text-xs text-gray-600 dark:text-gray-400">Show Initial Avatar</label>
+                <div>
+                    <label class="field-label" for="inputEmail">ईमेल ID</label>
+                    <input type="email" id="inputEmail" class="form-input" placeholder="your@email.com" value="rohit@business.com" maxlength="35" autocomplete="off">
+                </div>
+                
+                <div>
+                    <label class="field-label" for="inputWebsite">वेबसाइट (Optional)</label>
+                    <input type="text" id="inputWebsite" class="form-input" placeholder="www.example.com" value="www.stardigital.in" maxlength="30" autocomplete="off">
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-3">
-                <button id="btnDownload" onclick="processCard('download')" class="action-btn bg-emerald-600 hover:bg-emerald-700 text-white">
-                    📥 Download
+            <div class="grid grid-cols-2 gap-2 pt-1">
+                <button id="btnDownload" onclick="processCard('download')" class="action-btn bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-1">
+                    📥 डाउनलोड JPG
                 </button>
-                <button id="btnShare" onclick="processCard('share')" class="action-btn bg-blue-600 hover:bg-blue-700 text-white">
-                    📤 Share
+                <button id="btnShare" onclick="processCard('share')" class="action-btn bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-1">
+                    📲 शेयर करें
                 </button>
             </div>
             
-            <!-- Footer -->
-            <div class="text-center text-xs text-gray-500 pt-4 pb-6">
-                <p>© 2026 Star Digital • Premium Card Maker</p>
-                <p class="mt-1">Your data stays on your device</p>
+            <footer class="text-center text-[10px] text-gray-500 pt-2 pb-4">
+                <p>© 2026 Star Digital • Studio Edition</p>
+                <p class="mt-0.5">आपका सारा डेटा सुरक्षित और आपके डिवाइस पर ही रहता है।</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- SIDEBAR DRAWER MENU -->
+    <div id="drawerOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity"></div>
+    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 z-50 p-5 flex flex-col justify-between translate-x-full transition-transform duration-200 shadow-2xl">
+        <div class="space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-gray-200 dark:border-gray-800 font-bold text-sm">
+                <span>मेनू</span>
+                <button onclick="toggleMenu()" class="text-lg">✕</button>
             </div>
+            <div class="space-y-2 text-xs font-medium">
+                <a href="#" class="block py-1.5 hover:text-blue-500">🏠 होम</a>
+                <a href="javascript:void(0)" onclick="openModal('हमारे बारे में', 'Star Digital छोटे और मध्यम व्यवसायों के लिए उच्च-गुणवत्ता वाले डिजिटल टूल्स प्रदान करता है।')" class="block py-1.5 hover:text-blue-500">ℹ️ हमारे बारे में</a>
+                <a href="javascript:void(0)" onclick="openModal('Privacy Policy', 'हम आपका कोई भी व्यक्तिगत डेटा अपने सर्वर पर स्टोर नहीं करते। संपूर्ण प्रोसेसिंग आपके ब्राउज़र में ही होती है।')" class="block py-1.5 hover:text-blue-500">🔒 Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="openModal('Terms of Service', 'यह टूल व्यक्तिगत और व्यावसायिक उपयोग के लिए 100% फ्री है।')" class="block py-1.5 hover:text-blue-500">📜 Terms of Service</a>
+                <a href="javascript:void(0)" onclick="openModal('Contact Support', 'सहायता के लिए ईमेल करें: contact@stardigital.com')" class="block py-1.5 hover:text-blue-500">📞 Support</a>
+            </div>
+        </div>
+        <p class="text-[10px] text-gray-400 text-center">Version 6.0 • Star Digital</p>
+    </div>
+
+    <!-- INFO POPUP MODAL -->
+    <div id="infoModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 rounded-xl max-w-xs w-full shadow-2xl text-center">
+            <h3 id="modalHead" class="text-sm font-bold mb-2 text-blue-600 dark:text-yellow-400"></h3>
+            <p id="modalBody" class="text-xs text-gray-600 dark:text-gray-300 mb-4 leading-relaxed"></p>
+            <button onclick="document.getElementById('infoModal').classList.replace('flex', 'hidden')" class="w-full py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg">
+                ठीक है
+            </button>
         </div>
     </div>
 
     <script>
-        // Card themes configuration
         const themes = [
-            { id: 'theme-midnight', name: 'Midnight', gradient: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', textColor: '#f8fafc', accentColor: '#3b82f6' },
-            { id: 'theme-royal', name: 'Royal Blue', gradient: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)', textColor: '#ffffff', accentColor: '#60a5fa' },
-            { id: 'theme-emerald', name: 'Emerald', gradient: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)', textColor: '#f0fdf4', accentColor: '#10b981' },
-            { id: 'theme-premium-dark', name: 'Premium Dark', gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)', textColor: '#fafafa', accentColor: '#d4af37' },
-            { id: 'theme-clean-white', name: 'Clean White', gradient: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)', textColor: '#1e293b', accentColor: '#3b82f6' },
-            { id: 'theme-crimson', name: 'Crimson', gradient: 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)', textColor: '#fef2f2', accentColor: '#f87171' },
-            { id: 'theme-ocean', name: 'Ocean', gradient: 'linear-gradient(135deg, #0c4a6e 0%, #082f49 100%)', textColor: '#f0f9ff', accentColor: '#38bdf8' },
-            { id: 'theme-purple', name: 'Purple', gradient: 'linear-gradient(135deg, #4c1d95 0%, #2e1065 100%)', textColor: '#f5f3ff', accentColor: '#a78bfa' }
+            // Dual Colors
+            { id: 'theme-dual-gc', name: 'Gold & Coffee', bg: 'linear-gradient(135deg, #d4af37 50%, #2b1810 50%)', textColor: '#ffffff' },
+            { id: 'theme-dual-wb', name: 'White & Blue', bg: 'linear-gradient(135deg, #ffffff 50%, #1d4ed8 50%)', textColor: '#0f172a' },
+            { id: 'theme-dual-wg', name: 'White & Green', bg: 'linear-gradient(135deg, #ffffff 50%, #064e3b 50%)', textColor: '#0f172a' },
+            { id: 'theme-dual-bp', name: 'Navy & Blue', bg: 'linear-gradient(135deg, #0f172a 50%, #3b82f6 50%)', textColor: '#ffffff' },
+            { id: 'theme-dual-rose', name: 'Dark & Rose', bg: 'linear-gradient(135deg, #18181b 50%, #e11d48 50%)', textColor: '#ffffff' },
+            
+            // Single Solid Colors (NEW)
+            { id: 'theme-solid-white', name: 'White', bg: '#ffffff', textColor: '#0f172a', border: '1px solid #cbd5e1' },
+            { id: 'theme-solid-silver', name: 'Silver', bg: '#e2e8f0', textColor: '#1e293b', border: '1px solid #94a3b8' },
+            { id: 'theme-solid-gold', name: 'Golden', bg: '#d4af37', textColor: '#2b1810' },
+            { id: 'theme-solid-pink', name: 'Light Pink', bg: '#fce7f3', textColor: '#831843' },
+
+            // Dark Luxury Gradients
+            { id: 'theme-midnight', name: 'Midnight Dark', bg: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', textColor: '#f8fafc' },
+            { id: 'theme-royal', name: 'Royal Blue', bg: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)', textColor: '#ffffff' },
+            { id: 'theme-emerald', name: 'Emerald', bg: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)', textColor: '#f0fdf4' },
+            { id: 'theme-crimson', name: 'Crimson', bg: 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)', textColor: '#fef2f2' },
+            { id: 'theme-pure-dark', name: 'Pure Dark', bg: '#111827', textColor: '#ffffff' }
         ];
 
-        // Card layouts configuration
         const layouts = [
-            { id: 'card-layout-classic', name: 'Classic', icon: '▤' },
-            { id: 'card-layout-centered', name: 'Centered', icon: '▥' },
-            { id: 'card-layout-minimal', name: 'Minimal', icon: '▦' }
+            { id: 'layout-classic', name: 'Classic', icon: '▤' },
+            { id: 'layout-centered', name: 'Centered', icon: '▥' },
+            { id: 'layout-minimal', name: 'Minimal', icon: '▦' }
         ];
 
         let currentTheme = themes[0];
         let currentLayout = layouts[0];
         let qrUpdateTimeout = null;
 
-        // DOM references
         const card = document.getElementById('businessCard');
         const themeSelector = document.getElementById('themeSelector');
         const layoutSelector = document.getElementById('layoutSelector');
         
-        // Input fields
         const inputName = document.getElementById('inputName');
+        const inputEmoji = document.getElementById('inputEmoji');
         const inputDesignation = document.getElementById('inputDesignation');
         const inputCompany = document.getElementById('inputCompany');
         const inputTagline = document.getElementById('inputTagline');
@@ -563,25 +474,38 @@
         const inputLocation = document.getElementById('inputLocation');
         const inputWebsite = document.getElementById('inputWebsite');
         const inputFontSize = document.getElementById('inputFontSize');
-        const inputCornerRadius = document.getElementById('inputCornerRadius');
         const inputShowQR = document.getElementById('inputShowQR');
         const inputShowAvatar = document.getElementById('inputShowAvatar');
 
-        // Initialize theme selector
+        function toggleMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function openModal(title, text) {
+            toggleMenu();
+            document.getElementById('modalHead').innerText = title;
+            document.getElementById('modalBody').innerText = text;
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
         function initThemeSelector() {
             themes.forEach(theme => {
                 const btn = document.createElement('button');
                 btn.className = 'theme-btn';
-                btn.style.background = theme.gradient;
+                btn.style.background = theme.bg;
+                if (theme.border) btn.style.border = theme.border;
                 btn.dataset.themeId = theme.id;
                 btn.title = theme.name;
-                btn.setAttribute('aria-label', `Select ${theme.name} theme`);
                 btn.onclick = () => selectTheme(theme);
                 themeSelector.appendChild(btn);
             });
         }
 
-        // Initialize layout selector
         function initLayoutSelector() {
             layouts.forEach(layout => {
                 const btn = document.createElement('button');
@@ -593,7 +517,6 @@
             });
         }
 
-        // Theme selection
         function selectTheme(theme) {
             currentTheme = theme;
             document.querySelectorAll('.theme-btn').forEach(btn => {
@@ -602,7 +525,6 @@
             updateCard();
         }
 
-        // Layout selection
         function selectLayout(layout) {
             currentLayout = layout;
             document.querySelectorAll('.layout-btn').forEach(btn => {
@@ -611,9 +533,9 @@
             updateCard();
         }
 
-        // Update card content
         function updateCard() {
-            const name = inputName.value.trim() || 'Your Name';
+            const name = inputName.value.trim() || 'आपका नाम';
+            const emoji = inputEmoji.value.trim() || '✨';
             const designation = inputDesignation.value.trim();
             const company = inputCompany.value.trim();
             const tagline = inputTagline.value.trim();
@@ -622,196 +544,161 @@
             const location = inputLocation.value.trim();
             const website = inputWebsite.value.trim();
             const fontSize = inputFontSize.value;
-            const cornerRadius = inputCornerRadius.value;
             const showQR = inputShowQR.checked;
             const showAvatar = inputShowAvatar.checked;
 
-            // Apply theme
-            card.style.background = currentTheme.gradient;
+            card.style.background = currentTheme.bg;
             card.style.color = currentTheme.textColor;
-            card.style.borderRadius = `${cornerRadius}px`;
-            
-            // Font size adjustments
-            const nameSize = fontSize === 'small' ? '20px' : fontSize === 'medium' ? '22px' : '24px';
-            const detailSize = fontSize === 'small' ? '10px' : fontSize === 'medium' ? '11px' : '12px';
-            const titleSize = fontSize === 'small' ? '10px' : fontSize === 'medium' ? '11px' : '12px';
+            card.style.border = currentTheme.border || 'none';
 
-            // Build card HTML based on layout
-            let cardHTML = '';
-            
-            if (currentLayout.id === 'card-layout-classic') {
-                cardHTML = buildClassicLayout(name, designation, company, tagline, phone, email, location, website, nameSize, detailSize, titleSize, showQR, showAvatar);
-            } else if (currentLayout.id === 'card-layout-centered') {
-                cardHTML = buildCenteredLayout(name, designation, company, tagline, phone, email, location, website, nameSize, detailSize, titleSize, showQR, showAvatar);
+            const nameClass = fontSize === 'small' ? 'text-[13px]' : fontSize === 'large' ? 'text-[16px]' : 'text-[14.5px]';
+            const textClass = fontSize === 'small' ? 'text-[8.5px]' : fontSize === 'large' ? 'text-[10px]' : 'text-[9px]';
+            const subClass = fontSize === 'small' ? 'text-[8px]' : fontSize === 'large' ? 'text-[9.5px]' : 'text-[8.5px]';
+
+            if (currentLayout.id === 'layout-centered') {
+                card.innerHTML = `
+                    <div class="flex items-center justify-between z-10 w-full">
+                        ${showAvatar ? `<div class="card-avatar" style="width:28px;height:28px;font-size:15px;">${name.charAt(0).toUpperCase()}</div>` : '<div></div>'}
+                        <div class="text-sm">${emoji}</div>
+                    </div>
+
+                    <div class="text-center my-auto z-10 space-y-0.5">
+                        <div class="card-name ${nameClass}">${name}</div>
+                        ${designation ? `<div class="card-designation ${subClass}">${designation}</div>` : ''}
+                        ${(company || tagline) ? `<div class="${subClass} opacity-85">${[company, tagline].filter(Boolean).join(' • ')}</div>` : ''}
+                    </div>
+
+                    <div class="flex items-end justify-between gap-1 z-10 pt-1 border-t border-current/15 w-full ${textClass}">
+                        <div class="text-left space-y-0.5 min-w-0 flex-1">
+                            ${phone ? `<div class="font-mono font-bold break-all">📞 ${phone}</div>` : ''}
+                            ${email ? `<div class="break-all opacity-90">✉️ ${email}</div>` : ''}
+                            ${location ? `<div class="break-all opacity-90">📍 ${location}</div>` : ''}
+                        </div>
+                        ${showQR ? `
+                            <div class="card-qr" style="width:38px;height:38px;">
+                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else if (currentLayout.id === 'layout-minimal') {
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 z-10">
+                        <div class="flex-1 min-w-0">
+                            <div class="card-name ${nameClass}">${name}</div>
+                            ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
+                        </div>
+                        <div class="text-sm flex-shrink-0">${emoji}</div>
+                    </div>
+
+                    ${(company || tagline) ? `
+                        <div class="${subClass} opacity-85 my-auto z-10 break-words">
+                            <span class="font-bold">${company}</span> ${tagline ? `— <i>${tagline}</i>` : ''}
+                        </div>
+                    ` : '<div class="my-auto"></div>'}
+
+                    <div class="flex items-end justify-between gap-2 z-10 pt-1 border-t border-current/15 ${textClass}">
+                        <div class="space-y-0.5 flex-1 min-w-0">
+                            ${phone ? `<div class="break-all font-mono font-bold">📱 ${phone}</div>` : ''}
+                            ${email ? `<div class="break-all">✉️ ${email}</div>` : ''}
+                            ${location ? `<div class="break-all opacity-90">📍 ${location}</div>` : ''}
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            ${showAvatar ? `<div class="card-avatar" style="width:32px;height:32px;font-size:16px;">${name.charAt(0).toUpperCase()}</div>` : ''}
+                            ${showQR ? `
+                                <div class="card-qr" style="width:38px;height:38px;">
+                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
             } else {
-                cardHTML = buildMinimalLayout(name, designation, company, tagline, phone, email, location, website, nameSize, detailSize, titleSize, showQR, showAvatar);
+                // Classic Layout - Fixed for proper text wrapping
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 h-full">
+                        <div class="flex-1 space-y-1 min-w-0 pr-1 flex flex-col justify-between h-full overflow-hidden">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    ${showAvatar ? `<div class="card-avatar">${name.charAt(0).toUpperCase()}</div>` : ''}
+                                    <div class="min-w-0 flex-1">
+                                        <div class="card-name ${nameClass}">${name}</div>
+                                        ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
+                                    </div>
+                                </div>
+
+                                ${(company || tagline) ? `
+                                    <div class="${subClass} opacity-85 leading-tight break-words">
+                                        ${company ? `<span class="font-bold">${company}</span>` : ''}
+                                        ${tagline ? ` • <span class="italic opacity-80">${tagline}</span>` : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="space-y-0.5 ${textClass} pt-1 border-t border-current/15">
+                                ${phone ? `
+                                    <div class="card-contact-item">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                                        <span class="font-bold font-mono break-all">${phone}</span>
+                                    </div>
+                                ` : ''}
+                                ${email ? `
+                                    <div class="card-contact-item">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                                        <span class="break-all">${email}</span>
+                                    </div>
+                                ` : ''}
+                                ${location ? `
+                                    <div class="card-contact-item opacity-85">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                                        <span class="break-words">${location}</span>
+                                    </div>
+                                ` : ''}
+                                ${website ? `
+                                    <div class="card-contact-item opacity-85">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"/></svg>
+                                        <span class="break-words">${website}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-between h-full flex-shrink-0 pl-1">
+                            <div class="text-sm">${emoji}</div>
+                            ${showQR ? `
+                                <div class="card-qr">
+                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
             }
 
-            card.innerHTML = cardHTML;
-
-            // Update QR code with debounce
             clearTimeout(qrUpdateTimeout);
             qrUpdateTimeout = setTimeout(() => {
                 if (showQR) {
                     const qrImg = card.querySelector('.card-qr-img');
                     if (qrImg) {
                         const cleanPhone = phone.replace(/[^0-9]/g, '') || '9876543210';
-                        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(name)}`;
+                        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(name)}`;
                     }
                 }
-            }, 500);
+            }, 300);
         }
 
-        // Build Classic Layout
-        function buildClassicLayout(name, designation, company, tagline, phone, email, location, website, nameSize, detailSize, titleSize, showQR, showAvatar) {
-            return `
-                <div class="flex items-start justify-between h-full">
-                    <div class="flex-1 space-y-2">
-                        <div class="flex items-center gap-3">
-                            ${showAvatar ? `<div class="card-avatar" style="width: ${nameSize === '20px' ? '38px' : '42px'}; height: ${nameSize === '20px' ? '38px' : '42px'}; font-size: ${nameSize}">${name.charAt(0)}</div>` : ''}
-                            <div>
-                                <div class="card-name" style="font-size: ${nameSize}">${name}</div>
-                                ${designation ? `<div class="card-designation" style="font-size: ${titleSize}">${designation}</div>` : ''}
-                            </div>
-                        </div>
-                        
-                        ${company || tagline ? `
-                            <div class="space-y-1">
-                                ${company ? `<div style="font-size: ${detailSize}; font-weight: 600;">${company}</div>` : ''}
-                                ${tagline ? `<div style="font-size: ${detailSize}; opacity: 0.8;">${tagline}</div>` : ''}
-                            </div>
-                        ` : ''}
-                        
-                        <div class="card-accent-line"></div>
-                        
-                        <div class="space-y-1.5">
-                            ${phone ? `
-                                <div class="card-contact-item" style="font-size: ${detailSize}">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-                                    <span>${phone}</span>
-                                </div>
-                            ` : ''}
-                            
-                            ${email ? `
-                                <div class="card-contact-item" style="font-size: ${detailSize}">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                                    <span>${email}</span>
-                                </div>
-                            ` : ''}
-                            
-                            ${location ? `
-                                <div class="card-contact-item" style="font-size: ${detailSize}">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-                                    <span>${location}</span>
-                                </div>
-                            ` : ''}
-                            
-                            ${website ? `
-                                <div class="card-contact-item" style="font-size: ${detailSize}">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"/></svg>
-                                    <span>${website}</span>
-                                </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                    
-                    ${showQR ? `
-                        <div class="flex flex-col items-center gap-1 ml-3">
-                            <div class="card-qr">
-                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone}@upi" alt="QR">
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        // Build Centered Layout
-        function buildCenteredLayout(name, designation, company, tagline, phone, email, location, website, nameSize, detailSize, titleSize, showQR, showAvatar) {
-            return `
-                <div class="flex flex-col items-center justify-center text-center h-full space-y-2">
-                    ${showAvatar ? `<div class="card-avatar" style="width: ${nameSize === '20px' ? '38px' : '42px'}; height: ${nameSize === '20px' ? '38px' : '42px'}; font-size: ${nameSize}">${name.charAt(0)}</div>` : ''}
-                    
-                    <div class="card-name" style="font-size: ${nameSize}">${name}</div>
-                    
-                    ${designation ? `<div class="card-designation" style="font-size: ${titleSize}">${designation}</div>` : ''}
-                    
-                    ${company || tagline ? `
-                        <div class="space-y-0.5">
-                            ${company ? `<div style="font-size: ${detailSize}; font-weight: 600;">${company}</div>` : ''}
-                            ${tagline ? `<div style="font-size: ${detailSize}; opacity: 0.8;">${tagline}</div>` : ''}
-                        </div>
-                    ` : ''}
-                    
-                    <div class="card-accent-line mx-auto"></div>
-                    
-                    <div class="space-y-1">
-                        ${phone ? `<div style="font-size: ${detailSize}">${phone}</div>` : ''}
-                        ${email ? `<div style="font-size: ${detailSize}">${email}</div>` : ''}
-                        ${location || website ? `<div style="font-size: ${detailSize}">${[location, website].filter(Boolean).join(' • ')}</div>` : ''}
-                    </div>
-                    
-                    ${showQR ? `
-                        <div class="card-qr mt-1">
-                            <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone}@upi" alt="QR">
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        // Build Minimal Layout
-        function buildMinimalLayout(name, designation, company, tagline, phone, email, location, website, nameSize, detailSize, titleSize, showQR, showAvatar) {
-            return `
-                <div class="flex items-center justify-between h-full gap-3">
-                    <div class="flex-1 space-y-2">
-                        <div>
-                            <div class="card-name" style="font-size: ${nameSize}">${name}</div>
-                            ${designation ? `<div class="card-designation mt-1" style="font-size: ${titleSize}">${designation}</div>` : ''}
-                        </div>
-                        
-                        ${company || tagline ? `
-                            <div>
-                                ${company ? `<div style="font-size: ${detailSize}; font-weight: 600;">${company}</div>` : ''}
-                                ${tagline ? `<div style="font-size: ${detailSize}; opacity: 0.8;">${tagline}</div>` : ''}
-                            </div>
-                        ` : ''}
-                        
-                        <div class="card-divider"></div>
-                        
-                        <div class="space-y-1">
-                            ${phone ? `<div style="font-size: ${detailSize}">📱 ${phone}</div>` : ''}
-                            ${email ? `<div style="font-size: ${detailSize}">✉️ ${email}</div>` : ''}
-                            ${location ? `<div style="font-size: ${detailSize}">📍 ${location}</div>` : ''}
-                            ${website ? `<div style="font-size: ${detailSize}">🌐 ${website}</div>` : ''}
-                        </div>
-                    </div>
-                    
-                    <div class="flex flex-col items-center gap-1">
-                        ${showAvatar ? `<div class="card-avatar" style="width: ${nameSize === '20px' ? '38px' : '42px'}; height: ${nameSize === '20px' ? '38px' : '42px'}; font-size: ${nameSize}">${name.charAt(0)}</div>` : ''}
-                        ${showQR ? `
-                            <div class="card-qr">
-                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone}@upi" alt="QR">
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Process card generation
+        // Exact 1:1 Capture Logic without distortion
         function processCard(action) {
             const name = inputName.value.trim();
             const phone = inputPhone.value.trim();
             
             if (!name) {
-                alert("Please enter your name");
+                alert("कृपया अपना नाम दर्ज करें");
                 inputName.focus();
                 return;
             }
-            
             if (phone.length < 10) {
-                alert("Please enter a valid 10-digit phone number");
+                alert("कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें");
                 inputPhone.focus();
                 return;
             }
@@ -826,44 +713,45 @@
                 scale: 3,
                 useCORS: true,
                 backgroundColor: null,
-                logging: false
+                logging: false,
+                windowWidth: card.scrollWidth,
+                windowHeight: card.scrollHeight
             }).then(canvas => {
                 btnDownload.disabled = false;
                 btnShare.disabled = false;
                 
-                const filename = `Premium_Card_${name.replace(/\s+/g, '_')}.jpg`;
+                const filename = `Digital_Card_${name.replace(/\s+/g, '_')}.jpg`;
                 
                 if (action === 'download') {
                     const link = document.createElement('a');
                     link.download = filename;
-                    link.href = canvas.toDataURL('image/jpeg', 0.95);
+                    link.href = canvas.toDataURL('image/jpeg', 0.98);
                     link.click();
                 } else if (action === 'share') {
                     canvas.toBlob(blob => {
                         const file = new File([blob], filename, { type: 'image/jpeg' });
                         if (navigator.canShare && navigator.canShare({ files: [file] })) {
                             navigator.share({
-                                title: 'My Business Card',
-                                text: 'Check out my business card',
+                                title: 'Digital Business Card',
+                                text: 'मेरा डिजिटल विजिटिंग कार्ड देखें:',
                                 files: [file]
                             }).catch(() => {});
                         } else {
                             const link = document.createElement('a');
                             link.download = filename;
-                            link.href = canvas.toDataURL('image/jpeg', 0.95);
+                            link.href = canvas.toDataURL('image/jpeg', 0.98);
                             link.click();
+                            alert("कार्ड डाउनलोड कर दिया गया है।");
                         }
-                    }, 'image/jpeg', 0.95);
+                    }, 'image/jpeg', 0.98);
                 }
             }).catch(error => {
-                console.error('Error generating card:', error);
                 btnDownload.disabled = false;
                 btnShare.disabled = false;
-                alert("Error generating card. Please try again.");
+                alert("इमेज तैयार करने में समस्या आई।");
             });
         }
 
-        // Toggle theme
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
@@ -876,14 +764,12 @@
             }
         }
 
-        // Initialize event listeners
         function init() {
             initThemeSelector();
             initLayoutSelector();
             
-            // Input event listeners
             const inputs = [
-                inputName, inputDesignation, inputCompany, inputTagline,
+                inputName, inputEmoji, inputDesignation, inputCompany, inputTagline,
                 inputPhone, inputEmail, inputLocation, inputWebsite
             ];
             
@@ -891,26 +777,16 @@
                 input.addEventListener('input', updateCard);
             });
             
-            // Phone number validation
             inputPhone.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
             
-            // Initial card update
             selectTheme(themes[0]);
             selectLayout(layouts[0]);
             updateCard();
         }
 
-        // Handle resize
         window.addEventListener('resize', updateCard);
-
-        // Handle orientation change
-        window.addEventListener('orientationchange', () => {
-            setTimeout(updateCard, 100);
-        });
-
-        // Initialize on load
         window.onload = init;
     </script>
 </body>
