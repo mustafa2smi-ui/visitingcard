@@ -16,7 +16,7 @@
     <style>
         :root {
             --card-width: 340px;
-            --card-height: 190px;
+            --card-height: 195px;
         }
         
         * {
@@ -87,7 +87,7 @@
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
-            padding: 16px 18px;
+            padding: 14px 16px 14px 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -106,41 +106,34 @@
             text-transform: uppercase;
             opacity: 0.85;
             word-break: break-word;
+            line-height: 1.2;
         }
 
         .card-contact-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             font-weight: 400;
             opacity: 0.95;
             min-width: 0;
-            line-height: 1.25;
+            line-height: 1.2;
         }
 
+        .card-contact-item span {
+            word-break: break-all;
+            min-width: 0;
+            flex: 1;
+        }
+
+        /* Larger QR Code */
         .card-qr {
-            width: 46px;
-            height: 46px;
+            width: 56px;
+            height: 56px;
             border-radius: 8px;
             background: white;
-            padding: 2.5px;
+            padding: 3px;
             flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            flex-shrink: 0;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
         }
 
         /* Sticky Freeze Top Header */
@@ -231,7 +224,11 @@
             display: block;
         }
         .dark .field-label { color: #94a3b8; }
-        .icon { width: 12px; height: 12px; flex-shrink: 0; }
+        .icon { 
+            width: 11px; 
+            height: 11px; 
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body class="flex flex-col h-screen">
@@ -255,7 +252,7 @@
                 </div>
             </div>
             
-            <div class="flex justify-center pb-2">
+            <div class="flex justify-center pb-1">
                 <div id="businessCard">
                     <!-- Live Content injected here -->
                 </div>
@@ -297,10 +294,6 @@
                             <label class="flex items-center gap-1.5 cursor-pointer">
                                 <input type="checkbox" id="inputShowQR" class="w-3.5 h-3.5 rounded" checked onchange="updateCard()">
                                 <span>UPI QR कोड</span>
-                            </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="checkbox" id="inputShowAvatar" class="w-3.5 h-3.5 rounded" checked onchange="updateCard()">
-                                <span>अवतार इनिशियल</span>
                             </label>
                         </div>
                     </div>
@@ -349,19 +342,20 @@
                         <input type="tel" id="inputPhone" class="form-input font-mono" placeholder="10 अंक" value="9876543210" maxlength="10" autocomplete="off">
                     </div>
                     <div>
-                        <label class="field-label" for="inputLocation">शहर और पिन कोड</label>
-                        <input type="text" id="inputLocation" class="form-input" placeholder="नई दिल्ली, 110001" value="नई दिल्ली, 110001" maxlength="25" autocomplete="off">
+                        <label class="field-label" for="inputEmail">ईमेल ID</label>
+                        <input type="email" id="inputEmail" class="form-input" placeholder="your@email.com" value="rohit@business.com" maxlength="35" autocomplete="off">
                     </div>
                 </div>
                 
-                <div>
-                    <label class="field-label" for="inputEmail">ईमेल ID</label>
-                    <input type="email" id="inputEmail" class="form-input" placeholder="your@email.com" value="rohit@business.com" maxlength="35" autocomplete="off">
-                </div>
-                
-                <div>
-                    <label class="field-label" for="inputWebsite">वेबसाइट (Optional)</label>
-                    <input type="text" id="inputWebsite" class="form-input" placeholder="www.example.com" value="www.stardigital.in" maxlength="30" autocomplete="off">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="field-label" for="inputLocation">शहर और पिन कोड</label>
+                        <input type="text" id="inputLocation" class="form-input" placeholder="नई दिल्ली, 110001" value="नई दिल्ली, 110001" maxlength="25" autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="field-label" for="inputWebsite">वेबसाइट (Optional)</label>
+                        <input type="text" id="inputWebsite" class="form-input" placeholder="www.example.com" value="www.stardigital.in" maxlength="30" autocomplete="off">
+                    </div>
                 </div>
             </div>
 
@@ -398,7 +392,7 @@
                 <a href="javascript:void(0)" onclick="openModal('Contact Support', 'सहायता के लिए ईमेल करें: contact@stardigital.com')" class="block py-1.5 hover:text-blue-500">📞 Support</a>
             </div>
         </div>
-        <p class="text-[10px] text-gray-400 text-center">Version 6.0 • Star Digital</p>
+        <p class="text-[10px] text-gray-400 text-center">Version 7.0 • Star Digital</p>
     </div>
 
     <!-- INFO POPUP MODAL -->
@@ -421,7 +415,7 @@
             { id: 'theme-dual-bp', name: 'Navy & Blue', bg: 'linear-gradient(135deg, #0f172a 50%, #3b82f6 50%)', textColor: '#ffffff' },
             { id: 'theme-dual-rose', name: 'Dark & Rose', bg: 'linear-gradient(135deg, #18181b 50%, #e11d48 50%)', textColor: '#ffffff' },
             
-            // Single Solid Colors (NEW)
+            // Single Solid Colors
             { id: 'theme-solid-white', name: 'White', bg: '#ffffff', textColor: '#0f172a', border: '1px solid #cbd5e1' },
             { id: 'theme-solid-silver', name: 'Silver', bg: '#e2e8f0', textColor: '#1e293b', border: '1px solid #94a3b8' },
             { id: 'theme-solid-gold', name: 'Golden', bg: '#d4af37', textColor: '#2b1810' },
@@ -460,7 +454,6 @@
         const inputWebsite = document.getElementById('inputWebsite');
         const inputFontSize = document.getElementById('inputFontSize');
         const inputShowQR = document.getElementById('inputShowQR');
-        const inputShowAvatar = document.getElementById('inputShowAvatar');
 
         function toggleMenu() {
             const drawer = document.getElementById('mobileDrawer');
@@ -530,20 +523,18 @@
             const website = inputWebsite.value.trim();
             const fontSize = inputFontSize.value;
             const showQR = inputShowQR.checked;
-            const showAvatar = inputShowAvatar.checked;
 
             card.style.background = currentTheme.bg;
             card.style.color = currentTheme.textColor;
             card.style.border = currentTheme.border || 'none';
 
-            const nameClass = fontSize === 'small' ? 'text-[13px]' : fontSize === 'large' ? 'text-[16px]' : 'text-[14.5px]';
-            const textClass = fontSize === 'small' ? 'text-[8.5px]' : fontSize === 'large' ? 'text-[10px]' : 'text-[9px]';
-            const subClass = fontSize === 'small' ? 'text-[8px]' : fontSize === 'large' ? 'text-[9.5px]' : 'text-[8.5px]';
+            const nameClass = fontSize === 'small' ? 'text-[12.5px]' : fontSize === 'large' ? 'text-[15px]' : 'text-[13.5px]';
+            const textClass = fontSize === 'small' ? 'text-[8px]' : fontSize === 'large' ? 'text-[9.5px]' : 'text-[8.5px]';
+            const subClass = fontSize === 'small' ? 'text-[7.5px]' : fontSize === 'large' ? 'text-[9px]' : 'text-[8px]';
 
             if (currentLayout.id === 'layout-centered') {
                 card.innerHTML = `
-                    <div class="flex items-center justify-between z-10 w-full">
-                        ${showAvatar ? `<div class="card-avatar" style="width:28px;height:28px;font-size:15px;">${name.charAt(0).toUpperCase()}</div>` : '<div></div>'}
+                    <div class="flex items-center justify-end z-10 w-full">
                         <div class="text-sm">${emoji}</div>
                     </div>
 
@@ -554,13 +545,14 @@
                     </div>
 
                     <div class="flex items-end justify-between gap-1 z-10 pt-1 border-t border-current/15 w-full ${textClass}">
-                        <div class="text-left space-y-0.5 min-w-0 flex-1 truncate">
-                            ${phone ? `<div class="font-mono font-bold truncate">📞 ${phone}</div>` : ''}
-                            ${(email || location) ? `<div class="truncate opacity-90">${[location, email].filter(Boolean).join(' | ')}</div>` : ''}
+                        <div class="text-left space-y-0.5 min-w-0 flex-1">
+                            ${phone ? `<div class="font-mono font-bold break-all">📞 ${phone}</div>` : ''}
+                            ${email ? `<div class="break-all font-medium">✉️ ${email}</div>` : ''}
+                            ${location ? `<div class="break-all opacity-90">📍 ${location}</div>` : ''}
                         </div>
                         ${showQR ? `
-                            <div class="card-qr" style="width:38px;height:38px;">
-                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                            <div class="card-qr">
+                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
                             </div>
                         ` : ''}
                     </div>
@@ -576,76 +568,76 @@
                     </div>
 
                     ${(company || tagline) ? `
-                        <div class="${subClass} opacity-85 my-auto z-10 truncate">
+                        <div class="${subClass} opacity-85 my-auto z-10 break-words">
                             <span class="font-bold">${company}</span> ${tagline ? `— <i>${tagline}</i>` : ''}
                         </div>
                     ` : '<div class="my-auto"></div>'}
 
                     <div class="flex items-end justify-between gap-2 z-10 pt-1 border-t border-current/15 ${textClass}">
-                        <div class="space-y-0.5 flex-1 min-w-0 truncate">
-                            ${phone ? `<div class="truncate font-mono font-bold">📱 ${phone}</div>` : ''}
-                            ${email ? `<div class="truncate">✉️ ${email}</div>` : ''}
-                            ${location ? `<div class="truncate opacity-90">📍 ${location}</div>` : ''}
+                        <div class="space-y-0.5 flex-1 min-w-0">
+                            ${phone ? `<div class="break-all font-mono font-bold">📱 ${phone}</div>` : ''}
+                            ${email ? `<div class="break-all font-medium">✉️ ${email}</div>` : ''}
+                            ${location ? `<div class="break-all opacity-90">📍 ${location}</div>` : ''}
                         </div>
-                        <div class="flex items-center gap-1.5 flex-shrink-0">
-                            ${showAvatar ? `<div class="card-avatar" style="width:32px;height:32px;font-size:16px;">${name.charAt(0).toUpperCase()}</div>` : ''}
-                            ${showQR ? `
-                                <div class="card-qr" style="width:38px;height:38px;">
-                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
-                                </div>
-                            ` : ''}
-                        </div>
+                        ${showQR ? `
+                            <div class="card-qr">
+                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             } else {
-                // Classic Layout (Side-by-Side Space Optimized)
+                // Classic Layout (Email Moved Up, Zero Bottom Cut)
                 card.innerHTML = `
                     <div class="flex items-start justify-between gap-2 h-full">
-                        <div class="flex-1 space-y-1 min-w-0 pr-1 flex flex-col justify-between h-full">
+                        <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between h-full">
                             <div>
-                                <div class="flex items-center gap-2">
-                                    ${showAvatar ? `<div class="card-avatar">${name.charAt(0).toUpperCase()}</div>` : ''}
-                                    <div class="min-w-0 flex-1">
-                                        <div class="card-name ${nameClass}">${name}</div>
-                                        ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
-                                    </div>
-                                </div>
+                                <div class="card-name ${nameClass}">${name}</div>
+                                ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
 
                                 ${(company || tagline) ? `
-                                    <div class="${subClass} opacity-85 mt-1 leading-tight">
+                                    <div class="${subClass} opacity-85 mt-0.5 leading-tight break-words">
                                         ${company ? `<span class="font-bold">${company}</span>` : ''}
                                         ${tagline ? ` • <span class="italic opacity-80">${tagline}</span>` : ''}
                                     </div>
                                 ` : ''}
                             </div>
 
+                            <!-- Optimized Contacts Stack (Email positioned up right after Phone) -->
                             <div class="space-y-0.5 ${textClass} pt-1 border-t border-current/15">
                                 ${phone ? `
                                     <div class="card-contact-item">
                                         <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-                                        <span class="font-bold truncate font-mono">${phone}</span>
+                                        <span class="font-bold font-mono">${phone}</span>
                                     </div>
                                 ` : ''}
                                 ${email ? `
                                     <div class="card-contact-item">
                                         <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                                        <span class="truncate">${email}</span>
+                                        <span class="font-medium">${email}</span>
                                     </div>
                                 ` : ''}
-                                ${(location || website) ? `
-                                    <div class="card-contact-item opacity-85">
+                                ${location ? `
+                                    <div class="card-contact-item opacity-90">
                                         <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-                                        <span class="truncate">${[location, website].filter(Boolean).join(' • ')}</span>
+                                        <span>${location}</span>
+                                    </div>
+                                ` : ''}
+                                ${website ? `
+                                    <div class="card-contact-item opacity-90">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"/></svg>
+                                        <span>${website}</span>
                                     </div>
                                 ` : ''}
                             </div>
                         </div>
 
-                        <div class="flex flex-col items-center justify-between h-full flex-shrink-0 pl-1">
+                        <!-- Right Column: Emoji + Large QR -->
+                        <div class="flex flex-col items-center justify-between h-full flex-shrink-0 pl-1 py-0.5">
                             <div class="text-sm">${emoji}</div>
                             ${showQR ? `
                                 <div class="card-qr">
-                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
+                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
                                 </div>
                             ` : ''}
                         </div>
@@ -659,13 +651,13 @@
                     const qrImg = card.querySelector('.card-qr-img');
                     if (qrImg) {
                         const cleanPhone = phone.replace(/[^0-9]/g, '') || '9876543210';
-                        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(name)}`;
+                        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(name)}`;
                     }
                 }
-            }, 300);
+            }, 250);
         }
 
-        // Exact 1:1 Capture Logic without distortion
+        // Clean Exact Pixel-Perfect Capture
         function processCard(action) {
             const name = inputName.value.trim();
             const phone = inputPhone.value.trim();
@@ -691,7 +683,9 @@
                 scale: 3,
                 useCORS: true,
                 backgroundColor: null,
-                logging: false
+                logging: false,
+                scrollY: 0,
+                scrollX: 0
             }).then(canvas => {
                 btnDownload.disabled = false;
                 btnShare.disabled = false;
