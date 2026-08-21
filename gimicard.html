@@ -16,7 +16,7 @@
     <style>
         :root {
             --card-width: 340px;
-            --card-height: 195px; /* Extra height to prevent bottom line clipping */
+            --card-height: 190px;
         }
         
         * {
@@ -84,65 +84,20 @@
             border-radius: 16px;
             overflow: hidden;
             box-sizing: border-box;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
-            padding: 14px 16px 16px 16px; /* Generous bottom padding */
+            padding: 16px 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* Dual Tone Half-Curve Designs */
-        .theme-dual-gc {
-            background: #2b1810;
-            background-image: radial-gradient(circle at 0% 0%, #d4af37 55%, transparent 56%);
-            color: #ffffff;
-        }
-        .theme-dual-wb {
-            background: #ffffff;
-            background-image: radial-gradient(circle at 100% 0%, #1d4ed8 55%, transparent 56%);
-            color: #0f172a;
-        }
-        .theme-dual-wg {
-            background: #ffffff;
-            background-image: radial-gradient(circle at 100% 100%, #064e3b 55%, transparent 56%);
-            color: #0f172a;
-        }
-        .theme-dual-bp {
-            background: #0f172a;
-            background-image: radial-gradient(circle at 100% 0%, #3b82f6 50%, transparent 51%);
-            color: #ffffff;
-        }
-        .theme-dual-rose {
-            background: #18181b;
-            background-image: radial-gradient(circle at 100% 100%, #e11d48 52%, transparent 53%);
-            color: #ffffff;
-        }
-
-        /* Solid & Luxury Gradients */
-        .theme-midnight { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f8fafc; }
-        .theme-royal { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: #ffffff; }
-        .theme-emerald { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); color: #f0fdf4; }
-        .theme-crimson { background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%); color: #fef2f2; }
-        .theme-pure-dark { background: #111827; color: #ffffff; }
-
-        /* White Dual Contrast Adjustments */
-        .theme-dual-wb .card-name, .theme-dual-wg .card-name { color: #0f172a !important; }
-        .theme-dual-wb .card-designation, .theme-dual-wg .card-designation { color: #475569 !important; }
-        .theme-dual-wb .card-avatar, .theme-dual-wg .card-avatar {
-            color: #0f172a;
-            border-color: #0f172a;
-            background: rgba(0,0,0,0.06);
-        }
-
-        /* Typography & Layout Essentials */
         .card-name {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.15;
             word-break: break-word;
-            overflow-wrap: break-word;
         }
 
         .card-designation {
@@ -160,28 +115,28 @@
             font-weight: 400;
             opacity: 0.95;
             min-width: 0;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         .card-qr {
-            width: 44px;
-            height: 44px;
-            border-radius: 6px;
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
             background: white;
-            padding: 2px;
+            padding: 2.5px;
             flex-shrink: 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
         .card-avatar {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Playfair Display', serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.2);
             border: 1.5px solid rgba(255, 255, 255, 0.4);
@@ -205,8 +160,8 @@
         }
 
         .theme-btn {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             border: 2px solid transparent;
             cursor: pointer;
@@ -215,7 +170,7 @@
         }
         .theme-btn.selected {
             border-color: #3b82f6;
-            transform: scale(1.18);
+            transform: scale(1.2);
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
         }
 
@@ -301,7 +256,7 @@
             </div>
             
             <div class="flex justify-center pb-2">
-                <div id="businessCard" class="theme-dual-gc">
+                <div id="businessCard">
                     <!-- Live Content injected here -->
                 </div>
             </div>
@@ -314,7 +269,7 @@
             
             <!-- Theme Selector -->
             <div class="section-card space-y-2">
-                <span class="field-label">🎨 कलर थीम (Dual & Solid Themes)</span>
+                <span class="field-label">🎨 कलर थीम (Dual, Solid & Gradients)</span>
                 <div id="themeSelector" class="flex gap-2 overflow-x-auto py-1"></div>
             </div>
 
@@ -459,16 +414,25 @@
 
     <script>
         const themes = [
-            { id: 'theme-dual-gc', name: 'Gold & Coffee', bg: 'linear-gradient(135deg, #d4af37 50%, #2b1810 50%)' },
-            { id: 'theme-dual-wb', name: 'White & Blue', bg: 'linear-gradient(135deg, #fff 50%, #1d4ed8 50%)' },
-            { id: 'theme-dual-wg', name: 'White & Green', bg: 'linear-gradient(135deg, #fff 50%, #064e3b 50%)' },
-            { id: 'theme-dual-bp', name: 'Navy & Blue', bg: 'linear-gradient(135deg, #0f172a 50%, #3b82f6 50%)' },
-            { id: 'theme-dual-rose', name: 'Dark & Rose', bg: 'linear-gradient(135deg, #18181b 50%, #e11d48 50%)' },
-            { id: 'theme-midnight', name: 'Midnight Dark', bg: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' },
-            { id: 'theme-royal', name: 'Royal Blue', bg: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)' },
-            { id: 'theme-emerald', name: 'Emerald', bg: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)' },
-            { id: 'theme-crimson', name: 'Crimson', bg: 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)' },
-            { id: 'theme-pure-dark', name: 'Pure Dark', bg: '#111827' }
+            // Dual Colors
+            { id: 'theme-dual-gc', name: 'Gold & Coffee', bg: 'linear-gradient(135deg, #d4af37 50%, #2b1810 50%)', textColor: '#ffffff' },
+            { id: 'theme-dual-wb', name: 'White & Blue', bg: 'linear-gradient(135deg, #ffffff 50%, #1d4ed8 50%)', textColor: '#0f172a' },
+            { id: 'theme-dual-wg', name: 'White & Green', bg: 'linear-gradient(135deg, #ffffff 50%, #064e3b 50%)', textColor: '#0f172a' },
+            { id: 'theme-dual-bp', name: 'Navy & Blue', bg: 'linear-gradient(135deg, #0f172a 50%, #3b82f6 50%)', textColor: '#ffffff' },
+            { id: 'theme-dual-rose', name: 'Dark & Rose', bg: 'linear-gradient(135deg, #18181b 50%, #e11d48 50%)', textColor: '#ffffff' },
+            
+            // Single Solid Colors (NEW)
+            { id: 'theme-solid-white', name: 'White', bg: '#ffffff', textColor: '#0f172a', border: '1px solid #cbd5e1' },
+            { id: 'theme-solid-silver', name: 'Silver', bg: '#e2e8f0', textColor: '#1e293b', border: '1px solid #94a3b8' },
+            { id: 'theme-solid-gold', name: 'Golden', bg: '#d4af37', textColor: '#2b1810' },
+            { id: 'theme-solid-pink', name: 'Light Pink', bg: '#fce7f3', textColor: '#831843' },
+
+            // Dark Luxury Gradients
+            { id: 'theme-midnight', name: 'Midnight Dark', bg: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', textColor: '#f8fafc' },
+            { id: 'theme-royal', name: 'Royal Blue', bg: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)', textColor: '#ffffff' },
+            { id: 'theme-emerald', name: 'Emerald', bg: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)', textColor: '#f0fdf4' },
+            { id: 'theme-crimson', name: 'Crimson', bg: 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)', textColor: '#fef2f2' },
+            { id: 'theme-pure-dark', name: 'Pure Dark', bg: '#111827', textColor: '#ffffff' }
         ];
 
         const layouts = [
@@ -519,6 +483,7 @@
                 const btn = document.createElement('button');
                 btn.className = 'theme-btn';
                 btn.style.background = theme.bg;
+                if (theme.border) btn.style.border = theme.border;
                 btn.dataset.themeId = theme.id;
                 btn.title = theme.name;
                 btn.onclick = () => selectTheme(theme);
@@ -556,7 +521,7 @@
         function updateCard() {
             const name = inputName.value.trim() || 'आपका नाम';
             const emoji = inputEmoji.value.trim() || '✨';
-            const designation = inputDesignation.value.trim() || 'व्यवसाय / पद';
+            const designation = inputDesignation.value.trim();
             const company = inputCompany.value.trim();
             const tagline = inputTagline.value.trim();
             const phone = inputPhone.value.trim() || '9876543210';
@@ -567,46 +532,45 @@
             const showQR = inputShowQR.checked;
             const showAvatar = inputShowAvatar.checked;
 
-            card.className = currentTheme.id;
+            card.style.background = currentTheme.bg;
+            card.style.color = currentTheme.textColor;
+            card.style.border = currentTheme.border || 'none';
 
-            // Font Sizing Map
-            const nameClass = fontSize === 'small' ? 'text-[12px]' : fontSize === 'large' ? 'text-[15px]' : 'text-[13.5px]';
-            const textClass = fontSize === 'small' ? 'text-[8px]' : fontSize === 'large' ? 'text-[9.5px]' : 'text-[8.5px]';
-            const subClass = fontSize === 'small' ? 'text-[7.5px]' : fontSize === 'large' ? 'text-[9px]' : 'text-[8px]';
+            const nameClass = fontSize === 'small' ? 'text-[13px]' : fontSize === 'large' ? 'text-[16px]' : 'text-[14.5px]';
+            const textClass = fontSize === 'small' ? 'text-[8.5px]' : fontSize === 'large' ? 'text-[10px]' : 'text-[9px]';
+            const subClass = fontSize === 'small' ? 'text-[8px]' : fontSize === 'large' ? 'text-[9.5px]' : 'text-[8.5px]';
 
             if (currentLayout.id === 'layout-centered') {
-                // Centered Layout
                 card.innerHTML = `
                     <div class="flex items-center justify-between z-10 w-full">
-                        ${showAvatar ? `<div class="card-avatar" style="width:30px;height:30px;font-size:16px;">${name.charAt(0).toUpperCase()}</div>` : '<div></div>'}
+                        ${showAvatar ? `<div class="card-avatar" style="width:28px;height:28px;font-size:15px;">${name.charAt(0).toUpperCase()}</div>` : '<div></div>'}
                         <div class="text-sm">${emoji}</div>
                     </div>
 
                     <div class="text-center my-auto z-10 space-y-0.5">
                         <div class="card-name ${nameClass}">${name}</div>
-                        <div class="card-designation ${subClass}">${designation}</div>
+                        ${designation ? `<div class="card-designation ${subClass}">${designation}</div>` : ''}
                         ${(company || tagline) ? `<div class="${subClass} opacity-85">${[company, tagline].filter(Boolean).join(' • ')}</div>` : ''}
                     </div>
 
-                    <div class="flex items-end justify-between gap-1 z-10 pt-1 border-t border-white/15 w-full ${textClass}">
+                    <div class="flex items-end justify-between gap-1 z-10 pt-1 border-t border-current/15 w-full ${textClass}">
                         <div class="text-left space-y-0.5 min-w-0 flex-1 truncate">
                             ${phone ? `<div class="font-mono font-bold truncate">📞 ${phone}</div>` : ''}
                             ${(email || location) ? `<div class="truncate opacity-90">${[location, email].filter(Boolean).join(' | ')}</div>` : ''}
                         </div>
                         ${showQR ? `
-                            <div class="card-qr" style="width:36px;height:36px;">
+                            <div class="card-qr" style="width:38px;height:38px;">
                                 <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
                             </div>
                         ` : ''}
                     </div>
                 `;
             } else if (currentLayout.id === 'layout-minimal') {
-                // Minimal Layout
                 card.innerHTML = `
                     <div class="flex items-start justify-between gap-2 z-10">
                         <div class="flex-1 min-w-0">
                             <div class="card-name ${nameClass}">${name}</div>
-                            <div class="card-designation ${subClass} mt-0.5">${designation}</div>
+                            ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
                         </div>
                         <div class="text-sm flex-shrink-0">${emoji}</div>
                     </div>
@@ -617,16 +581,16 @@
                         </div>
                     ` : '<div class="my-auto"></div>'}
 
-                    <div class="flex items-end justify-between gap-2 z-10 pt-1 border-t border-white/15 ${textClass}">
+                    <div class="flex items-end justify-between gap-2 z-10 pt-1 border-t border-current/15 ${textClass}">
                         <div class="space-y-0.5 flex-1 min-w-0 truncate">
                             ${phone ? `<div class="truncate font-mono font-bold">📱 ${phone}</div>` : ''}
                             ${email ? `<div class="truncate">✉️ ${email}</div>` : ''}
                             ${location ? `<div class="truncate opacity-90">📍 ${location}</div>` : ''}
                         </div>
                         <div class="flex items-center gap-1.5 flex-shrink-0">
-                            ${showAvatar ? `<div class="card-avatar" style="width:34px;height:34px;font-size:18px;">${name.charAt(0).toUpperCase()}</div>` : ''}
+                            ${showAvatar ? `<div class="card-avatar" style="width:32px;height:32px;font-size:16px;">${name.charAt(0).toUpperCase()}</div>` : ''}
                             ${showQR ? `
-                                <div class="card-qr" style="width:36px;height:36px;">
+                                <div class="card-qr" style="width:38px;height:38px;">
                                     <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
                                 </div>
                             ` : ''}
@@ -634,53 +598,57 @@
                     </div>
                 `;
             } else {
-                // Classic Layout (Default)
+                // Classic Layout (Side-by-Side Space Optimized)
                 card.innerHTML = `
-                    <div class="flex items-start justify-between gap-2 z-10">
-                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
-                            ${showAvatar ? `<div class="card-avatar">${name.charAt(0).toUpperCase()}</div>` : ''}
-                            <div class="flex-1 min-w-0 pr-1">
-                                <div class="card-name ${nameClass}">${name}</div>
-                                <div class="card-designation ${subClass} mt-0.5">${designation}</div>
+                    <div class="flex items-start justify-between gap-2 h-full">
+                        <div class="flex-1 space-y-1 min-w-0 pr-1 flex flex-col justify-between h-full">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    ${showAvatar ? `<div class="card-avatar">${name.charAt(0).toUpperCase()}</div>` : ''}
+                                    <div class="min-w-0 flex-1">
+                                        <div class="card-name ${nameClass}">${name}</div>
+                                        ${designation ? `<div class="card-designation ${subClass} mt-0.5">${designation}</div>` : ''}
+                                    </div>
+                                </div>
+
+                                ${(company || tagline) ? `
+                                    <div class="${subClass} opacity-85 mt-1 leading-tight">
+                                        ${company ? `<span class="font-bold">${company}</span>` : ''}
+                                        ${tagline ? ` • <span class="italic opacity-80">${tagline}</span>` : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="space-y-0.5 ${textClass} pt-1 border-t border-current/15">
+                                ${phone ? `
+                                    <div class="card-contact-item">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                                        <span class="font-bold truncate font-mono">${phone}</span>
+                                    </div>
+                                ` : ''}
+                                ${email ? `
+                                    <div class="card-contact-item">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                                        <span class="truncate">${email}</span>
+                                    </div>
+                                ` : ''}
+                                ${(location || website) ? `
+                                    <div class="card-contact-item opacity-85">
+                                        <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                                        <span class="truncate">${[location, website].filter(Boolean).join(' • ')}</span>
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>
-                        <div class="text-sm flex-shrink-0 leading-none">${emoji}</div>
-                    </div>
 
-                    ${(company || tagline) ? `
-                        <div class="z-10 ${subClass} space-y-0.5 opacity-90 my-auto">
-                            ${company ? `<div class="font-bold tracking-wide">${company}</div>` : ''}
-                            ${tagline ? `<div class="italic opacity-80">${tagline}</div>` : ''}
-                        </div>
-                    ` : '<div class="my-auto"></div>'}
-
-                    <div class="flex items-end justify-between gap-2 z-10 pt-1 border-t border-white/15">
-                        <div class="space-y-0.5 ${textClass} flex-1 min-w-0">
-                            ${phone ? `
-                                <div class="card-contact-item">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-                                    <span class="font-bold truncate font-mono">${phone}</span>
-                                </div>
-                            ` : ''}
-                            ${email ? `
-                                <div class="card-contact-item">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                                    <span class="truncate">${email}</span>
-                                </div>
-                            ` : ''}
-                            ${(location || website) ? `
-                                <div class="card-contact-item opacity-85">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
-                                    <span class="truncate">${[location, website].filter(Boolean).join(' • ')}</span>
+                        <div class="flex flex-col items-center justify-between h-full flex-shrink-0 pl-1">
+                            <div class="text-sm">${emoji}</div>
+                            ${showQR ? `
+                                <div class="card-qr">
+                                    <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
                                 </div>
                             ` : ''}
                         </div>
-
-                        ${showQR ? `
-                            <div class="card-qr flex flex-col items-center justify-center">
-                                <img class="card-qr-img w-full h-full object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${phone.replace(/[^0-9]/g, '') || '9876543210'}@upi" alt="QR">
-                            </div>
-                        ` : ''}
                     </div>
                 `;
             }
@@ -697,6 +665,7 @@
             }, 300);
         }
 
+        // Exact 1:1 Capture Logic without distortion
         function processCard(action) {
             const name = inputName.value.trim();
             const phone = inputPhone.value.trim();
@@ -719,11 +688,10 @@
             btnShare.disabled = true;
             
             html2canvas(card, {
-                scale: 3.5,
+                scale: 3,
                 useCORS: true,
                 backgroundColor: null,
-                logging: false,
-                windowWidth: 800
+                logging: false
             }).then(canvas => {
                 btnDownload.disabled = false;
                 btnShare.disabled = false;
