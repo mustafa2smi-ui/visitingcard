@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>डिजिटल विजिटिंग कार्ड मेकर - Star Digital</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #3b82f6; }
+        
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .form-input {
+            padding: 6px 8px;
+            font-size: 16px; /* Prevent iOS zoom on focus */
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        /* Keep smaller font on desktop */
+        @media (min-width: 768px) {
+            .form-input {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* --- FIXED TOP CONTAINER --- */
+        #topFrozenArea {
+            flex-shrink: 0;
+            z-index: 30;
+            position: sticky;
+            top: 0;
+            transform: translateZ(0); /* Hardware acceleration */
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* --- COMPACT PERFECT RATIO CARD --- */
+        #cardPreview {
+            width: 300px;
+            max-width: 90vw;
+            height: 170px;
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            transition: border 0.2s, box-shadow 0.2s, transform 0.3s;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+
+        /* Left Top Flag */
+        #cardFlag {
+            font-size: 20px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+        }
+
+        /* 3D Initial Avatar */
+        #cardInitial {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-family: 'Great Vibes', cursive;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        /* --- 12 DUAL CURVED PRESETS --- */
+        .card-dual-gc { background: #2b1810; background-image: radial-gradient(circle at 0% 0%, #d4af37 55%, transparent 56%); color: #fff; }
+        .card-dual-wb { background: #ffffff; background-image: radial-gradient(circle at 100% 0%, #1d4ed8 55%, transparent 56%); color: #0f172a; }
+        .card-dual-wg { background: #ffffff; background-image: radial-gradient(circle at 100% 100%, #064e3b 55%, transparent 56%); color: #0f172a; }
+        .card-dual-bp { background: #0f172a; background-image: radial-gradient(circle at 100% 0%, #3b82f6 50%, transparent 51%); color: #fff; }
+        .card-dual-emerald { background: #064e3b; background-image: radial-gradient(circle at 0% 100%, #10b981 55%, transparent 56%); color: #fff; }
+        .card-dual-rose { background: #18181b; background-image: radial-gradient(circle at 100% 100%, #e11d48 52%, transparent 53%); color: #fff; }
+        .card-dual-purple { background: #2e1065; background-image: radial-gradient(circle at 0% 0%, #a855f7 50%, transparent 51%); color: #fff; }
+        .card-dual-sunset { background: #451a03; background-image: radial-gradient(circle at 100% 50%, #f59e0b 45%, transparent 46%); color: #fff; }
+        .card-dual-teal { background: #042f2e; background-image: radial-gradient(circle at 0% 50%, #14b8a6 50%, transparent 51%); color: #fff; }
+        .card-dual-fire { background: #3b0764; background-image: radial-gradient(circle at 100% 0%, #f97316 52%, transparent 53%); color: #fff; }
+        /* NEW: Ocean Blue Premium */
+        .card-dual-ocean { background: #003366; background-image: radial-gradient(circle at 100% 100%, #0066cc 55%, transparent 56%); color: #fff; }
+        /* NEW: Platinum Luxe */
+        .card-dual-platinum { background: #1a1a1a; background-image: radial-gradient(circle at 0% 100%, #c0c0c0 50%, transparent 51%); color: #fff; }
+
+        /* --- 10 SOLID PRESETS --- */
+        .card-solid-dark { background: #0f172a; color: #fff; }
+        .card-solid-royal { background: #1e3a8a; color: #fff; }
+        .card-solid-emerald { background: #064e3b; color: #fff; }
+        .card-solid-burgundy { background: #4c0519; color: #fff; }
+        .card-solid-black { background: #000000; color: #fff; }
+        .card-solid-slate { background: #334155; color: #fff; }
+        .card-solid-indigo { background: #312e81; color: #fff; }
+        .card-solid-gold { background: #78350f; color: #fff; }
+        /* NEW: Navy Professional */
+        .card-solid-navy { background: #0a192f; color: #fff; }
+        /* NEW: Crimson Rich */
+        .card-solid-crimson { background: #660000; color: #fff; }
+
+        /* Contrast overrides for white dual */
+        .card-dual-wb #cardName, .card-dual-wg #cardName { color: #0f172a !important; }
+        .card-dual-wb #cardOccupation, .card-dual-wg #cardOccupation { color: #475569 !important; }
+        .card-dual-wb #cardInitial, .card-dual-wg #cardInitial { color: #0f172a; border-color: #0f172a; }
+        .card-dual-wb #cardContact, .card-dual-wg #cardContact,
+        .card-dual-wb #cardEmail, .card-dual-wg #cardEmail,
+        .card-dual-wb #cardLocation, .card-dual-wg #cardLocation { color: #0f172a; }
+
+        .palette-btn {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .palette-btn.selected {
+            border-color: #fff;
+            transform: scale(1.25);
+            box-shadow: 0 0 5px rgba(0,0,0,0.6);
+        }
+
+        .flag-btn {
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .flag-btn.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.15);
+        }
+
+        /* Scrollable area with momentum scrolling */
+        #scrollableArea {
+            -webkit-overflow-scrolling: touch;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        /* Focus states for accessibility */
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Button hover/active states */
+        button {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hide scrollbar but keep functionality */
+        #scrollableArea::-webkit-scrollbar {
+            width: 4px;
+        }
+        #scrollableArea::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #scrollableArea::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-100 flex flex-col h-screen select-none">
+
+    <!-- 1. FIXED TOP SECTION (Header + Live Card) -->
+    <div id="topFrozenArea" class="bg-white/95 dark:bg-[#0b0f19]/95 border-b border-gray-200 dark:border-gray-800 shadow-md">
+        
+        <!-- Header -->
+        <header class="max-w-md mx-auto px-4 py-1.5 flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+                <span class="text-base">⭐️</span>
+                <h1 class="text-xs font-extrabold tracking-wider">STAR DIGITAL</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleTheme()" class="p-1 rounded bg-gray-200 dark:bg-gray-800 text-xs" aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <button onclick="toggleMenu()" class="p-1 text-gray-600 dark:text-gray-300" aria-label="Open menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Pinned Card Preview -->
+        <div class="py-1.5 flex justify-center items-center">
+            <div id="cardPreview" class="card-dual-gc shadow-lg">
+                
+                <!-- Row 1: Left Top Flag + Avatar + Name + Occupation | Top Right Emoji -->
+                <div class="flex items-start justify-between gap-2 z-10">
+                    <div class="flex items-center gap-2 flex-1 min-w-0">
+                        <span id="cardFlag" class="flex-shrink-0">🇮🇳</span>
+                        <div id="cardInitial">A</div>
+                        <div class="flex-1 min-w-0">
+                            <h2 id="cardName" class="text-xs font-bold leading-tight truncate">आपका नाम</h2>
+                            <p id="cardOccupation" class="text-[9px] opacity-90 truncate leading-tight mt-0.5">आपका व्यवसाय</p>
+                        </div>
+                    </div>
+                    <!-- Single Emoji in Top Right Corner -->
+                    <div class="flex-shrink-0">
+                        <span id="cardEmoji" class="text-lg">✨</span>
+                    </div>
+                </div>
+
+                <!-- Row 2: Services Badges (Hidden if empty) -->
+                <div id="cardServicesWrap" class="z-10 flex flex-wrap gap-1 my-0.5">
+                    <span id="badge1" class="text-[7.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[80px]">वेबसाइट</span>
+                    <span id="badge2" class="text-[7.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[80px]">सॉफ्टवेयर</span>
+                    <span id="badge3" class="text-[7.5px] px-1.5 py-0.5 rounded bg-black/25 dark:bg-black/40 border border-white/20 truncate max-w-[80px]">मार्केटिंग</span>
+                </div>
+
+                <!-- Row 3: Contacts Left + LARGER QR Code Bottom Right -->
+                <div class="z-10 flex items-end justify-between gap-1 text-[8.5px]">
+                    <div class="space-y-0.5 flex-1 min-w-0 truncate">
+                        <div class="flex items-center gap-1 opacity-95 truncate">
+                            <svg class="w-2.5 h-2.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg>
+                            <span id="cardContact" class="truncate font-semibold">9876543210</span>
+                        </div>
+                        <div class="flex items-center gap-1 opacity-95 truncate">
+                            <svg class="w-2.5 h-2.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <span id="cardEmail" class="truncate">email@example.com</span>
+                        </div>
+                        <div class="flex items-center gap-1 opacity-90 truncate">
+                            <svg class="w-2.5 h-2.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            <span id="cardLocation" class="truncate">नई दिल्ली, 110001</span>
+                        </div>
+                    </div>
+
+                    <!-- Large QR Code Box -->
+                    <div class="flex flex-col items-center bg-white p-0.5 rounded shadow flex-shrink-0">
+                        <img id="cardQr" class="w-10 h-10 object-contain" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=9876543210@upi" alt="UPI QR">
+                        <span class="text-[6px] font-black text-purple-900 tracking-tighter leading-none mt-0.5">PAY QR</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SCROLLABLE FORM & FOOTER AREA -->
+    <div id="scrollableArea" class="flex-1 overflow-y-auto px-3 py-2 max-w-md mx-auto w-full space-y-3 pb-24">
+        
+        <!-- Flag Selector Grid -->
+        <div class="bg-white dark:bg-gray-900 p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-1.5">
+            <span class="text-[9.5px] font-bold uppercase text-gray-500 dark:text-gray-400">🚩 देश का फ्लैग चुनें (Top-Left Flag)</span>
+            <div id="flagSelector" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- STYLES & CONTROLS -->
+        <div class="bg-white dark:bg-gray-900 p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-2">
+            <div>
+                <span class="text-[9.5px] font-bold uppercase text-gray-500 dark:text-gray-400">🎨 डुअल शेड्स (12 Colors)</span>
+                <div id="dualSelector" class="flex gap-1.5 overflow-x-auto py-1"></div>
+            </div>
+            <div>
+                <span class="text-[9.5px] font-bold uppercase text-gray-500 dark:text-gray-400">🎯 सॉलिड शेड्स (10 Colors)</span>
+                <div id="solidSelector" class="flex gap-1.5 overflow-x-auto py-1"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-gray-200 dark:border-gray-800 text-[10px]">
+                <div>
+                    <label class="text-gray-400">बॉर्डर मोटाई</label>
+                    <select id="borderWidth" onchange="applyFrameStyles()" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 py-0.5">
+                        <option value="0">0px</option>
+                        <option value="1">1px</option>
+                        <option value="2" selected>2px</option>
+                        <option value="3">3px</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-gray-400">ग्लो इफेक्ट</label>
+                    <select id="glowEffect" onchange="applyFrameStyles()" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 py-0.5">
+                        <option value="none">No Glow</option>
+                        <option value="soft" selected>Soft Glow ✨</option>
+                        <option value="neon">Neon Gold ⚡️</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM INPUTS -->
+        <div class="bg-white dark:bg-gray-900 p-3 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-2">
+            <h3 class="text-xs font-bold text-blue-600 dark:text-yellow-400 uppercase tracking-wide">कार्ड की जानकारी भरें</h3>
+            
+            <div class="grid grid-cols-3 gap-2">
+                <div class="col-span-2">
+                    <label class="block text-[9.5px] text-gray-400" for="nameInput">पूरा नाम *</label>
+                    <input type="text" id="nameInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="30" value="आपका नाम" required>
+                </div>
+                <div>
+                    <label class="block text-[9.5px] text-gray-400" for="emojiInput">इमोजी</label>
+                    <input type="text" id="emojiInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-center" maxlength="2" value="✨">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[9.5px] text-gray-400" for="occupationInput">व्यवसाय / पद</label>
+                <input type="text" id="occupationInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="30" value="वेब डेवलपर & मार्केटर">
+            </div>
+
+            <div>
+                <label class="block text-[9.5px] text-gray-400">3 मुख्य सेवाएं (Our Services)</label>
+                <div class="grid grid-cols-3 gap-1">
+                    <input type="text" id="srv1" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="वेबसाइट" placeholder="सेवा 1">
+                    <input type="text" id="srv2" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="सॉफ्टवेयर" placeholder="सेवा 2">
+                    <input type="text" id="srv3" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="12" value="मार्केटिंग" placeholder="सेवा 3">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[9.5px] text-gray-400" for="contactInput">मोबाइल (QR Link) *</label>
+                    <input type="tel" id="contactInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 font-mono" maxlength="10" value="9876543210" required>
+                </div>
+                <div>
+                    <label class="block text-[9.5px] text-gray-400" for="locationInput">शहर और पिन कोड</label>
+                    <input type="text" id="locationInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="25" value="नई दिल्ली, 110001">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[9.5px] text-gray-400" for="emailInput">ईमेल ID</label>
+                <input type="email" id="emailInput" autocomplete="off" class="form-input bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700" maxlength="35" value="email@example.com">
+            </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="flex gap-2 pt-1">
+            <button id="downloadBtn" onclick="processCard('download')" class="w-1/2 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-lg text-xs shadow-md transition flex items-center justify-center gap-1">
+                📥 डाउनलोड JPEG
+            </button>
+            <button id="shareBtn" onclick="processCard('share')" class="w-1/2 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-lg text-xs shadow-md transition flex items-center justify-center gap-1">
+                📲 शेयर करें
+            </button>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="pt-4 pb-6 text-center text-xs text-gray-500 border-t border-gray-200 dark:border-gray-800">
+            <div class="flex justify-center flex-wrap gap-4 mb-1.5 text-[11px]">
+                <a href="javascript:void(0)" onclick="alert('हम आपकी कोई भी निजी जानकारी स्टोर नहीं करते।')" class="hover:underline">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="alert('यह टूल 100% फ्री है।')" class="hover:underline">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="alert('सपोर्ट: contact@stardigital.com')" class="hover:underline">Contact Us</a>
+            </div>
+            <p class="text-[10px]">© 2026 Star Digital. सर्वाधिकार सुरक्षित।</p>
+        </footer>
+    </div>
+
+    <!-- SIDEBAR DRAWER MENU -->
+    <div id="drawerOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/60 z-50 hidden"></div>
+    <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-60 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 z-50 p-4 flex flex-col justify-between translate-x-full transition-transform duration-200 shadow-2xl">
+        <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center pb-2 border-b border-gray-200 dark:border-gray-800 font-bold">
+                <span>मेनू</span>
+                <button onclick="toggleMenu()" class="text-base" aria-label="Close menu">✕</button>
+            </div>
+            <a href="#" class="block py-1">🏠 होम</a>
+            <a href="javascript:void(0)" onclick="alert('Star Digital कार्ड मेकर 100% फ्री है।')" class="block py-1">ℹ️ हमारे बारे में</a>
+            <a href="javascript:void(0)" onclick="alert('डेटा सुरक्षित है।')" class="block py-1">🔒 Privacy Policy</a>
+            <a href="javascript:void(0)" onclick="alert('ईमेल: contact@stardigital.com')" class="block py-1">📞 Contact</a>
+        </div>
+        <p class="text-[9px] text-gray-400 text-center">Star Digital • 2026</p>
+    </div>
+
+    <script>
+        const flagsList = ['🇮🇳', '🇸🇦', '🇦🇪', '🇺🇸', '🇬🇧', '🇶🇦', '🇴🇲', '🇰🇼', '🇧🇭', '🇵🇰', '🇧🇩'];
+        let selectedFlag = '🇮🇳';
+
+        const dualStyles = [
+            { cls: 'card-dual-gc', bg: 'linear-gradient(135deg, #d4af37 50%, #2b1810 50%)' },
+            { cls: 'card-dual-wb', bg: 'linear-gradient(135deg, #fff 50%, #1d4ed8 50%)' },
+            { cls: 'card-dual-wg', bg: 'linear-gradient(135deg, #fff 50%, #064e3b 50%)' },
+            { cls: 'card-dual-bp', bg: 'linear-gradient(135deg, #0f172a 50%, #3b82f6 50%)' },
+            { cls: 'card-dual-emerald', bg: 'linear-gradient(135deg, #064e3b 50%, #10b981 50%)' },
+            { cls: 'card-dual-rose', bg: 'linear-gradient(135deg, #18181b 50%, #e11d48 50%)' },
+            { cls: 'card-dual-purple', bg: 'linear-gradient(135deg, #2e1065 50%, #a855f7 50%)' },
+            { cls: 'card-dual-sunset', bg: 'linear-gradient(135deg, #451a03 50%, #f59e0b 50%)' },
+            { cls: 'card-dual-teal', bg: 'linear-gradient(135deg, #042f2e 50%, #14b8a6 50%)' },
+            { cls: 'card-dual-fire', bg: 'linear-gradient(135deg, #3b0764 50%, #f97316 50%)' },
+            { cls: 'card-dual-ocean', bg: 'linear-gradient(135deg, #003366 50%, #0066cc 50%)' },
+            { cls: 'card-dual-platinum', bg: 'linear-gradient(135deg, #1a1a1a 50%, #c0c0c0 50%)' }
+        ];
+
+        const solidStyles = [
+            { cls: 'card-solid-dark', bg: '#0f172a' },
+            { cls: 'card-solid-royal', bg: '#1e3a8a' },
+            { cls: 'card-solid-emerald', bg: '#064e3b' },
+            { cls: 'card-solid-burgundy', bg: '#4c0519' },
+            { cls: 'card-solid-black', bg: '#000000' },
+            { cls: 'card-solid-slate', bg: '#334155' },
+            { cls: 'card-solid-indigo', bg: '#312e81' },
+            { cls: 'card-solid-gold', bg: '#78350f' },
+            { cls: 'card-solid-navy', bg: '#0a192f' },
+            { cls: 'card-solid-crimson', bg: '#660000' }
+        ];
+
+        let activeStyle = 'card-dual-gc';
+        let qrUpdateTimeout = null;
+
+        const dom = {
+            preview: document.getElementById('cardPreview'),
+            initial: document.getElementById('cardInitial'),
+            flag: document.getElementById('cardFlag'),
+            name: document.getElementById('cardName'),
+            occ: document.getElementById('cardOccupation'),
+            emoji: document.getElementById('cardEmoji'),
+            qr: document.getElementById('cardQr'),
+            contact: document.getElementById('cardContact'),
+            email: document.getElementById('cardEmail'),
+            loc: document.getElementById('cardLocation'),
+            servicesWrap: document.getElementById('cardServicesWrap'),
+            badge1: document.getElementById('badge1'),
+            badge2: document.getElementById('badge2'),
+            badge3: document.getElementById('badge3'),
+            borderWidth: document.getElementById('borderWidth'),
+            glowEffect: document.getElementById('glowEffect'),
+            
+            flagSelector: document.getElementById('flagSelector'),
+            nameIn: document.getElementById('nameInput'),
+            emojiIn: document.getElementById('emojiInput'),
+            occIn: document.getElementById('occupationInput'),
+            srv1In: document.getElementById('srv1'),
+            srv2In: document.getElementById('srv2'),
+            srv3In: document.getElementById('srv3'),
+            contactIn: document.getElementById('contactInput'),
+            emailIn: document.getElementById('emailInput'),
+            locIn: document.getElementById('locationInput'),
+            
+            dualSelector: document.getElementById('dualSelector'),
+            solidSelector: document.getElementById('solidSelector'),
+            dlBtn: document.getElementById('downloadBtn'),
+            shBtn: document.getElementById('shareBtn')
+        };
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.innerText = '☀️';
+            } else {
+                html.classList.add('dark');
+                icon.innerText = '🌙';
+            }
+        }
+
+        function toggleMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function applyFrameStyles() {
+            const width = dom.borderWidth.value;
+            const glow = dom.glowEffect.value;
+            
+            dom.preview.style.border = `${width}px solid rgba(255, 255, 255, 0.4)`;
+            
+            if (glow === 'soft') {
+                dom.preview.style.boxShadow = '0 0 12px rgba(59, 130, 246, 0.4)';
+            } else if (glow === 'neon') {
+                dom.preview.style.boxShadow = '0 0 18px rgba(212, 175, 55, 0.8), 0 0 6px #fff';
+            } else {
+                dom.preview.style.boxShadow = '0 8px 16px rgba(0,0,0,0.3)';
+            }
+        }
+
+        function setFlag(flag) {
+            selectedFlag = flag;
+            document.querySelectorAll('#flagSelector button').forEach(btn => {
+                btn.classList.toggle('selected', btn.innerText === flag);
+            });
+            updateCard();
+        }
+
+        function updateCard() {
+            const rawName = dom.nameIn.value.trim();
+            const phone = dom.contactIn.value.trim();
+
+            dom.flag.innerText = selectedFlag;
+            dom.name.innerText = rawName || "आपका नाम";
+            dom.initial.innerText = rawName ? rawName.charAt(0).toUpperCase() : 'A';
+            dom.occ.innerText = dom.occIn.value.trim() || "आपका व्यवसाय";
+            dom.emoji.innerText = dom.emojiIn.value.slice(0, 2) || "✨";
+            
+            dom.contact.innerText = phone || "9876543210";
+            dom.email.innerText = dom.emailIn.value.trim() || "email@example.com";
+            dom.loc.innerText = dom.locIn.value.trim() || "नई दिल्ली, 110001";
+
+            // Handle services - hide if all empty
+            const services = [
+                dom.srv1In.value.trim(),
+                dom.srv2In.value.trim(),
+                dom.srv3In.value.trim()
+            ];
+            
+            const hasAnyService = services.some(s => s !== '');
+            
+            if (!hasAnyService) {
+                dom.servicesWrap.style.display = 'none';
+            } else {
+                dom.servicesWrap.style.display = 'flex';
+                dom.badge1.style.display = services[0] ? 'inline-block' : 'none';
+                dom.badge2.style.display = services[1] ? 'inline-block' : 'none';
+                dom.badge3.style.display = services[2] ? 'inline-block' : 'none';
+                
+                dom.badge1.innerText = services[0] || '';
+                dom.badge2.innerText = services[1] || '';
+                dom.badge3.innerText = services[2] || '';
+            }
+
+            // Debounced QR code update
+            clearTimeout(qrUpdateTimeout);
+            qrUpdateTimeout = setTimeout(() => {
+                const cleanPhone = phone || "9876543210";
+                dom.qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=upi://pay?pa=${cleanPhone}@upi&pn=${encodeURIComponent(rawName || 'User')}`;
+            }, 500);
+
+            dom.preview.className = activeStyle;
+            applyFrameStyles();
+        }
+
+        function setStyle(cls) {
+            activeStyle = cls;
+            document.querySelectorAll('.palette-btn').forEach(b => {
+                b.classList.toggle('selected', b.dataset.cls === cls);
+            });
+            updateCard();
+        }
+
+        function init() {
+            [dom.nameIn, dom.emojiIn, dom.occIn, dom.srv1In, dom.srv2In, dom.srv3In, dom.contactIn, dom.emailIn, dom.locIn].forEach(el => {
+                el.addEventListener('input', updateCard);
+            });
+
+            dom.contactIn.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Populate Flag Grid
+            flagsList.forEach(flag => {
+                const btn = document.createElement('button');
+                btn.className = `flag-btn ${flag === selectedFlag ? 'selected' : ''}`;
+                btn.innerText = flag;
+                btn.onclick = () => setFlag(flag);
+                btn.setAttribute('aria-label', `Select flag ${flag}`);
+                dom.flagSelector.appendChild(btn);
+            });
+
+            // Populate Dual Themes
+            dualStyles.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = `palette-btn`;
+                btn.style.background = item.bg;
+                btn.dataset.cls = item.cls;
+                btn.onclick = () => setStyle(item.cls);
+                btn.setAttribute('aria-label', `Select ${item.cls} theme`);
+                dom.dualSelector.appendChild(btn);
+            });
+
+            // Populate Solid Themes
+            solidStyles.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = `palette-btn`;
+                btn.style.background = item.bg;
+                btn.dataset.cls = item.cls;
+                btn.onclick = () => setStyle(item.cls);
+                btn.setAttribute('aria-label', `Select ${item.cls} theme`);
+                dom.solidSelector.appendChild(btn);
+            });
+
+            setStyle(activeStyle);
+        }
+
+        function processCard(action) {
+            const name = dom.nameIn.value.trim();
+            const contact = dom.contactIn.value.trim();
+            
+            if (!name) { 
+                alert("कृपया नाम दर्ज करें।"); 
+                dom.nameIn.focus();
+                return; 
+            }
+            if (contact.length !== 10) { 
+                alert("कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।"); 
+                dom.contactIn.focus();
+                return; 
+            }
+
+            dom.dlBtn.disabled = true;
+            dom.shBtn.disabled = true;
+            
+            // Add loading state
+            dom.dlBtn.innerHTML = '⏳ तैयार हो रहा है...';
+            dom.shBtn.innerHTML = '⏳ तैयार हो रहा है...';
+
+            html2canvas(dom.preview, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: null,
+                logging: false
+            }).then(canvas => {
+                // Reset buttons
+                dom.dlBtn.disabled = false;
+                dom.shBtn.disabled = false;
+                dom.dlBtn.innerHTML = '📥 डाउनलोड JPEG';
+                dom.shBtn.innerHTML = '📲 शेयर करें';
+
+                const filename = `Card_${name.replace(/\s+/g, '_')}.jpg`;
+
+                if (action === 'download') {
+                    const a = document.createElement('a');
+                    a.download = filename;
+                    a.href = canvas.toDataURL('image/jpeg', 0.95);
+                    a.click();
+                } else if (action === 'share') {
+                    canvas.toBlob(blob => {
+                        const file = new File([blob], filename, { type: 'image/jpeg' });
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                            navigator.share({
+                                title: 'Digital Business Card',
+                                text: 'मेरा डिजिटल विजिटिंग कार्ड देखें:',
+                                files: [file]
+                            }).catch(() => {});
+                        } else {
+                            const a = document.createElement('a');
+                            a.download = filename;
+                            a.href = canvas.toDataURL('image/jpeg', 0.95);
+                            a.click();
+                            alert("कार्ड डाउनलोड कर दिया गया है।");
+                        }
+                    }, 'image/jpeg', 0.95);
+                }
+            }).catch((error) => {
+                console.error('Error generating card:', error);
+                dom.dlBtn.disabled = false;
+                dom.shBtn.disabled = false;
+                dom.dlBtn.innerHTML = '📥 डाउनलोड JPEG';
+                dom.shBtn.innerHTML = '📲 शेयर करें';
+                alert("इमेज तैयार करने में समस्या आई। कृपया दोबारा प्रयास करें।");
+            });
+        }
+
+        // Handle orientation change and resize
+        window.addEventListener('resize', () => {
+            // Update card preview if needed
+            updateCard();
+        });
+
+        // Prevent zoom on double tap
+        document.addEventListener('touchend', (event) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        let lastTouchEnd = 0;
+
+        // Prevent scrolling when keyboard is open
+        document.addEventListener('focusin', (event) => {
+            if (event.target.tagName === 'INPUT') {
+                // Keep the card visible
+                document.getElementById('topFrozenArea').style.position = 'sticky';
+            }
+        });
+
+        window.onload = init;
+    </script>
+</body>
+</html>
