@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Calendar - All in One Islamic Dashboard</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f0f4f9;
+      --header-bg: #0b1a30;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --blue-primary: #1d68d8;
+      --purple-primary: #6c42b9;
+      --green-clock: #0d9488;
+      --border-color: #e2e8f0;
+      --accent-orange: #ea580c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      padding-bottom: 75px;
+    }
+
+    /* 1. Sticky Header & Quick Bar */
+    .top-fixed-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--header-bg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .app-header {
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mosque-icon {
+      font-size: 1.8rem;
+    }
+
+    .brand-text h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .brand-text p {
+      font-size: 0.68rem;
+      color: #cbd5e1;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Fixed 3-Column Quick Status (Always side-by-side) */
+    .quick-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 6px 12px 10px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .quick-pill {
+      border-radius: 8px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .pill-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .pill-blue { background: #eff6ff; color: var(--blue-primary); }
+    .pill-green { background: #f0fdf4; color: var(--green-clock); }
+    .pill-purple { background: #fbf5ff; color: var(--purple-primary); }
+
+    .pill-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .pill-details .label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pill-details .value {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pill-details .sub {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Container */
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-block {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #f1f5f9;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-header-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #0f172a;
+    }
+
+    /* 2. World Time with Fixed India Card */
+    .world-clock-container {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      position: relative;
+    }
+
+    .pinned-clock {
+      flex: 0 0 115px;
+      z-index: 2;
+    }
+
+    .world-scroll-outer {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .world-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 2px;
+      scrollbar-width: none;
+      width: 100%;
+    }
+    .world-scroll::-webkit-scrollbar { display: none; }
+
+    .world-card {
+      flex: 0 0 115px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+
+    .world-card.active-country {
+      border-color: var(--blue-primary);
+      background: #f8faff;
+      box-shadow: 0 0 0 1px var(--blue-primary);
+    }
+
+    .flag-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+    .country-name { font-size: 0.72rem; font-weight: 700; color: #334155; }
+    .country-time { font-size: 0.95rem; font-weight: 800; color: #0f172a; margin: 2px 0; }
+    .country-time small { font-size: 0.65rem; }
+    .country-tz { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
+
+    .nav-arrow {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      background: #ffffff;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--text-muted);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .arrow-left { left: 2px; }
+    .arrow-right { right: 2px; }
+
+    /* 3. Dual Calendars Grid */
+    .calendar-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .cal-box {
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .cal-header-bar {
+      padding: 10px 12px;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+    }
+    .cal-header-blue { background: var(--blue-primary); }
+    .cal-header-purple { background: var(--purple-primary); }
+
+    /* Month Tabs Strip */
+    .month-tabs-wrapper {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      padding: 4px;
+      gap: 4px;
+    }
+    .month-tabs-wrapper::-webkit-scrollbar { display: none; }
+
+    .month-tab {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .month-tab.active-tab-blue {
+      background: var(--blue-primary);
+      color: #ffffff;
+    }
+
+    .month-tab.active-tab-purple {
+      background: var(--purple-primary);
+      color: #ffffff;
+    }
+
+    .cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+    .cal-nav span { cursor: pointer; font-size: 1.1rem; color: var(--text-muted); }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0 6px 4px;
+      color: #475569;
+    }
+    .cal-weekdays .sun { color: #ef4444; }
+    .cal-weekdays .sat { color: var(--blue-primary); }
+
+    .cal-dates-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      padding: 0 6px 8px;
+      text-align: center;
+    }
+
+    .cal-date {
+      min-height: 42px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+    }
+    .cal-date:hover { background: #f1f5f9; }
+
+    .cal-date.muted { color: #cbd5e1; cursor: default; }
+    .cal-date.sun-date { color: #ef4444; }
+    .cal-date.sat-date { color: var(--blue-primary); }
+
+    .cal-date.active-blue {
+      background: var(--blue-primary) !important;
+      color: #ffffff !important;
+      font-weight: 800;
+    }
+
+    .cal-date.active-purple {
+      background: var(--purple-primary) !important;
+      color: #ffffff !important;
+      font-weight: 800;
+    }
+
+    .moon-sub-icon {
+      font-size: 0.65rem;
+      margin-top: 2px;
+    }
+
+    .note-dot {
+      width: 5px;
+      height: 5px;
+      background: #f59e0b;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      right: 4px;
+    }
+
+    /* 4. Bottom Grid (Season, Dua, Ads) */
+    .bottom-triple-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr 1fr;
+      gap: 12px;
+    }
+
+    .season-card, .dua-card, .ad-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-top-tag {
+      padding: 8px 12px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-green { color: #15803d; }
+    .tag-gold { color: #b45309; }
+    .tag-red { color: #c2410c; }
+
+    /* Dua Category Pills */
+    .dua-categories {
+      display: flex;
+      gap: 4px;
+      padding: 0 12px 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .dua-cat-btn {
+      padding: 4px 8px;
+      font-size: 0.68rem;
+      border-radius: 12px;
+      border: 1px solid #fed7aa;
+      background: #fff7ed;
+      color: #9a3412;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .dua-cat-btn.active {
+      background: #ea580c;
+      color: #ffffff;
+      border-color: #ea580c;
+    }
+
+    .dua-inner {
+      padding: 0 12px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .dua-arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.15rem;
+      text-align: center;
+      direction: rtl;
+      line-height: 1.7;
+      margin: 4px 0;
+    }
+
+    .dua-transliteration {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #44403c;
+      margin-bottom: 4px;
+    }
+
+    .dua-translation-block {
+      border-top: 1px solid #fef08a;
+      padding-top: 6px;
+      font-size: 0.7rem;
+      color: #78716c;
+    }
+
+    /* Season Inner */
+    .season-inner {
+      padding: 0 12px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .season-inner h4 { font-size: 0.8rem; color: #0f766e; margin-bottom: 6px; }
+    .season-illustration {
+      width: 100%;
+      height: 95px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #dbeafe 0%, #86efac 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+
+    /* Ad Card */
+    .ad-inner {
+      padding: 0 12px 12px;
+      text-align: center;
+    }
+    .ad-image-mockup {
+      width: 100%;
+      height: 95px;
+      background: #1e3a8a;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fef08a;
+      font-size: 2rem;
+      margin: 6px 0;
+      border: 2px solid #fbbf24;
+    }
+    .shop-now-btn {
+      width: 100%;
+      background: #f97316;
+      color: #ffffff;
+      border: none;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* 5. Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--header-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0 9px;
+      z-index: 100;
+      border-top: 1px solid #1e293b;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #94a3b8;
+      font-size: 0.65rem;
+      font-weight: 600;
+      gap: 3px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .nav-item.active { color: #38bdf8; }
+
+    /* 6. Date Note Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .note-modal {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 360px;
+      width: 100%;
+      padding: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    .note-modal h3 { font-size: 0.95rem; margin-bottom: 8px; color: #0f172a; }
+    .note-modal textarea {
+      width: 100%;
+      height: 80px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      resize: none;
+      margin-bottom: 10px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .modal-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-save { background: var(--blue-primary); color: #fff; }
+    .btn-close { background: #e2e8f0; color: #475569; }
+
+    /* Side Drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 250;
+    }
+    .drawer-overlay.active { display: block; }
+    .drawer-panel {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 260px;
+      height: 100%;
+      background: #fff;
+      transition: right 0.25s;
+      z-index: 260;
+      padding: 18px 14px;
+    }
+    .drawer-panel.open { right: 0; }
+
+    @media (max-width: 768px) {
+      .calendar-dual-grid { grid-template-columns: 1fr; }
+      .bottom-triple-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body id="topView">
+
+  <!-- 1. Frozen Header & Fixed Quick Status Bar -->
+  <div class="top-fixed-wrapper">
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="mosque-icon">🕌</div>
+        <div class="brand-text">
+          <h1>Daily Calendar</h1>
+          <p>All in One Islamic Dashboard</p>
+        </div>
+      </div>
+      <button class="menu-btn" id="openMenuBtn">☰</button>
+    </header>
+
+    <!-- Always Side-by-Side Quick Info Bar -->
+    <section class="quick-status-grid">
+      <div class="quick-pill pill-blue">
+        <div class="pill-icon">📅</div>
+        <div class="pill-details">
+          <div class="label">English Calendar</div>
+          <div class="value" id="quickEngDate">--</div>
+          <div class="sub" id="quickEngDay">--</div>
+        </div>
+      </div>
+
+      <div class="quick-pill pill-green">
+        <div class="pill-icon">🕒</div>
+        <div class="pill-details">
+          <div class="label">Time</div>
+          <div class="value" id="quickLiveTime">--:--:--</div>
+          <div class="sub">IST (India)</div>
+        </div>
+      </div>
+
+      <div class="quick-pill pill-purple">
+        <div class="pill-icon">🌙</div>
+        <div class="pill-details">
+          <div class="label">Hijri Calendar</div>
+          <div class="value" id="quickHijriDate">--</div>
+          <div class="sub" id="quickHijriDay">--</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Settings Drawer -->
+  <div class="drawer-overlay" id="overlay"></div>
+  <aside class="drawer-panel" id="sideDrawer">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3>Settings</h3>
+      <button id="closeMenuBtn" style="background:none; border:none; font-size:1.4rem; cursor:pointer;">&times;</button>
+    </div>
+    <div>
+      <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:6px;">
+        Hijri Moon Adjustment
+      </label>
+      <select id="hijriOffsetSelect" style="width:100%; padding:8px; border-radius:6px; border:1px solid #cbd5e1;">
+        <option value="-1">-1 Din (Chand Piche)</option>
+        <option value="0" selected>0 Din (Default)</option>
+        <option value="1">+1 Din (Chand Aage)</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- Main Body -->
+  <main class="main-container">
+
+    <!-- 2. World Time (Pinned India + Sliding Other Countries) -->
+    <section class="card-block" id="worldTimeSection">
+      <div class="section-header">
+        <div class="section-header-title">
+          <span>🌐</span> World Time
+        </div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--blue-primary);">Default: India (Pinned)</div>
+      </div>
+
+      <div class="world-clock-container">
+        <!-- Pinned India Card -->
+        <div class="world-card active-country pinned-clock">
+          <span class="flag-icon">🇮🇳</span>
+          <div class="country-name">India</div>
+          <div class="country-time" id="indiaClock">--:-- <small>AM</small></div>
+          <div class="country-tz">IST</div>
+        </div>
+
+        <!-- Scrolling Wrapper for Others -->
+        <div class="world-scroll-outer">
+          <button class="nav-arrow arrow-left" id="scrollLeft">&lt;</button>
+          <div class="world-scroll" id="worldScroll">
+            <!-- Dynamic JS generation -->
+          </div>
+          <button class="nav-arrow arrow-right" id="scrollRight">&gt;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Dual Standalone Calendars -->
+    <section class="calendar-dual-grid" id="calendarsSection">
+      
+      <!-- English Calendar with Month Tabs -->
+      <div class="cal-box">
+        <div class="cal-header-bar cal-header-blue">
+          <span>📅</span> English Calendar
+        </div>
+        
+        <!-- English Month Tabs Strip -->
+        <div class="month-tabs-wrapper" id="engMonthTabs">
+          <!-- JS dynamic tabs -->
+        </div>
+
+        <div class="cal-nav">
+          <span id="engPrev">&lt;</span>
+          <div id="engMonthYearDisplay">AUGUST 2026</div>
+          <span id="engNext">&gt;</span>
+        </div>
+
+        <div class="cal-weekdays">
+          <div class="sun">Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div class="sat">Sat</div>
+        </div>
+        <div class="cal-dates-grid" id="engDatesGrid"></div>
+      </div>
+
+      <!-- Standalone Hijri Calendar with Month Tabs & Moon Icons -->
+      <div class="cal-box">
+        <div class="cal-header-bar cal-header-purple">
+          <span>🌙</span> Hijri Calendar
+        </div>
+
+        <!-- Hijri Month Tabs Strip -->
+        <div class="month-tabs-wrapper" id="hijriMonthTabs">
+          <!-- JS dynamic tabs -->
+        </div>
+
+        <div class="cal-nav">
+          <span id="hijriPrev">&lt;</span>
+          <div id="hijriMonthYearDisplay">SAFAR 1448 AH</div>
+          <span id="hijriNext">&gt;</span>
+        </div>
+
+        <div class="cal-weekdays">
+          <div class="sun">Ahad</div><div>Ith</div><div>Thul</div><div>Arba</div><div>Kham</div><div>Jum</div><div class="sat">Sabt</div>
+        </div>
+        <div class="cal-dates-grid" id="hijriDatesGrid"></div>
+      </div>
+
+    </section>
+
+    <!-- 4. Bottom 3-Card Grid (Season, Dua, Ad) -->
+    <section class="bottom-triple-grid">
+      
+      <!-- Season Card -->
+      <div class="season-card">
+        <div class="card-top-tag tag-green">
+          <span>🍃</span> Season
+        </div>
+        <div class="season-inner">
+          <h4 id="seasonName">MONSOON SEASON</h4>
+          <div class="season-illustration">🌧️⛰️</div>
+          <p style="font-size:0.7rem; color:#475569;">Enjoy the blessings of rain and greenery.</p>
+        </div>
+      </div>
+
+      <!-- Today's Dua Card with Category Selector -->
+      <div class="dua-card">
+        <div class="card-top-tag tag-gold">
+          <span>🤲</span> Today's Dua
+        </div>
+        
+        <!-- Category Buttons -->
+        <div class="dua-categories">
+          <button class="dua-cat-btn active" data-cat="daily">Daily</button>
+          <button class="dua-cat-btn" data-cat="morning">Morning</button>
+          <button class="dua-cat-btn" data-cat="salah">After Salah</button>
+          <button class="dua-cat-btn" data-cat="forgiveness">Forgiveness</button>
+        </div>
+
+        <div class="dua-inner">
+          <div class="dua-arabic-text" id="duaArabic">
+            اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا
+          </div>
+          <div class="dua-transliteration" id="duaTranslit">
+            Allahumma aj'al hadha yawman khayran min amsina.
+          </div>
+          <div class="dua-translation-block">
+            <div id="duaTranslate">O Allah! Make this day better than our yesterday.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advertisement Card -->
+      <div class="ad-card">
+        <div class="card-top-tag tag-red">
+          <span>📢</span> Advertisement
+        </div>
+        <div class="ad-inner">
+          <h4 style="font-size:0.85rem; font-weight:800;">Premium Prayer Mat</h4>
+          <small style="color:#64748b; font-size:0.68rem;">Comfortable • Elegant • Durable</small>
+          <div class="ad-image-mockup">🕌✨</div>
+          <button class="shop-now-btn" onclick="alert('Shop Offer Opened!')">SHOP NOW</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- About Section Anchor -->
+    <div id="aboutSection" style="padding: 10px; font-size: 0.75rem; text-align: center; color: #64748b;">
+      <strong>About Us:</strong> Daily Calendar Dashboard brings accurate Gregorian & Lunar Hijri information, World Clocks, and Daily Duas to your fingertips.
+    </div>
+
+  </main>
+
+  <!-- 5. Date Notes Modal Window -->
+  <div class="modal-overlay" id="noteModal">
+    <div class="note-modal">
+      <h3 id="modalDateTitle">Add Note for Date</h3>
+      <textarea id="noteInput" placeholder="Write your reminder, Islamic event, or daily task..."></textarea>
+      <div class="modal-actions">
+        <button class="modal-btn btn-close" id="closeNoteBtn">Cancel</button>
+        <button class="modal-btn btn-save" id="saveNoteBtn">Save Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <div style="font-size:1.1rem;">🏠</div>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" onclick="document.getElementById('calendarsSection').scrollIntoView({behavior: 'smooth'})">
+      <div style="font-size:1.1rem;">📅</div>
+      <span>Calendars</span>
+    </button>
+    <button class="nav-item" onclick="document.getElementById('worldTimeSection').scrollIntoView({behavior: 'smooth'})">
+      <div style="font-size:1.1rem;">🕒</div>
+      <span>World Time</span>
+    </button>
+    <button class="nav-item" onclick="document.getElementById('aboutSection').scrollIntoView({behavior: 'smooth'})">
+      <div style="font-size:1.1rem;">ℹ️</div>
+      <span>About Us</span>
+    </button>
+  </nav>
+
+  <!-- Logic & Scripts -->
+  <script>
+    // State
+    const now = new Date();
+    let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '0', 10);
+    document.getElementById('hijriOffsetSelect').value = hijriOffset;
+
+    let selectedEngYear = now.getFullYear();
+    let selectedEngMonth = now.getMonth();
+    let selectedHijriMonthIndex = null; 
+    let selectedHijriYear = null;
+
+    let activeNoteDateKey = null;
+
+    // Duas Library by Category
+    const duasData = {
+      daily: {
+        ar: "اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا",
+        tr: "Allahumma aj'al hadha yawman khayran min amsina.",
+        en: "O Allah! Make this day better than our yesterday."
+      },
+      morning: {
+        ar: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ",
+        tr: "Asbahna wa asbahal-mulku lillah, walhamdu lillah.",
+        en: "We have reached the morning and the kingdom belongs to Allah; all praise is for Allah."
+      },
+      salah: {
+        ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        tr: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.",
+        en: "O Allah, help me remember You, thank You, and worship You in the best manner."
+      },
+      forgiveness: {
+        ar: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
+        tr: "Rabbighfir li wa tub 'alayya innaka antat-tawwabur-rahim.",
+        en: "My Lord, forgive me and accept my repentance; You are the Oft-Returning, Most Merciful."
+      }
+    };
+
+    // Category button triggers
+    document.querySelectorAll('.dua-cat-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.dua-cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.getAttribute('data-cat');
+        document.getElementById('duaArabic').innerText = duasData[cat].ar;
+        document.getElementById('duaTranslit').innerText = "";
+        document.getElementById('duaTranslit').innerText = duasData[cat].tr;
+        document.getElementById('duaTranslate').innerText = duasData[cat].en;
+      };
+    });
+
+    // Non-India Timezones for Sliding Section
+    const slidingCountries = [
+      { name: "Saudi Arabia", flag: "🇸🇦", timeZone: "Asia/Riyadh", abbr: "AST" },
+      { name: "UAE", flag: "🇦🇪", timeZone: "Asia/Dubai", abbr: "GST" },
+      { name: "United Kingdom", flag: "🇬🇧", timeZone: "Europe/London", abbr: "BST" },
+      { name: "United States", flag: "🇺🇸", timeZone: "America/New_York", abbr: "EDT" },
+      { name: "Malaysia", flag: "🇲🇾", timeZone: "Asia/Kuala_Lumpur", abbr: "MYT" },
+      { name: "Qatar", flag: "🇶🇦", timeZone: "Asia/Qatar", abbr: "AST" }
+    ];
+
+    // Moon Phase by Date Calculation
+    function getMoonIcon(year, month, day) {
+      let c = 0, e = 0, jd = 0, b = 0;
+      if (month < 3) { year--; month += 12; }
+      ++month;
+      c = 365.25 * year;
+      e = 30.6 * month;
+      jd = c + e + day - 694039.09;
+      jd /= 29.5305882;
+      b = parseInt(jd);
+      jd -= b;
+      b = Math.round(jd * 8);
+      if (b >= 8) b = 0;
+      const icons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
+      return icons[b];
+    }
+
+    // Hijri Calculations
+    const hijriMonthNames = [
+      "MUHARRAM", "SAFAR", "RABI AL-AWWAL", "RABI AL-THANI",
+      "JUMADA AL-AWWAL", "JUMADA AL-THANI", "RAJAB", "SHA'BAN",
+      "RAMADAN", "SHAWWAL", "DHU AL-QI'DAH", "DHU AL-HIJJAH"
+    ];
+
+    function getHijriDetails(date, offsetDays = 0) {
+      const target = new Date(date);
+      target.setDate(target.getDate() + offsetDays);
+
+      const formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      });
+
+      const parts = formatter.formatToParts(target);
+      let day = 1, month = 1, year = 1448;
+      parts.forEach(p => {
+        if (p.type === 'day') day = parseInt(p.value);
+        if (p.type === 'month') month = parseInt(p.value);
+        if (p.type === 'year') year = parseInt(p.value);
+      });
+
+      return { day, monthIndex: month - 1, year };
+    }
+
+    // Top Clock & India/World Clocks
+    function updateLiveClocks() {
+      const current = new Date();
+
+      // Top Quick English
+      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      document.getElementById('quickEngDate').innerText = `${current.getDate()} ${engMonths[current.getMonth()]} ${current.getFullYear()}`;
+      document.getElementById('quickEngDay').innerText = days[current.getDay()];
+
+      // Top Quick Live Time
+      document.getElementById('quickLiveTime').innerText = current.toLocaleTimeString('en-US', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+      });
+
+      // Top Hijri
+      const hijri = getHijriDetails(current, hijriOffset);
+      document.getElementById('quickHijriDate').innerText = `${hijri.day} ${hijriMonthNames[hijri.monthIndex].slice(0,5)} ${hijri.year} AH`;
+      document.getElementById('quickHijriDay').innerText = days[current.getDay()];
+
+      // Pinned India Clock Update
+      const indiaTimeParts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true
+      }).formatToParts(current);
+      let iH = '', iM = '', iP = '';
+      indiaTimeParts.forEach(tp => {
+        if (tp.type === 'hour') iH = tp.value;
+        if (tp.type === 'minute') iM = tp.value;
+        if (tp.type === 'dayPeriod') iP = tp.value.toUpperCase();
+      });
+      document.getElementById('indiaClock').innerHTML = `${iH}:${iM} <small>${iP}</small>`;
+
+      // Sliding Clocks Update
+      const scrollEl = document.getElementById('worldScroll');
+      scrollEl.innerHTML = '';
+      slidingCountries.forEach(c => {
+        const parts = new Intl.DateTimeFormat('en-US', {
+          timeZone: c.timeZone, hour: '2-digit', minute: '2-digit', hour12: true
+        }).formatToParts(current);
+        let h = '', m = '', p = '';
+        parts.forEach(tp => {
+          if (tp.type === 'hour') h = tp.value;
+          if (tp.type === 'minute') m = tp.value;
+          if (tp.type === 'dayPeriod') p = tp.value.toUpperCase();
+        });
+
+        const card = document.createElement('div');
+        card.className = 'world-card';
+        card.innerHTML = `
+          <span class="flag-icon">${c.flag}</span>
+          <div class="country-name">${c.name}</div>
+          <div class="country-time">${h}:${m} <small>${p}</small></div>
+          <div class="country-tz">${c.abbr}</div>
+        `;
+        scrollEl.appendChild(card);
+      });
+    }
+
+    // 1. Build English Month Tabs & Calendar
+    const englishMonthsList = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+    function initEnglishMonthTabs() {
+      const container = document.getElementById('engMonthTabs');
+      container.innerHTML = '';
+      englishMonthsList.forEach((m, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `month-tab ${idx === selectedEngMonth ? 'active-tab-blue' : ''}`;
+        btn.innerText = m;
+        btn.onclick = () => {
+          selectedEngMonth = idx;
+          initEnglishMonthTabs();
+          renderEnglishCalendar();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderEnglishCalendar() {
+      const monthNamesLong = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+      document.getElementById('engMonthYearDisplay').innerText = `${monthNamesLong[selectedEngMonth]} ${selectedEngYear}`;
+
+      const grid = document.getElementById('engDatesGrid');
+      grid.innerHTML = '';
+
+      const firstDayIndex = new Date(selectedEngYear, selectedEngMonth, 1).getDay();
+      const daysInCurrent = new Date(selectedEngYear, selectedEngMonth + 1, 0).getDate();
+      const daysInPrev = new Date(selectedEngYear, selectedEngMonth, 0).getDate();
+
+      // Previous month trailing
+      for (let i = firstDayIndex - 1; i >= 0; i--) {
+        const div = document.createElement('div');
+        div.className = 'cal-date muted';
+        div.innerText = daysInPrev - i;
+        grid.appendChild(div);
+      }
+
+      // Current month dates
+      for (let day = 1; day <= daysInCurrent; day++) {
+        const div = document.createElement('div');
+        const dayOfWeek = (firstDayIndex + day - 1) % 7;
+        div.className = 'cal-date';
+        if (dayOfWeek === 0) div.classList.add('sun-date');
+        if (dayOfWeek === 6) div.classList.add('sat-date');
+
+        if (day === now.getDate() && selectedEngMonth === now.getMonth() && selectedEngYear === now.getFullYear()) {
+          div.classList.add('active-blue');
+        }
+
+        // Check if note exists
+        const dateKey = `note_${selectedEngYear}_${selectedEngMonth + 1}_${day}`;
+        if (localStorage.getItem(dateKey)) {
+          const dot = document.createElement('span');
+          dot.className = 'note-dot';
+          div.appendChild(dot);
+        }
+
+        const span = document.createElement('span');
+        span.innerText = day;
+        div.appendChild(span);
+
+        // Click to add / view note
+        div.onclick = () => openNoteModal(selectedEngYear, selectedEngMonth + 1, day);
+
+        grid.appendChild(div);
+      }
+
+      // Next month leading
+      const totalCells = firstDayIndex + daysInCurrent;
+      const nextDays = (totalCells > 35 ? 42 : 35) - totalCells;
+      for (let n = 1; n <= nextDays; n++) {
+        const div = document.createElement('div');
+        div.className = 'cal-date muted';
+        div.innerText = n;
+        grid.appendChild(div);
+      }
+    }
+
+    // 2. Build Hijri Month Tabs & Calendar
+    function initHijriMonthTabs() {
+      const container = document.getElementById('hijriMonthTabs');
+      container.innerHTML = '';
+      hijriMonthNames.forEach((m, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `month-tab ${idx === selectedHijriMonthIndex ? 'active-tab-purple' : ''}`;
+        btn.innerText = m.slice(0, 4);
+        btn.onclick = () => {
+          selectedHijriMonthIndex = idx;
+          initHijriMonthTabs();
+          renderHijriCalendar();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderHijriCalendar() {
+      document.getElementById('hijriMonthYearDisplay').innerText = `${hijriMonthNames[selectedHijriMonthIndex]} ${selectedHijriYear} AH`;
+
+      const grid = document.getElementById('hijriDatesGrid');
+      grid.innerHTML = '';
+
+      const daysInHijri = 30;
+      const curHijri = getHijriDetails(now, hijriOffset);
+
+      // Simple grid alignment
+      const firstDayOffset = 3; // Standard calendar view offset
+
+      for (let i = 0; i < firstDayOffset; i++) {
+        const div = document.createElement('div');
+        div.className = 'cal-date muted';
+        div.innerText = 29 - (firstDayOffset - 1 - i);
+        grid.appendChild(div);
+      }
+
+      for (let d = 1; d <= daysInHijri; d++) {
+        const div = document.createElement('div');
+        div.className = 'cal-date';
+
+        if (d === curHijri.day && selectedHijriMonthIndex === curHijri.monthIndex) {
+          div.classList.add('active-purple');
+        }
+
+        const dateNum = document.createElement('span');
+        dateNum.innerText = d;
+        div.appendChild(dateNum);
+
+        // Sub-icon Moon phase for every single Hijri day
+        const moonIcon = document.createElement('span');
+        moonIcon.className = 'moon-sub-icon';
+        moonIcon.innerText = getMoonIcon(now.getFullYear(), now.getMonth() + 1, d);
+        div.appendChild(moonIcon);
+
+        grid.appendChild(div);
+      }
+
+      const total = firstDayOffset + daysInHijri;
+      const nextDays = (total > 35 ? 42 : 35) - total;
+      for (let n = 1; n <= nextDays; n++) {
+        const div = document.createElement('div');
+        div.className = 'cal-date muted';
+        div.innerText = n;
+        grid.appendChild(div);
+      }
+    }
+
+    // Modal Notes Feature
+    const noteModal = document.getElementById('noteModal');
+    const noteInput = document.getElementById('noteInput');
+
+    function openNoteModal(y, m, d) {
+      activeNoteDateKey = `note_${y}_${m}_${d}`;
+      document.getElementById('modalDateTitle').innerText = `Notes: ${d}/${m}/${y}`;
+      noteInput.value = localStorage.getItem(activeNoteDateKey) || '';
+      noteModal.classList.add('active');
+    }
+
+    document.getElementById('closeNoteBtn').onclick = () => noteModal.classList.remove('active');
+    document.getElementById('saveNoteBtn').onclick = () => {
+      if (noteInput.value.trim() === '') {
+        localStorage.removeItem(activeNoteDateKey);
+      } else {
+        localStorage.setItem(activeNoteDateKey, noteInput.value.trim());
+      }
+      noteModal.classList.remove('active');
+      renderEnglishCalendar();
+    };
+
+    // Nav Arrows for English Month
+    document.getElementById('engPrev').onclick = () => {
+      selectedEngMonth--;
+      if (selectedEngMonth < 0) { selectedEngMonth = 11; selectedEngYear--; }
+      initEnglishMonthTabs();
+      renderEnglishCalendar();
+    };
+    document.getElementById('engNext').onclick = () => {
+      selectedEngMonth++;
+      if (selectedEngMonth > 11) { selectedEngMonth = 0; selectedEngYear++; }
+      initEnglishMonthTabs();
+      renderEnglishCalendar();
+    };
+
+    // Nav Arrows for Hijri Month
+    document.getElementById('hijriPrev').onclick = () => {
+      selectedHijriMonthIndex--;
+      if (selectedHijriMonthIndex < 0) { selectedHijriMonthIndex = 11; selectedHijriYear--; }
+      initHijriMonthTabs();
+      renderHijriCalendar();
+    };
+    document.getElementById('hijriNext').onclick = () => {
+      selectedHijriMonthIndex++;
+      if (selectedHijriMonthIndex > 11) { selectedHijriMonthIndex = 0; selectedHijriYear++; }
+      initHijriMonthTabs();
+      renderHijriCalendar();
+    };
+
+    // Slider arrow controls
+    document.getElementById('scrollLeft').onclick = () => {
+      document.getElementById('worldScroll').scrollBy({ left: -120, behavior: 'smooth' });
+    };
+    document.getElementById('scrollRight').onclick = () => {
+      document.getElementById('worldScroll').scrollBy({ left: 120, behavior: 'smooth' });
+    };
+
+    // Drawer settings handlers
+    const drawer = document.getElementById('sideDrawer');
+    const overlay = document.getElementById('overlay');
+    document.getElementById('openMenuBtn').onclick = () => {
+      drawer.classList.add('open');
+      overlay.classList.add('active');
+    };
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('active');
+    }
+    document.getElementById('closeMenuBtn').onclick = closeMenu;
+    overlay.onclick = closeMenu;
+
+    document.getElementById('hijriOffsetSelect').addEventListener('change', (e) => {
+      hijriOffset = parseInt(e.target.value, 10);
+      localStorage.setItem('hijri_offset', hijriOffset);
+      renderHijriCalendar();
+      updateLiveClocks();
+    });
+
+    // Initial Setup
+    const initialHijri = getHijriDetails(now, hijriOffset);
+    selectedHijriMonthIndex = initialHijri.monthIndex;
+    selectedHijriYear = initialHijri.year;
+
+    initEnglishMonthTabs();
+    initHijriMonthTabs();
+    renderEnglishCalendar();
+    renderHijriCalendar();
+    updateLiveClocks();
+    setInterval(updateLiveClocks, 1000);
+  </script>
+</body>
+</html>
