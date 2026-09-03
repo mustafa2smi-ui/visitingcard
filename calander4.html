@@ -1529,7 +1529,7 @@
       loadSavedOrDefaultPrayers();
     }, { 
       timeout: 10000,
-      maximumAge: 60000,
+      maximumAge: 0,
       enableHighAccuracy: true
     });
   } else {
@@ -1539,7 +1539,25 @@
   }
 }
 
-    
+    // Auto-request location on page load (like Code2locys does)
+window.addEventListener('load', () => {
+  // Only request if user hasn't already saved a location
+  if (!localStorage.getItem('prayerLat')) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          fetchPrayerTimesWithLocation(lat, lng, "My Location");
+        },
+        () => {
+          // Silent fail - will use Delhi default
+          fetchDefaultDelhiPrayers();
+        }
+      );
+    }
+  }
+});
 
     function renderPrayerTimesUI(timings) {
       document.getElementById('pt-fajr').innerText = convertTo12Hour(timings.Fajr);
