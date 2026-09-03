@@ -1391,22 +1391,28 @@
       }
     }
 
-    // 2. Real Islamic Day & Date Calculator (Sunset Shift + Full Day Name)
+    // 🌙 Real Islamic Day & Date Calculator (Correct Day & Indian Date Offset)
     function getHijriDetailsByDate(dateObj, offset = 0) {
-      const target = new Date(dateObj);
-
-      // Maghrib ke baad Islamic Date +1 din shift hogi
+      // 1. Shariat Islamic Weekday: Maghrib ke baad din Friday banega (offset se mutaasir nahi hoga)
+      const dayTarget = new Date(dateObj);
       if (isAfterMaghribToday()) {
-        target.setDate(target.getDate() + 1);
+        dayTarget.setDate(dayTarget.getDate() + 1);
       }
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const islamicDayName = dayNames[dayTarget.getDay()];
 
-      target.setDate(target.getDate() + offset);
+      // 2. Chand ki Tareekh (Date Number): Maghrib shift (+1) + Regional Chand Offset (-1)
+      const dateTarget = new Date(dateObj);
+      if (isAfterMaghribToday()) {
+        dateTarget.setDate(dateTarget.getDate() + 1);
+      }
+      dateTarget.setDate(dateTarget.getDate() + offset);
 
       const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
         day: 'numeric', 
         month: 'numeric', 
         year: 'numeric' 
-      }).formatToParts(target);
+      }).formatToParts(dateTarget);
 
       let d = 1, m = 1, y = 1448;
       parts.forEach(p => {
@@ -1415,15 +1421,11 @@
         if (p.type === 'year') y = parseInt(p.value);
       });
 
-      // Din ka naam (Maghrib ke baad agla din ban jayega)
-      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      const islamicDayName = dayNames[target.getDay()];
-
       return { 
         day: d, 
         monthIndex: m - 1, 
         year: y, 
-        islamicDayName: islamicDayName 
+        islamicDayName: islamicDayName // Hamesha Friday dega Maghrib ke baad
       };
     }
 
@@ -1635,7 +1637,7 @@
       }
     }
 */
-    // 🌙 Hijri Grid Render (Sunset Shift Aligned)
+    // 🌙 Hijri Grid Render (Permanent Fix: Correct Day Column with India Date)
     function renderHijriCalendarGrid() {
       const currentHijri = getHijriDetailsByDate(now, hijriOffset);
       const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
@@ -1644,19 +1646,17 @@
       const grid = document.getElementById('hijriDatesGrid');
       grid.innerHTML = '';
 
-      // 1. Shariat Sunset Shift: Maghrib ke baad din ko Friday banayein
+      // 1. Shariat Day: Maghrib ke baad din bilkul Friday (5) hi rahega (offset ispar asar nahi karega)
       const effectiveDate = new Date(now);
       if (isAfterMaghribToday()) {
         effectiveDate.setDate(effectiveDate.getDate() + 1);
       }
-      effectiveDate.setDate(effectiveDate.getDate() + hijriOffset);
 
-      // 2. Mahine ki 1st tareekh ka exact day of week nikalna
-      // Formula: Aaj ke Islamic din se piche count karke Day 1 ka column nikalna
-      const currentDayOfWeek = effectiveDate.getDay(); // e.g. Friday = 5
+      // 2. Aaj ke dynamic Islamic din (Friday) se Day 1 ka column nikalna
+      const currentDayOfWeek = effectiveDate.getDay(); 
       let firstDayOffset = (currentDayOfWeek - ((currentHijri.day - 1) % 7) + 7) % 7;
 
-      // Agar user ne koi doosra Hijri month tab select kiya ho
+      // Agar user doosra month tab check kare
       if (selectedHijriMonthIndex !== currentHijri.monthIndex) {
         const monthDiff = selectedHijriMonthIndex - currentHijri.monthIndex;
         firstDayOffset = (firstDayOffset + (monthDiff * 30) % 7 + 7) % 7;
@@ -1676,12 +1676,11 @@
         const dateCell = document.createElement('div');
         dateCell.className = 'cal-date';
 
-        // Dynamic day of week for each date
         const cellDayOfWeek = (firstDayOffset + day - 1) % 7;
         if (cellDayOfWeek === 0) dateCell.classList.add('sun-date');
         if (cellDayOfWeek === 6) dateCell.classList.add('sat-date');
 
-        // Sahi tareekh ko highlight karein
+        // Tareekh match: Aaj ki tareekh (21) highlight ho
         if (day === currentHijri.day && selectedHijriMonthIndex === currentHijri.monthIndex) {
           dateCell.classList.add('active-purple');
         }
@@ -1690,7 +1689,6 @@
         numSpan.innerText = day;
         dateCell.appendChild(numSpan);
 
-        // Moon phase level
         const moonSpan = document.createElement('span');
         moonSpan.className = 'moon-sub-icon';
         moonSpan.innerText = getMoonIconByDay(day);
@@ -1699,7 +1697,7 @@
         grid.appendChild(dateCell);
       }
 
-      // Grid ko complete 35 ya 42 cells me fill karein
+      // Baaqi bache khali cells
       const cellsUsed = firstDayOffset + daysInHijriMonth;
       const nextEmpty = (cellsUsed > 35 ? 42 : 35) - cellsUsed;
       for (let n = 1; n <= nextEmpty; n++) {
@@ -1708,6 +1706,7 @@
         grid.appendChild(d);
       }
     }
+    
     /* Ramadan Countdown Auto Logic */
     function checkRamadanCountdown() {
       const hijri = getHijriDetailsByDate(now, hijriOffset);
@@ -1809,58 +1808,7 @@
         });
       };
     }
-/*
-    function loadGalleryImages() {
-      const tx = db.transaction(STORE_NAME, "readonly");
-      const store = tx.objectStore(STORE_NAME);
-      const req = store.getAll();
 
-      req.onsuccess = () => {
-        const list = req.result || [];
-        const grid = document.getElementById('galleryGridContainer');
-        grid.innerHTML = '';
-
-        document.getElementById('galleryCountLabel').innerText = `${list.length} / 5 Saved`;
-
-        list.forEach((item) => {
-          const slot = document.createElement('div');
-          slot.className = 'gallery-thumb-slot';
-          slot.innerHTML = `<img src="${item.data}">`;
-          slot.onclick = () => openLightbox(item);
-          grid.appendChild(slot);
-        });
-
-        // Fill remaining slots
-        for (let i = list.length; i < 5; i++) {
-          const emptySlot = document.createElement('div');
-          emptySlot.className = 'gallery-thumb-slot';
-          emptySlot.style.color = '#94a3b8';
-          emptySlot.style.fontSize = '0.7rem';
-          emptySlot.innerText = `Slot ${i + 1}`;
-          grid.appendChild(emptySlot);
-        }
-      };
-    }
-
-    let activeViewingItemId = null;
-    function openLightbox(item) {
-      activeViewingItemId = item.id;
-      document.getElementById('lightboxImg').src = item.data;
-      openModal('lightboxModal');
-    }
-
-    document.getElementById('deleteImageBtn').onclick = () => {
-      if (activeViewingItemId && confirm("Kya aap is image ko delete karna chahte hain?")) {
-        const tx = db.transaction(STORE_NAME, "readwrite");
-        const store = tx.objectStore(STORE_NAME);
-        store.delete(activeViewingItemId);
-        tx.oncomplete = () => {
-          closeModal('lightboxModal');
-          loadGalleryImages();
-        };
-      }
-    };
-*/
     // Global array to track uploaded images for swipe
     let currentGalleryList = [];
     let currentImageIndex = 0;
