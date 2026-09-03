@@ -895,8 +895,8 @@
       Hijri Date Correction (Chand Setting)
     </label>
     <select id="hijriOffsetSelect" style="width:100%; padding:8px; border-radius:6px; border:1px solid #cbd5e1; font-weight:600;">
-      <option value="-1">-1 Din (Pehle)</option>
-      <option value="0" selected>0 Din (Standard)</option>
+      <option value="-1" selected>-1 Din (India / Pak / BD - Default)</option>
+      <option value="0">0 Din (Saudi Arabia / Gulf)</option>
       <option value="1">+1 Din (Aage)</option>
     </select>
   </aside>
@@ -1285,7 +1285,7 @@
 
   <script>
     const now = new Date();
-    let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '0', 10);
+    let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '-1', 10);
     document.getElementById('hijriOffsetSelect').value = hijriOffset;
 
     let selectedEngYear = now.getFullYear();
