@@ -1369,7 +1369,7 @@
       "05. Jumada al-Awwal", "06. Jumada al-Thani", "07. Rajab", "08. Sha'ban",
       "09. Ramadan", "10. Shawwal", "11. Dhu al-Qi'dah", "12. Dhu al-Hijjah"
     ];
-
+/*
     function getHijriDetailsByDate(dateObj, offset = 0) {
       const target = new Date(dateObj);
       target.setDate(target.getDate() + offset);
@@ -1383,7 +1383,7 @@
       return { day: d, monthIndex: m - 1, year: y };
     }
 
-    /*
+    
     // Islamic Sunset Shift: Check if Maghrib has passed today
     function isAfterMaghribToday() {
       if (!liveMaghribTimeStr || !liveMaghribTimeStr.includes(":")) return false;
@@ -1439,12 +1439,102 @@
       };
     }
     */
+    // 1. Safe Islamic Sunset Check (Kabhi crash nahi hoga)
+    function isAfterMaghribToday() {
+      try {
+        let maghribStr = (typeof liveMaghribTimeStr !== 'undefined' && liveMaghribTimeStr) ? liveMaghribTimeStr : "18:30";
+        const d = new Date();
+        const currentMins = d.getHours() * 60 + d.getMinutes();
+        
+        const clean = maghribStr.replace(/[^\d:]/g, "");
+        const parts = clean.split(":");
+        let h = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) || 0;
+        if (maghribStr.toUpperCase().includes("PM") && h < 12) h += 12;
+        if (maghribStr.toUpperCase().includes("AM") && h === 12) h = 0;
+        
+        const maghribMins = (!isNaN(h)) ? (h * 60 + m) : (18 * 60 + 30);
+        return currentMins >= maghribMins;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // 2. Real Islamic Day & Date Calculator (Sunset Shift + Full Day Name)
+    function getHijriDetailsByDate(dateObj, offset = 0) {
+      const target = new Date(dateObj);
+
+      // Maghrib ke baad Islamic Date +1 din shift hogi
+      if (isAfterMaghribToday()) {
+        target.setDate(target.getDate() + 1);
+      }
+
+      target.setDate(target.getDate() + offset);
+
+      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
+        day: 'numeric', 
+        month: 'numeric', 
+        year: 'numeric' 
+      }).formatToParts(target);
+
+      let d = 1, m = 1, y = 1448;
+      parts.forEach(p => {
+        if (p.type === 'day') d = parseInt(p.value);
+        if (p.type === 'month') m = parseInt(p.value);
+        if (p.type === 'year') y = parseInt(p.value);
+      });
+
+      // Din ka naam (Maghrib ke baad agla din ban jayega)
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const islamicDayName = dayNames[target.getDay()];
+
+      return { 
+        day: d, 
+        monthIndex: m - 1, 
+        year: y, 
+        islamicDayName: islamicDayName 
+      };
+    }
+
+    // 3. Live Dashboard Clocks (Undefined fix)
+    function updateLiveDashboardClocks() {
+      const d = new Date();
+      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      // English Date & Live Time
+      document.getElementById('quickEngDate').innerText = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+      document.getElementById('quickEngDay').innerText = days[d.getDay()];
+      document.getElementById('quickLiveTime').innerText = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+
+      // Hijri Date & Dynamic Islamic Day Name
+      const hij = getHijriDetailsByDate(d, hijriOffset);
+      const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4);
+      
+      document.getElementById('quickHijriDate').innerText = `${hij.day} ${cleanHijriName} ${hij.year}`;
+      document.getElementById('quickHijriDay').innerText = hij.islamicDayName; // Ab undefined nahi aayega
+
+      // Pinned India Clock
+      const iTime = d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true }).split(' ');
+      document.getElementById('indiaClock').innerHTML = `${iTime[0]} <small>${iTime[1]}</small>`;
+
+      // World Clocks Scroll
+      const scrollEl = document.getElementById('worldScroll');
+      scrollEl.innerHTML = '';
+      slidingCountries.forEach(c => {
+        const t = d.toLocaleTimeString('en-US', { timeZone: c.zone, hour: '2-digit', minute: '2-digit', hour12: true }).split(' ');
+        const card = document.createElement('div');
+        card.className = 'world-card';
+        card.innerHTML = `<div class="country-flag">${c.flag}</div><div class="country-name">${c.name}</div><div class="country-time">${t[0]} <small>${t[1]}</small></div><div class="country-tz">${c.abbr}</div>`;
+        scrollEl.appendChild(card);
+      });
+    }
     function getMoonIconByDay(day) {
       const icons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
       const index = Math.round((day / 29.5) * 8) % 8;
       return icons[index];
     }
-
+/*
     function updateLiveDashboardClocks() {
       const d = new Date();
       const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -1458,7 +1548,7 @@
       const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4);
       document.getElementById('quickHijriDate').innerText = `${hij.day} ${cleanHijriName} ${hij.year}`;
       document.getElementById('quickHijriDay').innerText = days[d.getDay()];
-*/
+*
       const hij = getHijriDetailsByDate(d, hijriOffset);
       const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4);
       
@@ -1480,7 +1570,7 @@
         scrollEl.appendChild(card);
       });
     }
-
+*/
     function renderEnglishCalendarTabs() {
       const el = document.getElementById('engMonthTabs');
       el.innerHTML = '';
