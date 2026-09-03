@@ -1149,18 +1149,27 @@
     </footer>
   </main>
 
+  <!-- Lightbox Modal with Swipe & Navigation Arrows -->
   <div class="modal-overlay" id="lightboxModal">
-    <div class="popup-modal" style="max-width:480px; text-align:center;">
+    <div class="popup-modal" style="max-width:480px; text-align:center; position:relative;">
       <div class="popup-header">
-        <h3>Saved Islamic Chart</h3>
+        <h3 id="lightboxTitle">Islamic Chart (1/2)</h3>
         <button class="close-modal-btn" onclick="closeModal('lightboxModal')">&times;</button>
       </div>
-      <div style="max-height:65vh; overflow-y:auto; margin-bottom:12px;">
-        <img id="lightboxImg" src="" style="width:100%; border-radius:8px; display:block;">
+
+      <!-- Image Display Container with Touch Area -->
+      <div id="swipeArea" style="position:relative; max-height:65vh; overflow:hidden; margin-bottom:12px; display:flex; align-items:center; justify-content:center; touch-action: pan-y;">
+        <img id="lightboxImg" src="" style="max-width:100%; max-height:60vh; border-radius:8px; display:block; user-select:none; transition: transform 0.2s ease;">
+        
+        <!-- Navigation Arrow Buttons -->
+        <button onclick="prevLightboxImage()" style="position:absolute; left:6px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.1rem; font-weight:800; display:flex; align-items:center; justify-content:center;">&lt;</button>
+        <button onclick="nextLightboxImage()" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.1rem; font-weight:800; display:flex; align-items:center; justify-content:center;">&gt;</button>
       </div>
-      <div style="display:flex; justify-content:space-between;">
-        <button id="deleteImageBtn" style="padding:6px 14px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-weight:700; font-size:0.75rem; cursor:pointer;">Delete Image</button>
-        <button onclick="closeModal('lightboxModal')" style="padding:6px 14px; background:#0f172a; color:#fff; border:none; border-radius:6px; font-weight:700; font-size:0.75rem; cursor:pointer;">Close</button>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button id="deleteImageBtn" style="padding:7px 14px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-weight:700; font-size:0.75rem; cursor:pointer;">Delete Image</button>
+        <span style="font-size:0.7rem; color:var(--text-muted);">Swipe left / right 📲</span>
+        <button onclick="closeModal('lightboxModal')" style="padding:7px 14px; background:#0f172a; color:#fff; border:none; border-radius:6px; font-weight:700; font-size:0.75rem; cursor:pointer;">Close</button>
       </div>
     </div>
   </div>
@@ -1660,7 +1669,7 @@
         });
       };
     }
-
+/*
     function loadGalleryImages() {
       const tx = db.transaction(STORE_NAME, "readonly");
       const store = tx.objectStore(STORE_NAME);
@@ -1711,7 +1720,119 @@
         };
       }
     };
+*/
+    // Global array to track uploaded images for swipe
+    let currentGalleryList = [];
+    let currentImageIndex = 0;
 
+    // Load gallery images & keep reference in memory
+    function loadGalleryImages() {
+      const tx = db.transaction(STORE_NAME, "readonly");
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.getAll();
+
+      req.onsuccess = () => {
+        currentGalleryList = req.result || [];
+        const grid = document.getElementById('galleryGridContainer');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const countEl = document.getElementById('galleryCountLabel');
+        if (countEl) countEl.innerText = `${currentGalleryList.length} / 5 Saved`;
+
+        currentGalleryList.forEach((item, index) => {
+          const slot = document.createElement('div');
+          slot.className = 'gallery-thumb-slot';
+          slot.innerHTML = `<img src="${item.data}">`;
+          slot.onclick = () => openLightboxByIndex(index);
+          grid.appendChild(slot);
+        });
+
+        // Fill remaining empty slots up to 5
+        for (let i = currentGalleryList.length; i < 5; i++) {
+          const emptySlot = document.createElement('div');
+          emptySlot.className = 'gallery-thumb-slot';
+          emptySlot.style.color = '#94a3b8';
+          emptySlot.style.fontSize = '0.7rem';
+          emptySlot.innerText = `Slot ${i + 1}`;
+          grid.appendChild(emptySlot);
+        }
+      };
+    }
+
+    // Open Lightbox with Index & Counter
+    function openLightboxByIndex(index) {
+      if (!currentGalleryList || currentGalleryList.length === 0) return;
+      currentImageIndex = index;
+      updateLightboxDisplay();
+      openModal('lightboxModal');
+    }
+
+    function updateLightboxDisplay() {
+      const item = currentGalleryList[currentImageIndex];
+      if (!item) return;
+      const imgEl = document.getElementById('lightboxImg');
+      if (imgEl) imgEl.src = item.data;
+      const titleEl = document.getElementById('lightboxTitle');
+      if (titleEl) titleEl.innerText = `Chart (${currentImageIndex + 1}/${currentGalleryList.length})`;
+    }
+
+    // Next / Prev functions
+    function nextLightboxImage() {
+      if (!currentGalleryList || currentGalleryList.length <= 1) return;
+      currentImageIndex = (currentImageIndex + 1) % currentGalleryList.length;
+      updateLightboxDisplay();
+    }
+
+    function prevLightboxImage() {
+      if (!currentGalleryList || currentGalleryList.length <= 1) return;
+      currentImageIndex = (currentImageIndex - 1 + currentGalleryList.length) % currentGalleryList.length;
+      updateLightboxDisplay();
+    }
+
+    // Delete current active image
+    const delBtn = document.getElementById('deleteImageBtn');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        const activeItem = currentGalleryList[currentImageIndex];
+        if (activeItem && confirm("Kya aap is image ko delete karna chahte hain?")) {
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          store.delete(activeItem.id);
+          tx.oncomplete = () => {
+            closeModal('lightboxModal');
+            loadGalleryImages();
+          };
+        }
+      };
+    }
+
+    // 📲 Touch Swipe Gesture Logic (Mobile friendly)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeArea = document.getElementById('swipeArea');
+
+    if (swipeArea) {
+      swipeArea.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      swipeArea.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }, { passive: true });
+    }
+
+    function handleSwipeGesture() {
+      const swipeDistance = touchEndX - touchStartX;
+      const threshold = 40; // minimum 40px swipe
+      
+      if (swipeDistance < -threshold) {
+        nextLightboxImage(); // Ungli baayein (Left) khinchne par Agli photo
+      } else if (swipeDistance > threshold) {
+        prevLightboxImage(); // Ungli daayein (Right) khinchne par Pichli photo
+      }
+    }
     function convertTo12Hour(time24) {
       if (!time24) return "--:--";
       let [hours, minutes] = time24.split(":");
