@@ -117,13 +117,66 @@
     .arrow-right { right: 2px; }
 
     /* Prayer Times Section */
-    .prayer-table { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; text-align: center; margin-top: 8px; }
+    /*.prayer-table { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; text-align: center; margin-top: 8px; }
     .prayer-box { background: #f8fafc; border: 1px solid var(--border-color); padding: 8px 4px; border-radius: 8px; }
     .prayer-box.active-prayer { border-color: var(--green-clock); background: #ecfdf5; }
     .prayer-name { font-size: 0.7rem; font-weight: 700; color: #475569; }
-    .prayer-time-val { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin-top: 2px; }
+    .prayer-time-val { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin-top: 2px; }*/
     .prayer-warning { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px; margin-top: 10px; font-size: 0.7rem; color: #92400e; display: flex; gap: 6px; align-items: flex-start; }
+    /* Prayer Times Container Fix */
+    .prayer-location-strip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0d9488;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
 
+    .prayer-table {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .prayer-box {
+      background: #f8fafc;
+      padding: 8px 4px;
+      border-radius: 8px;
+      min-width: 0; /* Box bahar nikalne se rokega */
+      overflow: hidden;
+    }
+
+    .prayer-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .prayer-time-val {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .prayer-table {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+    }
+    
     /* Dual Standalone Calendars */
     .calendar-dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .cal-box { background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
@@ -319,7 +372,7 @@
         </div>
       </div>
     </section>
-
+<!--
     <section class="card-block" id="prayerSection">
       <div class="section-header" style="flex-wrap:wrap; gap:10px;">
         <div class="section-header-title"><span>🕌</span> Prayer Times (Delhi Default)</div>
@@ -340,6 +393,31 @@
       <div class="prayer-warning">
         <span>⚠️</span>
         <div><strong>Ehtiyat / Note:</strong> Free API astronomical calculation par mabni hoti hai. Maslak aur maqami masajid ke hisab se 4-5 minute ka farq ho sakta hai, maqami masjid se tasdeeq zaroor karein.</div>
+      </div>
+    </section>
+-->
+        <section class="card-block" id="prayerSection">
+      <div class="section-header">
+        <div class="section-header-title"><span>🕌</span> Prayer Times</div>
+      </div>
+
+      <div class="prayer-location-strip" onclick="useMyLocation()" title="Click to refresh your current location">
+        <span id="locationText">📍 Detecting location...</span>
+        <button style="background:#0d9488; color:#fff; border:none; padding:4px 8px; border-radius:6px; font-size:0.68rem; font-weight:700; cursor:pointer;">Change / GPS</button>
+      </div>
+
+      <div class="prayer-table">
+        <div class="prayer-box"><div class="prayer-name">Fajr</div><div class="prayer-time-val" id="pt-fajr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Sunrise</div><div class="prayer-time-val" id="pt-sunrise">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Dhuhr</div><div class="prayer-time-val" id="pt-dhuhr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Asr</div><div class="prayer-time-val" id="pt-asr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Maghrib</div><div class="prayer-time-val" id="pt-maghrib">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Isha</div><div class="prayer-time-val" id="pt-isha">--:--</div></div>
+      </div>
+
+      <div class="prayer-warning">
+        <span>⚠️</span>
+        <div><strong>Ehtiyat / Note:</strong> Timings astronomical calculation par mabni hain. 4-5 minute ka farq ho sakta hai, safar ya roze me motabar jagah se tasdeeq karein.</div>
       </div>
     </section>
 
@@ -899,7 +977,7 @@
         grid.appendChild(d);
       }
     }
-
+/*
     // Manual GPS Location Trigger (Point 1 Error Fix integrated)
     async function triggerGpsLocation() {
       const btn = document.getElementById('triggerManualGps');
@@ -949,6 +1027,88 @@
       document.getElementById('pt-asr').innerText = timings.Asr;
       document.getElementById('pt-maghrib').innerText = timings.Maghrib;
       document.getElementById('pt-isha').innerText = timings.Isha;
+    }
+*/
+        // 1. 24-Hour se 12-Hour format converter
+    function convertTo12Hour(time24) {
+      if (!time24) return "--:--";
+      let [hours, minutes] = time24.split(":");
+      hours = parseInt(hours, 10);
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+      return `${hours}:${minutes} ${ampm}`;
+    }
+
+    // 2. OpenStreetMap Human Readable Address
+    async function showAddress(lat, lng) {
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+        const data = await res.json();
+        const city = data.address.city || data.address.town || data.address.village || data.address.state || "Detected Location";
+        document.getElementById("locationText").innerText = `📍 ${city}`;
+        document.getElementById("userLocationSub").innerText = `${city}`;
+      } catch (err) {
+        document.getElementById("locationText").innerText = `📍 Lat: ${Number(lat).toFixed(2)}, Lng: ${Number(lng).toFixed(2)}`;
+      }
+    }
+
+    // 3. Aladhan API Caller with LocalStorage Memory
+    async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
+      try {
+        localStorage.setItem('prayerLat', lat);
+        localStorage.setItem('prayerLng', lng);
+        localStorage.setItem('prayerCity', cityName);
+
+        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
+        const data = await res.json();
+        const t = data.data.timings;
+
+        document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+        document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+        document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+        document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+        document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+        document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+        showAddress(lat, lng);
+      } catch (e) {
+        console.error("Salah Time Error:", e);
+      }
+    }
+
+    // 4. GPS Button Click Event
+    function useMyLocation() {
+      if (navigator.geolocation) {
+        document.getElementById("locationText").innerText = "📍 Tracing GPS...";
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            fetchPrayerTimes(lat, lng, "Current Location");
+          },
+          () => {
+            alert("Location permission denied! Delhi default load kiya ja raha hai.");
+            loadInitialPrayerTimes();
+          }
+        );
+      } else {
+        alert("Aapka browser geolocation support nahi karta.");
+        loadInitialPrayerTimes();
+      }
+    }
+
+    // 5. Initial Load (Saved memory first, otherwise Delhi)
+    function loadInitialPrayerTimes() {
+      const savedLat = localStorage.getItem('prayerLat');
+      const savedLng = localStorage.getItem('prayerLng');
+      const savedCity = localStorage.getItem('prayerCity');
+
+      if (savedLat && savedLng) {
+        fetchPrayerTimes(savedLat, savedLng, savedCity || "Saved Location");
+      } else {
+        fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
+        document.getElementById("locationText").innerText = "📍 Delhi (Default)";
+      }
     }
 
     // Digital Tasbeeh Logic
@@ -1070,7 +1230,7 @@
     renderEnglishCalendarGrid();
     renderHijriCalendarGrid();
     updateLiveDashboardClocks();
-    fetchDefaultDelhiPrayers(); // Load Delhi default timings without asking GPS
+        loadInitialPrayerTimes(); // Load Delhi default timings without asking GPS
     setInterval(updateLiveDashboardClocks, 1000);
   </script>
 </body>
