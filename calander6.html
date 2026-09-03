@@ -1369,7 +1369,7 @@
       "05. Jumada al-Awwal", "06. Jumada al-Thani", "07. Rajab", "08. Sha'ban",
       "09. Ramadan", "10. Shawwal", "11. Dhu al-Qi'dah", "12. Dhu al-Hijjah"
     ];
-/*
+
     function getHijriDetailsByDate(dateObj, offset = 0) {
       const target = new Date(dateObj);
       target.setDate(target.getDate() + offset);
@@ -1382,7 +1382,8 @@
       });
       return { day: d, monthIndex: m - 1, year: y };
     }
-*/
+
+    /*
     // Islamic Sunset Shift: Check if Maghrib has passed today
     function isAfterMaghribToday() {
       if (!liveMaghribTimeStr || !liveMaghribTimeStr.includes(":")) return false;
@@ -1437,6 +1438,7 @@
         islamicDayName: islamicDayNames[dayIndex]
       };
     }
+    */
     function getMoonIconByDay(day) {
       const icons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
       const index = Math.round((day / 29.5) * 8) % 8;
