@@ -831,8 +831,6 @@
         <button class="gps-manual-btn" id="triggerManualGps" onclick="triggerGpsLocation()">
           <span>📍 My Location (GPS)</span>
         </button>
-            
-<button onclick="testGPS()">📍 Test GPS</button>
       </div>
 
       <div class="prayer-table">
@@ -1028,7 +1026,7 @@
         </div>
 
         <div class="dua-inner-content">
-          <div class="dua-arabic-text" id="duaArabic">اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا</div>
+          <div class="dua-arabic-text" id="duaArabic">اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا</div>
           <div class="dua-transliteration" id="duaTranslit">Allahumma aj'al hadha yawman khayran min amsina.</div>
           <div class="dua-translation-block" id="duaTranslate">O Allah! Make this day better than our yesterday.</div>
         </div>
@@ -1170,9 +1168,9 @@
 
     // Duas Library
     const duasData = {
-      daily: { title: "Daily Dua", ar: "اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا", tr: "Allahumma aj'al hadha yawman khayran min amsina.", en: "O Allah! Make this day better than our yesterday." },
+      daily: { title: "Daily Dua", ar: "اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا", tr: "Allahumma aj'al hadha yawman khayran min amsina.", en: "O Allah! Make this day better than our yesterday." },
       morning: { title: "Morning Dua", ar: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ", tr: "Asbahna wa asbahal-mulku lillah, walhamdu lillah.", en: "We entered the morning and the dominion belongs to Allah." },
-      salah: { title: "Dua After Salah", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.", en: "O Allah, help me remember You and thank You." },
+      salah: { title: "Dua After Salah", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.", en: "O Allah, help me remember You and thank You." },
       forgiveness: { title: "Dua for Forgiveness", ar: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ", tr: "Rabbighfir li wa tub 'alayya innaka antat-tawwabur-rahim.", en: "My Lord, forgive me and accept my repentance." }
     };
 
@@ -1429,349 +1427,128 @@
       }
     }
 
-    // Manual GPS Location Trigger (No Auto Prompt)
-
-
-
-async function testGPS() {
-
-    alert(
-        "Protocol: " + location.protocol +
-        "\nHostname: " + location.hostname +
-        "\nSecure Context: " + window.isSecureContext +
-        "\nGeolocation: " + !!navigator.geolocation
-    );
-
-    if (navigator.permissions) {
-        try {
-            const permission = await navigator.permissions.query({
-                name: "geolocation"
-            });
-
-            alert(
-                "GPS Permission State:\n\n" +
-                permission.state +
-                "\n\nPossible values:\n" +
-                "prompt = Permission popup aa sakta hai\n" +
-                "granted = Permission allowed hai\n" +
-                "denied = Browser ne block kiya hai"
-            );
-        } catch (e) {
-            alert("Permission check error:\n" + e.message);
-        }
+    // Convert 24-hour to 12-hour format
+    function convertTo12Hour(time24) {
+      let [hours, minutes] = time24.split(":");
+      hours = parseInt(hours);
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+      return `${hours}:${minutes} ${ampm}`;
     }
 
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            alert(
-                "GPS SUCCESS!\n\nLatitude: " +
-                position.coords.latitude +
-                "\nLongitude: " +
-                position.coords.longitude
-            );
-        },
-        function(error) {
-            alert(
-                "GPS ERROR\n\nCode: " +
-                error.code +
-                "\nMessage: " +
-                error.message
-            );
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 30000,
-            maximumAge: 0
-        }
-    );
-}
-
-    // ===============================================
-// 📍 MY LOCATION / GPS LOCATION
-// ===============================================
-
-let currentLocationMode = "Delhi (Default)";
-
-// Convert API time to 12-hour format if needed
-function formatPrayerTime(time) {
-  if (!time) return "--";
-
-  // Remove timezone/calculation text if API sends it
-  time = String(time).split(" ")[0];
-
-  const parts = time.split(":");
-  if (parts.length < 2) return time;
-
-  let hour = parseInt(parts[0], 10);
-  const minute = parts[1];
-
-  const ampm = hour >= 12 ? "PM" : "AM";
-  hour = hour % 12 || 12;
-
-  return `${hour}:${minute} ${ampm}`;
-}
-
-
-// -----------------------------------------------
-// 🕌 Render Prayer Times
-// -----------------------------------------------
-function renderPrayerTimesUI(timings) {
-
-  if (!timings) return;
-
-  document.getElementById("pt-fajr").innerText =
-    formatPrayerTime(timings.Fajr);
-
-  document.getElementById("pt-sunrise").innerText =
-    formatPrayerTime(timings.Sunrise);
-
-  document.getElementById("pt-dhuhr").innerText =
-    formatPrayerTime(timings.Dhuhr);
-
-  document.getElementById("pt-asr").innerText =
-    formatPrayerTime(timings.Asr);
-
-  document.getElementById("pt-maghrib").innerText =
-    formatPrayerTime(timings.Maghrib);
-
-  document.getElementById("pt-isha").innerText =
-    formatPrayerTime(timings.Isha);
-
-  // Update heading
-  const heading = document.querySelector("#prayerSection .section-header-title");
-
-  if (heading) {
-    heading.innerHTML = `<span>🕌</span> Prayer Times (${currentLocationMode})`;
-  }
-}
-
-
-// -----------------------------------------------
-// 🇮🇳 DEFAULT DELHI PRAYER TIMES
-// -----------------------------------------------
-async function fetchDefaultDelhiPrayers() {
-
-  currentLocationMode = "Delhi Default";
-
-  try {
-
-    const url =
-      "https://api.aladhan.com/v1/timingsByCity" +
-      "?city=Delhi" +
-      "&country=India" +
-      "&method=4";
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Delhi prayer API failed");
-    }
-
-    const data = await response.json();
-
-    if (data &&
-        data.data &&
-        data.data.timings) {
-
-      renderPrayerTimesUI(data.data.timings);
-
-      document.getElementById("userLocationSub").innerText =
-        "Delhi, India";
-    }
-
-  } catch (error) {
-
-    console.error(
-      "Delhi prayer timings error:",
-      error
-    );
-  }
-}
-
-
-// -----------------------------------------------
-// 📍 MY LOCATION BUTTON
-// -----------------------------------------------
-function triggerGpsLocation() {
-
-  const btn =
-    document.getElementById("triggerManualGps");
-
-  if (!navigator.geolocation) {
-
-    alert(
-      "Geolocation is not supported by this browser/device."
-    );
-
-    return;
-  }
-
-
-  // Button loading state
-  btn.innerHTML =
-    `<span>⏳ Requesting GPS Permission...</span>`;
-
-  btn.disabled = true;
-
-
-  // ---------------------------------------------
-  // Request Current Location
-  // ---------------------------------------------
-  navigator.geolocation.getCurrentPosition(
-
-    async function(position) {
-
+    // Show human readable location using OpenStreetMap
+    async function showAddress(lat, lng) {
       try {
-
-        const latitude =
-          position.coords.latitude;
-
-        const longitude =
-          position.coords.longitude;
-
-
-        console.log(
-          "GPS Location:",
-          latitude,
-          longitude
-        );
-
-
-        // -----------------------------------------
-        // Fetch prayer times using GPS coordinates
-        // -----------------------------------------
-        const apiUrl =
-          `https://api.aladhan.com/v1/timings` +
-          `?latitude=${encodeURIComponent(latitude)}` +
-          `&longitude=${encodeURIComponent(longitude)}` +
-          `&method=4`;
-
-        const response =
-          await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(
-            "Prayer API request failed"
-          );
-        }
-
-        const data =
-          await response.json();
-
-
-        if (
-          data &&
-          data.data &&
-          data.data.timings
-        ) {
-
-          currentLocationMode =
-            "My Location";
-
-          renderPrayerTimesUI(
-            data.data.timings
-          );
-
-
-          document.getElementById(
-            "userLocationSub"
-          ).innerText =
-            "My Location (GPS)";
-
-
-          alert(
-            "Location detected successfully!\nPrayer times have been updated."
-          );
-
-        } else {
-
-          throw new Error(
-            "Prayer timings not found"
-          );
-        }
-
-      } catch (error) {
-
-        console.error(
-          "GPS prayer timing error:",
-          error
-        );
-
-        alert(
-          "Your location was detected, but prayer times could not be loaded. Please try again."
-        );
-
-        fetchDefaultDelhiPrayers();
-
-      } finally {
-
-        btn.innerHTML =
-          `<span>📍 My Location (GPS)</span>`;
-
-        btn.disabled = false;
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+        const data = await res.json();
+        document.getElementById('userLocationSub').innerText = data.display_name || `Lat: ${lat.toFixed(2)}, Lng: ${lng.toFixed(2)}`;
+      } catch {
+        document.getElementById('userLocationSub').innerText = `Lat: ${lat.toFixed(2)}, Lng: ${lng.toFixed(2)}`;
       }
-
-    },
-
-
-    function(error) {
-
-      console.error(
-        "GPS Error:",
-        error.code,
-        error.message
-      );
-
-
-      btn.innerHTML =
-        `<span>📍 My Location (GPS)</span>`;
-
-      btn.disabled = false;
-
-
-      // -----------------------------------------
-      // Permission / GPS Error Handling
-      // -----------------------------------------
-      if (error.code === 1) {
-
-        alert(
-          "Location permission was denied.\n\n" +
-          "Please allow Location permission for this website/browser and then tap My Location again."
-        );
-
-      } else if (error.code === 2) {
-
-        alert(
-          "Your location could not be determined.\nPlease turn ON GPS/Location Services and try again."
-        );
-
-      } else if (error.code === 3) {
-
-        alert(
-          "GPS location request timed out.\nPlease make sure Location/GPS is ON and try again."
-        );
-
-      } else {
-
-        alert(
-          "Unable to detect your location. Please try again."
-        );
-      }
-
-      // IMPORTANT:
-      // Do NOT replace user's location with Delhi here.
-      // Delhi remains the already-loaded default.
-    },
-
-
-    {
-      enableHighAccuracy: true,
-      timeout: 20000,
-      maximumAge: 0
     }
 
-  );
-}
+    // Fetch Prayer Times with location
+    async function fetchPrayerTimesWithLocation(lat, lng, cityName = "Delhi") {
+      try {
+        // Save current location to localStorage
+        localStorage.setItem('prayerLat', lat);
+        localStorage.setItem('prayerLng', lng);
+        localStorage.setItem('prayerCity', cityName);
+
+        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2`);
+        const data = await res.json();
+        if (data.data) {
+          renderPrayerTimesUI(data.data.timings);
+          // Show human readable address
+          showAddress(lat, lng);
+          return true;
+        }
+      } catch (e) {
+        console.warn("Error fetching prayer times:", e);
+      }
+      return false;
+    }
+
+    // Manual GPS Location Trigger (Fixed)
+    async function triggerGpsLocation() {
+      const btn = document.getElementById('triggerManualGps');
+      btn.innerHTML = `<span>⏳ Tracing GPS...</span>`;
+      
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+          try {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const success = await fetchPrayerTimesWithLocation(lat, lng, "My Location");
+            
+            if (success) {
+              btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+              alert('Location traced successfully! Prayer times updated.');
+            } else {
+              btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+              loadSavedOrDefaultPrayers();
+            }
+          } catch (err) {
+            btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+            loadSavedOrDefaultPrayers();
+          }
+        }, (err) => {
+          btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+          alert('Location permission denied! Using saved location or Delhi as default.');
+          loadSavedOrDefaultPrayers();
+        }, { 
+          timeout: 10000,
+          maximumAge: 60000,
+          enableHighAccuracy: true
+        });
+      } else {
+        btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+        alert('Geolocation is not supported by your browser.');
+        loadSavedOrDefaultPrayers();
+      }
+    }
+
+    // Load saved location or default to Delhi
+    async function loadSavedOrDefaultPrayers() {
+      const savedLat = localStorage.getItem('prayerLat');
+      const savedLng = localStorage.getItem('prayerLng');
+      const savedCity = localStorage.getItem('prayerCity');
+      
+      if (savedLat && savedLng) {
+        const success = await fetchPrayerTimesWithLocation(
+          parseFloat(savedLat), 
+          parseFloat(savedLng), 
+          savedCity || "Saved Location"
+        );
+        if (!success) {
+          await fetchDefaultDelhiPrayers();
+        }
+      } else {
+        await fetchDefaultDelhiPrayers();
+      }
+    }
+
+    async function fetchDefaultDelhiPrayers() {
+      try {
+        const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Delhi&country=India&method=2');
+        const data = await res.json();
+        if (data.data) {
+          renderPrayerTimesUI(data.data.timings);
+          document.getElementById('userLocationSub').innerText = 'Delhi, India (Default)';
+        }
+      } catch (e) {
+        console.warn("Offline or API limit:", e);
+      }
+    }
+
+    function renderPrayerTimesUI(timings) {
+      document.getElementById('pt-fajr').innerText = convertTo12Hour(timings.Fajr);
+      document.getElementById('pt-sunrise').innerText = convertTo12Hour(timings.Sunrise);
+      document.getElementById('pt-dhuhr').innerText = convertTo12Hour(timings.Dhuhr);
+      document.getElementById('pt-asr').innerText = convertTo12Hour(timings.Asr);
+      document.getElementById('pt-maghrib').innerText = convertTo12Hour(timings.Maghrib);
+      document.getElementById('pt-isha').innerText = convertTo12Hour(timings.Isha);
+    }
 
     // Digital Tasbeeh Logic
     let tasbeehCount = parseInt(localStorage.getItem('tasbeeh_count') || '0', 10);
@@ -1892,7 +1669,7 @@ function triggerGpsLocation() {
     renderEnglishCalendarGrid();
     renderHijriCalendarGrid();
     updateLiveDashboardClocks();
-    fetchDefaultDelhiPrayers(); // Load Delhi default timings without asking GPS
+    loadSavedOrDefaultPrayers(); // Load saved location or Delhi default timings
     setInterval(updateLiveDashboardClocks, 1000);
   </script>
 </body>
