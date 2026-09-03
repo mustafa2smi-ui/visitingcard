@@ -997,13 +997,13 @@
 
       <div class="cal-box">
         <div class="cal-header-bar cal-header-purple">
-          <!-- 🌙 Unique Islamic Fiqh Feature Notice -->
+ 
+          <span>🌙</span> Hijri Calendar
+        </div>
+         <!-- 🌙 Unique Islamic Fiqh Feature Notice -->
 <div class="islamic-sunset-notice">
   <span>🌙 <strong>Fiqh Unique Feature:</strong> Shariat ke mutabiq naya Islami din aur tareekh Maghrib (Suraj doobte hi) auto-update ho jati hai.</span>
 </div>
-          <span>🌙</span> Hijri Calendar
-        </div>
-
         <div class="month-tabs-wrapper" id="hijriMonthTabs"></div>
 
         <div class="cal-nav">
@@ -1369,76 +1369,7 @@
       "05. Jumada al-Awwal", "06. Jumada al-Thani", "07. Rajab", "08. Sha'ban",
       "09. Ramadan", "10. Shawwal", "11. Dhu al-Qi'dah", "12. Dhu al-Hijjah"
     ];
-/*
-    function getHijriDetailsByDate(dateObj, offset = 0) {
-      const target = new Date(dateObj);
-      target.setDate(target.getDate() + offset);
-      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'numeric', year: 'numeric' }).formatToParts(target);
-      let d = 1, m = 1, y = 1448;
-      parts.forEach(p => {
-        if (p.type === 'day') d = parseInt(p.value);
-        if (p.type === 'month') m = parseInt(p.value);
-        if (p.type === 'year') y = parseInt(p.value);
-      });
-      return { day: d, monthIndex: m - 1, year: y };
-    }
 
-    
-    // Islamic Sunset Shift: Check if Maghrib has passed today
-    function isAfterMaghribToday() {
-      if (!liveMaghribTimeStr || !liveMaghribTimeStr.includes(":")) return false;
-      const d = new Date();
-      const currentMins = d.getHours() * 60 + d.getMinutes();
-      
-      const cleanTime = liveMaghribTimeStr.replace(/[^\d:]/g, "");
-      const parts = cleanTime.split(":");
-      let h = parseInt(parts[0], 10);
-      const m = parseInt(parts[1], 10) || 0;
-      
-      // Agar 12-hour format me PM ho
-      if (liveMaghribTimeStr.toUpperCase().includes("PM") && h < 12) h += 12;
-      
-      const maghribMins = h * 60 + m;
-      return currentMins >= maghribMins;
-    }
-
-    // 🌙 Real Islamic Day & Date Calculator (Sunset-shifted)
-    function getHijriDetailsByDate(dateObj, offset = 0) {
-      const target = new Date(dateObj);
-      
-      // Unique Feature: Agar Maghrib guzar chuki hai, to Islamic day +1 din aage badh jayega
-      let islamicShift = 0;
-      if (isAfterMaghribToday()) {
-        islamicShift = 1;
-      }
-
-      target.setDate(target.getDate() + offset + islamicShift);
-
-      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
-        day: 'numeric', 
-        month: 'numeric', 
-        year: 'numeric' 
-      }).formatToParts(target);
-
-      let d = 1, m = 1, y = 1448;
-      parts.forEach(p => {
-        if (p.type === 'day') d = parseInt(p.value);
-        if (p.type === 'month') m = parseInt(p.value);
-        if (p.type === 'year') y = parseInt(p.value);
-      });
-
-      // Islamic Day Name (Sun = Ahad, Mon = Ithnin...)
-      const islamicDayNames = ["Ahad (Sun)", "Ithnin (Mon)", "Thulatha (Tue)", "Arba'a (Wed)", "Khamis (Thu)", "Jumu'ah (Fri)", "Sabt (Sat)"];
-      const dayIndex = target.getDay();
-
-      return { 
-        day: d, 
-        monthIndex: m - 1, 
-        year: y,
-        islamicDayName: islamicDayNames[dayIndex]
-      };
-    }
-    */
     // 1. Safe Islamic Sunset Check (Kabhi crash nahi hoga)
     function isAfterMaghribToday() {
       try {
@@ -1534,43 +1465,7 @@
       const index = Math.round((day / 29.5) * 8) % 8;
       return icons[index];
     }
-/*
-    function updateLiveDashboardClocks() {
-      const d = new Date();
-      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-      document.getElementById('quickEngDate').innerText = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
-      document.getElementById('quickEngDay').innerText = days[d.getDay()];
-      document.getElementById('quickLiveTime').innerText = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-/*
-      const hij = getHijriDetailsByDate(d, hijriOffset);
-      const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4);
-      document.getElementById('quickHijriDate').innerText = `${hij.day} ${cleanHijriName} ${hij.year}`;
-      document.getElementById('quickHijriDay').innerText = days[d.getDay()];
-*
-      const hij = getHijriDetailsByDate(d, hijriOffset);
-      const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4);
-      
-      // Top Bar Hijri Date
-      document.getElementById('quickHijriDate').innerText = `${hij.day} ${cleanHijriName} ${hij.year}`;
-      
-      // Unique: Maghrib ke baad Hijri Day ka naam khud badal jayega
-      document.getElementById('quickHijriDay').innerText = hij.islamicDayName;
-      const iTime = d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true }).split(' ');
-      document.getElementById('indiaClock').innerHTML = `${iTime[0]} <small>${iTime[1]}</small>`;
-
-      const scrollEl = document.getElementById('worldScroll');
-      scrollEl.innerHTML = '';
-      slidingCountries.forEach(c => {
-        const t = d.toLocaleTimeString('en-US', { timeZone: c.zone, hour: '2-digit', minute: '2-digit', hour12: true }).split(' ');
-        const card = document.createElement('div');
-        card.className = 'world-card';
-        card.innerHTML = `<div class="country-flag">${c.flag}</div><div class="country-name">${c.name}</div><div class="country-time">${t[0]} <small>${t[1]}</small></div><div class="country-tz">${c.abbr}</div>`;
-        scrollEl.appendChild(card);
-      });
-    }
-*/
     function renderEnglishCalendarTabs() {
       const el = document.getElementById('engMonthTabs');
       el.innerHTML = '';
@@ -1687,7 +1582,7 @@
         }
       });
     }
-
+/*
     function renderHijriCalendarGrid() {
       const currentHijri = getHijriDetailsByDate(now, hijriOffset);
       const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
@@ -1739,7 +1634,80 @@
         grid.appendChild(d);
       }
     }
+*/
+    // 🌙 Hijri Grid Render (Sunset Shift Aligned)
+    function renderHijriCalendarGrid() {
+      const currentHijri = getHijriDetailsByDate(now, hijriOffset);
+      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
+      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
+      
+      const grid = document.getElementById('hijriDatesGrid');
+      grid.innerHTML = '';
 
+      // 1. Shariat Sunset Shift: Maghrib ke baad din ko Friday banayein
+      const effectiveDate = new Date(now);
+      if (isAfterMaghribToday()) {
+        effectiveDate.setDate(effectiveDate.getDate() + 1);
+      }
+      effectiveDate.setDate(effectiveDate.getDate() + hijriOffset);
+
+      // 2. Mahine ki 1st tareekh ka exact day of week nikalna
+      // Formula: Aaj ke Islamic din se piche count karke Day 1 ka column nikalna
+      const currentDayOfWeek = effectiveDate.getDay(); // e.g. Friday = 5
+      let firstDayOffset = (currentDayOfWeek - ((currentHijri.day - 1) % 7) + 7) % 7;
+
+      // Agar user ne koi doosra Hijri month tab select kiya ho
+      if (selectedHijriMonthIndex !== currentHijri.monthIndex) {
+        const monthDiff = selectedHijriMonthIndex - currentHijri.monthIndex;
+        firstDayOffset = (firstDayOffset + (monthDiff * 30) % 7 + 7) % 7;
+      }
+
+      const daysInHijriMonth = 30;
+
+      // Pehle ke khali cells (Muted days)
+      for (let i = 0; i < firstDayOffset; i++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+
+      // 1 se 30 tak ki tareekh render karein
+      for (let day = 1; day <= daysInHijriMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.className = 'cal-date';
+
+        // Dynamic day of week for each date
+        const cellDayOfWeek = (firstDayOffset + day - 1) % 7;
+        if (cellDayOfWeek === 0) dateCell.classList.add('sun-date');
+        if (cellDayOfWeek === 6) dateCell.classList.add('sat-date');
+
+        // Sahi tareekh ko highlight karein
+        if (day === currentHijri.day && selectedHijriMonthIndex === currentHijri.monthIndex) {
+          dateCell.classList.add('active-purple');
+        }
+
+        const numSpan = document.createElement('span');
+        numSpan.innerText = day;
+        dateCell.appendChild(numSpan);
+
+        // Moon phase level
+        const moonSpan = document.createElement('span');
+        moonSpan.className = 'moon-sub-icon';
+        moonSpan.innerText = getMoonIconByDay(day);
+        dateCell.appendChild(moonSpan);
+
+        grid.appendChild(dateCell);
+      }
+
+      // Grid ko complete 35 ya 42 cells me fill karein
+      const cellsUsed = firstDayOffset + daysInHijriMonth;
+      const nextEmpty = (cellsUsed > 35 ? 42 : 35) - cellsUsed;
+      for (let n = 1; n <= nextEmpty; n++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+    }
     /* Ramadan Countdown Auto Logic */
     function checkRamadanCountdown() {
       const hijri = getHijriDetailsByDate(now, hijriOffset);
