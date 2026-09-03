@@ -49,12 +49,12 @@
     body { background-color: var(--bg-main); color: var(--text-dark); padding-bottom: 75px; }
 
     /* Heavy Borders & Hover Effects */
-    .card-block, .tool-tile, .world-card, .prayer-box, .cal-box, .event-card, .yt-scroll-card, .article-item, #finalFooter, .popup-modal, .dua-card-thick-border, .gallery-card-container {
+    .card-block, .tool-tile, .world-card, .prayer-box, .cal-box, .event-card, .yt-scroll-card, .article-item, #finalFooter, .popup-modal, .dua-card-thick-border, .gallery-card-container, .jummah-card-container {
       border: 3.5px solid var(--border-red) !important;
       transition: all 0.25s ease-in-out;
     }
 
-    .card-block:hover, .tool-tile:hover, .world-card:hover, .prayer-box:hover, .cal-box:hover, .event-card:hover, .yt-scroll-card:hover, .article-item:hover, #finalFooter:hover, .dua-card-thick-border:hover, .gallery-card-container:hover {
+    .card-block:hover, .tool-tile:hover, .world-card:hover, .prayer-box:hover, .cal-box:hover, .event-card:hover, .yt-scroll-card:hover, .article-item:hover, #finalFooter:hover, .dua-card-thick-border:hover, .gallery-card-container:hover, .jummah-card-container:hover {
       border-color: var(--border-green) !important;
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
@@ -156,6 +156,32 @@
       text-transform: uppercase;
       color: #0f172a;
     }
+
+    /* Jummah Sunnah Card */
+    .jummah-card-container {
+      background: #f0fdf4;
+      border-radius: 14px;
+      padding: 14px;
+      display: none; /* Controlled by JS based on Thursday Sunset to Friday Sunset */
+    }
+
+    .jummah-sunnah-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .sunnah-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: #1e293b;
+      line-height: 1.4;
+    }
+
+    .sunnah-item strong { color: #166534; }
 
     /* Utility Tools */
     .utility-tools-bar {
@@ -467,7 +493,7 @@
       object-fit: cover;
     }
 
-    /* Upcoming Events with NEW Badge */
+    /* Upcoming Events & Programs */
     .events-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -568,7 +594,7 @@
     .yt-date-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
     .yt-share-icon-btn { background: none; border: none; cursor: pointer; color: var(--accent-orange); font-size: 1rem; }
 
-    /* Articles Section with External Post Link Button */
+    /* Articles Section */
     .media-dual-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -849,6 +875,38 @@
 
   <main class="main-container">
 
+    <section class="jummah-card-container" id="jummahSpecialCard">
+      <div class="section-header">
+        <div class="section-header-title" style="color:#166534;">
+          <span>🕌</span> Jummah Mubarak Sunan & Fazilat
+        </div>
+        <button onclick="shareJummahSunan()" style="background:#16a34a; color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">📤 Share</button>
+      </div>
+
+      <div class="jummah-sunnah-list">
+        <div class="sunnah-item">
+          <span>1️⃣</span>
+          <div><strong>Kasrat Se Durood:</strong> "Jummah ke din mujh par kasrat se durood bheja karo, tumhara durood mujh par pesh kiya jata hai." (Abu Dawood)</div>
+        </div>
+        <div class="sunnah-item">
+          <span>2️⃣</span>
+          <div><strong>Pakeezgi & Zeenat:</strong> Ghusl karna, Miswak karna, Ittar/Khushbu lagana aur saaf/umdah libas pehanna.</div>
+        </div>
+        <div class="sunnah-item">
+          <span>3️⃣</span>
+          <div><strong>Surah Al-Kahf:</strong> "Jo shakhs Jummah ke din Surah Al-Kahf padhega, uske liye dono Jummah ke darmiyan noor chamkega." (Nasai)</div>
+        </div>
+        <div class="sunnah-item">
+          <span>4️⃣</span>
+          <div><strong>Sa'at-e-Ijabah (Dua ki Qubooliyat):</strong> Asr se Maghrib ke darmiyan khas dua ka ahtimam karein.</div>
+        </div>
+      </div>
+
+      <div style="background:#dcfce7; padding:8px 10px; border-radius:8px; font-size:0.72rem; color:#14532d; text-align:center;">
+        🤲 <strong>Dua:</strong> <em>Allahumma Salli 'Ala Muhammadin Wa 'Ala Aali Muhammad</em>
+      </div>
+    </section>
+
     <section class="utility-tools-bar">
       <div class="tool-tile" onclick="openModal('tasbeehModal')"><span>📿</span> Tasbeeh</div>
       <div class="tool-tile" onclick="openModal('zakatModal')"><span>💰</span> Zakat Calc</div>
@@ -974,31 +1032,18 @@
       <div class="upload-control-row">
         <input type="file" id="chartFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
         <button class="upload-trigger-btn" onclick="document.getElementById('chartFileInput').click()">➕ Upload Chart / Dua</button>
-        <span style="font-size:0.68rem; color:var(--text-muted);">Auto-Compressed for fast speed</span>
+        <span style="font-size:0.68rem; color:var(--text-muted);">Auto-Compressed</span>
       </div>
 
-      <div class="gallery-preview-grid" id="galleryGridContainer">
-        </div>
+      <div class="gallery-preview-grid" id="galleryGridContainer"></div>
     </section>
 
     <section class="card-block">
       <div class="section-header">
-        <div class="section-header-title"><span>✨</span> Upcoming Islamic Events & Duas</div>
+        <div class="section-header-title"><span>✨</span> Upcoming Islamic Events & Programs</div>
       </div>
-      <div class="events-grid">
-        <div class="event-card" style="border: 2px solid #fbbf24; background:#fefce8; cursor:pointer;" onclick="shareMasnoonDua()">
-          <span class="new-badge">NEW</span>
-          <div class="ev-icon">🌙</div>
-          <div class="ev-name" style="color:#b45309;">Naya Chand Dua</div>
-          <div class="ev-date" style="font-weight:700; color:#d97706;">Tap to View & Share</div>
+      <div class="events-grid" id="dynamicEventsGrid">
         </div>
-
-        <div class="event-card"><div class="ev-icon">🌙</div><div class="ev-name">Ramadan</div><div class="ev-date">1 Ramadan 1448</div></div>
-        <div class="event-card"><div class="ev-icon">🕌</div><div class="ev-name">Laylatul Qadr</div><div class="ev-date">27 Ramadan 1448</div></div>
-        <div class="event-card"><div class="ev-icon">🎉</div><div class="ev-name">Eid-ul-Fitr</div><div class="ev-date">1 Shawwal 1448</div></div>
-        <div class="event-card"><div class="ev-icon">🕋</div><div class="ev-name">Hajj</div><div class="ev-date">9 Dhul Hijjah 1448</div></div>
-        <div class="event-card"><div class="ev-icon">🐑</div><div class="ev-name">Eid-ul-Adha</div><div class="ev-date">10 Dhul Hijjah 1448</div></div>
-      </div>
     </section>
 
     <section class="card-block" id="ytSection">
@@ -1063,7 +1108,6 @@
           <h4>Fazilat: Ayyam-e-Beez Ke Teen Roze</h4>
           <p>Har islami mahine 13, 14, 15 ko roza rakhne ke ajar aur sunnat...</p>
         </div>
-        
         <a href="posts.html" class="view-all-posts-btn">View All Articles / Blog ➡️</a>
       </div>
 
@@ -1213,6 +1257,42 @@
     let activeDateNoteKey = '';
     let currentModalActiveArticle = {};
 
+    let currentMaghribMinutes = 18 * 60 + 30; // Default 6:30 PM until fetched
+
+    // Easily add or edit events here:
+    const upcomingEventsList = [
+      { name: "Naya Chand Dua", icon: "🌙", date: "Masnoon Dua", badge: "NEW", isSpecialDua: true },
+      { name: "Ramadan", icon: "🌙", date: "1 Ramadan 1448", badge: "" },
+      { name: "Laylatul Qadr", icon: "🕌", date: "27 Ramadan 1448", badge: "" },
+      { name: "Eid-ul-Fitr", icon: "🎉", date: "1 Shawwal 1448", badge: "" },
+      { name: "Hajj", icon: "🕋", date: "9 Dhul Hijjah 1448", badge: "" },
+      { name: "Eid-ul-Adha", icon: "🐑", date: "10 Dhul Hijjah 1448", badge: "" },
+      { name: "Day of Ashura", icon: "📜", date: "10 Muharram 1448", badge: "" }
+    ];
+
+    function renderUpcomingEvents() {
+      const container = document.getElementById('dynamicEventsGrid');
+      container.innerHTML = '';
+      upcomingEventsList.forEach(ev => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        if (ev.isSpecialDua) {
+          card.style.border = '2px solid #fbbf24';
+          card.style.background = '#fefce8';
+          card.style.cursor = 'pointer';
+          card.onclick = shareMasnoonDua;
+        }
+
+        card.innerHTML = `
+          ${ev.badge ? `<span class="new-badge">${ev.badge}</span>` : ''}
+          <div class="ev-icon">${ev.icon}</div>
+          <div class="ev-name" ${ev.isSpecialDua ? 'style="color:#b45309;"' : ''}>${ev.name}</div>
+          <div class="ev-date" ${ev.isSpecialDua ? 'style="font-weight:700; color:#d97706;"' : ''}>${ev.date}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
     const slidingCountries = [
       { name: "Saudi Arabia", flag: "🇸🇦", zone: "Asia/Riyadh", abbr: "AST" },
       { name: "UAE", flag: "🇦🇪", zone: "Asia/Dubai", abbr: "GST" },
@@ -1270,6 +1350,11 @@
 
     function shareMasnoonDua() {
       shareNative("Masnoon Dua: Naya Chand Dekhne Ki", "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالأَمْنِ وَالإِيمَانِ وَالسَّلامَةِ وَالإِسْلامِ رَبِّي وَرَبُّكَ اللَّهُ\n\n(Aye Allah! Is chand ko hum par aman, imaan aur salamati ke sath tulu farma)", window.location.href);
+    }
+
+    function shareJummahSunan() {
+      const msg = `🕌 *Jummah Mubarak Sunan & Fazilat*\n\n1. Kasrat se Durood-e-Pak padhna\n2. Ghusl, Miswak, Ittar aur saaf libas\n3. Surah Al-Kahf ki tilawat\n4. Asr se Maghrib me dua ka ahtimam\n\nDaily Islamic Dashboard par visit karein:\n${window.location.href}`;
+      shareNative("Jummah Mubarak Sunan", msg, "");
     }
 
     function shareOverallPlatform() {
@@ -1333,6 +1418,25 @@
         card.innerHTML = `<div class="country-flag">${c.flag}</div><div class="country-name">${c.name}</div><div class="country-time">${t[0]} <small>${t[1]}</small></div><div class="country-tz">${c.abbr}</div>`;
         scrollEl.appendChild(card);
       });
+
+      checkJummahTiming(d);
+    }
+
+    /* Islamic Sunset Check for Jummah Card */
+    function checkJummahTiming(nowDate) {
+      const day = nowDate.getDay(); // 4 = Thursday, 5 = Friday
+      const currentMinutes = nowDate.getHours() * 60 + nowDate.getMinutes();
+      const card = document.getElementById('jummahSpecialCard');
+
+      // Active from Thursday Maghrib until Friday Maghrib
+      const isThursdayAfterSunset = (day === 4 && currentMinutes >= currentMaghribMinutes);
+      const isFridayBeforeSunset = (day === 5 && currentMinutes < currentMaghribMinutes);
+
+      if (isThursdayAfterSunset || isFridayBeforeSunset) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
     }
 
     function renderEnglishCalendarTabs() {
@@ -1504,13 +1608,11 @@
       }
     }
 
-    /* Ramadan Countdown Auto Logic */
     function checkRamadanCountdown() {
       const hijri = getHijriDetailsByDate(now, hijriOffset);
       const banner = document.getElementById('ramadanCountdownBanner');
       const textEl = document.getElementById('ramadanCountdownText');
 
-      // Month index: 7 is Sha'ban, 8 is Ramadan, 9 is Shawwal
       if (hijri.monthIndex === 8) {
         banner.style.display = 'flex';
         textEl.innerText = `✨ Ramadan Mubarak - Day ${hijri.day}`;
@@ -1531,7 +1633,7 @@
       }
     }
 
-    /* IndexedDB & Auto-Compress Image Gallery */
+    /* IndexedDB Image Gallery */
     let db;
     const DB_NAME = "IslamicCalendarDB";
     const STORE_NAME = "offlineCharts";
@@ -1539,16 +1641,16 @@
     function initIndexedDB() {
       const req = indexedDB.open(DB_NAME, 1);
       req.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+        const database = e.target.result;
+        if (!database.objectStoreNames.contains(STORE_NAME)) {
+          database.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
         }
       };
       req.onsuccess = (e) => {
         db = e.target.result;
         loadGalleryImages();
       };
-      req.onerror = () => console.error("IndexedDB open error");
+      req.onerror = () => console.error("IndexedDB error");
     }
 
     function compressImage(file, callback) {
@@ -1573,7 +1675,6 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
           
-          // Compress to JPEG with 0.72 quality (~150-250KB)
           const dataUrl = canvas.toDataURL('image/jpeg', 0.72);
           callback(dataUrl);
         };
@@ -1626,7 +1727,6 @@
           grid.appendChild(slot);
         });
 
-        // Fill remaining slots
         for (let i = list.length; i < 5; i++) {
           const emptySlot = document.createElement('div');
           emptySlot.className = 'gallery-thumb-slot';
@@ -1657,262 +1757,4 @@
       }
     };
 
-    function convertTo12Hour(time24) {
-      if (!time24) return "--:--";
-      let [hours, minutes] = time24.split(":");
-      hours = parseInt(hours, 10);
-      const ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12 || 12;
-      return `${hours}:${minutes} ${ampm}`;
-    }
-
-    async function showAddress(lat, lng) {
-      try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
-        const data = await res.json();
-        const city = data.address.city || data.address.town || data.address.village || data.address.state_district || data.address.state || "Detected Area";
-        updateLocationLabels(city);
-      } catch (err) {
-        updateLocationLabels(`Lat: ${Number(lat).toFixed(2)}, Lng: ${Number(lng).toFixed(2)}`);
-      }
-    }
-
-    function updateLocationLabels(cityName) {
-      const locEl = document.getElementById("locationText");
-      if (locEl) locEl.innerText = `📍 ${cityName}`;
-      const subEl = document.getElementById("userLocationSub");
-      if (subEl) subEl.innerText = cityName;
-    }
-
-    async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
-      try {
-        localStorage.setItem('prayerLat', lat);
-        localStorage.setItem('prayerLng', lng);
-        localStorage.setItem('prayerCity', cityName);
-
-        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
-        const data = await res.json();
-        const t = data.data.timings;
-
-        document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
-        document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
-        document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
-        document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
-        document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
-        document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
-
-        if (cityName === "Current Location") {
-          showAddress(lat, lng);
-        } else {
-          updateLocationLabels(cityName);
-        }
-      } catch (e) {
-        console.error("Salah Time Error:", e);
-      }
-    }
-
-    async function fetchPrayerByCity(city) {
-      try {
-        updateLocationLabels(`Searching ${city}...`);
-        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=4`);
-        const data = await res.json();
-        if (data.code === 200 && data.data) {
-          const t = data.data.timings;
-          document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
-          document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
-          document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
-          document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
-          document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
-          document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
-          
-          localStorage.setItem('prayerCity', city);
-          localStorage.removeItem('prayerLat');
-          localStorage.removeItem('prayerLng');
-          updateLocationLabels(city);
-          return true;
-        }
-      } catch (e) {
-        console.error("City fetch error:", e);
-      }
-      alert(`Could not find timings for "${city}". Falling back to Delhi.`);
-      fetchPrayerTimes(28.6139, 77.2090, "Delhi");
-      return false;
-    }
-
-    async function fetchLocationByIP() {
-      try {
-        const res = await fetch('https://ipapi.co/json/');
-        const data = await res.json();
-        if (data.latitude && data.longitude) {
-          const city = data.city || data.region || "Local Area";
-          fetchPrayerTimes(data.latitude, data.longitude, city);
-          return true;
-        }
-      } catch (e) {
-        console.warn("IP Geolocation failed:", e);
-      }
-      return false;
-    }
-
-    function useMyLocation() {
-      const choice = confirm("Press [OK] to auto-detect location via GPS.\nPress [CANCEL] to enter your City name manually.");
-      if (!choice) {
-        const customCity = prompt("Enter your City / Town name (e.g. Mumbai, Lucknow, Patna, Dubai):");
-        if (customCity && customCity.trim() !== "") {
-          fetchPrayerByCity(customCity.trim());
-        }
-        return;
-      }
-
-      if (navigator.geolocation) {
-        updateLocationLabels("Tracing GPS...");
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "Current Location");
-          },
-          async () => {
-            alert("GPS access was not available. Attempting Network/IP detection...");
-            const ipSuccess = await fetchLocationByIP();
-            if (!ipSuccess) {
-              loadInitialPrayerTimes();
-            }
-          },
-          { timeout: 8000, enableHighAccuracy: false }
-        );
-      } else {
-        fetchLocationByIP();
-      }
-    }
-
-    function loadInitialPrayerTimes() {
-      const savedCity = localStorage.getItem('prayerCity');
-      const savedLat = localStorage.getItem('prayerLat');
-      const savedLng = localStorage.getItem('prayerLng');
-
-      if (savedLat && savedLng) {
-        fetchPrayerTimes(savedLat, savedLng, savedCity || "Saved Location");
-      } else if (savedCity) {
-        fetchPrayerByCity(savedCity);
-      } else {
-        fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
-      }
-    }
-
-    let tasbeehCount = parseInt(localStorage.getItem('tasbeeh_count') || '0', 10);
-    document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
-
-    function processTasbeehTap() {
-      tasbeehCount++;
-      if (navigator.vibrate) navigator.vibrate(35);
-      document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
-      localStorage.setItem('tasbeeh_count', tasbeehCount);
-    }
-
-    function resetTasbeehCount() {
-      tasbeehCount = 0;
-      document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
-      localStorage.setItem('tasbeeh_count', 0);
-    }
-
-    function calculateZakatPayable() {
-      const cashValue = parseFloat(document.getElementById('zkCash').value) || 0;
-      const goldValue = parseFloat(document.getElementById('zkGold').value) || 0;
-      const debtValue = parseFloat(document.getElementById('zkDebt').value) || 0;
-      const netSavings = Math.max(0, (cashValue + goldValue) - debtValue);
-      const zakatPayable = (netSavings * 0.025).toFixed(2);
-      document.getElementById('zkTotalDisplay').innerText = zakatPayable;
-    }
-
-    function openQiblaModal() {
-      openModal('qiblaModal');
-      if (window.DeviceOrientationEvent && window.screen.width < 768) {
-        window.addEventListener('deviceorientation', (e) => {
-          if (e.alpha !== null) {
-            const heading = Math.round(-e.alpha + 285);
-            document.getElementById('compassDial').style.transform = `rotate(${heading}deg)`;
-          }
-        });
-      }
-    }
-
-    function loadYouTubeVideo(videoId, element) {
-      element.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-    }
-
-    function openArticleModal(id) {
-      const article = articlesData[id];
-      currentModalActiveArticle = article;
-      document.getElementById('artTitle').innerText = article.title;
-      document.getElementById('artBody').innerHTML = article.body;
-      openModal('articleModal');
-    }
-
-    function saveDateNote() {
-      const val = document.getElementById('noteInput').value.trim();
-      if (val) {
-        localStorage.setItem(activeDateNoteKey, val);
-      } else {
-        localStorage.removeItem(activeDateNoteKey);
-      }
-      closeModal('noteModal');
-      renderEnglishCalendarGrid();
-    }
-
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-    document.getElementById('openMenuBtn').onclick = () => {
-      document.getElementById('sideDrawer').style.right = '0';
-      document.getElementById('drawerOverlay').classList.add('active');
-    };
-    function closeDrawer() {
-      document.getElementById('sideDrawer').style.right = '-280px';
-      document.getElementById('drawerOverlay').classList.remove('active');
-    }
-
-    document.getElementById('hijriOffsetSelect').onchange = (e) => {
-      hijriOffset = parseInt(e.target.value, 10);
-      localStorage.setItem('hijri_offset', hijriOffset);
-      renderHijriCalendarGrid();
-      updateLiveDashboardClocks();
-      checkRamadanCountdown();
-    };
-
-    document.querySelectorAll('.dua-cat-btn').forEach(b => {
-      b.onclick = () => {
-        document.querySelectorAll('.dua-cat-btn').forEach(btn => btn.classList.remove('active'));
-        b.classList.add('active');
-        const cat = b.getAttribute('data-cat');
-        document.getElementById('duaArabic').innerText = duasData[cat].ar;
-        document.getElementById('duaTranslit').innerText = duasData[cat].tr;
-        document.getElementById('duaTranslate').innerText = duasData[cat].en;
-      };
-    });
-
-    document.getElementById('engPrev').onclick = () => { selectedEngMonth = (selectedEngMonth - 1 + 12) % 12; renderEnglishCalendarTabs(); renderEnglishCalendarGrid(); };
-    document.getElementById('engNext').onclick = () => { selectedEngMonth = (selectedEngMonth + 1) % 12; renderEnglishCalendarTabs(); renderEnglishCalendarGrid(); };
-    document.getElementById('hijriPrev').onclick = () => { selectedHijriMonthIndex = (selectedHijriMonthIndex - 1 + 12) % 12; renderHijriCalendarTabs(); renderHijriCalendarGrid(); };
-    document.getElementById('hijriNext').onclick = () => { selectedHijriMonthIndex = (selectedHijriMonthIndex + 1) % 12; renderHijriCalendarTabs(); renderHijriCalendarGrid(); };
-
-    document.getElementById('scrollLeftWorld').onclick = () => document.getElementById('worldScroll').scrollBy({ left: -120, behavior: 'smooth' });
-    document.getElementById('scrollRightWorld').onclick = () => document.getElementById('worldScroll').scrollBy({ left: 120, behavior: 'smooth' });
-
-    // Initial Execution
-    const initHijri = getHijriDetailsByDate(now, hijriOffset);
-    selectedEngMonth = now.getMonth();
-    selectedEngYear = now.getFullYear();
-    selectedHijriMonthIndex = initHijri.monthIndex;
-    selectedHijriYear = initHijri.year;
-
-    renderEnglishCalendarTabs();
-    renderHijriCalendarTabs();
-    renderEnglishCalendarGrid();
-    renderHijriCalendarGrid();
-    updateLiveDashboardClocks();
-    loadInitialPrayerTimes();
-    checkRamadanCountdown();
-    initIndexedDB();
-    setInterval(updateLiveDashboardClocks, 1000);
-  </script>
-</body>
-</html>
+    function convertTo12Hour(time24
