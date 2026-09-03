@@ -1468,47 +1468,7 @@
       }
       return false;
     }
-
-    // Manual GPS Location Trigger (Fixed)
-    async function triggerGpsLocation() {
-      const btn = document.getElementById('triggerManualGps');
-      btn.innerHTML = `<span>⏳ Tracing GPS...</span>`;
-      
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-          try {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            const success = await fetchPrayerTimesWithLocation(lat, lng, "My Location");
-            
-            if (success) {
-              btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-              alert('Location traced successfully! Prayer times updated.');
-            } else {
-              btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-              loadSavedOrDefaultPrayers();
-            }
-          } catch (err) {
-            btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-            loadSavedOrDefaultPrayers();
-          }
-        }, (err) => {
-          btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-          alert('Location permission denied! Using saved location or Delhi as default.');
-          loadSavedOrDefaultPrayers();
-        }, { 
-          timeout: 10000,
-          maximumAge: 60000,
-          enableHighAccuracy: true
-        });
-      } else {
-        btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-        alert('Geolocation is not supported by your browser.');
-        loadSavedOrDefaultPrayers();
-      }
-    }
-
-    // Load saved location or default to Delhi
+// Load saved location or default to Delhi
     async function loadSavedOrDefaultPrayers() {
       const savedLat = localStorage.getItem('prayerLat');
       const savedLng = localStorage.getItem('prayerLng');
@@ -1529,17 +1489,57 @@
     }
 
     async function fetchDefaultDelhiPrayers() {
-      try {
-        const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Delhi&country=India&method=2');
-        const data = await res.json();
-        if (data.data) {
-          renderPrayerTimesUI(data.data.timings);
-          document.getElementById('userLocationSub').innerText = 'Delhi, India (Default)';
-        }
-      } catch (e) {
-        console.warn("Offline or API limit:", e);
-      }
+  try {
+    const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Delhi&country=India&method=2');
+    const data = await res.json();
+    if (data.data) {
+      renderPrayerTimesUI(data.data.timings);
+      document.getElementById('userLocationSub').innerText = 'Delhi, India (Default)';
     }
+  } catch (e) {
+    console.warn("Offline or API limit:", e);
+  }
+}
+    // Manual GPS Location Trigger (Fixed)
+    async function triggerGpsLocation() {
+  const btn = document.getElementById('triggerManualGps');
+  btn.innerHTML = `<span>⏳ Tracing GPS...</span>`;
+  
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      try {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const success = await fetchPrayerTimesWithLocation(lat, lng, "My Location");
+        
+        if (success) {
+          btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+          alert('Location traced successfully! Prayer times updated.');
+        } else {
+          btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+          loadSavedOrDefaultPrayers();
+        }
+      } catch (err) {
+        btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+        loadSavedOrDefaultPrayers();
+      }
+    }, (err) => {
+      btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+      alert('Location permission denied! Using saved location or Delhi as default.');
+      loadSavedOrDefaultPrayers();
+    }, { 
+      timeout: 10000,
+      maximumAge: 60000,
+      enableHighAccuracy: true
+    });
+  } else {
+    btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
+    alert('Geolocation is not supported by your browser.');
+    loadSavedOrDefaultPrayers();
+  }
+}
+
+    
 
     function renderPrayerTimesUI(timings) {
       document.getElementById('pt-fajr').innerText = convertTo12Hour(timings.Fajr);
