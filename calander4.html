@@ -4,32 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO Meta Tags -->
+  <!-- Primary Meta Tags & SEO -->
   <title>Daily Islamic Calendar 2026 | Hijri Date, Prayer Times & Dashboard</title>
-  <meta name="description" content="All-in-One Islamic Utility Dashboard: Hijri Calendar, Manual GPS Prayer Times, Qibla Direction, Digital Tasbeeh, Zakat Calculator, and Daily Duas.">
-  <meta name="keywords" content="Islamic Calendar 2026, Hijri Date Today, Namaz Timings Delhi, Prayer Times API, Qibla Compass, Digital Tasbeeh, Zakat Calculator, Islamic Events, Daily Dua">
+  <meta name="description" content="All-in-One Islamic Utility Dashboard: Gregorian & Hijri Lunar Calendar, Accurate Prayer Times, Qibla Direction, Digital Tasbeeh, Zakat Calculator, and Daily Duas.">
+  <meta name="keywords" content="Islamic Calendar 2026, Hijri Date Today, Namaz Timings, Prayer Times API, Qibla Compass, Digital Tasbeeh, Zakat Calculator, Islamic Events, Daily Dua">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph / WhatsApp Preview -->
+  <!-- Open Graph / WhatsApp / Facebook Share Preview -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Daily Islamic Calendar & Live Utility Dashboard">
-  <meta property="og:description" content="Check live Hijri dates, accurate prayer times, Qibla finder, and daily Duas.">
+  <meta property="og:description" content="Check live Hijri dates, accurate prayer times with GPS, Qibla compass, Tasbeeh counter, and authentic daily Duas.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1590076215667-875d4ef2d7ee?w=1200">
   <meta property="og:url" content="https://yourwebsite.com/">
-  
-  <!-- Favicon (Baad me GitHub PNG link se replace kar sakte hain) -->
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png">
 
-  <!-- Structured Data for Search Engines -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Daily Islamic Calendar",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "All",
-    "description": "Multi-utility Islamic calendar with Hijri dates, prayer times, and Qibla compass."
-  }
-  </script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,13 +52,13 @@
     html { scroll-behavior: smooth; }
     body { background-color: var(--bg-main); color: var(--text-dark); padding-bottom: 75px; }
 
-    /* Bold Border & Hover Effects */
-    .card-block, .tool-tile, .world-card, .prayer-box, .month-tab, .cal-box, .event-card, .yt-scroll-card, .article-item, #finalFooter, .popup-modal, .dua-card-box {
-      border: 3px solid var(--border-red) !important;
+    /* Heavy Borders & Hover Effects */
+    .card-block, .tool-tile, .world-card, .prayer-box, .cal-box, .event-card, .yt-scroll-card, .article-item, #finalFooter, .popup-modal, .dua-card-thick-border {
+      border: 3.5px solid var(--border-red) !important;
       transition: all 0.25s ease-in-out;
     }
 
-    .card-block:hover, .tool-tile:hover, .world-card:hover, .prayer-box:hover, .cal-box:hover, .event-card:hover, .yt-scroll-card:hover, .article-item:hover, #finalFooter:hover, .month-tab:hover, .dua-card-box:hover {
+    .card-block:hover, .tool-tile:hover, .world-card:hover, .prayer-box:hover, .cal-box:hover, .event-card:hover, .yt-scroll-card:hover, .article-item:hover, #finalFooter:hover, .dua-card-thick-border:hover {
       border-color: var(--border-green) !important;
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
@@ -127,7 +116,7 @@
     .pill-details .value { font-size: 0.76rem; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .pill-details .sub { font-size: 0.6rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* Container Layout */
+    /* Main Container */
     .main-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -181,22 +170,6 @@
       cursor: pointer;
     }
 
-    /* Manual GPS Button */
-    .gps-manual-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 10px;
-      background: #f1f5f9;
-      border-radius: 14px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--green-clock);
-      border: 1px solid #cbd5e1;
-      cursor: pointer;
-    }
-    .gps-manual-btn:hover { background: #e2e8f0; }
-
     /* World Time (Pinned India) */
     .world-clock-container {
       display: flex;
@@ -225,10 +198,7 @@
       text-align: center;
     }
 
-    .world-card.active-country {
-      background: #f8faff;
-    }
-
+    .world-card.active-country { background: #f8faff; }
     .country-flag { font-size: 1.4rem; margin-bottom: 2px; }
     .country-name { font-size: 0.72rem; font-weight: 700; color: #334155; }
     .country-time { font-size: 0.92rem; font-weight: 800; color: #0f172a; margin: 2px 0; }
@@ -254,27 +224,58 @@
     .arrow-left { left: 2px; }
     .arrow-right { right: 2px; }
 
-    /* Prayer Times Table */
+    /* Location Strip & Prayer Times Container Fix */
+    .prayer-location-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0d9488;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: background 0.2s;
+    }
+    .prayer-location-strip:hover { background: #e2e8f0; }
+
+    .prayer-location-btn {
+      background: #0d9488;
+      color: #ffffff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     .prayer-table {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 6px;
       text-align: center;
-      margin-top: 8px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .prayer-box {
       background: #f8fafc;
       padding: 8px 4px;
       border-radius: 8px;
+      min-width: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .prayer-box.active-prayer {
-      background: #ecfdf5;
-    }
-
-    .prayer-name { font-size: 0.7rem; font-weight: 700; color: #475569; }
-    .prayer-time-val { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin-top: 2px; }
+    .prayer-box.active-prayer { background: #ecfdf5; }
+    .prayer-name { font-size: 0.72rem; font-weight: 700; color: #475569; white-space: nowrap; }
+    .prayer-time-val { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin-top: 2px; white-space: nowrap; }
 
     .prayer-warning {
       background: #fffbeb;
@@ -286,6 +287,7 @@
       color: #92400e;
       display: flex;
       gap: 6px;
+      align-items: flex-start;
     }
 
     /* Dual Calendars */
@@ -332,9 +334,9 @@
       font-weight: 700;
       color: var(--text-muted);
       background: transparent;
+      border: 2px solid var(--border-red);
       border-radius: 6px;
       cursor: pointer;
-      border-width: 2px !important;
     }
     .month-tab.active-tab-blue { background: var(--blue-primary) !important; color: #ffffff !important; }
     .month-tab.active-tab-purple { background: var(--purple-primary) !important; color: #ffffff !important; }
@@ -461,7 +463,7 @@
     .yt-side-scroll-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
 
     .yt-scroll-card {
-      flex: 0 0 260px;
+      flex: 0 0 250px;
       scroll-snap-align: start;
       background: #ffffff;
       border-radius: 12px;
@@ -524,7 +526,7 @@
     .yt-date-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
     .yt-share-icon-btn { background: none; border: none; cursor: pointer; color: var(--accent-orange); font-size: 1rem; }
 
-    /* Dual Media Grid (Articles & Dua) */
+    /* Articles & Dua Grid */
     .media-dual-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -541,7 +543,7 @@
     .article-item h4 { font-size: 0.82rem; color: #0f172a; }
     .article-item p { font-size: 0.7rem; color: var(--text-muted); margin-top: 3px; }
 
-    .dua-card-box {
+    .dua-card-thick-border {
       background: #fefce8;
       border-radius: 12px;
       padding: 14px;
@@ -718,17 +720,24 @@
     }
     .nav-item.active { color: #38bdf8; }
 
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .prayer-table {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+    }
+
     @media (max-width: 768px) {
       .calendar-dual-grid { grid-template-columns: 1fr; }
       .media-dual-grid { grid-template-columns: 1fr; }
-      .prayer-table { grid-template-columns: repeat(3, 1fr); gap: 8px; }
       .events-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body id="topView">
 
-  <!-- 1. Sticky Header & Quick-Bar -->
+  <!-- 1. Frozen Header & Top Quick-Bar -->
   <div class="top-fixed-wrapper">
     <header class="app-header">
       <div class="brand-section">
@@ -772,7 +781,7 @@
     </section>
   </div>
 
-  <!-- Settings Drawer -->
+  <!-- Settings Side Drawer -->
   <div class="modal-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
   <aside style="position:fixed; top:0; right:-280px; width:260px; height:100%; background:#fff; z-index:400; transition:right 0.25s; padding:18px; border-left:4px solid var(--border-red);" id="sideDrawer">
     <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
@@ -789,17 +798,17 @@
     </select>
   </aside>
 
-  <!-- Main Content -->
+  <!-- Main Content Container -->
   <main class="main-container">
 
-    <!-- Utility Tiles -->
+    <!-- Utility Tiles (Tasbeeh, Zakat, Qibla) -->
     <section class="utility-tools-bar">
       <div class="tool-tile" onclick="openModal('tasbeehModal')"><span>📿</span> Tasbeeh</div>
       <div class="tool-tile" onclick="openModal('zakatModal')"><span>💰</span> Zakat Calc</div>
       <div class="tool-tile" onclick="openQiblaModal()"><span>🧭</span> Qibla Finder</div>
     </section>
 
-    <!-- World Time (Pinned India) -->
+    <!-- World Time (Pinned India + Sliding Rest) -->
     <section class="card-block" id="worldTimeSection">
       <div class="section-header">
         <div class="section-header-title"><span>🌐</span> World Time</div>
@@ -815,7 +824,7 @@
           <div class="country-tz">IST</div>
         </div>
 
-        <!-- Scrollable Other Countries -->
+        <!-- Scrollable other countries -->
         <div class="world-scroll-outer">
           <button class="nav-arrow arrow-left" id="scrollLeftWorld">&lt;</button>
           <div class="world-scroll" id="worldScroll"></div>
@@ -824,34 +833,38 @@
       </div>
     </section>
 
-    <!-- Prayer Times with Manual GPS Trigger -->
+    <!-- Location-Based Prayer Times Section -->
     <section class="card-block" id="prayerSection">
-      <div class="section-header" style="flex-wrap:wrap; gap:8px;">
-        <div class="section-header-title"><span>🕌</span> Prayer Times (Delhi Default)</div>
-        <button class="gps-manual-btn" id="triggerManualGps" onclick="triggerGpsLocation()" type="button">
-  <span>📍 My Location (GPS)</span>
-</button>
+      <div class="section-header">
+        <div class="section-header-title"><span>🕌</span> Prayer Times</div>
       </div>
 
+      <!-- Location Strip (Clickable to change city or use GPS) -->
+      <div class="prayer-location-strip" onclick="useMyLocation()" title="Click to Change City or use GPS">
+        <span id="locationText">📍 Delhi (Default)</span>
+        <button class="prayer-location-btn">Change / GPS</button>
+      </div>
+
+      <!-- Prayer Table (Auto-fit grid) -->
       <div class="prayer-table">
-        <div class="prayer-box"><div class="prayer-name">Fajr</div><div class="prayer-time-val" id="pt-fajr">04:52 AM</div></div>
-        <div class="prayer-box"><div class="prayer-name">Sunrise</div><div class="prayer-time-val" id="pt-sunrise">06:06 AM</div></div>
-        <div class="prayer-box active-prayer"><div class="prayer-name">Dhuhr</div><div class="prayer-time-val" id="pt-dhuhr">12:22 PM</div></div>
-        <div class="prayer-box"><div class="prayer-name">Asr</div><div class="prayer-time-val" id="pt-asr">04:41 PM</div></div>
-        <div class="prayer-box"><div class="prayer-name">Maghrib</div><div class="prayer-time-val" id="pt-maghrib">06:37 PM</div></div>
-        <div class="prayer-box"><div class="prayer-name">Isha</div><div class="prayer-time-val" id="pt-isha">07:51 PM</div></div>
+        <div class="prayer-box"><div class="prayer-name">Fajr</div><div class="prayer-time-val" id="pt-fajr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Sunrise</div><div class="prayer-time-val" id="pt-sunrise">--:--</div></div>
+        <div class="prayer-box active-prayer"><div class="prayer-name">Dhuhr</div><div class="prayer-time-val" id="pt-dhuhr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Asr</div><div class="prayer-time-val" id="pt-asr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Maghrib</div><div class="prayer-time-val" id="pt-maghrib">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Isha</div><div class="prayer-time-val" id="pt-isha">--:--</div></div>
       </div>
 
       <div class="prayer-warning">
         <span>⚠️</span>
-        <div><strong>Ehtiyat / Note:</strong> Free API astronomical calculation par mabni hoti hai. 4-5 minute ka farq ho sakta hai, safar me ya roze ke auqaat me motabar jagah se tasdeeq zaroor karein.</div>
+        <div><strong>Ehtiyat / Note:</strong> Timings astronomical calculation par mabni hain. 4-5 minute ka farq ho sakta hai, safar ya roze me motabar jagah se tasdeeq karein.</div>
       </div>
     </section>
 
     <!-- Dual Standalone Calendars -->
     <section class="calendar-dual-grid" id="calendarsSection">
       
-      <!-- English Calendar Card -->
+      <!-- English Calendar -->
       <div class="cal-box">
         <div class="cal-header-bar cal-header-blue">
           <span>📅</span> English Calendar
@@ -870,7 +883,7 @@
         </div>
         <div class="cal-dates-grid" id="engDatesGrid"></div>
 
-        <!-- 4-Season Linked Strip (Mar-May, Jun-Aug, Sep-Nov, Dec-Feb) -->
+        <!-- 4-Season Linked Strip -->
         <div class="season-quarter-strip">
           <div class="season-block" onclick="selectSeasonMonth(2)">
             <div class="season-block-title">🌸 Spring/Summer</div>
@@ -891,7 +904,7 @@
         </div>
       </div>
 
-      <!-- Hijri Calendar Card -->
+      <!-- Standalone Hijri Calendar -->
       <div class="cal-box">
         <div class="cal-header-bar cal-header-purple">
           <span>🌙</span> Hijri Calendar
@@ -913,7 +926,7 @@
 
     </section>
 
-    <!-- Important Announcements Board -->
+    <!-- Important Announcement Board -->
     <section class="important-board">
       <div class="board-info">
         <h3>🌙 Masnoon Dua: Naya Chand Dekhne Ki</h3>
@@ -945,7 +958,7 @@
       </div>
       <div class="yt-side-scroll-container">
         
-        <!-- Video Card 1 -->
+        <!-- Video 1 -->
         <div class="yt-scroll-card">
           <div class="yt-thumb-facade" onclick="loadYouTubeVideo('dQw4w9WgXcQ', this)">
             <img src="https://images.unsplash.com/photo-1590076215667-875d4ef2d7ee?w=600" alt="Thumbnail">
@@ -955,12 +968,12 @@
             <div class="yt-card-title">Fazilat-e-Roza Aur Ramazan Ke Masail</div>
             <div class="yt-share-btn-row">
               <span class="yt-date-sub">Lecture Video</span>
-              <button class="yt-share-icon-btn" onclick="shareYouTubeFull('Fazilat-e-Roza Aur Ramazan Ke Masail', 'https://youtu.be/dQw4w9WgXcQ')">📤</button>
+              <button class="yt-share-icon-btn" onclick="shareYouTubeFull('Fazilat-e-Roza Aur Ramazan Ke Masail', 'https://youtu.be/dQw4w9WgXcQ')" aria-label="Share Video">📤</button>
             </div>
           </div>
         </div>
 
-        <!-- Video Card 2 -->
+        <!-- Video 2 -->
         <div class="yt-scroll-card">
           <div class="yt-thumb-facade" onclick="loadYouTubeVideo('w95S_wA0B84', this)">
             <img src="https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600" alt="Thumbnail">
@@ -970,12 +983,12 @@
             <div class="yt-card-title">Namaz Ki Pabandi Ka Aasan Tareeqa</div>
             <div class="yt-share-btn-row">
               <span class="yt-date-sub">Islamic Short</span>
-              <button class="yt-share-icon-btn" onclick="shareYouTubeFull('Namaz Ki Pabandi Ka Aasan Tareeqa', 'https://youtu.be/w95S_wA0B84')">📤</button>
+              <button class="yt-share-icon-btn" onclick="shareYouTubeFull('Namaz Ki Pabandi Ka Aasan Tareeqa', 'https://youtu.be/w95S_wA0B84')" aria-label="Share Video">📤</button>
             </div>
           </div>
         </div>
 
-        <!-- Video Card 3 -->
+        <!-- Video 3 -->
         <div class="yt-scroll-card">
           <div class="yt-thumb-facade" onclick="loadYouTubeVideo('3JZ_D3ELwOQ', this)">
             <img src="https://images.unsplash.com/photo-1522881451255-f59ad836fdfb?w=600" alt="Thumbnail">
@@ -985,7 +998,7 @@
             <div class="yt-card-title">Tilawat-e-Quran Se Dil Ka Sukoon</div>
             <div class="yt-share-btn-row">
               <span class="yt-date-sub">Recitation</span>
-              <button class="yt-share-icon-btn" onclick="shareYouTubeFull('Tilawat-e-Quran Se Dil Ka Sukoon', 'https://youtu.be/3JZ_D3ELwOQ')">📤</button>
+              <button class="yt-share-icon-btn" onclick="shareYouTubeFull('Tilawat-e-Quran Se Dil Ka Sukoon', 'https://youtu.be/3JZ_D3ELwOQ')" aria-label="Share Video">📤</button>
             </div>
           </div>
         </div>
@@ -993,7 +1006,7 @@
       </div>
     </section>
 
-    <!-- Articles & Dua Section -->
+    <!-- Articles & Dua Grid -->
     <section class="media-dual-grid" id="mediaSection">
       
       <!-- Articles Block -->
@@ -1007,15 +1020,15 @@
         </div>
         <div class="article-item" onclick="openArticleModal(2)">
           <h4>Fazilat: Ayyam-e-Beez Ke Teen Roze</h4>
-          <p>Har mahine 13, 14, 15 ko roza rakhne ke ajar aur sunnat...</p>
+          <p>Har islami mahine 13, 14, 15 ko roza rakhne ke ajar aur sunnat...</p>
         </div>
       </div>
 
       <!-- Today's Dua Card -->
-      <div class="dua-card-box" id="duaSection">
+      <div class="dua-card-thick-border" id="duaSection">
         <div class="dua-header-block">
           <strong style="font-size:0.85rem; color:#b45309;">🤲 Today's Dua</strong>
-          <button onclick="shareTitleDua()" style="background:none; border:none; cursor:pointer; font-weight:700; color:#ea580c; font-size:0.75rem;">📤 Share</button>
+          <button onclick="shareTitleDua()" style="background:none; border:none; cursor:pointer; font-weight:700; color:var(--accent-orange); font-size:0.75rem;">📤 Share</button>
         </div>
         
         <div class="dua-categories-scroller">
@@ -1026,7 +1039,7 @@
         </div>
 
         <div class="dua-inner-content">
-          <div class="dua-arabic-text" id="duaArabic">اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا</div>
+          <div class="dua-arabic-text" id="duaArabic">اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا</div>
           <div class="dua-transliteration" id="duaTranslit">Allahumma aj'al hadha yawman khayran min amsina.</div>
           <div class="dua-translation-block" id="duaTranslate">O Allah! Make this day better than our yesterday.</div>
         </div>
@@ -1034,10 +1047,10 @@
 
     </section>
 
-    <!-- Footer Note -->
+    <!-- Restored Descriptive Footer -->
     <footer id="finalFooter">
       <p>&copy; 2026 Daily Islamic Calendar Dashboard. All Islamic events & dates are subject to regional moon visibility.</p>
-      <div class="foot-info">Prayer timings are approximate based on Astronomical Calculations. Sourced from Aladhan Open API.</div>
+      <div class="foot-info">All World Times are sourced from International Databases. Prayer timings are approximate based on Astronomical Calculations. Sourced from Aladhan Open API.</div>
     </footer>
 
   </main>
@@ -1060,7 +1073,7 @@
     </div>
   </div>
 
-  <!-- Zakat Calculator Modal -->
+  <!-- Zakat Modal -->
   <div class="modal-overlay" id="zakatModal">
     <div class="popup-modal">
       <div class="popup-header">
@@ -1086,7 +1099,7 @@
     </div>
   </div>
 
-  <!-- Qibla Compass Modal -->
+  <!-- Qibla Modal -->
   <div class="modal-overlay" id="qiblaModal">
     <div class="popup-modal" style="text-align:center;">
       <div class="popup-header">
@@ -1142,8 +1155,7 @@
   </nav>
 
   <!-- Complete Javascript Logic -->
-  
-    <script>
+  <script>
     const now = new Date();
     let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '0', 10);
     document.getElementById('hijriOffsetSelect').value = hijriOffset;
@@ -1169,9 +1181,9 @@
 
     // Duas Library
     const duasData = {
-      daily: { title: "Daily Dua", ar: "اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا", tr: "Allahumma aj'al hadha yawman khayran min amsina.", en: "O Allah! Make this day better than our yesterday." },
+      daily: { title: "Daily Dua", ar: "اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا", tr: "Allahumma aj'al hadha yawman khayran min amsina.", en: "O Allah! Make this day better than our yesterday." },
       morning: { title: "Morning Dua", ar: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ", tr: "Asbahna wa asbahal-mulku lillah, walhamdu lillah.", en: "We entered the morning and the dominion belongs to Allah." },
-      salah: { title: "Dua After Salah", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.", en: "O Allah, help me remember You and thank You." },
+      salah: { title: "Dua After Salah", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.", en: "O Allah, help me remember You and thank You." },
       forgiveness: { title: "Dua for Forgiveness", ar: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ", tr: "Rabbighfir li wa tub 'alayya innaka antat-tawwabur-rahim.", en: "My Lord, forgive me and accept my repentance." }
     };
 
@@ -1193,7 +1205,7 @@
         navigator.share({ title, text, url: url || window.location.href });
       } else {
         navigator.clipboard.writeText(`${title}\n\n${text}\n\n${url || window.location.href}`);
-        alert("Details copied to clipboard for sharing!");
+        alert("Details copied to clipboard!");
       }
     }
 
@@ -1223,7 +1235,7 @@
     }
 
     function shareOverallPlatform() {
-      shareNative("Daily Islamic Calendar Dashboard 2026", "Check Gregorian & Lunar Hijri calendar, Delhi & Manual GPS Prayer Times, Qibla Compass, Digital Tasbeeh, and Zakat Calculator.", window.location.href);
+      shareNative("Daily Islamic Calendar Dashboard 2026", "Check Gregorian & Lunar Hijri calendar, Location-Based Prayer Times, Qibla Compass, Digital Tasbeeh, and Zakat Calculator.", window.location.href);
     }
 
     // Hijri Calculation Helper
@@ -1235,7 +1247,7 @@
       let d = 1, m = 1, y = 1448;
       parts.forEach(p => {
         if (p.type === 'day') d = parseInt(p.value);
-        if (p.type === 'month') m = parseInt(p.value);
+        if (p.type === 'month') month = parseInt(p.value);
         if (p.type === 'year') y = parseInt(p.value);
       });
       return { day: d, monthIndex: m - 1, year: y };
@@ -1428,104 +1440,157 @@
       }
     }
 
-    // Convert 24-hour to 12-hour format
+    // ===============================================
+    // 🕌 BULLETPROOF LOCATION & PRAYER TIMES SYSTEM
+    // ===============================================
+
+    // 1. Convert 24-hour to 12-hour format
     function convertTo12Hour(time24) {
+      if (!time24) return "--:--";
       let [hours, minutes] = time24.split(":");
-      hours = parseInt(hours);
+      hours = parseInt(hours, 10);
       const ampm = hours >= 12 ? "PM" : "AM";
       hours = hours % 12 || 12;
       return `${hours}:${minutes} ${ampm}`;
     }
 
-    // Show human readable location using OpenStreetMap
+    // 2. OpenStreetMap reverse geocode
     async function showAddress(lat, lng) {
       try {
         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
         const data = await res.json();
-        document.getElementById('userLocationSub').innerText = data.display_name || `Lat: ${lat.toFixed(2)}, Lng: ${lng.toFixed(2)}`;
-      } catch {
-        document.getElementById('userLocationSub').innerText = `Lat: ${lat.toFixed(2)}, Lng: ${lng.toFixed(2)}`;
+        const city = data.address.city || data.address.town || data.address.village || data.address.state_district || data.address.state || "Detected Area";
+        updateLocationLabels(city);
+      } catch (err) {
+        updateLocationLabels(`Lat: ${Number(lat).toFixed(2)}, Lng: ${Number(lng).toFixed(2)}`);
       }
     }
 
-    // Fetch Prayer Times with location (like Code2locys)
+    function updateLocationLabels(cityName) {
+      const locEl = document.getElementById("locationText");
+      if (locEl) locEl.innerText = `📍 ${cityName}`;
+      const subEl = document.getElementById("userLocationSub");
+      if (subEl) subEl.innerText = cityName;
+    }
+
+    // 3. Aladhan API via Coordinates
     async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
       try {
-        // Save current location to localStorage
         localStorage.setItem('prayerLat', lat);
         localStorage.setItem('prayerLng', lng);
         localStorage.setItem('prayerCity', cityName);
 
-        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2`);
+        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
         const data = await res.json();
         const t = data.data.timings;
 
-        renderPrayerTimesUI(t);
-        showAddress(lat, lng);
-        
-        return true;
-      } catch (e) {
-        console.error("Error fetching prayer times:", e);
-        return false;
-      }
-    }
+        document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+        document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+        document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+        document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+        document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+        document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
 
-    // GPS Location Trigger (Fixed - exactly like Code2locys)
-    async function triggerGpsLocation() {
-      const btn = document.getElementById('triggerManualGps');
-      
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (pos) => {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            btn.innerHTML = `<span>✅ Location Found!</span>`;
-            
-            const success = await fetchPrayerTimes(lat, lng, "Your Current Location");
-            
-            if (success) {
-              setTimeout(() => {
-                btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-              }, 1500);
-            } else {
-              btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-              fetchDefaultDelhiPrayers();
-            }
-          },
-          () => {
-            alert("Location permission denied! Using Delhi as default.");
-            btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-            fetchDefaultDelhiPrayers();
-          }
-        );
-      } else {
-        alert("Geolocation is not supported on this device.");
-        btn.innerHTML = `<span>📍 My Location (GPS)</span>`;
-        fetchDefaultDelhiPrayers();
-      }
-    }
-
-    // Fetch default Delhi prayers
-    async function fetchDefaultDelhiPrayers() {
-      try {
-        const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Delhi&country=India&method=2');
-        const data = await res.json();
-        if (data.data) {
-          renderPrayerTimesUI(data.data.timings);
-          document.getElementById('userLocationSub').innerText = 'Delhi, India';
+        if (cityName === "Current Location") {
+          showAddress(lat, lng);
+        } else {
+          updateLocationLabels(cityName);
         }
       } catch (e) {
-        console.warn("Offline or API limit:", e);
+        console.error("Salah Time Error:", e);
       }
     }
 
-    function renderPrayerTimesUI(timings) {
-      document.getElementById('pt-fajr').innerText = convertTo12Hour(timings.Fajr);
-      document.getElementById('pt-sunrise').innerText = convertTo12Hour(timings.Sunrise);
-      document.getElementById('pt-dhuhr').innerText = convertTo12Hour(timings.Dhuhr);
-      document.getElementById('pt-asr').innerText = convertTo12Hour(timings.Asr);
-      document.getElementById('pt-maghrib').innerText = convertTo12Hour(timings.Maghrib);
-      document.getElementById('pt-isha').innerText = convertTo12Hour(timings.Isha);
+    // 4. Fetch via City Name (Direct Query)
+    async function fetchPrayerByCity(city) {
+      try {
+        updateLocationLabels(`Searching ${city}...`);
+        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=4`);
+        const data = await res.json();
+        if (data.code === 200 && data.data) {
+          const t = data.data.timings;
+          document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+          document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+          document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+          document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+          document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+          document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+          
+          localStorage.setItem('prayerCity', city);
+          localStorage.removeItem('prayerLat');
+          localStorage.removeItem('prayerLng');
+          updateLocationLabels(city);
+          return true;
+        }
+      } catch (e) {
+        console.error("City fetch error:", e);
+      }
+      alert(`Could not find timings for "${city}". Falling back to Delhi.`);
+      fetchPrayerTimes(28.6139, 77.2090, "Delhi");
+      return false;
+    }
+
+    // 5. Fallback via Network/IP
+    async function fetchLocationByIP() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        if (data.latitude && data.longitude) {
+          const city = data.city || data.region || "Local Area";
+          fetchPrayerTimes(data.latitude, data.longitude, city);
+          return true;
+        }
+      } catch (e) {
+        console.warn("IP Geolocation failed:", e);
+      }
+      return false;
+    }
+
+    // 6. User Click Handler (Choice: GPS or Type City)
+    function useMyLocation() {
+      const choice = confirm("Press [OK] to auto-detect location via GPS.\nPress [CANCEL] to enter your City name manually.");
+      
+      if (!choice) {
+        const customCity = prompt("Enter your City / Town name (e.g. Mumbai, Lucknow, Patna, Dubai):");
+        if (customCity && customCity.trim() !== "") {
+          fetchPrayerByCity(customCity.trim());
+        }
+        return;
+      }
+
+      if (navigator.geolocation) {
+        updateLocationLabels("Tracing GPS...");
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "Current Location");
+          },
+          async (err) => {
+            alert("GPS access was not available. Attempting Network/IP detection...");
+            const ipSuccess = await fetchLocationByIP();
+            if (!ipSuccess) {
+              loadInitialPrayerTimes();
+            }
+          },
+          { timeout: 8000, enableHighAccuracy: false }
+        );
+      } else {
+        fetchLocationByIP();
+      }
+    }
+
+    // 7. Initial Load
+    function loadInitialPrayerTimes() {
+      const savedCity = localStorage.getItem('prayerCity');
+      const savedLat = localStorage.getItem('prayerLat');
+      const savedLng = localStorage.getItem('prayerLng');
+
+      if (savedLat && savedLng) {
+        fetchPrayerTimes(savedLat, savedLng, savedCity || "Saved Location");
+      } else if (savedCity) {
+        fetchPrayerByCity(savedCity);
+      } else {
+        fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
+      }
     }
 
     // Digital Tasbeeh Logic
@@ -1578,7 +1643,7 @@
       const article = articlesData[id];
       currentModalActiveArticle = article;
       document.getElementById('artTitle').innerText = article.title;
-      document.getElementById('artBody').innerText = article.body;
+      document.getElementById('artBody').innerHTML = article.body;
       openModal('articleModal');
     }
 
@@ -1647,9 +1712,8 @@
     renderEnglishCalendarGrid();
     renderHijriCalendarGrid();
     updateLiveDashboardClocks();
-    fetchDefaultDelhiPrayers(); // Load Delhi default timings on page load
+    loadInitialPrayerTimes();
     setInterval(updateLiveDashboardClocks, 1000);
-  
   </script>
 </body>
 </html>
