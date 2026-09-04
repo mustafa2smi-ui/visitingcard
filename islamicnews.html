@@ -46,6 +46,7 @@
           <div class="btn-row">
             <button class="action-btn" id="ttsBtn_${idx}" onclick="speakStory(this, '${escape(item.headline + '. ' + item.fullStory)}')">🔊 Suniye (Audio)</button>
             <button class="action-btn" onclick="shareArticle('${escape(item.headline)}', '${escape(item.fullStory)}')">📤 Share</button>
+            <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" style="font-size:0.7rem; color:#64748b; text-decoration:underline;">Source: ${item.sourceName} ↗</a>
           </div>
         `;
         container.appendChild(card);
