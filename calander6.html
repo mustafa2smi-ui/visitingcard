@@ -177,7 +177,93 @@
       color: #0f172a;
       cursor: pointer;
     }
+/* ================= Smart Event Hub Banner ================= */
+    .event-hub-container {
+      margin-bottom: 14px;
+      transition: all 0.3s ease-in-out;
+    }
 
+    /* Jab koi event na ho (1-inch sleek placeholder) */
+    .event-hub-empty {
+      background: #f1f5f9;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 10px;
+      height: 42px; /* ~1 inch bar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      text-align: center;
+    }
+
+    .event-hub-empty span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #94a3b8; /* Disabled / muted style */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Jab events active hon (Scrollable Cards) */
+    .event-hub-active-slider {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding: 4px 2px;
+    }
+    .event-hub-active-slider::-webkit-scrollbar { display: none; }
+
+    /* Har Event Card ka Fixed Equal Size */
+    .hub-event-card {
+      flex: 0 0 100%;
+      min-width: 280px;
+      height: 155px; /* Fixed standard height */
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      scroll-snap-align: center;
+      box-sizing: border-box;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    @media (min-width: 600px) {
+      .hub-event-card { flex: 0 0 340px; }
+    }
+
+    /* Card Themes */
+    .hub-theme-green { background: linear-gradient(135deg, #064e3b 0%, #047857 100%); }
+    .hub-theme-gold { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
+    .hub-theme-blue { background: linear-gradient(135deg, #1e1b4b 0%, #1d4ed8 100%); }
+    .hub-theme-red { background: linear-gradient(135deg, #881337 0%, #be123c 100%); }
+
+    .hub-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 6px;
+    }
+    .hub-card-header strong { font-size: 0.88rem; color: #fef08a; }
+    
+    .hub-card-body {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      overflow-y: auto;
+      margin: 6px 0;
+      padding-right: 4px;
+    }
+    .hub-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+    }
     /* World Time */
     .world-clock-container { display: flex; align-items: stretch; gap: 8px; }
     .pinned-clock { flex: 0 0 115px; z-index: 2; }
@@ -908,7 +994,10 @@
       <div class="tool-tile" onclick="openModal('zakatModal')"><span>💰</span> Zakat Calc</div>
       <div class="tool-tile" onclick="openQiblaModal()"><span>🧭</span> Qibla Finder</div>
     </section>
-
+<!-- 🔔 Smart Auto Event Display Hub -->
+    <div id="smartEventHub" class="event-hub-container">
+      <!-- JavaScript will automatically toggle between 1-inch empty bar and event cards -->
+    </div>
     <section class="card-block" id="worldTimeSection">
       <div class="section-header">
         <div class="section-header-title"><span>🌐</span> World Time</div>
@@ -1044,13 +1133,13 @@
         <div class="section-header-title"><span>✨</span> Upcoming Islamic Events & Duas</div>
       </div>
       <div class="events-grid">
-        <div class="event-card" style="border: 2px solid #fbbf24; background:#fefce8; cursor:pointer;" onclick="shareMasnoonDua()">
+        <!--<div class="event-card" style="border: 2px solid #fbbf24; background:#fefce8; cursor:pointer;" onclick="shareMasnoonDua()">
           <span class="new-badge">NEW</span>
           <div class="ev-icon">🌙</div>
           <div class="ev-name" style="color:#b45309;">Naya Chand Dua</div>
           <div class="ev-date" style="font-weight:700; color:#d97706;">Tap to View & Share</div>
         </div>
-
+-->
         <div class="event-card"><div class="ev-icon">🌙</div><div class="ev-name">Ramadan</div><div class="ev-date">1 Ramadan 1448</div></div>
         <div class="event-card"><div class="ev-icon">🕌</div><div class="ev-name">Laylatul Qadr</div><div class="ev-date">27 Ramadan 1448</div></div>
         <div class="event-card"><div class="ev-icon">🎉</div><div class="ev-name">Eid-ul-Fitr</div><div class="ev-date">1 Shawwal 1448</div></div>
@@ -1107,7 +1196,7 @@
         </div>
       </div>
     </section>
-<!-- 🕌 JUMMAH MUBARAK AUTO CARD -->
+<!-- 🕌 JUMMAH MUBARAK AUTO CARD --
     <section class="jummah-special-card" id="jummahCard" style="display:none;">
       <div class="jummah-title-row">
         <div>
@@ -1123,6 +1212,7 @@
         <div class="sunnah-item"><span>4️⃣</span> <div><strong>Qubooliyat Ki Ghadi:</strong> Asr se Maghrib ke darmiyan khas duaon ka ahtimam karein.</div></div>
       </div>
     </section>
+    -->
     <section class="media-dual-grid" id="mediaSection">
       <div class="card-block">
         <div class="section-header">
@@ -1584,59 +1674,7 @@
         }
       });
     }
-/*
-    function renderHijriCalendarGrid() {
-      const currentHijri = getHijriDetailsByDate(now, hijriOffset);
-      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
-      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
-      
-      const grid = document.getElementById('hijriDatesGrid');
-      grid.innerHTML = '';
 
-      const startOfHijriDate = new Date(now);
-      startOfHijriDate.setDate(now.getDate() - (currentHijri.day - 1));
-      const firstDayOffset = startOfHijriDate.getDay();
-      const daysInHijriMonth = 30;
-
-      for (let i = 0; i < firstDayOffset; i++) {
-        const d = document.createElement('div');
-        d.className = 'cal-date muted';
-        grid.appendChild(d);
-      }
-
-      for (let day = 1; day <= daysInHijriMonth; day++) {
-        const dateCell = document.createElement('div');
-        dateCell.className = 'cal-date';
-
-        const dayOfWeek = (firstDayOffset + day - 1) % 7;
-        if (dayOfWeek === 0) dateCell.classList.add('sun-date');
-        if (dayOfWeek === 6) dateCell.classList.add('sat-date');
-
-        if (day === currentHijri.day && selectedHijriMonthIndex === currentHijri.monthIndex) {
-          dateCell.classList.add('active-purple');
-        }
-
-        const numSpan = document.createElement('span');
-        numSpan.innerText = day;
-        dateCell.appendChild(numSpan);
-
-        const moonSpan = document.createElement('span');
-        moonSpan.className = 'moon-sub-icon';
-        moonSpan.innerText = getMoonIconByDay(day);
-        dateCell.appendChild(moonSpan);
-
-        grid.appendChild(dateCell);
-      }
-
-      const cellsUsed = firstDayOffset + daysInHijriMonth;
-      const nextEmpty = (cellsUsed > 35 ? 42 : 35) - cellsUsed;
-      for (let n = 1; n <= nextEmpty; n++) {
-        const d = document.createElement('div');
-        d.className = 'cal-date muted';
-        grid.appendChild(d);
-      }
-    }
-*/
     // 🌙 Hijri Grid Render (Permanent Fix: Correct Day Column with India Date)
     function renderHijriCalendarGrid() {
       const currentHijri = getHijriDetailsByDate(now, hijriOffset);
@@ -1707,7 +1745,7 @@
       }
     }
     
-    /* Ramadan Countdown Auto Logic */
+    /* Ramadan Countdown Auto Logic *
     function checkRamadanCountdown() {
       const hijri = getHijriDetailsByDate(now, hijriOffset);
       const banner = document.getElementById('ramadanCountdownBanner');
@@ -1733,7 +1771,7 @@
         banner.style.display = 'none';
       }
     }
-
+*/
     /* IndexedDB & Auto-Compress Image Gallery */
     let db;
     const DB_NAME = "IslamicCalendarDB";
@@ -2110,6 +2148,7 @@
       document.getElementById('artBody').innerHTML = article.body;
       openModal('articleModal');
     }
+    /*
 // 🕌 Jummah Auto-Check (Islamic Sunset Rule: Jumerat Maghrib se Jummah Maghrib tak)
     function checkJummahDisplay() {
       const d = new Date();
@@ -2166,7 +2205,124 @@
       closeModal('noteModal');
       renderEnglishCalendarGrid();
     }
+*/
+    // ================================================================
+    // 🔔 SMART AUTO EVENT ENGINE (Jummah, Ramadan, Chand, Custom Alert)
+    // ================================================================
 
+    // ✍️ MANUAL EVENT: Jab bhi koi khas baat dikhani ho, yaha likhein aur expiry set karein
+    // Agar nahi dikhana ho to active: false kar dein
+    const customAnnouncement = {
+      active: true,
+      title: "📢 Zaroori Notice",
+      message: "Aaj Hajj Ka Form Bharne Ka Last Date Hai. Tamam azmeen ehtiyat se form submit karein.",
+      // Format: YYYY-MM-DDTHH:MM:SS (24-hour expiry timer)
+      expiresAt: "2026-09-06T23:59:59" 
+    };
+
+    function renderSmartEventHub() {
+      const hubEl = document.getElementById('smartEventHub');
+      if (!hubEl) return;
+
+      const d = new Date();
+      const currentHijri = getHijriDetailsByDate(d, hijriOffset);
+      const activeEvents = [];
+
+      // 1. JUMMAH CHECK (Thursday Maghrib to Friday Maghrib)
+      const day = d.getDay();
+      const currentMins = d.getHours() * 60 + d.getMinutes();
+      let maghribMins = 18 * 60 + 30;
+      if (typeof liveMaghribTimeStr !== 'undefined' && liveMaghribTimeStr.includes(":")) {
+        const parts = liveMaghribTimeStr.replace(/[^\d:]/g, "").split(":");
+        let h = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) || 0;
+        if (liveMaghribTimeStr.toUpperCase().includes("PM") && h < 12) h += 12;
+        if (!isNaN(h)) maghribMins = h * 60 + m;
+      }
+
+      let isJummahActive = (day === 4 && currentMins >= maghribMins) || (day === 5 && currentMins < maghribMins);
+      if (isJummahActive) {
+        activeEvents.push({
+          theme: "hub-theme-green",
+          badge: "JUMMAH SPECIAL",
+          title: "🕌 Jummah Mubarak & Sunan",
+          body: "1️⃣ Kasrat se Durood Shareef padhein.<br>2️⃣ Ghusl, Miswak, Ittar aur Saf Libas.<br>3️⃣ Surah Al-Kahf ki tilawat karein.<br>4️⃣ Asr se Maghrib qabooliyat ki ghadi me dua karein.",
+          shareText: "Jummah Mubarak! Aaj Durood, Ghusl, Miswak aur Surah Kahf ki tilawat ka ahtimam karein."
+        });
+      }
+
+      // 2. NAYA CHAND DUA (Har mahine ke aakhri 2 din: 28, 29, 30)
+      if (currentHijri.day >= 28) {
+        activeEvents.push({
+          theme: "hub-theme-blue",
+          badge: "NEW MOON DUA",
+          title: "🌙 Naya Chand Dekhne Ki Dua",
+          body: "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالأَمْنِ وَالإِيمَانِ وَالسَّلامَةِ وَالإِسْلامِ رَبِّي وَرَبُّكَ اللَّهُ<br><i>(Aye Allah! Is naye chand ko hamare liye aman aur salamati wala bana)</i>",
+          shareText: "Naya Chand Dekhne Ki Masnoon Dua: Allahumma ahillahu alayna bil-amni wal-iman..."
+        });
+      }
+
+      // 3. RAMADAN COUNTDOWN (Sha'ban me auto-appear)
+      if (currentHijri.monthIndex === 8) {
+        activeEvents.push({
+          theme: "hub-theme-gold",
+          badge: "RAMADAN KAREEM",
+          title: `✨ Ramadan Mubarak - Day ${currentHijri.day}`,
+          body: "Mubarak mahina jaari hai. Roze, Tilawat-e-Quran aur Sadqaat ka ahtimam farmayein.",
+          shareText: `Ramadan Mubarak! Aaj Roza Day ${currentHijri.day} hai.`
+        });
+      } else if (currentHijri.monthIndex === 7) {
+        const daysLeft = (30 - currentHijri.day) + 1;
+        activeEvents.push({
+          theme: "hub-theme-gold",
+          badge: "COUNTDOWN",
+          title: "🌙 Ramadan Mubarak Countdown",
+          body: `Ramadan Kareem shuru hone me sirf <strong>${daysLeft} Din</strong> baaqi hain. Tauba aur ibadat ki tayyari karein.`,
+          shareText: `Sirf ${daysLeft} din baaqi hain Ramadan shuru hone me!`
+        });
+      }
+
+      // 4. MANUAL CUSTOM EVENT (Timer check)
+      if (customAnnouncement.active) {
+        const expiryDate = new Date(customAnnouncement.expiresAt);
+        if (d < expiryDate) {
+          activeEvents.push({
+            theme: "hub-theme-red",
+            badge: "ALERT",
+            title: customAnnouncement.title,
+            body: customAnnouncement.message,
+            shareText: `${customAnnouncement.title}: ${customAnnouncement.message}`
+          });
+        }
+      }
+
+      // RENDER LOGIC: Agar koi event nahi hai to 1-inch empty bar, warna Cards
+      if (activeEvents.length === 0) {
+        hubEl.innerHTML = `
+          <div class="event-hub-empty">
+            <span>Yaha Aapko Auto Event Display Jaise Jumma Sunnah, Ramadan Countdown, New Chand Dua, Shab E Barat, Ashura, Hajj, etc. Show Honge</span>
+          </div>
+        `;
+      } else {
+        let cardsHtml = activeEvents.map((ev, idx) => `
+          <div class="hub-event-card ${ev.theme}">
+            <div class="hub-card-header">
+              <strong>${ev.title}</strong>
+              <span style="background:rgba(255,255,255,0.2); font-size:0.6rem; padding:2px 6px; border-radius:4px; font-weight:700;">${ev.badge}</span>
+            </div>
+            <div class="hub-card-body">${ev.body}</div>
+            <div class="hub-card-footer">
+              <span style="opacity:0.8;">${activeEvents.length > 1 ? `Swipe to see more (${idx + 1}/${activeEvents.length}) 📲` : 'Islamic Event Hub'}</span>
+              <button onclick="shareNative('${ev.title}', '${ev.shareText}', window.location.href)" style="background:#ffffff; color:#0f172a; border:none; padding:3px 8px; border-radius:4px; font-weight:700; font-size:0.68rem; cursor:pointer;">📤 Share</button>
+            </div>
+          </div>
+        `).join('');
+
+        hubEl.innerHTML = `<div class="event-hub-active-slider">${cardsHtml}</div>`;
+      }
+    }
+
+    
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -2219,9 +2375,11 @@
     renderHijriCalendarGrid();
     updateLiveDashboardClocks();
     loadInitialPrayerTimes();
-    checkRamadanCountdown();
+    /*checkRamadanCountdown();*/
     initIndexedDB();
     setInterval(updateLiveDashboardClocks, 1000);
+    // Har minute check karega taaki Maghrib ya timer khatam hone par khud badal jaye
+    setInterval(renderSmartEventHub, 60000);
   </script>
 </body>
 </html>
