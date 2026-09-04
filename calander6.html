@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="news-data.js"></script>
+  <script src="islamic-content-data.js"></script>
   
   <title>Daily Islamic Calendar 2026 | Hijri Date, Prayer Times & Dashboard</title>
   <meta name="description" content="All-in-One Islamic Utility Dashboard: Gregorian & Hijri Lunar Calendar, Accurate Prayer Times, Qibla Direction, Digital Tasbeeh, Zakat Calculator, and Daily Duas.">
@@ -586,6 +587,109 @@
       border-radius: 4px;
       letter-spacing: 0.5px;
     }
+    /* Portal Cards Shared Style */
+    .portal-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-color);
+    }
+    .portal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .portal-header h3 {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* Acchi Baat WhatsApp Decorative Card */
+    .sweet-word-box {
+      background: #f8fafc;
+      border: 1.5px dashed #10b981;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #1e293b;
+      position: relative;
+    }
+    .sweet-meta {
+      text-align: center;
+      font-weight: 700;
+      color: #047857;
+      font-size: 0.72rem;
+      margin-bottom: 6px;
+    }
+    .sweet-line {
+      margin: 4px 0;
+      font-weight: 600;
+    }
+
+    /* Hadees Card Style */
+    .hadees-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .hadees-arabic {
+      font-family: 'Amiri', serif, Tahoma;
+      font-size: 1.15rem;
+      direction: rtl;
+      text-align: right;
+      color: #92400e;
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+    .hadees-tarjuma {
+      font-size: 0.76rem;
+      color: #1e293b;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .hadees-ref-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* Common Card Buttons */
+    .portal-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .portal-action-btn {
+      flex: 1;
+      text-align: center;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-green { background: #10b981; color: #fff; }
+    .btn-dark { background: #0f172a; color: #fff; }
+    .btn-outline { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
 /* 📰 News Card Styling */
     .news-portal-card {
       background: #ffffff;
@@ -1322,6 +1426,54 @@
           <div class="dua-transliteration" id="duaTranslit">Allahumma aj'al hadha yawman khayran min amsina.</div>
           <div class="dua-translation-block" id="duaTranslate">O Allah! Make this day better than our yesterday.</div>
         </div>
+      </div>
+    </section>
+    <!-- 1. Sabak Amooz Waqiya Card -->
+    <section class="portal-card">
+      <div class="portal-header">
+        <h3>📖 Sabak Amooz Waqiya</h3>
+        <span style="font-size:0.68rem; color:#64748b;" id="homeWaqiyaDate">--</span>
+      </div>
+      <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:4px;" id="homeWaqiyaTitle">--</div>
+      <p style="font-size:0.75rem; color:#475569; line-height:1.4; margin:0;" id="homeWaqiyaSnippet">--</p>
+      
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-outline" onclick="openFullWaqiyaModal()">Poora Waqiya Padhein 📖</button>
+        <button class="portal-action-btn btn-green" onclick="shareFeaturedWaqiya()">📤 WhatsApp</button>
+      </div>
+      <a href="waqiat.html" class="more-news-btn" style="background:#475569; margin-top:8px;">Sabhi Waqiat Ki Fehrist (Archive) ➡️</a>
+    </section>
+
+    <!-- 2. Aaj Ki Acchi Baat (Sweet Words) Card -->
+    <section class="portal-card">
+      <div class="portal-header">
+        <h3>🌸 Aaj Ki Acchi Baat</h3>
+        <span style="font-size:0.68rem; color:#059669; font-weight:700;">Daily Sweet Words</span>
+      </div>
+      <div class="sweet-word-box" id="homeSweetWordBox">
+        <!-- JS se auto fill hoga -->
+      </div>
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-green" onclick="copyAcchiBaatWhatsApp()">📋 Copy WhatsApp Format</button>
+        <button class="portal-action-btn btn-outline" onclick="shareAcchiBaatDirect()">📤 Share</button>
+      </div>
+      <a href="acchi-baatein.html" class="more-news-btn" style="background:#047857; margin-top:8px;">Pichli Acchi Baatein Dekhein ➡️</a>
+    </section>
+
+    <!-- 3. Hadees Sharif Card -->
+    <section class="portal-card">
+      <div class="portal-header">
+        <h3>📜 Hadees-e-Mubarak</h3>
+        <span class="hadees-ref-badge" id="homeHadeesRef">--</span>
+      </div>
+      <div class="hadees-box">
+        <div class="hadees-arabic" id="homeHadeesArabic">--</div>
+        <div class="hadees-tarjuma" id="homeHadeesTarjuma">--</div>
+        <div style="font-size:0.7rem; color:#64748b; margin-top:4px;" id="homeHadeesWazahat">--</div>
+      </div>
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-green" onclick="shareFeaturedHadees()">📤 WhatsApp Share</button>
+        <a href="hadees.html" class="portal-action-btn btn-dark">Mazeed Ahadees ➡️</a>
       </div>
     </section>
 <!-- 📰 Top Viral Islamic News Card -->
@@ -2525,7 +2677,90 @@
       window.speechSynthesis.speak(utterance);
     }
 
+// Auto-Render Waqiat, Acchi Baat, & Hadees (Safe Auto-Load)
+    function renderIslamicFeaturedContent() {
+      if (typeof waqiatDatabase === 'undefined' || typeof acchiBaatDatabase === 'undefined' || typeof hadeesDatabase === 'undefined') {
+        setTimeout(renderIslamicFeaturedContent, 150);
+        return;
+      }
 
+      // 1. Waqiya
+      if (waqiatDatabase.length > 0) {
+        const w = waqiatDatabase[0];
+        document.getElementById('homeWaqiyaDate').innerText = w.date;
+        document.getElementById('homeWaqiyaTitle').innerText = w.title;
+        document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
+      }
+
+      // 2. Acchi Baat (WhatsApp Decorated Format)
+      if (acchiBaatDatabase.length > 0) {
+        const a = acchiBaatDatabase[0];
+        const box = document.getElementById('homeSweetWordBox');
+        let linesHtml = a.quoteLines.map(l => `<div class="sweet-line">⚄→ ${l}</div>`).join('');
+        box.innerHTML = `
+          <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
+          <div class="sweet-meta">🌙 ${a.hijriDate} | ☀ ${a.date}</div>
+          <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Sweet Word 💧🌺</div>
+          ${linesHtml}
+          <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${a.closingDua}</div>
+        `;
+      }
+
+      // 3. Hadees
+      if (hadeesDatabase.length > 0) {
+        const h = hadeesDatabase[0];
+        document.getElementById('homeHadeesRef').innerText = h.reference;
+        document.getElementById('homeHadeesArabic').innerText = h.arabic;
+        document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
+        document.getElementById('homeHadeesWazahat').innerText = `Wazahat: ${h.wazahat}`;
+      }
+    }
+
+    // Modal popup to read complete waqiya on homepage
+    function openFullWaqiyaModal() {
+      if (waqiatDatabase.length > 0) {
+        const w = waqiatDatabase[0];
+        alert(`📖 ${w.title}\n\n${w.fullStory}`);
+      }
+    }
+
+    // WhatsApp Formatted Sharing Functions
+    function copyAcchiBaatWhatsApp() {
+      if (acchiBaatDatabase.length === 0) return;
+      const a = acchiBaatDatabase[0];
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${a.hijriDate} 🌙*\n*☀ ${a.date} ☀*\n*🌺💧💧 SωєєT ωσR∂ 💧💧🌺*\n\n${a.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${a.closingDua}_\n🌺💦💠💦💠🌹💦💠💦💠🌺\n\nDaily Islamic Dashboard visit karein:\n${window.location.href}`;
+      navigator.clipboard.writeText(txt).then(() => alert("WhatsApp format me copy ho gaya!"));
+    }
+
+    function shareAcchiBaatDirect() {
+      if (acchiBaatDatabase.length === 0) return;
+      const a = acchiBaatDatabase[0];
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${a.hijriDate} 🌙*\n*☀ ${a.date} ☀*\n\n${a.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n${window.location.href}`;
+      if (navigator.share) {
+        navigator.share({ title: "Aaj Ki Acchi Baat", text: txt, url: window.location.href });
+      } else {
+        copyAcchiBaatWhatsApp();
+      }
+    }
+
+    function shareFeaturedWaqiya() {
+      const w = waqiatDatabase[0];
+      const txt = `📖 *${w.title}*\n\n${w.snippet}\n\nMukammal waqiya yaha padhein:\n${window.location.href}`;
+      if (navigator.share) navigator.share({ title: w.title, text: txt, url: window.location.href });
+    }
+
+    function shareFeaturedHadees() {
+      const h = hadeesDatabase[0];
+      const txt = `📜 *Hadees-e-Mubarak*\n\n${h.arabic}\n\n*Tarjuma:* ${h.tarjuma}\n*Hawala:* ${h.reference}\n\nRozana Hadees ke liye visit karein:\n${window.location.href}`;
+      if (navigator.share) navigator.share({ title: "Hadees Sharif", text: txt, url: window.location.href });
+    }
+
+    // Call execution
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      renderIslamicFeaturedContent();
+    } else {
+      window.addEventListener('DOMContentLoaded', renderIslamicFeaturedContent);
+    }
     
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
