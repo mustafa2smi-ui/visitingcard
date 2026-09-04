@@ -32,24 +32,35 @@
     const container = document.getElementById('fullNewsList');
     let currentlyPlaying = null;
 
-    if (typeof islamicNewsDatabase !== 'undefined') {
+    if (typeof islamicNewsDatabase !== 'undefined' && Array.isArray(islamicNewsDatabase)) {
       islamicNewsDatabase.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'news-archive-card';
-        card.innerHTML = `
+        const article = document.createElement('article');
+        article.className = 'news-archive-card';
+        article.setAttribute('itemscope', '');
+        article.setAttribute('itemtype', 'https://schema.org/NewsArticle');
+
+        // Safe Source URL Check (Undefined Fix)
+        const hasValidUrl = item.sourceUrl && typeof item.sourceUrl === 'string' && item.sourceUrl.trim() !== "";
+        const sourceHtml = hasValidUrl 
+          ? `<a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-size:0.7rem; color:#64748b; text-decoration:underline;">Source: ${item.sourceName || 'Link'} ↗</a>` 
+          : '';
+
+        article.innerHTML = `
           <div class="news-meta">
-            <span style="color:#d97706;">📁 ${item.category}</span>
-            <span>📅 ${item.date}</span>
+            <span style="color:#d97706; font-weight:700;">📁 ${item.category || 'General'}</span>
+            <time datetime="${item.date}">📅 ${item.date}</time>
           </div>
-          <div class="news-title">${item.headline}</div>
-          <div class="news-desc">${item.fullStory}</div>
-          <div class="btn-row">
-            <button class="action-btn" id="ttsBtn_${idx}" onclick="speakStory(this, '${escape(item.headline + '. ' + item.fullStory)}')">🔊 Suniye (Audio)</button>
-            <button class="action-btn" onclick="shareArticle('${escape(item.headline)}', '${escape(item.fullStory)}')">📤 Share</button>
-            <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" style="font-size:0.7rem; color:#64748b; text-decoration:underline;">Source: ${item.sourceName} ↗</a>
+          <h2 class="news-title" itemprop="headline">${item.headline}</h2>
+          <p class="news-desc" itemprop="description">${item.fullStory}</p>
+          <div class="btn-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; gap:8px;">
+              <button class="action-btn" id="ttsBtn_${idx}" onclick="speakStory(this, '${escape(item.headline + '. ' + item.fullStory)}')">🔊 Suniye (Audio)</button>
+              <button class="action-btn" onclick="shareArticle('${escape(item.headline)}', '${escape(item.fullStory)}')">📤 Share</button>
+            </div>
+            ${sourceHtml}
           </div>
         `;
-        container.appendChild(card);
+        container.appendChild(article);
       });
     }
 
