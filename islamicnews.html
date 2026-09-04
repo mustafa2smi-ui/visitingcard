@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Islamic News Archive | Daily World Updates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f0f4f9; font-family: 'Inter', sans-serif; margin: 0; padding: 14px; }
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .back-btn { background: #0f172a; color: #fff; text-decoration: none; padding: 7px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
+    .news-archive-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 12px; border: 1.5px solid #e2e8f0; }
+    .news-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: #64748b; font-weight: 700; margin-bottom: 6px; }
+    .news-title { font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-bottom: 6px; line-height: 1.4; }
+    .news-desc { font-size: 0.78rem; color: #334155; line-height: 1.5; margin-bottom: 10px; }
+    .btn-row { display: flex; gap: 8px; }
+    .action-btn { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d68d8; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+    .action-btn.playing { background: #dc2626; color: #fff; border-color: #dc2626; }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <a href="index.html" class="back-btn">⬅️ Dashboard</a>
+    <span style="font-size:0.85rem; font-weight:800; color:#0f172a;">All Islamic News</span>
+  </div>
+
+  <div id="fullNewsList"></div>
+
+  <script src="news-data.js"></script>
+  <script>
+    const container = document.getElementById('fullNewsList');
+    let currentlyPlaying = null;
+
+    if (typeof islamicNewsDatabase !== 'undefined') {
+      islamicNewsDatabase.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'news-archive-card';
+        card.innerHTML = `
+          <div class="news-meta">
+            <span style="color:#d97706;">📁 ${item.category}</span>
+            <span>📅 ${item.date}</span>
+          </div>
+          <div class="news-title">${item.headline}</div>
+          <div class="news-desc">${item.fullStory}</div>
+          <div class="btn-row">
+            <button class="action-btn" id="ttsBtn_${idx}" onclick="speakStory(this, '${escape(item.headline + '. ' + item.fullStory)}')">🔊 Suniye (Audio)</button>
+            <button class="action-btn" onclick="shareArticle('${escape(item.headline)}', '${escape(item.fullStory)}')">📤 Share</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function speakStory(btn, textEscaped) {
+      const text = unescape(textEscaped);
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        if (currentlyPlaying) {
+          currentlyPlaying.classList.remove('playing');
+          currentlyPlaying.innerText = '🔊 Suniye (Audio)';
+        }
+        if (currentlyPlaying === btn) {
+          currentlyPlaying = null;
+          return;
+        }
+      }
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'hi-IN';
+      utter.rate = 0.92;
+      btn.classList.add('playing');
+      btn.innerText = '⏹️ Rokiye (Stop)';
+      currentlyPlaying = btn;
+
+      utter.onend = () => {
+        btn.classList.remove('playing');
+        btn.innerText = '🔊 Suniye (Audio)';
+        currentlyPlaying = null;
+      };
+      window.speechSynthesis.speak(utter);
+    }
+
+    function shareArticle(title, body) {
+      const t = unescape(title);
+      const b = unescape(body);
+      if (navigator.share) {
+        navigator.share({ title: t, text: `${t}\n\n${b}\n\nRozana Islamic News padhne ke liye:`, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(`${t}\n\n${b}\n\n${window.location.href}`);
+        alert("News copied!");
+      }
+    }
+  </script>
+</body>
+</html>
