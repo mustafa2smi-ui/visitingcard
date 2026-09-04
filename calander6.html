@@ -1429,16 +1429,22 @@
       </div>
     </section>
     <!-- 1. Sabak Amooz Waqiya Card -->
+    <!-- 1. Sabak Amooz Waqiya Card (In-Page Accordion) -->
     <section class="portal-card">
       <div class="portal-header">
         <h3>📖 Sabak Amooz Waqiya</h3>
         <span style="font-size:0.68rem; color:#64748b;" id="homeWaqiyaDate">--</span>
       </div>
-      <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:4px;" id="homeWaqiyaTitle">--</div>
+      <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:6px;" id="homeWaqiyaTitle">--</div>
+      
+      <!-- Snippet jo hamesha dikhega -->
       <p style="font-size:0.75rem; color:#475569; line-height:1.4; margin:0;" id="homeWaqiyaSnippet">--</p>
       
+      <!-- Poora Waqiya jo button dabane par usi page me expand hoga -->
+      <div id="homeWaqiyaFullContainer" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #cbd5e1; font-size:0.75rem; color:#1e293b; line-height:1.6; white-space: pre-line;"></div>
+      
       <div class="portal-btn-row">
-        <button class="portal-action-btn btn-outline" onclick="openFullWaqiyaModal()">Poora Waqiya Padhein 📖</button>
+        <button id="toggleWaqiyaBtn" class="portal-action-btn btn-outline" onclick="toggleInlineWaqiya()">Poora Waqiya Padhein 📖</button>
         <button class="portal-action-btn btn-green" onclick="shareFeaturedWaqiya()">📤 WhatsApp</button>
       </div>
       <a href="waqiat.html" class="more-news-btn" style="background:#475569; margin-top:8px;">Sabhi Waqiat Ki Fehrist (Archive) ➡️</a>
@@ -2390,64 +2396,7 @@
       document.getElementById('artBody').innerHTML = article.body;
       openModal('articleModal');
     }
-    /*
-// 🕌 Jummah Auto-Check (Islamic Sunset Rule: Jumerat Maghrib se Jummah Maghrib tak)
-    function checkJummahDisplay() {
-      const d = new Date();
-      const day = d.getDay(); // 4 = Thursday, 5 = Friday
-      const currentMins = d.getHours() * 60 + d.getMinutes();
-
-      // Maghrib time dynamically check karega, default 6:30 PM
-      let maghribMins = 18 * 60 + 30;
-      const maghribEl = document.getElementById('pt-maghrib');
-      if (maghribEl && maghribEl.innerText && maghribEl.innerText.includes(":")) {
-        const raw = maghribEl.innerText.trim();
-        const isPM = raw.toUpperCase().includes("PM");
-        const clean = raw.replace(/[^\d:]/g, "");
-        const parts = clean.split(":");
-        let h = parseInt(parts[0], 10);
-        const m = parseInt(parts[1], 10) || 0;
-        if (isPM && h < 12) h += 12;
-        if (!isPM && h === 12) h = 0;
-        if (!isNaN(h)) maghribMins = h * 60 + m;
-      }
-
-      let show = false;
-      if (day === 4 && currentMins >= maghribMins) {
-        show = true; // Thursday shaam Maghrib ke baad (Shab-e-Jummah)
-      } else if (day === 5 && currentMins < maghribMins) {
-        show = true; // Friday din me Maghrib se pehle tak
-      }
-
-      const card = document.getElementById('jummahCard');
-      if (card) card.style.display = show ? 'block' : 'none';
-    }
-
-    // Jummah Share Function
-    function shareJummahCard() {
-      const txt = `🕌 *Jummah Mubarak & Sunan List*\n\n1️⃣ Nabi ﷺ par kasrat se Durood padhna.\n2️⃣ Ghusl, Miswak, Ittar, Surma aur Saaf Libas.\n3️⃣ Surah Al-Kahf ki Tilawat.\n4️⃣ Asr se Maghrib ke darmiyan khas Duaon ka ahtimam.\n\nRozana Islamic Dashboard visit karein:-\n${window.location.href}`;
-      if (navigator.share) {
-        navigator.share({ title: "Jummah Mubarak & Sunan", text: txt, url: window.location.href });
-      } else {
-        navigator.clipboard.writeText(txt);
-        alert("Jummah Sunan copied to clipboard!");
-      }
-    }
-
-    // Har second clock ke sath Jummah status bhi check hota rahega
-    setInterval(checkJummahDisplay, 1000);
-    checkJummahDisplay();
-    function saveDateNote() {
-      const val = document.getElementById('noteInput').value.trim();
-      if (val) {
-        localStorage.setItem(activeDateNoteKey, val);
-      } else {
-        localStorage.removeItem(activeDateNoteKey);
-      }
-      closeModal('noteModal');
-      renderEnglishCalendarGrid();
-    }
-*/
+    
     // ================================================================
     // 🔔 SMART AUTO EVENT ENGINE (Jummah, Ramadan, Chand, Custom Alert)
     // ================================================================
@@ -2535,21 +2484,7 @@
           shareText: `Sirf ${daysLeft} din baaqi hain Ramadan shuru hone me!`
         });
       }
-/*
-      // 4. MANUAL CUSTOM EVENT (Timer check)
-      if (customAnnouncement.active) {
-        const expiryDate = new Date(customAnnouncement.expiresAt);
-        if (d < expiryDate) {
-          activeEvents.push({
-            theme: "hub-theme-red",
-            badge: "ALERT",
-            title: customAnnouncement.title,
-            body: customAnnouncement.message,
-            shareText: `${customAnnouncement.title}: ${customAnnouncement.message}`
-          });
-        }
-      }
-*/
+
       // 4. MULTI-CUSTOM EVENTS (Har notice ko ek-ek karke check karega)
       if (typeof customAnnouncementsList !== 'undefined' && Array.isArray(customAnnouncementsList)) {
         customAnnouncementsList.forEach(item => {
@@ -2715,7 +2650,7 @@
         document.getElementById('homeHadeesWazahat').innerText = `Wazahat: ${h.wazahat}`;
       }
     }
-
+/*
     // Modal popup to read complete waqiya on homepage
     function openFullWaqiyaModal() {
       if (waqiatDatabase.length > 0) {
@@ -2723,7 +2658,24 @@
         alert(`📖 ${w.title}\n\n${w.fullStory}`);
       }
     }
+*/
+    // In-Page Toggle Waqiya Logic (No ugly alert popup)
+    let isWaqiyaExpanded = false;
+    function toggleInlineWaqiya() {
+      const fullBox = document.getElementById('homeWaqiyaFullContainer');
+      const btn = document.getElementById('toggleWaqiyaBtn');
+      if (!fullBox || typeof waqiatDatabase === 'undefined' || waqiatDatabase.length === 0) return;
 
+      isWaqiyaExpanded = !isWaqiyaExpanded;
+      if (isWaqiyaExpanded) {
+        fullBox.innerText = waqiatDatabase[0].fullStory;
+        fullBox.style.display = 'block';
+        btn.innerText = 'Mukhtasar Karein 🔼';
+      } else {
+        fullBox.style.display = 'none';
+        btn.innerText = 'Poora Waqiya Padhein 📖';
+      }
+    }
     // WhatsApp Formatted Sharing Functions
     function copyAcchiBaatWhatsApp() {
       if (acchiBaatDatabase.length === 0) return;
