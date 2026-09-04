@@ -584,7 +584,96 @@
       border-radius: 4px;
       letter-spacing: 0.5px;
     }
-
+/* 📰 News Card Styling */
+    .news-portal-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .news-header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 6px;
+    }
+    .news-badge-live {
+      background: #dc2626;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .news-last-updated {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .news-headline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .news-headline-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      gap: 10px;
+    }
+    .news-headline-text {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .news-action-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .news-tts-btn, .news-share-btn {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--blue-primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .news-tts-btn.playing {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+    }
+    .more-news-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
     /* YouTube Side-Scroll */
     .yt-side-scroll-container {
       display: flex;
@@ -1196,23 +1285,6 @@
         </div>
       </div>
     </section>
-<!-- 🕌 JUMMAH MUBARAK AUTO CARD --
-    <section class="jummah-special-card" id="jummahCard" style="display:none;">
-      <div class="jummah-title-row">
-        <div>
-          <h3>🕌 Jummah Mubarak & Sunan</h3>
-          <small style="color:#d1fae5; font-size:0.7rem;">Sayyidul Ayyam (Dino Ka Sardar)</small>
-        </div>
-        <button onclick="shareJummahCard()" style="background:#fef08a; color:#064e3b; border:none; padding:5px 12px; border-radius:6px; font-weight:800; font-size:0.72rem; cursor:pointer;">📤 Share</button>
-      </div>
-      <div class="sunnah-list">
-        <div class="sunnah-item"><span>1️⃣</span> <div><strong>Durood Shareef:</strong> Aaj ke din kasrat se Nabi ﷺ par Durood-e-Pak padhein.</div></div>
-        <div class="sunnah-item"><span>2️⃣</span> <div><strong>Ghusl & Nazaafat:</strong> Ghusl karna, Miswak karna, Surma aur Ittar lagana aur achha libas pehanna.</div></div>
-        <div class="sunnah-item"><span>3️⃣</span> <div><strong>Surah Al-Kahf:</strong> Aaj Surah Kahf ki tilawat karein (Dono Jummah ke darmiyan noor ki basharat).</div></div>
-        <div class="sunnah-item"><span>4️⃣</span> <div><strong>Qubooliyat Ki Ghadi:</strong> Asr se Maghrib ke darmiyan khas duaon ka ahtimam karein.</div></div>
-      </div>
-    </section>
-    -->
     <section class="media-dual-grid" id="mediaSection">
       <div class="card-block">
         <div class="section-header">
@@ -1250,7 +1322,23 @@
         </div>
       </div>
     </section>
+<!-- 📰 Top Viral Islamic News Card -->
+    <section class="news-portal-card card-block">
+      <div class="news-header-meta">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="news-badge-live">● LIVE</span>
+          <strong style="font-size:0.85rem; color:#0f172a;">World Islamic News</strong>
+        </div>
+        <span class="news-last-updated" id="homeNewsLastUpdated">Updated: --</span>
+      </div>
 
+      <!-- Auto Rendered 4-5 Headlines -->
+      <div class="news-headline-list" id="homeNewsHeadlinesContainer">
+        <!-- JavaScript se taaza headlines auto load hongi -->
+      </div>
+
+      <a href="islamicnews.html" class="more-news-btn">Read All Archive & Full News (Date-Wise) ➡️</a>
+    </section>
     <footer id="finalFooter">
       <p>&copy; 2026 Daily Islamic Calendar Dashboard. All Islamic events & dates are subject to regional moon visibility.</p>
       <div class="foot-info">All World Times are sourced from International Databases. Prayer timings are approximate based on Astronomical Calculations. Sourced from Aladhan Open API.</div>
@@ -2321,6 +2409,76 @@
         hubEl.innerHTML = `<div class="event-hub-active-slider">${cardsHtml}</div>`;
       }
     }
+// 📰 Auto-Render Latest News on Homepage + Free Google TTS Player
+    let activeUtterance = null;
+    let currentlyPlayingBtn = null;
+
+    function renderHomeLatestNews() {
+      const container = document.getElementById('homeNewsHeadlinesContainer');
+      const updatedLabel = document.getElementById('homeNewsLastUpdated');
+      if (!container || typeof islamicNewsDatabase === 'undefined' || islamicNewsDatabase.length === 0) return;
+
+      // Sabse latest update date sabse pehle item se uthayega
+      updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
+
+      // Sirf Top 4 ya 5 taaza headlines render karega
+      const latestItems = islamicNewsDatabase.slice(0, 5);
+      container.innerHTML = '';
+
+      latestItems.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'news-headline-item';
+        row.innerHTML = `
+          <div class="news-headline-text">${item.headline}</div>
+          <div class="news-action-btns">
+            <button class="news-tts-btn" title="Sunne ke liye tap karein" onclick="toggleNewsTTS(this, '${escape(item.headline)}')">🔊</button>
+            <button class="news-share-btn" title="Share karein" onclick="shareNative('Islamic News Update', '${item.headline}', window.location.href)">📤</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // 🔊 Free Browser Speech Synthesis (TTS Audio Player)
+    function toggleNewsTTS(btn, textEscaped) {
+      const text = unescape(textEscaped);
+
+      // Agar pehle se chal raha hai to Stop kar de
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        if (currentlyPlayingBtn) {
+          currentlyPlayingBtn.classList.remove('playing');
+          currentlyPlayingBtn.innerText = '🔊';
+        }
+        if (currentlyPlayingBtn === btn) {
+          currentlyPlayingBtn = null;
+          return;
+        }
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'hi-IN'; // Clear Urdu/Hindi accent
+      utterance.rate = 0.92; // Thoda aahista aur saaf talaffuz
+
+      btn.classList.add('playing');
+      btn.innerText = '⏹️';
+      currentlyPlayingBtn = btn;
+
+      utterance.onend = () => {
+        btn.classList.remove('playing');
+        btn.innerText = '🔊';
+        currentlyPlayingBtn = null;
+      };
+
+      utterance.onerror = () => {
+        btn.classList.remove('playing');
+        btn.innerText = '🔊';
+        currentlyPlayingBtn = null;
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
 
     
     function openModal(id) { document.getElementById(id).classList.add('active'); }
@@ -2381,6 +2539,9 @@
     setInterval(updateLiveDashboardClocks, 1000);
     // Har minute check karega taaki Maghrib ya timer khatam hone par khud badal jaye
     setInterval(renderSmartEventHub, 60000);
+        // Call execution
+    renderHomeLatestNews();
   </script>
+  <script src="news-data.js"></script>
 </body>
 </html>
