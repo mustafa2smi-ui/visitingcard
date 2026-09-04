@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="news-data.js"></script>
   
   <title>Daily Islamic Calendar 2026 | Hijri Date, Prayer Times & Dashboard</title>
   <meta name="description" content="All-in-One Islamic Utility Dashboard: Gregorian & Hijri Lunar Calendar, Accurate Prayer Times, Qibla Direction, Digital Tasbeeh, Zakat Calculator, and Daily Duas.">
@@ -2300,13 +2302,25 @@
 
     // ✍️ MANUAL EVENT: Jab bhi koi khas baat dikhani ho, yaha likhein aur expiry set karein
     // Agar nahi dikhana ho to active: false kar dein
-    const customAnnouncement = {
-      active: true,
-      title: "📢 Zaroori Notice",
-      message: "Aaj Hajj Ka Form Bharne Ka Last Date Hai. Tamam azmeen ehtiyat se form submit karein.",
-      // Format: YYYY-MM-DDTHH:MM:SS (24-hour expiry timer)
-      expiresAt: "2026-09-06T23:59:59" 
-    };
+    // ✍️ MULTI-NOTICE LIST: Yaha aap jitne chahe notices jod sakte hain
+    const customAnnouncementsList = [
+      {
+        active: true,
+        theme: "hub-theme-red",
+        badge: "ALERT",
+        title: "📢 Hajj Form Notice",
+        message: "Aaj Hajj Ka Form Bharne Ka Last Date Hai. Tamam azmeen ehtiyat se form submit karein.",
+        expiresAt: "2026-09-06T23:59:59" // Expiry date/time
+      },
+      {
+        active: true,
+        theme: "hub-theme-blue",
+        badge: "PROGRAM",
+        title: "🕌 Madarsa Jalsa Program",
+        message: "Aaj Madarsa me Maulana sb ka program hai subah 10 baje se raat 9 baje tak. Shirkat farmayein.",
+        expiresAt: "2026-09-04T21:15:00" // Raat 9:00 baje auto-hide ho jayega
+      }
+    ];
 
     function renderSmartEventHub() {
       const hubEl = document.getElementById('smartEventHub');
@@ -2369,7 +2383,7 @@
           shareText: `Sirf ${daysLeft} din baaqi hain Ramadan shuru hone me!`
         });
       }
-
+/*
       // 4. MANUAL CUSTOM EVENT (Timer check)
       if (customAnnouncement.active) {
         const expiryDate = new Date(customAnnouncement.expiresAt);
@@ -2383,7 +2397,24 @@
           });
         }
       }
-
+*/
+      // 4. MULTI-CUSTOM EVENTS (Har notice ko ek-ek karke check karega)
+      if (typeof customAnnouncementsList !== 'undefined' && Array.isArray(customAnnouncementsList)) {
+        customAnnouncementsList.forEach(item => {
+          if (item.active) {
+            const expiryDate = new Date(item.expiresAt);
+            if (d < expiryDate) {
+              activeEvents.push({
+                theme: item.theme || "hub-theme-blue",
+                badge: item.badge || "NOTICE",
+                title: item.title,
+                body: item.message,
+                shareText: `${item.title}: ${item.message}`
+              });
+            }
+          }
+        });
+      }
       // RENDER LOGIC: Agar koi event nahi hai to 1-inch empty bar, warna Cards
       if (activeEvents.length === 0) {
         hubEl.innerHTML = `
@@ -2410,18 +2441,26 @@
       }
     }
 // 📰 Auto-Render Latest News on Homepage + Free Google TTS Player
+// 📰 Auto-Render Latest News on Homepage (Safe Auto-Load)
     let activeUtterance = null;
     let currentlyPlayingBtn = null;
 
     function renderHomeLatestNews() {
       const container = document.getElementById('homeNewsHeadlinesContainer');
       const updatedLabel = document.getElementById('homeNewsLastUpdated');
-      if (!container || typeof islamicNewsDatabase === 'undefined' || islamicNewsDatabase.length === 0) return;
+      
+      // Agar news-data.js load hone me 0.1 second ki deri ho, to retry karega
+      if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
+        setTimeout(renderHomeLatestNews, 150);
+        return;
+      }
 
-      // Sabse latest update date sabse pehle item se uthayega
+      if (!container || !updatedLabel) return;
+
+      // Sabse taaza update date (pehli news se)
       updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
 
-      // Sirf Top 4 ya 5 taaza headlines render karega
+      // Sirf Top 4 ya 5 taaza headlines display karein
       const latestItems = islamicNewsDatabase.slice(0, 5);
       container.innerHTML = '';
 
@@ -2437,6 +2476,13 @@
         `;
         container.appendChild(row);
       });
+    }
+
+    // Window load hote hi call karein
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      renderHomeLatestNews();
+    } else {
+      window.addEventListener('DOMContentLoaded', renderHomeLatestNews);
     }
 
     // 🔊 Free Browser Speech Synthesis (TTS Audio Player)
@@ -2542,6 +2588,6 @@
         // Call execution
     renderHomeLatestNews();
   </script>
-  <script src="news-data.js"></script>
+  
 </body>
 </html>
