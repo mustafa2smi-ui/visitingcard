@@ -3,9 +3,11 @@ const islamicNewsDatabase = [
   {
     id: 1,
     date: "04 September 2026",
-    headline: "Masjid al-Haram aur Masjid Nabawi me naye digital translation system ka aagaz.",
-    fullStory: "Harmain Sharifain me aane wale aalmi zaireen ke liye 14 zabanon me live khutbaat aur tarjumaat sunne ke naye high-speed network ka aagaz kiya gaya hai.",
-    category: "Makkah & Madinah"
+    headline: "Masjid al-Haram me naya translation system chalu.",
+    fullStory: "Harmain Sharifain me aalmi zaireen ke liye naye digital system ka aagaz kiya gaya hai.",
+    category: "Makkah",
+    sourceName: "Saudi Gazette", // Source site ka naam
+    sourceUrl: "https://saudigazette.com.sa" // Asal news link
   },
   {
     id: 2,
