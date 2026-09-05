@@ -3,10 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>12-Month Daylight & Fasting Hours Calculator | GPS Solar Engine</title>
-  <meta name="description" content="Saal ke 12 mahino me din, raat aur roze ke auqaat ka live GPS chart.">
+  <title>12-Month Daylight & Fasting Hours Calculator | AdeenDesk</title>
+  <meta name="description" content="Saal ke 12 mahino me din, raat aur roze ke auqaat ka live GPS chart. 21 June aur 22 December ke roze ka farq ba-zariye astronomical calculation.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yourdomain.com/daylight-chart.html">
+
+  <!-- 🌐 Multilingual SEO Tags for Googlebot -->
+  <link rel="alternate" hreflang="en" href="https://yourdomain.com/daylight-chart.html" />
+  <link rel="alternate" hreflang="hi" href="https://yourdomain.com/hi/daylight-chart.html" />
+  <link rel="alternate" hreflang="ur-Latn" href="https://yourdomain.com/daylight-chart.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/daylight-chart.html" />
+
+  <!-- Google JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "12-Month Daylight & Fasting Hours Calculator",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "description": "Calculates monthly daylight, night durations, and estimated Islamic fasting (Roza) hours across global latitudes using solar declination.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "AdeenDesk"
+    }
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -25,9 +48,27 @@
     .card-box { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
     
     /* GPS & City Bar */
-    .location-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    .loc-btn { background: var(--primary); color: #fff; border: none; padding: 7px 12px; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-    .city-select { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.74rem; font-family: inherit; font-weight: 600; }
+    .location-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+    .loc-btn { background: var(--primary); color: #fff; border: none; padding: 7px 12px; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: inherit; }
+    .loc-btn:active { transform: scale(0.98); }
+    .city-select { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.74rem; font-family: inherit; font-weight: 600; background: #fff; }
+
+    /* Share Button */
+    .share-btn {
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+    }
+    .share-btn:active { transform: scale(0.98); }
 
     /* Stacked Bars */
     .bars-container { display: flex; flex-direction: column; gap: 10px; }
@@ -51,8 +92,8 @@
 
   <main>
     <section class="card-box">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <strong style="font-size:0.85rem;">📍 Location Settings</strong>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <strong style="font-size:0.85rem;">📍 Location & Roza Calculation</strong>
         <span id="locLabel" style="font-size:0.72rem; color:var(--primary); font-weight:700;">Central India (Default)</span>
       </div>
       <div class="location-controls">
@@ -64,6 +105,8 @@
           <option value="21.42">Makkah Mukarramah (21.4° N)</option>
           <option value="51.50">London, UK (51.5° N - Extreme Shift)</option>
         </select>
+        <!-- 📤 Share Button -->
+        <button class="share-btn" onclick="shareDaylightData()">📤 Share Chart</button>
       </div>
     </section>
 
@@ -87,24 +130,27 @@
     </section>
   </main>
 
+  <footer style="margin-top:20px; padding:12px 10px; text-align:center; font-size:0.68rem; color:#94a3b8; border-top:1px solid #e2e8f0;">
+    &copy; 2026 <strong>AdeenDesk</strong>. All Rights Reserved.
+  </footer>
+
   <script>
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    // Approximate Solar Declination on the 15th of each month
     const solarDeclinations = [-21.1, -12.9, -2.4, 9.4, 18.8, 23.3, 21.5, 13.8, 2.2, -9.6, -18.9, -23.1];
 
     let currentLat = 23.25;
+    let currentLocationName = "Central India";
 
     function calculateDaylight(lat, dec) {
       const latRad = lat * (Math.PI / 180);
       const decRad = dec * (Math.PI / 180);
       let cosH = -Math.tan(latRad) * Math.tan(decRad);
       
-      // Bounds check for polar regions
       if (cosH > 1) cosH = 1;
       if (cosH < -1) cosH = -1;
       
       const H = Math.acos(cosH) * (180 / Math.PI);
-      return (2 * H) / 15; // Total daylight hours
+      return (2 * H) / 15;
     }
 
     function renderDynamicBars(lat) {
@@ -117,7 +163,6 @@
         const dayPct = ((dayHours / 24) * 100).toFixed(1);
         const nightPct = (100 - dayPct).toFixed(1);
 
-        // Subah Sadiq starts ~1.2 hours before sunrise; roza calculation:
         const rozaTotalHours = dayHours + 1.25;
         const rH = Math.floor(rozaTotalHours);
         const rM = Math.round((rozaTotalHours - rH) * 60);
@@ -150,7 +195,8 @@
         document.getElementById('locLabel').innerText = "Locating GPS...";
         navigator.geolocation.getCurrentPosition(pos => {
           currentLat = pos.coords.latitude;
-          document.getElementById('locLabel').innerText = `GPS Active (${currentLat.toFixed(2)}° N)`;
+          currentLocationName = `GPS Location (${currentLat.toFixed(2)}° N)`;
+          document.getElementById('locLabel').innerText = currentLocationName;
           renderDynamicBars(currentLat);
         }, err => {
           alert("GPS permission nahi mili. List se shehar muntakhab karein.");
@@ -164,8 +210,46 @@
     function changePresetLocation(val) {
       currentLat = parseFloat(val);
       const sel = document.getElementById('presetSelect');
-      document.getElementById('locLabel').innerText = sel.options[sel.selectedIndex].text.split('(')[0];
+      currentLocationName = sel.options[sel.selectedIndex].text.split('(')[0].trim();
+      document.getElementById('locLabel').innerText = currentLocationName;
       renderDynamicBars(currentLat);
+    }
+
+    // 📤 WhatsApp & Native Share Function
+    function shareDaylightData() {
+      // Calculate June (longest) & December (shortest) for quick summary
+      const juneDay = calculateDaylight(currentLat, solarDeclinations[5]);
+      const decDay = calculateDaylight(currentLat, solarDeclinations[11]);
+
+      const juneRoza = juneDay + 1.25;
+      const decRoza = decDay + 1.25;
+
+      const shareUrl = `${window.location.origin}/daylight-chart.html`;
+
+      const shareMessage = 
+`☀️ *12-Month Daylight & Roza Difference Chart*
+_AdeenDesk Solar Engine_
+
+📍 *Muqaam:* ${currentLocationName}
+
+📊 *Roze Ke Dauraniye Ka Farq:*
+▪️ *June (Lamba Roza):* ~${Math.floor(juneRoza)}h ${Math.round((juneRoza % 1) * 60)}m
+▪️ *December (Chhota Roza):* ~${Math.floor(decRoza)}h ${Math.round((decRoza % 1) * 60)}m
+
+💡 _Subah Sadiq se Ghurub-e-Aftab tak ke hisab se tanzim shuda._
+
+👉 *Apne shehar ka 12 mahino ka live graph aur GPS chart dekhein:*
+${shareUrl}`;
+
+      if (navigator.share) {
+        navigator.share({
+          text: shareMessage
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareMessage).then(() => {
+          alert("Daylight chart summary copy ho gayi! Ab WhatsApp ya kisi bhi group me share karein.");
+        });
+      }
     }
 
     // Init with default
