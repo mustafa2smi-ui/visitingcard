@@ -208,8 +208,18 @@
     <div class="explanation-box" id="explanationBox"></div>
 
     <div class="action-bar">
+      <div class="action-bar" style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:18px; flex-wrap:wrap;">
       <button class="btn-reset" onclick="resetUserScore()">Score Zero Karein 🔄</button>
-      <button class="btn-next" id="btnNext" onclick="nextQuestion()">Agla Sawal ➔</button>
+      
+      <div style="display:flex; gap:8px;">
+        <!-- 📲 Share Question Button -->
+        <button id="btnShareQuiz" onclick="shareCurrentQuizQuestion()" style="background:#25d366; color:#ffffff; border:none; padding:8px 14px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+          📤 Doston ko Bhejein
+        </button>
+        
+        <button class="btn-next" id="btnNext" onclick="nextQuestion()">Agla Sawal ➔</button>
+      </div>
+    </div>
     </div>
   </main>
 
@@ -219,6 +229,7 @@
     let score = parseInt(localStorage.getItem('islamic_quiz_points') || '0', 10);
 
     function initQuizPage() {
+      checkQuizUrlParameter(); // 👈 Direct link check
       document.getElementById('totalScore').innerText = `${score} pts`;
 
       if (typeof islamicQuizDatabase === 'undefined' || !Array.isArray(islamicQuizDatabase) || islamicQuizDatabase.length === 0) {
@@ -314,7 +325,51 @@
         document.getElementById('totalScore').innerText = "0 pts";
       }
     }
+// 📲 Share Quiz with Options & Custom Message
+    function shareCurrentQuizQuestion() {
+      const item = islamicQuizDatabase[currentIndex];
+      if (!item) return;
 
+      const letters = ['A', 'B', 'C', 'D'];
+      const optionsText = item.options.map((opt, i) => `${letters[i]}) ${opt}`).join('\n');
+      const shareUrl = `${window.location.origin}/quiz.html?qid=${item.id}`;
+
+      const shareMessage = 
+`🧠 *Deeni Quiz #${item.id} | AdeenDesk*
+
+❓ *Sawal:*
+${item.question}
+
+${optionsText}
+
+👉 *Iska sahi jawab dekhne aur test karne ke liye niche website par click karein:*
+${shareUrl}`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: `Deeni Quiz #${item.id} - AdeenDesk`,
+          text: shareMessage,
+          url: shareUrl
+        }).catch(() => {});
+      } else {
+        // Fallback: Clipboard me copy
+        navigator.clipboard.writeText(shareMessage).then(() => {
+          alert(`Quiz #${item.id} copy ho gaya! Ab WhatsApp ya kisi bhi group me paste karke share karein.`);
+        });
+      }
+    }
+
+    // 🔗 URL Parameter Check (e.g. quiz.html?qid=3)
+    function checkQuizUrlParameter() {
+      const params = new URLSearchParams(window.location.search);
+      const qid = parseInt(params.get('qid'), 10);
+      if (qid) {
+        const foundIndex = islamicQuizDatabase.findIndex(q => q.id === qid);
+        if (foundIndex !== -1) {
+          currentIndex = foundIndex;
+        }
+      }
+    }
     window.addEventListener('DOMContentLoaded', initQuizPage);
   </script>
 </body>
