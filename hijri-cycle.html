@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>33-Year Ramadan & Hajj Season Cycle | Hijri-Solar Projection</title>
+  <meta name="description" content="Agla Ramadan aur Hajj kab aayega? 33-year solar shift cycle, mausam aur roze ke auqaat ka interactive projection.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com/hijri-cycle.html">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #064e3b;
+      --gold: #b45309;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+    }
+    body {
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 14px;
+      color: #0f172a;
+    }
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .back-btn {
+      background: #0f172a;
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+    .tool-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      margin-bottom: 14px;
+    }
+
+    /* Slider Container */
+    .slider-box {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .slider-year-label {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .year-slider {
+      width: 100%;
+      margin: 12px 0 6px 0;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Interactive Season Wheel Dial */
+    .wheel-container {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 10px auto 16px auto;
+      border-radius: 50%;
+      background: conic-gradient(
+        #60a5fa 0deg 90deg,   /* Winter: Dec-Feb */
+        #34d399 90deg 180deg, /* Spring: Mar-May */
+        #f87171 180deg 270deg,/* Summer: Jun-Aug */
+        #fbbf24 270deg 360deg /* Autumn: Sep-Nov */
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .wheel-inner {
+      width: 180px;
+      height: 180px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px;
+      box-sizing: border-box;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .wheel-indicator {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #0f172a;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      top: 6px;
+      transform-origin: 50% 124px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Live Data Badges */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .stat-tile {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat-tile strong {
+      display: block;
+      font-size: 0.85rem;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+    .stat-tile span {
+      font-size: 0.68rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Projection Table */
+    .forecast-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      margin-top: 10px;
+    }
+    .forecast-table th {
+      background: #f1f5f9;
+      padding: 8px;
+      text-align: left;
+      font-weight: 700;
+      color: #475569;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .forecast-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border);
+      color: #1e293b;
+    }
+    .season-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+    .badge-winter { background: #dbeafe; color: #1e40af; }
+    .badge-spring { background: #d1fae5; color: #065f46; }
+    .badge-summer { background: #fee2e2; color: #991b1b; }
+    .badge-autumn { background: #fef3c7; color: #92400e; }
+  </style>
+</head>
+<body>
+
+  <header class="header-bar">
+    <a href="index.html" class="back-btn">⬅️ Dashboard</a>
+    <h1 style="font-size:0.92rem; font-weight:800; margin:0; color:var(--primary);">33-Year Hijri Shift Wheel</h1>
+  </header>
+
+  <main>
+    <!-- 1. Interactive Slider & Circular Wheel -->
+    <section class="tool-card">
+      <div class="slider-box">
+        <span style="font-size:0.75rem; font-weight:700; color:#065f46;">Select Year (33-Year Cycle):</span>
+        <div class="slider-year-label" id="lblYear">2026</div>
+        <input type="range" id="yearSlider" class="year-slider" min="2026" max="2059" value="2026" oninput="updateProjection(this.value)">
+        <span style="font-size:0.68rem; color:#64748b;">Slider slide karke dekhein mausam kaise ghoomta hai</span>
+      </div>
+
+      <!-- Season Dial -->
+      <div class="wheel-container">
+        <div class="wheel-indicator" id="wheelPointer"></div>
+        <div class="wheel-inner">
+          <span style="font-size:0.65rem; color:#64748b; font-weight:700;">Ramadan Season</span>
+          <strong id="wheelSeasonName" style="font-size:1.05rem; color:var(--primary); margin:4px 0;">Late Winter</strong>
+          <span id="wheelFastDuration" style="font-size:0.7rem; color:var(--gold); font-weight:700;">~12.5 hrs Roza</span>
+        </div>
+      </div>
+
+      <!-- Live Details -->
+      <div class="stat-grid">
+        <div class="stat-tile">
+          <span>🌙 Ramadan Start</span>
+          <strong id="tileRamadan">18 Feb 2026</strong>
+        </div>
+        <div class="stat-tile">
+          <span>🕋 Hajj (Arafah)</span>
+          <strong id="tileHajj">26 May 2026</strong>
+        </div>
+        <div class="stat-tile">
+          <span>❄️/☀️ Mausam</span>
+          <strong id="tileSeason">Sardi (Winter)</strong>
+        </div>
+        <div class="stat-tile">
+          <span>🔄 33-Year Cycle Match</span>
+          <strong id="tileRepeatYear">Repeat: ~2059</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Agle 12 Saalon Ka Forecast Table -->
+    <section class="tool-card">
+      <h2 style="font-size:0.85rem; font-weight:800; margin:0 0 10px 0; color:#0f172a;">📅 12-Year Quick Projection Table</h2>
+      <div style="overflow-x:auto;">
+        <table class="forecast-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Ramadan Shuru</th>
+              <th>Hajj Tareekh</th>
+              <th>Mausam</th>
+              <th>Roza Duration</th>
+            </tr>
+          </thead>
+          <tbody id="forecastTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 33-Year Astronomical Projection Engine
+    // Base Reference: 2026 Ramadan begins ~18 Feb (Day 49 of Solar Year)
+    const baseYear = 2026;
+    const baseRamadanDOY = 49; // Feb 18
+    const baseHajjDOY = 146;    // May 26
+
+    function getSeasonInfo(dayOfYear) {
+      // Approximate Day of Year Seasons (Subcontinent/Northern Hemisphere)
+      if (dayOfYear >= 335 || dayOfYear < 60) {
+        return { name: "Winter (Sardi)", badge: "badge-winter", hours: "11.5 - 12.5 hrs (Chhota Roza)", angle: 45 };
+      } else if (dayOfYear >= 60 && dayOfYear < 152) {
+        return { name: "Spring (Bahar)", badge: "badge-spring", hours: "12.5 - 13.5 hrs (Motadil)", angle: 135 };
+      } else if (dayOfYear >= 152 && dayOfYear < 244) {
+        return { name: "Summer (Garmi)", badge: "badge-summer", hours: "14.5 - 15.5 hrs (Lamba Roza)", angle: 225 };
+      } else {
+        return { name: "Autumn (Khizan)", badge: "badge-autumn", hours: "12.0 - 13.0 hrs (Aasan Roza)", angle: 315 };
+      }
+    }
+
+    function doyToDateString(year, doy) {
+      let d = new Date(year, 0);
+      d.setDate(doy);
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${d.getDate()} ${months[d.getMonth()]} ${year}`;
+    }
+
+    function calculateYearData(year) {
+      const diff = year - baseYear;
+      // Har saal ~10.875 din peeche shift hota hai
+      let ramadanDOY = (baseRamadanDOY - (diff * 10.875)) % 365;
+      while (ramadanDOY < 1) ramadanDOY += 365;
+
+      let hajjDOY = (baseHajjDOY - (diff * 10.875)) % 365;
+      while (hajjDOY < 1) hajjDOY += 365;
+
+      const season = getSeasonInfo(Math.round(ramadanDOY));
+      return {
+        year: year,
+        ramadanStr: doyToDateString(year, Math.round(ramadanDOY)),
+        hajjStr: doyToDateString(year, Math.round(hajjDOY)),
+        season: season,
+        dialAngle: (ramadanDOY / 365) * 360
+      };
+    }
+
+    function updateProjection(yr) {
+      const y = parseInt(yr, 10);
+      document.getElementById('lblYear').innerText = y;
+
+      const data = calculateYearData(y);
+      document.getElementById('tileRamadan').innerText = data.ramadanStr;
+      document.getElementById('tileHajj').innerText = data.hajjStr;
+      document.getElementById('tileSeason').innerText = data.season.name;
+      document.getElementById('tileRepeatYear').innerText = `Repeat: ~${y + 33}`;
+
+      document.getElementById('wheelSeasonName').innerText = data.season.name;
+      document.getElementById('wheelFastDuration').innerText = data.season.hours;
+
+      // Rotate Wheel Pointer
+      const pointer = document.getElementById('wheelPointer');
+      pointer.style.transform = `rotate(${data.dialAngle}deg)`;
+    }
+
+    function buildTable() {
+      const tbody = document.getElementById('forecastTableBody');
+      tbody.innerHTML = '';
+      for (let y = 2026; y <= 2038; y++) {
+        const d = calculateYearData(y);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${d.year}</strong></td>
+          <td>${d.ramadanStr}</td>
+          <td>${d.hajjStr}</td>
+          <td><span class="season-badge ${d.season.badge}">${d.season.name.split(' ')[0]}</span></td>
+          <td>${d.season.hours.split(' ')[0]} hrs</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    // Init
+    updateProjection(2026);
+    buildTable();
+  </script>
+</body>
+</html>
