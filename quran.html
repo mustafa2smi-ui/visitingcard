@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Al-Quran Al-Kareem | Surah & Para Wise Reader</title>
-  <meta name="description" content="Mukammal Quran Majeed Surah aur Para wise reading, 3 zabanon me tarjuma aur mashhoor qurra ki tilawat ke sath.">
+  <title>Al-Quran Al-Kareem | Digital Reader with Bookmarks</title>
+  <meta name="description" content="Mukammal Quran Majeed Surah aur Para wise reading, Arabic only mode, 3 zabanon me tarjuma aur sticky bookmark ke sath.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yourdomain.com/quran.html">
 
@@ -22,7 +22,20 @@
     .top-nav { position: sticky; top: 0; background: var(--bg); padding: 6px 0 10px 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
     .btn-back { background: var(--primary); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.74rem; font-weight: 700; }
     
-    /* Segment Tabs: Surah vs Para */
+    /* Last Read Banner */
+    .resume-bar {
+      background: #ecfdf5;
+      border: 1.5px dashed #059669;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin: 10px 0;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* Tabs: Surah vs Para */
     .tab-switch { display: flex; background: #e2e8f0; border-radius: 10px; padding: 3px; margin: 10px 0; }
     .tab-btn { flex: 1; border: none; background: transparent; padding: 8px; font-weight: 800; font-size: 0.78rem; border-radius: 8px; cursor: pointer; color: #64748b; }
     .tab-btn.active { background: #ffffff; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
@@ -35,18 +48,33 @@
     .dir-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .dir-num { width: 30px; height: 30px; background: #ecfdf5; color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem; margin-right: 10px; }
 
-    /* Controls inside Reader */
+    /* Reader Controls */
     .reader-toolbar { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; display: flex; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
-    .tool-select { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.72rem; font-family: inherit; font-weight: 600; }
+    .tool-select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.72rem; font-family: inherit; font-weight: 600; }
 
-    /* Ayah Card */
-    .ayah-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    /* Ayah Card & Bookmark Highlight */
+    .ayah-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .ayah-card.bookmarked {
+      border-color: #f59e0b;
+      background: #fffdf5;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+    }
     .ayah-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
-    .ayah-arabic { font-family: 'Amiri Quran', serif; font-size: 1.45rem; direction: rtl; text-align: right; line-height: 2.3; color: #064e3b; margin-bottom: 8px; }
-    .ayah-trans { font-size: 0.82rem; color: #334155; line-height: 1.6; border-top: 1px dashed var(--border); padding-top: 8px; }
+    
+    .btn-icon { background: none; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; font-size: 0.7rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-icon.active { background: #fef3c7; border-color: #f59e0b; color: #b45309; }
+    .btn-icon.playing { background: #dc2626; color: #fff; border-color: #dc2626; }
 
-    .btn-play { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
-    .btn-play.playing { background: #dc2626; color: #fff; border-color: #dc2626; }
+    .ayah-arabic { font-family: 'Amiri Quran', serif; font-size: 1.55rem; direction: rtl; text-align: right; line-height: 2.3; color: #064e3b; margin-bottom: 8px; }
+    .ayah-trans { font-size: 0.82rem; color: #334155; line-height: 1.6; border-top: 1px dashed var(--border); padding-top: 8px; }
   </style>
 </head>
 <body>
@@ -58,6 +86,15 @@
 
   <!-- LIST SCREEN -->
   <main id="dirScreen">
+    <!-- 📌 Resume Last Read Session Banner -->
+    <div id="resumeBar" class="resume-bar" onclick="resumeLastReading()">
+      <div>
+        <div style="font-size:0.68rem; color:#047857; font-weight:800;">📖 WAPAS WAHIN SE SHURU KAREIN</div>
+        <strong id="resumeTitle" style="font-size:0.82rem; color:#064e3b;">--</strong>
+      </div>
+      <span style="font-size:0.75rem; font-weight:800; color:#047857;">Padhein ➔</span>
+    </div>
+
     <div class="tab-switch">
       <button class="tab-btn active" id="tabSurah" onclick="switchMainTab('surah')">📖 114 Surahs</button>
       <button class="tab-btn" id="tabPara" onclick="switchMainTab('para')">📑 30 Paras (Juz)</button>
@@ -70,20 +107,24 @@
   <!-- AYAH READER SCREEN -->
   <main id="readerScreen" style="display:none;">
     <div class="reader-toolbar">
-      <!-- Qari Reciter Selector -->
+      <!-- Qari Selector -->
       <div>
         <span style="font-size:0.68rem; color:#64748b; font-weight:700;">Qari:</span>
         <select class="tool-select" id="qariSelect">
           <option value="ar.alafasy">Mishary Rashid Alafasy</option>
           <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
           <option value="ar.as-sudais">Abdur-Rahman As-Sudais</option>
+          <option value="ar.mahermuaiqly">Maher Al-Muaiqly</option>
+          <option value="ar.hudhaify">Ali Al-Hudhaify</option>
         </select>
       </div>
-      <!-- Language Translation Selector -->
+
+      <!-- Tarjuma / Only Arabic Selector -->
       <div>
-        <span style="font-size:0.68rem; color:#64748b; font-weight:700;">Tarjuma:</span>
+        <span style="font-size:0.68rem; color:#64748b; font-weight:700;">Display:</span>
         <select class="tool-select" id="langSelect" onchange="reloadCurrentReaderTranslation()">
-          <option value="ur.jalandhry">Urdu (Jalandhry)</option>
+          <option value="none">✨ Sirf Arabic (Bina Tarjuma)</option>
+          <option value="ur.jalandhry" selected>Urdu (Jalandhry)</option>
           <option value="hi.hindi">Hindi (Suhel Farooq)</option>
           <option value="en.sahih">English (Saheeh Int.)</option>
         </select>
@@ -102,12 +143,12 @@
   <script>
     let activeTab = 'surah';
     let surahDirectory = [];
-    let currentReadingType = ''; // 'surah' or 'para'
+    let currentReadingType = '';
     let currentReadingId = 1;
+    let currentReadingTitle = '';
     let activeAudioBtn = null;
     const audioPlayer = document.getElementById('quranAudioPlayer');
 
-    // 30 Paras Names Meta
     const parasMeta = [
       "Alif-Lam-Meem", "Sayaqool", "Tilkal Rusul", "Lan Tanaloo", "Wal Mohsanat",
       "La Yuhibbullah", "Wa Iza Samiu", "Wa Lau Annana", "Qalal Malao", "Wa A'lamoo",
@@ -118,6 +159,7 @@
     ];
 
     async function initQuran() {
+      checkLastReadBanner();
       try {
         const res = await fetch('https://api.alquran.cloud/v1/surah');
         const data = await res.json();
@@ -127,6 +169,25 @@
         }
       } catch (e) {
         document.getElementById('dirContainer').innerHTML = '<div style="padding:20px; text-align:center;">Internet masla hai. Check karein.</div>';
+      }
+    }
+
+    // Check & Show Last Read / Sticky Bookmark Session
+    function checkLastReadBanner() {
+      const saved = localStorage.getItem('quran_last_read');
+      if (saved) {
+        const info = JSON.parse(saved);
+        const bar = document.getElementById('resumeBar');
+        document.getElementById('resumeTitle').innerText = `${info.title} (Ayah ${info.ayahNo || 1})`;
+        bar.style.display = 'flex';
+      }
+    }
+
+    function resumeLastReading() {
+      const saved = localStorage.getItem('quran_last_read');
+      if (saved) {
+        const info = JSON.parse(saved);
+        openReader(info.type, info.id, info.title, info.ayahNo);
       }
     }
 
@@ -181,16 +242,24 @@
 
     function filterDirectory() {
       const q = document.getElementById('dirSearch').value.toLowerCase().trim();
-      const cards = document.querySelectorAll('.dir-card');
-      cards.forEach(c => {
+      document.querySelectorAll('.dir-card').forEach(c => {
         c.style.display = c.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
       });
     }
 
-    // Open Ayah Reader
-    async function openReader(type, id, title) {
+    // Open Reader
+    async function openReader(type, id, title, targetAyahNo = null) {
       currentReadingType = type;
       currentReadingId = id;
+      currentReadingTitle = title;
+
+      // Save Last Session to LocalStorage
+      localStorage.setItem('quran_last_read', JSON.stringify({
+        type: type,
+        id: id,
+        title: title,
+        ayahNo: targetAyahNo || 1
+      }));
 
       document.getElementById('dirScreen').style.display = 'none';
       document.getElementById('readerScreen').style.display = 'block';
@@ -203,30 +272,40 @@
 
       document.getElementById('bismillahHeader').style.display = (type === 'surah' && id === 9) ? 'none' : 'block';
 
-      loadReaderAyahs();
+      loadReaderAyahs(targetAyahNo);
     }
 
-    async function loadReaderAyahs() {
+    async function loadReaderAyahs(scrollTargetAyah = null) {
       const ayahList = document.getElementById('ayahList');
       ayahList.innerHTML = '<div style="text-align:center; padding:30px;">⏳ Aayaat load ho rahi hain...</div>';
 
-      const translationEdition = document.getElementById('langSelect').value;
+      const langMode = document.getElementById('langSelect').value;
+      const isArabicOnly = (langMode === 'none');
+
       const endpointAr = (currentReadingType === 'surah') 
         ? `https://api.alquran.cloud/v1/surah/${currentReadingId}`
         : `https://api.alquran.cloud/v1/juz/${currentReadingId}/quran-uthmani`;
 
-      const endpointTr = (currentReadingType === 'surah') 
-        ? `https://api.alquran.cloud/v1/surah/${currentReadingId}/${translationEdition}`
-        : `https://api.alquran.cloud/v1/juz/${currentReadingId}/${translationEdition}`;
-
       try {
-        const [resAr, resTr] = await Promise.all([fetch(endpointAr), fetch(endpointTr)]);
-        const dataAr = await resAr.json();
-        const dataTr = await resTr.json();
+        let fetchPromises = [fetch(endpointAr)];
+        if (!isArabicOnly) {
+          const endpointTr = (currentReadingType === 'surah') 
+            ? `https://api.alquran.cloud/v1/surah/${currentReadingId}/${langMode}`
+            : `https://api.alquran.cloud/v1/juz/${currentReadingId}/${langMode}`;
+          fetchPromises.push(fetch(endpointTr));
+        }
+
+        const responses = await Promise.all(fetchPromises);
+        const dataAr = await responses[0].json();
+        const dataTr = (!isArabicOnly) ? await responses[1].json() : null;
 
         ayahList.innerHTML = '';
         const arAyahs = dataAr.data.ayahs;
-        const trAyahs = dataTr.data.ayahs;
+        const trAyahs = dataTr ? dataTr.data.ayahs : [];
+
+        // Saved Sticky Bookmark check
+        const savedBookmarkKey = `bookmark_${currentReadingType}_${currentReadingId}`;
+        const activeBookmarkAyah = localStorage.getItem(savedBookmarkKey);
 
         arAyahs.forEach((ay, idx) => {
           let arText = ay.text;
@@ -234,21 +313,73 @@
             arText = arText.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "").trim();
           }
 
+          const ayahNum = ay.numberInSurah || (idx + 1);
+          const isMarked = (activeBookmarkAyah && parseInt(activeBookmarkAyah, 10) === ayahNum);
+
           const card = document.createElement('div');
-          card.className = 'ayah-card';
+          card.className = `ayah-card ${isMarked ? 'bookmarked' : ''}`;
+          card.id = `ayah_node_${ayahNum}`;
+
           card.innerHTML = `
             <div class="ayah-header">
-              <span style="font-size:0.7rem; font-weight:800; color:#1d4ed8;">Ayah ${ay.numberInSurah || ay.number}</span>
-              <button class="btn-play" onclick="playAyahRecitation(this, ${ay.number})">▶️ Tilawat</button>
+              <span style="font-size:0.72rem; font-weight:800; color:#1d4ed8;">Ayah ${ayahNum}</span>
+              <div style="display:flex; gap:6px;">
+                <button class="btn-icon ${isMarked ? 'active' : ''}" onclick="toggleBookmark(${ayahNum}, this)">
+                  ${isMarked ? '🔖 Nishan Laga Hai' : '🔖 Nishan Lagayein'}
+                </button>
+                <button class="btn-icon" onclick="playAyahRecitation(this, ${ay.number})">▶️ Tilawat</button>
+              </div>
             </div>
             <div class="ayah-arabic">${arText}</div>
-            <div class="ayah-trans">${trAyahs[idx].text}</div>
+            ${!isArabicOnly && trAyahs[idx] ? `<div class="ayah-trans">${trAyahs[idx].text}</div>` : ''}
           `;
           ayahList.appendChild(card);
         });
 
+        // Auto Scroll to target ayah or bookmark
+        const scrollToNum = scrollTargetAyah || (activeBookmarkAyah ? parseInt(activeBookmarkAyah, 10) : null);
+        if (scrollToNum) {
+          setTimeout(() => {
+            const el = document.getElementById(`ayah_node_${scrollToNum}`);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 300);
+        }
+
       } catch (err) {
-        ayahList.innerHTML = '<div style="text-align:center; padding:30px;">Aayaat load karne me masla aaya. Dobara check karein.</div>';
+        ayahList.innerHTML = '<div style="text-align:center; padding:30px;">Aayaat load karne me masla aaya. Dobara koshish karein.</div>';
+      }
+    }
+
+    // Toggle Sticky Bookmark (Nishan)
+    function toggleBookmark(ayahNum, btn) {
+      const key = `bookmark_${currentReadingType}_${currentReadingId}`;
+      const existing = localStorage.getItem(key);
+
+      document.querySelectorAll('.ayah-card').forEach(c => c.classList.remove('bookmarked'));
+      document.querySelectorAll('.btn-icon').forEach(b => {
+        if (b.innerText.includes('Nishan')) b.innerText = '🔖 Nishan Lagayein';
+        b.classList.remove('active');
+      });
+
+      if (existing && parseInt(existing, 10) === ayahNum) {
+        // Remove bookmark
+        localStorage.removeItem(key);
+      } else {
+        // Save new bookmark
+        localStorage.setItem(key, ayahNum);
+        document.getElementById(`ayah_node_${ayahNum}`).classList.add('bookmarked');
+        btn.classList.add('active');
+        btn.innerText = '🔖 Nishan Laga Hai';
+
+        // Also update Last Read
+        localStorage.setItem('quran_last_read', JSON.stringify({
+          type: currentReadingType,
+          id: currentReadingId,
+          title: currentReadingTitle,
+          ayahNo: ayahNum
+        }));
       }
     }
 
@@ -297,6 +428,8 @@
       bBtn.innerText = "⬅️ Dashboard";
       bBtn.href = "index.html";
       bBtn.onclick = null;
+
+      checkLastReadBanner();
     }
 
     initQuran();
