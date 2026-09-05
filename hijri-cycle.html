@@ -3,10 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>33-Year Ramadan & Hajj Season Cycle | Hijri-Solar Projection</title>
-  <meta name="description" content="Agla Ramadan aur Hajj kab aayega? 33-year solar shift cycle, mausam aur roze ke auqaat ka interactive projection.">
+  <title>33-Year Ramadan & Hajj Season Cycle | AdeenDesk</title>
+  <meta name="description" content="Agla Ramadan aur Hajj kab aayega? 33-year solar shift cycle, mausam, roze ke auqaat aur agle 12 saalon ka auto-rolling projection.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yourdomain.com/hijri-cycle.html">
+  
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "33-Year Hijri & Ramadan Season Cycle",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "description": "Interactive 33-year astronomical lunar cycle projection for Ramadan, Hajj, and fasting durations."
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -138,7 +151,7 @@
       font-weight: 600;
     }
 
-    /* Projection Table */
+    /* Forecast Table */
     .forecast-table {
       width: 100%;
       border-collapse: collapse;
@@ -169,6 +182,24 @@
     .badge-spring { background: #d1fae5; color: #065f46; }
     .badge-summer { background: #fee2e2; color: #991b1b; }
     .badge-autumn { background: #fef3c7; color: #92400e; }
+
+    .share-btn {
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+    }
+    .share-btn:active {
+      transform: scale(0.98);
+    }
   </style>
 </head>
 <body>
@@ -198,47 +229,7 @@
         </div>
       </div>
 
-      <!-- Live Details -->
-      <div class="stat-grid">
-        <div class="stat-tile">
-          <span>🌙 Ramadan Start</span>
-          <strong id="tileRamadan">18 Feb 2026</strong>
-        </div>
-        <div class="stat-tile">
-          <span>🕋 Hajj (Arafah)</span>
-          <strong id="tileHajj">26 May 2026</strong>
-        </div>
-        <div class="stat-tile">
-          <span>❄️/☀️ Mausam</span>
-          <strong id="tileSeason">Sardi (Winter)</strong>
-        </div>
-        <div class="stat-tile">
-          <span>🔄 33-Year Cycle Match</span>
-          <strong id="tileRepeatYear">Repeat: ~2059</strong>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. Agle 12 Saalon Ka Forecast Table -->
-    <section class="tool-card">
-      <h2 style="font-size:0.85rem; font-weight:800; margin:0 0 10px 0; color:#0f172a;">📅 12-Year Quick Projection Table</h2>
-      <div style="overflow-x:auto;">
-        <table class="forecast-table">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Ramadan Shuru</th>
-              <th>Hajj Tareekh</th>
-              <th>Mausam</th>
-              <th>Roza Duration</th>
-            </tr>
-          </thead>
-          <tbody id="forecastTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-<!-- 🎨 4-Seasons Color Reference Board -->
+      <!-- 4-Seasons Color Reference Board -->
       <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px; margin:12px 0;">
         <div style="font-size:0.75rem; font-weight:800; color:#0f172a; margin-bottom:6px; text-align:center;">🎨 Wheel Ke 4 Rangon Ki Wazahat (4 Seasons):</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.7rem; font-weight:700;">
@@ -260,15 +251,76 @@
           </div>
         </div>
       </div>
+
+      <!-- Live Details -->
+      <div class="stat-grid">
+        <div class="stat-tile">
+          <span>🌙 Ramadan Start</span>
+          <strong id="tileRamadan">--</strong>
+        </div>
+        <div class="stat-tile">
+          <span>🕋 Hajj (Arafah)</span>
+          <strong id="tileHajj">--</strong>
+        </div>
+        <div class="stat-tile">
+          <span>❄️/☀️ Mausam</span>
+          <strong id="tileSeason">--</strong>
+        </div>
+        <div class="stat-tile">
+          <span>🔄 33-Year Cycle Match</span>
+          <strong id="tileRepeatYear">--</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Auto-Rolling 12-Year Table with Share Button & Ilmi Wazahat -->
+    <section class="tool-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div>
+          <span style="background:#ecfdf5; color:#047857; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:4px;">Auto-Rolling Cycle</span>
+          <h2 style="font-size:0.9rem; font-weight:800; margin:4px 0 0 0; color:#0f172a;">📅 Agle 12 Saalon Ka Quick Projection</h2>
+        </div>
+        <button class="share-btn" onclick="shareHijriCycleTable()">
+          📤 Share 12-Yr Cycle
+        </button>
+      </div>
+
+      <!-- 💡 Ilmi Wazahat Box -->
+      <div style="background:#f8fafc; border-left:3px solid #059669; padding:10px 12px; border-radius:6px; font-size:0.74rem; color:#334155; line-height:1.5; margin-bottom:14px;">
+        💡 <strong>Ilmi Wazahat (Hikmat-e-Shariat):</strong> Qamari (Lunar) saal Shamsi (Solar) saal se lagbhag <strong>10 se 11 din chhota</strong> hota hai. Isi wajah se har saal Ramadan aur Hajj 10-11 din pehle aate hain, aur taqreeban <strong>33 saal</strong> me poora daura mukammal karke wapas usi mausam (Garmi/Sardi) me laut aate hain. Yeh Allah Ta'ala ka azeem nizam hai taaki duniya ke har hisse me har mausam ke sath ibadat ka sharaf hasil ho sake.
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="forecast-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Ramadan Shuru</th>
+              <th>Hajj Tareekh</th>
+              <th>Mausam</th>
+              <th>Roza Duration</th>
+            </tr>
+          </thead>
+          <tbody id="forecastTableBody"></tbody>
+        </table>
+      </div>
+      <p style="font-size:0.68rem; color:#64748b; margin:8px 0 0 0;">*Tareekhein astronomical calculation par mabni hain, chand dekhne par 1 din ka farq ho sakta hai.</p>
+    </section>
+  </main>
+
+  <footer style="margin-top:20px; padding:12px 10px; text-align:center; font-size:0.68rem; color:#94a3b8; border-top:1px solid #e2e8f0;">
+    &copy; 2026 <strong>AdeenDesk</strong>. All Rights Reserved.
+  </footer>
+
   <script>
     // 33-Year Astronomical Projection Engine
     // Base Reference: 2026 Ramadan begins ~18 Feb (Day 49 of Solar Year)
     const baseYear = 2026;
     const baseRamadanDOY = 49; // Feb 18
     const baseHajjDOY = 146;    // May 26
+    let tableSharedData = [];
 
     function getSeasonInfo(dayOfYear) {
-      // Approximate Day of Year Seasons (Subcontinent/Northern Hemisphere)
       if (dayOfYear >= 335 || dayOfYear < 60) {
         return { name: "Winter (Sardi)", badge: "badge-winter", hours: "11.5 - 12.5 hrs (Chhota Roza)", angle: 45 };
       } else if (dayOfYear >= 60 && dayOfYear < 152) {
@@ -324,11 +376,28 @@
       pointer.style.transform = `rotate(${data.dialAngle}deg)`;
     }
 
-    function buildTable() {
+    // Dynamic 12-Year Auto Rolling Table
+    function buildAutoRollingTable() {
       const tbody = document.getElementById('forecastTableBody');
+      if (!tbody) return;
       tbody.innerHTML = '';
-      for (let y = 2026; y <= 2038; y++) {
+      tableSharedData = [];
+
+      const currentYear = new Date().getFullYear();
+
+      // Update slider starting range to match current year dynamically
+      const slider = document.getElementById('yearSlider');
+      if (slider) {
+        slider.min = currentYear;
+        slider.max = currentYear + 33;
+        slider.value = currentYear;
+      }
+
+      for (let i = 0; i < 12; i++) {
+        const y = currentYear + i;
         const d = calculateYearData(y);
+        tableSharedData.push(d);
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><strong>${d.year}</strong></td>
@@ -341,9 +410,46 @@
       }
     }
 
-    // Init
-    updateProjection(2026);
-    buildTable();
+    // WhatsApp / Native Share function for 12-Year Cycle
+    function shareHijriCycleTable() {
+      if (!tableSharedData || tableSharedData.length === 0) return;
+
+      const rowsText = tableSharedData.slice(0, 6).map(row => 
+        `▪️ *${row.year}:* Ramadan ~${row.ramadanStr.split(' ').slice(0,2).join(' ')} [${row.season.name.split(' ')[0]}]`
+      ).join('\n');
+
+      const shareUrl = `${window.location.origin}/hijri-cycle.html`;
+
+      const shareMessage = 
+`🌙 *33-Year Hijri Cycle | Ramadan & Season Timeline*
+_AdeenDesk Islamic Utilities_
+
+Qamari saal shamsi saal se 10-11 din chhota hota hai, isliye Ramadan har saal pehle aata hai aur 33 saal me pura cycle ghumta hai.
+
+📅 *Aane Wale Saalon Ka Expected Schedule:*
+${rowsText}
+...aur agle tamam saal.
+
+👉 *Poora 33-Year Interactive Dial & Chart dekhne ke liye:*
+${shareUrl}`;
+
+      if (navigator.share) {
+        navigator.share({
+          text: shareMessage
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareMessage).then(() => {
+          alert("12-Year Cycle timeline copy ho gaya! Ab WhatsApp ya kisi bhi group me share karein.");
+        });
+      }
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const currentYear = new Date().getFullYear();
+      updateProjection(currentYear);
+      buildAutoRollingTable();
+    });
   </script>
 </body>
 </html>
