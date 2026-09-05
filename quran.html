@@ -3,10 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Al-Quran Al-Kareem | Digital Reader & Audio</title>
-  <meta name="description" content="Mukammal Quran Majeed Surah, Para, direct aayat search aur poori Surah tilawat player ke sath.">
+  
+  <!-- Default Primary SEO Tags -->
+  <title id="seoPageTitle">Al-Quran Al-Kareem | 114 Surahs with Urdu, Hindi & English Translation</title>
+  <meta id="seoPageDesc" name="description" content="Mukammal Quran Majeed Surah aur Para wise reading, Arabic matan, Urdu, Hindi aur English tarjuma aur audio tilawat ke sath.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yourdomain.com/quran.html">
+  <link id="seoCanonicalUrl" rel="canonical" href="https://yourdomain.com/quran.html">
+
+  <!-- Base JSON-LD Schema -->
+  <script id="quranDynamicSchema" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "The Holy Quran",
+    "inLanguage": ["ar", "ur", "hi", "en"],
+    "genre": "Religious Scripture"
+  }
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -49,7 +62,6 @@
     .reader-toolbar { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
     .tool-select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.72rem; font-family: inherit; font-weight: 600; }
     
-    /* Full Surah Play Button */
     .btn-full-surah {
       background: #059669;
       color: #ffffff;
@@ -102,7 +114,7 @@
     <span id="navTitle" style="font-size:0.9rem; font-weight:800; color:var(--primary);">Al-Quran Al-Kareem</span>
   </header>
 
-  <!-- LIST SCREEN -->
+  <!-- 1. DIRECTORY LIST SCREEN -->
   <main id="dirScreen">
     <div id="resumeBar" class="resume-bar" onclick="resumeLastReading()">
       <div>
@@ -117,12 +129,11 @@
       <button class="tab-btn" id="tabPara" onclick="switchMainTab('para')">📑 30 Paras (Juz)</button>
     </div>
 
-    <!-- Smart Search Bar: Accepts Names or Direct Chapter:Verse (e.g. 7:120 or 7 120) -->
-    <input type="text" id="dirSearch" class="search-input" placeholder="🔍 Surah naam ya Aayat direct talash karein (e.g. Yaseen, ya 7:120, 2 255)..." onkeyup="handleSmartSearch(event)">
+    <input type="text" id="dirSearch" class="search-input" placeholder="🔍 Surah naam ya Aayat direct talash karein (e.g. Yaseen, 7:120, 2 255)..." onkeyup="handleSmartSearch(event)">
     <div id="dirContainer" class="dir-grid"></div>
   </main>
 
-  <!-- AYAH READER SCREEN -->
+  <!-- 2. AYAH READER SCREEN -->
   <main id="readerScreen" style="display:none;">
     <div class="reader-toolbar">
       <button id="btnPlayFullSurah" class="btn-full-surah" onclick="toggleFullSurahAudio()">
@@ -165,7 +176,6 @@
     let currentSurahAyahsData = [];
     let activeAudioBtn = null;
     
-    // Continuous Audio Engine States
     let isFullSurahPlaying = false;
     let continuousAyahIndex = 0;
     const audioPlayer = document.getElementById('quranAudioPlayer');
@@ -190,11 +200,11 @@
           checkUrlParameters();
         }
       } catch (e) {
-        document.getElementById('dirContainer').innerHTML = '<div style="padding:20px; text-align:center;">Internet masla hai. Check karein.</div>';
+        document.getElementById('dirContainer').innerHTML = '<div style="padding:20px; text-align:center;">Internet connection check karein.</div>';
       }
     }
 
-    // URL Direct Parameter Check (e.g. ?surah=7&ayah=120)
+    // Direct URL Parameter Processing (?surah=4&ayah=122)
     function checkUrlParameters() {
       const params = new URLSearchParams(window.location.search);
       const s = parseInt(params.get('surah'), 10);
@@ -206,11 +216,9 @@
       }
     }
 
-    // Smart Search Engine (Google Style 7:120 or 7 120 Detection)
+    // Google-style Pattern Matching Search (e.g. 7:120 or surah 7 120)
     function handleSmartSearch(e) {
       const raw = document.getElementById('dirSearch').value.trim();
-      
-      // Regex detects formats like "7:120", "7 120", "surah 7 120"
       const match = raw.match(/^(?:surah\s*)?(\d{1,3})[\s:,-]+(\d{1,3})$/i);
       if (match && e.key === 'Enter') {
         const sNum = parseInt(match[1], 10);
@@ -223,7 +231,6 @@
         }
       }
 
-      // Fallback to name/number filtering
       const q = raw.toLowerCase();
       document.querySelectorAll('.dir-card').forEach(c => {
         c.style.display = c.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
@@ -297,7 +304,7 @@
       }
     }
 
-    // Open Reader
+    // 🌟 Open Reader with Dynamic Google SEO Meta Injection
     async function openReader(type, id, title, targetAyahNo = null) {
       stopAllAudios();
       currentReadingType = type;
@@ -310,6 +317,35 @@
         title: title,
         ayahNo: targetAyahNo || 1
       }));
+
+      // 🎯 DYNAMIC SEO INJECTION FOR GOOGLE CRAWLER & BROWSER TAB
+      if (type === 'surah') {
+        const surahMeta = surahDirectory.find(s => s.number === id);
+        const englishTranslation = surahMeta ? surahMeta.englishNameTranslation : "";
+        const cleanName = title.replace(/^\d+\.\s*/, '');
+        
+        document.title = `Surah ${cleanName} (${id}) with Urdu Translation & Audio | Al-Quran`;
+        document.getElementById('seoPageDesc').setAttribute('content', `Surah ${cleanName} (${englishTranslation}) complete Arabic text, Urdu tarjuma by Maulana Jalandhry, English translation and MP3 recitation.`);
+        document.getElementById('seoCanonicalUrl').setAttribute('href', `${window.location.origin}/quran.html?surah=${id}`);
+
+        // Update URL in browser address bar without reloading
+        const targetUrl = targetAyahNo 
+          ? `quran.html?surah=${id}&ayah=${targetAyahNo}` 
+          : `quran.html?surah=${id}`;
+        window.history.replaceState({ surah: id, ayah: targetAyahNo }, "", targetUrl);
+
+        // Inject Dynamic Schema.org Chapter for Google Rich Snippets
+        const schemaTag = document.getElementById('quranDynamicSchema');
+        schemaTag.textContent = JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "name": `Surah ${cleanName}`,
+          "position": id,
+          "description": `The ${id}th chapter of the Holy Quran, containing ${surahMeta ? surahMeta.numberOfAyahs : ''} verses.`,
+          "url": window.location.href,
+          "inLanguage": ["ar", "ur", "hi", "en"]
+        });
+      }
 
       document.getElementById('dirScreen').style.display = 'none';
       document.getElementById('readerScreen').style.display = 'block';
@@ -366,7 +402,7 @@
           const ayahNum = ay.numberInSurah || (idx + 1);
           const isMarked = (activeBookmarkAyah && parseInt(activeBookmarkAyah, 10) === ayahNum);
 
-          const card = document.createElement('div');
+          const card = document.createElement('article');
           card.className = `ayah-card ${isMarked ? 'bookmarked' : ''}`;
           card.id = `ayah_node_${ayahNum}`;
 
@@ -374,8 +410,9 @@
             <div class="ayah-header">
               <span style="font-size:0.72rem; font-weight:800; color:#1d4ed8;">Ayah ${ayahNum}</span>
               <div style="display:flex; gap:6px;">
+                <button class="btn-icon" title="Ayah Direct Link" onclick="copyAyahDirectLink(${ayahNum})">🔗 Link</button>
                 <button class="btn-icon ${isMarked ? 'active' : ''}" onclick="toggleBookmark(${ayahNum}, this)">
-                  ${isMarked ? '🔖 Nishan Laga Hai' : '🔖 Nishan Lagayein'}
+                  ${isMarked ? '🔖 Nishan Laga Hai' : '🔖 Nishan'}
                 </button>
                 <button class="btn-icon btn-single-play" id="btnSingle_${ayahNum}" onclick="playSingleAyah(this, ${ay.number}, ${ayahNum})">▶️ Tilawat</button>
               </div>
@@ -392,18 +429,33 @@
             const el = document.getElementById(`ayah_node_${scrollToNum}`);
             if (el) {
               el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              el.style.boxShadow = "0 0 0 3px #059669";
-              setTimeout(() => { el.style.boxShadow = ""; }, 2000);
+              el.style.borderColor = "#059669";
+              el.style.boxShadow = "0 0 0 3px rgba(5, 150, 105, 0.35)";
+              setTimeout(() => { el.style.boxShadow = ""; }, 3000);
             }
           }, 350);
         }
 
       } catch (err) {
-        ayahList.innerHTML = '<div style="text-align:center; padding:30px;">Aayaat load karne me masla aaya. Dobara koshish karein.</div>';
+        ayahList.innerHTML = '<div style="text-align:center; padding:30px;">Aayaat load karne me masla aaya. Dobara check karein.</div>';
       }
     }
 
-    // Toggle Continuous Full Surah Recitation
+    // 🔗 Copy Direct Sharable Ayah Link (SEO Backlink Booster)
+    function copyAyahDirectLink(ayahNum) {
+      if (currentReadingType !== 'surah') return;
+      const shareUrl = `${window.location.origin}/quran.html?surah=${currentReadingId}&ayah=${ayahNum}`;
+      const text = `📖 *${currentReadingTitle} (Ayah ${ayahNum})*\nTilawat aur tarjuma ke sath yahan padhein:\n${shareUrl}`;
+
+      if (navigator.share) {
+        navigator.share({ title: `${currentReadingTitle} - Ayah ${ayahNum}`, text: text, url: shareUrl });
+      } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert(`Ayah ${ayahNum} ka direct sharable link copy ho gaya!`);
+        });
+      }
+    }
+
     function toggleFullSurahAudio() {
       const btn = document.getElementById('btnPlayFullSurah');
       if (isFullSurahPlaying) {
@@ -429,7 +481,6 @@
       const ay = currentSurahAyahsData[continuousAyahIndex];
       const ayahNum = ay.numberInSurah || (continuousAyahIndex + 1);
 
-      // Visual active playing indicator
       document.querySelectorAll('.ayah-card').forEach(c => c.classList.remove('current-playing'));
       const activeCard = document.getElementById(`ayah_node_${ayahNum}`);
       if (activeCard) {
@@ -452,7 +503,6 @@
       };
     }
 
-    // Single Ayah Recitation
     function playSingleAyah(btn, globalAyahNum, ayahNum) {
       if (activeAudioBtn === btn && !audioPlayer.paused) {
         stopAllAudios();
@@ -498,7 +548,7 @@
 
       document.querySelectorAll('.ayah-card').forEach(c => c.classList.remove('bookmarked'));
       document.querySelectorAll('.btn-icon').forEach(b => {
-        if (b.innerText.includes('Nishan')) b.innerText = '🔖 Nishan Lagayein';
+        if (b.innerText.includes('Nishan')) b.innerText = '🔖 Nishan';
         b.classList.remove('active');
       });
 
@@ -527,6 +577,8 @@
 
     function closeReader() {
       stopAllAudios();
+      window.history.replaceState({}, "", "quran.html");
+      document.title = "Al-Quran Al-Kareem | 114 Surahs with Urdu, Hindi & English Translation";
       document.getElementById('readerScreen').style.display = 'none';
       document.getElementById('dirScreen').style.display = 'block';
 
