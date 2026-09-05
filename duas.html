@@ -60,6 +60,110 @@
     .dua-btn { flex: 1; padding: 7px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; border: none; cursor: pointer; }
     .btn-green { background: #059669; color: #ffffff; }
     .btn-outline { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+/* 🖼️ Fullscreen Dua Lightbox Gallery */
+    .dua-lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+      box-sizing: border-box;
+      touch-action: pan-y;
+    }
+    .dua-lightbox-overlay.active { display: flex; }
+
+    .lightbox-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .lightbox-counter {
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #059669;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .lightbox-close-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Modal Main Content Box */
+    .lightbox-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 580px;
+      margin: 0 auto;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      max-height: 75vh;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .lb-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 1.5rem;
+      direction: rtl;
+      text-align: right;
+      color: #065f46;
+      line-height: 2.1;
+      margin: 10px 0;
+    }
+    .lb-translit {
+      font-size: 0.78rem;
+      color: #64748b;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .lb-tarjuma {
+      font-size: 0.84rem;
+      color: #1e293b;
+      line-height: 1.6;
+      font-weight: 600;
+      min-height: 48px;
+    }
+
+    /* Bottom Navigation Bar */
+    .lightbox-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      max-width: 580px;
+      margin: 10px auto 0 auto;
+      width: 100%;
+    }
+    .lb-nav-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.18);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -84,7 +188,41 @@
   </div>
 
   <main id="duasListContainer"></main>
+<!-- 🖼️ Fullscreen Dua Gallery Lightbox -->
+  <div id="duaLightbox" class="dua-lightbox-overlay">
+    <div class="lightbox-topbar">
+      <span class="lightbox-counter" id="lbCounter">Dua 1 / 1</span>
+      <button class="lightbox-close-btn" onclick="closeDuaLightbox()">✕</button>
+    </div>
 
+    <div class="lightbox-body" id="lbTouchArea">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:6px;">
+        <span id="lbCategory" style="font-size:0.68rem; font-weight:800; color:#059669; background:#ecfdf5; padding:2px 8px; border-radius:4px;">--</span>
+        <span id="lbReference" style="font-size:0.68rem; color:#64748b; font-weight:700;">--</span>
+      </div>
+
+      <h3 id="lbTitle" style="font-size:1rem; font-weight:800; color:#0f172a; margin:8px 0 0 0;">--</h3>
+      <div class="lb-arabic" id="lbArabic">--</div>
+      <div class="lb-translit" id="lbTranslit">--</div>
+
+      <!-- Language Selector in Lightbox -->
+      <div class="lang-tabs" style="margin-top:6px;">
+        <button class="lang-tab-btn active" onclick="switchLightboxLang('urdu', this)">Urdu</button>
+        <button class="lang-tab-btn" onclick="switchLightboxLang('hindi', this)">Hindi</button>
+        <button class="lang-tab-btn" onclick="switchLightboxLang('eng', this)">English</button>
+      </div>
+
+      <div class="lb-tarjuma" id="lbTarjuma">--</div>
+      <div id="lbBenefits" class="dua-benefit" style="margin-top:8px;"></div>
+    </div>
+
+    <!-- Gallery Navigation Buttons -->
+    <div class="lightbox-nav-bar">
+      <button class="lb-nav-btn" onclick="navigateLightbox(-1)">⟨ Pichli Dua</button>
+      <button class="lb-nav-btn" style="background:#059669; border:none;" onclick="shareCurrentLightboxDua()">📤 Share</button>
+      <button class="lb-nav-btn" onclick="navigateLightbox(1)">Agli Dua ⟩</button>
+    </div>
+  </div>
   <script>
     let activeCategory = 'All';
     const container = document.getElementById('duasListContainer');
@@ -95,7 +233,7 @@
       btn.classList.add('active');
       filterDuas();
     }
-
+/*
     function renderDuasList(list) {
       container.innerHTML = '';
       if (list.length === 0) {
@@ -137,7 +275,141 @@
         container.appendChild(card);
       });
     }
+*/
+    // Current Active List & Lightbox Tracking
+    let currentRenderedList = [];
+    let currentLightboxIndex = 0;
+    let currentSelectedLang = 'urdu';
 
+    function renderDuasList(list) {
+      currentRenderedList = list;
+      container.innerHTML = '';
+      if (list.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:30px; font-size:0.8rem; color:#94a3b8;">Koi dua nahi mili. Doosra lafz talash karein.</div>';
+        return;
+      }
+
+      list.forEach((dua, index) => {
+        const card = document.createElement('article');
+        card.className = 'dua-card';
+        card.setAttribute('itemscope', '');
+        card.setAttribute('itemtype', 'https://schema.org/CreativeWork');
+        // Click karne par lightbox khulega
+        card.style.cursor = 'pointer';
+
+        card.innerHTML = `
+          <div class="dua-header">
+            <span class="dua-cat-tag">📁 ${dua.category}</span>
+            <span class="dua-ref-tag">📜 ${dua.reference}</span>
+          </div>
+          <h2 class="dua-title" itemprop="headline" onclick="openDuaLightbox(${index})">${dua.title} <span style="font-size:0.75rem; color:#059669;">🔍 Expand</span></h2>
+          <div class="dua-arabic" onclick="openDuaLightbox(${index})">${dua.arabic}</div>
+          <div class="dua-translit">${dua.transliteration}</div>
+
+          <div class="lang-tabs">
+            <button class="lang-tab-btn active" onclick="switchDuaLang(${dua.id}, 'urdu', this); event.stopPropagation();">Urdu</button>
+            <button class="lang-tab-btn" onclick="switchDuaLang(${dua.id}, 'hindi', this); event.stopPropagation();">Hindi</button>
+            <button class="lang-tab-btn" onclick="switchDuaLang(${dua.id}, 'eng', this); event.stopPropagation();">English</button>
+          </div>
+
+          <div class="tarjuma-text" id="tarjuma_${dua.id}">${dua.translationUrdu}</div>
+          ${dua.benefits ? `<div class="dua-benefit">✨ <strong>Fazilat:</strong> ${dua.benefits}</div>` : ''}
+
+          <div class="dua-action-bar">
+            <button class="dua-btn btn-green" onclick="openDuaLightbox(${index})">🖼️ Gallery View me Kholein</button>
+            <button class="dua-btn btn-outline" onclick="copyDua(${dua.id}); event.stopPropagation();">📋 Copy</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 🌟 Lightbox Controls
+    function openDuaLightbox(index) {
+      if (!currentRenderedList || currentRenderedList.length === 0) return;
+      currentLightboxIndex = index;
+      updateLightboxDisplay();
+      document.getElementById('duaLightbox').classList.add('active');
+      document.body.style.overflow = 'hidden'; // Page scroll lock
+    }
+
+    function closeDuaLightbox() {
+      document.getElementById('duaLightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightboxDisplay() {
+      const dua = currentRenderedList[currentLightboxIndex];
+      if (!dua) return;
+
+      document.getElementById('lbCounter').innerText = `Dua ${currentLightboxIndex + 1} / ${currentRenderedList.length}`;
+      document.getElementById('lbCategory').innerText = `📁 ${dua.category}`;
+      document.getElementById('lbReference').innerText = `📜 ${dua.reference}`;
+      document.getElementById('lbTitle').innerText = dua.title;
+      document.getElementById('lbArabic').innerText = dua.arabic;
+      document.getElementById('lbTranslit').innerText = dua.transliteration;
+
+      const benEl = document.getElementById('lbBenefits');
+      if (dua.benefits) {
+        benEl.style.display = 'block';
+        benEl.innerHTML = `✨ <strong>Fazilat:</strong> ${dua.benefits}`;
+      } else {
+        benEl.style.display = 'none';
+      }
+
+      applyLightboxTranslation(dua);
+    }
+
+    function applyLightboxTranslation(dua) {
+      const tarjumaBox = document.getElementById('lbTarjuma');
+      if (currentSelectedLang === 'urdu') tarjumaBox.innerText = dua.translationUrdu;
+      if (currentSelectedLang === 'hindi') tarjumaBox.innerText = dua.translationHindi;
+      if (currentSelectedLang === 'eng') tarjumaBox.innerText = dua.translationEnglish;
+    }
+
+    function switchLightboxLang(lang, btn) {
+      currentSelectedLang = lang;
+      btn.parentElement.querySelectorAll('.lang-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyLightboxTranslation(currentRenderedList[currentLightboxIndex]);
+    }
+
+    function navigateLightbox(direction) {
+      currentLightboxIndex += direction;
+      if (currentLightboxIndex < 0) currentLightboxIndex = currentRenderedList.length - 1;
+      if (currentLightboxIndex >= currentRenderedList.length) currentLightboxIndex = 0;
+      updateLightboxDisplay();
+    }
+
+    function shareCurrentLightboxDua() {
+      const dua = currentRenderedList[currentLightboxIndex];
+      if (dua) shareDua(dua.id);
+    }
+
+    // 📱 Mobile Touch Swipe Gestures (Left & Right)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const touchArea = document.getElementById('lbTouchArea');
+
+    touchArea.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    touchArea.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleGesture();
+    }, { passive: true });
+
+    function handleGesture() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 45) {
+        if (diff < 0) {
+          navigateLightbox(1); // Swipe Left -> Agli Dua
+        } else {
+          navigateLightbox(-1); // Swipe Right -> Pichli Dua
+        }
+      }
+    }
     // Language switcher between Urdu, Hindi, and English
     function switchDuaLang(id, lang, btn) {
       const parent = btn.parentElement;
