@@ -115,6 +115,81 @@
     .pill-details .value { font-size: 0.76rem; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .pill-details .sub { font-size: 0.6rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+    /* 📌 Sticky Horizontal Quick Navigation Bar (White & Blue Theme) */
+.sticky-tabs-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 54px; /* Clock/Header bar ki height ke hisab se adjust karein */
+  z-index: 99;
+  background: #ffffff;
+  border-bottom: 1.5px solid #e2e8f0;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+  padding: 8px 10px;
+  margin: -6px -14px 14px -14px; /* Container padding neutralizer */
+}
+
+.quick-tabs-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.quick-tabs-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.quick-tab-pill {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8fafc;
+  color: #1e3a8a; /* Deep Blue Text */
+  border: 1.5px solid #bfdbfe; /* Light Blue Border */
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+/* Hover & Active Feedback */
+.quick-tab-pill:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+}
+.quick-tab-pill.active-tab,
+.quick-tab-pill:active {
+  background: #2563eb !important; /* Bright Blue */
+  border-color: #1d4ed8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+/* Card Target Focus Highlight Effect */
+.target-section-focused {
+  animation: sectionPulseHighlight 1.8s ease-out;
+}
+@keyframes sectionPulseHighlight {
+  0% {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.6);
+    transform: scale(1.01);
+  }
+  70% {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  }
+  100% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+}
     /* Ramadan Countdown Banner */
     .ramadan-countdown-strip {
       background: linear-gradient(135deg, #78350f 0%, #d97706 100%);
@@ -1159,7 +1234,26 @@
         </div>
       </div>
     </section>
-
+<!-- 📌 Sticky Top Quick Jump Bar -->
+<nav class="sticky-tabs-container" aria-label="Page Quick Navigation">
+  <div class="quick-tabs-scroll" id="quickTabsBar">
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-tools', this)">🛠️ Tools</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-notice', this)">📢 Notice</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-worldtime', this)">🌍 World Time</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-prayer', this)">🕌 Prayer Time</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-engcal', this)">📅 English Cal</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-hijrical', this)">🌙 Hijri Cal</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('gallery-card-container', this)">🖼️ Image Gallery</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-events', this)">📌 Events</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-video', this)">🎥 Video</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-article', this)">📝 Article</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-dua', this)">🤲 Dua</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-waqia', this)">📖 Waqia</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-acchibaat', this)">✨ Acchi Baat</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-hadees', this)">📜 Hadees</button>
+    <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-news', this)">📰 News</button>
+  </div>
+</nav>
     <div class="ramadan-countdown-strip" id="ramadanCountdownBanner" style="display:none;">
       <span id="ramadanCountdownText">🌙 Ramadan Kareem begins in -- Days</span>
       <span style="font-size:0.65rem; background:rgba(0,0,0,0.25); padding:2px 6px; border-radius:4px;">1448 AH</span>
@@ -1695,7 +1789,39 @@
         body: "Hadees shareef me aata hai ke Rasoolullah ﷺ har islami mahine ki 13, 14, aur 15 tarikh ko roze rakhne ka ahtimam farmate the (Ayyam-e-Beez). Iski fazilat yeh batai gai hai ke yeh roze poore saal ke rozo ke barabar ajar o sawab rakhte hain. In dino chand poori aab-o-taab ke sath tulu hota hai."
       }
     };
+// 📌 Smooth Navigation & Card Focus Engine
+function jumpToSection(targetId, clickedBtn) {
+  const targetElement = document.getElementById(targetId);
+  if (!targetElement) return;
 
+  // 1. Active button styling
+  const allTabs = document.querySelectorAll('.quick-tab-pill');
+  allTabs.forEach(tab => tab.classList.remove('active-tab'));
+  clickedBtn.classList.add('active-tab');
+
+  // 2. Clicked Tab ko horizontal bar ke center me scroll karna
+  clickedBtn.scrollIntoView({
+    behavior: 'smooth',
+    inline: 'center',
+    block: 'nearest'
+  });
+
+  // 3. Page ko section tak scroll karna (Sticky Bar Offset ke sath)
+  const offset = 110; // Sticky header aur tabs bar ki kul unchai
+  const bodyRect = document.body.getBoundingClientRect().top;
+  const elementRect = targetElement.getBoundingClientRect().top;
+  const targetPosition = elementRect - bodyRect - offset;
+
+  window.scrollTo({
+    top: targetPosition,
+    behavior: 'smooth'
+  });
+
+  // 4. Section ko focus & temporary blue border highlight dena
+  targetElement.classList.remove('target-section-focused');
+  void targetElement.offsetWidth; // DOM reflow trigger
+  targetElement.classList.add('target-section-focused');
+}
     function shareNative(title, text, url) {
       if (navigator.share) {
         navigator.share({ title, text, url: url || window.location.href });
