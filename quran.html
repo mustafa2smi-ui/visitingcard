@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Quran Al-Kareem | 114 Surahs with Urdu Translation & Audio</title>
+  <meta name="description" content="Mukammal Quran Majeed tilawat, ba-hawala Arabic matan aur aasan Urdu tarjuma ke sath. Islam360 style digital reader.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com/quran.html">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "The Holy Quran",
+    "inLanguage": ["ar", "ur"],
+    "genre": "Religious Text"
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-emerald: #064e3b;
+      --accent-gold: #b45309;
+      --bg-slate: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+    }
+
+    body {
+      background: var(--bg-slate);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 14px;
+      color: var(--text-main);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Top Sticky Navigation Bar */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      background: var(--bg-slate);
+      padding: 6px 0 10px 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .btn-back {
+      background: var(--primary-emerald);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Live Search Box */
+    .search-box {
+      margin: 12px 0;
+    }
+    .search-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .search-input:focus { border-color: var(--primary-emerald); }
+
+    /* Surah Index Grid */
+    .surah-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 600px) {
+      .surah-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .surah-card {
+      background: var(--card-bg);
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+    }
+    .surah-card:active { transform: scale(0.98); }
+
+    .surah-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .surah-num {
+      width: 32px;
+      height: 32px;
+      background: #ecfdf5;
+      color: var(--primary-emerald);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.78rem;
+    }
+    .surah-info strong {
+      font-size: 0.88rem;
+      color: var(--text-main);
+      display: block;
+    }
+    .surah-info span {
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+    .surah-right {
+      text-align: right;
+    }
+    .surah-ar-name {
+      font-family: 'Amiri Quran', serif;
+      font-size: 1.3rem;
+      color: var(--primary-emerald);
+      line-height: 1.2;
+    }
+    .badge-makki {
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #b45309;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Reading Screen (Surah View) */
+    #readerView {
+      display: none;
+    }
+    .bismillah-banner {
+      text-align: center;
+      font-family: 'Amiri Quran', serif;
+      font-size: 1.6rem;
+      color: var(--primary-emerald);
+      padding: 16px 0;
+      border-bottom: 1.5px solid #e2e8f0;
+      margin-bottom: 16px;
+    }
+    
+    .ayah-card {
+      background: var(--card-bg);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .ayah-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #f8fafc;
+      padding-bottom: 6px;
+    }
+    .ayah-badge {
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #0f172a;
+    }
+    .btn-audio.playing {
+      background: #dc2626;
+      color: #fff;
+      border-color: #dc2626;
+    }
+
+    .ayah-arabic {
+      font-family: 'Amiri Quran', serif;
+      font-size: 1.45rem;
+      direction: rtl;
+      text-align: right;
+      line-height: 2.3;
+      color: #064e3b;
+      margin-bottom: 10px;
+      word-spacing: 2px;
+    }
+    .ayah-translation {
+      font-size: 0.82rem;
+      color: #334155;
+      line-height: 1.6;
+      border-top: 1px dashed #e2e8f0;
+      padding-top: 8px;
+    }
+
+    /* Fullscreen Loading State */
+    .loader-box {
+      text-align: center;
+      padding: 40px 10px;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="top-nav">
+    <a href="index.html" id="btnNavBack" class="btn-back">⬅️ Dashboard</a>
+    <span id="navTitle" style="font-size:0.9rem; font-weight:800; color:var(--primary-emerald);">Al-Quran Al-Kareem</span>
+  </header>
+
+  <!-- 1. SURAH DIRECTORY LIST SCREEN -->
+  <main id="directoryView">
+    <div class="search-box">
+      <input type="text" id="surahSearch" class="search-input" placeholder="🔍 Surah ka naam ya number likhein (e.g. Yaseen, Mulk, 36)..." onkeyup="filterSurahs()">
+    </div>
+
+    <div id="loaderDir" class="loader-box">⏳ Surah Fehrist load ho rahi hai...</div>
+    <div class="surah-grid" id="surahGridContainer"></div>
+  </main>
+
+  <!-- 2. ISLAM360 STYLE READING SCREEN -->
+  <main id="readerView">
+    <div class="bismillah-banner" id="bismillahBanner">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+    <div id="loaderAyah" class="loader-box" style="display:none;">⏳ Aayaat load ho rahi hain...</div>
+    <div id="ayahContainer"></div>
+  </main>
+
+  <!-- Hidden Audio Player for Recitation -->
+  <audio id="globalQuranAudio" style="display:none;"></audio>
+
+  <script>
+    let surahDirectory = [];
+    let currentPlayingAudioBtn = null;
+    const globalAudio = document.getElementById('globalQuranAudio');
+
+    // 1. Initial Load: Fetch All 114 Surahs Meta
+    async function loadSurahDirectory() {
+      try {
+        const res = await fetch('https://api.alquran.cloud/v1/surah');
+        const data = await res.json();
+        if (data.code === 200) {
+          surahDirectory = data.data;
+          renderSurahList(surahDirectory);
+          document.getElementById('loaderDir').style.display = 'none';
+        }
+      } catch (err) {
+        document.getElementById('loaderDir').innerText = "Network masla hai. Barah-e-karam internet connection check karein.";
+      }
+    }
+
+    function renderSurahList(list) {
+      const container = document.getElementById('surahGridContainer');
+      container.innerHTML = '';
+
+      list.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'surah-card';
+        card.onclick = () => openSurahReader(s.number, s.englishName, s.name);
+        card.innerHTML = `
+          <div class="surah-left">
+            <div class="surah-num">${s.number}</div>
+            <div class="surah-info">
+              <strong>${s.englishName}</strong>
+              <span>${s.englishNameTranslation} • ${s.numberOfAyahs} Aayaat</span>
+            </div>
+          </div>
+          <div class="surah-right">
+            <div class="surah-ar-name">${s.name}</div>
+            <span class="badge-makki">${s.revelationType}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 2. Filter / Search Surahs
+    function filterSurahs() {
+      const q = document.getElementById('surahSearch').value.toLowerCase().trim();
+      const filtered = surahDirectory.filter(s => 
+        s.number.toString().includes(q) ||
+        s.englishName.toLowerCase().includes(q) ||
+        s.englishNameTranslation.toLowerCase().includes(q) ||
+        s.name.includes(q)
+      );
+      renderSurahList(filtered);
+    }
+
+    // 3. Open Surah Reader View (Ayah-by-Ayah with Urdu Translation)
+    async function openSurahReader(surahNo, engName, arName) {
+      // Toggle Views
+      document.getElementById('directoryView').style.display = 'none';
+      document.getElementById('readerView').style.display = 'block';
+      
+      const navTitle = document.getElementById('navTitle');
+      navTitle.innerText = `${engName} (${arName})`;
+
+      const btnBack = document.getElementById('btnNavBack');
+      btnBack.innerText = '⬅️ Fehrist';
+      btnBack.href = 'javascript:void(0);';
+      btnBack.onclick = closeSurahReader;
+
+      // Surah At-Tawbah (No. 9) me Bismillah nahi hota
+      document.getElementById('bismillahBanner').style.display = (surahNo === 9) ? 'none' : 'block';
+
+      const ayahBox = document.getElementById('ayahContainer');
+      const loaderAyah = document.getElementById('loaderAyah');
+      ayahBox.innerHTML = '';
+      loaderAyah.style.display = 'block';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      try {
+        // Arabic Matan + Urdu Translation (Fateh Muhammad Jalandhry)
+        const [resAr, resUr] = await Promise.all([
+          fetch(`https://api.alquran.cloud/v1/surah/${surahNo}`),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahNo}/ur.jalandhry`)
+        ]);
+
+        const dataAr = await resAr.json();
+        const dataUr = await resUr.json();
+
+        loaderAyah.style.display = 'none';
+
+        if (dataAr.code === 200 && dataUr.code === 200) {
+          const arAyahs = dataAr.data.ayahs;
+          const urAyahs = dataUr.data.ayahs;
+
+          arAyahs.forEach((ay, idx) => {
+            let arabicText = ay.text;
+            // Agar Surah 1 na ho to pehli aayat se Bismillah ko alag format me rakhna
+            if (surahNo !== 1 && idx === 0 && arabicText.startsWith("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ")) {
+              arabicText = arabicText.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "").trim();
+            }
+
+            const card = document.createElement('article');
+            card.className = 'ayah-card';
+            card.innerHTML = `
+              <div class="ayah-header">
+                <span class="ayah-badge">Ayah ${ay.numberInSurah}</span>
+                <button class="btn-audio" onclick="playAyahAudio(this, ${ay.number})">▶️ Tilawat Suniye</button>
+              </div>
+              <div class="ayah-arabic">${arabicText} ۝${toArabicDigits(ay.numberInSurah)}</div>
+              <div class="ayah-translation">${urAyahs[idx].text}</div>
+            `;
+            ayahBox.appendChild(card);
+          });
+        }
+      } catch (err) {
+        loaderAyah.style.display = 'block';
+        loaderAyah.innerText = "Surah load karne me masla aaya. Barah-e-karam dobara koshish karein.";
+      }
+    }
+
+    function closeSurahReader() {
+      if (globalAudio) globalAudio.pause();
+      document.getElementById('readerView').style.display = 'none';
+      document.getElementById('directoryView').style.display = 'block';
+
+      const navTitle = document.getElementById('navTitle');
+      navTitle.innerText = "Al-Quran Al-Kareem";
+
+      const btnBack = document.getElementById('btnNavBack');
+      btnBack.innerText = '⬅️ Dashboard';
+      btnBack.href = 'index.html';
+      btnBack.onclick = null;
+    }
+
+    // 4. Play Individual Ayah Recitation (Mishary Alafasy CDN)
+    function playAyahAudio(btn, globalAyahNo) {
+      if (currentPlayingAudioBtn === btn && !globalAudio.paused) {
+        globalAudio.pause();
+        btn.innerText = '▶️ Tilawat Suniye';
+        btn.classList.remove('playing');
+        currentPlayingAudioBtn = null;
+        return;
+      }
+
+      if (currentPlayingAudioBtn) {
+        currentPlayingAudioBtn.innerText = '▶️ Tilawat Suniye';
+        currentPlayingAudioBtn.classList.remove('playing');
+      }
+
+      globalAudio.src = `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalAyahNo}.mp3`;
+      globalAudio.play();
+      btn.innerText = '⏹️ Rokiye';
+      btn.classList.add('playing');
+      currentPlayingAudioBtn = btn;
+
+      globalAudio.onended = () => {
+        btn.innerText = '▶️ Tilawat Suniye';
+        btn.classList.remove('playing');
+        currentPlayingAudioBtn = null;
+      };
+    }
+
+    function toArabicDigits(num) {
+      const id = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      return num.toString().replace(/[0-9]/g, function(w){
+        return id[+w];
+      });
+    }
+
+    // Init
+    loadSurahDirectory();
+  </script>
+</body>
+</html>
