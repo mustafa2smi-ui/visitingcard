@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Al-Quran Al-Kareem | Digital Reader with Bookmarks</title>
-  <meta name="description" content="Mukammal Quran Majeed Surah aur Para wise reading, Arabic only mode, 3 zabanon me tarjuma aur sticky bookmark ke sath.">
+  <title>Al-Quran Al-Kareem | Digital Reader & Audio</title>
+  <meta name="description" content="Mukammal Quran Majeed Surah, Para, direct aayat search aur poori Surah tilawat player ke sath.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yourdomain.com/quran.html">
 
@@ -22,7 +22,6 @@
     .top-nav { position: sticky; top: 0; background: var(--bg); padding: 6px 0 10px 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
     .btn-back { background: var(--primary); color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.74rem; font-weight: 700; }
     
-    /* Last Read Banner */
     .resume-bar {
       background: #ecfdf5;
       border: 1.5px dashed #059669;
@@ -35,24 +34,38 @@
       cursor: pointer;
     }
 
-    /* Tabs: Surah vs Para */
     .tab-switch { display: flex; background: #e2e8f0; border-radius: 10px; padding: 3px; margin: 10px 0; }
     .tab-btn { flex: 1; border: none; background: transparent; padding: 8px; font-weight: 800; font-size: 0.78rem; border-radius: 8px; cursor: pointer; color: #64748b; }
     .tab-btn.active { background: #ffffff; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
 
     .search-input { width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.82rem; outline: none; margin-bottom: 12px; }
 
-    /* Directory Grid */
     .dir-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
     @media(min-width: 600px) { .dir-grid { grid-template-columns: 1fr 1fr; } }
     .dir-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .dir-num { width: 30px; height: 30px; background: #ecfdf5; color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem; margin-right: 10px; }
 
     /* Reader Controls */
-    .reader-toolbar { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; display: flex; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
+    .reader-toolbar { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
     .tool-select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.72rem; font-family: inherit; font-weight: 600; }
+    
+    /* Full Surah Play Button */
+    .btn-full-surah {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-full-surah.playing { background: #dc2626; }
 
-    /* Ayah Card & Bookmark Highlight */
+    /* Ayah Card */
     .ayah-card {
       background: var(--card);
       border: 1.5px solid var(--border);
@@ -66,6 +79,11 @@
       border-color: #f59e0b;
       background: #fffdf5;
       box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+    }
+    .ayah-card.current-playing {
+      border-color: #059669;
+      background: #f0fdf4;
+      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.3);
     }
     .ayah-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
     
@@ -86,7 +104,6 @@
 
   <!-- LIST SCREEN -->
   <main id="dirScreen">
-    <!-- 📌 Resume Last Read Session Banner -->
     <div id="resumeBar" class="resume-bar" onclick="resumeLastReading()">
       <div>
         <div style="font-size:0.68rem; color:#047857; font-weight:800;">📖 WAPAS WAHIN SE SHURU KAREIN</div>
@@ -100,28 +117,27 @@
       <button class="tab-btn" id="tabPara" onclick="switchMainTab('para')">📑 30 Paras (Juz)</button>
     </div>
 
-    <input type="text" id="dirSearch" class="search-input" placeholder="🔍 Surah ya Para dhoondhein..." onkeyup="filterDirectory()">
+    <!-- Smart Search Bar: Accepts Names or Direct Chapter:Verse (e.g. 7:120 or 7 120) -->
+    <input type="text" id="dirSearch" class="search-input" placeholder="🔍 Surah naam ya Aayat direct talash karein (e.g. Yaseen, ya 7:120, 2 255)..." onkeyup="handleSmartSearch(event)">
     <div id="dirContainer" class="dir-grid"></div>
   </main>
 
   <!-- AYAH READER SCREEN -->
   <main id="readerScreen" style="display:none;">
     <div class="reader-toolbar">
-      <!-- Qari Selector -->
-      <div>
-        <span style="font-size:0.68rem; color:#64748b; font-weight:700;">Qari:</span>
-        <select class="tool-select" id="qariSelect">
+      <button id="btnPlayFullSurah" class="btn-full-surah" onclick="toggleFullSurahAudio()">
+        ▶️ Poori Surah Suniye
+      </button>
+
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <select class="tool-select" id="qariSelect" onchange="stopAllAudios()">
           <option value="ar.alafasy">Mishary Rashid Alafasy</option>
           <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
           <option value="ar.as-sudais">Abdur-Rahman As-Sudais</option>
           <option value="ar.mahermuaiqly">Maher Al-Muaiqly</option>
           <option value="ar.hudhaify">Ali Al-Hudhaify</option>
         </select>
-      </div>
 
-      <!-- Tarjuma / Only Arabic Selector -->
-      <div>
-        <span style="font-size:0.68rem; color:#64748b; font-weight:700;">Display:</span>
         <select class="tool-select" id="langSelect" onchange="reloadCurrentReaderTranslation()">
           <option value="none">✨ Sirf Arabic (Bina Tarjuma)</option>
           <option value="ur.jalandhry" selected>Urdu (Jalandhry)</option>
@@ -146,7 +162,12 @@
     let currentReadingType = '';
     let currentReadingId = 1;
     let currentReadingTitle = '';
+    let currentSurahAyahsData = [];
     let activeAudioBtn = null;
+    
+    // Continuous Audio Engine States
+    let isFullSurahPlaying = false;
+    let continuousAyahIndex = 0;
     const audioPlayer = document.getElementById('quranAudioPlayer');
 
     const parasMeta = [
@@ -166,13 +187,49 @@
         if (data.code === 200) {
           surahDirectory = data.data;
           renderDirectory();
+          checkUrlParameters();
         }
       } catch (e) {
         document.getElementById('dirContainer').innerHTML = '<div style="padding:20px; text-align:center;">Internet masla hai. Check karein.</div>';
       }
     }
 
-    // Check & Show Last Read / Sticky Bookmark Session
+    // URL Direct Parameter Check (e.g. ?surah=7&ayah=120)
+    function checkUrlParameters() {
+      const params = new URLSearchParams(window.location.search);
+      const s = parseInt(params.get('surah'), 10);
+      const a = parseInt(params.get('ayah'), 10);
+      if (s && s >= 1 && s <= 114) {
+        const surahMeta = surahDirectory.find(item => item.number === s);
+        const name = surahMeta ? `${s}. ${surahMeta.englishName}` : `Surah ${s}`;
+        openReader('surah', s, name, a || null);
+      }
+    }
+
+    // Smart Search Engine (Google Style 7:120 or 7 120 Detection)
+    function handleSmartSearch(e) {
+      const raw = document.getElementById('dirSearch').value.trim();
+      
+      // Regex detects formats like "7:120", "7 120", "surah 7 120"
+      const match = raw.match(/^(?:surah\s*)?(\d{1,3})[\s:,-]+(\d{1,3})$/i);
+      if (match && e.key === 'Enter') {
+        const sNum = parseInt(match[1], 10);
+        const aNum = parseInt(match[2], 10);
+        if (sNum >= 1 && sNum <= 114) {
+          const surahMeta = surahDirectory.find(item => item.number === sNum);
+          const name = surahMeta ? `${sNum}. ${surahMeta.englishName}` : `Surah ${sNum}`;
+          openReader('surah', sNum, name, aNum);
+          return;
+        }
+      }
+
+      // Fallback to name/number filtering
+      const q = raw.toLowerCase();
+      document.querySelectorAll('.dir-card').forEach(c => {
+        c.style.display = c.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
+      });
+    }
+
     function checkLastReadBanner() {
       const saved = localStorage.getItem('quran_last_read');
       if (saved) {
@@ -240,20 +297,13 @@
       }
     }
 
-    function filterDirectory() {
-      const q = document.getElementById('dirSearch').value.toLowerCase().trim();
-      document.querySelectorAll('.dir-card').forEach(c => {
-        c.style.display = c.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
-      });
-    }
-
     // Open Reader
     async function openReader(type, id, title, targetAyahNo = null) {
+      stopAllAudios();
       currentReadingType = type;
       currentReadingId = id;
       currentReadingTitle = title;
 
-      // Save Last Session to LocalStorage
       localStorage.setItem('quran_last_read', JSON.stringify({
         type: type,
         id: id,
@@ -271,6 +321,7 @@
       bBtn.onclick = closeReader;
 
       document.getElementById('bismillahHeader').style.display = (type === 'surah' && id === 9) ? 'none' : 'block';
+      document.getElementById('btnPlayFullSurah').style.display = (type === 'surah') ? 'inline-flex' : 'none';
 
       loadReaderAyahs(targetAyahNo);
     }
@@ -300,14 +351,13 @@
         const dataTr = (!isArabicOnly) ? await responses[1].json() : null;
 
         ayahList.innerHTML = '';
-        const arAyahs = dataAr.data.ayahs;
+        currentSurahAyahsData = dataAr.data.ayahs;
         const trAyahs = dataTr ? dataTr.data.ayahs : [];
 
-        // Saved Sticky Bookmark check
         const savedBookmarkKey = `bookmark_${currentReadingType}_${currentReadingId}`;
         const activeBookmarkAyah = localStorage.getItem(savedBookmarkKey);
 
-        arAyahs.forEach((ay, idx) => {
+        currentSurahAyahsData.forEach((ay, idx) => {
           let arText = ay.text;
           if (currentReadingType === 'surah' && currentReadingId !== 1 && idx === 0 && arText.startsWith("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ")) {
             arText = arText.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "").trim();
@@ -327,7 +377,7 @@
                 <button class="btn-icon ${isMarked ? 'active' : ''}" onclick="toggleBookmark(${ayahNum}, this)">
                   ${isMarked ? '🔖 Nishan Laga Hai' : '🔖 Nishan Lagayein'}
                 </button>
-                <button class="btn-icon" onclick="playAyahRecitation(this, ${ay.number})">▶️ Tilawat</button>
+                <button class="btn-icon btn-single-play" id="btnSingle_${ayahNum}" onclick="playSingleAyah(this, ${ay.number}, ${ayahNum})">▶️ Tilawat</button>
               </div>
             </div>
             <div class="ayah-arabic">${arText}</div>
@@ -336,15 +386,16 @@
           ayahList.appendChild(card);
         });
 
-        // Auto Scroll to target ayah or bookmark
         const scrollToNum = scrollTargetAyah || (activeBookmarkAyah ? parseInt(activeBookmarkAyah, 10) : null);
         if (scrollToNum) {
           setTimeout(() => {
             const el = document.getElementById(`ayah_node_${scrollToNum}`);
             if (el) {
               el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              el.style.boxShadow = "0 0 0 3px #059669";
+              setTimeout(() => { el.style.boxShadow = ""; }, 2000);
             }
-          }, 300);
+          }, 350);
         }
 
       } catch (err) {
@@ -352,7 +403,95 @@
       }
     }
 
-    // Toggle Sticky Bookmark (Nishan)
+    // Toggle Continuous Full Surah Recitation
+    function toggleFullSurahAudio() {
+      const btn = document.getElementById('btnPlayFullSurah');
+      if (isFullSurahPlaying) {
+        stopAllAudios();
+        return;
+      }
+
+      stopAllAudios();
+      isFullSurahPlaying = true;
+      continuousAyahIndex = 0;
+      btn.innerText = '⏹️ Tilawat Rokiye';
+      btn.classList.add('playing');
+
+      playContinuousNextAyah();
+    }
+
+    function playContinuousNextAyah() {
+      if (!isFullSurahPlaying || continuousAyahIndex >= currentSurahAyahsData.length) {
+        stopAllAudios();
+        return;
+      }
+
+      const ay = currentSurahAyahsData[continuousAyahIndex];
+      const ayahNum = ay.numberInSurah || (continuousAyahIndex + 1);
+
+      // Visual active playing indicator
+      document.querySelectorAll('.ayah-card').forEach(c => c.classList.remove('current-playing'));
+      const activeCard = document.getElementById(`ayah_node_${ayahNum}`);
+      if (activeCard) {
+        activeCard.classList.add('current-playing');
+        activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      const qari = document.getElementById('qariSelect').value;
+      audioPlayer.src = `https://cdn.islamic.network/quran/audio/128/${qari}/${ay.number}.mp3`;
+      audioPlayer.play();
+
+      audioPlayer.onended = () => {
+        continuousAyahIndex++;
+        playContinuousNextAyah();
+      };
+
+      audioPlayer.onerror = () => {
+        continuousAyahIndex++;
+        playContinuousNextAyah();
+      };
+    }
+
+    // Single Ayah Recitation
+    function playSingleAyah(btn, globalAyahNum, ayahNum) {
+      if (activeAudioBtn === btn && !audioPlayer.paused) {
+        stopAllAudios();
+        return;
+      }
+
+      stopAllAudios();
+
+      const qari = document.getElementById('qariSelect').value;
+      audioPlayer.src = `https://cdn.islamic.network/quran/audio/128/${qari}/${globalAyahNum}.mp3`;
+      audioPlayer.play();
+
+      btn.innerText = '⏹️ Rokiye';
+      btn.classList.add('playing');
+      activeAudioBtn = btn;
+
+      audioPlayer.onended = stopAllAudios;
+      audioPlayer.onerror = stopAllAudios;
+    }
+
+    function stopAllAudios() {
+      if (audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer.onended = null;
+      }
+      isFullSurahPlaying = false;
+      const fullBtn = document.getElementById('btnPlayFullSurah');
+      if (fullBtn) {
+        fullBtn.innerText = '▶️ Poori Surah Suniye';
+        fullBtn.classList.remove('playing');
+      }
+      if (activeAudioBtn) {
+        activeAudioBtn.innerText = '▶️ Tilawat';
+        activeAudioBtn.classList.remove('playing');
+        activeAudioBtn = null;
+      }
+      document.querySelectorAll('.ayah-card').forEach(c => c.classList.remove('current-playing'));
+    }
+
     function toggleBookmark(ayahNum, btn) {
       const key = `bookmark_${currentReadingType}_${currentReadingId}`;
       const existing = localStorage.getItem(key);
@@ -364,16 +503,13 @@
       });
 
       if (existing && parseInt(existing, 10) === ayahNum) {
-        // Remove bookmark
         localStorage.removeItem(key);
       } else {
-        // Save new bookmark
         localStorage.setItem(key, ayahNum);
         document.getElementById(`ayah_node_${ayahNum}`).classList.add('bookmarked');
         btn.classList.add('active');
         btn.innerText = '🔖 Nishan Laga Hai';
 
-        // Also update Last Read
         localStorage.setItem('quran_last_read', JSON.stringify({
           type: currentReadingType,
           id: currentReadingId,
@@ -389,37 +525,8 @@
       }
     }
 
-    function playAyahRecitation(btn, globalAyahNum) {
-      if (activeAudioBtn === btn && !audioPlayer.paused) {
-        audioPlayer.pause();
-        btn.innerText = '▶️ Tilawat';
-        btn.classList.remove('playing');
-        activeAudioBtn = null;
-        return;
-      }
-
-      if (activeAudioBtn) {
-        activeAudioBtn.innerText = '▶️ Tilawat';
-        activeAudioBtn.classList.remove('playing');
-      }
-
-      const qari = document.getElementById('qariSelect').value;
-      audioPlayer.src = `https://cdn.islamic.network/quran/audio/128/${qari}/${globalAyahNum}.mp3`;
-      audioPlayer.play();
-
-      btn.innerText = '⏹️ Rokiye';
-      btn.classList.add('playing');
-      activeAudioBtn = btn;
-
-      audioPlayer.onended = () => {
-        btn.innerText = '▶️ Tilawat';
-        btn.classList.remove('playing');
-        activeAudioBtn = null;
-      };
-    }
-
     function closeReader() {
-      if (audioPlayer) audioPlayer.pause();
+      stopAllAudios();
       document.getElementById('readerScreen').style.display = 'none';
       document.getElementById('dirScreen').style.display = 'block';
 
