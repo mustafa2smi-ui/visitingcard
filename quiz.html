@@ -325,6 +325,7 @@
         document.getElementById('totalScore').innerText = "0 pts";
       }
     }
+    /*
 // 📲 Share Quiz with Options & Custom Message
     function shareCurrentQuizQuestion() {
       const item = islamicQuizDatabase[currentIndex];
@@ -358,7 +359,37 @@ ${shareUrl}`;
         });
       }
     }
+*/
+    function shareCurrentQuizQuestion() {
+      const item = islamicQuizDatabase[currentIndex];
+      if (!item) return;
 
+      const letters = ['A', 'B', 'C', 'D'];
+      const optionsText = item.options.map((opt, i) => `${letters[i]}) ${opt}`).join('\n');
+      const shareUrl = `${window.location.origin}/quiz.html?qid=${item.id}`;
+
+      const shareMessage = 
+`🧠 *Deeni Quiz #${item.id} | AdeenDesk*
+
+❓ *Sawal:*
+${item.question}
+
+${optionsText}
+
+👉 *Iska sahi jawab dekhne aur test karne ke liye link par click karein:*
+${shareUrl}`;
+
+      // Yahan url property hata di gayi hai taaki double link na bane
+      if (navigator.share) {
+        navigator.share({
+          text: shareMessage
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareMessage).then(() => {
+          alert(`Quiz #${item.id} copy ho gaya! Ab WhatsApp ya kisi bhi group me paste karke share karein.`);
+        });
+      }
+    }
     // 🔗 URL Parameter Check (e.g. quiz.html?qid=3)
     function checkQuizUrlParameter() {
       const params = new URLSearchParams(window.location.search);
