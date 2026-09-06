@@ -4,20 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Default Primary SEO Tags -->
-  <title id="seoPageTitle">Al-Quran Al-Kareem | 114 Surahs with Urdu, Hindi & English Translation</title>
-  <meta id="seoPageDesc" name="description" content="Mukammal Quran Majeed Surah aur Para wise reading, Arabic matan, Urdu, Hindi aur English tarjuma aur audio tilawat ke sath.">
+  <!-- 🏷️ Primary SEO & Branding Meta Tags -->
+  <title id="seoPageTitle">Al-Quran Al-Kareem Digital Reader | 114 Surahs | AdeenDesk</title>
+  <meta name="title" content="Al-Quran Al-Kareem Digital Reader | 114 Surahs | AdeenDesk">
+  <meta id="seoPageDesc" name="description" content="Mukammal Quran Majeed Surah aur Para wise reading, Arabic matan, Urdu, Hindi aur English tarjuma aur audio tilawat ke sath AdeenDesk par.">
+  <meta name="keywords" content="Al-Quran, Quran Majeed, Quran with Urdu Translation, Quran Hindi, Quran Audio Tilawat, 114 Surahs, AdeenDesk">
+  <meta name="application-name" content="AdeenDesk">
+  <meta name="theme-color" content="#064e3b">
   <meta name="robots" content="index, follow">
   <link id="seoCanonicalUrl" rel="canonical" href="https://yourdomain.com/quran.html">
 
-  <!-- Base JSON-LD Schema -->
+  <!-- 🌐 Multilingual SEO Tags for Googlebot -->
+  <link rel="alternate" hreflang="en" href="https://yourdomain.com/quran.html" />
+  <link rel="alternate" hreflang="hi" href="https://yourdomain.com/hi/quran.html" />
+  <link rel="alternate" hreflang="ur-Latn" href="https://yourdomain.com/quran.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/quran.html" />
+
+  <!-- 📲 Open Graph / Facebook / WhatsApp Share Preview -->
+  <meta property="og:type" content="book">
+  <meta property="og:site_name" content="AdeenDesk">
+  <meta property="og:url" content="https://yourdomain.com/quran.html">
+  <meta property="og:title" content="Al-Quran Al-Kareem Digital Reader | AdeenDesk">
+  <meta property="og:description" content="Mukammal Quran Majeed Arabic matan, Urdu, Hindi aur English tarjuma aur audio tilawat ke sath.">
+  <meta property="og:image" content="https://yourdomain.com/icon-512.png">
+
+  <!-- 🐦 Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Al-Quran Al-Kareem Digital Reader | AdeenDesk">
+  <meta name="twitter:description" content="Mukammal Quran Majeed Arabic matan, Urdu, Hindi aur English tarjuma aur audio tilawat ke sath.">
+  <meta name="twitter:image" content="https://yourdomain.com/icon-512.png">
+
+  <!-- 🔍 Google-Compliant JSON-LD Structured Data -->
   <script id="quranDynamicSchema" type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Book",
-    "name": "The Holy Quran",
-    "inLanguage": ["ar", "ur", "hi", "en"],
-    "genre": "Religious Scripture"
+    "@graph": [
+      {
+        "@type": "Book",
+        "@id": "https://yourdomain.com/quran.html#book",
+        "name": "The Holy Quran (القرآن الكريم)",
+        "inLanguage": ["ar", "ur", "hi", "en"],
+        "genre": "Religious Scripture",
+        "url": "https://yourdomain.com/quran.html",
+        "publisher": {
+          "@type": "Organization",
+          "name": "AdeenDesk"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://yourdomain.com/quran.html#webpage",
+        "url": "https://yourdomain.com/quran.html",
+        "name": "Al-Quran Al-Kareem Digital Reader | AdeenDesk",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://yourdomain.com/#website",
+          "name": "AdeenDesk",
+          "url": "https://yourdomain.com"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://yourdomain.com/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Al-Quran",
+            "item": "https://yourdomain.com/quran.html"
+          }
+        ]
+      }
+    ]
   }
   </script>
 
