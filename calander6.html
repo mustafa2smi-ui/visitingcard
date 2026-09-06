@@ -4,22 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- 🏷️ Primary SEO & Branding Meta Tags -->
+  <title>AdeenDesk | Daily Islamic Dashboard, Prayer Times & Hijri Calendar 2026</title>
+  <meta name="title" content="AdeenDesk | Daily Islamic Dashboard, Prayer Times & Hijri Calendar 2026">
+  <meta name="description" content="All-in-One Islamic Utility Dashboard: Live Hijri Date, Accurate GPS Prayer Times, Qibla Finder, Quran Reader, 33-Year Cycle, Zakat Calculator, Deeni Quiz aur Daily Duas.">
+  <meta name="keywords" content="AdeenDesk, Islamic Calendar 2026, Hijri Date Today, Namaz Timings, Prayer Times, Qibla Direction, Quran Reader, Digital Tasbeeh, Zakat Calculator, Deeni Quiz">
+  <meta name="author" content="AdeenDesk">
+  <meta name="application-name" content="AdeenDesk">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com/index.html">
+
+  <!-- 📱 PWA & Mobile Web Capabilities -->
+  <meta name="theme-color" content="#064e3b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="AdeenDesk">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- 🌐 Multilingual SEO Tags for Googlebot -->
+  <link rel="alternate" hreflang="en" href="https://yourdomain.com/index.html" />
+  <link rel="alternate" hreflang="hi" href="https://yourdomain.com/hi/index.html" />
+  <link rel="alternate" hreflang="ur-Latn" href="https://yourdomain.com/index.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/index.html" />
+
+  <!-- 📲 Open Graph / WhatsApp / Facebook Share Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AdeenDesk">
+  <meta property="og:url" content="https://yourdomain.com/index.html">
+  <meta property="og:title" content="AdeenDesk | Daily Islamic Dashboard & Smart Utilities">
+  <meta property="og:description" content="Live Hijri dates, accurate GPS prayer times, Qibla finder, Quran, Deeni Quiz aur roohani tools ek hi jagah.">
+  <meta property="og:image" content="https://yourdomain.com/icon-512.png">
+
+  <!-- 🐦 Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AdeenDesk | Daily Islamic Dashboard & Utilities">
+  <meta name="twitter:description" content="Live Hijri calendar, prayer times, Quran reader aur deeni tools.">
+  <meta name="twitter:image" content="https://yourdomain.com/icon-512.png">
+
+  <!-- 🔍 Google-Compliant JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://yourdomain.com/#website",
+        "url": "https://yourdomain.com/",
+        "name": "AdeenDesk",
+        "description": "Comprehensive Daily Islamic Dashboard, Prayer Times & Hijri Calendar Utilities",
+        "inLanguage": ["ur-Latn", "en", "hi"]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://yourdomain.com/#webapp",
+        "name": "AdeenDesk Islamic Utility Dashboard",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "url": "https://yourdomain.com/",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- 📦 Data Dependencies -->
   <script src="news-data.js"></script>
   <script src="islamic-content-data.js"></script>
-  
-  <title>Daily Islamic Calendar 2026 | Hijri Date, Prayer Times & Dashboard</title>
-  <meta name="description" content="All-in-One Islamic Utility Dashboard: Gregorian & Hijri Lunar Calendar, Accurate Prayer Times, Qibla Direction, Digital Tasbeeh, Zakat Calculator, and Daily Duas.">
-  <meta name="keywords" content="Islamic Calendar 2026, Hijri Date Today, Namaz Timings, Prayer Times API, Qibla Compass, Digital Tasbeeh, Zakat Calculator, Islamic Events, Daily Dua">
-  <meta name="robots" content="index, follow">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Daily Islamic Calendar & Live Utility Dashboard">
-  <meta property="og:description" content="Check live Hijri dates, accurate prayer times with GPS, Qibla compass, Tasbeeh counter, and authentic daily Duas.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1590076215667-875d4ef2d7ee?w=1200">
-  <meta property="og:url" content="https://yourwebsite.com/">
-
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1206,6 +1264,15 @@
           <h1>Daily Islamic Calendar</h1>
           <p>Live Dashboard & Prayer Times</p>
         </div>
+        <!-- 🌐 Language Switcher (Same Window) -->
+    <div class="lang-switch-wrapper" style="display:flex; align-items:center; gap:4px; background:#f1f5f9; padding:3px 8px; border-radius:8px; border:1px solid #cbd5e1;">
+      <span style="font-size:0.8rem;">🌐</span>
+      <select id="langSelector" onchange="switchSiteLanguage(this.value)" aria-label="Select Language" style="background:transparent; border:none; outline:none; font-size:0.74rem; font-weight:700; color:#064e3b; cursor:pointer; font-family:inherit;">
+        <option value="en">English</option>
+        <option value="hinglish" selected>Roman (Hinglish)</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+      </select>
+    </div>
       </div>
       <div class="header-actions">
         <button class="icon-btn" onclick="shareOverallPlatform()" aria-label="Share App">📤</button>
@@ -1822,41 +1889,7 @@
         body: "Hadees shareef me aata hai ke Rasoolullah ﷺ har islami mahine ki 13, 14, aur 15 tarikh ko roze rakhne ka ahtimam farmate the (Ayyam-e-Beez). Iski fazilat yeh batai gai hai ke yeh roze poore saal ke rozo ke barabar ajar o sawab rakhte hain. In dino chand poori aab-o-taab ke sath tulu hota hai."
       }
     };
-    /*
-// 📌 Smooth Navigation & Card Focus Engine
-function jumpToSection(targetId, clickedBtn) {
-  const targetElement = document.getElementById(targetId);
-  if (!targetElement) return;
 
-  // 1. Active button styling
-  const allTabs = document.querySelectorAll('.quick-tab-pill');
-  allTabs.forEach(tab => tab.classList.remove('active-tab'));
-  clickedBtn.classList.add('active-tab');
-
-  // 2. Clicked Tab ko horizontal bar ke center me scroll karna
-  clickedBtn.scrollIntoView({
-    behavior: 'smooth',
-    inline: 'center',
-    block: 'nearest'
-  });
-
-  // 3. Page ko section tak scroll karna (Sticky Bar Offset ke sath)
-  const offset = 110; // Sticky header aur tabs bar ki kul unchai
-  const bodyRect = document.body.getBoundingClientRect().top;
-  const elementRect = targetElement.getBoundingClientRect().top;
-  const targetPosition = elementRect - bodyRect - offset;
-
-  window.scrollTo({
-    top: targetPosition,
-    behavior: 'smooth'
-  });
-
-  // 4. Section ko focus & temporary blue border highlight dena
-  targetElement.classList.remove('target-section-focused');
-  void targetElement.offsetWidth; // DOM reflow trigger
-  targetElement.classList.add('target-section-focused');
-}
-    */
     // 📌 Fixed Smooth Jump Function (No Glitch / No Top Jump)
 function jumpToSection(targetId, clickedBtn) {
   // Agar click kisi link (<a>) se hua hai to default jump rokein
@@ -2978,7 +3011,31 @@ function checkDemoQuiz(btn, isCorrect) {
     } else {
       window.addEventListener('DOMContentLoaded', renderIslamicFeaturedContent);
     }
-    
+
+    // 🌐 Language Switcher Engine (Same Window / In-Place Switch)
+    function switchSiteLanguage(lang) {
+      localStorage.setItem('adeendesk_lang', lang);
+
+      if (lang === 'hi') {
+        // Agar Hindi chuna to bina naya tab khole usi window me /hi/ folder par jayega
+        window.location.href = window.location.origin + '/hi/index.html';
+      } else if (lang === 'en') {
+        // English version ke liye
+        window.location.href = window.location.origin + '/index.html?lang=en';
+      } else {
+        // Default Roman Urdu / Hinglish
+        window.location.href = window.location.origin + '/index.html';
+      }
+    }
+
+    // Page Load hone par user ki saved bhasha check karna
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('adeendesk_lang') || 'hinglish';
+      const selector = document.getElementById('langSelector');
+      if (selector) {
+        selector.value = window.location.pathname.includes('/hi/') ? 'hi' : savedLang;
+      }
+    });
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
