@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help & FAQs | AdeenDesk Support</title>
+  <meta name="description" content="AdeenDesk Help Center: Answers about Hijri sunset change, prayer timings, image recovery, and offline PWA usage.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com/faq.html">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <meta name="theme-color" content="#064e3b">
+
+  <style>
+    :root {
+      --primary: #064e3b;
+      --accent: #10b981;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 40px; }
+    
+    .header-bar {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .header-bar a { color: #fff; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+    .header-bar h1 { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.5px; }
+
+    .container { max-width: 720px; margin: 18px auto; padding: 0 14px; }
+
+    /* Language Switch Pills */
+    .lang-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: #e2e8f0;
+      padding: 5px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .lang-tab {
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 8px 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .lang-tab.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    /* Accordion Style FAQ Items */
+    .faq-group { display: none; }
+    .faq-group.active { display: block; }
+    .faq-group.rtl { direction: rtl; text-align: right; font-family: 'Noto Naskh Arabic', Tahoma, sans-serif; }
+
+    details {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    summary {
+      padding: 13px 15px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "➕";
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+    details[open] summary::after {
+      content: "➖";
+    }
+    .answer {
+      padding: 12px 15px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.85rem;
+      color: #334155;
+      background: #fcfdfd;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-bar">
+    <a href="index.html">← Back</a>
+    <h1>Help & FAQs</h1>
+    <span style="font-size:1.1rem;">❓</span>
+  </header>
+
+  <div class="container">
+
+    <!-- 🌐 Language Selector Tabs -->
+    <div class="lang-tabs" role="tablist">
+      <button class="lang-tab active" onclick="setFaqLang('hinglish')">Hinglish</button>
+      <button class="lang-tab" onclick="setFaqLang('ur')">اردو</button>
+      <button class="lang-tab" onclick="setFaqLang('hi')">हिन्दी</button>
+      <button class="lang-tab" onclick="setFaqLang('en')">English</button>
+    </div>
+
+    <!-- ================= 1. HINGLISH FAQ ================= -->
+    <div id="faq-hinglish" class="faq-group active">
+      <details open>
+        <summary>Shaam (Maghrib) ke baad Hijri Date kyu badal jaati hai?</summary>
+        <div class="answer">
+          <span class="badge">Islamic Rule</span><br>
+          Islami Lunar Calendar me naya din Maghrib (suraj doobne) par shuru hota hai, aadhi raat 12 baje nahi. Isliye sham ke waqt English date wahi rehti hai lekin Hijri date aur din agle din me tabdeel ho jata hai.
+        </div>
+      </details>
+
+      <details>
+        <summary>Kya delete hua content ya image recover ho sakti hai?</summary>
+        <div class="answer">
+          <span class="badge">Privacy & Data</span><br>
+          Nahi. AdeenDesk user ki privacy ka pura khayal rakhta hai. Hamare servers par aapka koi personal data ya images store nahi hoti. Browser clear hone ya delete hone par data recover nahi ho sakta.
+        </div>
+      </details>
+
+      <details>
+        <summary>Namaz aur Sahri/Iftar ke time me 2-3 minute ka farq kyu hota hai?</summary>
+        <div class="answer">
+          AdeenDesk GPS coordinates aur universal solar calculations use karta hai. Aapki local masjid me ehtiyaatan (precautionary) 1-2 minute pehle ya baad ka waqt rakha jata hai. Hamesha apni local azaan ko tarjeeh dein.
+        </div>
+      </details>
+
+      <details>
+        <summary>Kya yeh dashboard internet ke bina (Offline) kaam karta hai?</summary>
+        <div class="answer">
+          Haan! AdeenDesk ek PWA (Progressive Web App) hai. Ek baar open hone ke baad Quran, Duas, aur Hijri Calendar offline bhi smoothly kaam karte hain.
+        </div>
+      </details>
+    </div>
+
+    <!-- ================= 2. URDU FAQ ================= -->
+    <div id="faq-ur" class="faq-group rtl">
+      <details open>
+        <summary>مغرب کے بعد ہجری تاریخ کیوں تبدیل ہو جاتی ہے؟</summary>
+        <div class="answer">
+          <span class="badge">اسلامی اصول</span><br>
+          اسلامی قمری تقویم میں نیا دن سورج غروب ہونے (مغرب) کے وقت شروع ہوتا ہے، رات 12 بجے نہیں۔ اسی لیے شام کے وقت انگریزی تاریخ وہی رہتی ہے مگر ہجری تاریخ اگلی لگ جاتی ہے۔
+        </div>
+      </details>
+
+      <details>
+        <summary>کیا ڈیلیٹ شدہ ڈیٹا یا تصاویر دوبارہ واپس آ سکتی ہیں؟</summary>
+        <div class="answer">
+          <span class="badge">پرائیویسی اور ڈیٹا</span><br>
+          نہیں۔ ادین ڈیسک صارف کی پرائیویسی کا مکمل احترام کرتا ہے۔ آپ کا کوئی ذاتی ڈیٹا یا امیج ہمارے پاس محفوظ نہیں ہوتا۔ کیشے یا ہسٹری کلین ہونے کے بعد ریکوری ممکن نہیں۔
+        </div>
+      </details>
+
+      <details>
+        <summary>نماز کے اوقات میں مقامی مسجد سے 2-3 منٹ کا فرق کیوں ہوتا ہے؟</summary>
+        <div class="answer">
+          یہ ایپ مستند فلکیاتی حسابی اصول اور جی پی ایس پر کام کرتی ہے۔ مساجد میں اکثر احتیاطاً 2-3 منٹ کا فرق رکھا جاتا ہے۔ مقامی اذان کو ترجیح دیں۔
+        </div>
+      </details>
+
+      <details>
+        <summary>کیا یہ ایپ انٹرنیٹ کے بغیر (آف لائن) کام کرتی ہے؟</summary>
+        <div class="answer">
+          جی ہاں! یہ ایک PWA ایپ ہے۔ قرآن شریف، دعائیں اور ہجری کیلنڈر انٹرنیٹ بند ہونے پر بھی بخوبی چلتے ہیں۔
+        </div>
+      </details>
+    </div>
+
+    <!-- ================= 3. HINDI FAQ ================= -->
+    <div id="faq-hi" class="faq-group">
+      <details open>
+        <summary>शाम (मग़रिब) के बाद हिजरी तारीख क्यों बदल जाती है?</summary>
+        <div class="answer">
+          <span class="badge">इस्लामी नियम</span><br>
+          इस्लामी कैलेंडर में नया दिन रात 12 बजे नहीं, बल्कि सूर्यास्त (मग़रिब) के समय शुरू होता है। इसलिए शाम होते ही अंग्रेज़ी तारीख वही रहती है लेकिन हिजरी तारीख बदल जाती है।
+        </div>
+      </details>
+
+      <details>
+        <summary>क्या डिलीट किया हुआ डेटा या इमेज वापस आ सकता है?</summary>
+        <div class="answer">
+          <span class="badge">प्राइवेसी और सुरक्षा</span><br>
+          नहीं। AdeenDesk आपकी प्राइवेसी का पूरा ध्यान रखता है। हम सर्वर पर आपकी कोई निजी जानकारी या फोटो स्टोर नहीं करते। डिलीट होने के बाद डेटा रिकवर नहीं हो सकता।
+        </div>
+      </details>
+
+      <details>
+        <summary>नमाज़ के समय में 1-2 मिनट का फर्क क्यों दिखाई देता है?</summary>
+        <div class="answer">
+          AdeenDesk सटीक GPS गणना पर आधारित है। स्थानीय मस्जिदों में एहतियात के तौर पर 1-2 मिनट का समय आगे-पीछे रखा जाता है। अपनी स्थानीय अज़ान को प्राथमिकता दें।
+        </div>
+      </details>
+
+      <details>
+        <summary>क्या यह ऐप बिना इंटरनेट (Offline) काम करता है?</summary>
+        <div class="answer">
+          हाँ! AdeenDesk एक PWA ऐप है। एक बार लोड होने के बाद कुरआन, दुआएं और कैलेंडर बिना इंटरनेट के भी आसानी से चलते हैं।
+        </div>
+      </details>
+    </div>
+
+    <!-- ================= 4. ENGLISH FAQ ================= -->
+    <div id="faq-en" class="faq-group">
+      <details open>
+        <summary>Why does the Hijri date change in the evening after Sunset?</summary>
+        <div class="answer">
+          <span class="badge">Islamic Astronomical Rule</span><br>
+          In the Islamic lunar calendar, a new day begins at Maghrib (Sunset), not at midnight 12:00 AM. Hence, the Gregorian date remains the same while the Hijri date advances.
+        </div>
+      </details>
+
+      <details>
+        <summary>Can deleted images or user logs be recovered?</summary>
+        <div class="answer">
+          <span class="badge">Privacy Policy</span><br>
+          No. AdeenDesk respects user privacy by operating as a client-side utility. No personal media or private files are stored on our servers, making recovery impossible once deleted.
+        </div>
+      </details>
+
+      <details>
+        <summary>Why is there a minor offset in prayer times compared to local mosques?</summary>
+        <div class="answer">
+          Times are computed using precise GPS coordinates and standard solar algorithms. Local mosques often apply a 1-3 minute precautionary window. Local congregation calls should always take precedence.
+        </div>
+      </details>
+
+      <details>
+        <summary>Does this dashboard work completely offline?</summary>
+        <div class="answer">
+          Yes. AdeenDesk is built as a Progressive Web App (PWA). Core modules like the Quran Reader, Duas, and Islamic Calendar cache locally for offline use.
+        </div>
+      </details>
+    </div>
+
+  </div>
+
+  <script>
+    function setFaqLang(lang) {
+      // Hide all FAQ groups
+      document.querySelectorAll('.faq-group').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
+
+      // Show selected
+      const targetGroup = document.getElementById('faq-' + lang);
+      if (targetGroup) targetGroup.classList.add('active');
+
+      // Highlight active button
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
