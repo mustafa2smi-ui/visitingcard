@@ -3053,73 +3053,119 @@ function checkDemoQuiz(btn, isCorrect) {
       window.addEventListener('DOMContentLoaded', renderIslamicFeaturedContent);
     }
 
+// ==========================================================
+// 1. RENDER & COPY: Aaj Ki Islami Tareekh
+// ==========================================================
 
-// Global variable for today's 10 words
+let currentHistoryMatch = null;
+let currentTodayHijriText = "";
 let todaySeededWordsList = [];
 
-// Helper feedback for copy buttons
-function triggerCopyBtnFeedback(btnId, originalText) {
+// Simple Hijri Calculator
+function getCleanHijriDate() {
+  const hijriMonths = [
+    "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
+    "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
+    "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
+  ];
+
+  const today = new Date();
+
+  try {
+    const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+      day: 'numeric',
+      month: 'numeric'
+    }).formatToParts(today);
+
+    let day = parts.find(p => p.type === 'day')?.value || today.getDate();
+    let monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || "1", 10) - 1;
+    let monthName = hijriMonths[monthIndex] || "Safar";
+
+    return {
+      key: `${day}-${monthName}`,
+      display: `${day} ${monthName}`
+    };
+  } catch (e) {
+    return { key: "24-Safar", display: "Safar" };
+  }
+}
+
+// Helper: Copy Button Visual Feedback
+function triggerCopyBtnFeedback(btnId, defaultText) {
   const btn = document.getElementById(btnId);
   if (!btn) return;
   btn.innerText = "✅ Copied to Clipboard!";
   setTimeout(() => {
-    btn.innerText = originalText;
-  }, 2200);
+    btn.innerText = defaultText;
+  }, 2000);
 }
 
-// ==========================================================
-// 1. RENDER & COPY: Aaj Ki Islami Tareekh
-// ==========================================================
+// 🏛️ History Fetch Engine
 function initTodayHistory() {
   const box = document.getElementById('homeHistoryBox');
-  const badge = document.getElementById('homeHistoryBadge');
-  if (!box || typeof islamicHistoryData === 'undefined') return;
+  const btn = document.getElementById('btnCopyHistory');
+  if (!box) return;
 
-  const now = new Date();
-  const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-  const matches = islamicHistoryData.filter(e => e.date === todayKey);
+  const hijriInfo = getCleanHijriDate();
+  currentTodayHijriText = hijriInfo.display;
 
-  if (badge) {
-    badge.innerText = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  if (typeof islamicHistoryData === 'undefined' || !Array.isArray(islamicHistoryData)) {
+    box.innerHTML = `<div style="font-size:0.82rem; color:#64748b; padding:4px 0;">Admin ke update ka intzar kare aaj ki history ka. Jazakallah</div>`;
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+      btn.style.cursor = "not-allowed";
+    }
+    return;
   }
 
-  if (matches.length > 0) {
-    box.innerHTML = matches.map(e => `
-      <div style="border-left:3px solid #047857; padding-left:8px; margin-bottom:8px;">
-        <div style="font-size:0.72rem; font-weight:700; color:#059669;">${e.year} (${e.hijriRef})</div>
-        <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${e.title}</div>
-        <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${e.summary}</div>
-      </div>
-    `).join('');
-  } else {
+  // Match current hijriDate key with daily-features-data.js
+  const match = islamicHistoryData.find(item => item.hijriDate && item.hijriDate.toLowerCase() === hijriInfo.key.toLowerCase());
+
+  if (match) {
+    currentHistoryMatch = match;
     box.innerHTML = `
-      <div style="font-size:0.82rem; color:#64748b; padding:4px 0;">
-        Aaj ki tareekh ka makhsoos waqia archived nahi hai. Tareekh-e-Islam ke baaqi ahem waqiat dekhne ke liye niche button par click karein.
+      <div style="border-left:3px solid #047857; padding-left:8px;">
+        <div style="font-size:0.75rem; font-weight:700; color:#059669;">${match.year || ''} • ${hijriInfo.display}</div>
+        <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${match.title}</div>
+        <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${match.summary}</div>
       </div>
     `;
+    // Enable button
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    }
+  } else {
+    currentHistoryMatch = null;
+    box.innerHTML = `
+      <div style="font-size:0.82rem; color:#475569; padding:6px 0; font-weight:500;">
+        Admin ke update ka intzar kare aaj ki history ka. Jazakallah
+      </div>
+    `;
+    // Disable button agar record na miley
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+      btn.style.cursor = "not-allowed";
+    }
   }
 }
 
+// 📋 Copy Today's History Logic
 function copyTodayHistory() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-  const siteUrl = window.location.origin + '/history.html';
+  if (!currentHistoryMatch) return; // Guard clause agar button disabled ho
 
-  let msg = `🏛️ *Aaj Ki Islami Tareekh (${dateStr})*\n\n`;
+  const siteUrl = window.location.origin + '/';
+  let msg = `🏛️ *Aaj Ki Islami Tareekh*\n`;
 
-  if (typeof islamicHistoryData !== 'undefined') {
-    const matches = islamicHistoryData.filter(e => e.date === todayKey);
-    if (matches.length > 0) {
-      matches.forEach(e => {
-        msg += `📌 *${e.title}* (${e.year} - ${e.hijriRef})\n${e.summary}\n\n`;
-      });
-    } else {
-      msg += `Aaj ki Islami tareekh ka mukammal record database me update kiya ja raha hai.\n\n`;
-    }
+  if (currentTodayHijriText) {
+    msg += `📅 *${currentTodayHijriText}*\n\n`;
   }
 
-  msg += `✨ Aise hi rozana Islami tareekh aur tareekhi waqiat janne ke liye website visit karein:\n🔗 ${siteUrl}`;
+  msg += `📌 *${currentHistoryMatch.title}* (${currentHistoryMatch.year || ''})\n${currentHistoryMatch.summary}\n\n`;
+  msg += `✨ Rozana Islami tareekh aur deeni maloomat ke liye visit karein:\n🔗 ${siteUrl}`;
 
   navigator.clipboard.writeText(msg).then(() => {
     triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy WhatsApp Format');
@@ -3127,13 +3173,19 @@ function copyTodayHistory() {
 }
 
 // ==========================================================
-// 2. RENDER & COPY: 10 Daily Arabic Words
+// 2. 10 DAILY ARABIC WORDS ENGINE
 // ==========================================================
+
 function initDailyArabicWords() {
   const box = document.getElementById('homeArabicWordsBox');
-  if (!box || typeof arabicWordsData === 'undefined') return;
+  if (!box) return;
 
-  // Stable seed so words don't change on page reloads throughout the day
+  if (typeof arabicWordsData === 'undefined' || !Array.isArray(arabicWordsData) || arabicWordsData.length === 0) {
+    box.innerHTML = `<p style="font-size:0.8rem; color:#64748b; margin:0; grid-column:span 2;">Words update ho rahe hain...</p>`;
+    return;
+  }
+
+  // Stable seed so words remain unchanged during the day
   const d = new Date();
   const seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
 
@@ -3145,29 +3197,32 @@ function initDailyArabicWords() {
 
   todaySeededWordsList = shuffled.slice(0, 10);
 
+  // Render with Hindi included and spacious line-height
   box.innerHTML = todaySeededWordsList.map(item => `
-    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:6px 4px; text-align:center;">
-      <div style="font-size:1.15rem; font-family:'Amiri', serif; color:#064e3b; font-weight:700;">${item.word}</div>
-      <div style="font-size:0.75rem; font-weight:700; color:#334155;">${item.trans}</div>
-      <div style="font-size:0.68rem; color:#64748b; border-top:1px dashed #f1f5f9; margin-top:3px; padding-top:2px;">${item.ur} | ${item.en}</div>
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:8px 6px; text-align:center; min-height:86px; display:flex; flex-direction:column; justify-content:center;">
+      <div style="font-size:1.2rem; font-family:'Amiri', serif; color:#064e3b; font-weight:700; line-height:1.2;">${item.word}</div>
+      <div style="font-size:0.75rem; font-weight:700; color:#334155; margin-top:2px;">${item.trans}</div>
+      <div style="font-size:0.68rem; color:#64748b; border-top:1px dashed #f1f5f9; margin-top:4px; padding-top:3px; line-height:1.3;">
+        <div>${item.ur} • ${item.en}</div>
+        <div style="color:#059669; font-weight:600;">${item.hi}</div>
+      </div>
     </div>
   `).join('');
 }
 
 function copyDailyWords() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  const siteUrl = window.location.origin + '/arabic-words.html';
+  const hijriInfo = getCleanHijriDate();
+  const siteUrl = window.location.origin + '/';
 
-  let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz (${dateStr})*\n\n`;
+  let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz*\n📅 *${hijriInfo.display}*\n\n`;
 
   if (todaySeededWordsList.length > 0) {
     todaySeededWordsList.forEach((item, index) => {
-      msg += `${index + 1}. *${item.word}* (${item.trans})\n   Urdu: ${item.ur} | English: ${item.en} | Hindi: ${item.hi}\n\n`;
+      msg += `${index + 1}. *${item.word}* (${item.trans})\n   Urdu: ${item.ur} | English: ${item.en}\n   Hindi: ${item.hi}\n\n`;
     });
   }
 
-  msg += `💡 Rozana naye Arabic alfaaz aur unke tarjume sikhne ke liye visit karein:\n🔗 ${siteUrl}`;
+  msg += `💡 Rozana naye Arabic alfaaz aur tarjume sikhne ke liye visit karein:\n🔗 ${siteUrl}`;
 
   navigator.clipboard.writeText(msg).then(() => {
     triggerCopyBtnFeedback('btnCopyWords', '📋 Copy 10 Words Format');
@@ -3175,12 +3230,21 @@ function copyDailyWords() {
 }
 
 // ==========================================================
+// RUN ON PAGE LOAD (Single execution)
+// ==========================================================
+window.addEventListener('DOMContentLoaded', () => {
+  initTodayHistory();
+  initDailyArabicWords();
+});
+/*
+// ==========================================================
 // RUN ON PAGE LOAD
 // ==========================================================
 window.addEventListener('DOMContentLoaded', () => {
   initTodayHistory();
   initDailyArabicWords();
 });
+    */
     // 🌐 Language Switcher Engine (Same Window / In-Place Switch)
     function switchSiteLanguage(lang) {
   localStorage.setItem('adeendesk_lang', lang);
