@@ -1727,10 +1727,10 @@
 <section class="portal-card" id="sec-history">
   <div class="portal-header">
     <h3>🏛️ Aaj Ki Islami Tareekh</h3>
-    <span style="font-size:0.68rem; color:#059669; font-weight:700;" id="homeHistoryBadge">Islamic Date</span>
+    <span style="font-size:0.68rem; color:#059669; font-weight:700;">Daily History</span>
   </div>
   <div class="sweet-word-box" id="homeHistoryBox">
-    <p style="font-size:0.8rem; color:#64748b; margin:0;">Tareekh load ho rahi hai...</p>
+    <p style="font-size:0.8rem; color:#64748b; margin:0;">Tareekh check ho rahi hai...</p>
   </div>
   <div class="portal-btn-row">
     <button class="portal-action-btn btn-green" id="btnCopyHistory" onclick="copyTodayHistory()" style="width:100%;">📋 Copy WhatsApp Format</button>
@@ -1900,6 +1900,9 @@
 // Global variable for today's 10 words
 let todaySeededWordsList = [];
 let todayHistoryEventForCopy = null;   
+let currentHistoryMatch = null;
+let currentTodayHijriText = "";
+ 
     const slidingCountries = [
       { name: "Saudi Arabia", flag: "🇸🇦", zone: "Asia/Riyadh", abbr: "AST" },
       { name: "UAE", flag: "🇦🇪", zone: "Asia/Dubai", abbr: "GST" },
@@ -2808,40 +2811,7 @@ function jumpToSection(targetId, clickedBtn) {
 // 📰 Auto-Render Latest News on Homepage (Safe Auto-Load)
     let activeUtterance = null;
     let currentlyPlayingBtn = null;
-/*
-    function renderHomeLatestNews() {
-      const container = document.getElementById('homeNewsHeadlinesContainer');
-      const updatedLabel = document.getElementById('homeNewsLastUpdated');
-      
-      // Agar news-data.js load hone me 0.1 second ki deri ho, to retry karega
-      if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
-        setTimeout(renderHomeLatestNews, 150);
-        return;
-      }
 
-      if (!container || !updatedLabel) return;
-
-      // Sabse taaza update date (pehli news se)
-      updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
-
-      // Sirf Top 4 ya 5 taaza headlines display karein
-      const latestItems = islamicNewsDatabase.slice(0, 5);
-      container.innerHTML = '';
-
-      latestItems.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'news-headline-item';
-        row.innerHTML = `
-          <div class="news-headline-text">${item.headline}</div>
-          <div class="news-action-btns">
-            <button class="news-tts-btn" title="Sunne ke liye tap karein" onclick="toggleNewsTTS(this, '${escape(item.headline)}')">🔊</button>
-            <button class="news-share-btn" title="Share karein" onclick="shareNative('Islamic News Update', '${item.headline}', window.location.href)">📤</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-*/
     // 📰 Safe News Render (Undefined Source URL Fixed)
     function renderHomeLatestNews() {
       const container = document.getElementById('homeNewsHeadlinesContainer');
@@ -3066,83 +3036,103 @@ function triggerCopyBtnFeedback(btnId, originalText) {
 // 1. RENDER & COPY: Aaj Ki Islami Tareekh
 // ==========================================================
 
+// Simple Hijri Calculator (Standard Approximation - No BC bug)
+function getCleanHijriDate() {
+  // Agar aapke dashboard me pehle se koi Hijri variable chal raha hai to wo use ho jayega, warna yeh clean logic:
+  const hijriMonths = [
+    "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
+    "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
+    "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
+  ];
 
-// Dynamic Hijri Date
-function getTodayHijriDateString() {
+  const today = new Date();
+  
+  // Maghrib adjustment agar sham ho chuki ho
+  // Clean Intl without year glitch:
   try {
-    return new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+    const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
       day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }).format(new Date());
+      month: 'numeric'
+    }).formatToParts(today);
+
+    let day = parts.find(p => p.type === 'day')?.value || today.getDate();
+    let monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || "1", 10) - 1;
+    let monthName = hijriMonths[monthIndex] || "Safar";
+
+    return {
+      key: `${day}-${monthName}`,
+      display: `${day} ${monthName}`
+    };
   } catch (e) {
-    return "Islami Calendar";
+    return { key: "24-Safar", display: "Safar" };
   }
 }
 
-// Copy Feedback
-function triggerCopyBtnFeedback(btnId, defaultText) {
-  const btn = document.getElementById(btnId);
-  if (!btn) return;
-  btn.innerText = "✅ Copied to Clipboard!";
-  setTimeout(() => {
-    btn.innerText = defaultText;
-  }, 2000);
-}
-
-// 🏛️ 1. History Engine
+// 🏛️ History Fetch Engine
 function initTodayHistory() {
   const box = document.getElementById('homeHistoryBox');
-  const badge = document.getElementById('homeHistoryBadge');
   if (!box) return;
 
-  const hijriToday = getTodayHijriDateString();
-  if (badge) badge.innerText = hijriToday;
-
-  if (typeof islamicHistoryData === 'undefined' || islamicHistoryData.length === 0) {
-    box.innerHTML = `<p style="font-size:0.8rem; color:#64748b; margin:0;">Tareekh load ho rahi hai...</p>`;
+  if (typeof islamicHistoryData === 'undefined' || !Array.isArray(islamicHistoryData)) {
+    box.innerHTML = `<p style="font-size:0.8rem; color:#64748b; margin:0;">Admin ke update ka intzar kare aaj ki history ka. Jazakallah</p>`;
     return;
   }
 
-  const now = new Date();
-  const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-  
-  let matches = islamicHistoryData.filter(e => e.date === todayKey);
+  const hijriInfo = getCleanHijriDate();
+  currentTodayHijriText = hijriInfo.display;
 
-  // Fallback if current date event isn't added
-  if (matches.length === 0) {
-    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-    matches = [islamicHistoryData[dayOfYear % islamicHistoryData.length]];
+  // Match current hijriDate key with daily-features-data.js
+  const match = islamicHistoryData.find(item => item.hijriDate.toLowerCase() === hijriInfo.key.toLowerCase());
+
+  if (match) {
+    currentHistoryMatch = match;
+    box.innerHTML = `
+      <div style="border-left:3px solid #047857; padding-left:8px;">
+        <div style="font-size:0.75rem; font-weight:700; color:#059669;">${match.year} • ${hijriInfo.display}</div>
+        <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${match.title}</div>
+        <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${match.summary}</div>
+      </div>
+    `;
+  } else {
+    currentHistoryMatch = null;
+    box.innerHTML = `
+      <div style="font-size:0.82rem; color:#475569; padding:6px 0; font-weight:500;">
+        Admin ke update ka intzar kare aaj ki history ka. Jazakallah
+      </div>
+    `;
   }
-
-  todayHistoryEventForCopy = matches[0];
-
-  box.innerHTML = matches.map(e => `
-    <div style="border-left:3px solid #047857; padding-left:8px;">
-      <div style="font-size:0.75rem; font-weight:700; color:#059669;">${e.hijriRef || hijriToday}</div>
-      <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${e.title}</div>
-      <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${e.summary}</div>
-    </div>
-  `).join('');
 }
 
+// 📋 Copy Button Logic
 function copyTodayHistory() {
-  const hijriToday = getTodayHijriDateString();
   const siteUrl = window.location.origin + '/';
+  let msg = `🏛️ *Aaj Ki Islami Tareekh*\n`;
 
-  // Format me koi Gregorian date nahi aayegi
-  let msg = `🏛️ *Aaj Ki Islami Tareekh*\n📅 *${hijriToday}*\n\n`;
+  if (currentTodayHijriText) {
+    msg += `📅 *${currentTodayHijriText}*\n\n`;
+  }
 
-  if (todayHistoryEventForCopy) {
-    msg += `📌 *${todayHistoryEventForCopy.title}*\n⏳ *Daur:* ${todayHistoryEventForCopy.hijriRef}\n${todayHistoryEventForCopy.summary}\n\n`;
+  if (currentHistoryMatch) {
+    msg += `📌 *${currentHistoryMatch.title}* (${currentHistoryMatch.year})\n${currentHistoryMatch.summary}\n\n`;
+  } else {
+    msg += `Admin ke update ka intzar kare aaj ki history ka. Jazakallah\n\n`;
   }
 
   msg += `✨ Rozana Islami tareekh aur deeni maloomat ke liye visit karein:\n🔗 ${siteUrl}`;
 
   navigator.clipboard.writeText(msg).then(() => {
-    triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy WhatsApp Format');
+    const btn = document.getElementById('btnCopyHistory');
+    if (btn) {
+      btn.innerText = "✅ Copied to Clipboard!";
+      setTimeout(() => {
+        btn.innerText = "📋 Copy WhatsApp Format";
+      }, 2000);
+    }
   });
 }
+
+// Run immediately
+window.addEventListener('DOMContentLoaded', initTodayHistory);
 
 // 📖 2. 10 Daily Arabic Words Engine
 function initDailyArabicWords() {
