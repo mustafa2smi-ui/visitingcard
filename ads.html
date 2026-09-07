@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsor on AdeenDesk | Community Ad Booking</title>
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <style>
+    :root { --primary: #064e3b; --accent: #ea580c; --bg: #f8fafc; --card: #ffffff; --border: #cbd5e1; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: #1e293b; padding: 14px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 520px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .header { text-align: center; margin-bottom: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 12px; }
+    .header h1 { font-size: 1.15rem; color: var(--primary); font-weight: 800; }
+    .header p { font-size: 0.78rem; color: #64748b; margin-top: 3px; }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    input, textarea, select { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; outline: none; background: #fff; }
+    input:focus, textarea:focus, select:focus { border-color: var(--primary); }
+    .helper-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 10px; font-size: 0.73rem; color: #1e40af; margin-top: 5px; line-height: 1.4; display: flex; justify-content: space-between; align-items: center; }
+    .helper-box a { color: #1d4ed8; font-weight: 700; text-decoration: underline; }
+    .submit-btn { width: 100%; background: #064e3b; color: #fff; border: none; padding: 11px; border-radius: 8px; font-size: 0.88rem; font-weight: 800; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .back-link { display: block; text-align: center; font-size: 0.78rem; color: #64748b; text-decoration: none; margin-top: 14px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📢 Sponsor on AdeenDesk</h1>
+    <p>Apne business, madrasa ya services ko hazaron users tak pahunchayein.</p>
+  </div>
+
+  <form id="adBookingForm" onsubmit="submitAdToAdmin(event)">
+    <!-- 1. Business / Title -->
+    <div class="form-group">
+      <label>Business / Sponsor Name *</label>
+      <input type="text" id="adTitle" placeholder="e.g. Al-Huda Quran Academy" required>
+    </div>
+
+    <!-- 2. Tagline / Description -->
+    <div class="form-group">
+      <label>Short Description (Tagline) *</label>
+      <textarea id="adTagline" rows="2" placeholder="e.g. Online Tajweed & Hifz classes for kids & adults from home." required></textarea>
+    </div>
+
+    <!-- 3. Primary Contact / Redirect -->
+    <div class="form-group">
+      <label>Direct Contact (WhatsApp Number / URL) *</label>
+      <input type="text" id="adContact" placeholder="e.g. 919876543210 ya admission link" required>
+    </div>
+
+    <!-- 4. Image Option (ImgBB Helper) -->
+    <div class="form-group">
+      <label>Banner / Poster Image Link (Optional)</label>
+      <input type="url" id="adImage" placeholder="https://i.ibb.co/.../banner.jpg">
+      <div class="helper-box">
+        <span>Image link nahi hai? Free upload karein:</span>
+        <a href="https://imgbb.com" target="_blank" rel="noopener">Upload on ImgBB ↗</a>
+      </div>
+    </div>
+
+    <!-- 5. Video / Profile Link -->
+    <div class="form-group">
+      <label>Video / Demo Link (Optional)</label>
+      <input type="url" id="adVideo" placeholder="YouTube, Shorts ya Instagram Reel link">
+    </div>
+
+    <!-- 6. City / Location -->
+    <div class="form-group">
+      <label>Location / Scope</label>
+      <input type="text" id="adLocation" placeholder="e.g. Online / All India / Mumbai">
+    </div>
+
+    <!-- Submit Action -->
+    <button type="submit" class="submit-btn">
+      <span>💬</span> Submit via WhatsApp
+    </button>
+  </form>
+
+  <a href="index.html" class="back-link">← Wapas Dashboard Par Jayein</a>
+</div>
+
+<script>
+function submitAdToAdmin(e) {
+  e.preventDefault();
+
+  // 🔴 Yahan apna WhatsApp number bina '+' ke daalein
+  const adminWhatsApp = "91XXXXXXXXXX"; 
+
+  const title = document.getElementById('adTitle').value.trim();
+  const tagline = document.getElementById('adTagline').value.trim();
+  const contact = document.getElementById('adContact').value.trim();
+  const img = document.getElementById('adImage').value.trim();
+  const video = document.getElementById('adVideo').value.trim();
+  const loc = document.getElementById('adLocation').value.trim();
+
+  let msg = `*📢 Nayi Sponsor Booking Request (AdeenDesk)*\n\n`;
+  msg += `🏢 *Sponsor:* ${title}\n`;
+  msg += `📝 *Tagline:* ${tagline}\n`;
+  msg += `📞 *Contact/Link:* ${contact}\n`;
+  if (loc) msg += `📍 *Location:* ${loc}\n`;
+  if (img) msg += `🖼️ *Banner URL:* ${img}\n`;
+  if (video) msg += `🎬 *Video Link:* ${video}\n`;
+
+  const waUrl = `https://wa.me/${adminWhatsApp}?text=${encodeURIComponent(msg)}`;
+  window.open(waUrl, '_blank');
+}
+</script>
+
+</body>
+</html>
