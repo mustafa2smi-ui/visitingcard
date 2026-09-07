@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Islamic History Events | AdeenDesk</title>
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <style>
+    :root { --primary: #064e3b; --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+    body { background: var(--bg); color: #1e293b; padding-bottom: 40px; }
+    .header { background: var(--primary); color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+    .header a { color: #fff; text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+    .container { max-width: 680px; margin: 16px auto; padding: 0 14px; }
+    .event-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; font-weight: 700; margin-bottom: 6px; }
+    .tag { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 6px; }
+    .event-card h3 { font-size: 0.95rem; color: var(--primary); margin-bottom: 6px; }
+    .event-card p { font-size: 0.85rem; color: #475569; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html">← Back</a>
+    <h1 style="font-size:1rem; font-weight:800;">Today in Islamic History</h1>
+    <span>🏛️</span>
+  </header>
+
+  <div class="container" id="historyTimeline"></div>
+
+  <script src="daily-features-data.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const timeline = document.getElementById('historyTimeline');
+      const now = new Date();
+      const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
+      const todayEvents = islamicHistoryData.filter(e => e.date === todayKey);
+      const otherEvents = islamicHistoryData.filter(e => e.date !== todayKey);
+
+      let html = `<h2 style="font-size:0.9rem; color:#064e3b; margin-bottom:10px;">📌 Events On This Day (${todayKey})</h2>`;
+
+      if (todayEvents.length === 0) {
+        html += `<div class="event-card"><p>Aaj ke din ka koi makhsoos waqia archived nahi hai. Tareekh-e-Islam ke digar waqiat neeche mulaheza karein.</p></div>`;
+      } else {
+        html += todayEvents.map(e => `
+          <div class="event-card" style="border-left: 4px solid #064e3b;">
+            <div class="meta"><span class="tag">${e.tag}</span><span>${e.year} (${e.hijriRef})</span></div>
+            <h3>${e.title}</h3>
+            <p>${e.summary}</p>
+          </div>
+        `).join('');
+      }
+
+      html += `<h2 style="font-size:0.9rem; color:#475569; margin:20px 0 10px;">📜 Other Major Historic Moments</h2>`;
+      html += otherEvents.map(e => `
+        <div class="event-card">
+          <div class="meta"><span class="tag">${e.tag}</span><span>${e.date} • ${e.year}</span></div>
+          <h3>${e.title}</h3>
+          <p>${e.summary}</p>
+        </div>
+      `).join('');
+
+      timeline.innerHTML = html;
+    });
+  </script>
+</body>
+</html>
