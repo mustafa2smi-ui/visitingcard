@@ -3515,7 +3515,7 @@ function copyTodayHistory() {
     triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy WhatsApp Format');
   });
 }
-
+/*
 // 4. 10 Daily Arabic Words Engine (Directly from daily-features-data.js)
 function initDailyArabicWords() {
   const box = document.getElementById('homeArabicWordsBox');
@@ -3582,6 +3582,59 @@ if (document.readyState === 'loading') {
 } else {
   startDailyModules();
 }
+    */
+      
+// 📖 2. 10 Daily Arabic Words Engine
+function initDailyArabicWords() {
+  const box = document.getElementById('homeArabicWordsBox');
+  if (!box) return;
+
+  if (typeof arabicWordsData === 'undefined' || arabicWordsData.length === 0) return;
+
+  const d = new Date();
+  const seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+
+  const shuffled = [...arabicWordsData].sort((a, b) => {
+    const hashA = (a.word.charCodeAt(0) * seed) % 100;
+    const hashB = (b.word.charCodeAt(0) * seed) % 100;
+    return hashA - hashB;
+  });
+
+  todaySeededWordsList = shuffled.slice(0, 10);
+
+  box.innerHTML = todaySeededWordsList.map(item => `
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:6px 4px; text-align:center;">
+      <div style="font-size:1.15rem; font-family:'Amiri', serif; color:#064e3b; font-weight:700;">${item.word}</div>
+      <div style="font-size:0.75rem; font-weight:700; color:#334155;">${item.trans}</div>
+      <div style="font-size:0.68rem; color:#64748b; border-top:1px dashed #f1f5f9; margin-top:3px; padding-top:2px;">${item.ur} | ${item.en}</div>
+    </div>
+  `).join('');
+}
+
+function copyDailyWords() {
+  const hijriToday = getTodayHijriDateString();
+  const siteUrl = window.location.origin + '/';
+
+  let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz*\n📅 *${hijriToday}*\n\n`;
+
+  if (todaySeededWordsList.length > 0) {
+    todaySeededWordsList.forEach((item, index) => {
+      msg += `${index + 1}. *${item.word}* (${item.trans})\n   Urdu: ${item.ur} | English: ${item.en} | Hindi: ${item.hi}\n\n`;
+    });
+  }
+
+  msg += `💡 Rozana naye Arabic alfaaz aur tarjume sikhne ke liye visit karein:\n🔗 ${siteUrl}`;
+
+  navigator.clipboard.writeText(msg).then(() => {
+    triggerCopyBtnFeedback('btnCopyWords', '📋 Copy 10 Words Format');
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initTodayHistory();
+  initDailyArabicWords();
+});
+    
     // 🌐 Language Switcher Engine (Same Window / In-Place Switch)
     function switchSiteLanguage(lang) {
   localStorage.setItem('adeendesk_lang', lang);
