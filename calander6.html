@@ -3039,7 +3039,7 @@ function triggerCopyBtnFeedback(btnId, originalText) {
 // 1. RENDER & COPY: Aaj Ki Islami Tareekh
 // ==========================================================
 
-
+/*
 // Simple Hijri Calculator
 function getCleanHijriDate() {
   const hijriMonths = [
@@ -3215,7 +3215,198 @@ window.addEventListener('DOMContentLoaded', () => {
   initTodayHistory();
   initDailyArabicWords();
 });
+*/
+    // ==========================================================
+// 1. RENDER & COPY: Aaj Ki Islami Tareekh
+// ==========================================================
+/*
+let currentHistoryMatch = null;
+let currentTodayHijriText = "";
+let todaySeededWordsList = [];
+*/
+// Hijri Date Helper
+function getCleanHijriDate() {
+  const hijriMonths = [
+    "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
+    "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
+    "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
+  ];
 
+  const today = new Date();
+
+  try {
+    const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+      day: 'numeric',
+      month: 'numeric'
+    }).formatToParts(today);
+
+    let day = parts.find(p => p.type === 'day')?.value || today.getDate();
+    let monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || "1", 10) - 1;
+    let monthName = hijriMonths[monthIndex] || "Safar";
+
+    return {
+      key: `${day}-${monthName}`,
+      display: `${day} ${monthName}`
+    };
+  } catch (e) {
+    return { key: "24-Safar", display: "24 Safar" };
+  }
+}
+
+// Copy Feedback
+function triggerCopyBtnFeedback(btnId, defaultText) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.innerText = "✅ Copied to Clipboard!";
+  setTimeout(() => {
+    btn.innerText = defaultText;
+  }, 2000);
+}
+
+// 🏛️ History Engine
+function initTodayHistory() {
+  const box = document.getElementById('homeHistoryBox');
+  const btn = document.getElementById('btnCopyHistory');
+  if (!box) return;
+
+  const hijriInfo = getCleanHijriDate();
+  currentTodayHijriText = hijriInfo.display;
+
+  let sourceData = (typeof islamicHistoryData !== 'undefined' && Array.isArray(islamicHistoryData)) ? islamicHistoryData : [];
+
+  const match = sourceData.find(item => item.hijriDate && item.hijriDate.toLowerCase() === hijriInfo.key.toLowerCase());
+
+  if (match) {
+    currentHistoryMatch = match;
+    box.innerHTML = `
+      <div style="border-left:3px solid #047857; padding-left:8px;">
+        <div style="font-size:0.75rem; font-weight:700; color:#059669;">${match.year || ''} • ${hijriInfo.display}</div>
+        <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${match.title}</div>
+        <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${match.summary}</div>
+      </div>
+    `;
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    }
+  } else {
+    currentHistoryMatch = null;
+    box.innerHTML = `
+      <div style="font-size:0.82rem; color:#475569; padding:6px 0; font-weight:500;">
+        Admin ke update ka intzar kare aaj ki history ka. Jazakallah
+      </div>
+    `;
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+      btn.style.cursor = "not-allowed";
+    }
+  }
+}
+
+function copyTodayHistory() {
+  if (!currentHistoryMatch) return;
+
+  const siteUrl = window.location.origin + '/';
+  let msg = `🏛️ *Aaj Ki Islami Tareekh*\n`;
+
+  if (currentTodayHijriText) {
+    msg += `📅 *${currentTodayHijriText}*\n\n`;
+  }
+
+  msg += `📌 *${currentHistoryMatch.title}* (${currentHistoryMatch.year || ''})\n${currentHistoryMatch.summary}\n\n`;
+  msg += `✨ Rozana Islami tareekh aur deeni maloomat ke liye visit karein:\n🔗 ${siteUrl}`;
+
+  navigator.clipboard.writeText(msg).then(() => {
+    triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy WhatsApp Format');
+  });
+}
+
+// ==========================================================
+// 2. 10 DAILY ARABIC WORDS ENGINE (Guaranteed Render)
+// ==========================================================
+
+// In-built backup list taaki page kabhi bhi "Loading" par na atke
+const defaultFallbackWords = [
+  { word: "رَحْمَة", trans: "Rahmah", en: "Mercy", ur: "رحمت", hi: "दया / रहमत" },
+  { word: "شُكْر", trans: "Shukr", en: "Gratitude", ur: "شکر گزاری", hi: "आभार / धन्यवाद" },
+  { word: "صَبْر", trans: "Sabr", en: "Patience", ur: "صبر و برداشت", hi: "धैर्य / सब्र" },
+  { word: "عِلْم", trans: "Ilm", en: "Knowledge", ur: "علم و آگہی", hi: "ज्ञान / विद्या" },
+  { word: "قَلْب", trans: "Qalb", en: "Heart", ur: "دل", hi: "हृदय / दिल" },
+  { word: "نُور", trans: "Noor", en: "Light", ur: "روشنی / نور", hi: "दिव्य प्रकाश / नूर" },
+  { word: "سَلَام", trans: "Salam", en: "Peace", ur: "سلامتی", hi: "शांति / सलामती" },
+  { word: "حَقّ", trans: "Haqq", en: "Truth", ur: "سچائی / حق", hi: "सत्य / सच्चाई" },
+  { word: "ذِكْر", trans: "Zikr", en: "Remembrance", ur: "یاد الٰہی", hi: "स्मरण / प्रभु-याद" },
+  { word: "تَوْبَة", trans: "Tawbah", en: "Repentance", ur: "توبہ و استغفار", hi: "पश्चाताप / तौबा" },
+  { word: "بَرَكَة", trans: "Barakah", en: "Blessing", ur: "برکت", hi: "बरकत / सौभाग्य" },
+  { word: "عَدْل", trans: "Adl", en: "Justice", ur: "انصاف", hi: "न्याय / इंसाफ" }
+];
+
+function initDailyArabicWords() {
+  const box = document.getElementById('homeArabicWordsBox');
+  if (!box) return;
+
+  // Pehle daily-features-data.js ka data lega, agar na mile to fallback uthayega
+  let wordsPool = (typeof arabicWordsData !== 'undefined' && Array.isArray(arabicWordsData) && arabicWordsData.length >= 10)
+    ? arabicWordsData
+    : defaultFallbackWords;
+
+  // Aaj ki tareekh ka stable seed (pure din ek jaisa rahega)
+  const d = new Date();
+  const daySeed = d.getDate() + (d.getMonth() + 1) * 31;
+
+  // Deterministic shuffle
+  const shuffled = [...wordsPool].sort((a, b) => {
+    const valA = ((a.word.charCodeAt(0) || 1) * daySeed) % 97;
+    const valB = ((b.word.charCodeAt(0) || 1) * daySeed) % 97;
+    return valA - valB;
+  });
+
+  todaySeededWordsList = shuffled.slice(0, 10);
+
+  // Box me Hindi samet pura layout inject karein
+  box.innerHTML = todaySeededWordsList.map(item => `
+    <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:7px 5px; text-align:center; min-height:84px; display:flex; flex-direction:column; justify-content:space-between;">
+      <div style="font-size:1.22rem; font-family:'Amiri', serif; color:#064e3b; font-weight:700; line-height:1.2;">${item.word}</div>
+      <div style="font-size:0.75rem; font-weight:700; color:#334155;">${item.trans}</div>
+      <div style="font-size:0.67rem; color:#64748b; border-top:1px dashed #f1f5f9; padding-top:3px; line-height:1.35;">
+        <div>${item.ur} • ${item.en}</div>
+        <div style="color:#059669; font-weight:600; margin-top:1px;">${item.hi || ''}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function copyDailyWords() {
+  const hijriInfo = getCleanHijriDate();
+  const siteUrl = window.location.origin + '/';
+
+  let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz*\n📅 *${hijriInfo.display}*\n\n`;
+
+  if (todaySeededWordsList.length > 0) {
+    todaySeededWordsList.forEach((item, index) => {
+      msg += `${index + 1}. *${item.word}* (${item.trans})\n   Urdu: ${item.ur} | English: ${item.en}\n   Hindi: ${item.hi}\n\n`;
+    });
+  }
+
+  msg += `💡 Rozana naye Arabic alfaaz aur tarjume sikhne ke liye visit karein:\n🔗 ${siteUrl}`;
+
+  navigator.clipboard.writeText(msg).then(() => {
+    triggerCopyBtnFeedback('btnCopyWords', '📋 Copy 10 Words Format');
+  });
+}
+
+// Dono engines ko turant aur DOM load dono par trigger karein (Zero Delay)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initTodayHistory();
+    initDailyArabicWords();
+  });
+} else {
+  initTodayHistory();
+  initDailyArabicWords();
+}
     // 🌐 Language Switcher Engine (Same Window / In-Place Switch)
     function switchSiteLanguage(lang) {
   localStorage.setItem('adeendesk_lang', lang);
