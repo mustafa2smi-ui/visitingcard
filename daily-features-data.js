@@ -15,6 +15,13 @@ const islamicHistoryData = [
     summary: "Nabi Akram ﷺ Madina ke qareeb basti Quba me dakhil hue aur Masjid-e-Quba ki buniyaad rakhi.",
     tag: "Tareekh"
   },
+    {
+    hijriDate: "25-RabiulAwwal",
+    year: "1 Hijri",
+    title: "Demo",
+    summary: "Demo",
+    tag: "Tareekh"
+  },
   {
     hijriDate: "17-Ramadan",
     year: "2 Hijri",
