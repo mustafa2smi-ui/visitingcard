@@ -24,9 +24,7 @@
   <meta name="twitter:title" content="AdeenDesk - Legal Information">
   <meta name="twitter:description" content="Legal information for AdeenDesk Islamic Dashboard.">
 
-  <!-- ============================================================ -->
   <!-- JSON-LD SCHEMA MARKUP -->
-  <!-- ============================================================ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -98,7 +96,6 @@
       line-height: 1.6;
     }
 
-    /* Header Styles */
     .legal-header {
       background: #0b1a30;
       color: #ffffff;
@@ -158,7 +155,6 @@
       background: rgba(255,255,255,0.25);
     }
 
-    /* Language Switcher */
     .language-switcher {
       display: flex;
       gap: 6px;
@@ -192,14 +188,12 @@
       border-color: #1d68d8;
     }
 
-    /* Main Container */
     .legal-container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 20px 16px 40px;
     }
 
-    /* Navigation Tabs */
     .legal-tabs {
       display: flex;
       gap: 8px;
@@ -240,7 +234,6 @@
       border-color: #1d68d8;
     }
 
-    /* Content Cards */
     .legal-card {
       background: #ffffff;
       border-radius: 14px;
@@ -358,7 +351,6 @@
       color: #0f172a;
     }
 
-    /* Footer */
     .legal-footer {
       text-align: center;
       padding: 20px 16px;
@@ -390,40 +382,32 @@
       color: #1d68d8;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       .legal-card {
         padding: 20px 16px;
       }
-
       .legal-card h2 {
         font-size: 1.25rem;
       }
-
       .contact-info-grid {
         grid-template-columns: 1fr;
       }
-
       .header-content {
         flex-direction: column;
         align-items: flex-start;
       }
-
       .back-home-btn {
         align-self: flex-start;
       }
-
       .language-switcher {
         gap: 4px;
       }
-
       .lang-btn {
         padding: 4px 10px;
         font-size: 0.65rem;
       }
     }
 
-    /* Print Styles */
     @media print {
       .legal-header, .legal-tabs, .legal-footer, .back-home-btn, .language-switcher {
         display: none !important;
@@ -439,7 +423,6 @@
       }
     }
 
-    /* Smooth Scroll */
     html {
       scroll-behavior: smooth;
     }
@@ -447,9 +430,7 @@
 </head>
 <body>
 
-  <!-- ============================================================ -->
   <!-- HEADER -->
-  <!-- ============================================================ -->
   <header class="legal-header">
     <div class="header-content">
       <div class="brand-section">
@@ -463,9 +444,7 @@
     </div>
   </header>
 
-  <!-- ============================================================ -->
   <!-- MAIN CONTENT -->
-  <!-- ============================================================ -->
   <main class="legal-container">
 
     <!-- Language Switcher -->
@@ -485,9 +464,7 @@
       <a href="#contact" class="legal-tab" data-tab="contact">📬 Contact Us</a>
     </nav>
 
-    <!-- ============================================================ -->
-    <!-- ALL CONTENT - RENDERED DYNAMICALLY BY JAVASCRIPT              -->
-    <!-- ============================================================ -->
+    <!-- Content Container -->
     <div id="legalContent">
       <!-- Content will be rendered here by JavaScript -->
     </div>
@@ -517,125 +494,124 @@
     const legalContent = {
 
       // ==============================================================
-      // ENGLISH (Default)
+      // ENGLISH
       // ==============================================================
       en: {
-  about: {
-    title: "ℹ️ About AdeenDesk",
-    lastUpdated: "Last Updated: September 2026",
-    description: "<strong>AdeenDesk</strong> is a comprehensive Islamic utility dashboard designed to assist Muslims worldwide in their daily spiritual and religious practices. Our platform brings together essential Islamic tools in one accessible, user-friendly interface.",
-    mission: "🌟 Our Mission",
-    missionText: "To provide a reliable, accurate, and easy-to-use digital platform that helps Muslims stay connected to their faith through prayer times, Islamic calendar, Quranic resources, and spiritual tools — all accessible from anywhere, at any time.",
-    features: "📌 What We Offer",
-    featuresList: [
-      "<strong>🕌 Accurate Prayer Times:</strong> Location-based prayer timings using GPS and city search, powered by the Aladhan API.",
-      "<strong>📅 Dual Calendars:</strong> Gregorian and Hijri (Islamic) calendars with real-time date updates after Maghrib.",
-      "<strong>🧭 Qibla Direction Finder:</strong> Compass-based Qibla direction using device sensors.",
-      "<strong>📖 Quran Reader:</strong> Access to the Holy Quran with translation and recitation.",
-      "<strong>📿 Digital Tasbeeh:</strong> A simple and effective dhikr counter.",
-      "<strong>💰 Zakat Calculator:</strong> Helps calculate Zakat payable on savings and assets.",
-      "<strong>🤲 Daily Duas:</strong> A collection of essential Islamic supplications for various occasions.",
-      "<strong>📜 Hadith & Stories:</strong> Daily hadith and inspirational Islamic stories.",
-      "<strong>🧠 Islamic Quiz:</strong> Interactive quizzes to test and enhance Islamic knowledge.",
-      "<strong>📰 Islamic News:</strong> Curated news updates from around the Muslim world.",
-      "<strong>🖼️ Image Gallery:</strong> Offline storage for Islamic charts and images."
-    ],
-    eventHub: {
-      title: "📢 Islamic Event Hub",
-      description: "The Islamic Event Hub is an intelligent, auto-updating section that displays timely Islamic information and announcements without requiring any manual intervention from users.",
-      features: [
-        "<strong>🕌 Jumu'ah (Friday) Card:</strong> Every Friday, a dedicated card automatically appears with Sunnahs and recommendations for Jumu'ah. This card auto-hides after sunset on Friday.",
-        "<strong>🌙 Ramadan Countdown:</strong> When 99 days remain until Ramadan, an automatic countdown card appears to help users prepare for the blessed month.",
-        "<strong>📢 Alerts & Announcements:</strong> Important notices, urgent information, Islamic programs, and events are automatically displayed based on their scheduled dates and times.",
-        "<strong>🔄 Auto-Expiry:</strong> All cards and alerts automatically close/hide once their relevant date, time, or expiry period passes."
-      ],
-      note: "💡 This section is designed to keep users informed about important Islamic events and announcements without requiring them to manually enable or disable any cards. The system handles everything automatically based on Islamic dates and times."
-    },
-    upcomingEvents: {
-      title: "✨ Upcoming Islamic Events",
-      description: "The Upcoming Events section displays important Islamic festivals, occasions, significant Islamic dates, and upcoming events in a clear, easy-to-read format.",
-      features: [
-        "<strong>🕌 Islamic Festivals:</strong> Eid-ul-Fitr, Eid-ul-Adha, and other major Islamic celebrations.",
-        "<strong>🌙 Significant Dates:</strong> Ramadan, Laylatul Qadr, Hajj, and other important Islamic dates.",
-        "<strong>📅 Monthly Events:</strong> Regular Islamic occasions and commemorations throughout the Hijri year.",
-        "<strong>🎯 Easy Tracking:</strong> Helps users easily keep track of important upcoming Islamic dates and plan their spiritual activities accordingly."
-      ],
-      note: "💡 This section helps users stay connected with the Islamic calendar and never miss important religious occasions."
-    },
-    vision: "🌍 Our Vision",
-    visionText: "We envision AdeenDesk as a trusted companion for Muslims across the globe — a digital space that combines technology with spirituality, making Islamic knowledge and practice more accessible to everyone, regardless of their location or background.",
-    freeNote: "✅ <strong>Completely Free:</strong> This platform is and will always be completely free to use. We believe in serving the Ummah without any financial barriers.",
-    teamNote: "🌱 A Note from Our Team: AdeenDesk is built with the intention of serving the Ummah. We strive to ensure accuracy and reliability in all our features. However, we are continuously improving and welcome your feedback and duas for our growth and betterment."
-  },
+        about: {
+          title: "ℹ️ About AdeenDesk",
+          lastUpdated: "Last Updated: September 2026",
+          description: "<strong>AdeenDesk</strong> is a comprehensive Islamic utility dashboard designed to assist Muslims worldwide in their daily spiritual and religious practices. Our platform brings together essential Islamic tools in one accessible, user-friendly interface.",
+          mission: "🌟 Our Mission",
+          missionText: "To provide a reliable, accurate, and easy-to-use digital platform that helps Muslims stay connected to their faith through prayer times, Islamic calendar, Quranic resources, and spiritual tools — all accessible from anywhere, at any time.",
+          features: "📌 What We Offer",
+          featuresList: [
+            "<strong>🕌 Accurate Prayer Times:</strong> Location-based prayer timings using GPS and city search, powered by the Aladhan API.",
+            "<strong>📅 Dual Calendars:</strong> Gregorian and Hijri (Islamic) calendars with real-time date updates after Maghrib.",
+            "<strong>🧭 Qibla Direction Finder:</strong> Compass-based Qibla direction using device sensors.",
+            "<strong>📖 Quran Reader:</strong> Access to the Holy Quran with translation and recitation.",
+            "<strong>📿 Digital Tasbeeh:</strong> A simple and effective dhikr counter.",
+            "<strong>💰 Zakat Calculator:</strong> Helps calculate Zakat payable on savings and assets.",
+            "<strong>🤲 Daily Duas:</strong> A collection of essential Islamic supplications for various occasions.",
+            "<strong>📜 Hadith & Stories:</strong> Daily hadith and inspirational Islamic stories.",
+            "<strong>🧠 Islamic Quiz:</strong> Interactive quizzes to test and enhance Islamic knowledge.",
+            "<strong>📰 Islamic News:</strong> Curated news updates from around the Muslim world.",
+            "<strong>🖼️ Image Gallery:</strong> Offline storage for Islamic charts and images."
+          ],
+          eventHub: {
+            title: "📢 Islamic Event Hub",
+            description: "The Islamic Event Hub is an intelligent, auto-updating section that displays timely Islamic information and announcements without requiring any manual intervention from users.",
+            features: [
+              "<strong>🕌 Jumu'ah (Friday) Card:</strong> Every Friday, a dedicated card automatically appears with Sunnahs and recommendations for Jumu'ah. This card auto-hides after sunset on Friday.",
+              "<strong>🌙 Ramadan Countdown:</strong> When 99 days remain until Ramadan, an automatic countdown card appears to help users prepare for the blessed month.",
+              "<strong>📢 Alerts & Announcements:</strong> Important notices, urgent information, Islamic programs, and events are automatically displayed based on their scheduled dates and times.",
+              "<strong>🔄 Auto-Expiry:</strong> All cards and alerts automatically close/hide once their relevant date, time, or expiry period passes."
+            ],
+            note: "💡 This section is designed to keep users informed about important Islamic events and announcements without requiring them to manually enable or disable any cards. The system handles everything automatically based on Islamic dates and times."
+          },
+          upcomingEvents: {
+            title: "✨ Upcoming Islamic Events",
+            description: "The Upcoming Events section displays important Islamic festivals, occasions, significant Islamic dates, and upcoming events in a clear, easy-to-read format.",
+            features: [
+              "<strong>🕌 Islamic Festivals:</strong> Eid-ul-Fitr, Eid-ul-Adha, and other major Islamic celebrations.",
+              "<strong>🌙 Significant Dates:</strong> Ramadan, Laylatul Qadr, Hajj, and other important Islamic dates.",
+              "<strong>📅 Monthly Events:</strong> Regular Islamic occasions and commemorations throughout the Hijri year.",
+              "<strong>🎯 Easy Tracking:</strong> Helps users easily keep track of important upcoming Islamic dates and plan their spiritual activities accordingly."
+            ],
+            note: "💡 This section helps users stay connected with the Islamic calendar and never miss important religious occasions."
+          },
+          vision: "🌍 Our Vision",
+          visionText: "We envision AdeenDesk as a trusted companion for Muslims across the globe — a digital space that combines technology with spirituality, making Islamic knowledge and practice more accessible to everyone, regardless of their location or background.",
+          freeNote: "✅ <strong>Completely Free:</strong> This platform is and will always be completely free to use. We believe in serving the Ummah without any financial barriers.",
+          teamNote: "🌱 A Note from Our Team: AdeenDesk is built with the intention of serving the Ummah. We strive to ensure accuracy and reliability in all our features. However, we are continuously improving and welcome your feedback and duas for our growth and betterment."
+        },
 
-  privacy: {
-    title: "🔒 Privacy Policy",
-    lastUpdated: "Last Updated: September 2026",
-    intro: "At AdeenDesk, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your information when you use our platform.",
-    noDataTitle: "📌 We Don't Collect Any Personal Data",
-    noDataText: "AdeenDesk does <strong>not</strong> collect, store, or transmit any personal data to our servers. Your privacy is our priority, and we have designed our platform to operate with minimal data usage.",
-    localStorageTitle: "💾 Local Storage (Browser-Based)",
-    localStorageText: "This website works entirely using your browser's <strong>Local Storage</strong>. This means:",
-    localStoragePoints: [
-      "All data and preferences you create (such as notes, images, calendar preferences, and settings) are stored locally in your own browser/device.",
-      "We <strong>do not</strong> have access to, or control over, this locally stored data.",
-      "We <strong>do not</strong> store any of your data on our servers."
-    ],
-    localStorageWarning: "⚠️ <strong>Important Note About Local Storage:</strong> Since all your data is stored locally in your own browser, if your GPS/location-related saved information, Calendar Notes, Favorite Duas, Ramadan Charts, images, or other locally saved content is accidentally deleted, cleared, or lost from your browser/device, <strong>it may not be possible to recover it</strong>. GPS location is an exception where applicable, as it can be obtained again through the device's GPS/location service.",
-    locationData: "📍 Location Data (Optional)",
-    locationText: "With your permission, we access your device's GPS or network-based location to provide accurate prayer times and Qibla direction. This data is used <strong>only</strong> for the functionality you request and is <strong>not stored</strong> on our servers. You can revoke this permission at any time through your device settings.",
-    cookies: "🍪 Cookies",
-    cookiesText: "We use minimal cookies to store your preferences (such as language selection and Hijri date offset). These are small text files stored on your device and can be cleared at any time. We do not use cookies for tracking or advertising purposes.",
-    thirdParty: "🔗 Third-Party Services",
-    thirdPartyList: [
-      "<strong>Aladhan API</strong> – for prayer time calculations.",
-      "<strong>Nominatim (OpenStreetMap)</strong> – for reverse geocoding.",
-      "<strong>ipapi.co</strong> – for IP-based location detection (fallback)."
-    ],
-    thirdPartyNote: "These services have their own privacy policies. We only send anonymized location requests without any personal identification.",
-    ads: "📢 Third-Party Ads",
-    adsText: "We may use <strong>Google AdSense</strong> and other reputable advertising networks that may use cookies to display non-personalized advertisements. These ads are not based on your personal data or browsing history. You can opt out of personalized advertising by visiting Google's Ad Settings.",
-    adsDisclaimer: {
-      title: "📢 Advertisements & Third-Party Services",
-      intro: "To support the operation and development of this platform, we may display advertisements, promotional banners, posters, affiliate links, or other promotional content from time to time. These may include our own affiliate links, third-party businesses, products, services, or other commercial promotions.",
-      points: [
-        "<strong>🤝 Direct Dealings:</strong> If you choose to contact, purchase from, or otherwise interact with any advertiser, seller, business, or service provider through such advertisements or links, your dealings are directly with that third party. We are not a party to those transactions.",
-        "<strong>❌ No Guarantees:</strong> We cannot guarantee the quality, authenticity, availability, delivery, refund, or performance of any third-party product or service. If you make an advance payment for a product or service and do not receive it, or experience any fraud, dispute, loss, or other issue, we will not be responsible for such third-party transactions or resulting losses, to the extent permitted by applicable law.",
-        "<strong>🔒 Your Responsibility:</strong> We strongly encourage you to use your own judgment and conduct appropriate checks before dealing with any seller, advertiser, business, or service provider. Never share sensitive personal or financial information, such as your bank account details, passwords, PINs, CVV, OTPs, or other confidential information, with unknown or untrusted individuals or businesses.",
-        "<strong>📊 Commercial Arrangements:</strong> Some advertisements may be displayed through paid promotional arrangements, subscriptions, affiliate partnerships, or other commercial agreements. Advertisements may be accepted and displayed based on our own policies and discretion.",
-        "<strong>🚫 No Endorsement:</strong> The presence of an advertisement on this platform should not be interpreted as an endorsement, guarantee, or recommendation of the advertised product, service, seller, or business. We may not be able to independently verify every claim, offer, product, service, or business represented in every advertisement.",
-        "<strong>⚠️ User Acknowledgment:</strong> By interacting with any third-party advertisement, affiliate link, seller, or service provider, you acknowledge that such interaction is at your own discretion and risk."
-      ],
-      thankYou: "Thank you for your patience, understanding, and continued support."
-    },
-    futureBackend: "🚀 Future Backend Services",
-    futureBackendText: "In the future, we may introduce backend services such as Firebase or other similar technologies to enhance user experience. If such services are implemented, certain types of user data may need to be stored or processed to provide additional features. If this happens, our Privacy Policy will be updated accordingly, and users will be informed about what data is collected, why it is required, and how it is handled. <strong>At present, however, we have no such plan or intention to store user data on a backend server.</strong>",
-    quranApi: {
-      title: "📖 Quranic Data Source & Public API Attribution",
-      description: "AdeenDesk uses the open-source <strong>AlQuran.cloud API</strong> (Islamic Network) to retrieve Quranic Arabic text, recitation-related metadata, and translations in multiple languages, including Urdu, English, and Hindi.",
-      disclaimer: "We do not claim ownership of the Quranic text. The Quranic content is provided through the API for educational and religious reading purposes. We are grateful to the developers and maintainers of the open-source Islamic API infrastructure that makes this service available.",
-      note: "⚠️ <strong>Important Note:</strong> The Quranic data is sourced from third-party APIs. While we strive to use reliable sources, we do not independently guarantee the authenticity or accuracy of every piece of third-party API data. Users are encouraged to cross-reference with authentic sources for religious matters."
-    },
-    pwaSection: {
-      title: "📱 Progressive Web App (PWA) & Offline Functionality",
-      description: "AdeenDesk is designed as an installable <strong>Progressive Web App (PWA)</strong>. Users may install the website on their supported device/browser and access it more conveniently like a native application.",
-      features: [
-        "<strong>Network-First Strategy:</strong> When an internet connection is available, the application attempts to retrieve the latest content from online sources first. When the network is unavailable, supported content may be served from the browser's local cache.",
-        "<strong>Automatic Updates:</strong> When a new version of the website is deployed, the Service Worker may detect the updated files and update the cached application resources automatically.",
-        "<strong>Manual Update / Refresh:</strong> If an updated version is available but the browser is still using an older cached version, an update prompt, refresh button, or similar mechanism may be provided to allow the user to load the latest version.",
-        "<strong>Local Data:</strong> Installing or updating the PWA does not transfer locally stored data to our servers. However, users should avoid clearing their browser's storage/cache unnecessarily, as locally stored information may be lost depending on the browser and implementation."
-      ],
-      warning: "⚠️ <strong>Important:</strong> While the PWA improves performance and provides offline access to certain features, it does not make the platform fully functional offline. Features that require real-time data (such as live prayer times, news, and current Qibla direction) still require an internet connection."
-    },
-    children: "👶 Children's Privacy",
-    childrenText: "AdeenDesk does not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.",
-    changes: "📝 Changes to This Policy",
-    changesText: "We may update this Privacy Policy from time to time. We will notify you of any changes by updating the 'Last Updated' date at the top of this page.",
-    contact: "📬 Contact Us",
-    contactText: "If you have any questions about this Privacy Policy, please <a href='#contact'>contact us</a>."
-  },
+        privacy: {
+          title: "🔒 Privacy Policy",
+          lastUpdated: "Last Updated: September 2026",
+          intro: "At AdeenDesk, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your information when you use our platform.",
+          noDataTitle: "📌 We Don't Collect Any Personal Data",
+          noDataText: "AdeenDesk does <strong>not</strong> collect, store, or transmit any personal data to our servers. Your privacy is our priority, and we have designed our platform to operate with minimal data usage.",
+          localStorageTitle: "💾 Local Storage (Browser-Based)",
+          localStorageText: "This website works entirely using your browser's <strong>Local Storage</strong>. This means:",
+          localStoragePoints: [
+            "All data and preferences you create (such as notes, images, calendar preferences, and settings) are stored locally in your own browser/device.",
+            "We <strong>do not</strong> have access to, or control over, this locally stored data.",
+            "We <strong>do not</strong> store any of your data on our servers."
+          ],
+          localStorageWarning: "⚠️ <strong>Important Note About Local Storage:</strong> Since all your data is stored locally in your own browser, if your GPS/location-related saved information, Calendar Notes, Favorite Duas, Ramadan Charts, images, or other locally saved content is accidentally deleted, cleared, or lost from your browser/device, <strong>it may not be possible to recover it</strong>. GPS location is an exception where applicable, as it can be obtained again through the device's GPS/location service.",
+          locationData: "📍 Location Data (Optional)",
+          locationText: "With your permission, we access your device's GPS or network-based location to provide accurate prayer times and Qibla direction. This data is used <strong>only</strong> for the functionality you request and is <strong>not stored</strong> on our servers. You can revoke this permission at any time through your device settings.",
+          cookies: "🍪 Cookies",
+          cookiesText: "We use minimal cookies to store your preferences (such as language selection and Hijri date offset). These are small text files stored on your device and can be cleared at any time. We do not use cookies for tracking or advertising purposes.",
+          thirdParty: "🔗 Third-Party Services",
+          thirdPartyList: [
+            "<strong>Aladhan API</strong> – for prayer time calculations.",
+            "<strong>Nominatim (OpenStreetMap)</strong> – for reverse geocoding.",
+            "<strong>ipapi.co</strong> – for IP-based location detection (fallback)."
+          ],
+          thirdPartyNote: "These services have their own privacy policies. We only send anonymized location requests without any personal identification.",
+          ads: "📢 Third-Party Ads",
+          adsText: "We may use <strong>Google AdSense</strong> and other reputable advertising networks that may use cookies to display non-personalized advertisements. These ads are not based on your personal data or browsing history. You can opt out of personalized advertising by visiting Google's Ad Settings.",
+          adsDisclaimer: {
+            title: "📢 Advertisements & Third-Party Services",
+            intro: "To support the operation and development of this platform, we may display advertisements, promotional banners, posters, affiliate links, or other promotional content from time to time. These may include our own affiliate links, third-party businesses, products, services, or other commercial promotions.",
+            points: [
+              "<strong>🤝 Direct Dealings:</strong> If you choose to contact, purchase from, or otherwise interact with any advertiser, seller, business, or service provider through such advertisements or links, your dealings are directly with that third party. We are not a party to those transactions.",
+              "<strong>❌ No Guarantees:</strong> We cannot guarantee the quality, authenticity, availability, delivery, refund, or performance of any third-party product or service. If you make an advance payment for a product or service and do not receive it, or experience any fraud, dispute, loss, or other issue, we will not be responsible for such third-party transactions or resulting losses, to the extent permitted by applicable law.",
+              "<strong>🔒 Your Responsibility:</strong> We strongly encourage you to use your own judgment and conduct appropriate checks before dealing with any seller, advertiser, business, or service provider. Never share sensitive personal or financial information, such as your bank account details, passwords, PINs, CVV, OTPs, or other confidential information, with unknown or untrusted individuals or businesses.",
+              "<strong>📊 Commercial Arrangements:</strong> Some advertisements may be displayed through paid promotional arrangements, subscriptions, affiliate partnerships, or other commercial agreements. Advertisements may be accepted and displayed based on our own policies and discretion.",
+              "<strong>🚫 No Endorsement:</strong> The presence of an advertisement on this platform should not be interpreted as an endorsement, guarantee, or recommendation of the advertised product, service, seller, or business. We may not be able to independently verify every claim, offer, product, service, or business represented in every advertisement.",
+              "<strong>⚠️ User Acknowledgment:</strong> By interacting with any third-party advertisement, affiliate link, seller, or service provider, you acknowledge that such interaction is at your own discretion and risk."
+            ],
+            thankYou: "Thank you for your patience, understanding, and continued support."
+          },
+          futureBackend: "🚀 Future Backend Services",
+          futureBackendText: "In the future, we may introduce backend services such as Firebase or other similar technologies to enhance user experience. If such services are implemented, certain types of user data may need to be stored or processed to provide additional features. If this happens, our Privacy Policy will be updated accordingly, and users will be informed about what data is collected, why it is required, and how it is handled. <strong>At present, however, we have no such plan or intention to store user data on a backend server.</strong>",
+          quranApi: {
+            title: "📖 Quranic Data Source & Public API Attribution",
+            description: "AdeenDesk uses the open-source <strong>AlQuran.cloud API</strong> (Islamic Network) to retrieve Quranic Arabic text, recitation-related metadata, and translations in multiple languages, including Urdu, English, and Hindi.",
+            disclaimer: "We do not claim ownership of the Quranic text. The Quranic content is provided through the API for educational and religious reading purposes. We are grateful to the developers and maintainers of the open-source Islamic API infrastructure that makes this service available.",
+            note: "⚠️ <strong>Important Note:</strong> The Quranic data is sourced from third-party APIs. While we strive to use reliable sources, we do not independently guarantee the authenticity or accuracy of every piece of third-party API data. Users are encouraged to cross-reference with authentic sources for religious matters."
+          },
+          pwaSection: {
+            title: "📱 Progressive Web App (PWA) & Offline Functionality",
+            description: "AdeenDesk is designed as an installable <strong>Progressive Web App (PWA)</strong>. Users may install the website on their supported device/browser and access it more conveniently like a native application.",
+            features: [
+              "<strong>Network-First Strategy:</strong> When an internet connection is available, the application attempts to retrieve the latest content from online sources first. When the network is unavailable, supported content may be served from the browser's local cache.",
+              "<strong>Automatic Updates:</strong> When a new version of the website is deployed, the Service Worker may detect the updated files and update the cached application resources automatically.",
+              "<strong>Manual Update / Refresh:</strong> If an updated version is available but the browser is still using an older cached version, an update prompt, refresh button, or similar mechanism may be provided to allow the user to load the latest version.",
+              "<strong>Local Data:</strong> Installing or updating the PWA does not transfer locally stored data to our servers. However, users should avoid clearing their browser's storage/cache unnecessarily, as locally stored information may be lost depending on the browser and implementation."
+            ],
+            warning: "⚠️ <strong>Important:</strong> While the PWA improves performance and provides offline access to certain features, it does not make the platform fully functional offline. Features that require real-time data (such as live prayer times, news, and current Qibla direction) still require an internet connection."
+          },
+          children: "👶 Children's Privacy",
+          childrenText: "AdeenDesk does not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.",
+          changes: "📝 Changes to This Policy",
+          changesText: "We may update this Privacy Policy from time to time. We will notify you of any changes by updating the 'Last Updated' date at the top of this page.",
+          contact: "📬 Contact Us",
+          contactText: "If you have any questions about this Privacy Policy, please <a href='#contact'>contact us</a>."
+        },
 
-  
         terms: {
           title: "📜 Terms & Conditions",
           lastUpdated: "Last Updated: September 2026",
@@ -724,8 +700,9 @@
           duas: "🕌 Duas & Support: Please remember us and our team in your duas. We are committed to serving the Ummah with sincerity and excellence. May Allah accept our efforts and make AdeenDesk beneficial for all."
         }
       },
+
       // ==============================================================
-      // URDU
+      // URDU - COMPLETE
       // ==============================================================
       ur: {
         about: {
@@ -748,6 +725,28 @@
             "<strong>📰 اسلامی خبریں:</strong> دنیا بھر سے منتخب خبریں۔",
             "<strong>🖼️ امیج گیلری:</strong> اسلامی چارٹس اور تصاویر کے لیے آف لائن اسٹوریج۔"
           ],
+          eventHub: {
+            title: "📢 اسلامی ایونٹ حب",
+            description: "اسلامی ایونٹ حب ایک ذہین، خودکار طور پر اپ ڈیٹ ہونے والا سیکشن ہے جو بروقت اسلامی معلومات اور اعلانات بغیر کسی صارف کی دستی مداخلت کے دکھاتا ہے۔",
+            features: [
+              "<strong>🕌 جمعہ کارڈ:</strong> ہر جمعہ کو ایک مخصوص کارڈ خود بخود ظاہر ہوتا ہے جس میں جمعہ کی سنتیں اور سفارشات ہوتی ہیں۔ یہ کارڈ جمعہ کی شام غروب آفتاب کے بعد خود بخود چھپ جاتا ہے۔",
+              "<strong>🌙 رمضان کاؤنٹ ڈاؤن:</strong> جب رمضان میں 99 دن باقی رہ جائیں تو ایک خودکار کاؤنٹ ڈاؤن کارڈ ظاہر ہوتا ہے تاکہ صارفین اس مبارک مہینے کی تیاری کر سکیں۔",
+              "<strong>📢 الرٹس اور اعلانات:</strong> اہم نوٹسز، فوری معلومات، اسلامی پروگرامز، اور ایونٹس ان کی مقررہ تاریخوں اور اوقات کی بنیاد پر خود بخود دکھائے جاتے ہیں۔",
+              "<strong>🔄 خودکار ایکسپائری:</strong> تمام کارڈز اور الرٹس خود بخود بند/چھپ جاتے ہیں جب ان کی متعلقہ تاریخ، وقت، یا میعاد ختم ہو جاتی ہے۔"
+            ],
+            note: "💡 یہ سیکشن صارفین کو اہم اسلامی ایونٹس اور اعلانات کے بارے میں باخبر رکھنے کے لیے ڈیزائن کیا گیا ہے بغیر اس کے کہ وہ کسی کارڈ کو دستی طور پر فعال یا غیر فعال کریں۔ سسٹم اسلامی تاریخوں اور اوقات کی بنیاد پر سب کچھ خود بخود ہینڈل کرتا ہے۔"
+          },
+          upcomingEvents: {
+            title: "✨ آنے والے اسلامی ایونٹس",
+            description: "آنے والے ایونٹس کا سیکشن اہم اسلامی تہواروں، مواقع، اہم اسلامی تاریخوں، اور آنے والے ایونٹس کو واضح، پڑھنے میں آسان فارمیٹ میں دکھاتا ہے۔",
+            features: [
+              "<strong>🕌 اسلامی تہوار:</strong> عید الفطر، عید الاضحی، اور دیگر بڑی اسلامی تقریبات۔",
+              "<strong>🌙 اہم تاریخیں:</strong> رمضان، لیلۃ القدر، حج، اور دیگر اہم اسلامی تاریخیں۔",
+              "<strong>📅 ماہانہ ایونٹس:</strong> ہجری سال کے دوران باقاعدہ اسلامی مواقع اور یادگاریں۔",
+              "<strong>🎯 آسان ٹریکنگ:</strong> صارفین کو آنے والی اہم اسلامی تاریخوں کا آسانی سے ٹریک رکھنے اور اس کے مطابق اپنی روحانی سرگرمیوں کی منصوبہ بندی کرنے میں مدد کرتا ہے۔"
+            ],
+            note: "💡 یہ سیکشن صارفین کو اسلامی کیلنڈر سے جڑے رہنے اور اہم مذہبی مواقع کو کبھی نہ بھولنے میں مدد کرتا ہے۔"
+          },
           vision: "🌍 ہمارا وژن",
           visionText: "ہم AdeenDesk کو دنیا بھر کے مسلمانوں کے لیے ایک قابل اعتماد ساتھی کے طور پر دیکھتے ہیں — ایک ڈیجیٹل جگہ جو ٹیکنالوجی کو روحانیت کے ساتھ جوڑتی ہے، اسلامی علم اور عمل کو ہر فرد کے لیے زیادہ قابل رسائی بناتی ہے، چاہے اس کا مقام یا پس منظر کچھ بھی ہو۔",
           freeNote: "✅ <strong>مکمل طور پر مفت:</strong> یہ پلیٹ فارم ہے اور ہمیشہ مکمل طور پر مفت رہے گا۔ ہم بغیر کسی مالی رکاوٹ کے امت کی خدمت کرنے پر یقین رکھتے ہیں۔",
@@ -781,8 +780,38 @@
           thirdPartyNote: "ان سروسز کی اپنی پرائیویسی پالیسیاں ہیں۔ ہم بغیر کسی ذاتی شناخت کے صرف گمنام لوکیشن کی درخواستیں بھیجتے ہیں۔",
           ads: "📢 تھرڈ پارٹی اشتہارات",
           adsText: "ہم <strong>Google AdSense</strong> اور دیگر معروف اشتہاری نیٹ ورکس استعمال کر سکتے ہیں جو غیر ذاتی نوعیت کے اشتہارات دکھانے کے لیے کوکیز کا استعمال کر سکتے ہیں۔ یہ اشتہارات آپ کے ذاتی ڈیٹا یا براؤزنگ ہسٹری پر مبنی نہیں ہیں۔ آپ Google کی Ad Settings پر جا کر ذاتی نوعیت کے اشتہارات سے آپٹ آؤٹ کر سکتے ہیں۔",
+          adsDisclaimer: {
+            title: "📢 اشتہارات اور تھرڈ پارٹی سروسز",
+            intro: "اس پلیٹ فارم کی آپریشن اور ڈیولپمنٹ کو سپورٹ کرنے کے لیے، ہم وقتاً فوقتاً اشتہارات، پروموشنل بینرز، پوسٹرز، ایفیلیٹ لنکس، یا دیگر پروموشنل مواد دکھا سکتے ہیں۔ ان میں ہمارے اپنے ایفیلیٹ لنکس، تھرڈ پارٹی کاروبار، مصنوعات، خدمات، یا دیگر تجارتی پروموشنز شامل ہو سکتی ہیں۔",
+            points: [
+              "<strong>🤝 براہ راست معاملات:</strong> اگر آپ کسی مشتہر، فروخت کنندہ، کاروبار، یا سروس فراہم کنندہ سے ایسے اشتہارات یا لنکس کے ذریعے رابطہ کرتے ہیں، خریداری کرتے ہیں، یا دوسرے طریقے سے تعامل کرتے ہیں، تو آپ کے معاملات براہ راست اس تھرڈ پارٹی کے ساتھ ہیں۔ ہم ان لین دین کا حصہ نہیں ہیں۔",
+              "<strong>❌ کوئی ضمانت نہیں:</strong> ہم کسی بھی تھرڈ پارٹی پروڈکٹ یا سروس کے معیار، صداقت، دستیابی، ڈیلیوری، ریفنڈ، یا کارکردگی کی ضمانت نہیں دے سکتے۔ اگر آپ کسی پروڈکٹ یا سروس کے لیے پیشگی ادائیگی کرتے ہیں اور اسے وصول نہیں کرتے، یا کسی فراڈ، تنازعہ، نقصان، یا دیگر مسئلے کا سامنا کرتے ہیں، تو ہم قابل اطلاق قانون کی حد تک ایسے تھرڈ پارٹی لین دین یا نتیجہ خیز نقصانات کے ذمہ دار نہیں ہوں گے۔",
+              "<strong>🔒 آپ کی ذمہ داری:</strong> ہم آپ کو سختی سے مشورہ دیتے ہیں کہ کسی بھی فروخت کنندہ، مشتہر، کاروبار، یا سروس فراہم کنندہ سے معاملہ کرنے سے پہلے اپنی عقل اور مناسب جانچ پڑتال کا استعمال کریں۔ نامعلوم یا ناقابل اعتماد افراد یا کاروباروں کے ساتھ اپنی بینک اکاؤنٹ کی تفصیلات، پاس ورڈز، PINs، CVV، OTPs، یا دیگر خفیہ معلومات جیسی حساس ذاتی یا مالی معلومات کبھی بھی شیئر نہ کریں۔",
+              "<strong>📊 تجارتی انتظامات:</strong> کچھ اشتہارات ادائیگی شدہ پروموشنل انتظامات، سبسکرپشنز، ایفیلیٹ پارٹنرشپس، یا دیگر تجارتی معاہدوں کے ذریعے دکھائے جا سکتے ہیں۔ اشتہارات ہماری اپنی پالیسیوں اور صوابدید کی بنیاد پر قبول اور دکھائے جا سکتے ہیں۔",
+              "<strong>🚫 کوئی توثیق نہیں:</strong> اس پلیٹ فارم پر کسی اشتہار کی موجودگی کو مشتہر شدہ پروڈکٹ، سروس، فروخت کنندہ، یا کاروبار کی توثیق، ضمانت، یا سفارش کے طور پر نہیں سمجھا جانا چاہیے۔ ہم ہر اشتہار میں پیش کردہ ہر دعویٰ، پیشکش، پروڈکٹ، سروس، یا کاروبار کو آزادانہ طور پر تصدیق کرنے کے قابل نہیں ہو سکتے۔",
+              "<strong>⚠️ صارف کا اعتراف:</strong> کسی بھی تھرڈ پارٹی اشتہار، ایفیلیٹ لنک، فروخت کنندہ، یا سروس فراہم کنندہ کے ساتھ تعامل کرکے، آپ تسلیم کرتے ہیں کہ ایسا تعامل آپ کی اپنی صوابدید اور خطرے پر ہے۔"
+            ],
+            thankYou: "آپ کے صبر، تفہیم، اور مسلسل تعاون کا شکریہ۔"
+          },
           futureBackend: "🚀 مستقبل کی بیک اینڈ سروسز",
           futureBackendText: "مستقبل میں، ہم صارف کے تجربے کو بڑھانے کے لیے Firebase یا دیگر مشابہ ٹیکنالوجیز جیسی بیک اینڈ سروسز متعارف کرا سکتے ہیں۔ اگر ایسی سروسز نافذ کی جاتی ہیں، تو اضافی خصوصیات فراہم کرنے کے لیے بعض قسم کے صارف ڈیٹا کو ذخیرہ یا پروسیس کرنے کی ضرورت ہو سکتی ہے۔ اگر ایسا ہوتا ہے، تو ہماری پرائیویسی پالیسی کو اس کے مطابق اپ ڈیٹ کیا جائے گا، اور صارفین کو مطلع کیا جائے گا کہ کیا ڈیٹا جمع کیا جاتا ہے، اس کی ضرورت کیوں ہے، اور اسے کیسے ہینڈل کیا جاتا ہے۔ <strong>تاہم، موجودہ وقت میں، ہمارا بیک اینڈ سرور پر صارف ڈیٹا ذخیرہ کرنے کا کوئی منصوبہ یا ارادہ نہیں ہے۔</strong>",
+          quranApi: {
+            title: "📖 قرآنی ڈیٹا کا ماخذ اور پبلک API انتساب",
+            description: "AdeenDesk قرآنی عربی متن، تلاوت سے متعلق میٹا ڈیٹا، اور اردو، انگریزی، اور ہندی سمیت متعدد زبانوں میں ترجمے حاصل کرنے کے لیے اوپن سورس <strong>AlQuran.cloud API</strong> (اسلامک نیٹ ورک) کا استعمال کرتا ہے۔",
+            disclaimer: "ہم قرآنی متن کی ملکیت کا دعویٰ نہیں کرتے۔ قرآنی مواد تعلیمی اور مذہبی پڑھنے کے مقاصد کے لیے API کے ذریعے فراہم کیا جاتا ہے۔ ہم اوپن سورس اسلامی API انفراسٹرکچر کے ڈویلپرز اور منتظمین کے شکرگزار ہیں جو اس سروس کو دستیاب بناتے ہیں۔",
+            note: "⚠️ <strong>اہم نوٹ:</strong> قرآنی ڈیٹا تھرڈ پارٹی APIs سے ماخوذ ہے۔ جبکہ ہم قابل اعتماد ذرائع استعمال کرنے کی کوشش کرتے ہیں، ہم تھرڈ پارٹی API ڈیٹا کے ہر ٹکڑے کی صداقت یا درستگی کی آزادانہ طور پر ضمانت نہیں دیتے۔ صارفین کو مذہبی معاملات کے لیے مستند ذرائع سے کراس ریفرنس کرنے کی ترغیب دی جاتی ہے۔"
+          },
+          pwaSection: {
+            title: "📱 پروگریسو ویب ایپ (PWA) اور آف لائن فعالیت",
+            description: "AdeenDesk کو ایک انسٹال ایبل <strong>پروگریسو ویب ایپ (PWA)</strong> کے طور پر ڈیزائن کیا گیا ہے۔ صارفین ویب سائٹ کو اپنے معاون ڈیوائس/براؤزر پر انسٹال کر سکتے ہیں اور اسے ایک مقامی ایپلیکیشن کی طرح آسانی سے استعمال کر سکتے ہیں۔",
+            features: [
+              "<strong>نیٹ ورک فرسٹ حکمت عملی:</strong> جب انٹرنیٹ کنکشن دستیاب ہو تو ایپلیکیشن پہلے آن لائن ذرائع سے تازہ ترین مواد حاصل کرنے کی کوشش کرتی ہے۔ جب نیٹ ورک دستیاب نہ ہو تو معاون مواد براؤزر کے لوکل کیش سے فراہم کیا جا سکتا ہے۔",
+              "<strong>خودکار اپ ڈیٹس:</strong> جب ویب سائٹ کا نیا ورژن ڈپلے کیا جاتا ہے تو سروس ورکر اپ ڈیٹ شدہ فائلوں کا پتہ لگا سکتا ہے اور کیش شدہ ایپلیکیشن وسائل کو اپ ڈیٹ کر سکتا ہے۔",
+              "<strong>دستی اپ ڈیٹ / ریفریش:</strong> اگر کوئی اپ ڈیٹ شدہ ورژن دستیاب ہے لیکن براؤزر اب بھی پرانا کیش شدہ ورژن استعمال کر رہا ہے تو صارف کو تازہ ترین ورژن لوڈ کرنے کی اجازت دینے کے لیے ایک اپ ڈیٹ پرامپٹ، ریفریش بٹن، یا اس سے ملتا جلتا طریقہ کار فراہم کیا جا سکتا ہے۔",
+              "<strong>لوکل ڈیٹا:</strong> PWA کو انسٹال یا اپ ڈیٹ کرنے سے لوکل طور پر محفوظ ڈیٹا ہمارے سرورز پر منتقل نہیں ہوتا۔ تاہم، صارفین کو اپنے براؤزر کا اسٹوریج/کیش غیر ضروری طور پر صاف کرنے سے گریز کرنا چاہیے، کیونکہ براؤزر اور نفاذ کے لحاظ سے مقامی طور پر محفوظ معلومات ضائع ہو سکتی ہیں۔"
+            ],
+            warning: "⚠️ <strong>اہم:</strong> جبکہ PWA کارکردگی کو بہتر بناتا ہے اور بعض خصوصیات تک آف لائن رسائی فراہم کرتا ہے، یہ پلیٹ فارم کو مکمل طور پر آف لائن فعال نہیں بناتا۔ جن خصوصیات کو ریئل ٹائم ڈیٹا کی ضرورت ہوتی ہے (جیسے لائیو نماز کے اوقات، خبریں، اور موجودہ قبلہ سمت) انہیں اب بھی انٹرنیٹ کنکشن کی ضرورت ہوتی ہے۔"
+          },
           children: "👶 بچوں کی پرائیویسی",
           childrenText: "AdeenDesk جان بوجھ کر 13 سال سے کم عمر بچوں سے ذاتی معلومات جمع نہیں کرتا۔ اگر آپ والدین یا سرپرست ہیں اور آپ کو یقین ہے کہ آپ کے بچے نے ہمیں ذاتی معلومات فراہم کی ہیں، تو براہ کرم ہم سے رابطہ کریں۔",
           changes: "📝 اس پالیسی میں تبدیلیاں",
@@ -877,36 +906,11 @@
           ],
           response: "⏰ جوابی وقت: ہم تمام پوچھ گچھ کا <strong>24-48 گھنٹے</strong> کے اندر جواب دینے کی کوشش کرتے ہیں۔ براہ کرم ویک اینڈ اور اسلامی تعطیلات کے دوران اضافی وقت دیں۔ آپ کے صبر کی تعریف کی جاتی ہے۔",
           duas: "🕌 دعائیں اور تعاون: براہ کرم ہمیں اور ہماری ٹیم کو اپنی دعاؤں میں یاد رکھیں۔ ہم اخلاص اور عمدگی کے ساتھ امت کی خدمت کرنے کے لیے پرعزم ہیں۔ اللہ ہماری کوششوں کو قبول فرمائے اور AdeenDesk کو سب کے لیے مفید بنائے۔"
-        },
-        // Inside the 'about' section, add this after 'featuresList':
-
-eventHub: {
-  title: "📢 اسلامی ایونٹ حب",
-  description: "اسلامی ایونٹ حب ایک ذہین، خودکار طور پر اپ ڈیٹ ہونے والا سیکشن ہے جو بروقت اسلامی معلومات اور اعلانات بغیر کسی صارف کی دستی مداخلت کے دکھاتا ہے۔",
-  features: [
-    "<strong>🕌 جمعہ کارڈ:</strong> ہر جمعہ کو ایک مخصوص کارڈ خود بخود ظاہر ہوتا ہے جس میں جمعہ کی سنتیں اور سفارشات ہوتی ہیں۔ یہ کارڈ جمعہ کی شام غروب آفتاب کے بعد خود بخود چھپ جاتا ہے۔",
-    "<strong>🌙 رمضان کاؤنٹ ڈاؤن:</strong> جب رمضان میں 99 دن باقی رہ جائیں تو ایک خودکار کاؤنٹ ڈاؤن کارڈ ظاہر ہوتا ہے تاکہ صارفین اس مبارک مہینے کی تیاری کر سکیں۔",
-    "<strong>📢 الرٹس اور اعلانات:</strong> اہم نوٹسز، فوری معلومات، اسلامی پروگرامز، اور ایونٹس ان کی مقررہ تاریخوں اور اوقات کی بنیاد پر خود بخود دکھائے جاتے ہیں۔",
-    "<strong>🔄 خودکار ایکسپائری:</strong> تمام کارڈز اور الرٹس خود بخود بند/چھپ جاتے ہیں جب ان کی متعلقہ تاریخ، وقت، یا میعاد ختم ہو جاتی ہے۔"
-  ],
-  note: "💡 یہ سیکشن صارفین کو اہم اسلامی ایونٹس اور اعلانات کے بارے میں باخبر رکھنے کے لیے ڈیزائن کیا گیا ہے بغیر اس کے کہ وہ کسی کارڈ کو دستی طور پر فعال یا غیر فعال کریں۔ سسٹم اسلامی تاریخوں اور اوقات کی بنیاد پر سب کچھ خود بخود ہینڈل کرتا ہے۔"
-},
-
-upcomingEvents: {
-  title: "✨ آنے والے اسلامی ایونٹس",
-  description: "آنے والے ایونٹس کا سیکشن اہم اسلامی تہواروں، مواقع، اہم اسلامی تاریخوں، اور آنے والے ایونٹس کو واضح، پڑھنے میں آسان فارمیٹ میں دکھاتا ہے۔",
-  features: [
-    "<strong>🕌 اسلامی تہوار:</strong> عید الفطر، عید الاضحی، اور دیگر بڑی اسلامی تقریبات۔",
-    "<strong>🌙 اہم تاریخیں:</strong> رمضان، لیلۃ القدر، حج، اور دیگر اہم اسلامی تاریخیں۔",
-    "<strong>📅 ماہانہ ایونٹس:</strong> ہجری سال کے دوران باقاعدہ اسلامی مواقع اور یادگاریں۔",
-    "<strong>🎯 آسان ٹریکنگ:</strong> صارفین کو آنے والی اہم اسلامی تاریخوں کا آسانی سے ٹریک رکھنے اور اس کے مطابق اپنی روحانی سرگرمیوں کی منصوبہ بندی کرنے میں مدد کرتا ہے۔"
-  ],
-  note: "💡 یہ سیکشن صارفین کو اسلامی کیلنڈر سے جڑے رہنے اور اہم مذہبی مواقع کو کبھی نہ بھولنے میں مدد کرتا ہے۔"
-}
+        }
       },
 
       // ==============================================================
-      // HINDI
+      // HINDI - COMPLETE
       // ==============================================================
       hi: {
         about: {
@@ -929,6 +933,28 @@ upcomingEvents: {
             "<strong>📰 इस्लामिक समाचार:</strong> मुस्लिम दुनिया भर से चुनिंदा समाचार अपडेट।",
             "<strong>🖼️ इमेज गैलरी:</strong> इस्लामिक चार्ट और छवियों के लिए ऑफलाइन स्टोरेज।"
           ],
+          eventHub: {
+            title: "📢 इस्लामिक इवेंट हब",
+            description: "इस्लामिक इवेंट हब एक बुद्धिमान, स्वचालित रूप से अपडेट होने वाला सेक्शन है जो बिना किसी उपयोगकर्ता की मैन्युअल हस्तक्षेप के समय पर इस्लामिक जानकारी और घोषणाएं प्रदर्शित करता है।",
+            features: [
+              "<strong>🕌 जुम्मा कार्ड:</strong> प्रत्येक शुक्रवार को एक समर्पित कार्ड स्वचालित रूप से दिखाई देता है जिसमें जुम्मा की सुन्नतें और सिफारिशें होती हैं। यह कार्ड शुक्रवार को सूर्यास्त के बाद स्वचालित रूप से छिप जाता है।",
+              "<strong>🌙 रमज़ान काउंटडाउन:</strong> जब रमज़ान में 99 दिन शेष रह जाते हैं, तो एक स्वचालित काउंटडाउन कार्ड दिखाई देता है ताकि उपयोगकर्ता इस मुबारक महीने की तैयारी कर सकें।",
+              "<strong>📢 अलर्ट और घोषणाएं:</strong> महत्वपूर्ण सूचनाएं, तत्काल जानकारी, इस्लामिक कार्यक्रम, और इवेंट्स उनकी निर्धारित तिथियों और समय के आधार पर स्वचालित रूप से प्रदर्शित होते हैं।",
+              "<strong>🔄 स्वचालित समाप्ति:</strong> सभी कार्ड और अलर्ट स्वचालित रूप से बंद/छिप जाते हैं जब उनकी संबंधित तिथि, समय, या समाप्ति अवधि बीत जाती है।"
+            ],
+            note: "💡 यह सेक्शन उपयोगकर्ताओं को महत्वपूर्ण इस्लामिक इवेंट्स और घोषणाओं के बारे में सूचित रखने के लिए डिज़ाइन किया गया है, बिना उन्हें किसी कार्ड को मैन्युअल रूप से सक्षम या अक्षम करने की आवश्यकता के। सिस्टम इस्लामिक तिथियों और समय के आधार पर सब कुछ स्वचालित रूप से संभालता है।"
+          },
+          upcomingEvents: {
+            title: "✨ आगामी इस्लामिक इवेंट्स",
+            description: "आगामी इवेंट्स सेक्शन महत्वपूर्ण इस्लामिक त्योहारों, अवसरों, महत्वपूर्ण इस्लामिक तिथियों, और आगामी इवेंट्स को स्पष्ट, पढ़ने में आसान प्रारूप में प्रदर्शित करता है।",
+            features: [
+              "<strong>🕌 इस्लामिक त्योहार:</strong> ईद-उल-फितर, ईद-उल-अज़हा, और अन्य प्रमुख इस्लामिक समारोह।",
+              "<strong>🌙 महत्वपूर्ण तिथियां:</strong> रमज़ान, लैलतुल क़द्र, हज्ज, और अन्य महत्वपूर्ण इस्लामिक तिथियां।",
+              "<strong>📅 मासिक इवेंट्स:</strong> हिजरी वर्ष के दौरान नियमित इस्लामिक अवसर और स्मरणोत्सव।",
+              "<strong>🎯 आसान ट्रैकिंग:</strong> उपयोगकर्ताओं को आगामी महत्वपूर्ण इस्लामिक तिथियों का आसानी से ट्रैक रखने और तदनुसार अपनी आध्यात्मिक गतिविधियों की योजना बनाने में मदद करता है।"
+            ],
+            note: "💡 यह सेक्शन उपयोगकर्ताओं को इस्लामिक कैलेंडर से जुड़े रहने और महत्वपूर्ण धार्मिक अवसरों को कभी न भूलने में मदद करता है।"
+          },
           vision: "🌍 हमारा दृष्टिकोण",
           visionText: "हम AdeenDesk को दुनिया भर के मुसलमानों के लिए एक भरोसेमंद साथी के रूप में देखते हैं — एक डिजिटल स्थान जो प्रौद्योगिकी को आध्यात्मिकता के साथ जोड़ता है, इस्लामिक ज्ञान और अभ्यास को सभी के लिए अधिक सुलभ बनाता है, चाहे उनका स्थान या पृष्ठभूमि कुछ भी हो।",
           freeNote: "✅ <strong>पूरी तरह से मुफ्त:</strong> यह प्लेटफ़ॉर्म है और हमेशा पूरी तरह से मुफ्त रहेगा। हम बिना किसी वित्तीय बाधा के उम्मत की सेवा करने में विश्वास करते हैं।",
@@ -962,8 +988,38 @@ upcomingEvents: {
           thirdPartyNote: "इन सेवाओं की अपनी गोपनीयता नीतियां हैं। हम बिना किसी व्यक्तिगत पहचान के केवल गुमनाम लोकेशन अनुरोध भेजते हैं।",
           ads: "📢 थर्ड-पार्टी विज्ञापन",
           adsText: "हम <strong>Google AdSense</strong> और अन्य प्रतिष्ठित विज्ञापन नेटवर्क का उपयोग कर सकते हैं जो गैर-व्यक्तिगत विज्ञापन प्रदर्शित करने के लिए कुकीज़ का उपयोग कर सकते हैं। ये विज्ञापन आपके व्यक्तिगत डेटा या ब्राउज़िंग इतिहास पर आधारित नहीं हैं। आप Google की Ad Settings पर जाकर व्यक्तिगत विज्ञापन से ऑप्ट आउट कर सकते हैं।",
+          adsDisclaimer: {
+            title: "📢 विज्ञापन और थर्ड-पार्टी सेवाएं",
+            intro: "इस प्लेटफ़ॉर्म के संचालन और विकास को समर्थन देने के लिए, हम समय-समय पर विज्ञापन, प्रमोशनल बैनर, पोस्टर, एफिलिएट लिंक, या अन्य प्रमोशनल सामग्री प्रदर्शित कर सकते हैं। इनमें हमारे अपने एफिलिएट लिंक, थर्ड-पार्टी व्यवसाय, उत्पाद, सेवाएं, या अन्य वाणिज्यिक प्रमोशन शामिल हो सकते हैं।",
+            points: [
+              "<strong>🤝 प्रत्यक्ष लेन-देन:</strong> यदि आप किसी विज्ञापनदाता, विक्रेता, व्यवसाय, या सेवा प्रदाता से ऐसे विज्ञापनों या लिंक के माध्यम से संपर्क करते हैं, खरीदारी करते हैं, या अन्य तरीके से बातचीत करते हैं, तो आपके लेन-देन सीधे उस थर्ड-पार्टी के साथ होते हैं। हम उन लेन-देन का हिस्सा नहीं हैं।",
+              "<strong>❌ कोई गारंटी नहीं:</strong> हम किसी भी थर्ड-पार्टी उत्पाद या सेवा की गुणवत्ता, प्रामाणिकता, उपलब्धता, डिलीवरी, रिफंड, या प्रदर्शन की गारंटी नहीं दे सकते। यदि आप किसी उत्पाद या सेवा के लिए अग्रिम भुगतान करते हैं और उसे प्राप्त नहीं करते हैं, या किसी धोखाधड़ी, विवाद, हानि, या अन्य समस्या का सामना करते हैं, तो हम लागू कानून द्वारा अनुमत सीमा तक ऐसे थर्ड-पार्टी लेन-देन या परिणामी नुकसान के लिए जिम्मेदार नहीं होंगे।",
+              "<strong>🔒 आपकी जिम्मेदारी:</strong> हम आपको दृढ़ता से सलाह देते हैं कि किसी भी विक्रेता, विज्ञापनदाता, व्यवसाय, या सेवा प्रदाता से व्यवहार करने से पहले अपनी बुद्धि और उचित जांच का उपयोग करें। अज्ञात या अविश्वसनीय व्यक्तियों या व्यवसायों के साथ अपने बैंक खाते का विवरण, पासवर्ड, PINs, CVV, OTPs, या अन्य गोपनीय जानकारी जैसी संवेदनशील व्यक्तिगत या वित्तीय जानकारी कभी भी साझा न करें।",
+              "<strong>📊 वाणिज्यिक व्यवस्थाएं:</strong> कुछ विज्ञापन भुगतान प्रमोशनल व्यवस्थाओं, सब्सक्रिप्शन, एफिलिएट पार्टनरशिप, या अन्य वाणिज्यिक समझौतों के माध्यम से प्रदर्शित किए जा सकते हैं। विज्ञापन हमारी अपनी नीतियों और विवेक के आधार पर स्वीकार और प्रदर्शित किए जा सकते हैं।",
+              "<strong>🚫 कोई समर्थन नहीं:</strong> इस प्लेटफ़ॉर्म पर किसी विज्ञापन की उपस्थिति को विज्ञापित उत्पाद, सेवा, विक्रेता, या व्यवसाय के समर्थन, गारंटी, या सिफारिश के रूप में नहीं समझा जाना चाहिए। हम प्रत्येक विज्ञापन में प्रस्तुत हर दावे, प्रस्ताव, उत्पाद, सेवा, या व्यवसाय को स्वतंत्र रूप से सत्यापित करने में सक्षम नहीं हो सकते हैं।",
+              "<strong>⚠️ उपयोगकर्ता की स्वीकृति:</strong> किसी भी थर्ड-पार्टी विज्ञापन, एफिलिएट लिंक, विक्रेता, या सेवा प्रदाता के साथ बातचीत करके, आप स्वीकार करते हैं कि ऐसी बातचीत आपके अपने विवेक और जोखिम पर है।"
+            ],
+            thankYou: "आपके धैर्य, समझ और निरंतर समर्थन के लिए धन्यवाद।"
+          },
           futureBackend: "🚀 भविष्य की बैकएंड सेवाएं",
           futureBackendText: "भविष्य में, हम उपयोगकर्ता अनुभव को बढ़ाने के लिए Firebase या अन्य समान तकनीकों जैसी बैकएंड सेवाएं शुरू कर सकते हैं। यदि ऐसी सेवाओं को लागू किया जाता है, तो अतिरिक्त सुविधाएं प्रदान करने के लिए कुछ प्रकार के उपयोगकर्ता डेटा को संग्रहीत या संसाधित करने की आवश्यकता हो सकती है। यदि ऐसा होता है, तो हमारी गोपनीयता नीति को तदनुसार अपडेट किया जाएगा, और उपयोगकर्ताओं को सूचित किया जाएगा कि कौन सा डेटा एकत्र किया जाता है, इसकी आवश्यकता क्यों है, और इसे कैसे संभाला जाता है। <strong>हालाँकि, वर्तमान में, बैकएंड सर्वर पर उपयोगकर्ता डेटा संग्रहीत करने की हमारी कोई योजना या इरादा नहीं है।</strong>",
+          quranApi: {
+            title: "📖 कुरानिक डेटा स्रोत और सार्वजनिक API स्वीकृति",
+            description: "AdeenDesk कुरानिक अरबी पाठ, तिलावत से संबंधित मेटाडेटा, और उर्दू, अंग्रेज़ी, और हिंदी सहित कई भाषाओं में अनुवाद प्राप्त करने के लिए ओपन-सोर्स <strong>AlQuran.cloud API</strong> (इस्लामिक नेटवर्क) का उपयोग करता है।",
+            disclaimer: "हम कुरानिक पाठ के स्वामित्व का दावा नहीं करते हैं। कुरानिक सामग्री शैक्षिक और धार्मिक पठन उद्देश्यों के लिए API के माध्यम से प्रदान की जाती है। हम ओपन-सोर्स इस्लामिक API इंफ्रास्ट्रक्चर के डेवलपर्स और मेंटेनरों के आभारी हैं जो इस सेवा को उपलब्ध कराते हैं।",
+            note: "⚠️ <strong>महत्वपूर्ण नोट:</strong> कुरानिक डेटा थर्ड-पार्टी APIs से प्राप्त किया जाता है। जबकि हम विश्वसनीय स्रोतों का उपयोग करने का प्रयास करते हैं, हम थर्ड-पार्टी API डेटा के प्रत्येक टुकड़े की प्रामाणिकता या सटीकता की स्वतंत्र रूप से गारंटी नहीं देते हैं। उपयोगकर्ताओं को धार्मिक मामलों के लिए प्रामाणिक स्रोतों से क्रॉस-रेफरेंस करने के लिए प्रोत्साहित किया जाता है।"
+          },
+          pwaSection: {
+            title: "📱 प्रोग्रेसिव वेब ऐप (PWA) और ऑफलाइन कार्यक्षमता",
+            description: "AdeenDesk को एक इंस्टॉल करने योग्य <strong>प्रोग्रेसिव वेब ऐप (PWA)</strong> के रूप में डिज़ाइन किया गया है। उपयोगकर्ता वेबसाइट को अपने समर्थित डिवाइस/ब्राउज़र पर इंस्टॉल कर सकते हैं और इसे एक देशी एप्लिकेशन की तरह अधिक आसानी से एक्सेस कर सकते हैं।",
+            features: [
+              "<strong>नेटवर्क-फर्स्ट रणनीति:</strong> जब इंटरनेट कनेक्शन उपलब्ध होता है, तो एप्लिकेशन पहले ऑनलाइन स्रोतों से नवीनतम सामग्री प्राप्त करने का प्रयास करता है। जब नेटवर्क उपलब्ध नहीं होता है, तो समर्थित सामग्री ब्राउज़र के लोकल कैश से प्रदान की जा सकती है।",
+              "<strong>स्वचालित अपडेट:</strong> जब वेबसाइट का एक नया संस्करण तैनात किया जाता है, तो सर्विस वर्कर अपडेट की गई फ़ाइलों का पता लगा सकता है और कैश की गई एप्लिकेशन संसाधनों को अपडेट कर सकता है।",
+              "<strong>मैन्युअल अपडेट / रिफ्रेश:</strong> यदि एक अपडेटेड संस्करण उपलब्ध है लेकिन ब्राउज़र अभी भी एक पुराने कैश किए गए संस्करण का उपयोग कर रहा है, तो उपयोगकर्ता को नवीनतम संस्करण लोड करने की अनुमति देने के लिए एक अपडेट प्रॉम्प्ट, रिफ्रेश बटन, या समान तंत्र प्रदान किया जा सकता है।",
+              "<strong>लोकल डेटा:</strong> PWA को इंस्टॉल या अपडेट करने से लोकल रूप से संग्रहीत डेटा हमारे सर्वर पर स्थानांतरित नहीं होता है। हालाँकि, उपयोगकर्ताओं को अपने ब्राउज़र के स्टोरेज/कैश को अनावश्यक रूप से साफ़ करने से बचना चाहिए, क्योंकि ब्राउज़र और कार्यान्वयन के आधार पर लोकल रूप से संग्रहीत जानकारी खो सकती है।"
+            ],
+            warning: "⚠️ <strong>महत्वपूर्ण:</strong> जबकि PWA प्रदर्शन में सुधार करता है और कुछ सुविधाओं तक ऑफलाइन पहुंच प्रदान करता है, यह प्लेटफ़ॉर्म को पूरी तरह से ऑफलाइन कार्यात्मक नहीं बनाता है। जिन सुविधाओं को रीयल-टाइम डेटा की आवश्यकता होती है (जैसे लाइव नमाज़ के समय, समाचार, और वर्तमान किबला दिशा) उन्हें अभी भी इंटरनेट कनेक्शन की आवश्यकता होती है।"
+          },
           children: "👶 बच्चों की गोपनीयता",
           childrenText: "AdeenDesk जानबूझकर 13 वर्ष से कम उम्र के बच्चों से व्यक्तिगत जानकारी एकत्र नहीं करता है। यदि आप माता-पिता या अभिभावक हैं और आपको विश्वास है कि आपके बच्चे ने हमें व्यक्तिगत जानकारी प्रदान की है, तो कृपया हमसे संपर्क करें।",
           changes: "📝 इस नीति में परिवर्तन",
@@ -1058,36 +1114,11 @@ upcomingEvents: {
           ],
           response: "⏰ प्रतिक्रिया समय: हम सभी पूछताछ का <strong>24-48 घंटे</strong> के भीतर जवाब देने का प्रयास करते हैं। कृपया सप्ताहांत और इस्लामिक छुट्टियों के दौरान अतिरिक्त समय दें। आपके धैर्य की सराहना की जाती है।",
           duas: "🕌 दुआएं और समर्थन: कृपया हमें और हमारी टीम को अपनी दुआओं में याद रखें। हम ईमानदारी और उत्कृष्टता के साथ उम्मत की सेवा करने के लिए प्रतिबद्ध हैं। अल्लाह हमारे प्रयासों को स्वीकार करे और AdeenDesk को सभी के लिए लाभदायक बनाए।"
-        },
-        // Inside the 'about' section, add this after 'featuresList':
-
-eventHub: {
-  title: "📢 इस्लामिक इवेंट हब",
-  description: "इस्लामिक इवेंट हब एक बुद्धिमान, स्वचालित रूप से अपडेट होने वाला सेक्शन है जो बिना किसी उपयोगकर्ता की मैन्युअल हस्तक्षेप के समय पर इस्लामिक जानकारी और घोषणाएं प्रदर्शित करता है।",
-  features: [
-    "<strong>🕌 जुम्मा कार्ड:</strong> प्रत्येक शुक्रवार को एक समर्पित कार्ड स्वचालित रूप से दिखाई देता है जिसमें जुम्मा की सुन्नतें और सिफारिशें होती हैं। यह कार्ड शुक्रवार को सूर्यास्त के बाद स्वचालित रूप से छिप जाता है।",
-    "<strong>🌙 रमज़ान काउंटडाउन:</strong> जब रमज़ान में 99 दिन शेष रह जाते हैं, तो एक स्वचालित काउंटडाउन कार्ड दिखाई देता है ताकि उपयोगकर्ता इस मुबारक महीने की तैयारी कर सकें।",
-    "<strong>📢 अलर्ट और घोषणाएं:</strong> महत्वपूर्ण सूचनाएं, तत्काल जानकारी, इस्लामिक कार्यक्रम, और इवेंट्स उनकी निर्धारित तिथियों और समय के आधार पर स्वचालित रूप से प्रदर्शित होते हैं।",
-    "<strong>🔄 स्वचालित समाप्ति:</strong> सभी कार्ड और अलर्ट स्वचालित रूप से बंद/छिप जाते हैं जब उनकी संबंधित तिथि, समय, या समाप्ति अवधि बीत जाती है।"
-  ],
-  note: "💡 यह सेक्शन उपयोगकर्ताओं को महत्वपूर्ण इस्लामिक इवेंट्स और घोषणाओं के बारे में सूचित रखने के लिए डिज़ाइन किया गया है, बिना उन्हें किसी कार्ड को मैन्युअल रूप से सक्षम या अक्षम करने की आवश्यकता के। सिस्टम इस्लामिक तिथियों और समय के आधार पर सब कुछ स्वचालित रूप से संभालता है।"
-},
-
-upcomingEvents: {
-  title: "✨ आगामी इस्लामिक इवेंट्स",
-  description: "आगामी इवेंट्स सेक्शन महत्वपूर्ण इस्लामिक त्योहारों, अवसरों, महत्वपूर्ण इस्लामिक तिथियों, और आगामी इवेंट्स को स्पष्ट, पढ़ने में आसान प्रारूप में प्रदर्शित करता है।",
-  features: [
-    "<strong>🕌 इस्लामिक त्योहार:</strong> ईद-उल-फितर, ईद-उल-अज़हा, और अन्य प्रमुख इस्लामिक समारोह।",
-    "<strong>🌙 महत्वपूर्ण तिथियां:</strong> रमज़ान, लैलतुल क़द्र, हज्ज, और अन्य महत्वपूर्ण इस्लामिक तिथियां।",
-    "<strong>📅 मासिक इवेंट्स:</strong> हिजरी वर्ष के दौरान नियमित इस्लामिक अवसर और स्मरणोत्सव।",
-    "<strong>🎯 आसान ट्रैकिंग:</strong> उपयोगकर्ताओं को आगामी महत्वपूर्ण इस्लामिक तिथियों का आसानी से ट्रैक रखने और तदनुसार अपनी आध्यात्मिक गतिविधियों की योजना बनाने में मदद करता है।"
-  ],
-  note: "💡 यह सेक्शन उपयोगकर्ताओं को इस्लामिक कैलेंडर से जुड़े रहने और महत्वपूर्ण धार्मिक अवसरों को कभी न भूलने में मदद करता है।"
-}
+        }
       },
 
       // ==============================================================
-      // HINGLISH (Romanized Urdu/Hindi)
+      // HINGLISH - COMPLETE
       // ==============================================================
       hinglish: {
         about: {
@@ -1110,6 +1141,28 @@ upcomingEvents: {
             "<strong>📰 Islamic News:</strong> Muslim world se curated news updates.",
             "<strong>🖼️ Image Gallery:</strong> Islamic charts aur images ke liye offline storage."
           ],
+          eventHub: {
+            title: "📢 Islamic Event Hub",
+            description: "Islamic Event Hub ek intelligent, auto-update hone wala section hai jo timely Islamic information aur announcements bina kisi user ki manual intervention ke dikhata hai.",
+            features: [
+              "<strong>🕌 Jumu'ah Card:</strong> Har Jumu'ah (Friday) ko ek dedicated card automatically appear hota hai jisme Jumu'ah ki Sunnahs aur recommendations hoti hain. Yeh card Friday ke sunset ke baad auto-hide ho jaata hai.",
+              "<strong>🌙 Ramadan Countdown:</strong> Jab Ramadan mein 99 days baqi reh jaate hain toh ek automatic countdown card appear hota hai jo users ko blessed month ki preparation mein help karta hai.",
+              "<strong>📢 Alerts & Announcements:</strong> Important notices, urgent information, Islamic programs, aur events unki scheduled dates aur times ke based par automatically display hote hain.",
+              "<strong>🔄 Auto-Expiry:</strong> Saare cards aur alerts automatically close/hide ho jaate hain jab unki relevant date, time, ya expiry period pass ho jaati hai."
+            ],
+            note: "💡 Yeh section users ko important Islamic events aur announcements ke baare mein informed rakhne ke liye design kiya gaya hai bina unhe kisi card ko manually enable ya disable karne ki zaroorat ke. System Islamic dates aur times ke based par sab kuch automatically handle karta hai."
+          },
+          upcomingEvents: {
+            title: "✨ Upcoming Islamic Events",
+            description: "Upcoming Events section important Islamic festivals, occasions, significant Islamic dates, aur upcoming events ko clear, easy-to-read format mein display karta hai.",
+            features: [
+              "<strong>🕌 Islamic Festivals:</strong> Eid-ul-Fitr, Eid-ul-Adha, aur other major Islamic celebrations.",
+              "<strong>🌙 Significant Dates:</strong> Ramadan, Laylatul Qadr, Hajj, aur other important Islamic dates.",
+              "<strong>📅 Monthly Events:</strong> Regular Islamic occasions aur commemorations throughout the Hijri year.",
+              "<strong>🎯 Easy Tracking:</strong> Users ko important upcoming Islamic dates ka easily track rakhne aur accordingly apni spiritual activities plan karne mein help karta hai."
+            ],
+            note: "💡 Yeh section users ko Islamic calendar se jude rahne aur important religious occasions ko kabhi na bhoolne mein help karta hai."
+          },
           vision: "🌍 Hamara Vision",
           visionText: "Hum AdeenDesk ko Muslims ke liye ek trusted companion ke roop mein dekhte hain — ek digital space jo technology ko spirituality ke saath jodta hai, Islamic knowledge aur practice ko sab ke liye zyada accessible banata hai, chahe unka location ya background kuch bhi ho.",
           freeNote: "✅ <strong>Completely Free:</strong> Yeh platform hai aur hamesha completely free rahega. Hum bina kisi financial barrier ke Ummah ki service karne mein believe karte hain.",
@@ -1143,8 +1196,38 @@ upcomingEvents: {
           thirdPartyNote: "In services ki apni privacy policies hain. Hum bina kisi personal identification ke sirf anonymous location requests bhejte hain.",
           ads: "📢 Third-Party Ads",
           adsText: "Hum <strong>Google AdSense</strong> aur other reputable advertising networks use kar sakte hain jo non-personalized advertisements dikhane ke liye cookies use kar sakte hain. Yeh ads aapke personal data ya browsing history par based nahi hain. Aap Google ki Ad Settings par jaakar personalized advertising se opt out kar sakte hain.",
+          adsDisclaimer: {
+            title: "📢 Advertisements & Third-Party Services",
+            intro: "Is platform ke operation aur development ko support karne ke liye, hum time-to-time advertisements, promotional banners, posters, affiliate links, ya other promotional content display kar sakte hain. Inme humare apne affiliate links, third-party businesses, products, services, ya other commercial promotions shamil ho sakte hain.",
+            points: [
+              "<strong>🤝 Direct Dealings:</strong> Agar aap kisi advertiser, seller, business, ya service provider se aise advertisements ya links ke through contact karte hain, purchase karte hain, ya otherwise interact karte hain, toh aapke dealings directly us third-party ke saath hain. Hum un transactions ka part nahi hain.",
+              "<strong>❌ No Guarantees:</strong> Hum kisi bhi third-party product ya service ki quality, authenticity, availability, delivery, refund, ya performance ki guarantee nahi de sakte. Agar aap kisi product ya service ke liye advance payment karte hain aur use receive nahi karte, ya kisi fraud, dispute, loss, ya other issue ka samna karte hain, toh hum applicable law ki had tak aise third-party transactions ya resulting losses ke zimmedar nahi honge.",
+              "<strong>🔒 Aapki Zimmedari:</strong> Hum aapko sakht advisement dete hain ke kisi bhi seller, advertiser, business, ya service provider se deal karne se pehle apni aqal aur appropriate checks ka use karein. Unknown ya untrusted individuals ya businesses ke saath apne bank account details, passwords, PINs, CVV, OTPs, ya other confidential information jaise sensitive personal ya financial information kabhi bhi share na karein.",
+              "<strong>📊 Commercial Arrangements:</strong> Kuch advertisements paid promotional arrangements, subscriptions, affiliate partnerships, ya other commercial agreements ke through display kiye ja sakte hain. Advertisements hamari apni policies aur discretion ke based par accept aur display kiye ja sakte hain.",
+              "<strong>🚫 No Endorsement:</strong> Is platform par kisi advertisement ki maujoodgi ko advertised product, service, seller, ya business ki endorsement, guarantee, ya recommendation ke roop mein nahi samjha jaana chahiye. Hum har advertisement mein pesh kiye gaye har claim, offer, product, service, ya business ko independently verify karne ke qabil nahi ho sakte.",
+              "<strong>⚠️ User Acknowledgment:</strong> Kisi bhi third-party advertisement, affiliate link, seller, ya service provider ke saath interact karke, aap acknowledge karte hain ke aisi interaction aapki apni discretion aur risk par hai."
+            ],
+            thankYou: "Aapke sabr, understanding, aur continuous support ke liye shukriya."
+          },
           futureBackend: "🚀 Future Backend Services",
           futureBackendText: "Future mein, hum user experience enhance karne ke liye Firebase ya other similar technologies jaise backend services introduce kar sakte hain. Agar aisi services implement ki jaati hain, toh kuch types ke user data ko store ya process karne ki zaroorat ho sakti hai additional features provide karne ke liye. Agar aisa hota hai, toh hamari Privacy Policy ko accordingly update kiya jayega, aur users ko inform kiya jayega ke kaunsa data collect kiya jaata hai, kyun zaroori hai, aur kaise handle kiya jaata hai. <strong>Lekin, present mein, backend server par user data store karne ka hamara koi plan ya intention nahi hai.</strong>",
+          quranApi: {
+            title: "📖 Quranic Data Source & Public API Attribution",
+            description: "AdeenDesk open-source <strong>AlQuran.cloud API</strong> (Islamic Network) ka use karta hai Quranic Arabic text, recitation-related metadata, aur Urdu, English, aur Hindi samait multiple languages mein translations retrieve karne ke liye.",
+            disclaimer: "Hum Quranic text ki ownership claim nahi karte. Quranic content API ke through educational aur religious reading purposes ke liye provide kiya jaata hai. Hum open-source Islamic API infrastructure ke developers aur maintainers ke shukraguzar hain jo is service ko available banate hain.",
+            note: "⚠️ <strong>Important Note:</strong> Quranic data third-party APIs se sourced hai. Jabke hum reliable sources use karne ki koshish karte hain, hum third-party API data ke har piece ki authenticity ya accuracy ki independently guarantee nahi dete. Users ko religious matters ke liye authentic sources se cross-reference karne ki targheeb di jaati hai."
+          },
+          pwaSection: {
+            title: "📱 Progressive Web App (PWA) & Offline Functionality",
+            description: "AdeenDesk ko ek installable <strong>Progressive Web App (PWA)</strong> ke roop mein design kiya gaya hai. Users website ko apne supported device/browser par install kar sakte hain aur ise ek native application ki tarah zyada aasani se access kar sakte hain.",
+            features: [
+              "<strong>Network-First Strategy:</strong> Jab internet connection available ho toh application pehle online sources se latest content retrieve karne ki koshish karti hai. Jab network available na ho toh supported content browser ke local cache se serve kiya ja sakta hai.",
+              "<strong>Automatic Updates:</strong> Jab website ka naya version deploy kiya jaata hai toh Service Worker updated files ko detect kar sakta hai aur cached application resources ko update kar sakta hai.",
+              "<strong>Manual Update / Refresh:</strong> Agar updated version available hai lekin browser abhi bhi purana cached version use kar raha hai toh user ko latest version load karne ki permission dene ke liye update prompt, refresh button, ya similar mechanism provide kiya ja sakta hai.",
+              "<strong>Local Data:</strong> PWA ko install ya update karne se locally stored data hamare servers par transfer nahi hota. Lekin, users ko apne browser ka storage/cache unnecessarily clear karne se bachna chahiye, kyunki browser aur implementation ke hisaab se locally stored information lost ho sakti hai."
+            ],
+            warning: "⚠️ <strong>Important:</strong> Jabke PWA performance improve karta hai aur kuch features tak offline access provide karta hai, ye platform ko completely offline functional nahi banata. Jin features ko real-time data ki zaroorat hoti hai (jaise live prayer times, news, aur current Qibla direction) unhe abhi bhi internet connection ki zaroorat hoti hai."
+          },
           children: "👶 Children's Privacy",
           childrenText: "AdeenDesk jaann-boojh kar 13 saal se kam umar ke bachon se personal information collect nahi karta. Agar aap parent ya guardian hain aur aapko believe hai ke aapke bachhe ne humein personal information provide ki hai, toh please humse contact karein.",
           changes: "📝 Is Policy Mein Changes",
@@ -1239,37 +1322,12 @@ upcomingEvents: {
           ],
           response: "⏰ Response Time: Hum saari inquiries ka <strong>24-48 ghante</strong> ke andar jawab dene ki koshish karte hain. Please weekends aur Islamic holidays ke dauran extra time dein. Aapke sabr ki qadr ki jaati hai.",
           duas: "🕌 Duas & Support: Please humein aur hamari team ko apni duas mein yaad rakhein. Hum ikhlas aur excellence ke saath Ummah ki service karne ke liye committed hain. Allah hamari koshishon ko qubool farmaye aur AdeenDesk ko sab ke liye faidemand banaye."
-        },
-        // Inside the 'about' section, add this after 'featuresList':
-
-eventHub: {
-  title: "📢 Islamic Event Hub",
-  description: "Islamic Event Hub ek intelligent, auto-update hone wala section hai jo timely Islamic information aur announcements bina kisi user ki manual intervention ke dikhata hai.",
-  features: [
-    "<strong>🕌 Jumu'ah Card:</strong> Har Jumu'ah (Friday) ko ek dedicated card automatically appear hota hai jisme Jumu'ah ki Sunnahs aur recommendations hoti hain. Yeh card Friday ke sunset ke baad auto-hide ho jaata hai.",
-    "<strong>🌙 Ramadan Countdown:</strong> Jab Ramadan mein 99 days baqi reh jaate hain toh ek automatic countdown card appear hota hai jo users ko blessed month ki preparation mein help karta hai.",
-    "<strong>📢 Alerts & Announcements:</strong> Important notices, urgent information, Islamic programs, aur events unki scheduled dates aur times ke based par automatically display hote hain.",
-    "<strong>🔄 Auto-Expiry:</strong> Saare cards aur alerts automatically close/hide ho jaate hain jab unki relevant date, time, ya expiry period pass ho jaati hai."
-  ],
-  note: "💡 Yeh section users ko important Islamic events aur announcements ke baare mein informed rakhne ke liye design kiya gaya hai bina unhe kisi card ko manually enable ya disable karne ki zaroorat ke. System Islamic dates aur times ke based par sab kuch automatically handle karta hai."
-},
-
-upcomingEvents: {
-  title: "✨ Upcoming Islamic Events",
-  description: "Upcoming Events section important Islamic festivals, occasions, significant Islamic dates, aur upcoming events ko clear, easy-to-read format mein display karta hai.",
-  features: [
-    "<strong>🕌 Islamic Festivals:</strong> Eid-ul-Fitr, Eid-ul-Adha, aur other major Islamic celebrations.",
-    "<strong>🌙 Significant Dates:</strong> Ramadan, Laylatul Qadr, Hajj, aur other important Islamic dates.",
-    "<strong>📅 Monthly Events:</strong> Regular Islamic occasions aur commemorations throughout the Hijri year.",
-    "<strong>🎯 Easy Tracking:</strong> Users ko important upcoming Islamic dates ka easily track rakhne aur accordingly apni spiritual activities plan karne mein help karta hai."
-  ],
-  note: "💡 Yeh section users ko Islamic calendar se jude rahne aur important religious occasions ko kabhi na bhoolne mein help karta hai."
-}
+        }
       }
     };
 
     // ================================================================
-    // RENDER FUNCTION
+    // RENDER FUNCTION - UPDATED TO DISPLAY ALL SECTIONS
     // ================================================================
     let currentLanguage = 'en';
     let currentTab = 'about';
@@ -1293,7 +1351,9 @@ upcomingEvents: {
             <p class="last-updated">${section.lastUpdated}</p>
         `;
 
-        // About Section
+        // ==========================================================
+        // ABOUT SECTION - WITH EVENT HUB & UPCOMING EVENTS
+        // ==========================================================
         if (sectionId === 'about') {
           html += `
             <p itemprop="description">${section.description}</p>
@@ -1301,6 +1361,23 @@ upcomingEvents: {
             <p>${section.missionText}</p>
             <h3>${section.features}</h3>
             <ul>${section.featuresList.map(item => `<li>${item}</li>`).join('')}</ul>
+            
+            <!-- Event Hub -->
+            <h3>${section.eventHub.title}</h3>
+            <p>${section.eventHub.description}</p>
+            <ul>${section.eventHub.features.map(item => `<li>${item}</li>`).join('')}</ul>
+            <div class="highlight-box">
+              <p>${section.eventHub.note}</p>
+            </div>
+            
+            <!-- Upcoming Events -->
+            <h3>${section.upcomingEvents.title}</h3>
+            <p>${section.upcomingEvents.description}</p>
+            <ul>${section.upcomingEvents.features.map(item => `<li>${item}</li>`).join('')}</ul>
+            <div class="highlight-box">
+              <p>${section.upcomingEvents.note}</p>
+            </div>
+            
             <h3>${section.vision}</h3>
             <p>${section.visionText}</p>
             <div class="success-box">
@@ -1312,7 +1389,9 @@ upcomingEvents: {
           `;
         }
 
-        // Privacy Section
+        // ==========================================================
+        // PRIVACY SECTION - WITH ALL NEW SECTIONS
+        // ==========================================================
         if (sectionId === 'privacy') {
           html += `
             <p>${section.intro}</p>
@@ -1331,10 +1410,40 @@ upcomingEvents: {
             <h3>${section.thirdParty}</h3>
             <ul>${section.thirdPartyList.map(item => `<li>${item}</li>`).join('')}</ul>
             <p>${section.thirdPartyNote}</p>
+            
+            <!-- Third-Party Ads -->
             <h3>${section.ads}</h3>
             <p>${section.adsText}</p>
+            
+            <!-- Ads Disclaimer -->
+            <h3>${section.adsDisclaimer.title}</h3>
+            <p>${section.adsDisclaimer.intro}</p>
+            <ul>${section.adsDisclaimer.points.map(item => `<li>${item}</li>`).join('')}</ul>
+            <div class="highlight-box">
+              <p>${section.adsDisclaimer.thankYou}</p>
+            </div>
+            
+            <!-- Future Backend -->
             <h3>${section.futureBackend}</h3>
             <p>${section.futureBackendText}</p>
+            
+            <!-- Quran API -->
+            <h3>${section.quranApi.title}</h3>
+            <p>${section.quranApi.description}</p>
+            <p>${section.quranApi.disclaimer}</p>
+            <div class="warning-box">
+              <p>${section.quranApi.note}</p>
+            </div>
+            
+            <!-- PWA Section -->
+            <h3>${section.pwaSection.title}</h3>
+            <p>${section.pwaSection.description}</p>
+            <ul>${section.pwaSection.features.map(item => `<li>${item}</li>`).join('')}</ul>
+            <div class="warning-box">
+              <p>${section.pwaSection.warning}</p>
+            </div>
+            
+            <!-- Children, Changes, Contact -->
             <h3>${section.children}</h3>
             <p>${section.childrenText}</p>
             <h3>${section.changes}</h3>
@@ -1344,7 +1453,9 @@ upcomingEvents: {
           `;
         }
 
-        // Terms Section
+        // ==========================================================
+        // TERMS SECTION
+        // ==========================================================
         if (sectionId === 'terms') {
           html += `
             <p>${section.intro}</p>
@@ -1378,7 +1489,9 @@ upcomingEvents: {
           `;
         }
 
-        // Disclaimer Section
+        // ==========================================================
+        // DISCLAIMER SECTION
+        // ==========================================================
         if (sectionId === 'disclaimer') {
           html += `
             <div class="warning-box">
@@ -1412,11 +1525,13 @@ upcomingEvents: {
           `;
         }
 
-        // Contact Section
+        // ==========================================================
+        // CONTACT SECTION
+        // ==========================================================
         if (sectionId === 'contact') {
           html += `
             <p>${section.intro}</p>
-            <h3>📧 Kaise Reach Karein</h3>
+            <h3>📧 How to Reach Us</h3>
             <div class="contact-info-grid">
               <div class="contact-item">
                 <strong>${section.email}</strong>
@@ -1460,15 +1575,12 @@ upcomingEvents: {
     function switchLanguage(lang) {
       currentLanguage = lang;
       
-      // Update language buttons
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
       });
 
-      // Re-render content
       renderContent(lang, currentTab);
       
-      // Update active tab state
       document.querySelectorAll('.legal-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.tab === currentTab);
       });
@@ -1486,13 +1598,10 @@ upcomingEvents: {
           const tabId = this.dataset.tab;
           currentTab = tabId;
           
-          // Update tabs
           tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
           
-          // Update URL hash
           history.pushState(null, '', '#' + tabId);
           
-          // Re-render content with current language
           renderContent(currentLanguage, tabId);
         });
       });
@@ -1502,33 +1611,26 @@ upcomingEvents: {
     // INITIALIZATION
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
-      // Get language from localStorage or default to 'en'
       const savedLang = localStorage.getItem('adeendesk_legal_lang') || 'en';
       
-      // Get tab from URL hash
       const hash = window.location.hash.replace('#', '');
       const initialTab = (hash && document.querySelector(`[data-tab="${hash}"]`)) ? hash : 'about';
       
       currentLanguage = savedLang;
       currentTab = initialTab;
       
-      // Set active language button
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === savedLang);
       });
       
-      // Set active tab
       document.querySelectorAll('.legal-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.tab === initialTab);
       });
       
-      // Render initial content
       renderContent(savedLang, initialTab);
       
-      // Setup tab click handlers
       setupTabs();
       
-      // Handle hash changes
       window.addEventListener('hashchange', function() {
         const newHash = window.location.hash.replace('#', '');
         if (newHash && document.querySelector(`[data-tab="${newHash}"]`)) {
@@ -1541,7 +1643,6 @@ upcomingEvents: {
       });
     });
 
-    // Save language preference
     document.addEventListener('DOMContentLoaded', function() {
       const langButtons = document.querySelectorAll('.lang-btn');
       langButtons.forEach(btn => {
