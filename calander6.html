@@ -1899,6 +1899,7 @@
     let currentModalActiveArticle = {};
 // Global variable for today's 10 words
 let todaySeededWordsList = [];
+let todayHistoryEventForCopy = null;   
     const slidingCountries = [
       { name: "Saudi Arabia", flag: "🇸🇦", zone: "Asia/Riyadh", abbr: "AST" },
       { name: "UAE", flag: "🇦🇪", zone: "Asia/Dubai", abbr: "GST" },
@@ -3064,70 +3065,92 @@ function triggerCopyBtnFeedback(btnId, originalText) {
 // ==========================================================
 // 1. RENDER & COPY: Aaj Ki Islami Tareekh
 // ==========================================================
-function initTodayHistory() {
-  const box = document.getElementById('homeHistoryBox');
-  const badge = document.getElementById('homeHistoryBadge');
-  if (!box || typeof islamicHistoryData === 'undefined') return;
 
-  const now = new Date();
-  const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-  const matches = islamicHistoryData.filter(e => e.date === todayKey);
 
-  if (badge) {
-    badge.innerText = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  }
-
-  if (matches.length > 0) {
-    box.innerHTML = matches.map(e => `
-      <div style="border-left:3px solid #047857; padding-left:8px; margin-bottom:8px;">
-        <div style="font-size:0.72rem; font-weight:700; color:#059669;">${e.year} (${e.hijriRef})</div>
-        <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${e.title}</div>
-        <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${e.summary}</div>
-      </div>
-    `).join('');
-  } else {
-    box.innerHTML = `
-      <div style="font-size:0.82rem; color:#64748b; padding:4px 0;">
-        Aaj ki tareekh ka makhsoos waqia archived nahi hai. Tareekh-e-Islam ke baaqi ahem waqiat dekhne ke liye niche button par click karein.
-      </div>
-    `;
+// Dynamic Hijri Date
+function getTodayHijriDateString() {
+  try {
+    return new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date());
+  } catch (e) {
+    return "Islami Calendar";
   }
 }
 
-function copyTodayHistory() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-  const siteUrl = window.location.origin + '/history.html';
+// Copy Feedback
+function triggerCopyBtnFeedback(btnId, defaultText) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.innerText = "✅ Copied to Clipboard!";
+  setTimeout(() => {
+    btn.innerText = defaultText;
+  }, 2000);
+}
 
-  let msg = `🏛️ *Aaj Ki Islami Tareekh (${dateStr})*\n\n`;
+// 🏛️ 1. History Engine
+function initTodayHistory() {
+  const box = document.getElementById('homeHistoryBox');
+  const badge = document.getElementById('homeHistoryBadge');
+  if (!box) return;
 
-  if (typeof islamicHistoryData !== 'undefined') {
-    const matches = islamicHistoryData.filter(e => e.date === todayKey);
-    if (matches.length > 0) {
-      matches.forEach(e => {
-        msg += `📌 *${e.title}* (${e.year} - ${e.hijriRef})\n${e.summary}\n\n`;
-      });
-    } else {
-      msg += `Aaj ki Islami tareekh ka mukammal record database me update kiya ja raha hai.\n\n`;
-    }
+  const hijriToday = getTodayHijriDateString();
+  if (badge) badge.innerText = hijriToday;
+
+  if (typeof islamicHistoryData === 'undefined' || islamicHistoryData.length === 0) {
+    box.innerHTML = `<p style="font-size:0.8rem; color:#64748b; margin:0;">Tareekh load ho rahi hai...</p>`;
+    return;
   }
 
-  msg += `✨ Aise hi rozana Islami tareekh aur tareekhi waqiat janne ke liye website visit karein:\n🔗 ${siteUrl}`;
+  const now = new Date();
+  const todayKey = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  
+  let matches = islamicHistoryData.filter(e => e.date === todayKey);
+
+  // Fallback if current date event isn't added
+  if (matches.length === 0) {
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+    matches = [islamicHistoryData[dayOfYear % islamicHistoryData.length]];
+  }
+
+  todayHistoryEventForCopy = matches[0];
+
+  box.innerHTML = matches.map(e => `
+    <div style="border-left:3px solid #047857; padding-left:8px;">
+      <div style="font-size:0.75rem; font-weight:700; color:#059669;">${e.hijriRef || hijriToday}</div>
+      <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${e.title}</div>
+      <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${e.summary}</div>
+    </div>
+  `).join('');
+}
+
+function copyTodayHistory() {
+  const hijriToday = getTodayHijriDateString();
+  const siteUrl = window.location.origin + '/';
+
+  // Format me koi Gregorian date nahi aayegi
+  let msg = `🏛️ *Aaj Ki Islami Tareekh*\n📅 *${hijriToday}*\n\n`;
+
+  if (todayHistoryEventForCopy) {
+    msg += `📌 *${todayHistoryEventForCopy.title}*\n⏳ *Daur:* ${todayHistoryEventForCopy.hijriRef}\n${todayHistoryEventForCopy.summary}\n\n`;
+  }
+
+  msg += `✨ Rozana Islami tareekh aur deeni maloomat ke liye visit karein:\n🔗 ${siteUrl}`;
 
   navigator.clipboard.writeText(msg).then(() => {
     triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy WhatsApp Format');
   });
 }
 
-// ==========================================================
-// 2. RENDER & COPY: 10 Daily Arabic Words
-// ==========================================================
+// 📖 2. 10 Daily Arabic Words Engine
 function initDailyArabicWords() {
   const box = document.getElementById('homeArabicWordsBox');
-  if (!box || typeof arabicWordsData === 'undefined') return;
+  if (!box) return;
 
-  // Stable seed so words don't change on page reloads throughout the day
+  if (typeof arabicWordsData === 'undefined' || arabicWordsData.length === 0) return;
+
   const d = new Date();
   const seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
 
@@ -3149,11 +3172,10 @@ function initDailyArabicWords() {
 }
 
 function copyDailyWords() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  const siteUrl = window.location.origin + '/arabic-words.html';
+  const hijriToday = getTodayHijriDateString();
+  const siteUrl = window.location.origin + '/';
 
-  let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz (${dateStr})*\n\n`;
+  let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz*\n📅 *${hijriToday}*\n\n`;
 
   if (todaySeededWordsList.length > 0) {
     todaySeededWordsList.forEach((item, index) => {
@@ -3161,12 +3183,13 @@ function copyDailyWords() {
     });
   }
 
-  msg += `💡 Rozana naye Arabic alfaaz aur unke tarjume sikhne ke liye visit karein:\n🔗 ${siteUrl}`;
+  msg += `💡 Rozana naye Arabic alfaaz aur tarjume sikhne ke liye visit karein:\n🔗 ${siteUrl}`;
 
   navigator.clipboard.writeText(msg).then(() => {
     triggerCopyBtnFeedback('btnCopyWords', '📋 Copy 10 Words Format');
   });
 }
+
 
 // ==========================================================
 // RUN ON PAGE LOAD
