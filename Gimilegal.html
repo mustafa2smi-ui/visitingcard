@@ -167,7 +167,34 @@
       </ul>
     </article>
   </main>
+<!-- Data Sources, API & Technical Architecture Disclosure -->
+<section style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin-top:20px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+  <h2 style="font-size:1.1rem; color:#064e3b; margin-bottom:12px; font-weight:800; display:flex; align-items:center; gap:8px;">
+    <span>⚙️</span> Technical Disclosures, API & PWA Architecture
+  </h2>
 
+  <!-- 1. Quran Data & API Attribution -->
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:0.92rem; color:#1e293b; font-weight:700; margin-bottom:4px;">1. Quranic Data Source & Public API Attribution</h3>
+    <p style="font-size:0.84rem; color:#475569; line-height:1.6; margin:0;">
+      AdeenDesk utilizes the open-source, community-verified <strong>Alquran.cloud API (Islamic Network)</strong> to fetch authentic Uthmani Arabic script, recitation metadata, and multi-language translations (Urdu, English, and Hindi). We do not claim ownership of the divine text; all Quranic data is served purely for non-commercial educational reading. We express gratitude to the open-source Islamic developers maintaining these accurate endpoints.
+    </p>
+  </div>
+
+  <hr style="border:none; border-top:1px dashed #e2e8f0; margin:14px 0;">
+
+  <!-- 2. PWA Caching Strategy & Live Refresh Mechanism -->
+  <div>
+    <h3 style="font-size:0.92rem; color:#1e293b; font-weight:700; margin-bottom:4px;">2. Offline PWA, Network-First Caching & Update Transparency</h3>
+    <p style="font-size:0.84rem; color:#475569; line-height:1.6; margin-bottom:8px;">
+      AdeenDesk is engineered as an installable <strong>Progressive Web App (PWA)</strong>. To ensure users receive the latest daily content, prayer time adjustments, and news updates without stale data issues, our Service Worker implements a <strong>Network-First caching strategy</strong>.
+    </p>
+    <ul style="font-size:0.82rem; color:#475569; line-height:1.6; padding-left:18px; margin:0;">
+      <li><strong>Network-First Logic:</strong> The application prioritizes fetching the freshest server-side content on connected sessions, falling back gracefully to local browser cache when offline.</li>
+      <li><strong>Manual Update / Refresh Mechanism:</strong> In the event of a background Service Worker release, a prominent update prompt / refresh button is triggered, enabling users to purge legacy cache and reload the latest build instantaneously with zero data loss.</li>
+    </ul>
+  </div>
+</section>
   <footer style="text-align:center; padding:12px 0; font-size:0.7rem; color:#94a3b8;">
     &copy; 2026 Daily Islamic Dashboard. All Rights Reserved.
   </footer>
