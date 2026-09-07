@@ -2,29 +2,18 @@
 const islamicHistoryData = [
   {
     date: "09-07",
-    hijriRef: "Rabi-ul-Awwal / Safar",
-    year: "622 CE",
-    title: "Hijrat-e-Madina Ka Safar",
-    summary: "Nabi Kareem ﷺ aur Hazrat Abu Bakr Siddique (R.A) ne Ghar-e-Saur se nikal kar Madina Munawwarah ki simt hijrat ka safar shuru kiya.",
+    hijriRef: "1 Hijri (Rabi-ul-Awwal)",
+    title: "Hijrat-e-Madina Ka Tareekhi Safar",
+    summary: "Nabi Kareem ﷺ aur Hazrat Abu Bakr Siddique (R.A) ne Ghar-e-Saur se Madina Munawwarah ki simt ba-barkat hijrat ka aaghaz farmaya.",
     tag: "Seerat"
   },
   {
-    date: "09-07",
-    hijriRef: "Tareekh-e-Islam",
-    year: "1191 CE",
-    title: "Battle of Arsuf",
-    summary: "Sultan Salahuddin Ayyubi ne Saleebi faujon ke khilaf tareekhi muqabla kiya aur quwwat ka muzahara kiya.",
-    tag: "Tareekh"
-  },
-  {
     date: "09-08",
-    hijriRef: "Islami Tareekh",
-    year: "634 CE",
+    hijriRef: "13 Hijri (Rajab)",
     title: "Fatah-e-Dimashq (Damascus)",
-    summary: "Hazrat Khalid bin Waleed (R.A) ki qiyadat me Islami lashkar ne Dimashq par kamyabi hasil ki.",
+    summary: "Hazrat Khalid bin Waleed (R.A) ki qiyadat me Islami lashkar ne Dimashq me fatah hasil ki.",
     tag: "Futuhat"
   }
-  // Is list me saal ke baaqi MM-DD dates ka data add hota rahega
 ];
 
 // 📖 100+ Common Quranic & Daily Arabic Words
