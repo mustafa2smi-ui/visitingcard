@@ -1426,7 +1426,7 @@
       </div>
     </section>
 
-    <!-- 🕌 4. Prayer Times (id="sec-prayer") -->
+    <!-- 🕌 4. Prayer Times (id="sec-prayer") --
     <section class="card-block" id="prayerSection">
       <div class="section-header">
         <div class="section-header-title"><span>🕌</span> Prayer Times</div>
@@ -1451,7 +1451,71 @@
         <div><strong>Ehtiyat / Note:</strong> Timings astronomical calculation par mabni hain. 4-5 minute ka farq ho sakta hai, safar ya roze me motabar jagah se tasdeeq karein.</div>
       </div>
     </section>
+-->
+    <!-- 🕌 4. Prayer Times (id="sec-prayer") -->
+<section class="card-block" id="prayerSection">
+  <div class="section-header">
+    <div class="section-header-title"><span>🕌</span> Prayer Times</div>
+  </div>
 
+  <div class="prayer-location-strip" onclick="useMyLocation()" title="Click to Change City or use GPS">
+    <span id="locationText">📍 Delhi (Default)</span>
+    <button class="prayer-location-btn">Change / GPS</button>
+  </div>
+
+  <div class="prayer-table">
+    <div class="prayer-box"><div class="prayer-name">Fajr</div><div class="prayer-time-val" id="pt-fajr">--:--</div></div>
+    <div class="prayer-box"><div class="prayer-name">Sunrise</div><div class="prayer-time-val" id="pt-sunrise">--:--</div></div>
+    <div class="prayer-box active-prayer"><div class="prayer-name">Dhuhr</div><div class="prayer-time-val" id="pt-dhuhr">--:--</div></div>
+    <div class="prayer-box"><div class="prayer-name">Asr</div><div class="prayer-time-val" id="pt-asr">--:--</div></div>
+    <div class="prayer-box"><div class="prayer-name">Maghrib</div><div class="prayer-time-val" id="pt-maghrib">--:--</div></div>
+    <div class="prayer-box"><div class="prayer-name">Isha</div><div class="prayer-time-val" id="pt-isha">--:--</div></div>
+  </div>
+
+  <!-- 🟢 Naya Expand Button Row -->
+  <div style="margin: 12px 0 8px;">
+    <button id="btnToggle7Days" onclick="toggle7DaysSalahSchedule()" 
+            style="width: 100%; background: #f1f5f9; color: #064e3b; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px; font-weight: 800; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;">
+      <span>📅</span> <span>View Next 7 Days Salah Time</span>
+    </button>
+  </div>
+
+  <!-- 🟢 Expandable 7 Days Schedule Container -->
+  <div id="sevenDaysContainer" style="display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <span style="font-size: 0.78rem; font-weight: 800; color: #064e3b;" id="sevenDaysLocLabel">📅 7-Day Timetable</span>
+      <button onclick="copy7DaysSalahTimes()" id="btnCopy7Days" 
+              style="background: #047857; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+        <span>📋</span> <span>Copy Salah Time</span>
+      </button>
+    </div>
+
+    <!-- Table with horizontal scroll support on mobile -->
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.73rem; text-align: center; white-space: nowrap;">
+        <thead>
+          <tr style="background: #f8fafc; color: #334155; border-bottom: 2px solid #e2e8f0;">
+            <th style="padding: 6px 4px;">Date</th>
+            <th style="padding: 6px 4px;">Fajr</th>
+            <th style="padding: 6px 4px;">Sunrise</th>
+            <th style="padding: 6px 4px;">Dhuhr</th>
+            <th style="padding: 6px 4px;">Asr</th>
+            <th style="padding: 6px 4px;">Maghrib</th>
+            <th style="padding: 6px 4px;">Isha</th>
+          </tr>
+        </thead>
+        <tbody id="sevenDaysTableBody">
+          <!-- Rows will be injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="prayer-warning">
+    <span>⚠️</span>
+    <div><strong>Ehtiyat / Note:</strong> Timings astronomical calculation par mabni hain. 4-5 minute ka farq ho sakta hai, safar ya roze me motabar jagah se tasdeeq karein.</div>
+  </div>
+</section>
     <!-- 📅 5. English & Hijri Calendars Dual Grid -->
     <section class="calendar-dual-grid" id="calendarsSection">
       <!-- English Calendar (id="sec-engcal") -->
@@ -2511,6 +2575,7 @@ function jumpToSection(targetId, clickedBtn) {
         prevLightboxImage(); // Ungli daayein (Right) khinchne par Pichli photo
       }
     }
+    /*
     function convertTo12Hour(time24) {
       if (!time24) return "--:--";
       let [hours, minutes] = time24.split(":");
@@ -2651,7 +2716,272 @@ function jumpToSection(targetId, clickedBtn) {
         fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
       }
     }
+*/
+    // Variable to hold 7-day cached data for copy
+let nextSevenDaysCache = [];
+let currentDetectedCityName = "Delhi";
 
+function convertTo12Hour(time24) {
+  if (!time24) return "--:--";
+  let cleanTime = time24.split(" ")[0]; // remove timezone if any
+  let [hours, minutes] = cleanTime.split(":");
+  hours = parseInt(hours, 10);
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+  return `${hours}:${minutes} ${ampm}`;
+}
+
+async function showAddress(lat, lng) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+    const data = await res.json();
+    const city = data.address.city || data.address.town || data.address.village || data.address.state_district || data.address.state || "Detected Area";
+    updateLocationLabels(city);
+  } catch (err) {
+    updateLocationLabels(`Lat: ${Number(lat).toFixed(2)}, Lng: ${Number(lng).toFixed(2)}`);
+  }
+}
+
+function updateLocationLabels(cityName) {
+  currentDetectedCityName = cityName;
+  const locEl = document.getElementById("locationText");
+  if (locEl) locEl.innerText = `📍 ${cityName}`;
+  const subEl = document.getElementById("userLocationSub");
+  if (subEl) subEl.innerText = cityName;
+  
+  const sevenDaysLoc = document.getElementById("sevenDaysLocLabel");
+  if (sevenDaysLoc) sevenDaysLoc.innerText = `📅 7-Day Timetable (${cityName})`;
+}
+
+// 🟢 Daily Prayer Times Fetch
+async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
+  try {
+    localStorage.setItem('prayerLat', lat);
+    localStorage.setItem('prayerLng', lng);
+    localStorage.setItem('prayerCity', cityName);
+
+    const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
+    const data = await res.json();
+    const t = data.data.timings;
+
+    document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+    document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+    document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+    document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+    document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+    document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+    if (cityName === "Current Location") {
+      showAddress(lat, lng);
+    } else {
+      updateLocationLabels(cityName);
+    }
+  } catch (e) {
+    console.error("Salah Time Error:", e);
+  }
+}
+
+async function fetchPrayerByCity(city) {
+  try {
+    updateLocationLabels(`Searching ${city}...`);
+    const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=4`);
+    const data = await res.json();
+    if (data.code === 200 && data.data) {
+      const t = data.data.timings;
+      document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+      document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+      document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+      document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+      document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+      document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+      localStorage.setItem('prayerCity', city);
+      localStorage.removeItem('prayerLat');
+      localStorage.removeItem('prayerLng');
+      updateLocationLabels(city);
+      return true;
+    }
+  } catch (e) {
+    console.error("City fetch error:", e);
+  }
+  alert(`Could not find timings for "${city}". Falling back to Delhi.`);
+  fetchPrayerTimes(28.6139, 77.2090, "Delhi");
+  return false;
+}
+
+// 🟢 7 Days Fetch Engine (Aladhan Calendar Endpoint)
+async function fetch7DaysSalahTimes() {
+  const tbody = document.getElementById("sevenDaysTableBody");
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#64748b;">Loading 7-day schedule...</td></tr>`;
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const todayDate = now.getDate();
+
+  const lat = localStorage.getItem('prayerLat');
+  const lng = localStorage.getItem('prayerLng');
+  const city = localStorage.getItem('prayerCity') || "Delhi";
+
+  let url = "";
+  if (lat && lng) {
+    url = `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${lat}&longitude=${lng}&method=4`;
+  } else {
+    url = `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${encodeURIComponent(city)}&country=&method=4`;
+  }
+
+  try {
+    const res = await fetch(url);
+    const result = await res.json();
+    if (result.code === 200 && Array.isArray(result.data)) {
+      // Pick next 7 days starting from today
+      const currentMonthDays = result.data.filter(d => parseInt(d.date.gregorian.day, 10) >= todayDate);
+      nextSevenDaysCache = currentMonthDays.slice(0, 7);
+
+      // Render Table Rows
+      tbody.innerHTML = nextSevenDaysCache.map((item, idx) => {
+        const t = item.timings;
+        const gDate = `${item.date.gregorian.day} ${item.date.gregorian.month.en.slice(0,3)}`;
+        const bg = idx % 2 === 0 ? "#ffffff" : "#f8fafc";
+        return `
+          <tr style="background:${bg}; border-bottom:1px solid #f1f5f9;">
+            <td style="padding:6px 4px; font-weight:700; color:#064e3b;">${gDate}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Fajr)}</td>
+            <td style="padding:6px 4px; color:#64748b;">${convertTo12Hour(t.Sunrise)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Dhuhr)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Asr)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Maghrib)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Isha)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#ef4444;">Failed to load schedule. Try again.</td></tr>`;
+  }
+}
+
+// 🟢 Toggle Expand / Collapse
+function toggle7DaysSalahSchedule() {
+  const container = document.getElementById("sevenDaysContainer");
+  const btn = document.getElementById("btnToggle7Days");
+  if (!container) return;
+
+  if (container.style.display === "none" || container.style.display === "") {
+    container.style.display = "block";
+    btn.innerHTML = `<span>🔼</span> <span>Hide 7 Days Salah Time</span>`;
+    btn.style.background = "#e2e8f0";
+    fetch7DaysSalahTimes();
+  } else {
+    container.style.display = "none";
+    btn.innerHTML = `<span>📅</span> <span>View Next 7 Days Salah Time</span>`;
+    btn.style.background = "#f1f5f9";
+  }
+}
+
+// 🟢 Copy 7 Days Salah Time
+function copy7DaysSalahTimes() {
+  const btn = document.getElementById("btnCopy7Days");
+  const siteUrl = window.location.origin + '/';
+
+  if (!nextSevenDaysCache || nextSevenDaysCache.length === 0) {
+    alert("Timetable load ho raha hai, barahe karam thoda sabr karein.");
+    return;
+  }
+
+  let text = `🕌 *7 Days Salah Timetable (${currentDetectedCityName})*\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+
+  nextSevenDaysCache.forEach(item => {
+    const t = item.timings;
+    const g = item.date.gregorian;
+    const dateStr = `${g.day} ${g.month.en} (${g.weekday.en.slice(0,3)})`;
+    
+    text += `📅 *${dateStr}*\n`;
+    text += `Fajr: ${convertTo12Hour(t.Fajr)} | Sunrise: ${convertTo12Hour(t.Sunrise)}\n`;
+    text += `Dhuhr: ${convertTo12Hour(t.Dhuhr)} | Asr: ${convertTo12Hour(t.Asr)}\n`;
+    text += `Maghrib: ${convertTo12Hour(t.Maghrib)} | Isha: ${convertTo12Hour(t.Isha)}\n\n`;
+  });
+
+  text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `📍 *Aap apne ilake ka check karne ke liye website visit karein:*\n🔗 ${siteUrl}`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<span>✅</span> <span>Copied!</span>`;
+      btn.style.background = "#059669";
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.style.background = "#047857";
+      }, 2000);
+    }
+  });
+}
+
+// Existing Geolocation logic remains untouched
+async function fetchLocationByIP() {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    if (data.latitude && data.longitude) {
+      const city = data.city || data.region || "Local Area";
+      fetchPrayerTimes(data.latitude, data.longitude, city);
+      return true;
+    }
+  } catch (e) {
+    console.warn("IP Geolocation failed:", e);
+  }
+  return false;
+}
+
+function useMyLocation() {
+  const choice = confirm("Press [OK] to auto-detect location via GPS.\nPress [CANCEL] to enter your City name manually.");
+  if (!choice) {
+    const customCity = prompt("Enter your City / Town name (e.g. Mumbai, Lucknow, Patna, Dubai):");
+    if (customCity && customCity.trim() !== "") {
+      fetchPrayerByCity(customCity.trim());
+    }
+    return;
+  }
+
+  if (navigator.geolocation) {
+    updateLocationLabels("Tracing GPS...");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "Current Location");
+      },
+      async () => {
+        alert("GPS access was not available. Attempting Network/IP detection...");
+        const ipSuccess = await fetchLocationByIP();
+        if (!ipSuccess) {
+          loadInitialPrayerTimes();
+        }
+      },
+      { timeout: 8000, enableHighAccuracy: false }
+    );
+  } else {
+    fetchLocationByIP();
+  }
+}
+
+function loadInitialPrayerTimes() {
+  const savedCity = localStorage.getItem('prayerCity');
+  const savedLat = localStorage.getItem('prayerLat');
+  const savedLng = localStorage.getItem('prayerLng');
+
+  if (savedLat && savedLng) {
+    fetchPrayerTimes(savedLat, savedLng, savedCity || "Saved Location");
+  } else if (savedCity) {
+    fetchPrayerByCity(savedCity);
+  } else {
+    fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
+  }
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', loadInitialPrayerTimes);
+    
     let tasbeehCount = parseInt(localStorage.getItem('tasbeeh_count') || '0', 10);
     document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
 
