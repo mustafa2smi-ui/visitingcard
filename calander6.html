@@ -1815,7 +1815,50 @@
     <button class="portal-action-btn btn-green" id="btnCopyWords" onclick="copyDailyWords()" style="width:100%;">📋 Copy 10 Words Format</button>
   </div>
 </section>
+    <!-- 📚 Islamic Learning Hub (id="sec-learning-hub") -->
+<section class="portal-card" id="sec-learning-hub" style="margin:16px 0;">
+  <div class="portal-header">
+    <h3>📚 Deeni Taleem & Modules</h3>
+    <span style="font-size:0.68rem; color:#059669; font-weight:700;">Special Guides</span>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-top:8px;">
     
+    <!-- Module 1: Seerat -->
+    <div onclick="handleModuleClick('Seerat-un-Nabi', '')" 
+         style="cursor:pointer; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 8px; text-align:center;">
+      <div style="font-size:1.6rem; margin-bottom:4px;">📜</div>
+      <div style="font-size:0.85rem; font-weight:800; color:#064e3b;">Seerat-un-Nabi</div>
+      <div style="font-size:0.68rem; color:#475569; margin-top:2px;">Makki wa Madani Daur</div>
+    </div>
+
+    <!-- Module 2: Para Khulasa -->
+    <div onclick="handleModuleClick('30 Para Khulasa', '')" 
+         style="cursor:pointer; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 8px; text-align:center;">
+      <div style="font-size:1.6rem; margin-bottom:4px;">📖</div>
+      <div style="font-size:0.85rem; font-weight:800; color:#1e293b;">30 Para Khulasa</div>
+      <div style="font-size:0.68rem; color:#64748b; margin-top:2px;">Mukhtasar Paigham</div>
+    </div>
+
+    <!-- Module 3: Ramzan Special -->
+    <div onclick="handleModuleClick('Ramzan Special Guide', '')" 
+         style="cursor:pointer; background:#fefce8; border:1px solid #fef08a; border-radius:10px; padding:12px 8px; text-align:center;">
+      <div style="font-size:1.6rem; margin-bottom:4px;">🌙</div>
+      <div style="font-size:0.85rem; font-weight:800; color:#854d0e;">Ramzan Special</div>
+      <div style="font-size:0.68rem; color:#713f12; margin-top:2px;">Roza, Duayein & Masail</div>
+    </div>
+
+    <!-- Module 4: Hajj wa Umrah -->
+    <div onclick="handleModuleClick('Hajj & Umrah Guide', '')" 
+         style="cursor:pointer; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 8px; text-align:center;">
+      <div style="font-size:1.6rem; margin-bottom:4px;">🕋</div>
+      <div style="font-size:0.85rem; font-weight:800; color:#1e40af;">Hajj & Umrah Guide</div>
+      <div style="font-size:0.68rem; color:#475569; margin-top:2px;">Step-by-Step Arkaan</div>
+    </div>
+
+  </div>
+</section>
+
 
     <!-- 📰 14. Top Viral Islamic News Card (id="sec-news") -->
     <section class="news-portal-card card-block" id="sec-news">
@@ -1857,6 +1900,29 @@
       <div class="foot-info">All World Times are sourced from International Databases. Prayer timings are approximate based on Astronomical Calculations. Sourced from Aladhan Open API.</div>
     </footer>
   </main>
+  
+<!-- 🔔 Square Coming Soon Popup Modal -->
+<div id="comingSoonModal" onclick="closeComingSoonModal(event)" 
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+  
+  <div onclick="event.stopPropagation()" 
+       style="background:#ffffff; border:1px solid #cbd5e1; border-radius:14px; width:100%; max-width:320px; padding:20px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.12); position:relative;">
+    
+    <div style="font-size:2.2rem; margin-bottom:6px;">🚧✨</div>
+    <div style="font-size:0.65rem; font-weight:800; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:6px;">COMING SOON</div>
+    
+    <h4 id="csModalTitle" style="font-size:1rem; font-weight:800; color:#064e3b; margin:0 0 6px 0;">Module Name</h4>
+    
+    <p style="font-size:0.8rem; color:#64748b; line-height:1.45; margin:0 0 16px 0;">
+      Is module ka authentic data aur tafseel abhi tayyari ke marhale me hai. Jald hi Insha'Allah live update kiya jayega.
+    </p>
+
+    <button onclick="closeComingSoonModal()" 
+            style="width:100%; background:#064e3b; color:#ffffff; border:none; padding:9px 0; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">
+      Theek Hai (Jazakallah)
+    </button>
+  </div>
+</div>
   <!-- Lightbox Modal with Swipe & Navigation Arrows -->
   <div class="modal-overlay" id="lightboxModal">
     <div class="popup-modal" style="max-width:480px; text-align:center; position:relative;">
@@ -2575,148 +2641,33 @@ function jumpToSection(targetId, clickedBtn) {
         prevLightboxImage(); // Ungli daayein (Right) khinchne par Pichli photo
       }
     }
-    /*
-    function convertTo12Hour(time24) {
-      if (!time24) return "--:--";
-      let [hours, minutes] = time24.split(":");
-      hours = parseInt(hours, 10);
-      const ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12 || 12;
-      return `${hours}:${minutes} ${ampm}`;
+// Smart Module Handler: Internal, External ya Coming Soon
+function handleModuleClick(title, url) {
+  // 1. Agar Link Khali hai ya nahi bana: Popup Dikhao
+  if (!url || url.trim() === "" || url === "#") {
+    const modal = document.getElementById('comingSoonModal');
+    const modalTitle = document.getElementById('csModalTitle');
+    if (modal && modalTitle) {
+      modalTitle.innerText = title;
+      modal.style.display = 'flex';
     }
+    return;
+  }
 
-    async function showAddress(lat, lng) {
-      try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
-        const data = await res.json();
-        const city = data.address.city || data.address.town || data.address.village || data.address.state_district || data.address.state || "Detected Area";
-        updateLocationLabels(city);
-      } catch (err) {
-        updateLocationLabels(`Lat: ${Number(lat).toFixed(2)}, Lng: ${Number(lng).toFixed(2)}`);
-      }
-    }
+  // 2. Agar Friend ki External Website hai (http ya https se shuru ho): Naye Tab me kholein
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    return;
+  }
 
-    function updateLocationLabels(cityName) {
-      const locEl = document.getElementById("locationText");
-      if (locEl) locEl.innerText = `📍 ${cityName}`;
-      const subEl = document.getElementById("userLocationSub");
-      if (subEl) subEl.innerText = cityName;
-    }
+  // 3. Agar Aapka Apna Page hai (jaise "seerat.html"): Usi window me navigate karein
+  window.location.href = url;
+}
 
-    async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
-      try {
-        localStorage.setItem('prayerLat', lat);
-        localStorage.setItem('prayerLng', lng);
-        localStorage.setItem('prayerCity', cityName);
-
-        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
-        const data = await res.json();
-        const t = data.data.timings;
-
-        document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
-        document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
-        document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
-        document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
-        document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
-        document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
-
-        if (cityName === "Current Location") {
-          showAddress(lat, lng);
-        } else {
-          updateLocationLabels(cityName);
-        }
-      } catch (e) {
-        console.error("Salah Time Error:", e);
-      }
-    }
-
-    async function fetchPrayerByCity(city) {
-      try {
-        updateLocationLabels(`Searching ${city}...`);
-        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=4`);
-        const data = await res.json();
-        if (data.code === 200 && data.data) {
-          const t = data.data.timings;
-          document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
-          document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
-          document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
-          document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
-          document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
-          document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
-          
-          localStorage.setItem('prayerCity', city);
-          localStorage.removeItem('prayerLat');
-          localStorage.removeItem('prayerLng');
-          updateLocationLabels(city);
-          return true;
-        }
-      } catch (e) {
-        console.error("City fetch error:", e);
-      }
-      alert(`Could not find timings for "${city}". Falling back to Delhi.`);
-      fetchPrayerTimes(28.6139, 77.2090, "Delhi");
-      return false;
-    }
-
-    async function fetchLocationByIP() {
-      try {
-        const res = await fetch('https://ipapi.co/json/');
-        const data = await res.json();
-        if (data.latitude && data.longitude) {
-          const city = data.city || data.region || "Local Area";
-          fetchPrayerTimes(data.latitude, data.longitude, city);
-          return true;
-        }
-      } catch (e) {
-        console.warn("IP Geolocation failed:", e);
-      }
-      return false;
-    }
-
-    function useMyLocation() {
-      const choice = confirm("Press [OK] to auto-detect location via GPS.\nPress [CANCEL] to enter your City name manually.");
-      if (!choice) {
-        const customCity = prompt("Enter your City / Town name (e.g. Mumbai, Lucknow, Patna, Dubai):");
-        if (customCity && customCity.trim() !== "") {
-          fetchPrayerByCity(customCity.trim());
-        }
-        return;
-      }
-
-      if (navigator.geolocation) {
-        updateLocationLabels("Tracing GPS...");
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "Current Location");
-          },
-          async () => {
-            alert("GPS access was not available. Attempting Network/IP detection...");
-            const ipSuccess = await fetchLocationByIP();
-            if (!ipSuccess) {
-              loadInitialPrayerTimes();
-            }
-          },
-          { timeout: 8000, enableHighAccuracy: false }
-        );
-      } else {
-        fetchLocationByIP();
-      }
-    }
-
-    function loadInitialPrayerTimes() {
-      const savedCity = localStorage.getItem('prayerCity');
-      const savedLat = localStorage.getItem('prayerLat');
-      const savedLng = localStorage.getItem('prayerLng');
-
-      if (savedLat && savedLng) {
-        fetchPrayerTimes(savedLat, savedLng, savedCity || "Saved Location");
-      } else if (savedCity) {
-        fetchPrayerByCity(savedCity);
-      } else {
-        fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
-      }
-    }
-*/
+function closeComingSoonModal(e) {
+  const modal = document.getElementById('comingSoonModal');
+  if (modal) modal.style.display = 'none';
+}
     // Variable to hold 7-day cached data for copy
 let nextSevenDaysCache = [];
 let currentDetectedCityName = "Delhi";
