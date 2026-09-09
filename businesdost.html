@@ -130,7 +130,7 @@
     /* Hero Section */
     .hero {
       max-width: 850px;
-      margin: 20px auto 30px;
+      margin: 20px auto 25px;
       padding: 0 16px;
       text-align: center;
     }
@@ -144,7 +144,7 @@
     .hero p {
       color: var(--text-muted);
       font-size: 13px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .hero-banner-wrap {
@@ -152,40 +152,19 @@
       overflow: hidden;
       border: 1px solid var(--border);
       background: var(--surface);
-      margin-bottom: 14px;
     }
 
     .hero-banner-img {
       width: 100%;
-      max-height: 360px;
+      max-height: 340px;
       object-fit: cover;
       display: block;
     }
 
-    .btn-download {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #1e293b;
-      color: #38bdf8;
-      border: 1px solid #38bdf8;
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
-
-    .btn-download:hover {
-      background: #38bdf8;
-      color: #0f172a;
-    }
-
-    /* Slim Side-By-Side Horizontal Scroll Slider */
+    /* Horizontal Scroll Plans */
     .section-title {
       text-align: center;
-      margin-bottom: 14px;
+      margin: 24px 0 12px;
     }
 
     .section-title h2 {
@@ -194,8 +173,8 @@
 
     .plans-scroll-wrapper {
       max-width: 950px;
-      margin: 0 auto 30px;
-      padding: 10px 16px;
+      margin: 0 auto 14px;
+      padding: 6px 16px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
@@ -214,8 +193,8 @@
     }
 
     .plan-box {
-      flex: 0 0 200px;
-      width: 200px;
+      flex: 0 0 190px;
+      width: 190px;
       background: var(--card-bg);
       border: 2px solid var(--border);
       border-radius: 14px;
@@ -269,14 +248,35 @@
       border-top: 1px solid var(--border);
     }
 
-    .plan-features li {
-      margin-bottom: 4px;
+    /* Subscription Help Button */
+    .btn-subscription-help {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: calc(100% - 32px);
+      max-width: 380px;
+      margin: 0 auto 35px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px dashed var(--highlight);
+      color: var(--highlight);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    /* Form Container */
+    .btn-subscription-help:hover {
+      background: var(--highlight);
+      color: #000;
+    }
+
+    /* Main Form */
     .action-box {
       max-width: 520px;
-      margin: 0 auto 40px;
+      margin: 0 auto 35px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
@@ -312,6 +312,7 @@
       color: #fff;
     }
 
+    /* Upload Box & Size Tracker */
     .file-input-wrap {
       border: 2px dashed rgba(255, 255, 255, 0.2);
       border-radius: 8px;
@@ -333,6 +334,14 @@
       font-weight: 600;
     }
 
+    .file-size-display {
+      font-size: 11px;
+      color: #4ade80;
+      margin-top: 4px;
+      font-weight: 600;
+      display: none;
+    }
+
     .btn-main {
       width: 100%;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -345,6 +354,65 @@
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35);
       margin-top: 6px;
+    }
+
+    /* YouTube Thumbnail Showcase Box */
+    .template-box {
+      max-width: 520px;
+      margin: 0 auto 50px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .template-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .template-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .template-preview-frame {
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .template-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-download-template {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e293b;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .btn-download-template:hover {
+      background: #38bdf8;
+      color: #0f172a;
     }
 
     /* Modal */
@@ -403,7 +471,7 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Sticky Navbar -->
   <header>
     <div class="nav-container">
       <div class="brand-title">Business Dost</div>
@@ -415,7 +483,7 @@
     </div>
   </header>
 
-  <!-- Drawer Nav -->
+  <!-- Mobile Drawer -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="drawer-header">
       <div style="font-size: 14px; font-weight: 700; color: #38bdf8;">Menu</div>
@@ -424,31 +492,27 @@
     <a href="#" onclick="closeMenu()">Home</a>
     <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
     <a href="#upload-section" onclick="closeMenu()">Upload Media</a>
-    <a href="#" onclick="triggerNotice(); closeMenu();">Admin Contact</a>
+    <a href="#template-section" onclick="closeMenu()">Thumbnail Template</a>
+    <a href="#" onclick="openSubscriptionHelp(); closeMenu();">Buy Paid Plan</a>
   </div>
 
   <!-- Hero Section -->
   <section class="hero">
     <h1>Chhote Business, Badi Udaan</h1>
-    <p>Apni dukan ya kaam ka video humare network par promote karein.</p>
+    <p>Apni dukan ya kaam ka video humare channel par promote karein.</p>
 
     <div class="hero-banner-wrap">
       <img id="mainBannerImg" src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80" alt="Business Dost Banner" class="hero-banner-img">
     </div>
-
-    <a href="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80" download="Business-Dost-Poster.jpg" target="_blank" class="btn-download">
-      📥 Download Official Poster
-    </a>
   </section>
 
-  <!-- Side-By-Side Horizontal Scrollable Cards -->
+  <!-- Horizontal Scroll Plans -->
   <section class="section-title" id="plans">
     <h2>Choose Promotion Plan</h2>
   </section>
 
   <div class="plans-scroll-wrapper">
     <div class="plans-container">
-      <!-- 0 Plan -->
       <div class="plan-box active" id="card-free" onclick="syncPlanSelection('3_months_free')">
         <div class="plan-duration">Trial Offer</div>
         <div class="plan-price" style="color: #4ade80;">₹0</div>
@@ -459,36 +523,39 @@
         </ul>
       </div>
 
-      <!-- 200 Plan -->
       <div class="plan-box" id="card-six" onclick="syncPlanSelection('6_months_200')">
         <span class="badge">Popular</span>
         <div class="plan-duration">Semi-Annual</div>
         <div class="plan-price" style="color: #38bdf8;">₹200</div>
         <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">6 Months</div>
         <ul class="plan-features">
-          <li>✔ Priority Placement</li>
+          <li>✔ Priority Upload</li>
           <li>✔ Offer Updates</li>
         </ul>
       </div>
 
-      <!-- 351 Plan -->
       <div class="plan-box" id="card-yearly" onclick="syncPlanSelection('1_year_351')">
         <div class="plan-duration">Full Year</div>
         <div class="plan-price" style="color: #f59e0b;">₹351</div>
         <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">12 Months</div>
         <ul class="plan-features">
-          <li>✔ Continuous Reach</li>
+          <li>✔ Highest Priority</li>
           <li>✔ Festival Specials</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- Form with Combo Box -->
+  <!-- How To Buy Paid Subscription Button -->
+  <button type="button" class="btn-subscription-help" onclick="openSubscriptionHelp()">
+    💳 How To Buy Paid Subscription?
+  </button>
+
+  <!-- Form Section -->
   <div class="action-box" id="upload-section">
     <div class="form-group">
       <label>Dukan / Business Ka Naam</label>
-      <input type="text" id="bizName" class="input-field" placeholder="Jaise: Verma Kirana Store">
+      <input type="text" id="bizName" class="input-field" placeholder="Jaise: Gupta Provision Store">
     </div>
 
     <div class="form-group">
@@ -496,7 +563,6 @@
       <input type="tel" id="bizContact" class="input-field" placeholder="10 Digit Mobile Number">
     </div>
 
-    <!-- Plan Selection Combo Box -->
     <div class="form-group">
       <label>Selected Promotion Plan</label>
       <select id="planSelect" class="select-field" onchange="syncCardFromCombo(this.value)">
@@ -506,16 +572,33 @@
       </select>
     </div>
 
-    <!-- Media File Field -->
+    <!-- Media File Field + Real-time Size Display -->
     <div class="form-group">
       <label>Upload Video / Shop Poster</label>
       <div class="file-input-wrap" onclick="document.getElementById('mediaFileInput').click()">
         <input type="file" id="mediaFileInput" accept="video/*,image/*" onchange="handleFileSelected(this)">
         <span class="file-label" id="fileStatusText">📁 Tap to Select Video / Image File</span>
+        <div class="file-size-display" id="fileSizeText"></div>
       </div>
     </div>
 
     <button type="button" class="btn-main" onclick="executeSubmission()">Submit & Send Details</button>
+  </div>
+
+  <!-- YouTube Thumbnail Template Showcase Box -->
+  <div class="template-box" id="template-section">
+    <div class="template-title">🎨 YouTube Thumbnail Template</div>
+    <p class="template-desc">
+      Is template frame ko download karke AI ya photo editor me apni dukan ka photo add karein aur wapas upload karein.
+    </p>
+
+    <div class="template-preview-frame">
+      <img id="thumbnailTemplateImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="16:9 Thumbnail Template" class="template-img">
+    </div>
+
+    <a href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" download="Business-Dost-Thumbnail-Template.jpg" target="_blank" class="btn-download-template">
+      📥 Download Thumbnail Template
+    </a>
   </div>
 
   <!-- Notice Modal -->
@@ -523,9 +606,7 @@
     <div class="modal-box">
       <div style="font-size: 38px; margin-bottom: 8px;">⚙️</div>
       <h3 style="margin-bottom: 6px;">Portal Notice</h3>
-      <p id="modalNoticeText" style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-        Website system update ho raha hai. Details verify karne ke liye Email composer open kiya ja raha hai.
-      </p>
+      <p id="modalNoticeText" style="font-size: 12px; color: var(--text-muted); line-height: 1.5;"></p>
       <button class="btn-close" onclick="closeNotice()">Theek Hai</button>
     </div>
   </div>
@@ -536,10 +617,10 @@
 
   <script>
     /* ========================================================
-       CONFIG SWITCH: WhatsApp vs Email Alert
+       CONFIG SWITCH
     ======================================================== */
     const CONFIG = {
-      // Set to true jab WhatsApp active ho, false par Email composer open hoga
+      // Jab WhatsApp live ho tab true karein; abhi Gmail khulega
       USE_WHATSAPP: false,
       
       WHATSAPP_NUMBER: "919999999999",
@@ -547,14 +628,14 @@
     };
 
     let selectedFileName = "";
+    let selectedFileSize = "";
 
-    // Sync from Card tap to Combo Box
+    // Sync Plan Visuals
     function syncPlanSelection(planValue) {
       document.getElementById('planSelect').value = planValue;
       highlightCard(planValue);
     }
 
-    // Sync from Combo Box to Card visual
     function syncCardFromCombo(planValue) {
       highlightCard(planValue);
     }
@@ -566,14 +647,47 @@
       if(planValue === '1_year_351') document.getElementById('card-yearly').classList.add('active');
     }
 
+    // Real-Time File Selection & Size Counter
     function handleFileSelected(input) {
-      if(input.files && input.files[0]) {
-        selectedFileName = input.files[0].name;
-        document.getElementById('fileStatusText').innerText = "Selected: " + selectedFileName;
+      const file = input.files[0];
+      const statusText = document.getElementById('fileStatusText');
+      const sizeText = document.getElementById('fileSizeText');
+
+      if (file) {
+        selectedFileName = file.name;
+        
+        // Convert to KB / MB
+        if (file.size >= 1024 * 1024) {
+          selectedFileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+        } else {
+          selectedFileSize = (file.size / 1024).toFixed(1) + " KB";
+        }
+
+        statusText.innerText = "Selected: " + selectedFileName;
+        sizeText.style.display = "block";
+        sizeText.innerText = "⚡ File Size: " + selectedFileSize;
+
+        if (file.size > 80 * 1024 * 1024) {
+          sizeText.innerHTML += " <span style='color:#f59e0b;'>(Badi file hai, email/Drive link use karein)</span>";
+        }
       }
     }
 
-    // Submission Trigger (Handles Email and WhatsApp switch)
+    // "How To Buy Paid Subscription" Action Button
+    function openSubscriptionHelp() {
+      const subject = "Query: How to Buy Paid Subscription";
+      const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan (₹200 ya ₹351) activate karna hai. Kripya payment QR code / UPI ID aur onboarding details share karein.\n\nDhanyawad.";
+
+      if (CONFIG.USE_WHATSAPP) {
+        const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`;
+        window.open(url, '_blank');
+      } else {
+        const mailtoUrl = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoUrl;
+      }
+    }
+
+    // Submission Trigger
     function executeSubmission() {
       const name = document.getElementById('bizName').value.trim();
       const phone = document.getElementById('bizContact').value.trim();
@@ -585,20 +699,19 @@
         return;
       }
 
-      // Mode 1: WhatsApp Active
+      const fileDetails = selectedFileName ? `${selectedFileName} (${selectedFileSize})` : 'No file selected / Will share via Drive';
+
       if(CONFIG.USE_WHATSAPP) {
-        const msg = encodeURIComponent(`*New Business Onboarding*\nBusiness: ${name}\nMobile: ${phone}\nPlan: ${planText}\nFile Attached: ${selectedFileName || 'No file chosen'}`);
+        const msg = encodeURIComponent(`*New Business Video Upload Request*\n\nBusiness Name: ${name}\nContact: ${phone}\nPlan: ${planText}\nMedia Attached: ${fileDetails}`);
         window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${msg}`, '_blank');
         return;
       }
 
-      // Mode 2: Email Alert (Opens User's Gmail / Default Email App)
-      const emailSubject = `Business Dost Onboarding: ${name}`;
-      const emailBody = `New Registration Details:\n\nBusiness Name: ${name}\nContact Mobile: ${phone}\nPlan Chosen: ${planText}\nSelected Media File: ${selectedFileName || 'To be shared via Drive'}\n\n(Aap apni video/poster is email me attach karke send kar sakte hain)`;
+      // Email Trigger
+      const emailSubject = `Business Dost Promotion Request: ${name}`;
+      const emailBody = `New Promotion Details:\n\nBusiness Name: ${name}\nMobile: ${phone}\nPlan: ${planText}\nMedia File: ${fileDetails}\n\n(Aap apni video ya shop photo is email me attach karke bhej sakte hain)`;
       
       const mailtoUrl = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Open email app directly
       window.location.href = mailtoUrl;
     }
 
@@ -610,9 +723,6 @@
     function openModalNotice(text) {
       document.getElementById('modalNoticeText').innerText = text;
       document.getElementById('noticeModal').classList.add('active');
-    }
-    function triggerNotice() {
-      openModalNotice("Admin desk details update ho rahi hain. Contact ke liye niche diye form ka use karein.");
     }
     function closeNotice() {
       document.getElementById('noticeModal').classList.remove('active');
