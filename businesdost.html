@@ -11,8 +11,8 @@
       --accent: #2563eb;
       --bg: #0f172a;
       --surface: #1e293b;
-      --card-bg: rgba(30, 41, 59, 0.75);
-      --border: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --border: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --highlight: #f59e0b;
@@ -30,20 +30,20 @@
       background-color: var(--bg);
       color: var(--text-main);
       overflow-x: hidden;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    /* Sticky Modern Header */
+    /* Sticky Navbar */
     header {
       position: sticky;
       top: 0;
       width: 100%;
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       z-index: 1000;
-      padding: 14px 20px;
+      padding: 12px 20px;
     }
 
     .nav-container {
@@ -55,14 +55,13 @@
     }
 
     .brand-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       background: linear-gradient(135deg, #4ade80, #38bdf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    /* Hamburger Menu Button */
     .menu-btn {
       background: none;
       border: none;
@@ -74,7 +73,7 @@
     }
 
     .menu-btn span {
-      width: 24px;
+      width: 22px;
       height: 2.5px;
       background: var(--text-main);
       border-radius: 2px;
@@ -85,14 +84,14 @@
       position: fixed;
       top: 0;
       right: -100%;
-      width: 280px;
+      width: 260px;
       height: 100vh;
       background: #1e293b;
       box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
-      padding: 30px 24px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       transition: right 0.3s ease;
       z-index: 1100;
     }
@@ -101,99 +100,81 @@
       right: 0;
     }
 
-    /* Drawer Close Button */
     .drawer-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-    }
-
-    .drawer-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #38bdf8;
+      padding-bottom: 10px;
     }
 
     .close-btn {
       background: rgba(255, 255, 255, 0.1);
       border: none;
       color: #fff;
-      font-size: 18px;
-      width: 32px;
-      height: 32px;
+      font-size: 16px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .mobile-menu a {
       color: var(--text-main);
       text-decoration: none;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      padding: 8px 0;
+      padding: 6px 0;
     }
 
     /* Hero Section */
     .hero {
-      max-width: 900px;
-      margin: 25px auto 40px;
+      max-width: 850px;
+      margin: 20px auto 30px;
       padding: 0 16px;
       text-align: center;
     }
 
     .hero h1 {
-      font-size: clamp(24px, 5vw, 36px);
+      font-size: clamp(22px, 4.5vw, 32px);
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .hero p {
       color: var(--text-muted);
-      font-size: 14px;
-      max-width: 600px;
-      margin: 0 auto 20px;
+      font-size: 13px;
+      margin-bottom: 16px;
     }
 
-    /* Main Hero Banner Container */
     .hero-banner-wrap {
-      position: relative;
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       border: 1px solid var(--border);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
       background: var(--surface);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .hero-banner-img {
       width: 100%;
-      max-height: 420px;
+      max-height: 360px;
       object-fit: cover;
       display: block;
     }
 
-    /* Download Banner Button */
     .btn-download {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: #1e293b;
       color: #38bdf8;
       border: 1px solid #38bdf8;
-      padding: 10px 20px;
+      padding: 8px 18px;
       border-radius: 30px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       text-decoration: none;
-      cursor: pointer;
       transition: 0.2s ease;
-      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
     }
 
     .btn-download:hover {
@@ -201,126 +182,140 @@
       color: #0f172a;
     }
 
-    /* Plans Section */
+    /* Slim Side-By-Side Horizontal Scroll Slider */
     .section-title {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
 
     .section-title h2 {
-      font-size: 22px;
+      font-size: 20px;
+    }
+
+    .plans-scroll-wrapper {
+      max-width: 950px;
+      margin: 0 auto 30px;
+      padding: 10px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .plans-scroll-wrapper::-webkit-scrollbar {
+      display: none;
     }
 
     .plans-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      max-width: 950px;
-      margin: 0 auto 40px;
-      padding: 0 16px;
+      display: flex;
+      gap: 12px;
+      min-width: min-content;
+      margin: 0 auto;
+      justify-content: center;
     }
 
     .plan-box {
+      flex: 0 0 200px;
+      width: 200px;
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
       text-align: center;
-      position: relative;
-      transition: all 0.3s ease;
       cursor: pointer;
+      position: relative;
+      transition: all 0.25s ease;
+      user-select: none;
     }
 
-    .plan-box:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 25px rgba(0, 135, 90, 0.25);
+    .plan-box.active {
+      border-color: #4ade80;
+      background: rgba(74, 222, 128, 0.08);
+      transform: scale(1.02);
+      box-shadow: 0 6px 18px rgba(74, 222, 128, 0.2);
     }
 
     .badge {
       position: absolute;
-      top: -10px;
+      top: -9px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--highlight);
       color: #000;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 20px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
     }
 
     .plan-price {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 800;
-      margin: 10px 0 4px;
+      margin: 6px 0 2px;
     }
 
     .plan-duration {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
 
     .plan-features {
       list-style: none;
       text-align: left;
-      font-size: 13px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
     }
 
     .plan-features li {
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      margin-bottom: 4px;
     }
 
-    .plan-features li::before {
-      content: "✔";
-      color: #4ade80;
-    }
-
-    /* Form Section */
+    /* Form Container */
     .action-box {
-      max-width: 550px;
-      margin: 0 auto 50px;
+      max-width: 520px;
+      margin: 0 auto 40px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
+      border-radius: 16px;
+      padding: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .form-group label {
       display: block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       color: var(--text-muted);
     }
 
-    .input-field {
+    .input-field, .select-field {
       width: 100%;
-      padding: 12px;
+      padding: 10px 12px;
       background: #0f172a;
       border: 1px solid var(--border);
       border-radius: 8px;
       color: #fff;
-      font-size: 14px;
+      font-size: 13px;
       outline: none;
     }
 
-    /* Upload Input Wrapper */
+    .select-field option {
+      background: #1e293b;
+      color: #fff;
+    }
+
     .file-input-wrap {
       border: 2px dashed rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 16px;
+      border-radius: 8px;
+      padding: 14px;
       text-align: center;
       background: #0f172a;
       cursor: pointer;
@@ -331,17 +326,11 @@
     }
 
     .file-label {
-      font-size: 13px;
+      font-size: 12px;
       color: #38bdf8;
       cursor: pointer;
       display: block;
       font-weight: 600;
-    }
-
-    .file-info {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
     }
 
     .btn-main {
@@ -349,15 +338,16 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
-      padding: 14px;
-      font-size: 15px;
+      padding: 12px;
+      font-size: 14px;
       font-weight: 700;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 135, 90, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35);
+      margin-top: 6px;
     }
 
-    /* Maintenance Modal */
+    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -365,7 +355,7 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(5px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -373,7 +363,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
       z-index: 2000;
-      padding: 20px;
+      padding: 16px;
     }
 
     .modal-overlay.active {
@@ -384,42 +374,36 @@
     .modal-box {
       background: #1e293b;
       border: 1px solid var(--border);
-      border-radius: 18px;
-      max-width: 380px;
+      border-radius: 14px;
+      max-width: 360px;
       width: 100%;
-      padding: 26px 20px;
+      padding: 22px 18px;
       text-align: center;
-      transform: scale(0.92);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .modal-box {
-      transform: scale(1);
     }
 
     .btn-close {
       background: #334155;
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 13px;
       cursor: pointer;
       margin-top: 14px;
     }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 20px;
+      padding: 18px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <!-- Sticky Header -->
+  <!-- Header -->
   <header>
     <div class="nav-container">
       <div class="brand-title">Business Dost</div>
@@ -431,112 +415,118 @@
     </div>
   </header>
 
-  <!-- Mobile Drawer Menu with Close Button -->
+  <!-- Drawer Nav -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="drawer-header">
-      <div class="drawer-title">Menu Options</div>
-      <button class="close-btn" onclick="closeMenu()" aria-label="Close Menu">✕</button>
+      <div style="font-size: 14px; font-weight: 700; color: #38bdf8;">Menu</div>
+      <button class="close-btn" onclick="closeMenu()">✕</button>
     </div>
     <a href="#" onclick="closeMenu()">Home</a>
-    <a href="#plans" onclick="closeMenu()">Promotional Plans</a>
-    <a href="#upload-section" onclick="closeMenu()">Upload Video / Poster</a>
-    <a href="#" onclick="openModal(); closeMenu();">Customer Support</a>
+    <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
+    <a href="#upload-section" onclick="closeMenu()">Upload Media</a>
+    <a href="#" onclick="triggerNotice(); closeMenu();">Admin Contact</a>
   </div>
 
   <!-- Hero Section -->
   <section class="hero">
     <h1>Chhote Business, Badi Udaan</h1>
-    <p>Apni dukan ya kaam ka video humare network par upload karein aur naye grahak payein.</p>
+    <p>Apni dukan ya kaam ka video humare network par promote karein.</p>
 
-    <!-- Main Hero Banner -->
     <div class="hero-banner-wrap">
       <img id="mainBannerImg" src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80" alt="Business Dost Banner" class="hero-banner-img">
     </div>
 
-    <!-- Download Image Button -->
     <a href="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80" download="Business-Dost-Poster.jpg" target="_blank" class="btn-download">
       📥 Download Official Poster
     </a>
   </section>
 
-  <!-- Plans Section -->
+  <!-- Side-By-Side Horizontal Scrollable Cards -->
   <section class="section-title" id="plans">
     <h2>Choose Promotion Plan</h2>
   </section>
 
-  <div class="plans-container">
-    <div class="plan-box" onclick="openModal()">
-      <div class="plan-duration">Trial Offer</div>
-      <div class="plan-price">₹0</div>
-      <p style="font-size: 13px; color: #4ade80; margin-bottom: 12px; font-weight: 600;">3 Months Free</p>
-      <ul class="plan-features">
-        <li>1 Dedicated Video Upload</li>
-        <li>1 Community Post Banner</li>
-        <li>Basic YouTube Reach</li>
-      </ul>
-      <button class="btn-main">Select ₹0 Plan</button>
-    </div>
+  <div class="plans-scroll-wrapper">
+    <div class="plans-container">
+      <!-- 0 Plan -->
+      <div class="plan-box active" id="card-free" onclick="syncPlanSelection('3_months_free')">
+        <div class="plan-duration">Trial Offer</div>
+        <div class="plan-price" style="color: #4ade80;">₹0</div>
+        <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">3 Months Free</div>
+        <ul class="plan-features">
+          <li>✔ 1 Video Promotion</li>
+          <li>✔ 1 Community Post</li>
+        </ul>
+      </div>
 
-    <div class="plan-box" onclick="openModal()">
-      <span class="badge">Most Popular</span>
-      <div class="plan-duration">Semi-Annual</div>
-      <div class="plan-price">₹200</div>
-      <p style="font-size: 13px; color: #38bdf8; margin-bottom: 12px; font-weight: 600;">6 Months Active</p>
-      <ul class="plan-features">
-        <li>Fast Channel Verification</li>
-        <li>Monthly Discount Updates</li>
-        <li>Direct Call Link Placement</li>
-      </ul>
-      <button class="btn-main">Select ₹200 Plan</button>
-    </div>
+      <!-- 200 Plan -->
+      <div class="plan-box" id="card-six" onclick="syncPlanSelection('6_months_200')">
+        <span class="badge">Popular</span>
+        <div class="plan-duration">Semi-Annual</div>
+        <div class="plan-price" style="color: #38bdf8;">₹200</div>
+        <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">6 Months</div>
+        <ul class="plan-features">
+          <li>✔ Priority Placement</li>
+          <li>✔ Offer Updates</li>
+        </ul>
+      </div>
 
-    <div class="plan-box" onclick="openModal()">
-      <div class="plan-duration">Full Year</div>
-      <div class="plan-price">₹351</div>
-      <p style="font-size: 13px; color: #f59e0b; margin-bottom: 12px; font-weight: 600;">12 Months Spotlight</p>
-      <ul class="plan-features">
-        <li>Highest Priority Upload</li>
-        <li>Festival Special Shoutouts</li>
-        <li>Continuous Community Ads</li>
-      </ul>
-      <button class="btn-main">Select ₹351 Plan</button>
+      <!-- 351 Plan -->
+      <div class="plan-box" id="card-yearly" onclick="syncPlanSelection('1_year_351')">
+        <div class="plan-duration">Full Year</div>
+        <div class="plan-price" style="color: #f59e0b;">₹351</div>
+        <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">12 Months</div>
+        <ul class="plan-features">
+          <li>✔ Continuous Reach</li>
+          <li>✔ Festival Specials</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- Form with Video Upload Feature -->
+  <!-- Form with Combo Box -->
   <div class="action-box" id="upload-section">
     <div class="form-group">
       <label>Dukan / Business Ka Naam</label>
-      <input type="text" class="input-field" placeholder="Jaise: Verma Tailors / Sharma Sweets">
+      <input type="text" id="bizName" class="input-field" placeholder="Jaise: Verma Kirana Store">
     </div>
 
     <div class="form-group">
       <label>WhatsApp / Mobile Number</label>
-      <input type="tel" class="input-field" placeholder="10 Digit Number">
+      <input type="tel" id="bizContact" class="input-field" placeholder="10 Digit Mobile Number">
     </div>
 
-    <!-- Video / Media Upload Input Field -->
+    <!-- Plan Selection Combo Box -->
     <div class="form-group">
-      <label>Upload Business Video ya Shop Poster</label>
-      <div class="file-input-wrap" onclick="document.getElementById('bizMedia').click()">
-        <input type="file" id="bizMedia" accept="video/*,image/*" onchange="updateFileName(this)">
-        <span class="file-label" id="fileLabelText">📁 Click Here to Choose Video / Image</span>
-        <div class="file-info">(Max 1 file: Shop video, shorts clip, ya offer image)</div>
+      <label>Selected Promotion Plan</label>
+      <select id="planSelect" class="select-field" onchange="syncCardFromCombo(this.value)">
+        <option value="3_months_free">3 Months Free Plan (₹0)</option>
+        <option value="6_months_200">6 Months Semi-Annual Plan (₹200)</option>
+        <option value="1_year_351">1 Year Growth Plan (₹351)</option>
+      </select>
+    </div>
+
+    <!-- Media File Field -->
+    <div class="form-group">
+      <label>Upload Video / Shop Poster</label>
+      <div class="file-input-wrap" onclick="document.getElementById('mediaFileInput').click()">
+        <input type="file" id="mediaFileInput" accept="video/*,image/*" onchange="handleFileSelected(this)">
+        <span class="file-label" id="fileStatusText">📁 Tap to Select Video / Image File</span>
       </div>
     </div>
 
-    <button type="button" class="btn-main" onclick="openModal()">Submit Details & Send Media</button>
+    <button type="button" class="btn-main" onclick="executeSubmission()">Submit & Send Details</button>
   </div>
 
-  <!-- Maintenance / Coming Soon Popup Modal -->
-  <div class="modal-overlay" id="maintenanceModal">
+  <!-- Notice Modal -->
+  <div class="modal-overlay" id="noticeModal">
     <div class="modal-box">
-      <div style="font-size: 42px; margin-bottom: 10px;">⚙️</div>
-      <h3 style="margin-bottom: 8px;">Coming Soon!</h3>
-      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
-        Website and storage link abhi setup ho rahi hai. File upload aur direct channel submission kripya Admin verification ke baad live hoga.
+      <div style="font-size: 38px; margin-bottom: 8px;">⚙️</div>
+      <h3 style="margin-bottom: 6px;">Portal Notice</h3>
+      <p id="modalNoticeText" style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+        Website system update ho raha hai. Details verify karne ke liye Email composer open kiya ja raha hai.
       </p>
-      <button class="btn-close" onclick="closeModal()">Theek Hai</button>
+      <button class="btn-close" onclick="closeNotice()">Theek Hai</button>
     </div>
   </div>
 
@@ -545,30 +535,87 @@
   </footer>
 
   <script>
-    // Drawer Menu Functions
-    function openMenu() {
-      document.getElementById('mobileMenu').classList.add('open');
+    /* ========================================================
+       CONFIG SWITCH: WhatsApp vs Email Alert
+    ======================================================== */
+    const CONFIG = {
+      // Set to true jab WhatsApp active ho, false par Email composer open hoga
+      USE_WHATSAPP: false,
+      
+      WHATSAPP_NUMBER: "919999999999",
+      ADMIN_EMAIL: "admin@businessdost.com"
+    };
+
+    let selectedFileName = "";
+
+    // Sync from Card tap to Combo Box
+    function syncPlanSelection(planValue) {
+      document.getElementById('planSelect').value = planValue;
+      highlightCard(planValue);
     }
 
-    function closeMenu() {
-      document.getElementById('mobileMenu').classList.remove('open');
+    // Sync from Combo Box to Card visual
+    function syncCardFromCombo(planValue) {
+      highlightCard(planValue);
     }
 
-    // Modal Display Functions
-    function openModal() {
-      document.getElementById('maintenanceModal').classList.add('active');
+    function highlightCard(planValue) {
+      document.querySelectorAll('.plan-box').forEach(el => el.classList.remove('active'));
+      if(planValue === '3_months_free') document.getElementById('card-free').classList.add('active');
+      if(planValue === '6_months_200') document.getElementById('card-six').classList.add('active');
+      if(planValue === '1_year_351') document.getElementById('card-yearly').classList.add('active');
     }
 
-    function closeModal() {
-      document.getElementById('maintenanceModal').classList.remove('active');
-    }
-
-    // Dynamic File Name Display
-    function updateFileName(input) {
-      const label = document.getElementById('fileLabelText');
-      if (input.files && input.files[0]) {
-        label.innerText = "Selected: " + input.files[0].name;
+    function handleFileSelected(input) {
+      if(input.files && input.files[0]) {
+        selectedFileName = input.files[0].name;
+        document.getElementById('fileStatusText').innerText = "Selected: " + selectedFileName;
       }
+    }
+
+    // Submission Trigger (Handles Email and WhatsApp switch)
+    function executeSubmission() {
+      const name = document.getElementById('bizName').value.trim();
+      const phone = document.getElementById('bizContact').value.trim();
+      const planDropdown = document.getElementById('planSelect');
+      const planText = planDropdown.options[planDropdown.selectedIndex].text;
+
+      if(!name || !phone) {
+        openModalNotice("Kripya Business Name aur Contact Number bharein.");
+        return;
+      }
+
+      // Mode 1: WhatsApp Active
+      if(CONFIG.USE_WHATSAPP) {
+        const msg = encodeURIComponent(`*New Business Onboarding*\nBusiness: ${name}\nMobile: ${phone}\nPlan: ${planText}\nFile Attached: ${selectedFileName || 'No file chosen'}`);
+        window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+        return;
+      }
+
+      // Mode 2: Email Alert (Opens User's Gmail / Default Email App)
+      const emailSubject = `Business Dost Onboarding: ${name}`;
+      const emailBody = `New Registration Details:\n\nBusiness Name: ${name}\nContact Mobile: ${phone}\nPlan Chosen: ${planText}\nSelected Media File: ${selectedFileName || 'To be shared via Drive'}\n\n(Aap apni video/poster is email me attach karke send kar sakte hain)`;
+      
+      const mailtoUrl = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open email app directly
+      window.location.href = mailtoUrl;
+    }
+
+    // Drawer Helpers
+    function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
+    function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+    // Modal Helpers
+    function openModalNotice(text) {
+      document.getElementById('modalNoticeText').innerText = text;
+      document.getElementById('noticeModal').classList.add('active');
+    }
+    function triggerNotice() {
+      openModalNotice("Admin desk details update ho rahi hain. Contact ke liye niche diye form ka use karein.");
+    }
+    function closeNotice() {
+      document.getElementById('noticeModal').classList.remove('active');
     }
   </script>
 </body>
