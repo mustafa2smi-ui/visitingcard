@@ -248,6 +248,10 @@
       border-top: 1px solid var(--border);
     }
 
+    .plan-features li {
+      margin-bottom: 4px;
+    }
+
     /* Subscription Help Button */
     .btn-subscription-help {
       display: flex;
@@ -460,6 +464,34 @@
       margin-top: 14px;
     }
 
+    /* Legal Page Button Section */
+    .legal-btn-wrap {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .btn-legal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1e293b;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      padding: 10px 22px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-legal-link:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      transform: translateY(-2px);
+    }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 18px;
@@ -493,6 +525,7 @@
     <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
     <a href="#upload-section" onclick="closeMenu()">Upload Media</a>
     <a href="#template-section" onclick="closeMenu()">Thumbnail Template</a>
+    <a href="legalBD.html" onclick="closeMenu()">Legal & Policies</a>
     <a href="#" onclick="openSubscriptionHelp(); closeMenu();">Buy Paid Plan</a>
   </div>
 
@@ -581,13 +614,15 @@
         <div class="file-size-display" id="fileSizeText"></div>
       </div>
     </div>
-<!-- Form Checkbox Section -->
-<div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
-  <input type="checkbox" id="termsCheck" required style="width: auto; margin-top: 3px; cursor: pointer;">
-  <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
-    Main Business Dost ke <a href="javascript:void(0)" onclick="openTermsModal()" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki submitted video/photo/music par mera poora adhikar hai aur channel par views ya sales ki koi guarantee nahi hai.
-  </label>
-</div>
+
+    <!-- Form Checkbox Section -->
+    <div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
+      <input type="checkbox" id="termsCheck" style="width: auto; margin-top: 3px; cursor: pointer;">
+      <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
+        Main Business Dost ke <a href="legalBD.html" target="_blank" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki submitted material par mera adhikar hai aur reach/sales ki koi guarantee nahi hai.
+      </label>
+    </div>
+
     <button type="button" class="btn-main" onclick="executeSubmission()">Submit & Send Details</button>
   </div>
 
@@ -607,6 +642,13 @@
     </a>
   </div>
 
+  <!-- Legal Page Button -->
+  <div class="legal-btn-wrap">
+    <a href="legalBD.html" target="_blank" class="btn-legal-link">
+      📜 View Legal Policies & Terms
+    </a>
+  </div>
+
   <!-- Notice Modal -->
   <div class="modal-overlay" id="noticeModal">
     <div class="modal-box">
@@ -616,9 +658,7 @@
       <button class="btn-close" onclick="closeNotice()">Theek Hai</button>
     </div>
   </div>
-<a href="legalBD.html" target="_blank">
-      📥 Legal Page
-    </a>
+
   <footer>
     Business Dost &copy; 2026. Chhote Vyaparion Ka Digital Sathi.
   </footer>
@@ -664,7 +704,6 @@
       if (file) {
         selectedFileName = file.name;
         
-        // Convert to KB / MB
         if (file.size >= 1024 * 1024) {
           selectedFileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
         } else {
@@ -684,7 +723,7 @@
     // "How To Buy Paid Subscription" Action Button
     function openSubscriptionHelp() {
       const subject = "Query: How to Buy Paid Subscription";
-      const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan (₹200 ya ₹351) activate karna hai. Kripya payment QR code / UPI ID aur onboarding details share karein.\n\nDhanyawad.";
+      const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan (₹200 ya ₹351) activate karna hai. Kripya payment details share karein.\n\nDhanyawad.";
 
       if (CONFIG.USE_WHATSAPP) {
         const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`;
@@ -701,9 +740,16 @@
       const phone = document.getElementById('bizContact').value.trim();
       const planDropdown = document.getElementById('planSelect');
       const planText = planDropdown.options[planDropdown.selectedIndex].text;
+      const termsChecked = document.getElementById('termsCheck').checked;
 
       if(!name || !phone) {
         openModalNotice("Kripya Business Name aur Contact Number bharein.");
+        return;
+      }
+
+      // Checkbox Validation
+      if (!termsChecked) {
+        openModalNotice("Kripya aage badhne ke liye Terms & Conditions checkbox ko tick karein.");
         return;
       }
 
@@ -717,7 +763,7 @@
 
       // Email Trigger
       const emailSubject = `Business Dost Promotion Request: ${name}`;
-      const emailBody = `New Promotion Details:\n\nBusiness Name: ${name}\nMobile: ${phone}\nPlan: ${planText}\nMedia File: ${fileDetails}\n\n(Aap apni video ya shop photo is email me attach karke bhej sakte hain)`;
+      const emailBody = `New Promotion Details:\n\nBusiness Name: ${name}\nMobile: ${phone}\nPlan: ${planText}\nMedia File: ${fileDetails}\nTerms Accepted: Yes\n\n(Aap apni video ya shop photo is email me attach karke bhej sakte hain)`;
       
       const mailtoUrl = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
       window.location.href = mailtoUrl;
@@ -735,11 +781,6 @@
     function closeNotice() {
       document.getElementById('noticeModal').classList.remove('active');
     }
-    const isAgreed = document.getElementById('termsCheck').checked;
-if (!isAgreed) {
-  openModalNotice("Kripya aage badhne ke liye Terms & Conditions checkbox ko tick karein.");
-  return;
-}
   </script>
 </body>
 </html>
