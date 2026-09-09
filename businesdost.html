@@ -16,7 +16,7 @@
   <!-- Favicon Icons -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
 
-  <!-- Open Graph / Facebook / WhatsApp Preview -->
+  <!-- Open Graph / WhatsApp / Facebook Preview -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://businessdost.com/">
   <meta property="og:title" content="Business Dost | Aapke Business Ka Digital Saathi">
@@ -121,10 +121,9 @@
     .nav-right-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    /* Share Button in Header */
     .btn-share-head {
       background: rgba(56, 189, 248, 0.15);
       border: 1px solid rgba(56, 189, 248, 0.4);
@@ -207,7 +206,7 @@
     /* Hero Section */
     .hero {
       max-width: 850px;
-      margin: 20px auto 25px;
+      margin: 20px auto 20px;
       padding: 0 16px;
       text-align: center;
     }
@@ -238,7 +237,6 @@
       display: block;
     }
 
-    /* Floating / Share Floating CTA */
     .share-strip {
       max-width: 850px;
       margin: 14px auto 0;
@@ -503,7 +501,7 @@
       transition: 0.2s ease;
     }
 
-    /* Legal In-Window Button */
+    /* Legal Page Navigation Button */
     .legal-btn-wrap {
       text-align: center;
       margin-bottom: 25px;
@@ -520,8 +518,15 @@
       border-radius: 25px;
       font-size: 13px;
       font-weight: 600;
-      cursor: pointer;
+      text-decoration: none;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-legal-link:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      transform: translateY(-2px);
     }
 
     /* Standard Alert Modal */
@@ -569,81 +574,6 @@
       margin-top: 14px;
     }
 
-    /* Full In-Page Legal Modal (Same Window) */
-    .legal-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 2500;
-    }
-
-    .legal-modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .legal-modal-box {
-      background: #1e293b;
-      border: 1px solid var(--border);
-      border-radius: 20px 20px 0 0;
-      width: 100%;
-      max-width: 850px;
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
-    }
-
-    .legal-modal-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .legal-modal-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #38bdf8;
-    }
-
-    .legal-modal-body {
-      padding: 20px;
-      overflow-y: auto;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
-
-    .legal-modal-body h3 {
-      font-size: 15px;
-      color: #fff;
-      margin: 16px 0 6px;
-    }
-
-    .legal-modal-body ol {
-      padding-left: 20px;
-    }
-
-    .legal-modal-body li {
-      margin-bottom: 8px;
-    }
-
-    .legal-modal-body strong {
-      color: var(--text-main);
-    }
-
     footer {
       border-top: 1px solid var(--border);
       padding: 18px;
@@ -682,7 +612,8 @@
     <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
     <a href="#upload-section" onclick="closeMenu()">Upload Media</a>
     <a href="#template-section" onclick="closeMenu()">Thumbnail Template</a>
-    <a href="javascript:void(0)" onclick="openLegalModal(); closeMenu();">Legal Policies & Terms</a>
+    <!-- Directly loads legalBD.html in same window -->
+    <a href="legalBD.html" onclick="closeMenu()">Legal Policies & Terms</a>
     <a href="#" onclick="openSubscriptionHelp(); closeMenu();">Buy Paid Plan</a>
     <a href="javascript:void(0)" onclick="shareWebsite(); closeMenu();" style="color: #38bdf8;">📤 Share Platform</a>
   </div>
@@ -697,7 +628,7 @@
     </div>
   </section>
 
-  <!-- Action Share Strip -->
+  <!-- Share Button Strip -->
   <div class="share-strip">
     <button class="btn-share-strip" onclick="shareWebsite()">
       📢 Doston & Dukandaron Ko Share Karein
@@ -780,11 +711,11 @@
       </div>
     </div>
 
-    <!-- Form Checkbox Section (Opens In Same Window) -->
+    <!-- Checkbox Section: Opens legalBD.html in same window -->
     <div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
       <input type="checkbox" id="termsCheck" style="width: auto; margin-top: 3px; cursor: pointer;">
       <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
-        Main Business Dost ke <a href="javascript:void(0)" onclick="openLegalModal()" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki submitted material authorized hai aur reach/sales ki koi guarantee nahi hai.
+        Main Business Dost ke <a href="legalBD.html" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki submitted material authorized hai aur reach/sales ki koi guarantee nahi hai.
       </label>
     </div>
 
@@ -807,11 +738,11 @@
     </a>
   </div>
 
-  <!-- In-Window Legal Policies Trigger Button -->
+  <!-- Same-Window Legal Page Link Button -->
   <div class="legal-btn-wrap">
-    <button type="button" class="btn-legal-link" onclick="openLegalModal()">
-      📜 View Legal Policies & Terms (In Window)
-    </button>
+    <a href="legalBD.html" class="btn-legal-link">
+      📜 View Legal Policies & Terms
+    </a>
   </div>
 
   <!-- Alert / Notice Modal -->
@@ -824,38 +755,6 @@
     </div>
   </div>
 
-  <!-- In-Page Legal Center Modal (Opens Smoothly in Same Window) -->
-  <div class="legal-modal-overlay" id="legalModalOverlay">
-    <div class="legal-modal-box">
-      <div class="legal-modal-header">
-        <div class="legal-modal-title">Business Dost Legal & Guidelines</div>
-        <button class="close-btn" onclick="closeLegalModal()">✕</button>
-      </div>
-      <div class="legal-modal-body">
-        <h3>About Us</h3>
-        <p>Business Dost ek digital promotional platform hai jo local businesses, dukandaron aur service providers ko bina kisi bhari ad cost ke YouTube aur social platforms par visibility pradan karta hai.</p>
-
-        <h3>Disclaimer</h3>
-        <p>Platform par di gayi sabhi jankari aur offers vyaparion dwara uplabdh karwayi gayi hain. Business Dost kisi product ki quality ya service dispute ka zimmedar nahi hoga.</p>
-
-        <h3>Key Terms & Conditions (Summary of 35 Points)</h3>
-        <ol>
-          <li><strong>Content Ownership:</strong> Video, photos aur logo par business owner ka poora adhikar hona anivarya hai.</li>
-          <li><strong>No Copyrighted Songs:</strong> Commercial music ya filmy gaane use na karein. Copyright claim par platform zimmedar nahi hoga.</li>
-          <li><strong>Prohibited Content:</strong> Tobacco, alcohol, gambling aur illegal activities bilkul swikar nahi ki jayengi.</li>
-          <li><strong>No View/Sale Guarantee:</strong> Free ya paid kisi bhi plan me guaranteed views, viral hone ya sales ki koi guarantee nahi hai.</li>
-          <li><strong>Revenue Waiver:</strong> Channel par upload hue video ke AdSense revenue par business ka koi claim nahi hoga.</li>
-          <li><strong>Right to Remove:</strong> Outdated offers, fake claims ya legal dispute par video unlist ya delete ki ja sakti hai.</li>
-          <li><strong>No Partnership:</strong> Business Dost sirf ek promotion discovery platform hai, kisi business ka legal partner ya agent nahi.</li>
-        </ol>
-
-        <h3>Privacy & Contact</h3>
-        <p>Aapka phone number aur name sirf promotional display aur direct client contact ke liye use hoga.</p>
-        <p>Official Query Email: <strong>admin@businessdost.com</strong></p>
-      </div>
-    </div>
-  </div>
-
   <footer>
     Business Dost &copy; 2026. Chhote Vyaparion Ka Digital Sathi.
   </footer>
@@ -865,11 +764,10 @@
        CONFIG SWITCH
     ======================================================== */
     const CONFIG = {
-      // Jab WhatsApp number ready ho tab true karein; abhi Email composer open hoga
+      // Set to true when WhatsApp is active; false triggers email composer
       USE_WHATSAPP: false,
       WHATSAPP_NUMBER: "919999999999",
-      ADMIN_EMAIL: "admin@businessdost.com",
-      SITE_URL: window.location.href
+      ADMIN_EMAIL: "admin@businessdost.com"
     };
 
     let selectedFileName = "";
@@ -917,7 +815,7 @@
       }
     }
 
-    // Paid Subscription Help
+    // Paid Subscription Enquiry
     function openSubscriptionHelp() {
       const subject = "Query: How to Buy Paid Subscription";
       const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan (₹200 ya ₹351) activate karna hai. Kripya payment details share karein.\n\nDhanyawad.";
@@ -964,7 +862,7 @@
       window.location.href = mailtoUrl;
     }
 
-    // Smart Share Function (Web Share API with Fallback)
+    // Smart Native Web Share API
     function shareWebsite() {
       const shareData = {
         title: 'Business Dost - Aapke Business Ka Digital Saathi',
@@ -975,7 +873,6 @@
       if (navigator.share) {
         navigator.share(shareData).catch((err) => console.log('Share dismissed', err));
       } else {
-        // Fallback: Copy link & notify
         navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`).then(() => {
           openModalNotice("Promotion share link clipboard me copy ho gaya hai! Aap ise WhatsApp ya social media par paste kar sakte hain.");
         }).catch(() => {
@@ -984,7 +881,7 @@
       }
     }
 
-    // Modal Helpers
+    // Drawer & Modal Helpers
     function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
     function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
 
@@ -994,14 +891,6 @@
     }
     function closeNotice() {
       document.getElementById('noticeModal').classList.remove('active');
-    }
-
-    // In-Window Legal Modal Functions
-    function openLegalModal() {
-      document.getElementById('legalModalOverlay').classList.add('active');
-    }
-    function closeLegalModal() {
-      document.getElementById('legalModalOverlay').classList.remove('active');
     }
   </script>
 </body>
