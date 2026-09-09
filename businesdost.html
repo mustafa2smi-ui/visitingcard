@@ -581,7 +581,13 @@
         <div class="file-size-display" id="fileSizeText"></div>
       </div>
     </div>
-
+<!-- Form Checkbox Section -->
+<div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
+  <input type="checkbox" id="termsCheck" required style="width: auto; margin-top: 3px; cursor: pointer;">
+  <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
+    Main Business Dost ke <a href="javascript:void(0)" onclick="openTermsModal()" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki submitted video/photo/music par mera poora adhikar hai aur channel par views ya sales ki koi guarantee nahi hai.
+  </label>
+</div>
     <button type="button" class="btn-main" onclick="executeSubmission()">Submit & Send Details</button>
   </div>
 
@@ -610,7 +616,9 @@
       <button class="btn-close" onclick="closeNotice()">Theek Hai</button>
     </div>
   </div>
-
+<a href="legalBD.html" target="_blank">
+      📥 Legal Page
+    </a>
   <footer>
     Business Dost &copy; 2026. Chhote Vyaparion Ka Digital Sathi.
   </footer>
@@ -727,6 +735,11 @@
     function closeNotice() {
       document.getElementById('noticeModal').classList.remove('active');
     }
+    const isAgreed = document.getElementById('termsCheck').checked;
+if (!isAgreed) {
+  openModalNotice("Kripya aage badhne ke liye Terms & Conditions checkbox ko tick karein.");
+  return;
+}
   </script>
 </body>
 </html>
