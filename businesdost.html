@@ -219,44 +219,60 @@
     </button>
   </div>
 
-  <section class="section-title" id="plans">
-    <h2>Choose Promotion Plan</h2>
-  </section>
+  <!-- ========================================== -->
+<!-- UPDATED PLANS SECTION (SHURUAT, UDAAN, RAFTAAR) -->
+<!-- ========================================== -->
+<section class="section-title" id="plans">
+  <h2>Choose Promotion Plan</h2>
+</section>
 
-  <div class="plans-scroll-wrapper">
-    <div class="plans-container">
-      <div class="plan-box active" id="card-free" onclick="syncPlanSelection('3_months_free')">
-        <div class="plan-duration">Trial Offer</div>
-        <div class="plan-price" style="color: #4ade80;">₹0</div>
-        <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">3 Months Free</div>
-        <ul class="plan-features">
-          <li>✔ 1 Video Promotion</li>
-          <li>✔ 1 Community Post</li>
-        </ul>
-      </div>
-
-      <div class="plan-box" id="card-six" onclick="syncPlanSelection('6_months_200')">
-        <span class="badge">Popular</span>
-        <div class="plan-duration">Semi-Annual</div>
-        <div class="plan-price" style="color: #38bdf8;">₹200</div>
-        <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">6 Months</div>
-        <ul class="plan-features">
-          <li>✔ Priority Upload</li>
-          <li>✔ Offer Updates</li>
-        </ul>
-      </div>
-
-      <div class="plan-box" id="card-yearly" onclick="syncPlanSelection('1_year_351')">
-        <div class="plan-duration">Full Year</div>
-        <div class="plan-price" style="color: #f59e0b;">₹351</div>
-        <div style="font-size: 11px; margin-bottom: 6px; font-weight: 700;">12 Months</div>
-        <ul class="plan-features">
-          <li>✔ Highest Priority</li>
-          <li>✔ Festival Specials</li>
-        </ul>
-      </div>
+<div class="plans-scroll-wrapper">
+  <div class="plans-container">
+    
+    <!-- Plan 1: Shuruat (Free) -->
+    <div class="plan-box active" id="card-shuruat" onclick="syncPlanSelection('shuruat_free')">
+      <div class="plan-duration">Trial Tier</div>
+      <div class="plan-price" style="color: #4ade80;">₹0</div>
+      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Shuruat Plan</div>
+      <ul class="plan-features">
+        <li><strong>1 Long Video</strong> (Lifetime)</li>
+        <li><strong>1 Short Video</strong> (8 Sec / Month)</li>
+        <li>1 Community Post / Year</li>
+        <li>Direct Google Maps Location</li>
+      </ul>
     </div>
+
+    <!-- Plan 2: Udaan (Growth) -->
+    <div class="plan-box" id="card-udaan" onclick="syncPlanSelection('udaan_paid')">
+      <span class="badge">Popular</span>
+      <div class="plan-duration">Growth Tier</div>
+      <div class="plan-price" style="color: #38bdf8;">₹199</div>
+      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Udaan Plan</div>
+      <ul class="plan-features">
+        <li><strong>3 Long Videos</strong> (Lifetime)</li>
+        <li><strong>Shorts (15 Sec)</strong> / Every 15 Days</li>
+        <li>1 Community Post / Month</li>
+        <li>Priority Channel Queue</li>
+      </ul>
+    </div>
+
+    <!-- Plan 3: Raftaar (VIP) -->
+    <div class="plan-box" id="card-raftaar" onclick="syncPlanSelection('raftaar_vip')">
+      <span class="badge" style="background: #f59e0b; color: #000;">VIP Partner</span>
+      <div class="plan-duration">Full Power</div>
+      <div class="plan-price" style="color: #f59e0b;">₹499</div>
+      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Raftaar Plan</div>
+      <ul class="plan-features">
+        <li><strong>10 Long Videos</strong> (Lifetime)</li>
+        <li><strong>Shorts (8s, 15s, 30s)</strong> / Every 7 Days</li>
+        <li>Unlimited Community Posts</li>
+        <li>VIP Showcase & Top Pin</li>
+      </ul>
+    </div>
+
   </div>
+</div>
+
 
   <button type="button" class="btn-subscription-help" onclick="openSubscriptionHelp()">
     💳 How To Buy Paid Subscription?
@@ -291,13 +307,13 @@
     </div>
 
     <div class="form-group">
-      <label>Selected Promotion Plan</label>
-      <select id="planSelect" class="select-field" onchange="syncCardFromCombo(this.value)">
-        <option value="3_months_free">3 Months Free Plan (₹0)</option>
-        <option value="6_months_200">6 Months Semi-Annual Plan (₹200)</option>
-        <option value="1_year_351">1 Year Growth Plan (₹351)</option>
-      </select>
-    </div>
+  <label>Selected Promotion Plan</label>
+  <select id="planSelect" class="select-field" onchange="syncCardFromCombo(this.value)">
+    <option value="shuruat_free">Shuruat Plan (₹0) - 1 Long Video + 8s Short/Month</option>
+    <option value="udaan_paid">Udaan Plan (₹199) - 3 Long Videos + 15s Short/15 Days</option>
+    <option value="raftaar_vip">Raftaar VIP Plan (₹499) - 10 Long Videos + 8/15/30s Short/7 Days</option>
+  </select>
+</div>
 
     <div class="form-group">
       <label>Upload Video / Shop Poster</label>
@@ -370,21 +386,23 @@
     let userLatitude = null;
     let userLongitude = null;
 
-    function syncPlanSelection(planValue) {
-      document.getElementById('planSelect').value = planValue;
-      highlightCard(planValue);
-    }
+    // Sync from Card tap to Combo Box
+function syncPlanSelection(planValue) {
+  document.getElementById('planSelect').value = planValue;
+  highlightCard(planValue);
+}
 
-    function syncCardFromCombo(planValue) {
-      highlightCard(planValue);
-    }
+// Sync from Combo Box to Card visual
+function syncCardFromCombo(planValue) {
+  highlightCard(planValue);
+}
 
-    function highlightCard(planValue) {
-      document.querySelectorAll('.plan-box').forEach(el => el.classList.remove('active'));
-      if(planValue === '3_months_free') document.getElementById('card-free').classList.add('active');
-      if(planValue === '6_months_200') document.getElementById('card-six').classList.add('active');
-      if(planValue === '1_year_351') document.getElementById('card-yearly').classList.add('active');
-    }
+function highlightCard(planValue) {
+  document.querySelectorAll('.plan-box').forEach(el => el.classList.remove('active'));
+  if(planValue === 'shuruat_free') document.getElementById('card-shuruat').classList.add('active');
+  if(planValue === 'udaan_paid') document.getElementById('card-udaan').classList.add('active');
+  if(planValue === 'raftaar_vip') document.getElementById('card-raftaar').classList.add('active');
+}
 
     function handleFileSelected(input) {
       if (input.files && input.files[0]) {
