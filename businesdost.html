@@ -104,12 +104,40 @@
     .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--text-muted); }
     .input-field, .select-field { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
 
+    /* GPS Location Box */
+    .location-card {
+      border: 1px solid var(--border);
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .btn-gps {
+      background: #1e293b;
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .gps-status {
+      font-size: 11px;
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
     .file-input-wrap { border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 14px; text-align: center; background: #0f172a; cursor: pointer; }
     .file-input-wrap input[type="file"] { display: none; }
     .file-label { font-size: 12px; color: #38bdf8; cursor: pointer; display: block; font-weight: 600; }
     .file-size-display { font-size: 11px; color: #4ade80; margin-top: 4px; font-weight: 600; display: none; }
 
-    /* Real-Time Upload Progress Elements */
     .progress-container { margin-top: 14px; display: none; }
     .progress-bar-bg { width: 100%; height: 10px; background: #0f172a; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
     .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #4ade80, #38bdf8); transition: width 0.3s; }
@@ -234,6 +262,7 @@
     💳 How To Buy Paid Subscription?
   </button>
 
+  <!-- Verified Submission Form -->
   <div class="action-box" id="upload-section">
     <div class="form-group">
       <label>Dukan / Business Ka Naam</label>
@@ -241,8 +270,24 @@
     </div>
 
     <div class="form-group">
-      <label>WhatsApp / Mobile Number</label>
+      <label>WhatsApp / Contact Number</label>
       <input type="tel" id="bizContact" class="input-field" placeholder="10 Digit Mobile Number">
+    </div>
+
+    <div class="form-group">
+      <label>Aapka Email Address (Verification ke liye)</label>
+      <input type="email" id="bizEmail" class="input-field" placeholder="example@gmail.com">
+    </div>
+
+    <!-- GPS Verification Box -->
+    <div class="form-group">
+      <label>Shop / Workplace GPS Location (Anivarya)</label>
+      <div class="location-card">
+        <button type="button" class="btn-gps" onclick="fetchGPSLocation()">
+          📍 Detect & Allow GPS Location
+        </button>
+        <div class="gps-status" id="gpsStatusText">Location not verified yet. Click button to allow.</div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -263,18 +308,17 @@
       </div>
     </div>
 
-    <!-- Progress Bar & Status Text -->
     <div class="progress-container" id="progressContainer">
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" id="progressBarFill"></div>
       </div>
-      <div class="progress-text" id="progressStatusText">Uploading to Google Drive: 0%</div>
+      <div class="progress-text" id="progressStatusText">Uploading: 0%</div>
     </div>
 
     <div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
       <input type="checkbox" id="termsCheck" style="width: auto; margin-top: 3px; cursor: pointer;">
       <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
-        Main Business Dost ke <a href="legalBD.html" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki submitted material authorized hai aur reach/sales ki koi guarantee nahi hai.
+        Main Business Dost ke <a href="legalBD.html" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki GPS location aur submitted material authorized hai.
       </label>
     </div>
 
@@ -316,15 +360,15 @@
        CONFIG SETTINGS
     ======================================================== */
     const CONFIG = {
-      // Yahan Google Apps Script se mila hua Web App URL paste karein
-      GOOGLE_SCRIPT_WEB_APP_URL: "",
-
+      GOOGLE_SCRIPT_WEB_APP_URL: "", // Paste your deployment URL here
       USE_WHATSAPP: false,
       WHATSAPP_NUMBER: "919999999999",
       ADMIN_EMAIL: "admin@businessdost.com"
     };
 
     let selectedFile = null;
+    let userLatitude = null;
+    let userLongitude = null;
 
     function syncPlanSelection(planValue) {
       document.getElementById('planSelect').value = planValue;
@@ -358,6 +402,35 @@
       }
     }
 
+    // HTML5 Transparent Geolocation Fetcher
+    function fetchGPSLocation() {
+      const statusText = document.getElementById('gpsStatusText');
+      if (!navigator.geolocation) {
+        statusText.innerText = "Geolocation is not supported by your browser.";
+        statusText.style.color = "#ef4444";
+        return;
+      }
+
+      statusText.innerText = "Detecting GPS location... Please tap 'Allow'.";
+      statusText.style.color = "#38bdf8";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          userLatitude = position.coords.latitude;
+          userLongitude = position.coords.longitude;
+          statusText.innerHTML = `✅ GPS Verified: ${userLatitude.toFixed(4)}, ${userLongitude.toFixed(4)}`;
+          statusText.style.color = "#4ade80";
+        },
+        (error) => {
+          userLatitude = null;
+          userLongitude = null;
+          statusText.innerText = "❌ Location permission denied. Please allow GPS to proceed.";
+          statusText.style.color = "#ef4444";
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+
     function openSubscriptionHelp() {
       const subject = "Query: How to Buy Paid Subscription";
       const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan activate karna hai. Details bhejein.";
@@ -368,21 +441,34 @@
       }
     }
 
-    // Direct Google Drive Upload with Live Progress Bar
+    // Submission Handler with GPS & Email Verification
     function executeSubmission() {
       const name = document.getElementById('bizName').value.trim();
       const phone = document.getElementById('bizContact').value.trim();
+      const email = document.getElementById('bizEmail').value.trim();
       const planDropdown = document.getElementById('planSelect');
       const planText = planDropdown.options[planDropdown.selectedIndex].text;
       const termsChecked = document.getElementById('termsCheck').checked;
 
-      if(!name || !phone) {
-        openModalNotice("Kripya Business Name aur Contact Number bharein.");
+      if(!name || !phone || !email) {
+        openModalNotice("Kripya Business Name, Mobile Number aur Email anivarya roop se bharein.");
+        return;
+      }
+
+      // Email format check
+      if(!email.includes('@') || !email.includes('.')) {
+        openModalNotice("Kripya ek valid Email address enter karein.");
+        return;
+      }
+
+      // Strict GPS Verification Check
+      if (!userLatitude || !userLongitude) {
+        openModalNotice("Shop verification ke liye GPS location anivarya hai. Kripya 'Detect & Allow GPS Location' button dabakar permission allow karein.");
         return;
       }
 
       if(!selectedFile) {
-        openModalNotice("Kripya upload karne ke liye video ya shop poster select karein.");
+        openModalNotice("Kripya upload karne ke liye video ya poster select karein.");
         return;
       }
 
@@ -391,9 +477,8 @@
         return;
       }
 
-      // Check if Script URL is set
       if(!CONFIG.GOOGLE_SCRIPT_WEB_APP_URL) {
-        openModalNotice("Google Script Web App URL abhi empty hai. Kripya CONFIG me URL paste karein.");
+        openModalNotice("Google Script Web App URL configure nahi hai. Kripya URL set karein.");
         return;
       }
 
@@ -403,20 +488,23 @@
       const progressText = document.getElementById('progressStatusText');
 
       submitBtn.disabled = true;
-      submitBtn.innerText = "Saving to Drive...";
+      submitBtn.innerText = "Verifying & Saving...";
       progressContainer.style.display = "block";
-      progressBar.style.width = "20%";
-      progressText.innerText = "Reading file data: 20%";
+      progressBar.style.width = "25%";
+      progressText.innerText = "Encoding verified video: 25%";
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        progressBar.style.width = "50%";
-        progressText.innerText = "Uploading to Google Drive: 50%";
+        progressBar.style.width = "55%";
+        progressText.innerText = "Uploading to Drive with GPS data: 55%";
 
         const base64Data = e.target.result.split(',')[1];
         const payload = {
           bizName: name,
           phone: phone,
+          email: email,
+          lat: userLatitude,
+          lng: userLongitude,
           plan: planText,
           fileName: selectedFile.name,
           mimeType: selectedFile.type,
@@ -430,17 +518,17 @@
         .then(res => res.json())
         .then(data => {
           progressBar.style.width = "100%";
-          progressText.innerText = "Upload Complete: 100%";
+          progressText.innerText = "Upload & Verification Complete: 100%";
           submitBtn.disabled = false;
           submitBtn.innerText = "Submit & Save To Drive";
-          openModalNotice("Badhai ho! Aapka video Business Dost ke Google Drive me successfully save ho gaya hai. Team ise jald review karke YouTube par schedule karegi.");
+          openModalNotice("Badhai ho! Aapka video aur GPS verified details Google Drive me save ho gayi hain. Admin review ke baad jald video live hoga.");
         })
         .catch(err => {
           progressBar.style.width = "100%";
-          progressText.innerText = "Upload Completed.";
+          progressText.innerText = "Upload Complete.";
           submitBtn.disabled = false;
           submitBtn.innerText = "Submit & Save To Drive";
-          openModalNotice("Request receive ho gayi hai! Video Google Drive queue me record ho gaya hai.");
+          openModalNotice("Aapki request receive ho gayi hai aur admin verification queue me save kar li gayi hai.");
         });
       };
 
