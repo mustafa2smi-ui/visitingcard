@@ -97,6 +97,13 @@
     .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--text-muted); }
     .input-field, .select-field { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
 
+    /* 2 Column Row for State & District */
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
     .location-card {
       border: 1px solid var(--border); background: #0f172a; border-radius: 10px; padding: 12px; margin-bottom: 14px; text-align: center;
     }
@@ -120,14 +127,75 @@
       color: white; border: none; padding: 12px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; margin-top: 6px;
     }
 
-    .template-box { max-width: 520px; margin: 0 auto 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; }
-    .template-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    /* Thumbnail Carousel & Showcase Box */
+    .template-box { max-width: 560px; margin: 0 auto 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; }
+    .template-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
     .template-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
-    .template-preview-frame { border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9; background: #0f172a; border: 1px solid var(--border); margin-bottom: 14px; }
-    .template-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Language Picker Combo Box */
+    .thumb-lang-wrap {
+      max-width: 280px;
+      margin: 0 auto 16px;
+    }
+
+    .thumbnail-scroll-container {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    .thumbnail-scroll-container::-webkit-scrollbar { display: none; }
+
+    .thumb-slide {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+      border: 2px solid var(--border);
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .thumb-slide.active {
+      border-color: #38bdf8;
+      transform: scale(1.01);
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
+    }
+
+    .thumb-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-lang-tag {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #38bdf8;
+      border: 1px solid var(--border);
+    }
+
     .btn-download-template {
       display: inline-flex; align-items: center; gap: 6px; background: #1e293b; color: #38bdf8;
-      border: 1px solid #38bdf8; padding: 8px 18px; border-radius: 25px; font-size: 12px; font-weight: 600; text-decoration: none;
+      border: 1px solid #38bdf8; padding: 10px 22px; border-radius: 25px; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-download-template:hover {
+      background: #38bdf8; color: #0f172a;
     }
 
     .legal-btn-wrap { text-align: center; margin-bottom: 25px; }
@@ -170,7 +238,7 @@
     </div>
     <a href="#" onclick="closeMenu()">Home</a>
     <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
-    <a href="#template-section" onclick="closeMenu()">Thumbnail Template</a>
+    <a href="#template-section" onclick="closeMenu()">Thumbnail Templates</a>
     <a href="legalBD.html" onclick="closeMenu()">Legal Policies & Terms</a>
     <a href="javascript:void(0)" onclick="shareWebsite(); closeMenu();" style="color: #38bdf8;">📤 Share Platform</a>
   </div>
@@ -236,11 +304,11 @@
     </div>
   </div>
 
-  <!-- SECTION 1: PUBLIC SUBSCRIPTION / ONBOARDING FORM (Visible to Everyone) -->
+  <!-- SECTION 1: PUBLIC SUBSCRIPTION & ONBOARDING FORM (With State & District) -->
   <div class="action-box" id="publicOnboardingSection">
-    <div style="text-align: center; margin-bottom: 12px;">
-      <h3 style="color: #38bdf8; font-size: 16px;">🚀 Get Started / Buy Subscription</h3>
-      <p style="font-size: 12px; color: var(--text-muted);">Apni dukan details submit karein. Verification ke baad video upload access link WhatsApp par milega.</p>
+    <div style="text-align: center; margin-bottom: 14px;">
+      <h3 style="color: #38bdf8; font-size: 17px;">🚀 Get Started / Apply for Promotion</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Apni shop details bharein. Verification ke baad upload link WhatsApp par share kiya jayega.</p>
     </div>
 
     <div class="form-group">
@@ -251,6 +319,18 @@
     <div class="form-group">
       <label>WhatsApp / Contact Number</label>
       <input type="tel" id="reqBizPhone" class="input-field" placeholder="10 Digit WhatsApp Number">
+    </div>
+
+    <!-- State & District 2-Column Inputs -->
+    <div class="form-row-2">
+      <div class="form-group">
+        <label>State (Rajya)</label>
+        <input type="text" id="reqState" class="input-field" placeholder="Jaise: Madhya Pradesh">
+      </div>
+      <div class="form-group">
+        <label>District (Zila)</label>
+        <input type="text" id="reqDistrict" class="input-field" placeholder="Jaise: Bhopal">
+      </div>
     </div>
 
     <div class="form-group">
@@ -265,14 +345,14 @@
     <button type="button" class="btn-main" onclick="submitOnboardingRequest()">Apply & Request Access Link</button>
   </div>
 
-  <!-- SECTION 2: SECRET UPLOAD SECTION (Default HIDE - Only opens with ?token=...) -->
+  <!-- SECTION 2: SECRET UPLOAD SECTION (Only visible with ?token=...) -->
   <div class="action-box" id="secretUploadSection" style="display: none; border-color: #4ade80;">
     <div style="text-align: center; margin-bottom: 12px;">
       <div style="background: rgba(74, 222, 128, 0.15); color: #4ade80; display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-bottom: 4px;">
         🔒 Verified Access Unlocked
       </div>
       <h3 style="font-size: 16px;">Upload Business Video</h3>
-      <p style="font-size: 11px; color: var(--text-muted);">Yeh single-use link hai. Video submit hote hi yeh link auto-expire ho jayega.</p>
+      <p style="font-size: 11px; color: var(--text-muted);">Yeh single-use link hai. Video submit hote hi token burn ho jayega.</p>
     </div>
 
     <div class="form-group">
@@ -335,15 +415,66 @@
     <button type="button" id="submitBtn" class="btn-main" onclick="executeTokenUpload()">Submit & Burn Access Link</button>
   </div>
 
-  <!-- YouTube Thumbnail Template Box -->
+  <!-- MULTI-LANGUAGE THUMBNAIL TEMPLATE SECTION -->
   <div class="template-box" id="template-section">
-    <div class="template-title">🎨 YouTube Thumbnail Template</div>
-    <p class="template-desc">Template frame download karke shop details add karein.</p>
-    <div class="template-preview-frame">
-      <img id="thumbnailTemplateImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="16:9 Thumbnail Template" class="template-img">
+    <div class="template-title">🎨 Regional Thumbnail Templates</div>
+    <p class="template-desc">Apni bhasha select karein, frame download karein aur shop photo add karke upload karein.</p>
+    
+    <!-- Language Picker Dropdown -->
+    <div class="thumb-lang-wrap">
+      <label style="display:block; font-size:11px; font-weight:700; color:#38bdf8; margin-bottom:5px;">Select Template Language:</label>
+      <select id="thumbLangSelect" class="select-field" onchange="onLanguageChanged(this.value)">
+        <option value="hindi">Hindi (हिंदी)</option>
+        <option value="english">English</option>
+        <option value="urdu">Urdu (اردو)</option>
+        <option value="marathi">Marathi (मराठी)</option>
+        <option value="tamil">Tamil (தமிழ்)</option>
+        <option value="telugu">Telugu (తెలుగు)</option>
+      </select>
     </div>
-    <a href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" download="Business-Dost-Thumbnail-Template.jpg" class="btn-download-template">
-      📥 Download Thumbnail Template
+
+    <!-- Horizontal Swipe Carousel -->
+    <div class="thumbnail-scroll-container" id="thumbSlider">
+      <!-- 1. Hindi -->
+      <div class="thumb-slide active" id="slide-hindi" data-lang="hindi" data-url="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="Hindi Thumbnail Template">
+        <span class="thumb-lang-tag">Hindi Poster</span>
+      </div>
+
+      <!-- 2. English -->
+      <div class="thumb-slide" id="slide-english" data-lang="english" data-url="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80">
+        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80" alt="English Thumbnail Template">
+        <span class="thumb-lang-tag">English Poster</span>
+      </div>
+
+      <!-- 3. Urdu -->
+      <div class="thumb-slide" id="slide-urdu" data-lang="urdu" data-url="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80">
+        <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80" alt="Urdu Thumbnail Template">
+        <span class="thumb-lang-tag">Urdu Poster</span>
+      </div>
+
+      <!-- 4. Marathi -->
+      <div class="thumb-slide" id="slide-marathi" data-lang="marathi" data-url="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80">
+        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80" alt="Marathi Thumbnail Template">
+        <span class="thumb-lang-tag">Marathi Poster</span>
+      </div>
+
+      <!-- 5. Tamil -->
+      <div class="thumb-slide" id="slide-tamil" data-lang="tamil" data-url="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80">
+        <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" alt="Tamil Thumbnail Template">
+        <span class="thumb-lang-tag">Tamil Poster</span>
+      </div>
+
+      <!-- 6. Telugu -->
+      <div class="thumb-slide" id="slide-telugu" data-lang="telugu" data-url="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80">
+        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80" alt="Telugu Thumbnail Template">
+        <span class="thumb-lang-tag">Telugu Poster</span>
+      </div>
+    </div>
+
+    <!-- Dynamic Download Button -->
+    <a id="btnDownloadTemplate" href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" download="Business-Dost-Hindi-Template.jpg" class="btn-download-template">
+      📥 Download Selected (<span id="downloadLangLabel">Hindi</span>) Template
     </a>
   </div>
 
@@ -371,7 +502,7 @@
        CONFIG SETTINGS
     ======================================================== */
     const CONFIG = {
-      GOOGLE_SCRIPT_WEB_APP_URL: "", // Paste your Apps Script URL here
+      GOOGLE_SCRIPT_WEB_APP_URL: "", // Paste your Apps Script Web App URL here
       ADMIN_EMAIL: "admin@businessdost.com",
       ADMIN_WHATSAPP: "919999999999"
     };
@@ -381,39 +512,68 @@
     let userLatitude = null;
     let userLongitude = null;
 
-    // CHECK FOR SECRET TOKEN ON PAGE LOAD
+    // Check for Secret Token in URL query (?token=...)
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       activeToken = urlParams.get('token');
 
       if (activeToken) {
-        // Token present: Show Upload Box, Hide Onboarding
         document.getElementById('secretUploadSection').style.display = 'block';
         document.getElementById('publicOnboardingSection').style.display = 'none';
       } else {
-        // No Token: Default Public View
         document.getElementById('secretUploadSection').style.display = 'none';
         document.getElementById('publicOnboardingSection').style.display = 'block';
       }
     });
 
-    // Public Onboarding Request Trigger
+    // Public Onboarding Request (With State & District formatted in Email)
     function submitOnboardingRequest() {
       const name = document.getElementById('reqBizName').value.trim();
       const phone = document.getElementById('reqBizPhone').value.trim();
+      const state = document.getElementById('reqState').value.trim();
+      const district = document.getElementById('reqDistrict').value.trim();
       const planDropdown = document.getElementById('reqPlanSelect');
       const planText = planDropdown.options[planDropdown.selectedIndex].text;
 
       if (!name || !phone) {
-        openModalNotice("Kripya Business Name aur WhatsApp Number bharein.");
+        openModalNotice("Kripya Business Name aur WhatsApp Number anivarya roop se bharein.");
         return;
       }
 
-      const subject = `Promotion Request: ${name}`;
-      const body = `Hello Business Dost,\n\nMujhe Business Dost par promotion karwana hai.\n\nShop Name: ${name}\nWhatsApp: ${phone}\nPlan: ${planText}\n\nKripya verification aur upload access link share karein.`;
+      const subject = `Promotion Request: ${name} (${district || 'Local'})`;
+      const body = `Hello Business Dost Team,\n\n` +
+                   `Mujhe apne business ko Business Dost YouTube channel par promote karwana hai.\n\n` +
+                   `🏪 Business / Shop Name: ${name}\n` +
+                   `📞 WhatsApp Number: ${phone}\n` +
+                   `📍 State (Rajya): ${state || 'Not Specified'}\n` +
+                   `🏙️ District (Zila): ${district || 'Not Specified'}\n` +
+                   `📦 Selected Plan: ${planText}\n\n` +
+                   `Kripya verify karke mujhe mera secret video upload link share karein.\n\n` +
+                   `Dhanyawad,\n${name}`;
       
-      // Direct Email Trigger
       window.location.href = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    // Language Dropdown -> Auto Scroll & Download Button Update
+    function onLanguageChanged(lang) {
+      const targetSlide = document.getElementById(`slide-${lang}`);
+      if (!targetSlide) return;
+
+      // 1. Highlight Active Slide
+      document.querySelectorAll('.thumb-slide').forEach(s => s.classList.remove('active'));
+      targetSlide.classList.add('active');
+
+      // 2. Smooth Scroll to Target Slide in Carousel
+      targetSlide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      // 3. Update Download Link & Label
+      const imgUrl = targetSlide.getAttribute('data-url');
+      const downloadBtn = document.getElementById('btnDownloadTemplate');
+      const langLabel = document.getElementById('downloadLangLabel');
+
+      downloadBtn.href = imgUrl;
+      downloadBtn.setAttribute('download', `Business-Dost-${lang}-Template.jpg`);
+      langLabel.innerText = lang.charAt(0).toUpperCase() + lang.slice(1);
     }
 
     // GPS Detector
@@ -490,7 +650,7 @@
         progressText.innerText = "Uploading to Drive: 50%";
 
         const payload = {
-          token: activeToken, // Single-use token passed here
+          token: activeToken,
           bizName: name,
           phone: phone,
           email: email,
@@ -512,7 +672,6 @@
             progressBar.style.width = "100%";
             progressText.innerText = "Complete: 100%";
             openModalNotice("Badhai ho! Video Google Drive me save ho gayi hai aur aapka secret access link ab EXPIRE ho chuka hai.");
-            // Hide form after upload
             document.getElementById('secretUploadSection').innerHTML = "<div style='text-align:center; padding:20px; color:#4ade80;'><h3>✅ Upload Complete</h3><p>Aapka token burn ho chuka hai. Video review ke baad YouTube par schedule hogi.</p></div>";
           } else {
             openModalNotice("Error: " + data.message);
