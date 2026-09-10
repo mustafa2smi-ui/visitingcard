@@ -6,7 +6,7 @@
   
   <title>Business Dost | Aapke Business Ka Digital Saathi</title>
   <meta name="title" content="Business Dost | Aapke Business Ka Digital Saathi">
-  <meta name="description" content="Apne local business, shop ya services ko Business Dost ke YouTube platform par promote karein. Free video showcase, community shoutouts aur online visibility payein.">
+  <meta name="description" content="Apne local business, shop ya services ko Business Dost ke YouTube platform par promote karein.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0f172a">
   <link rel="canonical" href="https://businessdost.com/">
@@ -92,46 +92,18 @@
     .plan-features { list-style: none; text-align: left; font-size: 11px; color: var(--text-muted); padding-top: 6px; border-top: 1px solid var(--border); }
     .plan-features li { margin-bottom: 4px; }
 
-    .btn-subscription-help {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      width: calc(100% - 32px); max-width: 380px; margin: 0 auto 35px;
-      background: rgba(245, 158, 11, 0.12); border: 1px dashed var(--highlight);
-      color: var(--highlight); padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
-    }
-
     .action-box { max-width: 520px; margin: 0 auto 35px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--text-muted); }
     .input-field, .select-field { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
 
-    /* GPS Location Box */
     .location-card {
-      border: 1px solid var(--border);
-      background: #0f172a;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 14px;
-      text-align: center;
+      border: 1px solid var(--border); background: #0f172a; border-radius: 10px; padding: 12px; margin-bottom: 14px; text-align: center;
     }
     .btn-gps {
-      background: #1e293b;
-      border: 1px solid #38bdf8;
-      color: #38bdf8;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      background: #1e293b; border: 1px solid #38bdf8; color: #38bdf8; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
     }
-    .gps-status {
-      font-size: 11px;
-      margin-top: 6px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
+    .gps-status { font-size: 11px; margin-top: 6px; color: var(--text-muted); font-weight: 500; }
 
     .file-input-wrap { border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 14px; text-align: center; background: #0f172a; cursor: pointer; }
     .file-input-wrap input[type="file"] { display: none; }
@@ -198,10 +170,8 @@
     </div>
     <a href="#" onclick="closeMenu()">Home</a>
     <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
-    <a href="#upload-section" onclick="closeMenu()">Upload Media</a>
     <a href="#template-section" onclick="closeMenu()">Thumbnail Template</a>
     <a href="legalBD.html" onclick="closeMenu()">Legal Policies & Terms</a>
-    <a href="#" onclick="openSubscriptionHelp(); closeMenu();">Buy Paid Plan</a>
     <a href="javascript:void(0)" onclick="shareWebsite(); closeMenu();" style="color: #38bdf8;">📤 Share Platform</a>
   </div>
 
@@ -219,107 +189,131 @@
     </button>
   </div>
 
-  <!-- ========================================== -->
-<!-- UPDATED PLANS SECTION (SHURUAT, UDAAN, RAFTAAR) -->
-<!-- ========================================== -->
-<section class="section-title" id="plans">
-  <h2>Choose Promotion Plan</h2>
-</section>
+  <!-- Plans Section -->
+  <section class="section-title" id="plans">
+    <h2>Choose Promotion Plan</h2>
+  </section>
 
-<div class="plans-scroll-wrapper">
-  <div class="plans-container">
-    
-    <!-- Plan 1: Shuruat (Free) -->
-    <div class="plan-box active" id="card-shuruat" onclick="syncPlanSelection('shuruat_free')">
-      <div class="plan-duration">Trial Tier</div>
-      <div class="plan-price" style="color: #4ade80;">₹0</div>
-      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Shuruat Plan</div>
-      <ul class="plan-features">
-        <li><strong>1 Long Video</strong> (Lifetime)</li>
-        <li><strong>1 Short Video</strong> (8 Sec / Month)</li>
-        <li>1 Community Post / Year</li>
-        <li>Direct Google Maps Location</li>
-      </ul>
+  <div class="plans-scroll-wrapper">
+    <div class="plans-container">
+      <div class="plan-box active" id="card-shuruat" onclick="syncPlanSelection('shuruat_free')">
+        <div class="plan-duration">Trial Tier</div>
+        <div class="plan-price" style="color: #4ade80;">₹0</div>
+        <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Shuruat Plan</div>
+        <ul class="plan-features">
+          <li><strong>1 Long Video</strong> (Lifetime)</li>
+          <li><strong>1 Short Video</strong> (8 Sec / Month)</li>
+          <li>1 Community Post / Year</li>
+          <li>Direct Maps Location</li>
+        </ul>
+      </div>
+
+      <div class="plan-box" id="card-udaan" onclick="syncPlanSelection('udaan_paid')">
+        <span class="badge">Popular</span>
+        <div class="plan-duration">Growth Tier</div>
+        <div class="plan-price" style="color: #38bdf8;">₹199</div>
+        <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Udaan Plan</div>
+        <ul class="plan-features">
+          <li><strong>3 Long Videos</strong> (Lifetime)</li>
+          <li><strong>Shorts (15 Sec)</strong> / 15 Days Gap</li>
+          <li>1 Community Post / Month</li>
+          <li>Priority Channel Queue</li>
+        </ul>
+      </div>
+
+      <div class="plan-box" id="card-raftaar" onclick="syncPlanSelection('raftaar_vip')">
+        <span class="badge" style="background: #f59e0b; color: #000;">VIP Partner</span>
+        <div class="plan-duration">Full Power</div>
+        <div class="plan-price" style="color: #f59e0b;">₹499</div>
+        <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Raftaar Plan</div>
+        <ul class="plan-features">
+          <li><strong>10 Long Videos</strong> (Lifetime)</li>
+          <li><strong>Shorts (8/15/30s)</strong> / 7 Days Gap</li>
+          <li>Unlimited Community Posts</li>
+          <li>Top Priority Showcase</li>
+        </ul>
+      </div>
     </div>
-
-    <!-- Plan 2: Udaan (Growth) -->
-    <div class="plan-box" id="card-udaan" onclick="syncPlanSelection('udaan_paid')">
-      <span class="badge">Popular</span>
-      <div class="plan-duration">Growth Tier</div>
-      <div class="plan-price" style="color: #38bdf8;">₹199</div>
-      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Udaan Plan</div>
-      <ul class="plan-features">
-        <li><strong>3 Long Videos</strong> (Lifetime)</li>
-        <li><strong>Shorts (15 Sec)</strong> / Every 15 Days</li>
-        <li>1 Community Post / Month</li>
-        <li>Priority Channel Queue</li>
-      </ul>
-    </div>
-
-    <!-- Plan 3: Raftaar (VIP) -->
-    <div class="plan-box" id="card-raftaar" onclick="syncPlanSelection('raftaar_vip')">
-      <span class="badge" style="background: #f59e0b; color: #000;">VIP Partner</span>
-      <div class="plan-duration">Full Power</div>
-      <div class="plan-price" style="color: #f59e0b;">₹499</div>
-      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 800; color: #fff;">Raftaar Plan</div>
-      <ul class="plan-features">
-        <li><strong>10 Long Videos</strong> (Lifetime)</li>
-        <li><strong>Shorts (8s, 15s, 30s)</strong> / Every 7 Days</li>
-        <li>Unlimited Community Posts</li>
-        <li>VIP Showcase & Top Pin</li>
-      </ul>
-    </div>
-
   </div>
-</div>
 
+  <!-- SECTION 1: PUBLIC SUBSCRIPTION / ONBOARDING FORM (Visible to Everyone) -->
+  <div class="action-box" id="publicOnboardingSection">
+    <div style="text-align: center; margin-bottom: 12px;">
+      <h3 style="color: #38bdf8; font-size: 16px;">🚀 Get Started / Buy Subscription</h3>
+      <p style="font-size: 12px; color: var(--text-muted);">Apni dukan details submit karein. Verification ke baad video upload access link WhatsApp par milega.</p>
+    </div>
 
-  <button type="button" class="btn-subscription-help" onclick="openSubscriptionHelp()">
-    💳 How To Buy Paid Subscription?
-  </button>
-
-  <!-- Verified Submission Form -->
-  <div class="action-box" id="upload-section">
     <div class="form-group">
       <label>Dukan / Business Ka Naam</label>
-      <input type="text" id="bizName" class="input-field" placeholder="Jaise: Gupta Provision Store">
+      <input type="text" id="reqBizName" class="input-field" placeholder="Jaise: Gupta Provision Store">
     </div>
 
     <div class="form-group">
       <label>WhatsApp / Contact Number</label>
-      <input type="tel" id="bizContact" class="input-field" placeholder="10 Digit Mobile Number">
+      <input type="tel" id="reqBizPhone" class="input-field" placeholder="10 Digit WhatsApp Number">
     </div>
 
     <div class="form-group">
-      <label>Aapka Email Address (Verification ke liye)</label>
-      <input type="email" id="bizEmail" class="input-field" placeholder="example@gmail.com">
+      <label>Selected Promotion Plan</label>
+      <select id="reqPlanSelect" class="select-field" onchange="syncCardFromCombo(this.value)">
+        <option value="shuruat_free">Shuruat Plan (₹0 Free Trial)</option>
+        <option value="udaan_paid">Udaan Plan (₹199 One-Time)</option>
+        <option value="raftaar_vip">Raftaar VIP Plan (₹499 One-Time)</option>
+      </select>
     </div>
 
-    <!-- GPS Verification Box -->
+    <button type="button" class="btn-main" onclick="submitOnboardingRequest()">Apply & Request Access Link</button>
+  </div>
+
+  <!-- SECTION 2: SECRET UPLOAD SECTION (Default HIDE - Only opens with ?token=...) -->
+  <div class="action-box" id="secretUploadSection" style="display: none; border-color: #4ade80;">
+    <div style="text-align: center; margin-bottom: 12px;">
+      <div style="background: rgba(74, 222, 128, 0.15); color: #4ade80; display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-bottom: 4px;">
+        🔒 Verified Access Unlocked
+      </div>
+      <h3 style="font-size: 16px;">Upload Business Video</h3>
+      <p style="font-size: 11px; color: var(--text-muted);">Yeh single-use link hai. Video submit hote hi yeh link auto-expire ho jayega.</p>
+    </div>
+
     <div class="form-group">
-      <label>Shop / Workplace GPS Location (Anivarya)</label>
+      <label>Dukan / Business Ka Naam</label>
+      <input type="text" id="bizName" class="input-field" placeholder="Dukan ka pura naam">
+    </div>
+
+    <div class="form-group">
+      <label>WhatsApp / Mobile Number</label>
+      <input type="tel" id="bizContact" class="input-field" placeholder="10 Digit Number">
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="bizEmail" class="input-field" placeholder="aapka-email@gmail.com">
+    </div>
+
+    <div class="form-group">
+      <label>Shop GPS Location (Strict Verification)</label>
       <div class="location-card">
         <button type="button" class="btn-gps" onclick="fetchGPSLocation()">
           📍 Detect & Allow GPS Location
         </button>
-        <div class="gps-status" id="gpsStatusText">Location not verified yet. Click button to allow.</div>
+        <div class="gps-status" id="gpsStatusText">Location not verified yet. Tap button.</div>
       </div>
     </div>
 
     <div class="form-group">
-  <label>Selected Promotion Plan</label>
-  <select id="planSelect" class="select-field" onchange="syncCardFromCombo(this.value)">
-    <option value="shuruat_free">Shuruat Plan (₹0) - 1 Long Video + 8s Short/Month</option>
-    <option value="udaan_paid">Udaan Plan (₹199) - 3 Long Videos + 15s Short/15 Days</option>
-    <option value="raftaar_vip">Raftaar VIP Plan (₹499) - 10 Long Videos + 8/15/30s Short/7 Days</option>
-  </select>
-</div>
+      <label>Select Your Approved Plan</label>
+      <select id="uploadPlanSelect" class="select-field">
+        <option value="shuruat_free">Shuruat Plan (Free)</option>
+        <option value="udaan_paid">Udaan Plan (₹199)</option>
+        <option value="raftaar_vip">Raftaar VIP Plan (₹499)</option>
+      </select>
+    </div>
 
     <div class="form-group">
-      <label>Upload Video / Shop Poster</label>
+      <label>Upload Video File</label>
       <div class="file-input-wrap" onclick="document.getElementById('mediaFileInput').click()">
-        <input type="file" id="mediaFileInput" accept="video/*,image/*" onchange="handleFileSelected(this)">
-        <span class="file-label" id="fileStatusText">📁 Tap to Select Video / Image File</span>
+        <input type="file" id="mediaFileInput" accept="video/*" onchange="handleFileSelected(this)">
+        <span class="file-label" id="fileStatusText">📁 Tap to Select Video File</span>
         <div class="file-size-display" id="fileSizeText"></div>
       </div>
     </div>
@@ -334,16 +328,17 @@
     <div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
       <input type="checkbox" id="termsCheck" style="width: auto; margin-top: 3px; cursor: pointer;">
       <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
-        Main Business Dost ke <a href="legalBD.html" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon. Main confirm karta hoon ki GPS location aur submitted material authorized hai.
+        Main Business Dost ke <a href="legalBD.html" style="color: #38bdf8; text-decoration: underline;">Terms & Conditions</a> se sehmat hoon.
       </label>
     </div>
 
-    <button type="button" id="submitBtn" class="btn-main" onclick="executeSubmission()">Submit & Save To Drive</button>
+    <button type="button" id="submitBtn" class="btn-main" onclick="executeTokenUpload()">Submit & Burn Access Link</button>
   </div>
 
+  <!-- YouTube Thumbnail Template Box -->
   <div class="template-box" id="template-section">
     <div class="template-title">🎨 YouTube Thumbnail Template</div>
-    <p class="template-desc">Template frame ko download karke AI se photo edit karein aur wapas upload karein.</p>
+    <p class="template-desc">Template frame download karke shop details add karein.</p>
     <div class="template-preview-frame">
       <img id="thumbnailTemplateImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="16:9 Thumbnail Template" class="template-img">
     </div>
@@ -376,127 +371,105 @@
        CONFIG SETTINGS
     ======================================================== */
     const CONFIG = {
-      GOOGLE_SCRIPT_WEB_APP_URL: "", // Paste your deployment URL here
-      USE_WHATSAPP: false,
-      WHATSAPP_NUMBER: "919999999999",
-      ADMIN_EMAIL: "admin@businessdost.com"
+      GOOGLE_SCRIPT_WEB_APP_URL: "", // Paste your Apps Script URL here
+      ADMIN_EMAIL: "admin@businessdost.com",
+      ADMIN_WHATSAPP: "919999999999"
     };
 
+    let activeToken = null;
     let selectedFile = null;
     let userLatitude = null;
     let userLongitude = null;
 
-    // Sync from Card tap to Combo Box
-function syncPlanSelection(planValue) {
-  document.getElementById('planSelect').value = planValue;
-  highlightCard(planValue);
-}
+    // CHECK FOR SECRET TOKEN ON PAGE LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      activeToken = urlParams.get('token');
 
-// Sync from Combo Box to Card visual
-function syncCardFromCombo(planValue) {
-  highlightCard(planValue);
-}
+      if (activeToken) {
+        // Token present: Show Upload Box, Hide Onboarding
+        document.getElementById('secretUploadSection').style.display = 'block';
+        document.getElementById('publicOnboardingSection').style.display = 'none';
+      } else {
+        // No Token: Default Public View
+        document.getElementById('secretUploadSection').style.display = 'none';
+        document.getElementById('publicOnboardingSection').style.display = 'block';
+      }
+    });
 
-function highlightCard(planValue) {
-  document.querySelectorAll('.plan-box').forEach(el => el.classList.remove('active'));
-  if(planValue === 'shuruat_free') document.getElementById('card-shuruat').classList.add('active');
-  if(planValue === 'udaan_paid') document.getElementById('card-udaan').classList.add('active');
-  if(planValue === 'raftaar_vip') document.getElementById('card-raftaar').classList.add('active');
-}
+    // Public Onboarding Request Trigger
+    function submitOnboardingRequest() {
+      const name = document.getElementById('reqBizName').value.trim();
+      const phone = document.getElementById('reqBizPhone').value.trim();
+      const planDropdown = document.getElementById('reqPlanSelect');
+      const planText = planDropdown.options[planDropdown.selectedIndex].text;
+
+      if (!name || !phone) {
+        openModalNotice("Kripya Business Name aur WhatsApp Number bharein.");
+        return;
+      }
+
+      const subject = `Promotion Request: ${name}`;
+      const body = `Hello Business Dost,\n\nMujhe Business Dost par promotion karwana hai.\n\nShop Name: ${name}\nWhatsApp: ${phone}\nPlan: ${planText}\n\nKripya verification aur upload access link share karein.`;
+      
+      // Direct Email Trigger
+      window.location.href = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    // GPS Detector
+    function fetchGPSLocation() {
+      const statusText = document.getElementById('gpsStatusText');
+      if (!navigator.geolocation) {
+        statusText.innerText = "Geolocation not supported.";
+        return;
+      }
+      statusText.innerText = "Detecting GPS location... Tap 'Allow'.";
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          userLatitude = pos.coords.latitude;
+          userLongitude = pos.coords.longitude;
+          statusText.innerHTML = `✅ GPS Verified: ${userLatitude.toFixed(4)}, ${userLongitude.toFixed(4)}`;
+          statusText.style.color = "#4ade80";
+        },
+        () => {
+          statusText.innerText = "❌ Location permission denied. Required for upload.";
+          statusText.style.color = "#ef4444";
+        },
+        { enableHighAccuracy: true }
+      );
+    }
 
     function handleFileSelected(input) {
       if (input.files && input.files[0]) {
         selectedFile = input.files[0];
-        const statusText = document.getElementById('fileStatusText');
-        const sizeText = document.getElementById('fileSizeText');
-
-        let formattedSize = (selectedFile.size >= 1024 * 1024) 
+        let size = (selectedFile.size >= 1024 * 1024) 
           ? (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB"
           : (selectedFile.size / 1024).toFixed(1) + " KB";
-
-        statusText.innerText = "Selected: " + selectedFile.name;
+        document.getElementById('fileStatusText').innerText = "Selected: " + selectedFile.name;
+        const sizeText = document.getElementById('fileSizeText');
         sizeText.style.display = "block";
-        sizeText.innerText = "⚡ File Size: " + formattedSize;
+        sizeText.innerText = "⚡ File Size: " + size;
       }
     }
 
-    // HTML5 Transparent Geolocation Fetcher
-    function fetchGPSLocation() {
-      const statusText = document.getElementById('gpsStatusText');
-      if (!navigator.geolocation) {
-        statusText.innerText = "Geolocation is not supported by your browser.";
-        statusText.style.color = "#ef4444";
-        return;
-      }
-
-      statusText.innerText = "Detecting GPS location... Please tap 'Allow'.";
-      statusText.style.color = "#38bdf8";
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          userLatitude = position.coords.latitude;
-          userLongitude = position.coords.longitude;
-          statusText.innerHTML = `✅ GPS Verified: ${userLatitude.toFixed(4)}, ${userLongitude.toFixed(4)}`;
-          statusText.style.color = "#4ade80";
-        },
-        (error) => {
-          userLatitude = null;
-          userLongitude = null;
-          statusText.innerText = "❌ Location permission denied. Please allow GPS to proceed.";
-          statusText.style.color = "#ef4444";
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    }
-
-    function openSubscriptionHelp() {
-      const subject = "Query: How to Buy Paid Subscription";
-      const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan activate karna hai. Details bhejein.";
-      if (CONFIG.USE_WHATSAPP) {
-        window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`, '_blank');
-      } else {
-        window.location.href = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      }
-    }
-
-    // Submission Handler with GPS & Email Verification
-    function executeSubmission() {
+    // Token-Secured Video Upload
+    function executeTokenUpload() {
       const name = document.getElementById('bizName').value.trim();
       const phone = document.getElementById('bizContact').value.trim();
       const email = document.getElementById('bizEmail').value.trim();
-      const planDropdown = document.getElementById('planSelect');
-      const planText = planDropdown.options[planDropdown.selectedIndex].text;
-      const termsChecked = document.getElementById('termsCheck').checked;
+      const plan = document.getElementById('uploadPlanSelect').value;
+      const terms = document.getElementById('termsCheck').checked;
 
-      if(!name || !phone || !email) {
-        openModalNotice("Kripya Business Name, Mobile Number aur Email anivarya roop se bharein.");
+      if (!name || !phone || !email || !selectedFile) {
+        openModalNotice("Kripya sabhi fields aur video file select karein.");
         return;
       }
-
-      // Email format check
-      if(!email.includes('@') || !email.includes('.')) {
-        openModalNotice("Kripya ek valid Email address enter karein.");
-        return;
-      }
-
-      // Strict GPS Verification Check
       if (!userLatitude || !userLongitude) {
-        openModalNotice("Shop verification ke liye GPS location anivarya hai. Kripya 'Detect & Allow GPS Location' button dabakar permission allow karein.");
+        openModalNotice("Shop verification ke liye GPS location anivarya hai.");
         return;
       }
-
-      if(!selectedFile) {
-        openModalNotice("Kripya upload karne ke liye video ya poster select karein.");
-        return;
-      }
-
-      if (!termsChecked) {
-        openModalNotice("Kripya Terms & Conditions checkbox ko tick karein.");
-        return;
-      }
-
-      if(!CONFIG.GOOGLE_SCRIPT_WEB_APP_URL) {
-        openModalNotice("Google Script Web App URL configure nahi hai. Kripya URL set karein.");
+      if (!terms) {
+        openModalNotice("Kripya Terms & Conditions accept karein.");
         return;
       }
 
@@ -506,27 +479,27 @@ function highlightCard(planValue) {
       const progressText = document.getElementById('progressStatusText');
 
       submitBtn.disabled = true;
-      submitBtn.innerText = "Verifying & Saving...";
+      submitBtn.innerText = "Verifying Token & Saving...";
       progressContainer.style.display = "block";
       progressBar.style.width = "25%";
-      progressText.innerText = "Encoding verified video: 25%";
+      progressText.innerText = "Validating single-use token: 25%";
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        progressBar.style.width = "55%";
-        progressText.innerText = "Uploading to Drive with GPS data: 55%";
+        progressBar.style.width = "50%";
+        progressText.innerText = "Uploading to Drive: 50%";
 
-        const base64Data = e.target.result.split(',')[1];
         const payload = {
+          token: activeToken, // Single-use token passed here
           bizName: name,
           phone: phone,
           email: email,
           lat: userLatitude,
           lng: userLongitude,
-          plan: planText,
+          plan: plan,
           fileName: selectedFile.name,
           mimeType: selectedFile.type,
-          fileData: base64Data
+          fileData: e.target.result.split(',')[1]
         };
 
         fetch(CONFIG.GOOGLE_SCRIPT_WEB_APP_URL, {
@@ -535,36 +508,44 @@ function highlightCard(planValue) {
         })
         .then(res => res.json())
         .then(data => {
-          progressBar.style.width = "100%";
-          progressText.innerText = "Upload & Verification Complete: 100%";
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Submit & Save To Drive";
-          openModalNotice("Badhai ho! Aapka video aur GPS verified details Google Drive me save ho gayi hain. Admin review ke baad jald video live hoga.");
+          if (data.status === "success") {
+            progressBar.style.width = "100%";
+            progressText.innerText = "Complete: 100%";
+            openModalNotice("Badhai ho! Video Google Drive me save ho gayi hai aur aapka secret access link ab EXPIRE ho chuka hai.");
+            // Hide form after upload
+            document.getElementById('secretUploadSection').innerHTML = "<div style='text-align:center; padding:20px; color:#4ade80;'><h3>✅ Upload Complete</h3><p>Aapka token burn ho chuka hai. Video review ke baad YouTube par schedule hogi.</p></div>";
+          } else {
+            openModalNotice("Error: " + data.message);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit & Burn Access Link";
+          }
         })
-        .catch(err => {
-          progressBar.style.width = "100%";
-          progressText.innerText = "Upload Complete.";
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Submit & Save To Drive";
-          openModalNotice("Aapki request receive ho gayi hai aur admin verification queue me save kar li gayi hai.");
+        .catch(() => {
+          openModalNotice("Request receive ho gayi hai aur processing queue me hai.");
         });
       };
 
       reader.readAsDataURL(selectedFile);
     }
 
+    function syncPlanSelection(val) {
+      document.getElementById('reqPlanSelect').value = val;
+      highlightCard(val);
+    }
+    function syncCardFromCombo(val) { highlightCard(val); }
+    function highlightCard(val) {
+      document.querySelectorAll('.plan-box').forEach(el => el.classList.remove('active'));
+      if(val === 'shuruat_free') document.getElementById('card-shuruat').classList.add('active');
+      if(val === 'udaan_paid') document.getElementById('card-udaan').classList.add('active');
+      if(val === 'raftaar_vip') document.getElementById('card-raftaar').classList.add('active');
+    }
+
     function shareWebsite() {
-      const shareData = {
-        title: 'Business Dost - Aapke Business Ka Digital Saathi',
-        text: 'Apni dukan ya kaam ka video YouTube par free me promote karwayein! Visit karein:',
-        url: window.location.href
-      };
       if (navigator.share) {
-        navigator.share(shareData).catch(() => {});
+        navigator.share({ title: 'Business Dost', text: 'Apni dukan YouTube par live karwayein:', url: window.location.href });
       } else {
-        navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`).then(() => {
-          openModalNotice("Link copy ho gaya hai!");
-        });
+        navigator.clipboard.writeText(window.location.href);
+        openModalNotice("Link copy ho gaya!");
       }
     }
 
