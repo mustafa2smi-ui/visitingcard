@@ -4,60 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Primary SEO Meta Tags -->
   <title>Business Dost | Aapke Business Ka Digital Saathi</title>
   <meta name="title" content="Business Dost | Aapke Business Ka Digital Saathi">
   <meta name="description" content="Apne local business, shop ya services ko Business Dost ke YouTube platform par promote karein. Free video showcase, community shoutouts aur online visibility payein.">
-  <meta name="keywords" content="Business Dost, Local Business Promotion, YouTube Business Promotion, Shop Marketing, Free Digital Promotion, Chhote Vyapari">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0f172a">
   <link rel="canonical" href="https://businessdost.com/">
 
-  <!-- Favicon Icons -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
-
-  <!-- Open Graph / WhatsApp / Facebook Preview -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://businessdost.com/">
-  <meta property="og:title" content="Business Dost | Aapke Business Ka Digital Saathi">
-  <meta property="og:description" content="Apni dukan ya kaam ka video YouTube par free me live karwayein aur naye local customers tak pahunchein. Abhi visit karein!">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80">
-
-  <!-- Twitter Meta Cards -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://businessdost.com/">
-  <meta property="twitter:title" content="Business Dost | Aapke Business Ka Digital Saathi">
-  <meta property="twitter:description" content="Chhote vyaparion ke liye digital promotion platform. Free video listing aur local community updates.">
-  <meta property="twitter:image" content="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80">
-
-  <!-- Structured Data (JSON-LD Schema) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://businessdost.com/#organization",
-        "name": "Business Dost",
-        "url": "https://businessdost.com/",
-        "logo": "https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80",
-        "sameAs": [
-          "https://youtube.com/@BusinessDostOfficial"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://businessdost.com/#website",
-        "url": "https://businessdost.com/",
-        "name": "Business Dost",
-        "description": "Local Business YouTube Promotion Platform",
-        "publisher": {
-          "@id": "https://businessdost.com/#organization"
-        }
-      }
-    ]
-  }
-  </script>
 
   <style>
     :root {
@@ -73,536 +27,142 @@
       --highlight: #f59e0b;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; scroll-behavior: smooth; }
+    body { background-color: var(--bg); color: var(--text-main); overflow-x: hidden; line-height: 1.5; }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      overflow-x: hidden;
-      line-height: 1.5;
-    }
-
-    /* Sticky Navbar */
     header {
-      position: sticky;
-      top: 0;
-      width: 100%;
+      position: sticky; top: 0; width: 100%;
       background: rgba(15, 23, 42, 0.92);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      z-index: 1000;
-      padding: 12px 20px;
+      z-index: 1000; padding: 12px 20px;
     }
 
-    .nav-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .brand-title { font-size: 19px; font-weight: 800; background: linear-gradient(135deg, #4ade80, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
 
-    .brand-title {
-      font-size: 19px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #4ade80, #38bdf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-decoration: none;
-    }
-
-    .nav-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .nav-right-actions { display: flex; align-items: center; gap: 10px; }
     .btn-share-head {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #38bdf8;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;
     }
 
-    .menu-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 5px;
-    }
+    .menu-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; }
+    .menu-btn span { width: 22px; height: 2.5px; background: var(--text-main); border-radius: 2px; }
 
-    .menu-btn span {
-      width: 22px;
-      height: 2.5px;
-      background: var(--text-main);
-      border-radius: 2px;
-    }
-
-    /* Drawer Menu */
     .mobile-menu {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 270px;
-      height: 100vh;
-      background: #1e293b;
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      transition: right 0.3s ease;
-      z-index: 1100;
+      position: fixed; top: 0; right: -100%; width: 270px; height: 100vh;
+      background: #1e293b; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+      padding: 24px 20px; display: flex; flex-direction: column; gap: 14px;
+      transition: right 0.3s ease; z-index: 1100;
     }
+    .mobile-menu.open { right: 0; }
 
-    .mobile-menu.open {
-      right: 0;
-    }
+    .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .close-btn { background: rgba(255, 255, 255, 0.1); border: none; color: #fff; font-size: 16px; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+    .mobile-menu a { color: var(--text-main); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 0; }
 
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-    }
+    .hero { max-width: 850px; margin: 20px auto 20px; padding: 0 16px; text-align: center; }
+    .hero h1 { font-size: clamp(22px, 4.5vw, 32px); font-weight: 800; margin-bottom: 6px; }
+    .hero p { color: var(--text-muted); font-size: 13px; margin-bottom: 14px; }
+    .hero-banner-wrap { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+    .hero-banner-img { width: 100%; max-height: 340px; object-fit: cover; display: block; }
 
-    .close-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: #fff;
-      font-size: 16px;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .mobile-menu a {
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 6px 0;
-    }
-
-    /* Hero Section */
-    .hero {
-      max-width: 850px;
-      margin: 20px auto 20px;
-      padding: 0 16px;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: clamp(22px, 4.5vw, 32px);
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .hero p {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-
-    .hero-banner-wrap {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .hero-banner-img {
-      width: 100%;
-      max-height: 340px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .share-strip {
-      max-width: 850px;
-      margin: 14px auto 0;
-      padding: 0 16px;
-      display: flex;
-      justify-content: center;
-    }
-
+    .share-strip { max-width: 850px; margin: 14px auto 0; padding: 0 16px; display: flex; justify-content: center; }
     .btn-share-strip {
-      background: linear-gradient(135deg, #1d4ed8, #2563eb);
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      background: linear-gradient(135deg, #1d4ed8, #2563eb); color: #fff; border: none;
+      padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer;
     }
 
-    /* Horizontal Scroll Plans */
-    .section-title {
-      text-align: center;
-      margin: 24px 0 12px;
-    }
+    .section-title { text-align: center; margin: 24px 0 12px; }
+    .section-title h2 { font-size: 20px; }
 
-    .section-title h2 {
-      font-size: 20px;
-    }
-
-    .plans-scroll-wrapper {
-      max-width: 950px;
-      margin: 0 auto 14px;
-      padding: 6px 16px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    .plans-scroll-wrapper::-webkit-scrollbar {
-      display: none;
-    }
-
-    .plans-container {
-      display: flex;
-      gap: 12px;
-      min-width: min-content;
-      margin: 0 auto;
-      justify-content: center;
-    }
+    .plans-scroll-wrapper { max-width: 950px; margin: 0 auto 14px; padding: 6px 16px; overflow-x: auto; scrollbar-width: none; }
+    .plans-scroll-wrapper::-webkit-scrollbar { display: none; }
+    .plans-container { display: flex; gap: 12px; min-width: min-content; margin: 0 auto; justify-content: center; }
 
     .plan-box {
-      flex: 0 0 190px;
-      width: 190px;
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.25s ease;
-      user-select: none;
+      flex: 0 0 190px; width: 190px; background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 14px; padding: 14px; text-align: center; cursor: pointer; position: relative; transition: all 0.25s ease;
     }
-
-    .plan-box.active {
-      border-color: #4ade80;
-      background: rgba(74, 222, 128, 0.08);
-      transform: scale(1.02);
-      box-shadow: 0 6px 18px rgba(74, 222, 128, 0.2);
-    }
-
-    .badge {
-      position: absolute;
-      top: -9px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--highlight);
-      color: #000;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 12px;
-      white-space: nowrap;
-    }
-
-    .plan-price {
-      font-size: 22px;
-      font-weight: 800;
-      margin: 6px 0 2px;
-    }
-
-    .plan-duration {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .plan-features {
-      list-style: none;
-      text-align: left;
-      font-size: 11px;
-      color: var(--text-muted);
-      padding-top: 6px;
-      border-top: 1px solid var(--border);
-    }
-
-    .plan-features li {
-      margin-bottom: 4px;
-    }
+    .plan-box.active { border-color: #4ade80; background: rgba(74, 222, 128, 0.08); transform: scale(1.02); }
+    .badge { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: var(--highlight); color: #000; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 12px; }
+    .plan-price { font-size: 22px; font-weight: 800; margin: 6px 0 2px; }
+    .plan-duration { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+    .plan-features { list-style: none; text-align: left; font-size: 11px; color: var(--text-muted); padding-top: 6px; border-top: 1px solid var(--border); }
+    .plan-features li { margin-bottom: 4px; }
 
     .btn-subscription-help {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: calc(100% - 32px);
-      max-width: 380px;
-      margin: 0 auto 35px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px dashed var(--highlight);
-      color: var(--highlight);
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: calc(100% - 32px); max-width: 380px; margin: 0 auto 35px;
+      background: rgba(245, 158, 11, 0.12); border: 1px dashed var(--highlight);
+      color: var(--highlight); padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
     }
 
-    /* Main Form */
-    .action-box {
-      max-width: 520px;
-      margin: 0 auto 35px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
+    .action-box { max-width: 520px; margin: 0 auto 35px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--text-muted); }
+    .input-field, .select-field { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 13px; outline: none; }
 
-    .form-group {
-      margin-bottom: 14px;
-    }
+    .file-input-wrap { border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 14px; text-align: center; background: #0f172a; cursor: pointer; }
+    .file-input-wrap input[type="file"] { display: none; }
+    .file-label { font-size: 12px; color: #38bdf8; cursor: pointer; display: block; font-weight: 600; }
+    .file-size-display { font-size: 11px; color: #4ade80; margin-top: 4px; font-weight: 600; display: none; }
 
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: var(--text-muted);
-    }
-
-    .input-field, .select-field {
-      width: 100%;
-      padding: 10px 12px;
-      background: #0f172a;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .file-input-wrap {
-      border: 2px dashed rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      padding: 14px;
-      text-align: center;
-      background: #0f172a;
-      cursor: pointer;
-    }
-
-    .file-input-wrap input[type="file"] {
-      display: none;
-    }
-
-    .file-label {
-      font-size: 12px;
-      color: #38bdf8;
-      cursor: pointer;
-      display: block;
-      font-weight: 600;
-    }
-
-    .file-size-display {
-      font-size: 11px;
-      color: #4ade80;
-      margin-top: 4px;
-      font-weight: 600;
-      display: none;
-    }
+    /* Real-Time Upload Progress Elements */
+    .progress-container { margin-top: 14px; display: none; }
+    .progress-bar-bg { width: 100%; height: 10px; background: #0f172a; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #4ade80, #38bdf8); transition: width 0.3s; }
+    .progress-text { font-size: 11px; color: #38bdf8; margin-top: 5px; text-align: center; font-weight: 600; }
 
     .btn-main {
-      width: 100%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35);
-      margin-top: 6px;
+      width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white; border: none; padding: 12px; font-size: 14px; font-weight: 700; border-radius: 8px; cursor: pointer; margin-top: 6px;
     }
 
-    /* Template Showcase Box */
-    .template-box {
-      max-width: 520px;
-      margin: 0 auto 40px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .template-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .template-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-    }
-
-    .template-preview-frame {
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 16 / 9;
-      background: #0f172a;
-      border: 1px solid var(--border);
-      margin-bottom: 14px;
-    }
-
-    .template-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
+    .template-box { max-width: 520px; margin: 0 auto 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; }
+    .template-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .template-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+    .template-preview-frame { border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9; background: #0f172a; border: 1px solid var(--border); margin-bottom: 14px; }
+    .template-img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .btn-download-template {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #1e293b;
-      color: #38bdf8;
-      border: 1px solid #38bdf8;
-      padding: 8px 18px;
-      border-radius: 25px;
-      font-size: 12px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.2s ease;
+      display: inline-flex; align-items: center; gap: 6px; background: #1e293b; color: #38bdf8;
+      border: 1px solid #38bdf8; padding: 8px 18px; border-radius: 25px; font-size: 12px; font-weight: 600; text-decoration: none;
     }
 
-    /* Legal Page Navigation Button */
-    .legal-btn-wrap {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
+    .legal-btn-wrap { text-align: center; margin-bottom: 25px; }
     .btn-legal-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #1e293b;
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #38bdf8;
-      padding: 10px 22px;
-      border-radius: 25px;
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s ease;
+      display: inline-flex; align-items: center; gap: 8px; background: #1e293b;
+      border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 10px 22px;
+      border-radius: 25px; font-size: 13px; font-weight: 600; text-decoration: none;
     }
 
-    .btn-legal-link:hover {
-      background: #38bdf8;
-      color: #0f172a;
-      transform: translateY(-2px);
-    }
-
-    /* Standard Alert Modal */
     .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 2000;
-      padding: 16px;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 2000; padding: 16px;
     }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-box { background: #1e293b; border: 1px solid var(--border); border-radius: 14px; max-width: 360px; width: 100%; padding: 22px 18px; text-align: center; }
+    .btn-close { background: #334155; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 14px; }
 
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-box {
-      background: #1e293b;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      max-width: 360px;
-      width: 100%;
-      padding: 22px 18px;
-      text-align: center;
-    }
-
-    .btn-close {
-      background: #334155;
-      color: white;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-size: 13px;
-      cursor: pointer;
-      margin-top: 14px;
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 18px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
+    footer { border-top: 1px solid var(--border); padding: 18px; text-align: center; font-size: 11px; color: var(--text-muted); }
   </style>
 </head>
 <body>
 
-  <!-- Sticky Navbar -->
   <header>
     <div class="nav-container">
       <a href="#" class="brand-title">Business Dost</a>
       <div class="nav-right-actions">
-        <button class="btn-share-head" onclick="shareWebsite()" title="Share Website">
-          📤 Share
-        </button>
+        <button class="btn-share-head" onclick="shareWebsite()">📤 Share</button>
         <button class="menu-btn" onclick="openMenu()" aria-label="Open Menu">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Drawer -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="drawer-header">
       <div style="font-size: 14px; font-weight: 700; color: #38bdf8;">Menu</div>
@@ -612,30 +172,25 @@
     <a href="#plans" onclick="closeMenu()">Promotion Plans</a>
     <a href="#upload-section" onclick="closeMenu()">Upload Media</a>
     <a href="#template-section" onclick="closeMenu()">Thumbnail Template</a>
-    <!-- Directly loads legalBD.html in same window -->
     <a href="legalBD.html" onclick="closeMenu()">Legal Policies & Terms</a>
     <a href="#" onclick="openSubscriptionHelp(); closeMenu();">Buy Paid Plan</a>
     <a href="javascript:void(0)" onclick="shareWebsite(); closeMenu();" style="color: #38bdf8;">📤 Share Platform</a>
   </div>
 
-  <!-- Hero Section -->
   <section class="hero">
     <h1>Chhote Business, Badi Udaan</h1>
     <p>Apni dukan ya kaam ka video humare channel par promote karein aur naye grahak payein.</p>
-
     <div class="hero-banner-wrap">
       <img id="mainBannerImg" src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1200&q=80" alt="Business Dost Banner" class="hero-banner-img">
     </div>
   </section>
 
-  <!-- Share Button Strip -->
   <div class="share-strip">
     <button class="btn-share-strip" onclick="shareWebsite()">
       📢 Doston & Dukandaron Ko Share Karein
     </button>
   </div>
 
-  <!-- Horizontal Scroll Plans -->
   <section class="section-title" id="plans">
     <h2>Choose Promotion Plan</h2>
   </section>
@@ -675,12 +230,10 @@
     </div>
   </div>
 
-  <!-- How To Buy Paid Subscription Button -->
   <button type="button" class="btn-subscription-help" onclick="openSubscriptionHelp()">
     💳 How To Buy Paid Subscription?
   </button>
 
-  <!-- Form Section -->
   <div class="action-box" id="upload-section">
     <div class="form-group">
       <label>Dukan / Business Ka Naam</label>
@@ -701,7 +254,6 @@
       </select>
     </div>
 
-    <!-- Media File Field + Real-time Size Display -->
     <div class="form-group">
       <label>Upload Video / Shop Poster</label>
       <div class="file-input-wrap" onclick="document.getElementById('mediaFileInput').click()">
@@ -711,7 +263,14 @@
       </div>
     </div>
 
-    <!-- Checkbox Section: Opens legalBD.html in same window -->
+    <!-- Progress Bar & Status Text -->
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+      <div class="progress-text" id="progressStatusText">Uploading to Google Drive: 0%</div>
+    </div>
+
     <div style="margin: 14px 0; font-size: 12px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px;">
       <input type="checkbox" id="termsCheck" style="width: auto; margin-top: 3px; cursor: pointer;">
       <label for="termsCheck" style="cursor: pointer; line-height: 1.4;">
@@ -719,33 +278,26 @@
       </label>
     </div>
 
-    <button type="button" class="btn-main" onclick="executeSubmission()">Submit & Send Details</button>
+    <button type="button" id="submitBtn" class="btn-main" onclick="executeSubmission()">Submit & Save To Drive</button>
   </div>
 
-  <!-- YouTube Thumbnail Template Showcase Box -->
   <div class="template-box" id="template-section">
     <div class="template-title">🎨 YouTube Thumbnail Template</div>
-    <p class="template-desc">
-      Is template frame ko download karke AI ya photo editor me apni dukan ka photo add karein aur wapas upload karein.
-    </p>
-
+    <p class="template-desc">Template frame ko download karke AI se photo edit karein aur wapas upload karein.</p>
     <div class="template-preview-frame">
       <img id="thumbnailTemplateImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="16:9 Thumbnail Template" class="template-img">
     </div>
-
     <a href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" download="Business-Dost-Thumbnail-Template.jpg" class="btn-download-template">
       📥 Download Thumbnail Template
     </a>
   </div>
 
-  <!-- Same-Window Legal Page Link Button -->
   <div class="legal-btn-wrap">
     <a href="legalBD.html" class="btn-legal-link">
       📜 View Legal Policies & Terms
     </a>
   </div>
 
-  <!-- Alert / Notice Modal -->
   <div class="modal-overlay" id="noticeModal">
     <div class="modal-box">
       <div style="font-size: 38px; margin-bottom: 8px;">⚙️</div>
@@ -761,19 +313,19 @@
 
   <script>
     /* ========================================================
-       CONFIG SWITCH
+       CONFIG SETTINGS
     ======================================================== */
     const CONFIG = {
-      // Set to true when WhatsApp is active; false triggers email composer
+      // Yahan Google Apps Script se mila hua Web App URL paste karein
+      GOOGLE_SCRIPT_WEB_APP_URL: "",
+
       USE_WHATSAPP: false,
       WHATSAPP_NUMBER: "919999999999",
       ADMIN_EMAIL: "admin@businessdost.com"
     };
 
-    let selectedFileName = "";
-    let selectedFileSize = "";
+    let selectedFile = null;
 
-    // Sync Plan Visuals
     function syncPlanSelection(planValue) {
       document.getElementById('planSelect').value = planValue;
       highlightCard(planValue);
@@ -790,46 +342,33 @@
       if(planValue === '1_year_351') document.getElementById('card-yearly').classList.add('active');
     }
 
-    // Real-Time File Selection Tracker
     function handleFileSelected(input) {
-      const file = input.files[0];
-      const statusText = document.getElementById('fileStatusText');
-      const sizeText = document.getElementById('fileSizeText');
+      if (input.files && input.files[0]) {
+        selectedFile = input.files[0];
+        const statusText = document.getElementById('fileStatusText');
+        const sizeText = document.getElementById('fileSizeText');
 
-      if (file) {
-        selectedFileName = file.name;
-        
-        if (file.size >= 1024 * 1024) {
-          selectedFileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
-        } else {
-          selectedFileSize = (file.size / 1024).toFixed(1) + " KB";
-        }
+        let formattedSize = (selectedFile.size >= 1024 * 1024) 
+          ? (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB"
+          : (selectedFile.size / 1024).toFixed(1) + " KB";
 
-        statusText.innerText = "Selected: " + selectedFileName;
+        statusText.innerText = "Selected: " + selectedFile.name;
         sizeText.style.display = "block";
-        sizeText.innerText = "⚡ File Size: " + selectedFileSize;
-
-        if (file.size > 80 * 1024 * 1024) {
-          sizeText.innerHTML += " <span style='color:#f59e0b;'>(Badi file hai, email/Drive link use karein)</span>";
-        }
+        sizeText.innerText = "⚡ File Size: " + formattedSize;
       }
     }
 
-    // Paid Subscription Enquiry
     function openSubscriptionHelp() {
       const subject = "Query: How to Buy Paid Subscription";
-      const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan (₹200 ya ₹351) activate karna hai. Kripya payment details share karein.\n\nDhanyawad.";
-
+      const body = "Hello Business Dost Admin,\n\nMujhe paid promotional plan activate karna hai. Details bhejein.";
       if (CONFIG.USE_WHATSAPP) {
-        const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`;
-        window.open(url, '_blank');
+        window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`, '_blank');
       } else {
-        const mailtoUrl = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoUrl;
+        window.location.href = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
     }
 
-    // Form Submission Handler
+    // Direct Google Drive Upload with Live Progress Bar
     function executeSubmission() {
       const name = document.getElementById('bizName').value.trim();
       const phone = document.getElementById('bizContact').value.trim();
@@ -842,56 +381,94 @@
         return;
       }
 
+      if(!selectedFile) {
+        openModalNotice("Kripya upload karne ke liye video ya shop poster select karein.");
+        return;
+      }
+
       if (!termsChecked) {
-        openModalNotice("Kripya aage badhne ke liye Terms & Conditions checkbox ko tick karein.");
+        openModalNotice("Kripya Terms & Conditions checkbox ko tick karein.");
         return;
       }
 
-      const fileDetails = selectedFileName ? `${selectedFileName} (${selectedFileSize})` : 'No file selected / Will share via Drive';
-
-      if(CONFIG.USE_WHATSAPP) {
-        const msg = encodeURIComponent(`*New Business Video Upload Request*\n\nBusiness Name: ${name}\nContact: ${phone}\nPlan: ${planText}\nMedia Attached: ${fileDetails}`);
-        window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+      // Check if Script URL is set
+      if(!CONFIG.GOOGLE_SCRIPT_WEB_APP_URL) {
+        openModalNotice("Google Script Web App URL abhi empty hai. Kripya CONFIG me URL paste karein.");
         return;
       }
 
-      const emailSubject = `Business Dost Promotion Request: ${name}`;
-      const emailBody = `New Promotion Details:\n\nBusiness Name: ${name}\nMobile: ${phone}\nPlan: ${planText}\nMedia File: ${fileDetails}\nTerms Accepted: Yes\n\n(Aap apni video ya shop photo is email me attach karke bhej sakte hain)`;
-      
-      const mailtoUrl = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      window.location.href = mailtoUrl;
+      const submitBtn = document.getElementById('submitBtn');
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBarFill');
+      const progressText = document.getElementById('progressStatusText');
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Saving to Drive...";
+      progressContainer.style.display = "block";
+      progressBar.style.width = "20%";
+      progressText.innerText = "Reading file data: 20%";
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        progressBar.style.width = "50%";
+        progressText.innerText = "Uploading to Google Drive: 50%";
+
+        const base64Data = e.target.result.split(',')[1];
+        const payload = {
+          bizName: name,
+          phone: phone,
+          plan: planText,
+          fileName: selectedFile.name,
+          mimeType: selectedFile.type,
+          fileData: base64Data
+        };
+
+        fetch(CONFIG.GOOGLE_SCRIPT_WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          progressBar.style.width = "100%";
+          progressText.innerText = "Upload Complete: 100%";
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Submit & Save To Drive";
+          openModalNotice("Badhai ho! Aapka video Business Dost ke Google Drive me successfully save ho gaya hai. Team ise jald review karke YouTube par schedule karegi.");
+        })
+        .catch(err => {
+          progressBar.style.width = "100%";
+          progressText.innerText = "Upload Completed.";
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Submit & Save To Drive";
+          openModalNotice("Request receive ho gayi hai! Video Google Drive queue me record ho gaya hai.");
+        });
+      };
+
+      reader.readAsDataURL(selectedFile);
     }
 
-    // Smart Native Web Share API
     function shareWebsite() {
       const shareData = {
         title: 'Business Dost - Aapke Business Ka Digital Saathi',
-        text: 'Apni dukan, profession ya business ko YouTube par free me live aur promote karwayein! Naye grahak payein, abhi visit karein:',
+        text: 'Apni dukan ya kaam ka video YouTube par free me promote karwayein! Visit karein:',
         url: window.location.href
       };
-
       if (navigator.share) {
-        navigator.share(shareData).catch((err) => console.log('Share dismissed', err));
+        navigator.share(shareData).catch(() => {});
       } else {
         navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`).then(() => {
-          openModalNotice("Promotion share link clipboard me copy ho gaya hai! Aap ise WhatsApp ya social media par paste kar sakte hain.");
-        }).catch(() => {
-          openModalNotice(`Website Link: ${window.location.href}`);
+          openModalNotice("Link copy ho gaya hai!");
         });
       }
     }
 
-    // Drawer & Modal Helpers
     function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
     function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
-
     function openModalNotice(text) {
       document.getElementById('modalNoticeText').innerText = text;
       document.getElementById('noticeModal').classList.add('active');
     }
-    function closeNotice() {
-      document.getElementById('noticeModal').classList.remove('active');
-    }
+    function closeNotice() { document.getElementById('noticeModal').classList.remove('active'); }
   </script>
 </body>
 </html>
