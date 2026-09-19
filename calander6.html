@@ -1462,7 +1462,20 @@
     <span id="locationText">📍 Delhi (Default)</span>
     <button class="prayer-location-btn">Change / GPS</button>
   </div>
-
+<!-- ⚖️ Asr School (Madhab) Toggle Switch -->
+<div style="display:flex; justify-content:center; align-items:center; gap:8px; margin:8px 0 12px;">
+  <span style="font-size:0.72rem; font-weight:700; color:#475569;">Asr Calculation:</span>
+  <div style="display:inline-flex; background:#e2e8f0; padding:2px; border-radius:6px;">
+    <button type="button" id="btnAsrStandard" onclick="setAsrMethod(0)" 
+            style="border:none; padding:4px 10px; border-radius:5px; font-size:0.72rem; font-weight:800; cursor:pointer; background:#ffffff; color:#064e3b; box-shadow:0 1px 2px rgba(0,0,0,0.08); transition:0.2s;">
+      Standard (Awwal)
+    </button>
+    <button type="button" id="btnAsrHanafi" onclick="setAsrMethod(1)" 
+            style="border:none; padding:4px 10px; border-radius:5px; font-size:0.72rem; font-weight:700; cursor:pointer; background:transparent; color:#64748b; transition:0.2s;">
+      Hanafi (Aakhir)
+    </button>
+  </div>
+</div>
   <div class="prayer-table">
     <div class="prayer-box"><div class="prayer-name">Fajr</div><div class="prayer-time-val" id="pt-fajr">--:--</div></div>
     <div class="prayer-box"><div class="prayer-name">Sunrise</div><div class="prayer-time-val" id="pt-sunrise">--:--</div></div>
@@ -2703,7 +2716,7 @@ function updateLocationLabels(cityName) {
   const sevenDaysLoc = document.getElementById("sevenDaysLocLabel");
   if (sevenDaysLoc) sevenDaysLoc.innerText = `📅 7-Day Timetable (${cityName})`;
 }
-
+/*
 // 🟢 Daily Prayer Times Fetch
 async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
   try {
@@ -2811,7 +2824,163 @@ async function fetch7DaysSalahTimes() {
     tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#ef4444;">Failed to load schedule. Try again.</td></tr>`;
   }
 }
+*/
+    // Default: 0 = Standard/Shafi, 1 = Hanafi
+function getAsrMethod() {
+  return localStorage.getItem('prayerAsrSchool') !== null 
+    ? parseInt(localStorage.getItem('prayerAsrSchool'), 10) 
+    : 0;
+}
 
+function updateAsrSwitchUI() {
+  const method = getAsrMethod();
+  const btnStd = document.getElementById('btnAsrStandard');
+  const btnHnf = document.getElementById('btnAsrHanafi');
+  if (!btnStd || !btnHnf) return;
+
+  if (method === 1) {
+    btnHnf.style.background = "#064e3b";
+    btnHnf.style.color = "#ffffff";
+    btnHnf.style.fontWeight = "800";
+    btnStd.style.background = "transparent";
+    btnStd.style.color = "#64748b";
+    btnStd.style.fontWeight = "700";
+  } else {
+    btnStd.style.background = "#064e3b";
+    btnStd.style.color = "#ffffff";
+    btnStd.style.fontWeight = "800";
+    btnHnf.style.background = "transparent";
+    btnHnf.style.color = "#64748b";
+    btnHnf.style.fontWeight = "700";
+  }
+}
+
+function setAsrMethod(val) {
+  localStorage.setItem('prayerAsrSchool', val);
+  updateAsrSwitchUI();
+  // Location dobara fetch karke table refresh karein
+  loadInitialPrayerTimes();
+  // Agar 7-day schedule khula ho to use bhi refresh karein
+  const container = document.getElementById("sevenDaysContainer");
+  if (container && container.style.display === "block") {
+    fetch7DaysSalahTimes();
+  }
+}
+
+// 🟢 Daily Prayer Fetch with Dynamic School
+async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
+  try {
+    localStorage.setItem('prayerLat', lat);
+    localStorage.setItem('prayerLng', lng);
+    localStorage.setItem('prayerCity', cityName);
+
+    const school = getAsrMethod();
+    const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4&school=${school}`);
+    const data = await res.json();
+    const t = data.data.timings;
+
+    document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+    document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+    document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+    document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+    document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+    document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+    if (cityName === "Current Location") {
+      showAddress(lat, lng);
+    } else {
+      updateLocationLabels(cityName);
+    }
+  } catch (e) {
+    console.error("Salah Time Error:", e);
+  }
+}
+
+async function fetchPrayerByCity(city) {
+  try {
+    updateLocationLabels(`Searching ${city}...`);
+    const school = getAsrMethod();
+    const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=4&school=${school}`);
+    const data = await res.json();
+    if (data.code === 200 && data.data) {
+      const t = data.data.timings;
+      document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+      document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+      document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+      document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+      document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+      document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+      localStorage.setItem('prayerCity', city);
+      localStorage.removeItem('prayerLat');
+      localStorage.removeItem('prayerLng');
+      updateLocationLabels(city);
+      return true;
+    }
+  } catch (e) {
+    console.error("City fetch error:", e);
+  }
+  alert(`Could not find timings for "${city}". Falling back to Delhi.`);
+  fetchPrayerTimes(28.6139, 77.2090, "Delhi");
+  return false;
+}
+
+// 🟢 7 Days Salah Timetable with Dynamic School
+async function fetch7DaysSalahTimes() {
+  const tbody = document.getElementById("sevenDaysTableBody");
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#64748b;">Loading 7-day schedule...</td></tr>`;
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const todayDate = now.getDate();
+
+  const lat = localStorage.getItem('prayerLat');
+  const lng = localStorage.getItem('prayerLng');
+  const city = localStorage.getItem('prayerCity') || "Delhi";
+  const school = getAsrMethod();
+
+  let url = "";
+  if (lat && lng) {
+    url = `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${lat}&longitude=${lng}&method=4&school=${school}`;
+  } else {
+    url = `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${encodeURIComponent(city)}&country=&method=4&school=${school}`;
+  }
+
+  try {
+    const res = await fetch(url);
+    const result = await res.json();
+    if (result.code === 200 && Array.isArray(result.data)) {
+      const currentMonthDays = result.data.filter(d => parseInt(d.date.gregorian.day, 10) >= todayDate);
+      nextSevenDaysCache = currentMonthDays.slice(0, 7);
+
+      tbody.innerHTML = nextSevenDaysCache.map((item, idx) => {
+        const t = item.timings;
+        const gDate = `${item.date.gregorian.day} ${item.date.gregorian.month.en.slice(0,3)}`;
+        const bg = idx % 2 === 0 ? "#ffffff" : "#f8fafc";
+        return `
+          <tr style="background:${bg}; border-bottom:1px solid #f1f5f9;">
+            <td style="padding:6px 4px; font-weight:700; color:#064e3b;">${gDate}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Fajr)}</td>
+            <td style="padding:6px 4px; color:#64748b;">${convertTo12Hour(t.Sunrise)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Dhuhr)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Asr)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Maghrib)}</td>
+            <td style="padding:6px 4px;">${convertTo12Hour(t.Isha)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#ef4444;">Failed to load schedule. Try again.</td></tr>`;
+  }
+}
+
+// Window load hook me toggle state add karein
+window.addEventListener('DOMContentLoaded', () => {
+  updateAsrSwitchUI();
+  loadInitialPrayerTimes();
+});
 // 🟢 Toggle Expand / Collapse
 function toggle7DaysSalahSchedule() {
   const container = document.getElementById("sevenDaysContainer");
