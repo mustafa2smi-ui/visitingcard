@@ -71,7 +71,7 @@ const allSponsorsDatabase = [
     description: "Authentic deeni kitabein, Quran Majeed tarjuma aur bachhon ke liye Islamic coloring books par 20% discount.",
     badgeText: "⭐ Premium Partner",
     imageUrl: "",
-    videoUrl: "",
+    videoUrl: "https://youtu.be/fiEsee1ShGA?si=fGY5bi19u6gsxTya",
     whatsapp: "919876543211",
     actionBtnText: "📚 Order Books"
   },
