@@ -111,19 +111,19 @@ const islamicVideosDatabase = [
     fallbackTitle: ""
   },
   {
-    url: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
-    fallbackTitle: "Tilawat-e-Quran"
+    url: "https://youtu.be/_WzX0SA1hEw?si=Iv_kK_0DJDX2YO5t",
+    fallbackTitle: ""
   },
   {
-    url: "https://youtu.be/kJQP7kiw5Fk",
-    fallbackTitle: "Daily Masnoon Dua"
+    url: "https://youtu.be/C3sUuSyeiwA?si=XCvmsxz-bOXCAaEp",
+    fallbackTitle: ""
   },
   {
-    url: "https://youtube.com/shorts/2Vv-BfVoq4g",
+    url: "https://youtu.be/_zZmKMac8wE?si=RJC9MYnAQewdzMVh",
     fallbackTitle: "Seerat-un-Nabi Short"
   },
   {
-    url: "https://youtu.be/fJ9rUzIMcZQ",
-    fallbackTitle: "Subah Sham Ke Azkar"
+    url: "https://youtu.be/fiEsee1ShGA?si=fGY5bi19u6gsxTya",
+    fallbackTitle: ""
   }
 ];
