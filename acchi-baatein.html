@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- 🏷️ Primary SEO & Branding Meta Tags -->
-  <title>Aaj Ki Acchi Baat | Daily Islamic Quotes & Aqwal-e-Zareen | AdeenDesk</title>
-  <meta name="title" content="Aaj Ki Acchi Baat | Daily Islamic Quotes & Aqwal-e-Zareen | AdeenDesk">
-  <meta name="description" content="Rozana ki deeni wa roohani acchi baatein, aqwal-e-zareen aur nasihat aameez paighamat WhatsApp format me copy aur share karein AdeenDesk par.">
+  <title>Acchi Baatein Collection | Daily Islamic Quotes & Wisdom | AdeenDesk</title>
+  <meta name="title" content="Acchi Baatein Collection | Daily Islamic Quotes & Wisdom | AdeenDesk">
+  <meta name="description" content="Deeni wa roohani acchi baatein, aqwal-e-zareen aur nasihat aameez paighamat WhatsApp format me copy aur share karein AdeenDesk par.">
   <meta name="keywords" content="Aaj Ki Acchi Baat, Islamic Quotes, Aqwal e Zareen, Daily Islamic Status, Islamic WhatsApp Messages, AdeenDesk Acchi Baat">
   <meta name="application-name" content="AdeenDesk">
   <meta name="theme-color" content="#064e3b">
@@ -24,13 +24,13 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="AdeenDesk">
   <meta property="og:url" content="https://yourdomain.com/acchi-baatein.html">
-  <meta property="og:title" content="Aaj Ki Acchi Baat | Daily Islamic Quotes | AdeenDesk">
+  <meta property="og:title" content="Acchi Baatein Collection | Daily Islamic Quotes | AdeenDesk">
   <meta property="og:description" content="Rozana ki deeni wa roohani acchi baatein aur aqwal-e-zareen WhatsApp shareable format me.">
   <meta property="og:image" content="https://yourdomain.com/icon-512.png">
 
   <!-- 🐦 Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Aaj Ki Acchi Baat | Daily Islamic Quotes | AdeenDesk">
+  <meta name="twitter:title" content="Acchi Baatein Collection | Daily Islamic Quotes | AdeenDesk">
   <meta name="twitter:description" content="Rozana ki deeni wa roohani acchi baatein aur aqwal-e-zareen.">
   <meta name="twitter:image" content="https://yourdomain.com/icon-512.png">
 
@@ -43,8 +43,8 @@
         "@type": "CollectionPage",
         "@id": "https://yourdomain.com/acchi-baatein.html#webpage",
         "url": "https://yourdomain.com/acchi-baatein.html",
-        "name": "Aaj Ki Acchi Baat | Daily Islamic Quotes Archive | AdeenDesk",
-        "description": "Daily curated Islamic moral quotes, spiritual reflections, and wisdom sayings formatted for easy sharing.",
+        "name": "Acchi Baatein Collection | Daily Islamic Quotes Archive | AdeenDesk",
+        "description": "Curated Islamic moral quotes, spiritual reflections, and wisdom sayings formatted for easy sharing.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://yourdomain.com/#website",
@@ -64,10 +64,10 @@
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Aaj Ki Acchi Baat",
+            "name": "Acchi Baatein",
             "item": "https://yourdomain.com/acchi-baatein.html"
           }
-        ]
+        }
       }
     ]
   }
@@ -93,44 +93,90 @@
 
   <header class="header-bar">
     <a href="index.html" class="back-btn">⬅️ Dashboard</a>
-    <h1 style="font-size:0.95rem; font-weight:800; margin:0;">Aaj Ki Acchi Baat Archive</h1>
+    <h1 style="font-size:0.95rem; font-weight:800; margin:0;">Acchi Baatein Collection</h1>
   </header>
 
   <main id="quotesList"></main>
 
   <script>
+    // Live date helper for share/copy texts
+    function getLiveDatesForSharing() {
+      const d = new Date();
+      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const engDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+
+      const hijriMonths = [
+        "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
+        "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
+        "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
+      ];
+
+      let hijriDateStr = "";
+      try {
+        const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+          day: 'numeric',
+          month: 'numeric'
+        }).formatToParts(d);
+
+        let day = parts.find(p => p.type === 'day')?.value || d.getDate();
+        let monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || "1", 10) - 1;
+        let monthName = hijriMonths[monthIndex] || "Islamic Month";
+        hijriDateStr = `${day} ${monthName}`;
+      } catch (e) {
+        hijriDateStr = "Islamic Date";
+      }
+
+      return { engDateStr, hijriDateStr };
+    }
+
     const list = document.getElementById('quotesList');
-    if (typeof acchiBaatDatabase !== 'undefined') {
-      acchiBaatDatabase.forEach(item => {
+    if (typeof acchiBaatDatabase !== 'undefined' && Array.isArray(acchiBaatDatabase)) {
+      acchiBaatDatabase.forEach((item, index) => {
         const art = document.createElement('article');
         art.className = 'quote-card';
         const lines = item.quoteLines.map(l => `<div class="quote-line">⚄→ ${l}</div>`).join('');
+        
+        // Card par se undefined date strip hata kar clean badge aur counter set kiya gaya hai
         art.innerHTML = `
           <div class="quote-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
-          <div class="quote-meta">🌙 ${item.hijriDate} | ☀ ${item.date}</div>
-          <div style="text-align:center; font-weight:800; color:#047857; margin:6px 0;">🌺💧 Sweet Word 💧🌺</div>
+          <div style="text-align:center; font-weight:800; color:#047857; margin:6px 0;">🌺💧 Sweet Word #${index + 1} 💧🌺</div>
           ${lines}
-          <div class="quote-dua">${item.closingDua}</div>
+          <div class="quote-dua">${item.closingDua || ''}</div>
           <div class="btn-row">
-            <button class="action-btn btn-copy" onclick="copyQuote('${escape(JSON.stringify(item))}')">📋 Copy WhatsApp</button>
-            <button class="action-btn btn-share" onclick="shareQuote('${escape(JSON.stringify(item))}')">📤 Share</button>
+            <button class="action-btn btn-copy" onclick="copyQuote(${index})">📋 Copy WhatsApp</button>
+            <button class="action-btn btn-share" onclick="shareQuote(${index})">📤 Share</button>
           </div>
         `;
         list.appendChild(art);
       });
     }
 
-    function copyQuote(raw) {
-      const item = JSON.parse(unescape(raw));
-      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${item.hijriDate} 🌙*\n*☀ ${item.date} ☀*\n*🌺💧💧 SωєєT ωσR∂ 💧💧🌺*\n\n${item.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${item.closingDua}_\n🌺💦💠💦💠🌹💦💠💦💠🌺\n\nDaily Dashboard:\n${window.location.href}`;
+    function copyQuote(index) {
+      const item = acchiBaatDatabase[index];
+      if (!item) return;
+
+      const { engDateStr, hijriDateStr } = getLiveDatesForSharing();
+      const siteUrl = window.location.origin + '/';
+
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${hijriDateStr} 🌙*\n*☀ ${engDateStr} ☀*\n*🌺💧💧 SωєєT ωσR∂ 💧💧🌺*\n\n${item.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${item.closingDua || ''}_\n🌺💦💠💦💠🌹💦💠💦💠🌺\n\nDaily Islamic Dashboard:\n${siteUrl}`;
+
       navigator.clipboard.writeText(txt).then(() => alert("WhatsApp format copy ho gaya!"));
     }
 
-    function shareQuote(raw) {
-      const item = JSON.parse(unescape(raw));
-      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${item.hijriDate} 🌙*\n*☀ ${item.date} ☀*\n\n${item.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n${window.location.href}`;
-      if (navigator.share) navigator.share({ title: "Aaj Ki Acchi Baat", text: txt, url: window.location.href });
-      else copyQuote(raw);
+    function shareQuote(index) {
+      const item = acchiBaatDatabase[index];
+      if (!item) return;
+
+      const { engDateStr, hijriDateStr } = getLiveDatesForSharing();
+      const siteUrl = window.location.origin + '/';
+
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${hijriDateStr} 🌙*\n*☀ ${engDateStr} ☀*\n\n${item.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${item.closingDua || ''}_\n\n${siteUrl}`;
+
+      if (navigator.share) {
+        navigator.share({ title: "Aaj Ki Acchi Baat", text: txt, url: siteUrl }).catch(() => {});
+      } else {
+        copyQuote(index);
+      }
     }
   </script>
 </body>
