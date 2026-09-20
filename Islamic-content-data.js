@@ -9,7 +9,7 @@ const waqiatDatabase = [
     category: "Walidain Ka Adab"
   }
 ];
-
+/*
 // 2. Aaj Ki Acchi Baat (WhatsApp Styled Quotes)
 const acchiBaatDatabase = [
   {
@@ -25,7 +25,36 @@ const acchiBaatDatabase = [
     closingDua: "Allah Tala hum sab ko narm guftagu aur sabr ki toufeeq ata farmaye."
   }
 ];
-
+*/
+const acchiBaatDatabase = [
+  {
+    id: 1,
+    quoteLines: [
+      "Kisi ka dil dukhane ke baad maafi maangna asaan hai,",
+      "Magar uske dil me pehle jaisa aitebaar paida karna mushkil.",
+      "Hamesha aisi baat bolo jo kisi ke zakhm par marham bane."
+    ],
+    closingDua: "Ya Allah! Hamein achhe akhlaq aur naram zuban ata farma. Aameen."
+  },
+  {
+    id: 2,
+    quoteLines: [
+      "Jab Allah kisi bande se bhalai chahta hai,",
+      "To use uske apne aibo'n par muttala kar deta hai.",
+      "Doosron ke aib dhoondhne se behtar hai apni islaah karein."
+    ],
+    closingDua: "Aye Rabb! Hamein riya aur takabbur se mehfooz rakh. Aameen."
+  },
+  {
+    id: 3,
+    quoteLines: [
+      "Sabr ek aisi sawari hai jo apne sawar ko kabhi girne nahi deti,",
+      "Na kisi ke qadmon me aur na kisi ki nazron me.",
+      "Maseebat me shukr aur sabr ka daaman thame rahein."
+    ],
+    closingDua: "Aye Allah! Hamein sabr-e-jameel ki taufeeq marhamat farma. Aameen."
+  }
+];
 // 3. Hadees Sharif Database
 const hadeesDatabase = [
   {
