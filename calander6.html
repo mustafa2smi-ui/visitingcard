@@ -3172,7 +3172,7 @@
       };
       window.speechSynthesis.speak(utterance);
     }
-
+/*
     // 10. ISLAMIC CONTENT (WAQIAT, ACCHI BAAT, HADEES)
     function renderIslamicFeaturedContent() {
       if (typeof waqiatDatabase === 'undefined' || typeof acchiBaatDatabase === 'undefined' || typeof hadeesDatabase === 'undefined') {
@@ -3208,7 +3208,61 @@
         document.getElementById('homeHadeesWazahat').innerText = `Wazahat: ${h.wazahat}`;
       }
     }
+*/
+    // index.html ke script me yeh logic rahega:
+let currentActiveAcchiBaat = null;
+    
+function renderIslamicFeaturedContent() {
+  // Check karein ki islamic-content-data.js theek se load hua ya nahi
+  if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
+    setTimeout(renderIslamicFeaturedContent, 150);
+    return;
+  }
 
+  // 1. Waqiya Render (islamic-content-data.js se)
+  if (typeof waqiatDatabase !== 'undefined' && waqiatDatabase.length > 0) {
+    const w = waqiatDatabase[0];
+    document.getElementById('homeWaqiyaDate').innerText = w.date;
+    document.getElementById('homeWaqiyaTitle').innerText = w.title;
+    document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
+  }
+
+  // 2. 🌸 Aaj Ki Acchi Baat (Randomly picked from islamic-content-data.js)
+  const box = document.getElementById('homeSweetWordBox');
+  if (box) {
+    // Random selection
+    const randomIndex = Math.floor(Math.random() * acchiBaatDatabase.length);
+    currentActiveAcchiBaat = acchiBaatDatabase[randomIndex];
+
+    // Live English Date
+    const d = new Date();
+    const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+
+    // Live Hijri Date
+    const hijriInfo = getCleanHijriDate();
+    const liveHijriDateStr = hijriInfo.display;
+
+    let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
+
+    box.innerHTML = `
+      <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
+      <div class="sweet-meta">🌙 ${liveHijriDateStr} | ☀ ${liveEngDateStr}</div>
+      <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Sweet Word 💧🌺</div>
+      ${linesHtml}
+      <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(currentActiveAcchiBaat.closingDua || '')}</div>
+    `;
+  }
+
+  // 3. Hadees Render (islamic-content-data.js se)
+  if (typeof hadeesDatabase !== 'undefined' && hadeesDatabase.length > 0) {
+    const h = hadeesDatabase[0];
+    document.getElementById('homeHadeesRef').innerText = h.reference;
+    document.getElementById('homeHadeesArabic').innerText = h.arabic;
+    document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
+    document.getElementById('homeHadeesWazahat').innerText = `Wazahat: ${h.wazahat}`;
+  }
+}
     function toggleInlineWaqiya() {
       const fullBox = document.getElementById('homeWaqiyaFullContainer');
       const btn = document.getElementById('toggleWaqiyaBtn');
