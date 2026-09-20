@@ -100,3 +100,42 @@ const allSponsorsDatabase = [
     actionBtnText: "Join Group"
   }
 ];
+// videos
+const islamicVideosDatabase = [
+  {
+    id: "dQw4w9WgXcQ",
+    title: "Fazilat-e-Roza Aur Ramazan Ke Masail",
+    category: "Lecture Video",
+    thumb: "https://images.unsplash.com/photo-1590076215667-875d4ef2d7ee?w=600"
+  },
+  {
+    id: "w95S_wA0B84",
+    title: "Namaz Ki Pabandi Ka Aasan Tareeqa",
+    category: "Short Reminder",
+    thumb: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600"
+  },
+  {
+    id: "3JZ_D3ELwOQ",
+    title: "Tilawat-e-Quran Se Dil Ka Sukoon",
+    category: "Recitation",
+    thumb: "https://images.unsplash.com/photo-1522881451255-f59ad836fdfb?w=600"
+  },
+  {
+    id: "kJQP7kiw5Fk",
+    title: "Dua Ki Qabooliyat Ke Khas Auqaat",
+    category: "Supplication",
+    thumb: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600"
+  },
+  {
+    id: "2Vv-BfVoq4g",
+    title: "Seerat-un-Nabi ﷺ Ka Khulasa",
+    category: "History",
+    thumb: "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=600"
+  },
+  {
+    id: "fJ9rUzIMcZQ",
+    title: "Subah Sham Ke Masnoon Azkaar",
+    category: "Daily Azkar",
+    thumb: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600"
+  }
+];
