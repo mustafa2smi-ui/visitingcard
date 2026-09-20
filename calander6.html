@@ -1711,7 +1711,7 @@
       <a href="islamicnews.html" class="more-news-btn">Read All Archive & Full News ➡️</a>
     </section>
 
-    <!-- 📢 18. AdeenDesk Sponsor Section (id="sec-sponsor") -->
+    <!-- 📢 18. AdeenDesk Sponsor Section (id="sec-sponsor") --
     <section class="portal-card" id="sec-sponsor">
       <div class="unified-blue-header">
         <span>📢 Sponsor & Community Partner</span>
@@ -1722,7 +1722,24 @@
 
       <div id="adeenSponsorContainer"></div>
     </section>
+-->
+    <!-- 📢 18. AdeenDesk Sponsor Section (id="sec-sponsor") -->
+<section class="portal-card" id="sec-sponsor">
+  <div class="unified-blue-header">
+    <span>📢 Community Sponsorship & Ads</span>
+    <a href="ads.html" style="background:#ffffff; color:#064e3b; font-size:0.68rem; font-weight:800; text-decoration:none; padding:3px 8px; border-radius:4px;">
+      ✨ Book Your Ad
+    </a>
+  </div>
 
+  <!-- Max 2 to 3 Ads Container -->
+  <div id="adeenSponsorContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+  <!-- Link to All Sponsors Directory -->
+  <a href="sponsors.html" class="more-news-btn" style="background:#064e3b; margin-top:10px;">
+    View All Community Partners & Directory ➡️
+  </a>
+</section>
     <footer id="finalFooter">
       <p>&copy; 2026 <strong>AdeenDesk</strong>. All Islamic events & dates are subject to regional moon visibility.</p>
       <div class="foot-info">All World Times are sourced from International Databases. Prayer timings are approximate based on Astronomical Calculations (Aladhan Open API).</div>
@@ -2867,7 +2884,7 @@
       emptyMessage: "Abhi Koi Sponsor / Ads Available Nahi Hai.",
       emptySubtext: "Apne business, madrasa ya services ko hazaron logon tak pahunchane ke liye click karein."
     };
-
+/*
     function renderAdeenSponsorModule() {
       const container = document.getElementById('adeenSponsorContainer');
       if (!container) return;
@@ -2916,7 +2933,69 @@
         `;
       }
     }
+*/
+    function renderAdeenSponsorModule() {
+  const container = document.getElementById('adeenSponsorContainer');
+  if (!container) return;
 
+  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase) || allSponsorsDatabase.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:16px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
+        <div style="font-size:1.8rem; margin-bottom:4px;">📢</div>
+        <h4 style="font-size:0.95rem; font-weight:800; color:#1e293b; margin:0 0 4px 0;">No Active Sponsor Currently</h4>
+        <p style="font-size:0.78rem; color:#64748b; margin:0 0 10px 0;">Promote your Islamic academy, books, or halal service to thousands of daily users.</p>
+        <a href="ads.html" style="display:inline-block; background:#064e3b; color:#ffffff; font-weight:700; font-size:0.75rem; padding:6px 14px; border-radius:6px; text-decoration:none;">Book Ad Slot ➡️</a>
+      </div>
+    `;
+    return;
+  }
+
+  // Priority sorting: Pehle 'premium', fir 'standard', fir 'free'
+  const priorityOrder = { premium: 1, standard: 2, free: 3 };
+  const sorted = [...allSponsorsDatabase].sort((a, b) => {
+    return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
+  });
+
+  // Homepage par sirf Top 2 ya 3 ads dikhayenge
+  const topAds = sorted.slice(0, 3);
+
+  container.innerHTML = topAds.map(item => {
+    const waLink = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Assalamu Alaikum, I saw your ad on AdeenDesk.')}`;
+    
+    // Agar Image Banner ho
+    if (item.imageUrl && item.imageUrl.trim() !== "") {
+      return `
+        <div style="border:1px solid #e2e8f0; border-radius:10px; overflow:hidden; background:#ffffff;">
+          <a href="${waLink}" target="_blank" rel="noopener noreferrer" style="display:block;">
+            <img src="${item.imageUrl}" alt="${sanitizeHTML(item.title)}" style="width:100%; height:auto; display:block;">
+          </a>
+        </div>
+      `;
+    }
+
+    // Standard / Premium Text Card
+    const isPremium = item.tier === 'premium';
+    const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
+    const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
+
+    return `
+      <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:0.65rem; font-weight:800; color:${isPremium ? '#166534' : '#475569'}; background:${isPremium ? '#dcfce7' : '#e2e8f0'}; padding:2px 6px; border-radius:4px;">
+            ${sanitizeHTML(item.badgeText)}
+          </span>
+          <span style="font-size:0.68rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category)}</span>
+        </div>
+        <h4 style="font-size:0.92rem; font-weight:800; color:#064e3b; margin:2px 0 4px;">${sanitizeHTML(item.title)}</h4>
+        <p style="font-size:0.78rem; color:#334155; margin:0 0 8px; line-height:1.4;">${sanitizeHTML(item.description)}</p>
+        <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
+           style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none;">
+          ${sanitizeHTML(item.actionBtnText || 'Contact Now')}
+        </a>
+      </div>
+    `;
+  }).join('');
+}
     // 8. EVENT HUB ENGINE
     const customAnnouncementsList = [
       {
