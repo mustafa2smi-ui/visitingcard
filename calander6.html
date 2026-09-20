@@ -1520,20 +1520,17 @@
 -->
     <!-- 🎥 8. YouTube Video Section (id="sec-video") -->
 <section class="card-block" id="ytSection">
+<!-- 🎥 8. YouTube Video Section (id="sec-video") -->
+<section class="card-block" id="ytSection">
   <div class="unified-blue-header">
-    <span>🎥 Islamic Lectures & Recitations</span>
-    <span class="unified-sub-badge" id="ytCounterBadge">Random Stream</span>
+    <span>🎥 Islamic Lectures & Shorts</span>
+    <span class="unified-sub-badge">Auto Stream</span>
   </div>
 
-  <!-- Dynamic Container -->
+  <!-- Pure 5 Cards Horizontal Side-Scroll -->
   <div class="yt-side-scroll-container" id="homeYtScrollContainer">
-    <!-- JS se 3 se 5 videos render hongi -->
+    <div style="font-size:0.75rem; color:#64748b; padding:12px;">Loading 5 selected videos...</div>
   </div>
-
-  <!-- Dedicated Videos Page Link -->
-  <a href="videos.html" class="more-news-btn" style="background:#0f172a; margin-top:8px;">
-    View All Video Lectures & Recitations (Archive) ➡️
-  </a>
 </section>
     <!-- 📝 9. Media Dual Grid (Articles & Dua) -->
     <section class="media-dual-grid" id="mediaSection">
@@ -3322,46 +3319,109 @@
         });
       }
     }
-
+/*
     function loadYouTubeVideo(videoId, element) {
       element.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
     }
-function renderRandomHomeVideos() {
+    */
+// 1. YouTube Link se ID nikalne ka master regex (Normal, Short, ya Share Link)
+function extractYouTubeID(url) {
+  if (!url) return null;
+  const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
+
+// 2. In-Page Video Embed Play logic
+function playYouTubeInline(vidId, element) {
+  element.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="border-radius:8px;"></iframe>`;
+}
+
+// 3. Auto-Fetch Title Helper (Free noembed API)
+async function fetchYouTubeTitle(vidId, fallback) {
+  try {
+    const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=ref_${vidId}`);
+    // Alternate standard test
+    const cleanRes = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${vidId}`);
+    const data = await cleanRes.json();
+    if (data && data.title && data.title.trim() !== "") {
+      return data.title;
+    }
+  } catch (e) {
+    // Agar internet block ya offline ho to fallback use karega
+  }
+  return fallback || "Islamic Video / Lecture";
+}
+
+// 4. Render 5 Random Videos Engine
+async function renderRandomHomeVideos() {
   const container = document.getElementById('homeYtScrollContainer');
-  const badge = document.getElementById('ytCounterBadge');
   if (!container) return;
 
   if (typeof islamicVideosDatabase === 'undefined' || !Array.isArray(islamicVideosDatabase) || islamicVideosDatabase.length === 0) {
-    container.innerHTML = `<p style="font-size:0.8rem; color:#64748b; padding:10px;">Videos update ho rahi hain...</p>`;
+    container.innerHTML = `<p style="font-size:0.78rem; color:#64748b; padding:10px;">Videos list load nahi ho saki.</p>`;
     return;
   }
 
-  // Shuffle array
+  // Shuffle logic
   const shuffled = [...islamicVideosDatabase].sort(() => 0.5 - Math.random());
+  
+  // Hamesha 5 videos pick karega (agar database me kam hain to jitne hain utne)
+  const selected = shuffled.slice(0, 5);
 
-  // Kam se kam 3 aur zyada se zyada 5 video pick karein
-  const availableCount = shuffled.length;
-  const targetCount = Math.min(Math.max(3, Math.floor(Math.random() * 3) + 3), availableCount); 
-  const selectedVideos = shuffled.slice(0, targetCount);
+  // Cards layout render karein
+  container.innerHTML = selected.map((item, idx) => {
+    const vidId = extractYouTubeID(item.url);
+    if (!vidId) return '';
 
-  if (badge) badge.innerText = `${selectedVideos.length} Featured Videos`;
+    const autoThumb = `https://img.youtube.com/vi/${vidId}/hqdefault.jpg`;
+    const ytAppUrl = `https://youtu.be/${vidId}`;
+    const cardTitleId = `ytTitleText_${idx}`;
 
-  container.innerHTML = selectedVideos.map(vid => `
-    <div class="yt-scroll-card">
-      <div class="yt-thumb-facade" onclick="loadYouTubeVideo('${vid.id}', this)">
-        <img src="${vid.thumb}" alt="${sanitizeHTML(vid.title)}">
-        <div class="play-badge">▶</div>
-      </div>
-      <div class="yt-meta">
-        <div class="yt-card-title">${sanitizeHTML(vid.title)}</div>
-        <div class="yt-share-btn-row">
-          <span class="yt-date-sub">${sanitizeHTML(vid.category || 'Islamic Video')}</span>
-          <button class="yt-share-icon-btn" onclick="shareYouTubeFull('${sanitizeHTML(vid.title)}', 'https://youtu.be/${vid.id}')">📤</button>
+    return `
+      <div class="yt-scroll-card">
+        <!-- Video Poster: Tap to Play Inline -->
+        <div class="yt-thumb-facade" onclick="playYouTubeInline('${vidId}', this)">
+          <img src="${autoThumb}" alt="Video Thumbnail" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+          <div class="play-badge">▶</div>
+        </div>
+        
+        <div class="yt-meta">
+          <div class="yt-card-title" id="${cardTitleId}">${sanitizeHTML(item.fallbackTitle || 'Loading title...')}</div>
+          
+          <div class="yt-share-btn-row">
+            <!-- Redirect directly to YouTube App / Browser Page -->
+            <a href="${ytAppUrl}" target="_blank" rel="noopener noreferrer" 
+               style="font-size:0.65rem; color:#dc2626; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:3px;">
+              <span>📺</span> Open YouTube
+            </a>
+            
+            <!-- WhatsApp Share Button -->
+            <button class="yt-share-icon-btn" onclick="shareYouTubeFull(document.getElementById('${cardTitleId}').innerText, '${ytAppUrl}')" title="Share Video">
+              📤
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+
+  // Background me Auto Title fetch karke labels update karna
+  selected.forEach(async (item, idx) => {
+    const vidId = extractYouTubeID(item.url);
+    if (!vidId) return;
+    const titleEl = document.getElementById(`ytTitleText_${idx}`);
+    if (titleEl) {
+      const realTitle = await fetchYouTubeTitle(vidId, item.fallbackTitle);
+      titleEl.innerText = realTitle;
+    }
+  });
 }
+
+// Window load hote hi call karein
+window.addEventListener('DOMContentLoaded', () => {
+  renderRandomHomeVideos();
+});
     function openArticleModal(id) {
       const article = articlesData[id];
       currentModalActiveArticle = article;
