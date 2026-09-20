@@ -1467,7 +1467,7 @@
       </div>
     </section>
 
-    <!-- 🎥 8. YouTube Video Section (id="sec-video") -->
+    <!-- 🎥 8. YouTube Video Section (id="sec-video") --
     <section class="card-block" id="ytSection">
       <div class="unified-blue-header">
         <span>🎥 Islamic Lectures & Recitations</span>
@@ -1517,7 +1517,24 @@
         </div>
       </div>
     </section>
+-->
+    <!-- 🎥 8. YouTube Video Section (id="sec-video") -->
+<section class="card-block" id="ytSection">
+  <div class="unified-blue-header">
+    <span>🎥 Islamic Lectures & Recitations</span>
+    <span class="unified-sub-badge" id="ytCounterBadge">Random Stream</span>
+  </div>
 
+  <!-- Dynamic Container -->
+  <div class="yt-side-scroll-container" id="homeYtScrollContainer">
+    <!-- JS se 3 se 5 videos render hongi -->
+  </div>
+
+  <!-- Dedicated Videos Page Link -->
+  <a href="videos.html" class="more-news-btn" style="background:#0f172a; margin-top:8px;">
+    View All Video Lectures & Recitations (Archive) ➡️
+  </a>
+</section>
     <!-- 📝 9. Media Dual Grid (Articles & Dua) -->
     <section class="media-dual-grid" id="mediaSection">
       <!-- Articles -->
@@ -3309,7 +3326,42 @@
     function loadYouTubeVideo(videoId, element) {
       element.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
     }
+function renderRandomHomeVideos() {
+  const container = document.getElementById('homeYtScrollContainer');
+  const badge = document.getElementById('ytCounterBadge');
+  if (!container) return;
 
+  if (typeof islamicVideosDatabase === 'undefined' || !Array.isArray(islamicVideosDatabase) || islamicVideosDatabase.length === 0) {
+    container.innerHTML = `<p style="font-size:0.8rem; color:#64748b; padding:10px;">Videos update ho rahi hain...</p>`;
+    return;
+  }
+
+  // Shuffle array
+  const shuffled = [...islamicVideosDatabase].sort(() => 0.5 - Math.random());
+
+  // Kam se kam 3 aur zyada se zyada 5 video pick karein
+  const availableCount = shuffled.length;
+  const targetCount = Math.min(Math.max(3, Math.floor(Math.random() * 3) + 3), availableCount); 
+  const selectedVideos = shuffled.slice(0, targetCount);
+
+  if (badge) badge.innerText = `${selectedVideos.length} Featured Videos`;
+
+  container.innerHTML = selectedVideos.map(vid => `
+    <div class="yt-scroll-card">
+      <div class="yt-thumb-facade" onclick="loadYouTubeVideo('${vid.id}', this)">
+        <img src="${vid.thumb}" alt="${sanitizeHTML(vid.title)}">
+        <div class="play-badge">▶</div>
+      </div>
+      <div class="yt-meta">
+        <div class="yt-card-title">${sanitizeHTML(vid.title)}</div>
+        <div class="yt-share-btn-row">
+          <span class="yt-date-sub">${sanitizeHTML(vid.category || 'Islamic Video')}</span>
+          <button class="yt-share-icon-btn" onclick="shareYouTubeFull('${sanitizeHTML(vid.title)}', 'https://youtu.be/${vid.id}')">📤</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
     function openArticleModal(id) {
       const article = articlesData[id];
       currentModalActiveArticle = article;
