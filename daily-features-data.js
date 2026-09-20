@@ -49,3 +49,54 @@ const arabicWordsData = [
   { word: "تَقْوَى", trans: "Taqwa", en: "God-Consciousness", ur: "پرہیزگاری", hi: "ईश्वर-भय / संयम" },
   { word: "هُدَى", trans: "Huda", en: "Guidance", ur: "ہدایت", hi: "मार्गदर्शन / हिदायत" }
 ];
+// ads card
+const allSponsorsDatabase = [
+  {
+    id: 1,
+    tier: "premium", // "premium" | "standard" | "free"
+    title: "Al-Huda Online Quran Academy",
+    category: "Online Quran & Tajweed",
+    description: "Ghar baithe Tajweed aur Hifz seekhein certified ustaad ke sath. Free 3-day demo class available.",
+    badgeText: "⭐ Premium Partner",
+    imageUrl: "https://i.ibb.co/example/banner1.jpg", // Banner link ya blank ""
+    videoUrl: "https://youtu.be/example",
+    whatsapp: "919876543210",
+    actionBtnText: "💬 WhatsApp Enquiry"
+  },
+  {
+    id: 2,
+    tier: "premium",
+    title: "Maktabah Noor Islamic Books",
+    category: "Islamic Bookstore",
+    description: "Authentic deeni kitabein, Quran Majeed tarjuma aur bachhon ke liye Islamic coloring books par 20% discount.",
+    badgeText: "⭐ Premium Partner",
+    imageUrl: "",
+    videoUrl: "",
+    whatsapp: "919876543211",
+    actionBtnText: "📚 Order Books"
+  },
+  {
+    id: 3,
+    tier: "standard",
+    title: "Madrasa Faiz-ul-Uloom Appeal",
+    category: "Charity / Madrasa",
+    description: "Yateem aur ghareeb talaba ke khane aur taleem ke liye apne Imdaad aur Sadqaat jama karein.",
+    badgeText: "Verified Trust",
+    imageUrl: "",
+    videoUrl: "",
+    whatsapp: "919876543212",
+    actionBtnText: "🤝 Contact Madrasa"
+  },
+  {
+    id: 4,
+    tier: "free",
+    title: "Free Rozana Dars-e-Quran Group",
+    category: "Community Group",
+    description: "Har subah 1 aayat ka mukhtasar dars sunne ke liye WhatsApp group join karein.",
+    badgeText: "Community",
+    imageUrl: "",
+    videoUrl: "",
+    whatsapp: "919876543213",
+    actionBtnText: "Join Group"
+  }
+];
