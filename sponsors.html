@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Partners & Verified Directory | AdeenDesk</title>
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <script src="daily-features-data.js"></script>
+  <style>
+    :root { --primary: #064e3b; --bg: #f0f4f9; --border: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+    body { background: var(--bg); color: #1e293b; padding: 14px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 650px; }
+    .header-box { background: #fff; padding: 16px; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 14px; }
+    .sec-title { font-size: 0.85rem; font-weight: 800; color: #064e3b; text-transform: uppercase; margin: 14px 0 8px; display: flex; align-items: center; gap: 6px; }
+    .partner-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+    .partner-card.premium { border-left: 4px solid #10b981; }
+    .partner-card.standard { border-left: 4px solid #3b82f6; }
+    .partner-card.free { border-left: 4px solid #94a3b8; }
+    .badge { font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+    .btn-wa { display: inline-block; background: #047857; color: #fff; text-decoration: none; padding: 6px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 6px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-box">
+    <a href="index.html" style="font-size:0.75rem; color:var(--primary); font-weight:700; text-decoration:none;">← Back to Dashboard</a>
+    <h1 style="font-size:1.15rem; color:#064e3b; font-weight:800; margin-top:4px;">Verified Community Partners</h1>
+    <p style="font-size:0.75rem; color:#64748b;">Browse authentic Islamic academies, services, and charities.</p>
+  </div>
+
+  <!-- Containers divided by Tier -->
+  <div class="sec-title">⭐ Premium Partners</div>
+  <div id="premiumSponsorsList"></div>
+
+  <div class="sec-title">🔷 Verified Educational Services</div>
+  <div id="standardSponsorsList"></div>
+
+  <div class="sec-title">📌 Community Notices & Groups</div>
+  <div id="freeSponsorsList"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const pList = document.getElementById('premiumSponsorsList');
+  const sList = document.getElementById('standardSponsorsList');
+  const fList = document.getElementById('freeSponsorsList');
+
+  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) return;
+
+  allSponsorsDatabase.forEach(item => {
+    const wa = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Assalamu Alaikum, I saw your listing on AdeenDesk Directory.')}`;
+    const cardHtml = `
+      <div class="partner-card ${item.tier}">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge" style="background:#f1f5f9; color:#334155;">${item.badgeText}</span>
+          <span style="font-size:0.7rem; color:#64748b;">${item.category}</span>
+        </div>
+        <h3 style="font-size:0.95rem; font-weight:800; margin:4px 0 2px; color:#0f172a;">${item.title}</h3>
+        <p style="font-size:0.78rem; color:#475569; line-height:1.4;">${item.description}</p>
+        <a href="${wa}" target="_blank" class="btn-wa">${item.actionBtnText || 'Connect'}</a>
+      </div>
+    `;
+
+    if (item.tier === 'premium') pList.innerHTML += cardHtml;
+    else if (item.tier === 'standard') sList.innerHTML += cardHtml;
+    else fList.innerHTML += cardHtml;
+  });
+});
+</script>
+
+</body>
+</html>
