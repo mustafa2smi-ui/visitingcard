@@ -40,7 +40,7 @@
           "@id": "https://yourdomain.com/#website"
         },
         "datePublished": "2026-09-01",
-        "dateModified": "2026-09-06"
+        "dateModified": "2026-09-22"
       },
       {
         "@type": "WebSite",
@@ -80,352 +80,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ============================================================ */
-    /* ALL EXISTING STYLES - COMPLETELY PRESERVED */
-    /* ============================================================ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background-color: #f0f4f9;
-      color: #1e293b;
-      line-height: 1.6;
-    }
-
-    .legal-header {
-      background: #0b1a30;
-      color: #ffffff;
-      padding: 20px 16px 14px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .header-content {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .brand-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mosque-icon {
-      font-size: 1.8rem;
-    }
-
-    .brand-text h1 {
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .brand-text p {
-      font-size: 0.65rem;
-      color: #cbd5e1;
-    }
-
-    .back-home-btn {
-      background: rgba(255,255,255,0.15);
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.75rem;
-      text-decoration: none;
-      transition: background 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .back-home-btn:hover {
-      background: rgba(255,255,255,0.25);
-    }
-
-    .language-switcher {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      padding: 6px 0 12px;
-      border-bottom: 1px solid #e2e8f0;
-      margin-bottom: 16px;
-    }
-
-    .lang-btn {
-      padding: 5px 14px;
-      border-radius: 16px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      background: #f1f5f9;
-      color: #475569;
-      border: 2px solid #e2e8f0;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .lang-btn:hover {
-      border-color: #1d68d8;
-      color: #1d68d8;
-      transform: translateY(-1px);
-    }
-
-    .lang-btn.active {
-      background: #1d68d8;
-      color: #ffffff;
-      border-color: #1d68d8;
-    }
-
-    .legal-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
-
-    .legal-tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 8px 0 16px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .legal-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .legal-tab {
-      flex: 0 0 auto;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      background: #ffffff;
-      color: #475569;
-      border: 2px solid #e2e8f0;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .legal-tab:hover {
-      border-color: #1d68d8;
-      color: #1d68d8;
-      transform: translateY(-1px);
-    }
-
-    .legal-tab.active {
-      background: #1d68d8;
-      color: #ffffff;
-      border-color: #1d68d8;
-    }
-
-    .legal-card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 28px 24px;
-      margin-bottom: 24px;
-      border: 1.5px solid #e2e8f0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      display: none;
-    }
-
-    .legal-card.active {
-      display: block;
-    }
-
-    .legal-card h2 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #0b1a30;
-      margin-bottom: 8px;
-    }
-
-    .legal-card .last-updated {
-      font-size: 0.72rem;
-      color: #94a3b8;
-      margin-bottom: 20px;
-    }
-
-    .legal-card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin: 20px 0 8px;
-    }
-
-    .legal-card h4 {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #334155;
-      margin: 16px 0 6px;
-    }
-
-    .legal-card p {
-      font-size: 0.88rem;
-      color: #475569;
-      margin-bottom: 12px;
-    }
-
-    .legal-card ul, .legal-card ol {
-      padding-left: 24px;
-      margin-bottom: 12px;
-    }
-
-    .legal-card li {
-      font-size: 0.85rem;
-      color: #475569;
-      margin-bottom: 6px;
-    }
-
-    .legal-card .highlight-box {
-      background: #f8fafc;
-      border-left: 4px solid #1d68d8;
-      padding: 14px 18px;
-      border-radius: 6px;
-      margin: 12px 0;
-    }
-
-    .legal-card .warning-box {
-      background: #fffbeb;
-      border-left: 4px solid #f59e0b;
-      padding: 14px 18px;
-      border-radius: 6px;
-      margin: 12px 0;
-    }
-
-    .legal-card .success-box {
-      background: #f0fdf4;
-      border-left: 4px solid #22c55e;
-      padding: 14px 18px;
-      border-radius: 6px;
-      margin: 12px 0;
-    }
-
-    .legal-divider {
-      border: none;
-      border-top: 1.5px solid #e2e8f0;
-      margin: 24px 0;
-    }
-
-    .contact-info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 12px 0;
-    }
-
-    .contact-item {
-      background: #f8fafc;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .contact-item strong {
-      display: block;
-      font-size: 0.75rem;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .contact-item span {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #0f172a;
-    }
-
-    .legal-footer {
-      text-align: center;
-      padding: 20px 16px;
-      border-top: 1px solid #e2e8f0;
-      margin-top: 20px;
-    }
-
-    .legal-footer p {
-      font-size: 0.75rem;
-      color: #94a3b8;
-    }
-
-    .legal-footer .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    .legal-footer .footer-links a {
-      color: #64748b;
-      text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 600;
-    }
-
-    .legal-footer .footer-links a:hover {
-      color: #1d68d8;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background-color: #f0f4f9; color: #1e293b; line-height: 1.6; }
+    .legal-header { background: #0b1a30; color: #ffffff; padding: 20px 16px 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    .header-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .brand-section { display: flex; align-items: center; gap: 10px; }
+    .mosque-icon { font-size: 1.8rem; }
+    .brand-text h1 { font-size: 1.1rem; font-weight: 800; }
+    .brand-text p { font-size: 0.65rem; color: #cbd5e1; }
+    .back-home-btn { background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 0.75rem; text-decoration: none; transition: background 0.3s ease; display: inline-flex; align-items: center; gap: 6px; }
+    .back-home-btn:hover { background: rgba(255,255,255,0.25); }
+    .language-switcher { display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 0 12px; border-bottom: 1px solid #e2e8f0; margin-bottom: 16px; }
+    .lang-btn { padding: 5px 14px; border-radius: 16px; font-size: 0.7rem; font-weight: 700; background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; cursor: pointer; transition: all 0.25s ease; }
+    .lang-btn:hover { border-color: #1d68d8; color: #1d68d8; transform: translateY(-1px); }
+    .lang-btn.active { background: #1d68d8; color: #ffffff; border-color: #1d68d8; }
+    .legal-container { max-width: 1000px; margin: 0 auto; padding: 20px 16px 40px; }
+    .legal-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 8px 0 16px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .legal-tabs::-webkit-scrollbar { display: none; }
+    .legal-tab { flex: 0 0 auto; padding: 8px 18px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; background: #ffffff; color: #475569; border: 2px solid #e2e8f0; cursor: pointer; transition: all 0.25s ease; text-decoration: none; white-space: nowrap; }
+    .legal-tab:hover { border-color: #1d68d8; color: #1d68d8; transform: translateY(-1px); }
+    .legal-tab.active { background: #1d68d8; color: #ffffff; border-color: #1d68d8; }
+    .legal-card { background: #ffffff; border-radius: 14px; padding: 28px 24px; margin-bottom: 24px; border: 1.5px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: none; }
+    .legal-card.active { display: block; }
+    .legal-card h2 { font-size: 1.5rem; font-weight: 800; color: #0b1a30; margin-bottom: 8px; }
+    .legal-card .last-updated { font-size: 0.72rem; color: #94a3b8; margin-bottom: 20px; }
+    .legal-card h3 { font-size: 1.05rem; font-weight: 700; color: #1e293b; margin: 20px 0 8px; }
+    .legal-card h4 { font-size: 0.92rem; font-weight: 700; color: #334155; margin: 16px 0 6px; }
+    .legal-card p { font-size: 0.88rem; color: #475569; margin-bottom: 12px; }
+    .legal-card ul, .legal-card ol { padding-left: 24px; margin-bottom: 12px; }
+    .legal-card li { font-size: 0.85rem; color: #475569; margin-bottom: 6px; }
+    .legal-card .highlight-box { background: #f8fafc; border-left: 4px solid #1d68d8; padding: 14px 18px; border-radius: 6px; margin: 12px 0; }
+    .legal-card .warning-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 6px; margin: 12px 0; }
+    .legal-card .success-box { background: #f0fdf4; border-left: 4px solid #22c55e; padding: 14px 18px; border-radius: 6px; margin: 12px 0; }
+    .legal-divider { border: none; border-top: 1.5px solid #e2e8f0; margin: 24px 0; }
+    .contact-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+    .contact-item { background: #f8fafc; padding: 14px 16px; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .contact-item strong { display: block; font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .contact-item span { font-size: 0.88rem; font-weight: 600; color: #0f172a; }
+    .legal-footer { text-align: center; padding: 20px 16px; border-top: 1px solid #e2e8f0; margin-top: 20px; }
+    .legal-footer p { font-size: 0.75rem; color: #94a3b8; }
+    .legal-footer .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 8px; }
+    .legal-footer .footer-links a { color: #64748b; text-decoration: none; font-size: 0.72rem; font-weight: 600; }
+    .legal-footer .footer-links a:hover { color: #1d68d8; }
     @media (max-width: 600px) {
-      .legal-card {
-        padding: 20px 16px;
-      }
-      .legal-card h2 {
-        font-size: 1.25rem;
-      }
-      .contact-info-grid {
-        grid-template-columns: 1fr;
-      }
-      .header-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .back-home-btn {
-        align-self: flex-start;
-      }
-      .language-switcher {
-        gap: 4px;
-      }
-      .lang-btn {
-        padding: 4px 10px;
-        font-size: 0.65rem;
-      }
+      .legal-card { padding: 20px 16px; }
+      .legal-card h2 { font-size: 1.25rem; }
+      .contact-info-grid { grid-template-columns: 1fr; }
+      .header-content { flex-direction: column; align-items: flex-start; }
+      .back-home-btn { align-self: flex-start; }
+      .language-switcher { gap: 4px; }
+      .lang-btn { padding: 4px 10px; font-size: 0.65rem; }
     }
-
     @media print {
-      .legal-header, .legal-tabs, .legal-footer, .back-home-btn, .language-switcher {
-        display: none !important;
-      }
-      .legal-card {
-        display: block !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 10px 0 !important;
-      }
-      body {
-        background: white !important;
-      }
+      .legal-header, .legal-tabs, .legal-footer, .back-home-btn, .language-switcher { display: none !important; }
+      .legal-card { display: block !important; border: none !important; box-shadow: none !important; padding: 10px 0 !important; }
+      body { background: white !important; }
     }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
   </style>
 </head>
 <body>
@@ -465,9 +176,7 @@
     </nav>
 
     <!-- Content Container -->
-    <div id="legalContent">
-      <!-- Content will be rendered here by JavaScript -->
-    </div>
+    <div id="legalContent"></div>
 
     <!-- Footer -->
     <footer class="legal-footer">
@@ -484,9 +193,6 @@
 
   </main>
 
-  <!-- ============================================================ -->
-  <!-- JAVASCRIPT - MULTI-LANGUAGE CONTENT & SWITCHING                -->
-  <!-- ============================================================ -->
   <script>
     // ================================================================
     // LANGUAGE CONTENT DATABASE - All 4 Languages
@@ -539,6 +245,29 @@
             ],
             note: "💡 This section helps users stay connected with the Islamic calendar and never miss important religious occasions."
           },
+          prosConsSection: {
+            title: "🛡️ 100% Transparent Architecture — How Does Our System Work?",
+            intro: "AdeenDesk does <strong>not</strong> store any personal data in a central database or cloud server. All settings and features are preserved in your mobile's <strong>Local Storage</strong>. The benefits and limitations (Pros & Cons) of this architecture are absolutely clear:",
+            pros: {
+              title: "🟢 The PROS",
+              items: [
+                "<strong>100% Free & No Subscription:</strong> Because there is no server database cost, all AdeenDesk tools are absolutely free and will remain so forever.",
+                "<strong>No Account / No Sign-up Required:</strong> No password to remember, no email verification, and no phone number requirement.",
+                "<strong>Total Privacy (100% Secure):</strong> Your GPS location data, bookmarked duas, or tasbeeh count stay only in your own phone. Neither we nor any third party can see them.",
+                "<strong>Superfast & Offline Ready:</strong> Data loads from your phone's browser storage, so settings render instantly without any internet delay."
+              ]
+            },
+            cons: {
+              title: "🔴 The CONS & Limitations",
+              items: [
+                "<strong>Reset on Browser Cache Clear:</strong> If you delete 'Clear History / Clear Site Data / Cache', all saved settings (prayer location, language choice) will reset and need to be set again.",
+                "<strong>Gallery & Saved Charts Re-Upload:</strong> If you have set custom Duas, Ramadan timetables, or gallery images, they will be removed when the device cache is wiped, and you will need to select them again.",
+                "<strong>No Cross-Device Sync:</strong> A location or bookmark set on one mobile will not automatically transfer to another mobile or computer, because there is no centralized cloud server login.",
+                "<strong>Incognito / Private Mode Limitation:</strong> If you open the website in Chrome or browser's Private/Incognito mode, all data will disappear as soon as you close the tab."
+              ]
+            },
+            advice: "💡 <strong>Our Recommendation:</strong> When deleting generic browser history, keep <em>'Clear Site Data / Cookies'</em> unchecked so that your AdeenDesk setup and local memory stay preserved."
+          },
           vision: "🌍 Our Vision",
           visionText: "We envision AdeenDesk as a trusted companion for Muslims across the globe — a digital space that combines technology with spirituality, making Islamic knowledge and practice more accessible to everyone, regardless of their location or background.",
           freeNote: "✅ <strong>Completely Free:</strong> This platform is and will always be completely free to use. We believe in serving the Ummah without any financial barriers.",
@@ -585,17 +314,25 @@
             ],
             thankYou: "Thank you for your patience, understanding, and continued support."
           },
+          sponsorshipPolicy: {
+            title: "📢 Community Sponsorship & Advertising Transparency",
+            points: [
+              "<strong>Strict Shariah & Ethical Screen:</strong> AdeenDesk permits only verified, halal, and community-beneficial promotions. We strictly prohibit advertisements related to interest-based financial instruments (Riba), gambling, multi-level marketing, entertainment piracy, or unverified claims.",
+              "<strong>Independent Endorsement Disclaimer:</strong> The placement of an advertisement or sponsorship banner does not constitute an absolute theological endorsement by AdeenDesk. Users are encouraged to conduct personal verification before engaging in contractual or commercial agreements with third-party partners.",
+              "<strong>Non-Intrusive User Experience:</strong> Our sponsorship framework does not deploy invasive tracking pop-ups, malicious redirect scripts, or third-party cookies. All sponsor redirects are direct user-consented clicks (via external WhatsApp, email, or verified URLs)."
+            ]
+          },
           futureBackend: "🚀 Future Backend Services",
           futureBackendText: "In the future, we may introduce backend services such as Firebase or other similar technologies to enhance user experience. If such services are implemented, certain types of user data may need to be stored or processed to provide additional features. If this happens, our Privacy Policy will be updated accordingly, and users will be informed about what data is collected, why it is required, and how it is handled. <strong>At present, however, we have no such plan or intention to store user data on a backend server.</strong>",
           quranApi: {
             title: "📖 Quranic Data Source & Public API Attribution",
-            description: "AdeenDesk uses the open-source <strong>AlQuran.cloud API</strong> (Islamic Network) to retrieve Quranic Arabic text, recitation-related metadata, and translations in multiple languages, including Urdu, English, and Hindi.",
+            description: "AdeenDesk uses the open-source, community-verified <strong>AlQuran.cloud API</strong> (Islamic Network) to retrieve authentic Uthmani Arabic script, recitation-related metadata, and multi-language translations (Urdu, English, and Hindi). We do not claim ownership of the divine text; all Quranic data is served purely for non-commercial educational reading. We express gratitude to the open-source Islamic developers maintaining these accurate endpoints.",
             disclaimer: "We do not claim ownership of the Quranic text. The Quranic content is provided through the API for educational and religious reading purposes. We are grateful to the developers and maintainers of the open-source Islamic API infrastructure that makes this service available.",
             note: "⚠️ <strong>Important Note:</strong> The Quranic data is sourced from third-party APIs. While we strive to use reliable sources, we do not independently guarantee the authenticity or accuracy of every piece of third-party API data. Users are encouraged to cross-reference with authentic sources for religious matters."
           },
           pwaSection: {
             title: "📱 Progressive Web App (PWA) & Offline Functionality",
-            description: "AdeenDesk is designed as an installable <strong>Progressive Web App (PWA)</strong>. Users may install the website on their supported device/browser and access it more conveniently like a native application.",
+            description: "AdeenDesk is engineered as an installable <strong>Progressive Web App (PWA)</strong>. To ensure users receive the latest daily content, prayer time adjustments, and news updates without stale data issues, our Service Worker implements a <strong>Network-First caching strategy</strong>. The application prioritizes fetching the freshest server-side content on connected sessions, falling back gracefully to local browser cache when offline.",
             features: [
               "<strong>Network-First Strategy:</strong> When an internet connection is available, the application attempts to retrieve the latest content from online sources first. When the network is unavailable, supported content may be served from the browser's local cache.",
               "<strong>Automatic Updates:</strong> When a new version of the website is deployed, the Service Worker may detect the updated files and update the cached application resources automatically.",
@@ -668,11 +405,36 @@
           professionalText: "The content on AdeenDesk is not intended to be a substitute for professional religious, legal, or financial advice. Always seek the advice of qualified professionals regarding any concerns.",
           scholars: "7. Consultation with Scholars",
           scholarsText: "For important Islamic rulings and significant matters of Fiqh (Islamic jurisprudence), users are strongly advised to consult qualified and trusted local Islamic scholars (Ulama-e-Kiram). The information provided on this platform should not be considered a substitute for consultation with qualified scholars.",
-          responsibility: "8. No Responsibility",
+          theologicalNeutrality: {
+            title: "8. Prayer Times Calculation & Theological Neutrality",
+            points: [
+              "<strong>Third-Party Open API Integration:</strong> All prayer times on AdeenDesk are fetched live via the public, open-source Aladhan API. We do not make any manual changes or alterations to these times; data coming from the API is rendered as-is.",
+              "<strong>Zero Sectarian Bias:</strong> AdeenDesk does not represent or promote any particular school of thought (maslak) or sect. Regarding Asr time, keeping in view the jurisprudential difference (Shafi'i/Standard vs Hanafi), both options are provided as a switch so that every user can view times according to their own convenience and conviction.",
+              "<strong>Local Verification Precaution:</strong> Due to astronomical calculations and horizon degree settings, a 3–5 minute difference in regional times is natural. For opening/closing fasts and congregational prayers, always rely on your local mosque and trusted calendar."
+            ]
+          },
+          videoEditorial: {
+            title: "9. Video Content Selection & Editorial Disclosures",
+            points: [
+              "<strong>Spiritual Value & Iman Enhancement:</strong> In the Video section, only those YouTube lectures, recitations, and religious advice are preferred that touch the heart and whose listening brings the sweetness of faith (halawat-e-imaan).",
+              "<strong>Strictly Non-Sponsored & Independent:</strong> No YouTube video in this section is included under any channel's paid promotion, commercial sponsorship, or monetization deal. This selection is purely for religious benefit and spiritual insight.",
+              "<strong>Exclusive Editorial Discretion:</strong> The complete and absolute right to add, modify, or remove any video from the platform is reserved solely with AdeenDesk's administrative team. We are not bound to include content based on the recommendation or demand of general users, creators, or any third party.",
+              "<strong>Third-Party Intellectual Property:</strong> All embedded videos' intellectual property rights and copyrights remain with their original creators and YouTube. We use YouTube's standard embedding features and do not host or modify any video."
+            ]
+          },
+          educationalGuides: {
+            title: "10. Educational Guides, External Links & Weather Indicators",
+            points: [
+              "<strong>Educational Content & Authentic Review:</strong> 'Deeni Taleem & Modules' (such as Seerat-un-Nabi, 30 Para Summary, Ramadan, and Hajj Guides) are based on authenticated references and classical Islamic sources. They are prepared for general religious understanding and easy guidance. For detailed Shariah fatwas or rulings, always refer to trustworthy scholars.",
+              "<strong>Third-Party & Partner External Links:</strong> Some links present on the platform may redirect to a partner's or related organization's website. AdeenDesk has no control over external websites' content, security, or their privacy policies.",
+              "<strong>4-Season Indicator Bar (Weather Hint):</strong> The 4-Season tracker (Spring, Summer, Autumn, Winter) on the dashboard based on the English calendar is only a <strong>general calendar-based rough indication</strong>. It is not a real-time report of any certified meteorological department (IMD/Weather Bureau) or live weather radar. Due to geographical and climatic variations, actual temperature and weather may differ."
+            ]
+          },
+          responsibility: "11. No Responsibility",
           responsibilityText: "Under no circumstance shall AdeenDesk be held liable for any loss or damage incurred as a result of using the information provided on this platform. Your use of the platform is at your own risk.",
-          news: "9. News Content Disclaimer",
+          news: "12. News Content Disclaimer",
           newsText: "In the News sections, only important summaries are provided. The original copyrights and rights to the original content belong to their respective newspapers, publishers, and sources. We do not claim ownership of any news content.",
-          improvement: "10. Continuous Improvement",
+          improvement: "13. Continuous Improvement",
           improvementText: "We are committed to improving the accuracy and reliability of our platform. However, errors may occur. We appreciate your understanding and encourage you to report any inaccuracies you may find.",
           feedback: "🙏 Your Feedback Matters: If you notice any inaccuracies in our data or have suggestions for improvement, please <a href='#contact'>reach out to us</a>. We value your input and duas."
         },
@@ -702,7 +464,7 @@
       },
 
       // ==============================================================
-      // URDU - COMPLETE
+      // URDU
       // ==============================================================
       ur: {
         about: {
@@ -746,6 +508,29 @@
               "<strong>🎯 آسان ٹریکنگ:</strong> صارفین کو آنے والی اہم اسلامی تاریخوں کا آسانی سے ٹریک رکھنے اور اس کے مطابق اپنی روحانی سرگرمیوں کی منصوبہ بندی کرنے میں مدد کرتا ہے۔"
             ],
             note: "💡 یہ سیکشن صارفین کو اسلامی کیلنڈر سے جڑے رہنے اور اہم مذہبی مواقع کو کبھی نہ بھولنے میں مدد کرتا ہے۔"
+          },
+          prosConsSection: {
+            title: "🛡️ 100% شفاف نظام — ہمارا سسٹم کیسے کام کرتا ہے؟",
+            intro: "AdeenDesk آپ کا کوئی بھی ذاتی ڈیٹا کسی سنٹرل ڈیٹا بیس یا کلاؤڈ سرور میں جمع <strong>نہیں</strong> کرتا۔ تمام سیٹنگز اور فیچرز آپ کے موبائل کی <strong>لوکل اسٹوریج</strong> میں محفوظ رہتے ہیں۔ اس نظام کے فائدے اور حدود بالکل واضح ہیں:",
+            pros: {
+              title: "🟢 فائدے (PROS)",
+              items: [
+                "<strong>100% مفت اور کوئی سبسکرپشن نہیں:</strong> سرور ڈیٹا بیس کے خرچ نہ ہونے کی وجہ سے AdeenDesk کے تمام ٹولز بالکل مفت ہیں اور ہمیشہ رہیں گے۔",
+                "<strong>کوئی اکاؤنٹ / سائن اپ ضروری نہیں:</strong> نہ پاس ورڈ یاد رکھنے کا جھنجھٹ، نہ ای میل تصدیق، اور نہ ہی فون نمبر کی شرط۔",
+                "<strong>مکمل پرائیویسی (100% محفوظ):</strong> آپ کا GPS لوکیشن ڈیٹا، بک مارک شدہ دعائیں یا تسبیح کاؤنٹ صرف اور صرف آپ کے اپنے فون میں رہتا ہے۔ ہم یا کوئی تیسرا شخص اسے دیکھ نہیں سکتا۔",
+                "<strong>انتہائی تیز اور آف لائن تیار:</strong> ڈیٹا آپ کے فون کے براؤزر اسٹوریج سے لوڈ ہوتا ہے، اس لیے صفحہ کھلتے ہی فوراً سیٹنگز بغیر کسی انٹرنیٹ تاخیر کے رینڈر ہو جاتی ہیں۔"
+              ]
+            },
+            cons: {
+              title: "🔴 نقصانات اور حدود (CONS)",
+              items: [
+                "<strong>براؤزر کیش صاف کرنے پر ری سیٹ:</strong> اگر آپ 'Clear History / Clear Site Data / Cache' ڈیلیٹ کریں گے، تو فون میں محفوظ سیٹنگز (نماز لوکیشن، زبان کی پسند) ری سیٹ ہو جائیں گی اور دوبارہ سیٹ کرنی پڑیں گی۔",
+                "<strong>گیلری اور محفوظ چارٹس دوبارہ اپ لوڈ:</strong> اگر آپ نے کسٹم دعائیں، رمضان ٹائم ٹیبل یا گیلری میں تصاویر سیٹ کی ہیں، تو ڈیوائس کیش وائپ ہونے پر وہ تصاویر ہٹ جائیں گی اور آپ کو دوبارہ منتخب کرنی پڑیں گی۔",
+                "<strong>کراس ڈیوائس سنک نہیں:</strong> ایک موبائل میں سیٹ کی گئی لوکیشن یا بک مارک دوسرے موبائل یا کمپیوٹر پر خود بخود منتقل نہیں ہوگی، کیونکہ سنٹرلائزڈ کلاؤڈ سرور لاگ ان موجود نہیں ہے۔",
+                "<strong>انکوگنیٹو / پرائیویٹ موڈ کی حد:</strong> اگر آپ ویب سائٹ کو Chrome یا براؤزر کے پرائیویٹ/انکوگنیٹو موڈ میں کھولیں گے، تو ٹیب بند کرتے ہی ڈیٹا فوراً غائب ہو جائے گا۔"
+              ]
+            },
+            advice: "💡 <strong>ہماری تجویز:</strong> براؤزر کی جنرک ہسٹری ڈیلیٹ کرتے وقت <em>'Clear Site Data / Cookies'</em> کو uncheck رکھیں تاکہ آپ کا AdeenDesk سیٹ اپ اور لوکل میموری محفوظ رہے۔"
           },
           vision: "🌍 ہمارا وژن",
           visionText: "ہم AdeenDesk کو دنیا بھر کے مسلمانوں کے لیے ایک قابل اعتماد ساتھی کے طور پر دیکھتے ہیں — ایک ڈیجیٹل جگہ جو ٹیکنالوجی کو روحانیت کے ساتھ جوڑتی ہے، اسلامی علم اور عمل کو ہر فرد کے لیے زیادہ قابل رسائی بناتی ہے، چاہے اس کا مقام یا پس منظر کچھ بھی ہو۔",
@@ -793,17 +578,25 @@
             ],
             thankYou: "آپ کے صبر، تفہیم، اور مسلسل تعاون کا شکریہ۔"
           },
+          sponsorshipPolicy: {
+            title: "📢 کمیونٹی اسپانسرشپ اور اشتہاری شفافیت",
+            points: [
+              "<strong>سخت شرعی اور اخلاقی اسکرین:</strong> AdeenDesk صرف تصدیق شدہ، حلال، اور کمیونٹی کے لیے فائدہ مند پروموشنز کی اجازت دیتا ہے۔ ہم سود پر مبنی مالیاتی آلات (ربا)، جوئے، ملٹی لیول مارکیٹنگ، انٹرٹینمنٹ پائریسی، یا غیر تصدیق شدہ دعووں سے متعلق اشتہارات کو سختی سے ممنوع قرار دیتے ہیں۔",
+              "<strong>آزاد توثیق کا ڈس کلیمر:</strong> کسی اشتہار یا اسپانسرشپ بینر کی جگہ AdeenDesk کی طرف سے مکمل مذہبی توثیق نہیں ہے۔ صارفین کو تھرڈ پارٹی پارٹنرز کے ساتھ معاہداتی یا تجارتی معاہدوں میں شامل ہونے سے پہلے ذاتی تصدیق کرنے کی ترغیب دی جاتی ہے۔",
+              "<strong>غیر مداخلت کار صارف تجربہ:</strong> ہمارا اسپانسرشپ فریم ورک مداخلت کار ٹریکنگ پاپ اپس، نقصان دہ ری ڈائریکٹ اسکرپٹس، یا تھرڈ پارٹی کوکیز تعینات نہیں کرتا۔ تمام اسپانسر ری ڈائریکٹس براہ راست صارف کی رضامندی سے کلکس (بیرونی واٹس ایپ، ای میل، یا تصدیق شدہ URLs کے ذریعے) ہیں۔"
+            ]
+          },
           futureBackend: "🚀 مستقبل کی بیک اینڈ سروسز",
           futureBackendText: "مستقبل میں، ہم صارف کے تجربے کو بڑھانے کے لیے Firebase یا دیگر مشابہ ٹیکنالوجیز جیسی بیک اینڈ سروسز متعارف کرا سکتے ہیں۔ اگر ایسی سروسز نافذ کی جاتی ہیں، تو اضافی خصوصیات فراہم کرنے کے لیے بعض قسم کے صارف ڈیٹا کو ذخیرہ یا پروسیس کرنے کی ضرورت ہو سکتی ہے۔ اگر ایسا ہوتا ہے، تو ہماری پرائیویسی پالیسی کو اس کے مطابق اپ ڈیٹ کیا جائے گا، اور صارفین کو مطلع کیا جائے گا کہ کیا ڈیٹا جمع کیا جاتا ہے، اس کی ضرورت کیوں ہے، اور اسے کیسے ہینڈل کیا جاتا ہے۔ <strong>تاہم، موجودہ وقت میں، ہمارا بیک اینڈ سرور پر صارف ڈیٹا ذخیرہ کرنے کا کوئی منصوبہ یا ارادہ نہیں ہے۔</strong>",
           quranApi: {
             title: "📖 قرآنی ڈیٹا کا ماخذ اور پبلک API انتساب",
-            description: "AdeenDesk قرآنی عربی متن، تلاوت سے متعلق میٹا ڈیٹا، اور اردو، انگریزی، اور ہندی سمیت متعدد زبانوں میں ترجمے حاصل کرنے کے لیے اوپن سورس <strong>AlQuran.cloud API</strong> (اسلامک نیٹ ورک) کا استعمال کرتا ہے۔",
+            description: "AdeenDesk اصل عثمانی عربی رسم الخط، تلاوت سے متعلق میٹا ڈیٹا، اور کثیر لسانی ترجمے (اردو، انگریزی، اور ہندی) حاصل کرنے کے لیے اوپن سورس، کمیونٹی سے تصدیق شدہ <strong>AlQuran.cloud API</strong> (اسلامک نیٹ ورک) کا استعمال کرتا ہے۔ ہم الہامی متن کی ملکیت کا دعویٰ نہیں کرتے؛ تمام قرآنی ڈیٹا خالصتاً غیر تجارتی تعلیمی پڑھنے کے لیے پیش کیا جاتا ہے۔ ہم ان درست اینڈ پوائنٹس کو برقرار رکھنے والے اوپن سورس اسلامی ڈویلپرز کے شکر گزار ہیں۔",
             disclaimer: "ہم قرآنی متن کی ملکیت کا دعویٰ نہیں کرتے۔ قرآنی مواد تعلیمی اور مذہبی پڑھنے کے مقاصد کے لیے API کے ذریعے فراہم کیا جاتا ہے۔ ہم اوپن سورس اسلامی API انفراسٹرکچر کے ڈویلپرز اور منتظمین کے شکرگزار ہیں جو اس سروس کو دستیاب بناتے ہیں۔",
             note: "⚠️ <strong>اہم نوٹ:</strong> قرآنی ڈیٹا تھرڈ پارٹی APIs سے ماخوذ ہے۔ جبکہ ہم قابل اعتماد ذرائع استعمال کرنے کی کوشش کرتے ہیں، ہم تھرڈ پارٹی API ڈیٹا کے ہر ٹکڑے کی صداقت یا درستگی کی آزادانہ طور پر ضمانت نہیں دیتے۔ صارفین کو مذہبی معاملات کے لیے مستند ذرائع سے کراس ریفرنس کرنے کی ترغیب دی جاتی ہے۔"
           },
           pwaSection: {
             title: "📱 پروگریسو ویب ایپ (PWA) اور آف لائن فعالیت",
-            description: "AdeenDesk کو ایک انسٹال ایبل <strong>پروگریسو ویب ایپ (PWA)</strong> کے طور پر ڈیزائن کیا گیا ہے۔ صارفین ویب سائٹ کو اپنے معاون ڈیوائس/براؤزر پر انسٹال کر سکتے ہیں اور اسے ایک مقامی ایپلیکیشن کی طرح آسانی سے استعمال کر سکتے ہیں۔",
+            description: "AdeenDesk کو ایک انسٹال ایبل <strong>پروگریسو ویب ایپ (PWA)</strong> کے طور پر انجینئر کیا گیا ہے۔ صارفین کو تازہ ترین روزانہ مواد، نماز کے اوقات کی تبدیلیاں، اور خبروں کی تازہ کاری بغیر کسی پرانے ڈیٹا کے مسئلے کے ملنے کو یقینی بنانے کے لیے، ہمارا سروس ورکر <strong>نیٹ ورک فرسٹ کیشنگ حکمت عملی</strong> نافذ کرتا ہے۔ ایپلیکیشن منسلک سیشنز پر تازہ ترین سرور سائیڈ مواد حاصل کرنے کو ترجیح دیتی ہے، اور آف لائن ہونے پر براؤزر کیش پر واپس آ جاتی ہے۔",
             features: [
               "<strong>نیٹ ورک فرسٹ حکمت عملی:</strong> جب انٹرنیٹ کنکشن دستیاب ہو تو ایپلیکیشن پہلے آن لائن ذرائع سے تازہ ترین مواد حاصل کرنے کی کوشش کرتی ہے۔ جب نیٹ ورک دستیاب نہ ہو تو معاون مواد براؤزر کے لوکل کیش سے فراہم کیا جا سکتا ہے۔",
               "<strong>خودکار اپ ڈیٹس:</strong> جب ویب سائٹ کا نیا ورژن ڈپلے کیا جاتا ہے تو سروس ورکر اپ ڈیٹ شدہ فائلوں کا پتہ لگا سکتا ہے اور کیش شدہ ایپلیکیشن وسائل کو اپ ڈیٹ کر سکتا ہے۔",
@@ -876,11 +669,36 @@
           professionalText: "AdeenDesk کا مواد پیشہ ورانہ مذہبی، قانونی، یا مالی مشورے کا متبادل نہیں ہے۔ کسی بھی تشویش کے بارے میں ہمیشہ مستند پیشہ ور افراد سے مشورہ لیں۔",
           scholars: "7. علما سے مشورہ",
           scholarsText: "اہم اسلامی احکام اور فقہ کے اہم معاملات کے لیے، صارفین کو سختی سے مشورہ دیا جاتا ہے کہ وہ مستند اور قابل اعتماد مقامی اسلامی علما (علمائے کرام) سے مشورہ کریں۔ اس پلیٹ فارم پر فراہم کردہ معلومات کو مستند علما سے مشورہ کرنے کے متبادل کے طور پر نہیں سمجھا جانا چاہیے۔",
-          responsibility: "8. کوئی ذمہ داری نہیں",
+          theologicalNeutrality: {
+            title: "8. نماز کے اوقات کا حساب اور مذہبی غیر جانبداری",
+            points: [
+              "<strong>تھرڈ پارٹی اوپن API انٹیگریشن:</strong> AdeenDesk پر تمام نماز کے اوقات عوامی، اوپن سورس Aladhan API کے ذریعے لائیو حاصل کیے جاتے ہیں۔ ہم ان اوقات میں کوئی دستی تبدیلی یا کانٹ چھانٹ نہیں کرتے؛ API سے آنے والا ڈیٹا as-is رینڈر کیا جاتا ہے۔",
+              "<strong>زیرو فرقہ وارانہ جانبداری:</strong> AdeenDesk کسی ایک مخصوص مسلک یا فرقے کی نمائندگی یا پروموشن نہیں کرتا۔ عصر کے وقت میں فقہی اختلاف (شافعی/اسٹینڈرڈ بمقابلہ حنفی) کو مدنظر رکھتے ہوئے دونوں آپشنز کا سوئچ دیا گیا ہے تاکہ ہر صارف اپنی سہولت اور اطمینان کے مطابق اوقات دیکھ سکے۔",
+              "<strong>مقامی تصدیق کی احتیاط:</strong> فلکیاتی حسابات اور افق کی ڈگری سیٹنگز کی وجہ سے علاقائی اوقات میں 3-5 منٹ کا فرق آنا قدرتی ہے۔ روزہ کھولنے، بند کرنے اور جماعت کی نمازوں کے لیے ہمیشہ اپنے مقامی علاقے کی مسجد اور مستند تقویم پر اعتماد کریں۔"
+            ]
+          },
+          videoEditorial: {
+            title: "9. ویڈیو مواد کا انتخاب اور اداریاتی انکشافات",
+            points: [
+              "<strong>روحانی قدر اور ایمان میں اضافہ:</strong> ویڈیو سیکشن میں صرف وہ یوٹیوب بیانات، تلاوت اور دینی نصیحتیں ترجیح دی جاتی ہیں جو دل کو چھو لیں اور جن کی سننے سے ایمان کی مٹھاس (حلاوت ایمان) محسوس ہو۔",
+              "<strong>سختی سے غیر اسپانسر شدہ اور آزاد:</strong> اس سیکشن میں کوئی بھی یوٹیوب ویڈیو کسی چینل کی پیڈ پروموشن، تجارتی اسپانسرشپ یا منیٹائزیشن ڈیل کے تحت شامل نہیں کی جاتی۔ یہ انتخاب محض دینی فائدے اور روحانی بصیرت کے لیے ہے۔",
+              "<strong>خصوصی اداریاتی صوابدید:</strong> پلیٹ فارم پر کسی بھی ویڈیو کو شامل کرنے، تبدیل کرنے یا ہٹانے کا مکمل اور مطلق اختیار صرف AdeenDesk کی انتظامی ٹیم کے پاس محفوظ ہے۔ ہم عام صارفین، تخلیق کاروں یا کسی تیسرے فریق کی سفارش یا فرمائش پر مواد شامل کرنے کے پابند نہیں ہیں۔",
+              "<strong>تھرڈ پارٹی دانشورانہ املاک:</strong> تمام ایمبیڈڈ ویڈیوز کے دانشورانہ املاک کے حقوق اور کاپی رائٹس ان کے اصل تخلیق کاروں اور یوٹیوب کے پاس محفوظ ہیں۔ ہم یوٹیوب کے معیاری ایمبیڈنگ فیچرز استعمال کرتے ہیں اور کسی ویڈیو کو ہوسٹ یا تبدیل نہیں کرتے۔"
+            ]
+          },
+          educationalGuides: {
+            title: "10. تعلیمی گائیڈز، بیرونی لنکس اور موسمی اشارے",
+            points: [
+              "<strong>تعلیمی مواد اور مستند جائزہ:</strong> 'دینی تعلیم اور ماڈیولز' (جیسے سیرت النبی، 30 پارہ خلاصہ، رمضان، اور حج گائیڈز) مستند حوالوں اور کلاسیکی اسلامی ذرائع پر مبنی ہیں۔ یہ عام دینی سمجھ اور آسان رہنمائی کے لیے تیار کیے گئے ہیں۔ تفصیلی شرعی فتوے یا مسائل کے لیے ہمیشہ مستند علماء کرام سے رجوع کریں۔",
+              "<strong>تھرڈ پارٹی اور پارٹنر بیرونی لنکس:</strong> پلیٹ فارم پر موجود بعض لنکس کسی پارٹنر یا متعلقہ ادارے کی ویب سائٹ پر ری ڈائریکٹ کر سکتے ہیں۔ بیرونی ویب سائٹس کے مواد، سیکیورٹی یا ان کی پرائیویسی پالیسیوں پر AdeenDesk کا کوئی اختیار نہیں ہے۔",
+              "<strong>4 سیزن انڈیکیٹر بار (موسمی اشارہ):</strong> ڈیش بورڈ پر انگریزی کیلنڈر کے مطابق 4 سیزن ٹریکر (بہار، گرما، خزاں، سردی) صرف ایک <strong>عمومی کیلنڈر پر مبنی تخمینی اشارہ</strong> ہے۔ یہ کسی تصدیق شدہ موسمیاتی محکمے (IMD/محکمہ موسمیات) یا لائیو ویدر ریڈار کی ریئل ٹائم رپورٹ نہیں ہے۔ جغرافیائی اور موسمی تغیرات کی وجہ سے زمینی درجہ حرارت اور موسم مختلف ہو سکتا ہے۔"
+            ]
+          },
+          responsibility: "11. کوئی ذمہ داری نہیں",
           responsibilityText: "کسی بھی صورت میں AdeenDesk کو اس پلیٹ فارم پر فراہم کردہ معلومات کے استعمال کے نتیجے میں ہونے والے کسی بھی نقصان یا نقصان کے لیے ذمہ دار نہیں ٹھہرایا جائے گا۔ پلیٹ فارم کا آپ کا استعمال آپ کی اپنی ذمہ داری پر ہے۔",
-          news: "9. نیوز مواد کا ڈس کلیمر",
+          news: "12. نیوز مواد کا ڈس کلیمر",
           newsText: "نیوز سیکشنز میں، صرف اہم خلاصے فراہم کیے جاتے ہیں۔ اصل کاپی رائٹس اور اصل مواد کے حقوق ان کے متعلقہ اخبارات، پبلشرز، اور ذرائع کے ہیں۔ ہم کسی بھی نیوز مواد کی ملکیت کا دعویٰ نہیں کرتے۔",
-          improvement: "10. مسلسل بہتری",
+          improvement: "13. مسلسل بہتری",
           improvementText: "ہم اپنے پلیٹ فارم کی درستگی اور اعتماد کو بہتر بنانے کے لیے پرعزم ہیں۔ تاہم، غلطیاں ہو سکتی ہیں۔ ہم آپ کی سمجھ بوجھ کی تعریف کرتے ہیں اور آپ کو کسی بھی غلطی کی اطلاع دینے کی ترغیب دیتے ہیں جو آپ کو ملے۔",
           feedback: "🙏 آپ کا تاثرات اہم ہیں: اگر آپ کو ہمارے ڈیٹا میں کوئی غلطی نظر آتی ہے یا بہتری کے لیے کوئی تجویز ہے، تو براہ کرم <a href='#contact'>ہم سے رابطہ کریں</a>۔ ہم آپ کے ان پٹ اور دعاؤں کی قدر کرتے ہیں۔"
         },
@@ -910,7 +728,7 @@
       },
 
       // ==============================================================
-      // HINDI - COMPLETE
+      // HINDI
       // ==============================================================
       hi: {
         about: {
@@ -954,6 +772,29 @@
               "<strong>🎯 आसान ट्रैकिंग:</strong> उपयोगकर्ताओं को आगामी महत्वपूर्ण इस्लामिक तिथियों का आसानी से ट्रैक रखने और तदनुसार अपनी आध्यात्मिक गतिविधियों की योजना बनाने में मदद करता है।"
             ],
             note: "💡 यह सेक्शन उपयोगकर्ताओं को इस्लामिक कैलेंडर से जुड़े रहने और महत्वपूर्ण धार्मिक अवसरों को कभी न भूलने में मदद करता है।"
+          },
+          prosConsSection: {
+            title: "🛡️ 100% पारदर्शी आर्किटेक्चर — हमारा सिस्टम कैसे काम करता है?",
+            intro: "AdeenDesk आपका कोई भी व्यक्तिगत डेटा किसी केंद्रीय डेटाबेस या क्लाउड सर्वर में संग्रहीत <strong>नहीं</strong> करता। सभी सेटिंग्स और सुविधाएं आपके मोबाइल की <strong>लोकल स्टोरेज</strong> में सुरक्षित रहती हैं। इस आर्किटेक्चर के फायदे और सीमाएं बिल्कुल स्पष्ट हैं:",
+            pros: {
+              title: "🟢 फायदे (PROS)",
+              items: [
+                "<strong>100% मुफ्त और कोई सब्सक्रिप्शन नहीं:</strong> सर्वर डेटाबेस का खर्च न होने की वजह से AdeenDesk के सभी टूल्स बिल्कुल मुफ्त हैं और हमेशा रहेंगे।",
+                "<strong>कोई अकाउंट / साइन-अप जरूरी नहीं:</strong> न पासवर्ड याद रखने का झंझट, न ईमेल वेरिफिकेशन, और न ही फोन नंबर की शर्त।",
+                "<strong>पूरी प्राइवेसी (100% सुरक्षित):</strong> आपका GPS लोकेशन डेटा, बुकमार्क की गई दुआएं या तस्बीह काउंट सिर्फ और सिर्फ आपके अपने फोन में रहता है। हम या कोई तीसरा व्यक्ति इसे देख नहीं सकता।",
+                "<strong>सुपरफास्ट और ऑफलाइन तैयार:</strong> डेटा आपके फोन के ब्राउज़र स्टोरेज से लोड होता है, इसलिए पेज खुलते ही तुरंत सेटिंग्स बिना किसी इंटरनेट देरी के रेंडर हो जाती हैं।"
+              ]
+            },
+            cons: {
+              title: "🔴 नुकसान और सीमाएं (CONS)",
+              items: [
+                "<strong>ब्राउज़र कैश साफ करने पर रीसेट:</strong> अगर आप 'Clear History / Clear Site Data / Cache' डिलीट करेंगे, तो फोन में सेव की गई सेटिंग्स (नमाज़ लोकेशन, भाषा की पसंद) रीसेट हो जाएंगी और दोबारा सेट करनी पड़ेंगी।",
+                "<strong>गैलरी और सेव किए गए चार्ट्स दोबारा अपलोड:</strong> अगर आपने कस्टम दुआएं, रमज़ान टाइम टेबल या गैलरी में फोटो सेट की हैं, तो डिवाइस कैश वाइप होने पर वे फोटो हट जाएंगी और आपको दोबारा सेलेक्ट करनी पड़ेंगी।",
+                "<strong>क्रॉस-डिवाइस सिंक नहीं:</strong> एक मोबाइल में सेट की गई लोकेशन या बुकमार्क दूसरे मोबाइल या कंप्यूटर पर ऑटोमैटिक ट्रांसफर नहीं होगा, क्योंकि सेंट्रलाइज्ड क्लाउड सर्वर लॉगिन मौजूद नहीं है।",
+                "<strong>इनकॉग्निटो / प्राइवेट मोड की सीमा:</strong> अगर आप वेबसाइट को Chrome या ब्राउज़र के प्राइवेट/इनकॉग्निटो मोड में खोलेंगे, तो टैब बंद करते ही डेटा तुरंत गायब हो जाएगा।"
+              ]
+            },
+            advice: "💡 <strong>हमारी सिफारिश:</strong> ब्राउज़र की जेनेरिक हिस्ट्री डिलीट करते वक्त <em>'Clear Site Data / Cookies'</em> को uncheck रखें ताकि आपका AdeenDesk सेटअप और लोकल मेमोरी सुरक्षित रहे।"
           },
           vision: "🌍 हमारा दृष्टिकोण",
           visionText: "हम AdeenDesk को दुनिया भर के मुसलमानों के लिए एक भरोसेमंद साथी के रूप में देखते हैं — एक डिजिटल स्थान जो प्रौद्योगिकी को आध्यात्मिकता के साथ जोड़ता है, इस्लामिक ज्ञान और अभ्यास को सभी के लिए अधिक सुलभ बनाता है, चाहे उनका स्थान या पृष्ठभूमि कुछ भी हो।",
@@ -1001,17 +842,25 @@
             ],
             thankYou: "आपके धैर्य, समझ और निरंतर समर्थन के लिए धन्यवाद।"
           },
+          sponsorshipPolicy: {
+            title: "📢 कम्युनिटी स्पॉन्सरशिप और विज्ञापन पारदर्शिता",
+            points: [
+              "<strong>सख्त शरिया और नैतिक स्क्रीन:</strong> AdeenDesk केवल सत्यापित, हलाल, और समुदाय के लिए फायदेमंद प्रमोशन की अनुमति देता है। हम ब्याज-आधारित वित्तीय साधनों (रिबा), जुआ, मल्टी-लेवल मार्केटिंग, एंटरटेनमेंट पायरेसी, या असत्यापित दावों से संबंधित विज्ञापनों को सख्ती से प्रतिबंधित करते हैं।",
+              "<strong>स्वतंत्र समर्थन अस्वीकरण:</strong> किसी विज्ञापन या स्पॉन्सरशिप बैनर की नियुक्ति AdeenDesk द्वारा पूर्ण धार्मिक समर्थन नहीं है। उपयोगकर्ताओं को तीसरे पक्ष के भागीदारों के साथ अनुबंधात्मक या व्यावसायिक समझौतों में शामिल होने से पहले व्यक्तिगत सत्यापन करने के लिए प्रोत्साहित किया जाता है।",
+              "<strong>गैर-हस्तक्षेप उपयोगकर्ता अनुभव:</strong> हमारा स्पॉन्सरशिप ढांचा हस्तक्षेपकारी ट्रैकिंग पॉपअप, दुर्भावनापूर्ण रीडायरेक्ट स्क्रिप्ट, या तीसरे पक्ष की कुकीज़ तैनात नहीं करता। सभी स्पॉन्सर रीडायरेक्ट सीधे उपयोगकर्ता की सहमति से क्लिक (बाहरी WhatsApp, ईमेल, या सत्यापित URLs के माध्यम से) हैं।"
+            ]
+          },
           futureBackend: "🚀 भविष्य की बैकएंड सेवाएं",
           futureBackendText: "भविष्य में, हम उपयोगकर्ता अनुभव को बढ़ाने के लिए Firebase या अन्य समान तकनीकों जैसी बैकएंड सेवाएं शुरू कर सकते हैं। यदि ऐसी सेवाओं को लागू किया जाता है, तो अतिरिक्त सुविधाएं प्रदान करने के लिए कुछ प्रकार के उपयोगकर्ता डेटा को संग्रहीत या संसाधित करने की आवश्यकता हो सकती है। यदि ऐसा होता है, तो हमारी गोपनीयता नीति को तदनुसार अपडेट किया जाएगा, और उपयोगकर्ताओं को सूचित किया जाएगा कि कौन सा डेटा एकत्र किया जाता है, इसकी आवश्यकता क्यों है, और इसे कैसे संभाला जाता है। <strong>हालाँकि, वर्तमान में, बैकएंड सर्वर पर उपयोगकर्ता डेटा संग्रहीत करने की हमारी कोई योजना या इरादा नहीं है।</strong>",
           quranApi: {
             title: "📖 कुरानिक डेटा स्रोत और सार्वजनिक API स्वीकृति",
-            description: "AdeenDesk कुरानिक अरबी पाठ, तिलावत से संबंधित मेटाडेटा, और उर्दू, अंग्रेज़ी, और हिंदी सहित कई भाषाओं में अनुवाद प्राप्त करने के लिए ओपन-सोर्स <strong>AlQuran.cloud API</strong> (इस्लामिक नेटवर्क) का उपयोग करता है।",
+            description: "AdeenDesk प्रामाणिक उथमानी अरबी स्क्रिप्ट, तिलावत से संबंधित मेटाडेटा, और बहुभाषी अनुवाद (उर्दू, अंग्रेज़ी, और हिंदी) प्राप्त करने के लिए ओपन-सोर्स, कम्युनिटी-सत्यापित <strong>AlQuran.cloud API</strong> (इस्लामिक नेटवर्क) का उपयोग करता है। हम ईश्वरीय पाठ के स्वामित्व का दावा नहीं करते; सभी कुरानिक डेटा विशुद्ध रूप से गैर-व्यावसायिक शैक्षिक पठन के लिए प्रस्तुत किया जाता है। हम इन सटीक एंडपॉइंट्स को बनाए रखने वाले ओपन-सोर्स इस्लामिक डेवलपर्स के आभारी हैं।",
             disclaimer: "हम कुरानिक पाठ के स्वामित्व का दावा नहीं करते हैं। कुरानिक सामग्री शैक्षिक और धार्मिक पठन उद्देश्यों के लिए API के माध्यम से प्रदान की जाती है। हम ओपन-सोर्स इस्लामिक API इंफ्रास्ट्रक्चर के डेवलपर्स और मेंटेनरों के आभारी हैं जो इस सेवा को उपलब्ध कराते हैं।",
             note: "⚠️ <strong>महत्वपूर्ण नोट:</strong> कुरानिक डेटा थर्ड-पार्टी APIs से प्राप्त किया जाता है। जबकि हम विश्वसनीय स्रोतों का उपयोग करने का प्रयास करते हैं, हम थर्ड-पार्टी API डेटा के प्रत्येक टुकड़े की प्रामाणिकता या सटीकता की स्वतंत्र रूप से गारंटी नहीं देते हैं। उपयोगकर्ताओं को धार्मिक मामलों के लिए प्रामाणिक स्रोतों से क्रॉस-रेफरेंस करने के लिए प्रोत्साहित किया जाता है।"
           },
           pwaSection: {
             title: "📱 प्रोग्रेसिव वेब ऐप (PWA) और ऑफलाइन कार्यक्षमता",
-            description: "AdeenDesk को एक इंस्टॉल करने योग्य <strong>प्रोग्रेसिव वेब ऐप (PWA)</strong> के रूप में डिज़ाइन किया गया है। उपयोगकर्ता वेबसाइट को अपने समर्थित डिवाइस/ब्राउज़र पर इंस्टॉल कर सकते हैं और इसे एक देशी एप्लिकेशन की तरह अधिक आसानी से एक्सेस कर सकते हैं।",
+            description: "AdeenDesk को एक इंस्टॉल करने योग्य <strong>प्रोग्रेसिव वेब ऐप (PWA)</strong> के रूप में इंजीनियर किया गया है। उपयोगकर्ताओं को बिना किसी पुराने डेटा की समस्या के नवीनतम दैनिक सामग्री, नमाज़ के समय के समायोजन, और समाचार अपडेट प्राप्त करने को सुनिश्चित करने के लिए, हमारा सर्विस वर्कर <strong>नेटवर्क-फर्स्ट कैशिंग रणनीति</strong> लागू करता है। एप्लिकेशन कनेक्टेड सेशन पर ताज़ा सर्वर-साइड सामग्री प्राप्त करने को प्राथमिकता देता है, और ऑफलाइन होने पर ब्राउज़र कैश पर वापस आ जाता है।",
             features: [
               "<strong>नेटवर्क-फर्स्ट रणनीति:</strong> जब इंटरनेट कनेक्शन उपलब्ध होता है, तो एप्लिकेशन पहले ऑनलाइन स्रोतों से नवीनतम सामग्री प्राप्त करने का प्रयास करता है। जब नेटवर्क उपलब्ध नहीं होता है, तो समर्थित सामग्री ब्राउज़र के लोकल कैश से प्रदान की जा सकती है।",
               "<strong>स्वचालित अपडेट:</strong> जब वेबसाइट का एक नया संस्करण तैनात किया जाता है, तो सर्विस वर्कर अपडेट की गई फ़ाइलों का पता लगा सकता है और कैश की गई एप्लिकेशन संसाधनों को अपडेट कर सकता है।",
@@ -1084,11 +933,36 @@
           professionalText: "AdeenDesk की सामग्री पेशेवर धार्मिक, कानूनी, या वित्तीय सलाह का विकल्प नहीं है। किसी भी चिंता के बारे में हमेशा योग्य पेशेवरों से सलाह लें।",
           scholars: "7. विद्वानों से परामर्श",
           scholarsText: "महत्वपूर्ण इस्लामिक आदेशों और फ़िक़्ह (इस्लामिक न्यायशास्त्र) के महत्वपूर्ण मामलों के लिए, उपयोगकर्ताओं को दृढ़ता से सलाह दी जाती है कि वे योग्य और विश्वसनीय स्थानीय इस्लामिक विद्वानों (उलमा-ए-किराम) से परामर्श करें। इस प्लेटफ़ॉर्म पर प्रदान की गई जानकारी को योग्य विद्वानों से परामर्श करने के विकल्प के रूप में नहीं माना जाना चाहिए।",
-          responsibility: "8. कोई जिम्मेदारी नहीं",
+          theologicalNeutrality: {
+            title: "8. नमाज़ के समय की गणना और धार्मिक तटस्थता",
+            points: [
+              "<strong>थर्ड-पार्टी ओपन API एकीकरण:</strong> AdeenDesk पर सभी नमाज़ के समय सार्वजनिक, ओपन-सोर्स Aladhan API के माध्यम से लाइव प्राप्त किए जाते हैं। हम इन समयों में कोई मैन्युअल बदलाव या छेड़छाड़ नहीं करते; API से आने वाला डेटा as-is रेंडर किया जाता है।",
+              "<strong>जीरो सांप्रदायिक पक्षपात:</strong> AdeenDesk किसी एक विशेष मसलक या संप्रदाय का प्रतिनिधित्व या प्रचार नहीं करता। अस्र के समय में फ़िक़्ही मतभेद (शफ़ीई/स्टैंडर्ड बनाम हनफ़ी) को ध्यान में रखते हुए दोनों विकल्पों का स्विच दिया गया है ताकि हर उपयोगकर्ता अपनी सुविधा और विश्वास के अनुसार समय देख सके।",
+              "<strong>स्थानीय सत्यापन सावधानी:</strong> खगोलीय गणनाओं और क्षितिज डिग्री सेटिंग्स की वजह से क्षेत्रीय समय में 3-5 मिनट का अंतर आना स्वाभाविक है। रोज़ा खोलने, बंद करने और जमात की नमाज़ों के लिए हमेशा अपने स्थानीय क्षेत्र की मस्जिद और विश्वसनीय कैलेंडर पर भरोसा करें।"
+            ]
+          },
+          videoEditorial: {
+            title: "9. वीडियो सामग्री चयन और संपादकीय प्रकटीकरण",
+            points: [
+              "<strong>आध्यात्मिक मूल्य और ईमान में वृद्धि:</strong> वीडियो सेक्शन में केवल वे YouTube बयान, तिलावत और धार्मिक नसीहतें प्राथमिकता दी जाती हैं जो दिल को छू लें और जिनकी सुनने से ईमान की मिठास (हलावत-ए-ईमान) महसूस हो।",
+              "<strong>सख्ती से गैर-प्रायोजित और स्वतंत्र:</strong> इस सेक्शन में कोई भी YouTube वीडियो किसी चैनल की पेड प्रमोशन, व्यावसायिक प्रायोजन या मॉनेटाइजेशन डील के तहत शामिल नहीं की जाती। यह चयन केवल धार्मिक लाभ और आध्यात्मिक अंतर्दृष्टि के लिए है।",
+              "<strong>विशेष संपादकीय विवेक:</strong> प्लेटफ़ॉर्म पर किसी भी वीडियो को जोड़ने, संशोधित करने या हटाने का पूर्ण और निरपेक्ष अधिकार केवल AdeenDesk की प्रशासनिक टीम के पास सुरक्षित है। हम सामान्य उपयोगकर्ताओं, क्रिएटर्स या किसी तीसरे पक्ष की सिफारिश या मांग पर सामग्री शामिल करने के लिए बाध्य नहीं हैं।",
+              "<strong>थर्ड-पार्टी बौद्धिक संपदा:</strong> सभी एम्बेडेड वीडियो के बौद्धिक संपदा अधिकार और कॉपीराइट उनके मूल रचनाकारों और YouTube के पास सुरक्षित हैं। हम YouTube के मानक एम्बेडिंग फीचर्स का उपयोग करते हैं और किसी वीडियो को होस्ट या संशोधित नहीं करते।"
+            ]
+          },
+          educationalGuides: {
+            title: "10. शैक्षिक गाइड्स, बाहरी लिंक और मौसम संकेतक",
+            points: [
+              "<strong>शैक्षिक सामग्री और प्रामाणिक समीक्षा:</strong> 'दीनी तालीम और मॉड्यूल्स' (जैसे सीरत-उन-नबी, 30 पारा सारांश, रमज़ान, और हज गाइड्स) प्रामाणिक संदर्भों और शास्त्रीय इस्लामिक स्रोतों पर आधारित हैं। ये सामान्य धार्मिक समझ और आसान मार्गदर्शन के लिए तैयार किए गए हैं। विस्तृत शरिया फतवों या फैसलों के लिए हमेशा विश्वसनीय विद्वानों से परामर्श करें।",
+              "<strong>थर्ड-पार्टी और पार्टनर बाहरी लिंक:</strong> प्लेटफ़ॉर्म पर मौजूद कुछ लिंक किसी पार्टनर या संबंधित संगठन की वेबसाइट पर रीडायरेक्ट कर सकते हैं। बाहरी वेबसाइट्स की सामग्री, सुरक्षा या उनकी गोपनीयता नीतियों पर AdeenDesk का कोई नियंत्रण नहीं है।",
+              "<strong>4-सीज़न इंडिकेटर बार (मौसम संकेत):</strong> अंग्रेज़ी कैलेंडर के अनुसार डैशबोर्ड पर 4-सीज़न ट्रैकर (वसंत, ग्रीष्म, शरद, शीत) केवल एक <strong>सामान्य कैलेंडर-आधारित अनुमानित संकेत</strong> है। यह किसी प्रमाणित मौसम विज्ञान विभाग (IMD/मौसम विभाग) या लाइव वेदर रडार की रीयल-टाइम रिपोर्ट नहीं है। भौगोलिक और जलवायु परिवर्तनों के कारण वास्तविक तापमान और मौसम भिन्न हो सकता है।"
+            ]
+          },
+          responsibility: "11. कोई जिम्मेदारी नहीं",
           responsibilityText: "किसी भी परिस्थिति में AdeenDesk को इस प्लेटफ़ॉर्म पर प्रदान की गई जानकारी के उपयोग के परिणामस्वरूप होने वाले किसी भी नुकसान या क्षति के लिए उत्तरदायी नहीं ठहराया जाएगा। प्लेटफ़ॉर्म का आपका उपयोग आपके अपने जोखिम पर है।",
-          news: "9. समाचार सामग्री का अस्वीकरण",
+          news: "12. समाचार सामग्री का अस्वीकरण",
           newsText: "समाचार अनुभागों में, केवल महत्वपूर्ण सारांश प्रदान किए जाते हैं। मूल कॉपीराइट और मूल सामग्री के अधिकार उनके संबंधित समाचार पत्रों, प्रकाशकों, और स्रोतों के हैं। हम किसी भी समाचार सामग्री के स्वामित्व का दावा नहीं करते हैं।",
-          improvement: "10. निरंतर सुधार",
+          improvement: "13. निरंतर सुधार",
           improvementText: "हम अपने प्लेटफ़ॉर्म की सटीकता और विश्वसनीयता में सुधार करने के लिए प्रतिबद्ध हैं। हालाँकि, त्रुटियाँ हो सकती हैं। हम आपकी समझ की सराहना करते हैं और आपको किसी भी अशुद्धि की रिपोर्ट करने के लिए प्रोत्साहित करते हैं जो आपको मिले।",
           feedback: "🙏 आपका फीडबैक मायने रखता है: यदि आपको हमारे डेटा में कोई अशुद्धि दिखाई देती है या सुधार के लिए कोई सुझाव है, तो कृपया <a href='#contact'>हमसे संपर्क करें</a>। हम आपके इनपुट और दुआओं की कद्र करते हैं।"
         },
@@ -1118,7 +992,7 @@
       },
 
       // ==============================================================
-      // HINGLISH - COMPLETE
+      // HINGLISH
       // ==============================================================
       hinglish: {
         about: {
@@ -1162,6 +1036,29 @@
               "<strong>🎯 Easy Tracking:</strong> Users ko important upcoming Islamic dates ka easily track rakhne aur accordingly apni spiritual activities plan karne mein help karta hai."
             ],
             note: "💡 Yeh section users ko Islamic calendar se jude rahne aur important religious occasions ko kabhi na bhoolne mein help karta hai."
+          },
+          prosConsSection: {
+            title: "🛡️ 100% Transparent Architecture — Hamara System Kaise Kaam Karta Hai?",
+            intro: "AdeenDesk aapka koi bhi personal data kisi central database ya cloud server mein jama <strong>nahi</strong> karta. Saari settings aur features aapke mobile ke <strong>Local Storage</strong> mein mehfooz rehte hain. Is architecture ke faayde aur hudood (pros & cons) bilkul wazeh hain:",
+            pros: {
+              title: "🟢 Faayde (The PROS)",
+              items: [
+                "<strong>100% Free & No Subscription:</strong> Kisi server database ka kharch na hone ki wajah se AdeenDesk ke tamam tools bilkul free hain aur hamesha rahenge.",
+                "<strong>No Account / No Sign-up Required:</strong> Na password yaad rakhne ka jhanjhat, na email verification aur na hi phone number maangne ki koi shart.",
+                "<strong>Total Privacy (100% Mehfooz):</strong> Aapka GPS location data, bookmarked duas ya tasbeeh count sirf aur sirf aapke apne phone mein rehta hai. Hum ya koi teesra shakhs ise dekh nahi sakta.",
+                "<strong>Superfast & Offline Ready:</strong> Data aapke phone ke browser storage se load hota hai, isliye page khulte hi foran settings bina kisi internet delay ke render ho jaati hain."
+              ]
+            },
+            cons: {
+              title: "🔴 Khulasa & Hudood (The CONS)",
+              items: [
+                "<strong>Browser Cache Clear Karne Par Reset:</strong> Agar aap apne browser ki 'Clear History / Clear Site Data / Cache' delete karenge, to phone me save ki hui settings (Namaz location, language choice) reset ho jayegi aur use dobara set karna hoga.",
+                "<strong>Gallery & Saved Charts Re-Upload:</strong> Agar aapne Custom Dua, Ramzan Time Table ya image gallery me photo set ki hui hai, to device cache wipe hone par wo images hat jayengi aur aapko dobara select karni padegi.",
+                "<strong>No Cross-Device Sync:</strong> Ek mobile me set ki hui location ya bookmark doosre mobile ya computer par automatically transfer nahi hoga, kyunki centralized cloud server login maujood nahi hai.",
+                "<strong>Incognito / Private Mode Limitation:</strong> Agar aap website ko Chrome ya browser ke Private/Incognito mode me kholenge, to tab band karte hi data turant gayab ho jayega."
+              ]
+            },
+            advice: "💡 <strong>Hamari Tajweez:</strong> Browser ki generic history delete karte waqt <em>'Clear Site Data / Cookies'</em> ko uncheck rakhein taaki aapka AdeenDesk setup aur local memory mehfooz rahe."
           },
           vision: "🌍 Hamara Vision",
           visionText: "Hum AdeenDesk ko Muslims ke liye ek trusted companion ke roop mein dekhte hain — ek digital space jo technology ko spirituality ke saath jodta hai, Islamic knowledge aur practice ko sab ke liye zyada accessible banata hai, chahe unka location ya background kuch bhi ho.",
@@ -1209,17 +1106,25 @@
             ],
             thankYou: "Aapke sabr, understanding, aur continuous support ke liye shukriya."
           },
+          sponsorshipPolicy: {
+            title: "📢 Community Sponsorship & Advertising Transparency",
+            points: [
+              "<strong>Strict Shariah & Ethical Screen:</strong> AdeenDesk sirf verified, halal, aur community-beneficial promotions ki permission deta hai. Hum interest-based financial instruments (Riba), gambling, multi-level marketing, entertainment piracy, ya unverified claims se related advertisements ko strictly prohibit karte hain.",
+              "<strong>Independent Endorsement Disclaimer:</strong> Kisi advertisement ya sponsorship banner ki placement AdeenDesk ki taraf se absolute theological endorsement nahi hai. Users ko third-party partners ke saath contractual ya commercial agreements mein shamil hone se pehle personal verification karne ki targheeb di jaati hai.",
+              "<strong>Non-Intrusive User Experience:</strong> Hamara sponsorship framework invasive tracking pop-ups, malicious redirect scripts, ya third-party cookies deploy nahi karta. Saare sponsor redirects direct user-consented clicks (external WhatsApp, email, ya verified URLs ke through) hain."
+            ]
+          },
           futureBackend: "🚀 Future Backend Services",
           futureBackendText: "Future mein, hum user experience enhance karne ke liye Firebase ya other similar technologies jaise backend services introduce kar sakte hain. Agar aisi services implement ki jaati hain, toh kuch types ke user data ko store ya process karne ki zaroorat ho sakti hai additional features provide karne ke liye. Agar aisa hota hai, toh hamari Privacy Policy ko accordingly update kiya jayega, aur users ko inform kiya jayega ke kaunsa data collect kiya jaata hai, kyun zaroori hai, aur kaise handle kiya jaata hai. <strong>Lekin, present mein, backend server par user data store karne ka hamara koi plan ya intention nahi hai.</strong>",
           quranApi: {
             title: "📖 Quranic Data Source & Public API Attribution",
-            description: "AdeenDesk open-source <strong>AlQuran.cloud API</strong> (Islamic Network) ka use karta hai Quranic Arabic text, recitation-related metadata, aur Urdu, English, aur Hindi samait multiple languages mein translations retrieve karne ke liye.",
+            description: "AdeenDesk authentic Uthmani Arabic script, recitation-related metadata, aur multi-language translations (Urdu, English, aur Hindi) fetch karne ke liye open-source, community-verified <strong>AlQuran.cloud API</strong> (Islamic Network) use karta hai. Hum divine text ki ownership claim nahi karte; saara Quranic data purely non-commercial educational reading ke liye serve kiya jaata hai. Hum un open-source Islamic developers ke shukraguzar hain jo in accurate endpoints ko maintain karte hain.",
             disclaimer: "Hum Quranic text ki ownership claim nahi karte. Quranic content API ke through educational aur religious reading purposes ke liye provide kiya jaata hai. Hum open-source Islamic API infrastructure ke developers aur maintainers ke shukraguzar hain jo is service ko available banate hain.",
             note: "⚠️ <strong>Important Note:</strong> Quranic data third-party APIs se sourced hai. Jabke hum reliable sources use karne ki koshish karte hain, hum third-party API data ke har piece ki authenticity ya accuracy ki independently guarantee nahi dete. Users ko religious matters ke liye authentic sources se cross-reference karne ki targheeb di jaati hai."
           },
           pwaSection: {
             title: "📱 Progressive Web App (PWA) & Offline Functionality",
-            description: "AdeenDesk ko ek installable <strong>Progressive Web App (PWA)</strong> ke roop mein design kiya gaya hai. Users website ko apne supported device/browser par install kar sakte hain aur ise ek native application ki tarah zyada aasani se access kar sakte hain.",
+            description: "AdeenDesk ko ek installable <strong>Progressive Web App (PWA)</strong> ke roop mein engineer kiya gaya hai. Users ko latest daily content, prayer time adjustments, aur news updates stale data issues ke bina milne ko ensure karne ke liye, hamara Service Worker <strong>Network-First caching strategy</strong> implement karta hai. Application connected sessions par freshest server-side content fetch karne ko prioritize karti hai, aur offline hone par browser cache par gracefully fall back karti hai.",
             features: [
               "<strong>Network-First Strategy:</strong> Jab internet connection available ho toh application pehle online sources se latest content retrieve karne ki koshish karti hai. Jab network available na ho toh supported content browser ke local cache se serve kiya ja sakta hai.",
               "<strong>Automatic Updates:</strong> Jab website ka naya version deploy kiya jaata hai toh Service Worker updated files ko detect kar sakta hai aur cached application resources ko update kar sakta hai.",
@@ -1292,11 +1197,36 @@
           professionalText: "AdeenDesk ka content professional religious, legal, ya financial advice ka substitute nahi hai. Kisi bhi concern ke baare mein hamesha qualified professionals se advice lein.",
           scholars: "7. Scholars Se Consultation",
           scholarsText: "Important Islamic rulings aur Fiqh (Islamic jurisprudence) ke important matters ke liye, users ko strongly advice di jaati hai ke woh qualified aur trusted local Islamic scholars (Ulama-e-Kiram) se consult karein. Is platform par provide ki gayi information ko qualified scholars se consultation ke substitute ke roop mein nahi maana jaana chahiye.",
-          responsibility: "8. No Responsibility",
+          theologicalNeutrality: {
+            title: "8. Prayer Times Calculation & Theological Neutrality",
+            points: [
+              "<strong>Third-Party Open API Integration:</strong> AdeenDesk par Namaz ke tamam auqaat public aur open-source Aladhan API ke zariye live fetch kiye jaate hain. Hum in auqaat me apni taraf se koi dasti (manual) tabdeeli ya kanto-chhaant nahi karte; API se aane wale data ko as-it-is render kiya jata hai.",
+              "<strong>Zero Sectarian Bias (Ghair-Jaanibdari):</strong> AdeenDesk kisi ek makhsoos maslak ya firqay ki numaindagi ya promotion nahi karta. Asr ke waqt me fiqhi ikhtilaf (Shafi'i/Standard vs Hanafi) ko mad-de-nazar rakhte hue dono options ka switch diya gaya hai taaki har user apni sahulat aur itminan ke mutabiq auqaat dekh sake.",
+              "<strong>Local Verification Precaution:</strong> Astronomical calculations aur horizon degree settings ki wajah se ilaqai auqaat me 3–5 minute ka farq aana qudrati hai. Roza kholne, band karne aur jamat ki namazon ke liye hamesha apne muqami ilaqe ki masjid aur mustanad taqweem par aitemad karein."
+            ]
+          },
+          videoEditorial: {
+            title: "9. Video Content Selection & Editorial Disclosures",
+            points: [
+              "<strong>Spiritual Value & Iman Enhancement:</strong> Video section me sirf un YouTube bayanat, tilawat aur deeni nasihaton ko tarjeeh di jati hai jo dil ko chhoon lein aur jinki sunne se imaan ki mithas (halaawat-e-imaan) mehsoos ho.",
+              "<strong>Strictly Non-Sponsored & Independent:</strong> Is section me koi bhi YouTube video kisi channel ki paid promotion, commercial sponsorship ya monetization deal ke tehat shamil nahi ki jati. Yeh intikhab mehaz deeni faayde aur roohani taveer ke liye hai.",
+              "<strong>Exclusive Editorial Discretion:</strong> Platform par kisi bhi video ko add karne, tabdeel karne ya hatane ka mukammal aur mutlaq ikhtiyar sirf AdeenDesk ki administrative team ke paas mehfooz hai. Hum aam users, creators ya kisi teesre fariq ki sifarish ya farmayish par content shamil karne ke paband nahi hain.",
+              "<strong>Third-Party Intellectual Property:</strong> Tamam embedded videos ke intellectual property rights aur copyrights unke asali creators aur YouTube ke paas mehfooz hain. Hum YouTube ke standard embedding features ka istemal karte hain aur kisi video ko host ya modify nahi karte."
+            ]
+          },
+          educationalGuides: {
+            title: "10. Educational Guides, External Links & Weather Indicators",
+            points: [
+              "<strong>Educational Content & Authentic Review:</strong> 'Deeni Taleem & Modules' (jaise Seerat-un-Nabi, 30 Para Khulasa, Ramzan, aur Hajj Guides) authenticated references aur classical Islamic sources par mabni hain. Inhe aam deeni samajh aur aasan rehnumai ke liye tayyar kiya gaya hai. Tafseeli sharai fatwa ya masail ke liye hamesha mustanad ulema-e-kiram se ruju karein.",
+              "<strong>Third-Party & Partner External Links:</strong> Platform par mojood baaz links kisi partner ya muta'lliqa idare ki website par redirect kar sakte hain. External websites ke content, security ya unki privacy policies par AdeenDesk ka koi ikhtiyar nahi hai.",
+              "<strong>4-Season Indicator Bar (Mausam Ka Ishara):</strong> Dashboard par English calendar ke mutabiq 4-Season tracker (Spring, Summer, Autumn, Winter) sirf ek aam <strong>calendar-based rough indication (taqreebi ishara)</strong> hai. Yeh kisi certified meteorological department (IMD/Mausam Vibhag) ya live weather radar ka real-time report nahi hai. Geographia aur mausamiyati tabdeeliyon ki wajah se zameeni darja-e-hararat aur mausam farq ho sakta hai."
+            ]
+          },
+          responsibility: "11. No Responsibility",
           responsibilityText: "Kisi bhi halat mein AdeenDesk ko is platform par provide ki gayi information ke use ke natije mein hone wale kisi bhi loss ya damage ke liye liable nahi thehraaya jayega. Platform ka aapka use aapki apni zimmedari par hai.",
-          news: "9. News Content Disclaimer",
+          news: "12. News Content Disclaimer",
           newsText: "News sections mein, sirf important summaries provide ki jaati hain. Original copyrights aur original content ke rights unke respective newspapers, publishers, aur sources ke hain. Hum kisi bhi news content ki ownership claim nahi karte.",
-          improvement: "10. Continuous Improvement",
+          improvement: "13. Continuous Improvement",
           improvementText: "Hum apne platform ki accuracy aur reliability improve karne ke liye committed hain. Lekin, errors ho sakti hain. Hum aapki understanding ki appreciate karte hain aur aapko kisi bhi inaccuracy ki report karne ki targheeb dete hain jo aapko mile.",
           feedback: "🙏 Aapka Feedback Matters: Agar aapko hamare data mein koi inaccuracy dikhti hai ya improvement ke liye koi suggestion hai, toh please <a href='#contact'>humse contact karein</a>. Hum aapke input aur duas ki qadr karte hain."
         },
@@ -1327,7 +1257,7 @@
     };
 
     // ================================================================
-    // RENDER FUNCTION - UPDATED TO DISPLAY ALL SECTIONS
+    // RENDER FUNCTION - COMPLETE WITH ALL SECTIONS
     // ================================================================
     let currentLanguage = 'en';
     let currentTab = 'about';
@@ -1352,7 +1282,7 @@
         `;
 
         // ==========================================================
-        // ABOUT SECTION - WITH EVENT HUB & UPCOMING EVENTS
+        // ABOUT SECTION
         // ==========================================================
         if (sectionId === 'about') {
           html += `
@@ -1362,7 +1292,6 @@
             <h3>${section.features}</h3>
             <ul>${section.featuresList.map(item => `<li>${item}</li>`).join('')}</ul>
             
-            <!-- Event Hub -->
             <h3>${section.eventHub.title}</h3>
             <p>${section.eventHub.description}</p>
             <ul>${section.eventHub.features.map(item => `<li>${item}</li>`).join('')}</ul>
@@ -1370,12 +1299,32 @@
               <p>${section.eventHub.note}</p>
             </div>
             
-            <!-- Upcoming Events -->
             <h3>${section.upcomingEvents.title}</h3>
             <p>${section.upcomingEvents.description}</p>
             <ul>${section.upcomingEvents.features.map(item => `<li>${item}</li>`).join('')}</ul>
             <div class="highlight-box">
               <p>${section.upcomingEvents.note}</p>
+            </div>
+            
+            <h3>${section.prosConsSection.title}</h3>
+            <p>${section.prosConsSection.intro}</p>
+            
+            <div class="success-box">
+              <h4 style="margin:0 0 8px;color:#166534;">${section.prosConsSection.pros.title}</h4>
+              <ul style="margin:0;">
+                ${section.prosConsSection.pros.items.map(item => `<li>${item}</li>`).join('')}
+              </ul>
+            </div>
+            
+            <div class="warning-box">
+              <h4 style="margin:0 0 8px;color:#991b1b;">${section.prosConsSection.cons.title}</h4>
+              <ul style="margin:0;">
+                ${section.prosConsSection.cons.items.map(item => `<li>${item}</li>`).join('')}
+              </ul>
+            </div>
+            
+            <div class="highlight-box">
+              <p>${section.prosConsSection.advice}</p>
             </div>
             
             <h3>${section.vision}</h3>
@@ -1390,7 +1339,7 @@
         }
 
         // ==========================================================
-        // PRIVACY SECTION - WITH ALL NEW SECTIONS
+        // PRIVACY SECTION
         // ==========================================================
         if (sectionId === 'privacy') {
           html += `
@@ -1411,11 +1360,9 @@
             <ul>${section.thirdPartyList.map(item => `<li>${item}</li>`).join('')}</ul>
             <p>${section.thirdPartyNote}</p>
             
-            <!-- Third-Party Ads -->
             <h3>${section.ads}</h3>
             <p>${section.adsText}</p>
             
-            <!-- Ads Disclaimer -->
             <h3>${section.adsDisclaimer.title}</h3>
             <p>${section.adsDisclaimer.intro}</p>
             <ul>${section.adsDisclaimer.points.map(item => `<li>${item}</li>`).join('')}</ul>
@@ -1423,11 +1370,12 @@
               <p>${section.adsDisclaimer.thankYou}</p>
             </div>
             
-            <!-- Future Backend -->
+            <h3>${section.sponsorshipPolicy.title}</h3>
+            <ul>${section.sponsorshipPolicy.points.map(item => `<li>${item}</li>`).join('')}</ul>
+            
             <h3>${section.futureBackend}</h3>
             <p>${section.futureBackendText}</p>
             
-            <!-- Quran API -->
             <h3>${section.quranApi.title}</h3>
             <p>${section.quranApi.description}</p>
             <p>${section.quranApi.disclaimer}</p>
@@ -1435,7 +1383,6 @@
               <p>${section.quranApi.note}</p>
             </div>
             
-            <!-- PWA Section -->
             <h3>${section.pwaSection.title}</h3>
             <p>${section.pwaSection.description}</p>
             <ul>${section.pwaSection.features.map(item => `<li>${item}</li>`).join('')}</ul>
@@ -1443,7 +1390,6 @@
               <p>${section.pwaSection.warning}</p>
             </div>
             
-            <!-- Children, Changes, Contact -->
             <h3>${section.children}</h3>
             <p>${section.childrenText}</p>
             <h3>${section.changes}</h3>
@@ -1490,7 +1436,7 @@
         }
 
         // ==========================================================
-        // DISCLAIMER SECTION
+        // DISCLAIMER SECTION - WITH ALL NEW SUB-SECTIONS
         // ==========================================================
         if (sectionId === 'disclaimer') {
           html += `
@@ -1513,6 +1459,16 @@
             <p>${section.professionalText}</p>
             <h3>${section.scholars}</h3>
             <p>${section.scholarsText}</p>
+            
+            <h3>${section.theologicalNeutrality.title}</h3>
+            <ul>${section.theologicalNeutrality.points.map(item => `<li>${item}</li>`).join('')}</ul>
+            
+            <h3>${section.videoEditorial.title}</h3>
+            <ul>${section.videoEditorial.points.map(item => `<li>${item}</li>`).join('')}</ul>
+            
+            <h3>${section.educationalGuides.title}</h3>
+            <ul>${section.educationalGuides.points.map(item => `<li>${item}</li>`).join('')}</ul>
+            
             <h3>${section.responsibility}</h3>
             <p>${section.responsibilityText}</p>
             <h3>${section.news}</h3>
