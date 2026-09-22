@@ -852,7 +852,7 @@
     .yt-side-scroll-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
 
     .yt-scroll-card {
-      flex: 0 0 250px;
+      flex: 0 0 220px;
       scroll-snap-align: start;
       background: #ffffff;
       border-radius: 12px;
@@ -2163,12 +2163,13 @@
           renderEnglishCalendarGrid(); 
         };
         el.appendChild(btn);
-
+/*
         if (idx === selectedEngMonth) {
           setTimeout(() => {
             btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
           }, 150);
         }
+        */
       });
     }
 
@@ -2259,12 +2260,13 @@
           renderHijriCalendarGrid(); 
         };
         el.appendChild(btn);
-
+/*
         if (idx === selectedHijriMonthIndex) {
           setTimeout(() => {
             btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
           }, 150);
         }
+        */
       });
     }
 
