@@ -1,0 +1,3512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🏷️ Primary SEO & Branding Meta Tags -->
+  <title>AdeenDesk | Daily Islamic Dashboard, Prayer Times & Hijri Calendar 2026</title>
+  <meta name="title" content="AdeenDesk | Daily Islamic Dashboard, Prayer Times & Hijri Calendar 2026">
+  <meta name="description" content="AdeenDesk - All-in-One Islamic Utility Dashboard: Live Hijri Date, Accurate GPS Prayer Times, Qibla Finder, Quran Reader, 33-Year Cycle, Zakat Calculator, Deeni Quiz aur Daily Duas.">
+  <meta name="keywords" content="AdeenDesk, Adeendesk, Islamic Calendar 2026, Hijri Date Today, Namaz Timings, Prayer Times, Qibla Direction, Quran Reader, Digital Tasbeeh, Zakat Calculator, Deeni Quiz">
+  <meta name="author" content="AdeenDesk">
+  <meta name="application-name" content="AdeenDesk">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com/index.html">
+
+  <!-- 📱 PWA & Mobile Web Capabilities -->
+  <meta name="theme-color" content="#064e3b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="AdeenDesk">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- 🌐 Multilingual SEO Tags for Googlebot -->
+  <link rel="alternate" hreflang="en" href="https://yourdomain.com/index.html" />
+  <link rel="alternate" hreflang="hi" href="https://yourdomain.com/hi/index.html" />
+  <link rel="alternate" hreflang="ur-Latn" href="https://yourdomain.com/index.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/index.html" />
+
+  <!-- 📲 Open Graph / WhatsApp / Facebook Share Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AdeenDesk">
+  <meta property="og:url" content="https://yourdomain.com/index.html">
+  <meta property="og:title" content="AdeenDesk | Daily Islamic Dashboard & Smart Utilities">
+  <meta property="og:description" content="Live Hijri dates, accurate GPS prayer times, Qibla finder, Quran, Deeni Quiz aur roohani tools ek hi jagah.">
+  <meta property="og:image" content="https://yourdomain.com/icon-512.png">
+
+  <!-- 🐦 Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AdeenDesk | Daily Islamic Dashboard & Utilities">
+  <meta name="twitter:description" content="Live Hijri calendar, prayer times, Quran reader aur deeni tools.">
+  <meta name="twitter:image" content="https://yourdomain.com/icon-512.png">
+
+  <!-- 🔍 Google-Compliant JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://yourdomain.com/#website",
+        "url": "https://yourdomain.com/",
+        "name": "AdeenDesk",
+        "description": "Comprehensive Daily Islamic Dashboard, Prayer Times & Hijri Calendar Utilities",
+        "inLanguage": ["ur-Latn", "en", "hi"]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://yourdomain.com/#webapp",
+        "name": "AdeenDesk Islamic Utility Dashboard",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "url": "https://yourdomain.com/",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- 📦 Data Dependencies -->
+  <script src="news-data.js"></script>
+  <script src="islamic-content-data.js"></script>
+  <script src="daily-features-data.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f0f4f9;
+      --header-bg: #0b1a30;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --blue-primary: #1d68d8;
+      --purple-primary: #6c42b9;
+      --green-clock: #0d9488;
+      --accent-orange: #ea580c;
+      --border-color: #e2e8f0;
+      --border-red: #ef4444;
+      --border-green: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html { scroll-behavior: smooth; font-size: 95%; }
+    
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      padding: 0 0 75px 0;
+      font-size: 13.5px;
+    }
+
+    .ad-side-scroll-container {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding: 4px 2px 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ad-side-scroll-container::-webkit-scrollbar { display: none; }
+
+    .ad-scroll-card-item {
+      flex: 0 0 86%;
+      min-width: 270px;
+      max-width: 340px;
+      scroll-snap-align: start;
+      box-sizing: border-box;
+    }
+
+    /* Heavy Borders & Hover Effects */
+    .card-block, .tool-tile, .world-card, .prayer-box, .cal-box, .event-card, .yt-scroll-card, .article-item, #finalFooter, .popup-modal, .dua-card-thick-border, .gallery-card-container, .portal-card, .jummah-special-card {
+      border: 3.5px solid var(--border-red) !important;
+      transition: all 0.25s ease-in-out;
+    }
+
+    .card-block:hover, .tool-tile:hover, .world-card:hover, .prayer-box:hover, .cal-box:hover, .event-card:hover, .yt-scroll-card:hover, .article-item:hover, #finalFooter:hover, .dua-card-thick-border:hover, .gallery-card-container:hover, .portal-card:hover, .jummah-special-card:hover {
+      border-color: var(--border-green) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Top Sticky Header */
+    .top-fixed-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--header-bg);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .app-header {
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+    }
+
+    .brand-section { display: flex; align-items: center; gap: 10px; }
+    .mosque-icon { font-size: 1.8rem; }
+    .brand-text h1 { font-size: 1.1rem; font-weight: 800; }
+    .brand-text p { font-size: 0.65rem; color: #cbd5e1; }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .icon-btn { background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer; }
+
+    /* Mobile Quick Bar */
+    .quick-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 6px 12px 10px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .quick-pill {
+      border-radius: 8px;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .pill-blue { background: #eff6ff; color: var(--blue-primary); }
+    .pill-green { background: #f0fdf4; color: var(--green-clock); }
+    .pill-purple { background: #fbf5ff; color: var(--purple-primary); }
+
+    .pill-details { display: flex; flex-direction: column; overflow: hidden; }
+    .pill-details .label { font-size: 0.62rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pill-details .value { font-size: 0.76rem; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pill-details .sub { font-size: 0.6rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Sticky Horizontal Quick Navigation Bar */
+    .sticky-tabs-container {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 52px;
+      z-index: 99;
+      background: #ffffff;
+      border-bottom: 1.5px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 8px 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0 0 14px 0;
+    }
+
+    .quick-tabs-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .quick-tabs-scroll::-webkit-scrollbar { display: none; }
+
+    .quick-tab-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #f8fafc;
+      color: #1e3a8a;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .quick-tab-pill:hover {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .quick-tab-pill.active-tab,
+    .quick-tab-pill:active {
+      background: #2563eb !important;
+      border-color: #1d4ed8 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+
+    .target-section-focused {
+      animation: sectionPulseHighlight 1.8s ease-out;
+    }
+    @keyframes sectionPulseHighlight {
+      0% { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.6); transform: scale(1.01); }
+      70% { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
+      100% { box-shadow: none; transform: scale(1); }
+    }
+
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 8px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card-block {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    /* Uniform Blue Header Strip */
+    .unified-blue-header {
+      background: var(--blue-primary);
+      color: #ffffff !important;
+      padding: 10px 14px;
+      margin: -14px -14px 12px -14px;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .unified-blue-header span, .unified-blue-header strong, .unified-blue-header h3 {
+      color: #ffffff !important;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+    .unified-sub-badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff !important;
+      font-size: 0.66rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    /* Utility Tools */
+    .utility-tools-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .tool-tile {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      cursor: pointer;
+    }
+
+    .event-hub-container {
+      margin-bottom: 14px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .event-hub-empty {
+      background: #f1f5f9;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 10px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      text-align: center;
+    }
+
+    .event-hub-empty span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-hub-active-slider {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding: 4px 2px;
+    }
+    .event-hub-active-slider::-webkit-scrollbar { display: none; }
+
+    .hub-event-card {
+      flex: 0 0 100%;
+      min-width: 280px;
+      height: 155px;
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      scroll-snap-align: center;
+      box-sizing: border-box;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    @media (min-width: 600px) {
+      .hub-event-card { flex: 0 0 340px; }
+    }
+
+    .hub-theme-green { background: linear-gradient(135deg, #064e3b 0%, #047857 100%); }
+    .hub-theme-gold { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
+    .hub-theme-blue { background: linear-gradient(135deg, #1e1b4b 0%, #1d4ed8 100%); }
+    .hub-theme-red { background: linear-gradient(135deg, #881337 0%, #be123c 100%); }
+
+    .hub-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 6px;
+    }
+    .hub-card-header strong { font-size: 0.88rem; color: #fef08a; }
+    
+    .hub-card-body {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      overflow-y: auto;
+      margin: 6px 0;
+      padding-right: 4px;
+    }
+    .hub-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+    }
+
+    /* World Time */
+    .world-clock-container { display: flex; align-items: stretch; gap: 8px; }
+    .pinned-clock { flex: 0 0 115px; z-index: 2; }
+    .world-scroll-outer { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; }
+    .world-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 2px;
+      scrollbar-width: none;
+      width: 100%;
+    }
+    .world-scroll::-webkit-scrollbar { display: none; }
+
+    .world-card {
+      flex: 0 0 115px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+    .world-card.active-country { background: #f8faff; }
+    .country-flag { font-size: 1.4rem; margin-bottom: 2px; }
+    .country-name { font-size: 0.72rem; font-weight: 700; color: #334155; }
+    .country-time { font-size: 0.92rem; font-weight: 800; color: #0f172a; margin: 2px 0; }
+    .country-time small { font-size: 0.65rem; }
+    .country-tz { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
+
+    .nav-arrow {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #ffffff;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .arrow-left { left: 2px; }
+    .arrow-right { right: 2px; }
+
+    /* Prayer Strip & Table */
+    .prayer-location-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0d9488;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .prayer-location-btn {
+      background: #0d9488;
+      color: #ffffff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .prayer-table {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .prayer-box {
+      background: #f8fafc;
+      padding: 8px 4px;
+      border-radius: 8px;
+      min-width: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .prayer-box.active-prayer { background: #ecfdf5; }
+    .prayer-name { font-size: 0.72rem; font-weight: 700; color: #475569; white-space: nowrap; }
+    .prayer-time-val { font-size: 0.85rem; font-weight: 800; color: #0f172a; margin-top: 2px; white-space: nowrap; }
+
+    .prayer-warning {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 10px;
+      font-size: 0.7rem;
+      color: #92400e;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+
+    /* Dual Calendars */
+    .calendar-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .cal-box { background: #ffffff; border-radius: 12px; overflow: hidden; padding: 14px; }
+    
+    .month-tabs-wrapper {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      padding: 4px;
+      gap: 4px;
+    }
+    .month-tabs-wrapper::-webkit-scrollbar { display: none; }
+
+    .month-tab {
+      flex: 0 0 auto;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      border: 2px solid var(--border-red);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .month-tab.active-tab-blue { background: var(--blue-primary) !important; color: #ffffff !important; }
+    .month-tab.active-tab-purple { background: var(--purple-primary) !important; color: #ffffff !important; }
+
+    .cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+    .cal-nav span { cursor: pointer; color: var(--text-muted); font-size: 1.1rem; }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0 6px 4px;
+      color: #475569;
+    }
+    .cal-weekdays .sun { color: #ef4444; }
+    .cal-weekdays .sat { color: var(--blue-primary); }
+
+    .cal-dates-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      padding: 0 6px 8px;
+      text-align: center;
+    }
+
+    .cal-date {
+      min-height: 42px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+    }
+    .cal-date.muted { color: #cbd5e1; cursor: default; }
+    .cal-date.sun-date { color: #ef4444; }
+    .cal-date.sat-date { color: var(--blue-primary); }
+    .cal-date.active-blue { background: var(--blue-primary) !important; color: #fff !important; }
+    .cal-date.active-purple { background: var(--purple-primary) !important; color: #fff !important; }
+    .moon-sub-icon { font-size: 0.65rem; margin-top: 1px; }
+    .note-dot {
+      width: 5px;
+      height: 5px;
+      background: #f59e0b;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      right: 3px;
+    }
+
+    .season-quarter-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border-color);
+      background: #f8fafc;
+    }
+    .season-block { padding: 8px 4px; text-align: center; border-right: 1px solid var(--border-color); cursor: pointer; }
+    .season-block:last-child { border-right: none; }
+    .season-block.active-season { background: #dcfce7; }
+    .season-block-title { font-size: 0.68rem; font-weight: 800; color: #15803d; }
+    .season-block-months { font-size: 0.6rem; color: #64748b; margin-top: 2px; }
+
+    /* Gallery */
+    .gallery-card-container {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .gallery-warning-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      color: #92400e;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .upload-control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .upload-trigger-btn {
+      background: var(--blue-primary);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .gallery-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      min-height: 80px;
+    }
+
+    .gallery-thumb-slot {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .gallery-thumb-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Events */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .event-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .event-card .ev-icon { font-size: 1.4rem; }
+    .event-card .ev-name { font-size: 0.74rem; font-weight: 800; color: #0f172a; margin: 3px 0; }
+    .event-card .ev-date { font-size: 0.65rem; color: var(--text-muted); }
+
+    /* Portal Shared */
+    .portal-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .sweet-word-box {
+      background: #f8fafc;
+      border: 1.5px dashed #10b981;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #1e293b;
+      position: relative;
+    }
+    .sweet-meta {
+      text-align: center;
+      font-weight: 700;
+      color: #047857;
+      font-size: 0.72rem;
+      margin-bottom: 6px;
+    }
+    .sweet-line { margin: 4px 0; font-weight: 600; }
+
+    .hadees-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .hadees-arabic {
+      font-family: 'Amiri', serif, Tahoma;
+      font-size: 1.15rem;
+      direction: rtl;
+      text-align: right;
+      color: #92400e;
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+    .hadees-tarjuma {
+      font-size: 0.76rem;
+      color: #1e293b;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .hadees-ref-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .portal-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .portal-action-btn {
+      flex: 1;
+      text-align: center;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-green { background: #10b981; color: #fff; }
+    .btn-dark { background: #0f172a; color: #fff; }
+    .btn-outline { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+
+    /* News */
+    .news-portal-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .news-headline-list { display: flex; flex-direction: column; gap: 8px; }
+    .news-headline-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      gap: 10px;
+    }
+    .news-headline-text {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .news-action-btns { display: flex; align-items: center; gap: 6px; }
+    .news-tts-btn, .news-share-btn {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--blue-primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .news-tts-btn.playing {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+    }
+    .more-news-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 9px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    /* YouTube Side-Scroll */
+    .yt-side-scroll-container {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 2px 10px;
+      scroll-snap-type: x mandatory;
+      width: 100%;
+    }
+    .yt-side-scroll-container::-webkit-scrollbar { height: 6px; }
+    .yt-side-scroll-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+    .yt-scroll-card {
+      flex: 0 0 220px;
+      scroll-snap-align: start;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .yt-thumb-facade {
+      width: 100%;
+      height: 140px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+    .yt-thumb-facade img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .play-badge {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      background: rgba(220, 38, 38, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .yt-meta {
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+    .yt-card-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 36px;
+    }
+    .yt-share-btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+    .yt-date-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
+    .yt-share-icon-btn { background: none; border: none; cursor: pointer; color: var(--accent-orange); font-size: 1rem; }
+
+    /* Media Dual */
+    .media-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .article-item {
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      background: #ffffff;
+    }
+    .article-item h4 { font-size: 0.82rem; color: #0f172a; }
+    .article-item p { font-size: 0.7rem; color: var(--text-muted); margin-top: 3px; }
+
+    .view-all-posts-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .dua-card-thick-border {
+      background: #fefce8;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dua-header-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .dua-categories-scroller {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+    .dua-categories-scroller::-webkit-scrollbar { display: none; }
+
+    .dua-cat-btn {
+      padding: 4px 8px;
+      font-size: 0.68rem;
+      border-radius: 12px;
+      border: 1px solid #fed7aa;
+      background: #fff7ed;
+      color: #9a3412;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .dua-cat-btn.active {
+      background: var(--accent-orange);
+      color: #ffffff;
+      border-color: var(--accent-orange);
+    }
+
+    .dua-inner-content {
+      padding: 6px 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .dua-arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.15rem;
+      direction: rtl;
+      line-height: 1.8;
+      margin: 6px 0;
+    }
+    .dua-transliteration { font-size: 0.72rem; font-weight: 600; color: #44403c; }
+    .dua-translation-block { border-top: 1px solid #fef08a; padding-top: 6px; font-size: 0.7rem; color: #78716c; margin-top: 6px; }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .popup-modal {
+      background: #ffffff;
+      border-radius: 14px;
+      max-width: 380px;
+      width: 100%;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .popup-header h3 { font-size: 1rem; color: #0f172a; }
+    .close-modal-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b; }
+
+    .islamic-sunset-notice {
+      background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%);
+      border: 1.5px dashed #d97706;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #92400e;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tasbeeh-screen {
+      background: #0f172a;
+      color: #38bdf8;
+      font-size: 2.8rem;
+      font-weight: 800;
+      text-align: center;
+      padding: 20px;
+      border-radius: 12px;
+      font-family: monospace;
+      margin-bottom: 14px;
+    }
+    .tasbeeh-tap-btn {
+      width: 100%;
+      height: 90px;
+      background: var(--green-clock);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .zakat-field { margin-bottom: 10px; }
+    .zakat-field label { display: block; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 4px; }
+    .zakat-field input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.85rem; }
+
+    .compass-dial {
+      width: 180px;
+      height: 180px;
+      border: 6px solid var(--header-bg);
+      border-radius: 50%;
+      margin: 16px auto;
+      position: relative;
+      transition: transform 0.2s ease-out;
+    }
+    .kaaba-pointer {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.6rem;
+    }
+
+    #finalFooter {
+      text-align: center;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 10px;
+    }
+    #finalFooter p { font-size: 0.75rem; color: var(--text-dark); font-weight: 700; }
+    #finalFooter .foot-info { font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--header-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0 9px;
+      z-index: 100;
+      border-top: 1px solid #1e293b;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #94a3b8;
+      font-size: 0.65rem;
+      font-weight: 600;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-item.active { color: #38bdf8; }
+
+    @media (max-width: 600px) {
+      .prayer-table { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .gallery-preview-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .calendar-dual-grid { grid-template-columns: 1fr; }
+      .media-dual-grid { grid-template-columns: 1fr; }
+      .events-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body id="topView">
+
+  <div class="top-fixed-wrapper">
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="mosque-icon">🕌</div>
+        <div class="brand-text">
+          <h1>AdeenDesk</h1>
+          <p>Daily Islamic Dashboard & Prayer Times</p>
+        </div>
+        <!-- 🌐 Pure Icon Globe Switcher -->
+        <div style="position:relative; display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; flex-shrink:0;">
+          <span style="font-size:0.95rem; line-height:1; pointer-events:none;">🌐</span>
+          <select id="langSelector" onchange="switchSiteLanguage(this.value)" aria-label="Select Language" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; -webkit-appearance:menulist-button;">
+            <option value="hinglish" selected>Roman (Hinglish) ✓</option>
+            <option value="en">English</option>
+            <option value="ur">اردو</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="shareOverallPlatform()" aria-label="Share App">📤</button>
+        <button class="icon-btn" id="openMenuBtn">☰</button>
+      </div>
+    </header>
+
+    <section class="quick-status-grid">
+      <div class="quick-pill pill-blue">
+        <div class="pill-details">
+          <div class="label">English Calendar</div>
+          <div class="value" id="quickEngDate">--</div>
+          <div class="sub" id="quickEngDay">--</div>
+        </div>
+      </div>
+
+      <div class="quick-pill pill-green">
+        <div class="pill-details">
+          <div class="label">Time (IST)</div>
+          <div class="value" id="quickLiveTime">--:--:--</div>
+          <div class="sub" id="userLocationSub">Delhi, India</div>
+        </div>
+      </div>
+
+      <div class="quick-pill pill-purple">
+        <div class="pill-details">
+          <div class="label">Hijri Calendar</div>
+          <div class="value" id="quickHijriDate">--</div>
+          <div class="sub" id="quickHijriDay">--</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 📌 Sticky Top Quick Jump Bar -->
+    <nav class="sticky-tabs-container" aria-label="Page Quick Navigation">
+      <div class="quick-tabs-scroll" id="quickTabsBar">
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-tools', this)">🛠️ Tools</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('smartEventHub', this)">📢 Notice</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-worldtime', this)">🌍 World Time</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('prayerSection', this)">🕌 Prayer Time</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-engcal', this)">📅 English Cal</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-hijrical', this)">🌙 Hijri Cal</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-gallery', this)">🖼️ Image Gallery</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-sponsor', this)">📢 Sponsor</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-events', this)">📌 Events</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('ytSection', this)">🎥 Video</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-article', this)">📝 Article</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-dua', this)">🤲 Dua</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-waqia', this)">📖 Waqia</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-acchibaat', this)">✨ Acchi Baat</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-hadees', this)">📜 Hadees</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-quiz', this)">🧠 Deeni Quiz</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-history', this)">🏛️ Tareekh</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-arabicwords', this)">📖 10 Words</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-learning-hub', this)">📚 Taleem Hub</button>
+        <button type="button" class="quick-tab-pill" onclick="jumpToSection('sec-news', this)">📰 News</button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="modal-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <aside style="position:fixed; top:0; right:-280px; width:260px; height:100%; background:#fff; z-index:400; transition:right 0.25s; padding:18px; border-left:4px solid var(--border-red);" id="sideDrawer">
+    <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+      <h3>Settings</h3>
+      <button onclick="closeDrawer()" style="background:none; border:none; font-size:1.3rem; cursor:pointer;">&times;</button>
+    </div>
+    <label style="font-size:0.75rem; font-weight:700; color:#475569; display:block; margin-bottom:6px;">
+      Hijri Date Correction (Chand Setting)
+    </label>
+    <select id="hijriOffsetSelect" style="width:100%; padding:8px; border-radius:6px; border:1px solid #cbd5e1; font-weight:600;">
+      <option value="-2">-2 Din (Special Case / Kashkol Match)</option>
+      <option value="-1" selected>-1 Din (India / Pak / BD - Default)</option>
+      <option value="0">0 Din (Saudi Arabia / Gulf)</option>
+      <option value="1">+1 Din (Aage)</option>
+    </select>
+    <div style="border-top:1px solid #e2e8f0; margin-top:12px; padding-top:10px;">
+      <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">AdeenDesk Legal & Info</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <a href="legal.html#about" style="text-decoration:none; color:#1e293b; font-size:0.78rem; font-weight:600;">ℹ️ About Us</a>
+        <a href="legal.html#privacy" style="text-decoration:none; color:#1e293b; font-size:0.78rem; font-weight:600;">🔒 Privacy Policy</a>
+        <a href="legal.html#disclaimer" style="text-decoration:none; color:#1e293b; font-size:0.78rem; font-weight:600;">⚖️ Disclaimer</a>
+        <a href="legal.html#terms" style="text-decoration:none; color:#1e293b; font-size:0.78rem; font-weight:600;">📜 Terms & Conditions</a>
+        <a href="legal.html#contact" style="text-decoration:none; color:#1e293b; font-size:0.78rem; font-weight:600;">📬 Contact Us</a>
+        <a href="faq.html" style="padding:8px 10px; text-decoration:none; color:#1e293b; font-size:0.8rem; font-weight:700; border-radius:6px; background:#f8fafc; border:1px solid #e2e8f0;">❓ Help & FAQs</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-container">
+
+    <!-- 🛠️ 1. Utility Tools Bar (id="sec-tools") -->
+    <section class="utility-tools-bar" id="sec-tools">
+      <div class="tool-tile" onclick="openModal('tasbeehModal')"><span>📿</span> Tasbeeh</div>
+      <div class="tool-tile" onclick="openModal('zakatModal')"><span>💰</span> Zakat Calc</div>
+      <div class="tool-tile" onclick="openQiblaModal()"><span>🧭</span> Qibla Finder</div>
+      <a href="quran.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#ffffff; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 6px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+        <span style="font-size:1.4rem;">📖</span>
+        <span style="font-size:0.7rem; font-weight:800; color:#064e3b; margin-top:4px;">Al-Quran</span>
+      </a>
+      <a href="hijri-cycle.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#ffffff; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 6px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+        <span style="font-size:1.4rem;">♻️</span>
+        <span style="font-size:0.7rem; font-weight:800; color:#064e3b; margin-top:4px;">33-Yr Cycle</span>
+      </a>
+      <a href="daylight-chart.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#ffffff; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 6px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+        <span style="font-size:1.4rem;">☀️</span>
+        <span style="font-size:0.7rem; font-weight:800; color:#b45309; margin-top:4px;">Day Length</span>
+      </a>
+    </section>
+
+    <!-- 🔔 Smart Auto Event Display Hub -->
+    <div id="smartEventHub" class="event-hub-container"></div>
+
+    <!-- 🌍 3. World Time (id="sec-worldtime") -->
+    <section class="card-block" id="sec-worldtime">
+      <div class="unified-blue-header">
+        <span>🌐 World Time Dashboard</span>
+        <span class="unified-sub-badge">Default: India (Pinned)</span>
+      </div>
+
+      <div class="world-clock-container">
+        <div class="world-card active-country pinned-clock">
+          <div class="country-flag">🇮🇳</div>
+          <div class="country-name">India</div>
+          <div class="country-time" id="indiaClock">--:-- <small>AM</small></div>
+          <div class="country-tz">IST</div>
+        </div>
+
+        <div class="world-scroll-outer">
+          <button class="nav-arrow arrow-left" id="scrollLeftWorld">&lt;</button>
+          <div class="world-scroll" id="worldScroll"></div>
+          <button class="nav-arrow arrow-right" id="scrollRightWorld">&gt;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🕌 4. Prayer Times (id="sec-prayer") -->
+    <section class="card-block" id="prayerSection">
+      <div class="unified-blue-header">
+        <span>🕌 Prayer Times & Auqaat</span>
+        <span class="unified-sub-badge">Live Astronomical API</span>
+      </div>
+
+      <div class="prayer-location-strip" onclick="useMyLocation()" title="Click to Change City or use GPS">
+        <span id="locationText">📍 Delhi (Default)</span>
+        <button class="prayer-location-btn">Change / GPS</button>
+      </div>
+
+      <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin:8px 0 12px;">
+        <span style="font-size:0.72rem; font-weight:700; color:#475569;">Asr Calculation:</span>
+        <div style="display:inline-flex; background:#e2e8f0; padding:2px; border-radius:6px;">
+          <button type="button" id="btnAsrStandard" onclick="setAsrMethod(0)" 
+                  style="border:none; padding:4px 10px; border-radius:5px; font-size:0.72rem; font-weight:800; cursor:pointer; background:#ffffff; color:#064e3b; box-shadow:0 1px 2px rgba(0,0,0,0.08); transition:0.2s;">
+            Standard (Awwal)
+          </button>
+          <button type="button" id="btnAsrHanafi" onclick="setAsrMethod(1)" 
+                  style="border:none; padding:4px 10px; border-radius:5px; font-size:0.72rem; font-weight:700; cursor:pointer; background:transparent; color:#64748b; transition:0.2s;">
+            Hanafi (Aakhir)
+          </button>
+        </div>
+      </div>
+
+      <div class="prayer-table">
+        <div class="prayer-box"><div class="prayer-name">Fajr</div><div class="prayer-time-val" id="pt-fajr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Sunrise</div><div class="prayer-time-val" id="pt-sunrise">--:--</div></div>
+        <div class="prayer-box active-prayer"><div class="prayer-name">Dhuhr</div><div class="prayer-time-val" id="pt-dhuhr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Asr</div><div class="prayer-time-val" id="pt-asr">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Maghrib</div><div class="prayer-time-val" id="pt-maghrib">--:--</div></div>
+        <div class="prayer-box"><div class="prayer-name">Isha</div><div class="prayer-time-val" id="pt-isha">--:--</div></div>
+      </div>
+
+      <div style="margin: 12px 0 8px;">
+        <button id="btnToggle7Days" onclick="toggle7DaysSalahSchedule()" 
+                style="width: 100%; background: #f1f5f9; color: #064e3b; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px; font-weight: 800; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;">
+          <span>📅</span> <span>View Next 7 Days Salah Time</span>
+        </button>
+      </div>
+
+      <div id="sevenDaysContainer" style="display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 0.78rem; font-weight: 800; color: #064e3b;" id="sevenDaysLocLabel">📅 7-Day Timetable</span>
+          <button onclick="copy7DaysSalahTimes()" id="btnCopy7Days" 
+                  style="background: #047857; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <span>📋</span> <span>Copy Salah Time</span>
+          </button>
+        </div>
+
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.73rem; text-align: center; white-space: nowrap;">
+            <thead>
+              <tr style="background: #f8fafc; color: #334155; border-bottom: 2px solid #e2e8f0;">
+                <th style="padding: 6px 4px;">Date</th>
+                <th style="padding: 6px 4px;">Fajr</th>
+                <th style="padding: 6px 4px;">Sunrise</th>
+                <th style="padding: 6px 4px;">Dhuhr</th>
+                <th style="padding: 6px 4px;">Asr</th>
+                <th style="padding: 6px 4px;">Maghrib</th>
+                <th style="padding: 6px 4px;">Isha</th>
+              </tr>
+            </thead>
+            <tbody id="sevenDaysTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="prayer-warning">
+        <span>⚠️</span>
+        <div><strong>Ehtiyat / Note:</strong> Timings astronomical calculation par mabni hain. 4-5 minute ka farq ho sakta hai, safar ya roze me motabar jagah se tasdeeq karein.</div>
+      </div>
+    </section>
+
+    <!-- 📅 5. English & Hijri Calendars Dual Grid -->
+    <section class="calendar-dual-grid" id="calendarsSection">
+      <!-- English Calendar -->
+      <div class="cal-box" id="sec-engcal">
+        <div class="unified-blue-header">
+          <span>📅 English Calendar 2026</span>
+          <span class="unified-sub-badge">Solar Cycle</span>
+        </div>
+        
+        <div class="month-tabs-wrapper" id="engMonthTabs"></div>
+
+        <div class="cal-nav">
+          <span id="engPrev">&lt;</span>
+          <div id="engMonthYearDisplay">--</div>
+          <span id="engNext">&gt;</span>
+        </div>
+
+        <div class="cal-weekdays">
+          <div class="sun">Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div class="sat">Sat</div>
+        </div>
+        <div class="cal-dates-grid" id="engDatesGrid"></div>
+
+        <div class="season-quarter-strip">
+          <div class="season-block" onclick="selectSeasonMonth(2)">
+            <div class="season-block-title">🌸 Spring/Summer</div>
+            <div class="season-block-months">Mar - May</div>
+          </div>
+          <div class="season-block active-season" onclick="selectSeasonMonth(5)">
+            <div class="season-block-title">🌧️ Monsoon</div>
+            <div class="season-block-months">Jun - Aug</div>
+          </div>
+          <div class="season-block" onclick="selectSeasonMonth(8)">
+            <div class="season-block-title">🍂 Autumn</div>
+            <div class="season-block-months">Sep - Nov</div>
+          </div>
+          <div class="season-block" onclick="selectSeasonMonth(11)">
+            <div class="season-block-title">❄️ Winter</div>
+            <div class="season-block-months">Dec - Feb</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hijri Calendar -->
+      <div class="cal-box" id="sec-hijrical">
+        <div class="unified-blue-header">
+          <span>🌙 Hijri Calendar 1448</span>
+          <span class="unified-sub-badge">Lunar Cycle</span>
+        </div>
+        
+        <div class="islamic-sunset-notice">
+          <span>🌙 <strong>Fiqh Feature:</strong> Shariat ke mutabiq naya Islami din Maghrib ke baad auto-update hota hai.</span>
+        </div>
+        <div class="month-tabs-wrapper" id="hijriMonthTabs"></div>
+
+        <div class="cal-nav">
+          <span id="hijriPrev">&lt;</span>
+          <div id="hijriMonthYearDisplay">--</div>
+          <span id="hijriNext">&gt;</span>
+        </div>
+
+        <div class="cal-weekdays">
+          <div class="sun">Ahad</div><div>Ith</div><div>Thul</div><div>Arba</div><div>Kham</div><div>Jum</div><div class="sat">Sabt</div>
+        </div>
+        <div class="cal-dates-grid" id="hijriDatesGrid"></div>
+      </div>
+    </section>
+
+    <!-- 🖼️ 6. Image Gallery (id="sec-gallery") -->
+    <section class="gallery-card-container" id="sec-gallery">
+      <div class="unified-blue-header">
+        <span>🖼️ Islamic Charts & Offline Images</span>
+        <span class="unified-sub-badge" id="galleryCountLabel">0 / 5 Saved</span>
+      </div>
+
+      <div class="gallery-warning-box">
+        💡 <strong>Tips & Note:</strong> Zyada information ke liye collage style me image upload karein. Yeh images sirf aapke device/browser me save rehti hain.
+      </div>
+
+      <div class="upload-control-row">
+        <input type="file" id="chartFileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+        <button class="upload-trigger-btn" onclick="document.getElementById('chartFileInput').click()">➕ Upload Chart / Dua</button>
+        <span style="font-size:0.68rem; color:var(--text-muted);">Auto-Compressed for fast speed</span>
+      </div>
+
+      <div class="gallery-preview-grid" id="galleryGridContainer"></div>
+    </section>
+
+    <!-- 📢 18. AdeenDesk Sponsor Section (id="sec-sponsor") -->
+    <section class="portal-card" id="sec-sponsor">
+      <div class="unified-blue-header">
+        <span>📢 Community Sponsorship & Ads</span>
+        <a href="ads.html" style="background:#ffffff; color:#064e3b; font-size:0.68rem; font-weight:800; text-decoration:none; padding:3px 8px; border-radius:4px;">
+          ✨ Book Your Ad
+        </a>
+      </div>
+
+      <div class="ad-side-scroll-container" id="adeenSponsorContainer"></div>
+
+      <a href="sponsors.html" class="more-news-btn" style="background:#064e3b; margin-top:10px;">
+        View All Community Partners & Directory ➡️
+      </a>
+    </section>
+
+    <!-- 📌 7. Upcoming Islamic Events (id="sec-events") -->
+    <section class="card-block" id="sec-events">
+      <div class="unified-blue-header">
+        <span>✨ Upcoming Islamic Events</span>
+        <span class="unified-sub-badge">Hijri 1448 AH</span>
+      </div>
+      <div class="events-grid">
+        <div class="event-card"><div class="ev-icon">🌙</div><div class="ev-name">Ramadan</div><div class="ev-date">1 Ramadan 1448</div></div>
+        <div class="event-card"><div class="ev-icon">🕌</div><div class="ev-name">Laylatul Qadr</div><div class="ev-date">27 Ramadan 1448</div></div>
+        <div class="event-card"><div class="ev-icon">🎉</div><div class="ev-name">Eid-ul-Fitr</div><div class="ev-date">1 Shawwal 1448</div></div>
+        <div class="event-card"><div class="ev-icon">🕋</div><div class="ev-name">Hajj</div><div class="ev-date">9 Dhul Hijjah 1448</div></div>
+        <div class="event-card"><div class="ev-icon">🐑</div><div class="ev-name">Eid-ul-Adha</div><div class="ev-date">10 Dhul Hijjah 1448</div></div>
+      </div>
+    </section>
+
+    <!-- 🎥 8. YouTube Video Section (id="sec-video") -->
+    <section class="card-block" id="ytSection">
+      <div class="unified-blue-header">
+        <span>🎥 Islamic Lectures & Shorts</span>
+        <span class="unified-sub-badge">Auto Stream</span>
+      </div>
+
+      <div class="yt-side-scroll-container" id="homeYtScrollContainer">
+        <div style="font-size:0.75rem; color:#64748b; padding:12px;">Loading 5 selected videos...</div>
+      </div>
+    </section>
+
+    <!-- 📝 9. Media Dual Grid (Articles & Dua) -->
+    <section class="media-dual-grid" id="mediaSection">
+      <!-- Articles -->
+      <div class="card-block" id="sec-article">
+        <div class="unified-blue-header">
+          <span>📖 Essential Deeni Articles</span>
+          <span class="unified-sub-badge">Guides</span>
+        </div>
+        <div class="article-item" onclick="openArticleModal(1)">
+          <h4>Nisab-e-Zakat Kis Par Farz Hai?</h4>
+          <p>Gold/Silver value aur 2.5% hisab ka aasan tareeqa...</p>
+        </div>
+        <div class="article-item" onclick="openArticleModal(2)">
+          <h4>Fazilat: Ayyam-e-Beez Ke Teen Roze</h4>
+          <p>Har islami mahine 13, 14, 15 ko roza rakhne ke ajar aur sunnat...</p>
+        </div>
+        
+        <a href="posts.html" class="view-all-posts-btn">View All Articles / Blog ➡️</a>
+      </div>
+
+      <!-- Dua Card -->
+      <div class="dua-card-thick-border" id="sec-dua">
+        <div class="unified-blue-header" style="margin:-14px -14px 10px -14px;">
+          <span>🤲 Today's Masnoon Dua</span>
+          <button onclick="shareTitleDua()" style="background:none; border:none; cursor:pointer; font-weight:700; color:#fff; font-size:0.75rem;">📤 Share</button>
+        </div>
+        
+        <div class="dua-categories-scroller">
+          <button class="dua-cat-btn active" data-cat="daily">Daily</button>
+          <button class="dua-cat-btn" data-cat="morning">Morning</button>
+          <button class="dua-cat-btn" data-cat="salah">Salah</button>
+          <button class="dua-cat-btn" data-cat="forgiveness">Forgiveness</button>
+        </div>
+
+        <div class="dua-inner-content">
+          <div class="dua-arabic-text" id="duaArabic">اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا</div>
+          <div class="dua-transliteration" id="duaTranslit">Allahumma aj'al hadha yawman khayran min amsina.</div>
+          <div class="dua-translation-block" id="duaTranslate">O Allah! Make this day better than our yesterday.</div>
+        </div>
+        <a href="duas.html" class="more-news-btn" style="background:#065f46; margin-top:8px;">500+ Masnoon Duayein ➡️</a>
+      </div>
+    </section>
+
+    <!-- 📖 10. Sabak Amooz Waqiya Card (id="sec-waqia") -->
+    <section class="portal-card" id="sec-waqia">
+      <div class="unified-blue-header">
+        <span>📖 Sabak Amooz Waqiya</span>
+        <span class="unified-sub-badge" id="homeWaqiyaDate">--</span>
+      </div>
+      <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:6px;" id="homeWaqiyaTitle">--</div>
+      
+      <p style="font-size:0.75rem; color:#475569; line-height:1.4; margin:0;" id="homeWaqiyaSnippet">--</p>
+      
+      <div id="homeWaqiyaFullContainer" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #cbd5e1; font-size:0.75rem; color:#1e293b; line-height:1.6; white-space: pre-line;"></div>
+      
+      <div class="portal-btn-row">
+        <button id="toggleWaqiyaBtn" class="portal-action-btn btn-outline" onclick="toggleInlineWaqiya()">Poora Waqiya Padhein 📖</button>
+        <button class="portal-action-btn btn-green" onclick="shareFeaturedWaqiya()">📤 WhatsApp</button>
+      </div>
+      <a href="waqiat.html" class="more-news-btn" style="background:#475569; margin-top:8px;">Waqiat Archive ➡️</a>
+    </section>
+
+    <!-- 🌸 11. Aaj Ki Acchi Baat (id="sec-acchibaat") -->
+    <section class="portal-card" id="sec-acchibaat">
+      <div class="unified-blue-header">
+        <span>🌸 Aaj Ki Acchi Baat</span>
+        <span class="unified-sub-badge">Daily Sweet Words</span>
+      </div>
+      <div class="sweet-word-box" id="homeSweetWordBox"></div>
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-green" onclick="copyAcchiBaatWhatsApp()">📋 Copy WhatsApp Format</button>
+        <button class="portal-action-btn btn-outline" onclick="shareAcchiBaatDirect()">📤 Share</button>
+      </div>
+      <a href="acchi-baatein.html" class="more-news-btn" style="background:#047857; margin-top:8px;">Pichli Acchi Baatein ➡️</a>
+    </section>
+
+    <!-- 📜 12. Hadees Sharif Card (id="sec-hadees") -->
+    <section class="portal-card" id="sec-hadees">
+      <div class="unified-blue-header">
+        <span>📜 Hadees-e-Mubarak</span>
+        <span class="unified-sub-badge" id="homeHadeesRef">--</span>
+      </div>
+      <div class="hadees-box">
+        <div class="hadees-arabic" id="homeHadeesArabic">--</div>
+        <div class="hadees-tarjuma" id="homeHadeesTarjuma">--</div>
+        <div style="font-size:0.7rem; color:#64748b; margin-top:4px;" id="homeHadeesWazahat">--</div>
+      </div>
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-green" onclick="shareFeaturedHadees()">📤 WhatsApp Share</button>
+        <a href="hadees.html" class="portal-action-btn btn-dark">Mazeed Ahadees ➡️</a>
+      </div>
+    </section>
+
+    <!-- 🧠 13. Islamic Quiz Interactive Demo Card (id="sec-quiz") -->
+    <section class="portal-card" id="sec-quiz">
+      <div class="unified-blue-header">
+        <span>🧠 Deeni Quiz & Missing Word</span>
+        <span class="unified-sub-badge">Zero Stress ⏱️</span>
+      </div>
+
+      <div style="margin:10px 0; padding:10px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;">
+        <div style="font-size:0.8rem; font-weight:700; color:#1e293b; margin-bottom:8px;">
+          ❓ <em>Hadees:</em> 'Paaki (Safai) aadha ______ hai.'
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;" id="homeDemoQuizOptions">
+          <button type="button" onclick="checkDemoQuiz(this, false)" style="background:#ffffff; border:1px solid #cbd5e1; padding:6px; border-radius:6px; font-size:0.72rem; font-weight:600; cursor:pointer;">A) Sawab</button>
+          <button type="button" onclick="checkDemoQuiz(this, true)" style="background:#ffffff; border:1px solid #cbd5e1; padding:6px; border-radius:6px; font-size:0.72rem; font-weight:600; cursor:pointer;">B) Imaan</button>
+          <button type="button" onclick="checkDemoQuiz(this, false)" style="background:#ffffff; border:1px solid #cbd5e1; padding:6px; border-radius:6px; font-size:0.72rem; font-weight:600; cursor:pointer;">C) Rizq</button>
+          <button type="button" onclick="checkDemoQuiz(this, false)" style="background:#ffffff; border:1px solid #cbd5e1; padding:6px; border-radius:6px; font-size:0.72rem; font-weight:600; cursor:pointer;">D) Duniya</button>
+        </div>
+        <div id="demoQuizFeedback" style="display:none; font-size:0.72rem; margin-top:6px; font-weight:700;"></div>
+      </div>
+
+      <a href="quiz.html" class="more-news-btn" style="background:#064e3b;">Play Full Quiz (50+ Sawalat) ➔</a>
+    </section>
+    
+    <!-- 🏛️ 14. Aaj Ki Islami Tareekh (id="sec-history") -->
+    <section class="portal-card" id="sec-history">
+      <div class="unified-blue-header">
+        <span>🏛️ Aaj Ki Islami Tareekh</span>
+        <span class="unified-sub-badge">Islamic Archives</span>
+      </div>
+      <div class="sweet-word-box" id="homeHistoryBox">
+        <p style="font-size:0.8rem; color:#64748b; margin:0;">Tareekh check ho rahi hai...</p>
+      </div>
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-green" id="btnCopyHistory" onclick="copyTodayHistory()" style="width:100%;">📋 Copy WhatsApp Format</button>
+      </div>
+    </section>
+
+    <!-- 📖 15. 10 Daily Arabic Words (id="sec-arabicwords") -->
+    <section class="portal-card" id="sec-arabicwords">
+      <div class="unified-blue-header">
+        <span>📖 10 Daily Arabic Words</span>
+        <span class="unified-sub-badge">روزانہ الفاظ</span>
+      </div>
+      <div class="sweet-word-box" id="homeArabicWordsBox" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; background:#f8fafc; padding:8px;">
+        <p style="font-size:0.8rem; color:#64748b; margin:0; grid-column:span 2;">Words load ho rahe hain...</p>
+      </div>
+      <div class="portal-btn-row">
+        <button class="portal-action-btn btn-green" id="btnCopyWords" onclick="copyDailyWords()" style="width:100%;">📋 Copy 10 Words Format</button>
+      </div>
+    </section>
+
+    <!-- 📚 16. Islamic Learning Hub (id="sec-learning-hub") -->
+    <section class="portal-card" id="sec-learning-hub">
+      <div class="unified-blue-header">
+        <span>📚 Deeni Taleem & Special Modules</span>
+        <span class="unified-sub-badge">Learning Hub</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-top:8px;">
+        <div onclick="handleModuleClick('Seerat-un-Nabi', '')" 
+             style="cursor:pointer; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 8px; text-align:center;">
+          <div style="font-size:1.6rem; margin-bottom:4px;">📜</div>
+          <div style="font-size:0.85rem; font-weight:800; color:#064e3b;">Seerat-un-Nabi</div>
+          <div style="font-size:0.68rem; color:#475569; margin-top:2px;">Makki wa Madani Daur</div>
+        </div>
+
+        <div onclick="handleModuleClick('30 Para Khulasa', '')" 
+             style="cursor:pointer; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 8px; text-align:center;">
+          <div style="font-size:1.6rem; margin-bottom:4px;">📖</div>
+          <div style="font-size:0.85rem; font-weight:800; color:#1e293b;">30 Para Khulasa</div>
+          <div style="font-size:0.68rem; color:#64748b; margin-top:2px;">Mukhtasar Paigham</div>
+        </div>
+
+        <div onclick="handleModuleClick('Ramzan Special Guide', '')" 
+             style="cursor:pointer; background:#fefce8; border:1px solid #fef08a; border-radius:10px; padding:12px 8px; text-align:center;">
+          <div style="font-size:1.6rem; margin-bottom:4px;">🌙</div>
+          <div style="font-size:0.85rem; font-weight:800; color:#854d0e;">Ramzan Special</div>
+          <div style="font-size:0.68rem; color:#713f12; margin-top:2px;">Roza, Duayein & Masail</div>
+        </div>
+
+        <div onclick="handleModuleClick('Hajj & Umrah Guide', '')" 
+             style="cursor:pointer; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 8px; text-align:center;">
+          <div style="font-size:1.6rem; margin-bottom:4px;">🕋</div>
+          <div style="font-size:0.85rem; font-weight:800; color:#1e40af;">Hajj & Umrah Guide</div>
+          <div style="font-size:0.68rem; color:#475569; margin-top:2px;">Step-by-Step Arkaan</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 📰 17. Top Viral Islamic News Card (id="sec-news") -->
+    <section class="news-portal-card card-block" id="sec-news">
+      <div class="unified-blue-header">
+        <span>🌐 Aalami Islamic News</span>
+        <span class="unified-sub-badge" id="homeNewsLastUpdated">Updated: --</span>
+      </div>
+
+      <div class="news-headline-list" id="homeNewsHeadlinesContainer"></div>
+      <a href="islamicnews.html" class="more-news-btn">Read All Archive & Full News ➡️</a>
+    </section>
+
+    <footer id="finalFooter">
+      <p>&copy; 2026 <strong>AdeenDesk</strong>. All Islamic events & dates are subject to regional moon visibility.</p>
+      <div class="foot-info">All World Times are sourced from International Databases. Prayer timings are approximate based on Astronomical Calculations (Aladhan Open API).</div>
+    </footer>
+  </main>
+  
+  <!-- 🔔 Square Coming Soon Popup Modal -->
+  <div id="comingSoonModal" onclick="closeComingSoonModal(event)" 
+       style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+    <div onclick="event.stopPropagation()" 
+         style="background:#ffffff; border:1px solid #cbd5e1; border-radius:14px; width:100%; max-width:320px; padding:20px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.12); position:relative;">
+      <div style="font-size:2.2rem; margin-bottom:6px;">🚧✨</div>
+      <div style="font-size:0.65rem; font-weight:800; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:6px;">COMING SOON</div>
+      <h4 id="csModalTitle" style="font-size:1rem; font-weight:800; color:#064e3b; margin:0 0 6px 0;">Module Name</h4>
+      <p style="font-size:0.8rem; color:#64748b; line-height:1.45; margin:0 0 16px 0;">
+        Is module ka authentic data aur tafseel abhi tayyari ke marhale me hai. Jald hi Insha'Allah live update kiya jayega.
+      </p>
+      <button onclick="closeComingSoonModal()" 
+              style="width:100%; background:#064e3b; color:#ffffff; border:none; padding:9px 0; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">
+        Theek Hai (Jazakallah)
+      </button>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="modal-overlay" id="lightboxModal">
+    <div class="popup-modal" style="max-width:480px; text-align:center; position:relative;">
+      <div class="popup-header">
+        <h3 id="lightboxTitle">Islamic Chart (1/2)</h3>
+        <button class="close-modal-btn" onclick="closeModal('lightboxModal')">&times;</button>
+      </div>
+      <div id="swipeArea" style="position:relative; max-height:65vh; overflow:hidden; margin-bottom:12px; display:flex; align-items:center; justify-content:center; touch-action: pan-y;">
+        <img id="lightboxImg" src="" style="max-width:100%; max-height:60vh; border-radius:8px; display:block; user-select:none; transition: transform 0.2s ease;" alt="Chart View">
+        <button onclick="prevLightboxImage()" style="position:absolute; left:6px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.1rem; font-weight:800; display:flex; align-items:center; justify-content:center;">&lt;</button>
+        <button onclick="nextLightboxImage()" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.55); color:#fff; border:none; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.1rem; font-weight:800; display:flex; align-items:center; justify-content:center;">&gt;</button>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button id="deleteImageBtn" style="padding:7px 14px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-weight:700; font-size:0.75rem; cursor:pointer;">Delete Image</button>
+        <span style="font-size:0.7rem; color:var(--text-muted);">Swipe left / right 📲</span>
+        <button onclick="closeModal('lightboxModal')" style="padding:7px 14px; background:#0f172a; color:#fff; border:none; border-radius:6px; font-weight:700; font-size:0.75rem; cursor:pointer;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasbeeh Modal -->
+  <div class="modal-overlay" id="tasbeehModal">
+    <div class="popup-modal">
+      <div class="popup-header">
+        <h3>📿 Digital Tasbeeh Counter</h3>
+        <button class="close-modal-btn" onclick="closeModal('tasbeehModal')">&times;</button>
+      </div>
+      <div class="tasbeeh-screen" id="tasbeehDisplay">0</div>
+      <button class="tasbeeh-tap-btn" onclick="processTasbeehTap()">TAP COUNT</button>
+      <div style="display:flex; justify-content:space-between; margin-top:12px;">
+        <button onclick="resetTasbeehCount()" style="padding:6px 12px; background:#ef4444; color:#fff; border:none; border-radius:6px; font-size:0.75rem; font-weight:700; cursor:pointer;">Reset</button>
+        <span style="font-size:0.75rem; color:#64748b; font-weight:600;">Target: 33 / 99 / ∞</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zakat Modal -->
+  <div class="modal-overlay" id="zakatModal">
+    <div class="popup-modal">
+      <div class="popup-header">
+        <h3>💰 Zakat Calculator (2.5%)</h3>
+        <button class="close-modal-btn" onclick="closeModal('zakatModal')">&times;</button>
+      </div>
+      <div class="zakat-field">
+        <label>Total Cash & Bank Balance</label>
+        <input type="number" id="zkCash" placeholder="0.00" oninput="calculateZakatPayable()">
+      </div>
+      <div class="zakat-field">
+        <label>Gold & Silver Asset Value</label>
+        <input type="number" id="zkGold" placeholder="0.00" oninput="calculateZakatPayable()">
+      </div>
+      <div class="zakat-field">
+        <label>Total Debts to Pay (Subtract)</label>
+        <input type="number" id="zkDebt" placeholder="0.00" oninput="calculateZakatPayable()">
+      </div>
+      <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:10px; border-radius:8px; text-align:center; margin-top:8px;">
+        <span style="font-size:0.75rem; color:#166534; font-weight:700;">Zakat Payable (2.5%):</span>
+        <div style="font-size:1.3rem; font-weight:800; color:#15803d;" id="zkTotalDisplay">0.00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Qibla Modal -->
+  <div class="modal-overlay" id="qiblaModal">
+    <div class="popup-modal" style="text-align:center;">
+      <div class="popup-header">
+        <h3>🧭 Qibla Direction Finder</h3>
+        <button class="close-modal-btn" onclick="closeModal('qiblaModal')">&times;</button>
+      </div>
+      <p style="font-size:0.72rem; color:#64748b; margin-bottom:12px;">Sensor/GPS use karta hai HTTPS hosting par. Kaaba direction follow karein.</p>
+      <div class="compass-dial" id="compassDial">
+        <div class="kaaba-pointer">🕋</div>
+      </div>
+      <div style="font-size:0.8rem; font-weight:800; color:#0f172a; margin-top:10px;" id="qiblaText">Qibla: ~285° (from Delhi IST)</div>
+    </div>
+  </div>
+
+  <!-- Note Modal -->
+  <div class="modal-overlay" id="noteModal">
+    <div class="popup-modal">
+      <div class="popup-header">
+        <h3 id="modalDateTitle">Add Note</h3>
+        <button class="close-modal-btn" onclick="closeModal('noteModal')">&times;</button>
+      </div>
+      <textarea id="noteInput" style="width:100%; height:75px; padding:8px; border-radius:6px; border:1px solid var(--border-color); resize:none; margin-bottom:8px;" placeholder="Event, reminder, task..."></textarea>
+      <button onclick="saveDateNote()" style="width:100%; padding:8px; background:var(--blue-primary); color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Save Note</button>
+    </div>
+  </div>
+
+  <!-- Article Modal -->
+  <div class="modal-overlay" id="articleModal">
+    <div class="popup-modal">
+      <div class="popup-header">
+        <h3 id="artTitle">Article Title</h3>
+        <button class="close-modal-btn" onclick="closeModal('articleModal')">&times;</button>
+      </div>
+      <div id="artBody" style="font-size:0.8rem; line-height:1.6; color:#334155; max-height:280px; overflow-y:auto; padding-right:6px;"></div>
+      <button onclick="shareTitleArticleModal()" style="width:100%; margin-top:12px; background:#0f172a; color:#fff; border:none; padding:8px; border-radius:6px; font-size:0.75rem; font-weight:700; cursor:pointer;">Share Article With Title</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <div style="font-size:1.1rem;">🏠</div><span>Dashboard</span>
+    </button>
+    <button class="nav-item" onclick="document.getElementById('calendarsSection').scrollIntoView({behavior:'smooth'})">
+      <div style="font-size:1.1rem;">📅</div><span>Calendars</span>
+    </button>
+    <button class="nav-item" onclick="document.getElementById('prayerSection').scrollIntoView({behavior:'smooth'})">
+      <div style="font-size:1.1rem;">🕌</div><span>Prayers</span>
+    </button>
+    <button class="nav-item" onclick="document.getElementById('ytSection').scrollIntoView({behavior:'smooth'})">
+      <div style="font-size:1.1rem;">🎥</div><span>Videos</span>
+    </button>
+  </nav>
+
+  <!-- ================================================================ -->
+  <!-- 🚀 COMPLETE INTEGRATED JAVASCRIPT LOGIC PIPELINE                -->
+  <!-- ================================================================ -->
+  <script>
+    // 1. GLOBAL STATE & CONFIGURATION
+    const now = new Date();
+    let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '-1', 10);
+    const offsetEl = document.getElementById('hijriOffsetSelect');
+    if (offsetEl) offsetEl.value = hijriOffset;
+
+    let liveMaghribTimeStr = "18:30"; // 🟢 Fixed: Declared global fallback for fiqh calculation
+    let selectedEngYear = now.getFullYear();
+    let selectedEngMonth = now.getMonth();
+    let selectedHijriMonthIndex = null;
+    let selectedHijriYear = null;
+    let activeDateNoteKey = '';
+    let currentModalActiveArticle = {};
+    let nextSevenDaysCache = [];
+    let currentDetectedCityName = "Delhi";
+    let isWaqiyaExpanded = false;
+
+    let currentHistoryMatch = null;
+    let currentTodayHijriText = "";
+    let todaySeededWordsList = [];
+    let currentActiveAcchiBaat = null;
+
+    // Security Helper: Sanitization to prevent XSS
+    function sanitizeHTML(str) {
+      if (!str) return '';
+      const temp = document.createElement('div');
+      temp.textContent = str;
+      return temp.innerHTML;
+    }
+
+    const slidingCountries = [
+      { name: "Saudi Arabia", flag: "🇸🇦", zone: "Asia/Riyadh", abbr: "AST" },
+      { name: "UAE", flag: "🇦🇪", zone: "Asia/Dubai", abbr: "GST" },
+      { name: "Qatar", flag: "🇶🇦", zone: "Asia/Qatar", abbr: "AST" },
+      { name: "Kuwait", flag: "🇰🇼", zone: "Asia/Kuwait", abbr: "AST" },
+      { name: "Turkey", flag: "🇹🇷", zone: "Europe/Istanbul", abbr: "TRT" },
+      { name: "United Kingdom", flag: "🇬🇧", zone: "Europe/London", abbr: "BST" },
+      { name: "USA (New York)", flag: "🇺🇸", zone: "America/New_York", abbr: "EDT" },
+      { name: "Malaysia", flag: "🇲🇾", zone: "Asia/Kuala_Lumpur", abbr: "MYT" }
+    ];
+
+    const duasData = {
+      daily: { title: "Daily Dua", ar: "اللَّهُمَّ اجْعَلْ هَذَا يَوْمًا خَيْرًا مِنْ أَمْسِنَا", tr: "Allahumma aj'al hadha yawman khayran min amsina.", en: "O Allah! Make this day better than our yesterday." },
+      morning: { title: "Morning Dua", ar: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ", tr: "Asbahna wa asbahal-mulku lillah, walhamdu lillah.", en: "We entered the morning and the dominion belongs to Allah." },
+      salah: { title: "Dua After Salah", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.", en: "O Allah, help me remember You and thank You." },
+      forgiveness: { title: "Dua for Forgiveness", ar: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ", tr: "Rabbighfir li wa tub 'alayya innaka antat-tawwabur-rahim.", en: "My Lord, forgive me and accept my repentance." }
+    };
+
+    const articlesData = {
+      1: {
+        title: "Nisab-e-Zakat Kis Par Farz Hai?",
+        body: "Zakat har us aaqil aur baaligh musalman par farz hai jiske paas 'nisab' ke barabar maal saal bhar mehfooz rahe. Nisab ka wazan: 7.5 tola sona (gold) ya 52.5 tola chandi (silver) ya uski current qeemat ke barabar cash/business asset. Zakat kul bachat ka 2.5% hisab se ada karni hoti hai. Karz/debts ko subtract karne ke baad net payable nikalta hai."
+      },
+      2: {
+        title: "Fazilat: Ayyam-e-Beez Ke Teen Roze",
+        body: "Hadees shareef me aata hai ke Rasoolullah ﷺ har islami mahine ki 13, 14, aur 15 tarikh ko roze rakhne ka ahtimam farmate the (Ayyam-e-Beez). Iski fazilat yeh batai gai hai ke yeh roze poore saal ke rozo ke barabar ajar o sawab rakhte hain. In dino chand poori aab-o-taab ke sath tulu hota hai."
+      }
+    };
+
+    const engMonthsFullList = [
+      "01. January", "02. February", "03. March", "04. April", 
+      "05. May", "06. June", "07. July", "08. August", 
+      "09. September", "10. October", "11. November", "12. December"
+    ];
+
+    const hijriMonthsFullList = [
+      "01. Muharram", "02. Safar", "03. Rabi al-Awwal", "04. Rabi al-Thani",
+      "05. Jumada al-Awwal", "06. Jumada al-Thani", "07. Rajab", "08. Sha'ban",
+      "09. Ramadan", "10. Shawwal", "11. Dhu al-Qi'dah", "12. Dhu al-Hijjah"
+    ];
+
+    // 2. NAVIGATION & MODALS
+    function jumpToSection(targetId, clickedBtn) {
+      const targetElement = document.getElementById(targetId);
+      if (!targetElement) return;
+
+      document.querySelectorAll('.quick-tab-pill').forEach(tab => tab.classList.remove('active-tab'));
+      if (clickedBtn) clickedBtn.classList.add('active-tab');
+
+      if (clickedBtn) {
+        clickedBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+
+      const offset = 120;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+
+      targetElement.classList.remove('target-section-focused');
+      void targetElement.offsetWidth;
+      targetElement.classList.add('target-section-focused');
+    }
+
+    function openModal(id) { document.getElementById(id)?.classList.add('active'); }
+    function closeModal(id) { document.getElementById(id)?.classList.remove('active'); }
+
+    function handleModuleClick(title, url) {
+      if (!url || url.trim() === "" || url === "#") {
+        const modal = document.getElementById('comingSoonModal');
+        const modalTitle = document.getElementById('csModalTitle');
+        if (modal && modalTitle) {
+          modalTitle.innerText = title;
+          modal.style.display = 'flex';
+        }
+        return;
+      }
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      window.location.href = url;
+    }
+
+    function closeComingSoonModal() {
+      const modal = document.getElementById('comingSoonModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function shareNative(title, text, url) {
+      const link = url || window.location.href;
+      if (navigator.share) {
+        navigator.share({ title, text, url: link }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(`${title}\n\n${text}\n\n${link}`);
+        alert("Details copied to clipboard!");
+      }
+    }
+
+    function shareOverallPlatform() {
+      shareNative("AdeenDesk | Daily Islamic Dashboard", "Check Gregorian & Lunar Hijri calendar, GPS Prayer Times, Qibla Compass, Digital Tasbeeh, and Zakat Calculator on AdeenDesk.", window.location.href);
+    }
+
+    function shareYouTubeFull(vidTitle, ytUrl) {
+      const fullText = `🎥 *${vidTitle}*\n${ytUrl}\n\nAur aise hi informative deeni videos ke liye AdeenDesk visit karein:\n${window.location.href}`;
+      shareNative(`${vidTitle} - AdeenDesk Video`, fullText, "");
+    }
+
+    function shareTitleDua() {
+      const activeBtn = document.querySelector('.dua-cat-btn.active');
+      const cat = activeBtn ? activeBtn.getAttribute('data-cat') : 'daily';
+      const dua = duasData[cat];
+      shareNative(dua.title, `${dua.ar}\n\nTransliteration: ${dua.tr}\n\nTranslation: ${dua.en}`, window.location.href);
+    }
+
+    function shareTitleArticleModal() {
+      if (currentModalActiveArticle && currentModalActiveArticle.title) {
+        shareNative(currentModalActiveArticle.title, currentModalActiveArticle.body, window.location.href);
+      }
+    }
+
+    // 3. HIJRI & CALENDAR ENGINES
+    function isAfterMaghribToday() {
+      try {
+        const d = new Date();
+        const currentMins = d.getHours() * 60 + d.getMinutes();
+        const clean = liveMaghribTimeStr.replace(/[^\d:]/g, "");
+        const parts = clean.split(":");
+        let h = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) || 0;
+        if (liveMaghribTimeStr.toUpperCase().includes("PM") && h < 12) h += 12;
+        if (liveMaghribTimeStr.toUpperCase().includes("AM") && h === 12) h = 0;
+        const maghribMins = (!isNaN(h)) ? (h * 60 + m) : (18 * 60 + 30);
+        return currentMins >= maghribMins;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function getHijriDetailsByDate(dateObj, offset = 0) {
+      const dayTarget = new Date(dateObj);
+      if (isAfterMaghribToday()) dayTarget.setDate(dayTarget.getDate() + 1);
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const islamicDayName = dayNames[dayTarget.getDay()];
+
+      const dateTarget = new Date(dateObj);
+      if (isAfterMaghribToday()) dateTarget.setDate(dateTarget.getDate() + 1);
+      dateTarget.setDate(dateTarget.getDate() + offset);
+
+      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
+        day: 'numeric', month: 'numeric', year: 'numeric' 
+      }).formatToParts(dateTarget);
+
+      let d = 1, m = 1, y = 1448;
+      parts.forEach(p => {
+        if (p.type === 'day') d = parseInt(p.value, 10);
+        if (p.type === 'month') m = parseInt(p.value, 10);
+        if (p.type === 'year') y = parseInt(p.value, 10);
+      });
+
+      return { day: d, monthIndex: m - 1, year: y, islamicDayName };
+    }
+
+    function getCleanHijriDate() {
+      const hijriMonths = [
+        "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
+        "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
+        "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
+      ];
+      const today = new Date();
+      try {
+        const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+          day: 'numeric', month: 'numeric'
+        }).formatToParts(today);
+
+        let day = parts.find(p => p.type === 'day')?.value || today.getDate();
+        let monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || "1", 10) - 1;
+        let monthName = hijriMonths[monthIndex] || "Safar";
+
+        return { key: `${day}-${monthName}`, display: `${day} ${monthName}` };
+      } catch (e) {
+        return { key: "24-Safar", display: "24 Safar" };
+      }
+    }
+
+    function getMoonIconByDay(day) {
+      const icons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
+      const index = Math.round((day / 29.5) * 8) % 8;
+      return icons[index];
+    }
+
+    function updateLiveDashboardClocks() {
+      const d = new Date();
+      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      document.getElementById('quickEngDate').innerText = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+      document.getElementById('quickEngDay').innerText = days[d.getDay()];
+      document.getElementById('quickLiveTime').innerText = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+
+      const hij = getHijriDetailsByDate(d, hijriOffset);
+      const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4);
+      document.getElementById('quickHijriDate').innerText = `${hij.day} ${cleanHijriName} ${hij.year}`;
+      document.getElementById('quickHijriDay').innerText = hij.islamicDayName;
+
+      const iTime = d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true }).split(' ');
+      document.getElementById('indiaClock').innerHTML = `${iTime[0]} <small>${iTime[1]}</small>`;
+
+      const scrollEl = document.getElementById('worldScroll');
+      if (scrollEl) {
+        scrollEl.innerHTML = '';
+        slidingCountries.forEach(c => {
+          const t = d.toLocaleTimeString('en-US', { timeZone: c.zone, hour: '2-digit', minute: '2-digit', hour12: true }).split(' ');
+          const card = document.createElement('div');
+          card.className = 'world-card';
+          card.innerHTML = `<div class="country-flag">${c.flag}</div><div class="country-name">${sanitizeHTML(c.name)}</div><div class="country-time">${t[0]} <small>${t[1]}</small></div><div class="country-tz">${c.abbr}</div>`;
+          scrollEl.appendChild(card);
+        });
+      }
+    }
+
+    // 🟢 Fixed: Auto-scroll on active English Month tab
+    function renderEnglishCalendarTabs() {
+      const el = document.getElementById('engMonthTabs');
+      if (!el) return;
+      el.innerHTML = '';
+      engMonthsFullList.forEach((m, idx) => {
+        const btn = document.createElement('button');
+        const isActive = (idx === selectedEngMonth);
+        btn.className = `month-tab ${isActive ? 'active-tab-blue' : ''}`;
+        btn.innerText = m;
+        btn.onclick = () => { 
+          selectedEngMonth = idx; 
+          renderEnglishCalendarTabs(); 
+          renderEnglishCalendarGrid(); 
+        };
+        el.appendChild(btn);
+
+        if (isActive) {
+          setTimeout(() => {
+            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          }, 80);
+        }
+      });
+    }
+
+    function renderEnglishCalendarGrid() {
+      const fullMonthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+      document.getElementById('engMonthYearDisplay').innerText = `${fullMonthNames[selectedEngMonth]} ${selectedEngYear}`;
+      const grid = document.getElementById('engDatesGrid');
+      grid.innerHTML = '';
+
+      const firstDayIndex = new Date(selectedEngYear, selectedEngMonth, 1).getDay();
+      const totalDaysInMonth = new Date(selectedEngYear, selectedEngMonth + 1, 0).getDate();
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyD = document.createElement('div');
+        emptyD.className = 'cal-date muted';
+        grid.appendChild(emptyD);
+      }
+
+      const currentDate = now.getDate();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+
+      for (let day = 1; day <= totalDaysInMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.className = 'cal-date';
+
+        const dayOfWeek = (firstDayIndex + day - 1) % 7;
+        if (dayOfWeek === 0) dateCell.classList.add('sun-date');
+        if (dayOfWeek === 6) dateCell.classList.add('sat-date');
+
+        if (day === currentDate && selectedEngMonth === currentMonth && selectedEngYear === currentYear) {
+          dateCell.classList.add('active-blue');
+        }
+
+        const key = `note_${selectedEngYear}_${selectedEngMonth}_${day}`;
+        if (localStorage.getItem(key)) {
+          const dot = document.createElement('span');
+          dot.className = 'note-dot';
+          dateCell.appendChild(dot);
+        }
+
+        const dateNumSpan = document.createElement('span');
+        dateNumSpan.innerText = day;
+        dateCell.appendChild(dateNumSpan);
+
+        dateCell.onclick = () => {
+          activeDateNoteKey = key;
+          document.getElementById('modalDateTitle').innerText = `Note: ${day}/${selectedEngMonth + 1}/${selectedEngYear}`;
+          document.getElementById('noteInput').value = localStorage.getItem(key) || '';
+          openModal('noteModal');
+        };
+
+        grid.appendChild(dateCell);
+      }
+
+      const totalCellsFilled = firstDayIndex + totalDaysInMonth;
+      const emptyCellsNeeded = (totalCellsFilled > 35 ? 42 : 35) - totalCellsFilled;
+      for (let n = 1; n <= emptyCellsNeeded; n++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+
+      document.querySelectorAll('.season-block').forEach(b => b.classList.remove('active-season'));
+      const activeSeasonIndex = Math.floor(selectedEngMonth / 3);
+      if (activeSeasonIndex >= 0 && activeSeasonIndex <= 3) {
+        document.querySelectorAll('.season-block')[activeSeasonIndex].classList.add('active-season');
+      }
+    }
+
+    function selectSeasonMonth(monthIdx) {
+      selectedEngMonth = monthIdx;
+      renderEnglishCalendarTabs();
+      renderEnglishCalendarGrid();
+    }
+
+    // 🟢 Fixed: Auto-scroll on active Hijri Month tab
+    function renderHijriCalendarTabs() {
+      const el = document.getElementById('hijriMonthTabs');
+      if (!el) return;
+      el.innerHTML = '';
+      hijriMonthsFullList.forEach((m, idx) => {
+        const btn = document.createElement('button');
+        const isActive = (idx === selectedHijriMonthIndex);
+        btn.className = `month-tab ${isActive ? 'active-tab-purple' : ''}`;
+        btn.innerText = m;
+        btn.onclick = () => { 
+          selectedHijriMonthIndex = idx; 
+          renderHijriCalendarTabs(); 
+          renderHijriCalendarGrid(); 
+        };
+        el.appendChild(btn);
+
+        if (isActive) {
+          setTimeout(() => {
+            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          }, 80);
+        }
+      });
+    }
+
+    function renderHijriCalendarGrid() {
+      const currentHijri = getHijriDetailsByDate(now, hijriOffset);
+      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
+      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
+      
+      const grid = document.getElementById('hijriDatesGrid');
+      grid.innerHTML = '';
+
+      const effectiveDate = new Date(now);
+      if (isAfterMaghribToday()) effectiveDate.setDate(effectiveDate.getDate() + 1);
+
+      const currentDayOfWeek = effectiveDate.getDay(); 
+      let firstDayOffset = (currentDayOfWeek - ((currentHijri.day - 1) % 7) + 7) % 7;
+
+      if (selectedHijriMonthIndex !== currentHijri.monthIndex) {
+        const monthDiff = selectedHijriMonthIndex - currentHijri.monthIndex;
+        firstDayOffset = (firstDayOffset + (monthDiff * 30) % 7 + 7) % 7;
+      }
+
+      const daysInHijriMonth = 30;
+
+      for (let i = 0; i < firstDayOffset; i++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+
+      for (let day = 1; day <= daysInHijriMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.className = 'cal-date';
+
+        const cellDayOfWeek = (firstDayOffset + day - 1) % 7;
+        if (cellDayOfWeek === 0) dateCell.classList.add('sun-date');
+        if (cellDayOfWeek === 6) dateCell.classList.add('sat-date');
+
+        if (day === currentHijri.day && selectedHijriMonthIndex === currentHijri.monthIndex) {
+          dateCell.classList.add('active-purple');
+        }
+
+        const numSpan = document.createElement('span');
+        numSpan.innerText = day;
+        dateCell.appendChild(numSpan);
+
+        const moonSpan = document.createElement('span');
+        moonSpan.className = 'moon-sub-icon';
+        moonSpan.innerText = getMoonIconByDay(day);
+        dateCell.appendChild(moonSpan);
+
+        grid.appendChild(dateCell);
+      }
+
+      const cellsUsed = firstDayOffset + daysInHijriMonth;
+      const nextEmpty = (cellsUsed > 35 ? 42 : 35) - cellsUsed;
+      for (let n = 1; n <= nextEmpty; n++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+    }
+
+    // 4. PRAYER TIMES & ASR ENGINE
+    function convertTo12Hour(time24) {
+      if (!time24) return "--:--";
+      let cleanTime = time24.split(" ")[0];
+      let [hours, minutes] = cleanTime.split(":");
+      hours = parseInt(hours, 10);
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+      return `${hours}:${minutes} ${ampm}`;
+    }
+
+    function getAsrMethod() {
+      return localStorage.getItem('prayerAsrSchool') !== null 
+        ? parseInt(localStorage.getItem('prayerAsrSchool'), 10) 
+        : 0;
+    }
+
+    function updateAsrSwitchUI() {
+      const method = getAsrMethod();
+      const btnStd = document.getElementById('btnAsrStandard');
+      const btnHnf = document.getElementById('btnAsrHanafi');
+      if (!btnStd || !btnHnf) return;
+
+      if (method === 1) {
+        btnHnf.style.background = "#064e3b";
+        btnHnf.style.color = "#ffffff";
+        btnHnf.style.fontWeight = "800";
+        btnStd.style.background = "transparent";
+        btnStd.style.color = "#64748b";
+        btnStd.style.fontWeight = "700";
+      } else {
+        btnStd.style.background = "#064e3b";
+        btnStd.style.color = "#ffffff";
+        btnStd.style.fontWeight = "800";
+        btnHnf.style.background = "transparent";
+        btnHnf.style.color = "#64748b";
+        btnHnf.style.fontWeight = "700";
+      }
+    }
+
+    function setAsrMethod(val) {
+      localStorage.setItem('prayerAsrSchool', val);
+      updateAsrSwitchUI();
+      loadInitialPrayerTimes();
+      const container = document.getElementById("sevenDaysContainer");
+      if (container && container.style.display === "block") {
+        fetch7DaysSalahTimes();
+      }
+    }
+
+    async function showAddress(lat, lng) {
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+        const data = await res.json();
+        const city = data.address.city || data.address.town || data.address.village || data.address.state_district || data.address.state || "Detected Area";
+        updateLocationLabels(city);
+      } catch (err) {
+        updateLocationLabels(`Lat: ${Number(lat).toFixed(2)}, Lng: ${Number(lng).toFixed(2)}`);
+      }
+    }
+
+    function updateLocationLabels(cityName) {
+      currentDetectedCityName = sanitizeHTML(cityName);
+      const locEl = document.getElementById("locationText");
+      if (locEl) locEl.innerText = `📍 ${currentDetectedCityName}`;
+      const subEl = document.getElementById("userLocationSub");
+      if (subEl) subEl.innerText = currentDetectedCityName;
+      
+      const sevenDaysLoc = document.getElementById("sevenDaysLocLabel");
+      if (sevenDaysLoc) sevenDaysLoc.innerText = `📅 7-Day Timetable (${currentDetectedCityName})`;
+    }
+
+    async function fetchPrayerTimes(lat, lng, cityName = "Delhi") {
+      try {
+        localStorage.setItem('prayerLat', lat);
+        localStorage.setItem('prayerLng', lng);
+        localStorage.setItem('prayerCity', cityName);
+
+        const school = getAsrMethod();
+        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4&school=${school}`);
+        const data = await res.json();
+        const t = data.data.timings;
+
+        // 🟢 Fixed: Set live Maghrib time for fiqh engine
+        liveMaghribTimeStr = t.Maghrib;
+
+        document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+        document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+        document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+        document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+        document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+        document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+        if (cityName === "Current Location") {
+          showAddress(lat, lng);
+        } else {
+          updateLocationLabels(cityName);
+        }
+      } catch (e) {
+        console.error("Salah Time Error:", e);
+      }
+    }
+
+    async function fetchPrayerByCity(city) {
+      try {
+        updateLocationLabels(`Searching ${city}...`);
+        const school = getAsrMethod();
+        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=&method=4&school=${school}`);
+        const data = await res.json();
+        if (data.code === 200 && data.data) {
+          const t = data.data.timings;
+          liveMaghribTimeStr = t.Maghrib;
+          
+          document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
+          document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
+          document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
+          document.getElementById('pt-asr').innerText = convertTo12Hour(t.Asr);
+          document.getElementById('pt-maghrib').innerText = convertTo12Hour(t.Maghrib);
+          document.getElementById('pt-isha').innerText = convertTo12Hour(t.Isha);
+
+          localStorage.setItem('prayerCity', city);
+          localStorage.removeItem('prayerLat');
+          localStorage.removeItem('prayerLng');
+          updateLocationLabels(city);
+          return true;
+        }
+      } catch (e) {
+        console.error("City fetch error:", e);
+      }
+      alert(`Could not find timings for "${city}". Falling back to Delhi.`);
+      fetchPrayerTimes(28.6139, 77.2090, "Delhi");
+      return false;
+    }
+
+    async function fetch7DaysSalahTimes() {
+      const tbody = document.getElementById("sevenDaysTableBody");
+      tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#64748b;">Loading 7-day schedule...</td></tr>`;
+
+      const nowDay = new Date();
+      const year = nowDay.getFullYear();
+      const month = nowDay.getMonth() + 1;
+      const todayDate = nowDay.getDate();
+
+      const lat = localStorage.getItem('prayerLat');
+      const lng = localStorage.getItem('prayerLng');
+      const city = localStorage.getItem('prayerCity') || "Delhi";
+      const school = getAsrMethod();
+
+      let url = (lat && lng)
+        ? `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${lat}&longitude=${lng}&method=4&school=${school}`
+        : `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${encodeURIComponent(city)}&country=&method=4&school=${school}`;
+
+      try {
+        const res = await fetch(url);
+        const result = await res.json();
+        if (result.code === 200 && Array.isArray(result.data)) {
+          const currentMonthDays = result.data.filter(d => parseInt(d.date.gregorian.day, 10) >= todayDate);
+          nextSevenDaysCache = currentMonthDays.slice(0, 7);
+
+          tbody.innerHTML = nextSevenDaysCache.map((item, idx) => {
+            const t = item.timings;
+            const gDate = `${item.date.gregorian.day} ${item.date.gregorian.month.en.slice(0,3)}`;
+            const bg = idx % 2 === 0 ? "#ffffff" : "#f8fafc";
+            return `
+              <tr style="background:${bg}; border-bottom:1px solid #f1f5f9;">
+                <td style="padding:6px 4px; font-weight:700; color:#064e3b;">${gDate}</td>
+                <td style="padding:6px 4px;">${convertTo12Hour(t.Fajr)}</td>
+                <td style="padding:6px 4px; color:#64748b;">${convertTo12Hour(t.Sunrise)}</td>
+                <td style="padding:6px 4px;">${convertTo12Hour(t.Dhuhr)}</td>
+                <td style="padding:6px 4px;">${convertTo12Hour(t.Asr)}</td>
+                <td style="padding:6px 4px;">${convertTo12Hour(t.Maghrib)}</td>
+                <td style="padding:6px 4px;">${convertTo12Hour(t.Isha)}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#ef4444;">Failed to load schedule. Try again.</td></tr>`;
+      }
+    }
+
+    function toggle7DaysSalahSchedule() {
+      const container = document.getElementById("sevenDaysContainer");
+      const btn = document.getElementById("btnToggle7Days");
+      if (!container) return;
+
+      if (container.style.display === "none" || container.style.display === "") {
+        container.style.display = "block";
+        btn.innerHTML = `<span>🔼</span> <span>Hide 7 Days Salah Time</span>`;
+        btn.style.background = "#e2e8f0";
+        fetch7DaysSalahTimes();
+      } else {
+        container.style.display = "none";
+        btn.innerHTML = `<span>📅</span> <span>View Next 7 Days Salah Time</span>`;
+        btn.style.background = "#f1f5f9";
+      }
+    }
+
+    function copy7DaysSalahTimes() {
+      const btn = document.getElementById("btnCopy7Days");
+      const siteUrl = window.location.origin + '/';
+
+      if (!nextSevenDaysCache || nextSevenDaysCache.length === 0) {
+        alert("Timetable load ho raha hai, barahe karam thoda sabr karein.");
+        return;
+      }
+
+      let text = `🕌 *7 Days Salah Timetable (${currentDetectedCityName})*\n━━━━━━━━━━━━━━━━━━━━━\n`;
+      nextSevenDaysCache.forEach(item => {
+        const t = item.timings;
+        const g = item.date.gregorian;
+        const dateStr = `${g.day} ${g.month.en} (${g.weekday.en.slice(0,3)})`;
+        text += `📅 *${dateStr}*\nFajr: ${convertTo12Hour(t.Fajr)} | Sunrise: ${convertTo12Hour(t.Sunrise)}\nDhuhr: ${convertTo12Hour(t.Dhuhr)} | Asr: ${convertTo12Hour(t.Asr)}\nMaghrib: ${convertTo12Hour(t.Maghrib)} | Isha: ${convertTo12Hour(t.Isha)}\n\n`;
+      });
+      text += `━━━━━━━━━━━━━━━━━━━━━\n📍 *Aap apne ilake ka check karne ke liye AdeenDesk visit karein:*\n🔗 ${siteUrl}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        if (btn) {
+          const orig = btn.innerHTML;
+          btn.innerHTML = `<span>✅</span> <span>Copied!</span>`;
+          btn.style.background = "#059669";
+          setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.style.background = "#047857";
+          }, 2000);
+        }
+      });
+    }
+
+    async function fetchLocationByIP() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        if (data.latitude && data.longitude) {
+          const city = data.city || data.region || "Local Area";
+          fetchPrayerTimes(data.latitude, data.longitude, city);
+          return true;
+        }
+      } catch (e) {
+        console.warn("IP Geolocation failed:", e);
+      }
+      return false;
+    }
+
+    function useMyLocation() {
+      const choice = confirm("Press [OK] to auto-detect location via GPS.\nPress [CANCEL] to enter your City name manually.");
+      if (!choice) {
+        const customCity = prompt("Enter your City / Town name (e.g. Mumbai, Lucknow, Patna, Dubai):");
+        if (customCity && customCity.trim() !== "") {
+          fetchPrayerByCity(customCity.trim());
+        }
+        return;
+      }
+
+      if (navigator.geolocation) {
+        updateLocationLabels("Tracing GPS...");
+        navigator.geolocation.getCurrentPosition(
+          (pos) => fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "Current Location"),
+          async () => {
+            alert("GPS access not available. Attempting IP detection...");
+            const ipSuccess = await fetchLocationByIP();
+            if (!ipSuccess) loadInitialPrayerTimes();
+          },
+          { timeout: 8000, enableHighAccuracy: false }
+        );
+      } else {
+        fetchLocationByIP();
+      }
+    }
+
+    function loadInitialPrayerTimes() {
+      const savedCity = localStorage.getItem('prayerCity');
+      const savedLat = localStorage.getItem('prayerLat');
+      const savedLng = localStorage.getItem('prayerLng');
+
+      if (savedLat && savedLng) {
+        fetchPrayerTimes(savedLat, savedLng, savedCity || "Saved Location");
+      } else if (savedCity) {
+        fetchPrayerByCity(savedCity);
+      } else {
+        fetchPrayerTimes(28.6139, 77.2090, "Delhi (Default)");
+      }
+    }
+
+    // 5. GALLERY (INDEXEDDB & SWIPE)
+    let db;
+    const DB_NAME = "IslamicCalendarDB";
+    const STORE_NAME = "offlineCharts";
+    let currentGalleryList = [];
+    let currentImageIndex = 0;
+
+    function initIndexedDB() {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = (e) => {
+        const database = e.target.result;
+        if (!database.objectStoreNames.contains(STORE_NAME)) {
+          database.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+        }
+      };
+      req.onsuccess = (e) => {
+        db = e.target.result;
+        loadGalleryImages();
+      };
+      req.onerror = () => console.error("IndexedDB open error");
+    }
+
+    function compressImage(file, callback) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxWidth = 900;
+          let width = img.width;
+          let height = img.height;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL('image/jpeg', 0.72));
+        };
+      };
+    }
+
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const tx = db.transaction(STORE_NAME, "readonly");
+      const store = tx.objectStore(STORE_NAME);
+      const countReq = store.count();
+
+      countReq.onsuccess = () => {
+        if (countReq.result >= 5) {
+          alert("Maximum 5 images allowed. Please delete an older image first.");
+          return;
+        }
+        compressImage(file, (compressedData) => {
+          const addTx = db.transaction(STORE_NAME, "readwrite");
+          const addStore = addTx.objectStore(STORE_NAME);
+          addStore.add({ data: compressedData, timestamp: Date.now() });
+          addTx.oncomplete = () => {
+            loadGalleryImages();
+            document.getElementById('chartFileInput').value = '';
+          };
+        });
+      };
+    }
+
+    function loadGalleryImages() {
+      const tx = db.transaction(STORE_NAME, "readonly");
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.getAll();
+
+      req.onsuccess = () => {
+        currentGalleryList = req.result || [];
+        const grid = document.getElementById('galleryGridContainer');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const countEl = document.getElementById('galleryCountLabel');
+        if (countEl) countEl.innerText = `${currentGalleryList.length} / 5 Saved`;
+
+        currentGalleryList.forEach((item, index) => {
+          const slot = document.createElement('div');
+          slot.className = 'gallery-thumb-slot';
+          slot.innerHTML = `<img src="${item.data}" alt="Saved Chart">`;
+          slot.onclick = () => openLightboxByIndex(index);
+          grid.appendChild(slot);
+        });
+
+        for (let i = currentGalleryList.length; i < 5; i++) {
+          const emptySlot = document.createElement('div');
+          emptySlot.className = 'gallery-thumb-slot';
+          emptySlot.style.color = '#94a3b8';
+          emptySlot.style.fontSize = '0.7rem';
+          emptySlot.innerText = `Slot ${i + 1}`;
+          grid.appendChild(emptySlot);
+        }
+      };
+    }
+
+    function openLightboxByIndex(index) {
+      if (!currentGalleryList || currentGalleryList.length === 0) return;
+      currentImageIndex = index;
+      updateLightboxDisplay();
+      openModal('lightboxModal');
+    }
+
+    function updateLightboxDisplay() {
+      const item = currentGalleryList[currentImageIndex];
+      if (!item) return;
+      const imgEl = document.getElementById('lightboxImg');
+      if (imgEl) imgEl.src = item.data;
+      const titleEl = document.getElementById('lightboxTitle');
+      if (titleEl) titleEl.innerText = `Chart (${currentImageIndex + 1}/${currentGalleryList.length})`;
+    }
+
+    function nextLightboxImage() {
+      if (!currentGalleryList || currentGalleryList.length <= 1) return;
+      currentImageIndex = (currentImageIndex + 1) % currentGalleryList.length;
+      updateLightboxDisplay();
+    }
+
+    function prevLightboxImage() {
+      if (!currentGalleryList || currentGalleryList.length <= 1) return;
+      currentImageIndex = (currentImageIndex - 1 + currentGalleryList.length) % currentGalleryList.length;
+      updateLightboxDisplay();
+    }
+
+    const delBtn = document.getElementById('deleteImageBtn');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        const activeItem = currentGalleryList[currentImageIndex];
+        if (activeItem && confirm("Kya aap is image ko delete karna chahte hain?")) {
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          store.delete(activeItem.id);
+          tx.oncomplete = () => {
+            closeModal('lightboxModal');
+            loadGalleryImages();
+          };
+        }
+      };
+    }
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeArea = document.getElementById('swipeArea');
+    if (swipeArea) {
+      swipeArea.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      swipeArea.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (diff < -40) nextLightboxImage();
+        else if (diff > 40) prevLightboxImage();
+      }, { passive: true });
+    }
+
+    // 6. DAILY ARABIC WORDS & HISTORY MODULES
+    function triggerCopyBtnFeedback(btnId, defaultText) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      btn.innerText = "✅ Copied to Clipboard!";
+      setTimeout(() => { btn.innerText = defaultText; }, 2000);
+    }
+
+    function initTodayHistory() {
+      const box = document.getElementById('homeHistoryBox');
+      const btn = document.getElementById('btnCopyHistory');
+      if (!box) return;
+
+      const hijriInfo = getCleanHijriDate();
+      currentTodayHijriText = hijriInfo.display;
+
+      if (typeof islamicHistoryData === 'undefined' || !Array.isArray(islamicHistoryData)) {
+        box.innerHTML = `<div style="font-size:0.82rem; color:#64748b; padding:4px 0;">Admin ke update ka intzar kare aaj ki history ka. Jazakallah</div>`;
+        if (btn) {
+          btn.disabled = true;
+          btn.style.opacity = "0.5";
+          btn.style.cursor = "not-allowed";
+        }
+        return;
+      }
+
+      const match = islamicHistoryData.find(item => item.hijriDate && item.hijriDate.toLowerCase() === hijriInfo.key.toLowerCase());
+
+      if (match) {
+        currentHistoryMatch = match;
+        box.innerHTML = `
+          <div style="border-left:3px solid #047857; padding-left:8px;">
+            <div style="font-size:0.75rem; font-weight:700; color:#059669;">${sanitizeHTML(match.year || '')} • ${hijriInfo.display}</div>
+            <div style="font-size:0.88rem; font-weight:800; color:#1e293b; margin:2px 0;">${sanitizeHTML(match.title)}</div>
+            <div style="font-size:0.8rem; color:#475569; line-height:1.4;">${sanitizeHTML(match.summary)}</div>
+          </div>
+        `;
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          btn.style.cursor = "pointer";
+        }
+      } else {
+        currentHistoryMatch = null;
+        box.innerHTML = `<div style="font-size:0.82rem; color:#475569; padding:6px 0; font-weight:500;">Admin ke update ka intzar kare aaj ki history ka. Jazakallah</div>`;
+        if (btn) {
+          btn.disabled = true;
+          btn.style.opacity = "0.5";
+          btn.style.cursor = "not-allowed";
+        }
+      }
+    }
+
+    function copyTodayHistory() {
+      if (!currentHistoryMatch) return;
+      const siteUrl = window.location.origin + '/';
+      let msg = `🏛️ *Aaj Ki Islami Tareekh*\n`;
+      if (currentTodayHijriText) msg += `📅 *${currentTodayHijriText}*\n\n`;
+      msg += `📌 *${currentHistoryMatch.title}* (${currentHistoryMatch.year || ''})\n${currentHistoryMatch.summary}\n\n`;
+      msg += `✨ Rozana Islami tareekh aur deeni maloomat ke liye visit karein AdeenDesk:\n🔗 ${siteUrl}`;
+
+      navigator.clipboard.writeText(msg).then(() => {
+        triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy WhatsApp Format');
+      });
+    }
+
+    function initDailyArabicWords() {
+      const box = document.getElementById('homeArabicWordsBox');
+      if (!box) return;
+
+      if (typeof arabicWordsData === 'undefined' || !Array.isArray(arabicWordsData) || arabicWordsData.length === 0) {
+        box.innerHTML = `<p style="font-size:0.8rem; color:#64748b; margin:0; grid-column:span 2;">daily-features-data.js load nahi ho saki.</p>`;
+        return;
+      }
+
+      const d = new Date();
+      const seed = d.getDate() + (d.getMonth() + 1) * 31;
+      const shuffled = [...arabicWordsData].sort((a, b) => {
+        const valA = ((a.word ? a.word.charCodeAt(0) : 1) * seed) % 97;
+        const valB = ((b.word ? b.word.charCodeAt(0) : 1) * seed) % 97;
+        return valA - valB;
+      });
+
+      todaySeededWordsList = shuffled.slice(0, 10);
+      box.innerHTML = todaySeededWordsList.map(item => `
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:7px 5px; text-align:center; min-height:86px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div style="font-size:1.22rem; font-family:'Amiri', serif; color:#064e3b; font-weight:700; line-height:1.2;">${sanitizeHTML(item.word)}</div>
+          <div style="font-size:0.75rem; font-weight:700; color:#334155; margin-top:2px;">${sanitizeHTML(item.trans)}</div>
+          <div style="font-size:0.67rem; color:#64748b; border-top:1px dashed #f1f5f9; padding-top:3px; line-height:1.35;">
+            <div>${sanitizeHTML(item.ur)} • ${sanitizeHTML(item.en)}</div>
+            <div style="color:#059669; font-weight:600; margin-top:1px;">${sanitizeHTML(item.hi || '')}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function copyDailyWords() {
+      const hijriInfo = getCleanHijriDate();
+      const siteUrl = window.location.origin + '/';
+      let msg = `📖 *Roz Marra Ke 10 Arabic Alfaaz*\n📅 *${hijriInfo.display}*\n\n`;
+      if (todaySeededWordsList.length > 0) {
+        todaySeededWordsList.forEach((item, index) => {
+          msg += `${index + 1}. *${item.word}* (${item.trans})\n   Urdu: ${item.ur} | English: ${item.en}\n   Hindi: ${item.hi}\n\n`;
+        });
+      }
+      msg += `💡 Rozana naye Arabic alfaaz aur tarjume sikhne ke liye AdeenDesk visit karein:\n🔗 ${siteUrl}`;
+      navigator.clipboard.writeText(msg).then(() => {
+        triggerCopyBtnFeedback('btnCopyWords', '📋 Copy 10 Words Format');
+      });
+    }
+
+    // 7. SPONSOR & AD ENGINE
+    function renderAdeenSponsorModule() {
+      const container = document.getElementById('adeenSponsorContainer');
+      if (!container) return;
+
+      if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) {
+        renderEmptySponsorPlaceholder(container);
+        return;
+      }
+
+      const activeAds = allSponsorsDatabase.filter(ad => ad.isActive !== false);
+
+      if (activeAds.length === 0) {
+        renderEmptySponsorPlaceholder(container);
+        return;
+      }
+
+      const priorityOrder = { premium: 1, standard: 2, free: 3 };
+      const sorted = [...activeAds].sort((a, b) => {
+        return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
+      });
+
+      const displayAds = sorted.slice(0, 5);
+
+      container.innerHTML = displayAds.map(item => {
+        const hasWhatsApp = item.whatsapp && item.whatsapp.toString().trim() !== "";
+        const cleanNumber = hasWhatsApp ? item.whatsapp.toString().replace(/[^0-9]/g, '') : '';
+        const waLink = hasWhatsApp 
+          ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Assalamu Alaikum, I saw your ad on AdeenDesk.')}`
+          : 'javascript:void(0);';
+
+        if (item.imageUrl && item.imageUrl.trim() !== "") {
+          const clickAction = hasWhatsApp 
+            ? `onclick="window.open('${waLink}', '_blank')"` 
+            : '';
+
+          return `
+            <div class="ad-scroll-card-item">
+              <div style="border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); cursor:${hasWhatsApp ? 'pointer' : 'default'};" ${clickAction}>
+                <img src="${item.imageUrl}" 
+                     alt="${sanitizeHTML(item.title || 'Sponsor Ad')}" 
+                     loading="lazy" 
+                     style="width:100%; height:180px; object-fit:cover; display:block;">
+              </div>
+            </div>
+          `;
+        }
+
+        const isPremium = item.tier === 'premium';
+        const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
+        const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
+
+        const hasYT = item.videoUrl && item.videoUrl.trim() !== "";
+        const hasInsta = item.instagramUrl && item.instagramUrl.trim() !== "";
+        let socialLinksHtml = '';
+
+        if (hasYT || hasInsta) {
+          socialLinksHtml = `
+            <div style="display:flex; align-items:center; gap:8px; margin:6px 0 10px; font-size:0.72rem; color:#475569; font-weight:600;">
+              <span>To Know More Follow:</span>
+              <div style="display:flex; gap:6px; align-items:center;">
+                ${hasYT ? `
+                  <a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" title="Watch on YouTube" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fee2e2; color:#dc2626; width:24px; height:24px; border-radius:50%; font-size:0.75rem;">
+                    ▶
+                  </a>` : ''}
+                ${hasInsta ? `
+                  <a href="${item.instagramUrl}" target="_blank" rel="noopener noreferrer" title="Follow on Instagram" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fce7f3; color:#db2777; width:24px; height:24px; border-radius:50%; font-size:0.8rem; font-weight:bold;">
+                    📷
+                  </a>` : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="ad-scroll-card-item">
+            <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:0.63rem; font-weight:800; color:${isPremium ? '#166534' : '#475569'}; background:${isPremium ? '#dcfce7' : '#e2e8f0'}; padding:2px 6px; border-radius:4px;">
+                    ${sanitizeHTML(item.badgeText || 'Verified Partner')}
+                  </span>
+                  <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category || '')}</span>
+                </div>
+                
+                <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title || '')}</h4>
+                
+                <p style="font-size:0.75rem; color:#334155; margin:0 0 4px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+                  ${sanitizeHTML(item.description || '')}
+                </p>
+
+                ${socialLinksHtml}
+              </div>
+
+              ${hasWhatsApp ? `
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
+                   style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:4px;">
+                  ${sanitizeHTML(item.actionBtnText || '💬 WhatsApp Par Baat Karein')}
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderEmptySponsorPlaceholder(container) {
+      container.innerHTML = `
+        <div style="width:100%; text-align:center; padding:16px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
+          <div style="font-size:1.8rem; margin-bottom:4px;">📢</div>
+          <h4 style="font-size:0.92rem; font-weight:800; color:#1e293b; margin:0 0 4px 0;">No Active Sponsor Currently</h4>
+          <p style="font-size:0.75rem; color:#64748b; margin:0 0 10px 0;">Apne business ya madarsa ko hazaron logon tak pahunchayein.</p>
+          <a href="ads.html" style="display:inline-block; background:#064e3b; color:#ffffff; font-weight:700; font-size:0.75rem; padding:6px 14px; border-radius:6px; text-decoration:none;">Book Ad Slot ➡️</a>
+        </div>
+      `;
+    }
+
+    // 8. EVENT HUB ENGINE
+    const customAnnouncementsList = [
+      {
+        active: true,
+        theme: "hub-theme-red",
+        badge: "ALERT",
+        title: "📢 Hajj Form Notice",
+        message: "Aaj Hajj Ka Form Bharne Ka Last Date Hai. Tamam azmeen ehtiyat se form submit karein.",
+        expiresAt: "2026-09-25T23:59:59"
+      }
+    ];
+
+    function renderSmartEventHub() {
+      const hubEl = document.getElementById('smartEventHub');
+      if (!hubEl) return;
+
+      const d = new Date();
+      const currentHijri = getHijriDetailsByDate(d, hijriOffset);
+      const activeEvents = [];
+
+      const day = d.getDay();
+      const currentMins = d.getHours() * 60 + d.getMinutes();
+      let maghribMins = 18 * 60 + 30;
+
+      let isJummahActive = (day === 4 && currentMins >= maghribMins) || (day === 5 && currentMins < maghribMins);
+      if (isJummahActive) {
+        activeEvents.push({
+          theme: "hub-theme-green",
+          badge: "JUMMAH SPECIAL",
+          title: "🕌 Jummah Mubarak & Sunan",
+          body: "1️⃣ Kasrat se Durood Shareef padhein.<br>2️⃣ Ghusl, Miswak, Ittar aur Saf Libas.<br>3️⃣ Surah Al-Kahf ki tilawat karein.<br>4️⃣ Asr se Maghrib qabooliyat ki ghadi me dua karein.",
+          shareText: "Jummah Mubarak! Aaj Durood, Ghusl, Miswak aur Surah Kahf ki tilawat ka ahtimam karein."
+        });
+      }
+
+      if (currentHijri.day >= 28) {
+        activeEvents.push({
+          theme: "hub-theme-blue",
+          badge: "NEW MOON DUA",
+          title: "🌙 Naya Chand Dekhne Ki Dua",
+          body: "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالأَمْنِ وَالإِيمَانِ وَالسَّلامَةِ وَالإِسْلامِ رَبِّي وَرَبُّكَ اللَّهُ<br><i>(Aye Allah! Is naye chand ko hamare liye aman aur salamati wala bana)</i>",
+          shareText: "Naya Chand Dekhne Ki Masnoon Dua: Allahumma ahillahu alayna bil-amni wal-iman..."
+        });
+      }
+
+      if (currentHijri.monthIndex === 8) {
+        activeEvents.push({
+          theme: "hub-theme-gold",
+          badge: "RAMADAN KAREEM",
+          title: `✨ Ramadan Mubarak - Day ${currentHijri.day}`,
+          body: "Mubarak mahina jaari hai. Roze, Tilawat-e-Quran aur Sadqaat ka ahtimam farmayein.",
+          shareText: `Ramadan Mubarak! Aaj Roza Day ${currentHijri.day} hai.`
+        });
+      }
+
+      if (typeof customAnnouncementsList !== 'undefined' && Array.isArray(customAnnouncementsList)) {
+        customAnnouncementsList.forEach(item => {
+          if (item.active) {
+            const expiryDate = new Date(item.expiresAt);
+            if (d < expiryDate) {
+              activeEvents.push({
+                theme: item.theme || "hub-theme-blue",
+                badge: item.badge || "NOTICE",
+                title: item.title,
+                body: item.message,
+                shareText: `${item.title}: ${item.message}`
+              });
+            }
+          }
+        });
+      }
+
+      if (activeEvents.length === 0) {
+        hubEl.innerHTML = `
+          <div class="event-hub-empty">
+            <span>Yaha Aapko Auto Event Display Jaise Jumma Sunnah, Ramadan Countdown, New Chand Dua, etc. Show Honge</span>
+          </div>
+        `;
+      } else {
+        hubEl.innerHTML = `<div class="event-hub-active-slider">${activeEvents.map((ev, idx) => `
+          <div class="hub-event-card ${ev.theme}">
+            <div class="hub-card-header">
+              <strong>${ev.title}</strong>
+              <span style="background:rgba(255,255,255,0.2); font-size:0.6rem; padding:2px 6px; border-radius:4px; font-weight:700;">${ev.badge}</span>
+            </div>
+            <div class="hub-card-body">${ev.body}</div>
+            <div class="hub-card-footer">
+              <span style="opacity:0.8;">${activeEvents.length > 1 ? `Swipe (${idx + 1}/${activeEvents.length}) 📲` : 'Islamic Notice Hub'}</span>
+              <button onclick="shareNative('${ev.title}', '${ev.shareText}', window.location.href)" style="background:#ffffff; color:#0f172a; border:none; padding:3px 8px; border-radius:4px; font-weight:700; font-size:0.68rem; cursor:pointer;">📤 Share</button>
+            </div>
+          </div>
+        `).join('')}</div>`;
+      }
+    }
+
+    // 9. NEWS & TTS PLAYER ENGINE
+    let currentlyPlayingBtn = null;
+
+    function renderHomeLatestNews() {
+      const container = document.getElementById('homeNewsHeadlinesContainer');
+      const updatedLabel = document.getElementById('homeNewsLastUpdated');
+      
+      if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
+        setTimeout(renderHomeLatestNews, 200);
+        return;
+      }
+      if (!container || !updatedLabel) return;
+
+      updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
+      const latestItems = islamicNewsDatabase.slice(0, 5);
+      container.innerHTML = '';
+
+      latestItems.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'news-headline-item';
+        const sourceHtml = (item.sourceUrl && item.sourceUrl.trim() !== "") 
+          ? `<a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-size:0.65rem; color:#64748b; text-decoration:underline;">Source: ${sanitizeHTML(item.sourceName || 'Link')} ↗</a>` 
+          : '';
+
+        row.innerHTML = `
+          <div style="flex:1;">
+            <div class="news-headline-text">${sanitizeHTML(item.headline)}</div>
+            ${sourceHtml}
+          </div>
+          <div class="news-action-btns">
+            <button class="news-tts-btn" title="Sunne ke liye tap karein" onclick="toggleNewsTTS(this, '${encodeURIComponent(item.headline)}')">🔊</button>
+            <button class="news-share-btn" title="Share karein" onclick="shareNative('Islamic News Update', '${sanitizeHTML(item.headline)}', window.location.href)">📤</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function toggleNewsTTS(btn, textEncoded) {
+      const text = decodeURIComponent(textEncoded);
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        if (currentlyPlayingBtn) {
+          currentlyPlayingBtn.classList.remove('playing');
+          currentlyPlayingBtn.innerText = '🔊';
+        }
+        if (currentlyPlayingBtn === btn) {
+          currentlyPlayingBtn = null;
+          return;
+        }
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'hi-IN';
+      utterance.rate = 0.92;
+
+      btn.classList.add('playing');
+      btn.innerText = '⏹️';
+      currentlyPlayingBtn = btn;
+
+      utterance.onend = utterance.onerror = () => {
+        btn.classList.remove('playing');
+        btn.innerText = '🔊';
+        currentlyPlayingBtn = null;
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // 10. ISLAMIC CONTENT ENGINE
+    function renderIslamicFeaturedContent() {
+      if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
+        setTimeout(renderIslamicFeaturedContent, 150);
+        return;
+      }
+
+      // 1. Waqiya
+      if (typeof waqiatDatabase !== 'undefined' && waqiatDatabase.length > 0) {
+        const w = waqiatDatabase[0];
+        document.getElementById('homeWaqiyaDate').innerText = w.date;
+        document.getElementById('homeWaqiyaTitle').innerText = w.title;
+        document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
+      }
+
+      // 2. Aaj Ki Acchi Baat (Random Pickup & Synced Live Dates)
+      const box = document.getElementById('homeSweetWordBox');
+      if (box) {
+        const randomIndex = Math.floor(Math.random() * acchiBaatDatabase.length);
+        currentActiveAcchiBaat = acchiBaatDatabase[randomIndex];
+
+        const d = new Date();
+        const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+
+        const hij = getHijriDetailsByDate(d, hijriOffset);
+        const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
+        const liveHijriDateStr = `${hij.day} ${cleanHijriName}`;
+
+        let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
+
+        box.innerHTML = `
+          <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
+          <div class="sweet-meta">🌙 ${liveHijriDateStr} | ☀ ${liveEngDateStr}</div>
+          <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Sweet Word 💧🌺</div>
+          ${linesHtml}
+          <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(currentActiveAcchiBaat.closingDua || '')}</div>
+        `;
+      }
+
+      // 3. Hadees
+      if (typeof hadeesDatabase !== 'undefined' && hadeesDatabase.length > 0) {
+        const h = hadeesDatabase[0];
+        document.getElementById('homeHadeesRef').innerText = h.reference;
+        document.getElementById('homeHadeesArabic').innerText = h.arabic;
+        document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
+        document.getElementById('homeHadeesWazahat').innerText = `Wazahat: ${h.wazahat}`;
+      }
+    }
+
+    function toggleInlineWaqiya() {
+      const fullBox = document.getElementById('homeWaqiyaFullContainer');
+      const btn = document.getElementById('toggleWaqiyaBtn');
+      if (!fullBox || typeof waqiatDatabase === 'undefined' || waqiatDatabase.length === 0) return;
+
+      isWaqiyaExpanded = !isWaqiyaExpanded;
+      if (isWaqiyaExpanded) {
+        fullBox.innerText = waqiatDatabase[0].fullStory;
+        fullBox.style.display = 'block';
+        btn.innerText = 'Mukhtasar Karein 🔼';
+      } else {
+        fullBox.style.display = 'none';
+        btn.innerText = 'Poora Waqiya Padhein 📖';
+      }
+    }
+
+    // 🟢 Fixed: Copy & Share sync with live random active quote
+    function copyAcchiBaatWhatsApp() {
+      if (!currentActiveAcchiBaat) return;
+      const d = new Date();
+      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const liveEng = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+      const hij = getHijriDetailsByDate(d, hijriOffset);
+      const cleanHij = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
+
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${hij.day} ${cleanHij} 🌙*\n*☀ ${liveEng} ☀*\n*🌺💧💧 SωєєT ωσR∂ 💧💧🌺*\n\n${currentActiveAcchiBaat.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${currentActiveAcchiBaat.closingDua || ''}_\n🌺💦💠💦💠🌹💦💠💦💠🌺\n\nAdeenDesk Dashboard visit karein:\n${window.location.href}`;
+      navigator.clipboard.writeText(txt).then(() => alert("WhatsApp format me copy ho gaya!"));
+    }
+
+    function shareAcchiBaatDirect() {
+      if (!currentActiveAcchiBaat) return;
+      const d = new Date();
+      const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const liveEng = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+      const hij = getHijriDetailsByDate(d, hijriOffset);
+      const cleanHij = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
+
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${hij.day} ${cleanHij} 🌙*\n*☀ ${liveEng} ☀*\n\n${currentActiveAcchiBaat.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${currentActiveAcchiBaat.closingDua || ''}_\n\n${window.location.href}`;
+      if (navigator.share) {
+        navigator.share({ title: "Aaj Ki Acchi Baat", text: txt, url: window.location.href });
+      } else {
+        copyAcchiBaatWhatsApp();
+      }
+    }
+
+    function shareFeaturedWaqiya() {
+      if (typeof waqiatDatabase === 'undefined' || waqiatDatabase.length === 0) return;
+      const w = waqiatDatabase[0];
+      const txt = `📖 *${w.title}*\n\n${w.snippet}\n\nMukammal waqiya AdeenDesk par padhein:\n${window.location.href}`;
+      shareNative(w.title, txt, window.location.href);
+    }
+
+    function shareFeaturedHadees() {
+      if (typeof hadeesDatabase === 'undefined' || hadeesDatabase.length === 0) return;
+      const h = hadeesDatabase[0];
+      const txt = `📜 *Hadees-e-Mubarak*\n\n${h.arabic}\n\n*Tarjuma:* ${h.tarjuma}\n*Hawala:* ${h.reference}\n\nRozana Hadees ke liye AdeenDesk visit karein:\n${window.location.href}`;
+      shareNative("Hadees Sharif", txt, window.location.href);
+    }
+
+    // 11. QUIZ & UTILITIES
+    function checkDemoQuiz(btn, isCorrect) {
+      const container = document.getElementById('homeDemoQuizOptions');
+      const fb = document.getElementById('demoQuizFeedback');
+      container.querySelectorAll('button').forEach(b => {
+        b.disabled = true;
+        b.style.cursor = 'default';
+      });
+
+      if (isCorrect) {
+        btn.style.background = '#dcfce7';
+        btn.style.borderColor = '#22c55e';
+        btn.style.color = '#15803d';
+        fb.innerHTML = '✅ <strong>Masha Allah bilkul sahi!</strong> (Sahih Muslim: Hadees 223)';
+        fb.style.color = '#15803d';
+      } else {
+        btn.style.background = '#fee2e2';
+        btn.style.borderColor = '#ef4444';
+        btn.style.color = '#b91c1c';
+        fb.innerHTML = '❌ <strong>Galat!</strong> Sahi jawab <strong>B) Imaan</strong> hai.';
+        fb.style.color = '#b91c1c';
+      }
+      fb.style.display = 'block';
+    }
+
+    let tasbeehCount = parseInt(localStorage.getItem('tasbeeh_count') || '0', 10);
+    const tasDisplay = document.getElementById('tasbeehDisplay');
+    if (tasDisplay) tasDisplay.innerText = tasbeehCount;
+
+    function processTasbeehTap() {
+      tasbeehCount++;
+      if (navigator.vibrate) navigator.vibrate(35);
+      document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
+      localStorage.setItem('tasbeeh_count', tasbeehCount);
+    }
+
+    function resetTasbeehCount() {
+      tasbeehCount = 0;
+      document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
+      localStorage.setItem('tasbeeh_count', 0);
+    }
+
+    function calculateZakatPayable() {
+      const cashValue = parseFloat(document.getElementById('zkCash').value) || 0;
+      const goldValue = parseFloat(document.getElementById('zkGold').value) || 0;
+      const debtValue = parseFloat(document.getElementById('zkDebt').value) || 0;
+      const netSavings = Math.max(0, (cashValue + goldValue) - debtValue);
+      document.getElementById('zkTotalDisplay').innerText = (netSavings * 0.025).toFixed(2);
+    }
+
+    function openQiblaModal() {
+      openModal('qiblaModal');
+      if (window.DeviceOrientationEvent && window.screen.width < 768) {
+        window.addEventListener('deviceorientation', (e) => {
+          if (e.alpha !== null) {
+            const heading = Math.round(-e.alpha + 285);
+            const dial = document.getElementById('compassDial');
+            if (dial) dial.style.transform = `rotate(${heading}deg)`;
+          }
+        });
+      }
+    }
+
+    function extractYouTubeID(url) {
+      if (!url) return null;
+      const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = url.match(regExp);
+      return match ? match[1] : null;
+    }
+
+    function playYouTubeInline(vidId, element) {
+      element.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen style="border-radius:8px;"></iframe>`;
+    }
+
+    // 🟢 Fixed: Clean YouTube title fetch without redundant broken calls
+    async function fetchYouTubeTitle(vidId, fallback) {
+      try {
+        const cleanRes = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${vidId}`);
+        const data = await cleanRes.json();
+        if (data && data.title && data.title.trim() !== "") {
+          return data.title;
+        }
+      } catch (e) {}
+      return fallback || "Islamic Video / Lecture";
+    }
+
+    async function renderRandomHomeVideos() {
+      const container = document.getElementById('homeYtScrollContainer');
+      if (!container) return;
+
+      if (typeof islamicVideosDatabase === 'undefined' || !Array.isArray(islamicVideosDatabase) || islamicVideosDatabase.length === 0) {
+        container.innerHTML = `<p style="font-size:0.78rem; color:#64748b; padding:10px;">Videos list load nahi ho saki.</p>`;
+        return;
+      }
+
+      const shuffled = [...islamicVideosDatabase].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 5);
+
+      container.innerHTML = selected.map((item, idx) => {
+        const vidId = extractYouTubeID(item.url);
+        if (!vidId) return '';
+
+        const autoThumb = `https://img.youtube.com/vi/${vidId}/hqdefault.jpg`;
+        const ytAppUrl = `https://youtu.be/${vidId}`;
+        const cardTitleId = `ytTitleText_${idx}`;
+
+        return `
+          <div class="yt-scroll-card">
+            <div class="yt-thumb-facade" onclick="playYouTubeInline('${vidId}', this)">
+              <img src="${autoThumb}" alt="Video Thumbnail" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+              <div class="play-badge">▶</div>
+            </div>
+            
+            <div class="yt-meta">
+              <div class="yt-card-title" id="${cardTitleId}">${sanitizeHTML(item.fallbackTitle || 'Loading title...')}</div>
+              
+              <div class="yt-share-btn-row">
+                <a href="${ytAppUrl}" target="_blank" rel="noopener noreferrer" 
+                   style="font-size:0.65rem; color:#dc2626; font-weight:800; text-decoration:none; display:inline-flex; align-items:center; gap:3px;">
+                  <span>📺</span> Open YouTube
+                </a>
+                
+                <button class="yt-share-icon-btn" onclick="shareYouTubeFull(document.getElementById('${cardTitleId}').innerText, '${ytAppUrl}')" title="Share Video">
+                  📤
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      selected.forEach(async (item, idx) => {
+        const vidId = extractYouTubeID(item.url);
+        if (!vidId) return;
+        const titleEl = document.getElementById(`ytTitleText_${idx}`);
+        if (titleEl) {
+          const realTitle = await fetchYouTubeTitle(vidId, item.fallbackTitle);
+          titleEl.innerText = realTitle;
+        }
+      });
+    }
+
+    function openArticleModal(id) {
+      const article = articlesData[id];
+      currentModalActiveArticle = article;
+      document.getElementById('artTitle').innerText = article.title;
+      document.getElementById('artBody').innerHTML = article.body;
+      openModal('articleModal');
+    }
+
+    function saveDateNote() {
+      const input = document.getElementById('noteInput');
+      if (activeDateNoteKey && input) {
+        localStorage.setItem(activeDateNoteKey, input.value.trim());
+        closeModal('noteModal');
+        renderEnglishCalendarGrid();
+      }
+    }
+
+    function switchSiteLanguage(lang) {
+      localStorage.setItem('adeendesk_lang', lang);
+      if (lang === 'ur') window.location.href = 'indexurdu.html';
+      else if (lang === 'hi') window.location.href = 'indexhindi.html';
+      else if (lang === 'en') window.location.href = 'index.html?lang=en';
+      else window.location.href = 'index.html';
+    }
+
+    function closeDrawer() {
+      document.getElementById('sideDrawer').style.right = '-280px';
+      document.getElementById('drawerOverlay').classList.remove('active');
+    }
+
+    // 12. INITIALIZATION PIPELINE
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Calendar Inits
+      const initHijri = getHijriDetailsByDate(now, hijriOffset);
+      selectedEngMonth = now.getMonth();
+      selectedEngYear = now.getFullYear();
+      selectedHijriMonthIndex = initHijri.monthIndex;
+      selectedHijriYear = initHijri.year;
+
+      renderEnglishCalendarTabs();
+      renderHijriCalendarTabs();
+      renderEnglishCalendarGrid();
+      renderHijriCalendarGrid();
+
+      // 2. Clocks & Prayers
+      updateLiveDashboardClocks();
+      updateAsrSwitchUI();
+      loadInitialPrayerTimes();
+
+      // 3. Dynamic Modules
+      initTodayHistory();
+      initDailyArabicWords();
+      renderAdeenSponsorModule();
+      renderSmartEventHub();
+      renderHomeLatestNews();
+      renderIslamicFeaturedContent();
+      renderRandomHomeVideos();
+      initIndexedDB();
+
+      // 4. Listeners & Hooks
+      document.getElementById('openMenuBtn').onclick = () => {
+        document.getElementById('sideDrawer').style.right = '0';
+        document.getElementById('drawerOverlay').classList.add('active');
+      };
+
+      document.getElementById('hijriOffsetSelect').onchange = (e) => {
+        hijriOffset = parseInt(e.target.value, 10);
+        localStorage.setItem('hijri_offset', hijriOffset);
+        renderHijriCalendarGrid();
+        updateLiveDashboardClocks();
+        renderSmartEventHub();
+      };
+
+      document.querySelectorAll('.dua-cat-btn').forEach(b => {
+        b.onclick = () => {
+          document.querySelectorAll('.dua-cat-btn').forEach(btn => btn.classList.remove('active'));
+          b.classList.add('active');
+          const cat = b.getAttribute('data-cat');
+          document.getElementById('duaArabic').innerText = duasData[cat].ar;
+          document.getElementById('duaTranslit').innerText = duasData[cat].tr;
+          document.getElementById('duaTranslate').innerText = duasData[cat].en;
+        };
+      });
+
+      // 🟢 Fixed: Month navigation handles Year increment/decrement
+      document.getElementById('engPrev').onclick = () => { 
+        if (selectedEngMonth === 0) {
+          selectedEngMonth = 11;
+          selectedEngYear--;
+        } else {
+          selectedEngMonth--;
+        }
+        renderEnglishCalendarTabs(); 
+        renderEnglishCalendarGrid(); 
+      };
+
+      document.getElementById('engNext').onclick = () => { 
+        if (selectedEngMonth === 11) {
+          selectedEngMonth = 0;
+          selectedEngYear++;
+        } else {
+          selectedEngMonth++;
+        }
+        renderEnglishCalendarTabs(); 
+        renderEnglishCalendarGrid(); 
+      };
+
+      document.getElementById('hijriPrev').onclick = () => { 
+        if (selectedHijriMonthIndex === 0) {
+          selectedHijriMonthIndex = 11;
+          selectedHijriYear--;
+        } else {
+          selectedHijriMonthIndex--;
+        }
+        renderHijriCalendarTabs(); 
+        renderHijriCalendarGrid(); 
+      };
+
+      document.getElementById('hijriNext').onclick = () => { 
+        if (selectedHijriMonthIndex === 11) {
+          selectedHijriMonthIndex = 0;
+          selectedHijriYear++;
+        } else {
+          selectedHijriMonthIndex++;
+        }
+        renderHijriCalendarTabs(); 
+        renderHijriCalendarGrid(); 
+      };
+
+      document.getElementById('scrollLeftWorld').onclick = () => document.getElementById('worldScroll').scrollBy({ left: -120, behavior: 'smooth' });
+      document.getElementById('scrollRightWorld').onclick = () => document.getElementById('worldScroll').scrollBy({ left: 120, behavior: 'smooth' });
+
+      // Intervals
+      setInterval(updateLiveDashboardClocks, 1000);
+      setInterval(renderSmartEventHub, 60000);
+    });
+  </script>
+</body>
+</html>
