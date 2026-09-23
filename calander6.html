@@ -2118,10 +2118,11 @@
         };
         el.appendChild(btn);
 
+        // ✅ Page scroll nahi hoga, sirf strip ke andar button center me set hoga
         if (isActive) {
           setTimeout(() => {
-            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-          }, 80);
+            el.scrollLeft = btn.offsetLeft - (el.clientWidth / 2) + (btn.clientWidth / 2);
+          }, 50);
         }
       });
     }
@@ -2216,10 +2217,11 @@
         };
         el.appendChild(btn);
 
+        // ✅ Page scroll nahi hoga, sirf strip ke andar button center me set hoga
         if (isActive) {
           setTimeout(() => {
-            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-          }, 80);
+            el.scrollLeft = btn.offsetLeft - (el.clientWidth / 2) + (btn.clientWidth / 2);
+          }, 50);
         }
       });
     }
