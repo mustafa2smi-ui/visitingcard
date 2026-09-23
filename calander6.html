@@ -1728,19 +1728,6 @@ body {
       <a href="islamicnews.html" class="more-news-btn">Read All Archive & Full News ➡️</a>
     </section>
 
-    <!-- 📢 18. AdeenDesk Sponsor Section (id="sec-sponsor") --
-    <section class="portal-card" id="sec-sponsor">
-      <div class="unified-blue-header">
-        <span>📢 Sponsor & Community Partner</span>
-        <a href="ads.html" style="background:#ffffff; color:#064e3b; font-size:0.68rem; font-weight:800; text-decoration:none; padding:3px 8px; border-radius:4px;">
-          ✨ Click Now to Sponsor
-        </a>
-      </div>
-
-      <div id="adeenSponsorContainer"></div>
-    </section>
--->
-
     <footer id="finalFooter">
       <p>&copy; 2026 <strong>AdeenDesk</strong>. All Islamic events & dates are subject to regional moon visibility.</p>
       <div class="foot-info">All World Times are sourced from International Databases. Prayer timings are approximate based on Astronomical Calculations (Aladhan Open API).</div>
@@ -2150,13 +2137,6 @@ body {
           renderEnglishCalendarGrid(); 
         };
         el.appendChild(btn);
-/*
-        if (idx === selectedEngMonth) {
-          setTimeout(() => {
-            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          }, 150);
-        }
-        */
       });
     }
 
@@ -2247,13 +2227,6 @@ body {
           renderHijriCalendarGrid(); 
         };
         el.appendChild(btn);
-/*
-        if (idx === selectedHijriMonthIndex) {
-          setTimeout(() => {
-            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          }, 150);
-        }
-        */
       });
     }
 
@@ -2887,56 +2860,6 @@ body {
       emptyMessage: "Abhi Koi Sponsor / Ads Available Nahi Hai.",
       emptySubtext: "Apne business, madrasa ya services ko hazaron logon tak pahunchane ke liye click karein."
     };
-/*
-    function renderAdeenSponsorModule() {
-      const container = document.getElementById('adeenSponsorContainer');
-      if (!container) return;
-      const mode = adSettings.activeType;
-
-      if (mode === "empty") {
-        container.innerHTML = `
-          <div style="text-align:center; padding:18px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
-            <div style="font-size:1.8rem; margin-bottom:6px;">📢</div>
-            <h4 style="font-size:0.95rem; font-weight:800; color:#1e293b; margin:0 0 6px 0;">${adSettings.emptyMessage}</h4>
-            <p style="font-size:0.78rem; color:#64748b; margin:0 0 12px 0; line-height:1.4;">${adSettings.emptySubtext}</p>
-            <a href="ads.html" style="display:inline-block; background:#064e3b; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 16px; border-radius:6px; text-decoration:none;">
-              Yahan Apna Ad Lagayein ➡️
-            </a>
-          </div>
-        `;
-        return;
-      }
-
-      if (mode === "text") {
-        const data = adSettings.textDemo;
-        const waLink = `https://wa.me/${data.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Assalamu Alaikum, I saw your ad on AdeenDesk.')}`;
-        container.innerHTML = `
-          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.68rem; font-weight:800; color:#166534; background:#dcfce7; padding:2px 7px; border-radius:4px;">${data.badgeText}</span>
-            </div>
-            <h3 style="font-size:1rem; font-weight:800; color:#064e3b; margin:0 0 6px 0;">${sanitizeHTML(data.title)}</h3>
-            <p style="font-size:0.82rem; color:#334155; margin:0 0 12px 0; line-height:1.5;">${sanitizeHTML(data.description)}</p>
-            <a href="${waLink}" target="_blank" rel="noopener noreferrer" style="display:block; text-align:center; background:#047857; color:#ffffff; font-weight:800; font-size:0.8rem; padding:9px 0; border-radius:7px; text-decoration:none;">
-              ${sanitizeHTML(data.actionBtnText)}
-            </a>
-          </div>
-        `;
-        return;
-      }
-
-      if (mode === "image") {
-        const data = adSettings.imageDemo;
-        container.innerHTML = `
-          <div>
-            <a href="${data.targetUrl}" target="_blank" rel="noopener noreferrer" style="display:block;">
-              <img src="${data.imageUrl}" alt="${sanitizeHTML(data.title)}" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
-            </a>
-          </div>
-        `;
-      }
-    }
-*/
     
 
     function renderAdeenSponsorModule() {
@@ -3167,43 +3090,7 @@ body {
       };
       window.speechSynthesis.speak(utterance);
     }
-/*
-    // 10. ISLAMIC CONTENT (WAQIAT, ACCHI BAAT, HADEES)
-    function renderIslamicFeaturedContent() {
-      if (typeof waqiatDatabase === 'undefined' || typeof acchiBaatDatabase === 'undefined' || typeof hadeesDatabase === 'undefined') {
-        setTimeout(renderIslamicFeaturedContent, 200);
-        return;
-      }
 
-      if (waqiatDatabase.length > 0) {
-        const w = waqiatDatabase[0];
-        document.getElementById('homeWaqiyaDate').innerText = w.date;
-        document.getElementById('homeWaqiyaTitle').innerText = w.title;
-        document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
-      }
-
-      if (acchiBaatDatabase.length > 0) {
-        const a = acchiBaatDatabase[0];
-        const box = document.getElementById('homeSweetWordBox');
-        let linesHtml = a.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
-        box.innerHTML = `
-          <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
-          <div class="sweet-meta">🌙 ${a.hijriDate} | ☀ ${a.date}</div>
-          <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Sweet Word 💧🌺</div>
-          ${linesHtml}
-          <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(a.closingDua)}</div>
-        `;
-      }
-
-      if (hadeesDatabase.length > 0) {
-        const h = hadeesDatabase[0];
-        document.getElementById('homeHadeesRef').innerText = h.reference;
-        document.getElementById('homeHadeesArabic').innerText = h.arabic;
-        document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
-        document.getElementById('homeHadeesWazahat').innerText = `Wazahat: ${h.wazahat}`;
-      }
-    }
-*/
     // index.html ke script me yeh logic rahega:
 let currentActiveAcchiBaat = null;
     
@@ -3234,9 +3121,10 @@ function renderIslamicFeaturedContent() {
     const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
 
-    // Live Hijri Date
-    const hijriInfo = getCleanHijriDate();
-    const liveHijriDateStr = hijriInfo.display;
+    // ✅ Live Hijri Date (Offset Synchronized - Bilkul Calendar wala result aayega)
+    const hij = getHijriDetailsByDate(d, hijriOffset);
+    const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
+    const liveHijriDateStr = `${hij.day} ${cleanHijriName}`;
 
     let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
 
@@ -3368,11 +3256,7 @@ function renderIslamicFeaturedContent() {
         });
       }
     }
-/*
-    function loadYouTubeVideo(videoId, element) {
-      element.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-    }
-    */
+
 // 1. YouTube Link se ID nikalne ka master regex (Normal, Short, ya Share Link)
 function extractYouTubeID(url) {
   if (!url) return null;
