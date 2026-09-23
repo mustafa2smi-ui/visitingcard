@@ -2847,73 +2847,128 @@ function renderAdeenSponsorModule() {
   const container = document.getElementById('adeenSponsorContainer');
   if (!container) return;
 
-  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase) || allSponsorsDatabase.length === 0) {
-    container.innerHTML = `
-      <div style="width:100%; text-align:center; padding:16px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
-        <div style="font-size:1.8rem; margin-bottom:4px;">📢</div>
-        <h4 style="font-size:0.92rem; font-weight:800; color:#1e293b; margin:0 0 4px 0;">No Active Sponsor Currently</h4>
-        <p style="font-size:0.75rem; color:#64748b; margin:0 0 10px 0;">Apne business ya madarsa ko hazaron logon tak pahunchayein.</p>
-        <a href="ads.html" style="display:inline-block; background:#064e3b; color:#ffffff; font-weight:700; font-size:0.75rem; padding:6px 14px; border-radius:6px; text-decoration:none;">Book Ad Slot ➡️</a>
-      </div>
-    `;
+  // 1. Data check
+  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) {
+    renderEmptySponsorPlaceholder(container);
     return;
   }
 
+  // 2. Active Ads Filter (isActive === false walo ko nikaal dega)
+  const activeAds = allSponsorsDatabase.filter(ad => ad.isActive !== false);
+
+  if (activeAds.length === 0) {
+    renderEmptySponsorPlaceholder(container);
+    return;
+  }
+
+  // 3. Priority Sort: Premium -> Standard -> Free
   const priorityOrder = { premium: 1, standard: 2, free: 3 };
-  const sorted = [...allSponsorsDatabase].sort((a, b) => {
+  const sorted = [...activeAds].sort((a, b) => {
     return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
   });
 
   const displayAds = sorted.slice(0, 5);
 
   container.innerHTML = displayAds.map(item => {
-    const waLink = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Assalamu Alaikum, I saw your ad on AdeenDesk.')}`;
+    // WhatsApp redirect link banana
+    const hasWhatsApp = item.whatsapp && item.whatsapp.toString().trim() !== "";
+    const cleanNumber = hasWhatsApp ? item.whatsapp.toString().replace(/[^0-9]/g, '') : '';
+    const waLink = hasWhatsApp 
+      ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Assalamu Alaikum, I saw your ad on AdeenDesk.')}`
+      : 'javascript:void(0);';
+
+    // ==========================================
+    // 🖼️ CONDITION 1: PURE POSTER BANNER MODE
+    // ==========================================
+    if (item.imageUrl && item.imageUrl.trim() !== "") {
+      const clickAction = hasWhatsApp 
+        ? `onclick="window.open('${waLink}', '_blank')"` 
+        : '';
+
+      return `
+        <div class="ad-scroll-card-item">
+          <div style="border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); cursor:${hasWhatsApp ? 'pointer' : 'default'};" ${clickAction}>
+            <img src="${item.imageUrl}" 
+                 alt="${sanitizeHTML(item.title || 'Sponsor Ad')}" 
+                 loading="lazy" 
+                 style="width:100%; height:180px; object-fit:cover; display:block;">
+          </div>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 📝 CONDITION 2: STANDARD / PREMIUM TEXT CARD
+    // ==========================================
     const isPremium = item.tier === 'premium';
     const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
     const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
 
-    // 1. Agar Image URL di ho to poster banner generate karein
-    const imageBannerHtml = (item.imageUrl && item.imageUrl.trim() !== "")
-      ? `<div style="margin:-12px -12px 10px -12px; max-height:140px; overflow:hidden; border-top-left-radius:9px; border-top-right-radius:9px;">
-           <img src="${item.imageUrl}" alt="${sanitizeHTML(item.title)}" loading="lazy" style="width:100%; height:140px; object-fit:cover; display:block;">
-         </div>`
-      : '';
+    // Social Links Icons (YouTube & Instagram)
+    const hasYT = item.videoUrl && item.videoUrl.trim() !== "";
+    const hasInsta = item.instagramUrl && item.instagramUrl.trim() !== "";
+    let socialLinksHtml = '';
 
-    // 2. Agar Video URL di ho to watch video button generate karein
-    const videoBtnHtml = (item.videoUrl && item.videoUrl.trim() !== "") 
-      ? `<a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block; font-size:0.7rem; color:#dc2626; font-weight:700; text-decoration:none; margin-bottom:8px;">▶ Watch Demo Video</a>` 
-      : '';
+    if (hasYT || hasInsta) {
+      socialLinksHtml = `
+        <div style="display:flex; align-items:center; gap:8px; margin:6px 0 10px; font-size:0.72rem; color:#475569; font-weight:600;">
+          <span>To Know More Follow:</span>
+          <div style="display:flex; gap:6px; align-items:center;">
+            ${hasYT ? `
+              <a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" title="Watch on YouTube" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fee2e2; color:#dc2626; width:24px; height:24px; border-radius:50%; font-size:0.75rem;">
+                ▶
+              </a>` : ''}
+            ${hasInsta ? `
+              <a href="${item.instagramUrl}" target="_blank" rel="noopener noreferrer" title="Follow on Instagram" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fce7f3; color:#db2777; width:24px; height:24px; border-radius:50%; font-size:0.8rem; font-weight:bold;">
+                📷
+              </a>` : ''}
+          </div>
+        </div>
+      `;
+    }
 
     return `
       <div class="ad-scroll-card-item">
         <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">
           <div>
-            ${imageBannerHtml}
-
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
               <span style="font-size:0.63rem; font-weight:800; color:${isPremium ? '#166534' : '#475569'}; background:${isPremium ? '#dcfce7' : '#e2e8f0'}; padding:2px 6px; border-radius:4px;">
-                ${sanitizeHTML(item.badgeText)}
+                ${sanitizeHTML(item.badgeText || 'Verified Partner')}
               </span>
-              <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category)}</span>
+              <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category || '')}</span>
             </div>
             
-            <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title)}</h4>
+            <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title || '')}</h4>
             
-            <p style="font-size:0.75rem; color:#334155; margin:0 0 6px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
-              ${sanitizeHTML(item.description)}
+            <p style="font-size:0.75rem; color:#334155; margin:0 0 4px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+              ${sanitizeHTML(item.description || '')}
             </p>
 
-            ${videoBtnHtml}
+            ${socialLinksHtml}
           </div>
 
-          <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
-             style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:6px;">
-            ${sanitizeHTML(item.actionBtnText || 'Contact Now')}
-          </a>
+          ${hasWhatsApp ? `
+            <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
+               style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:4px;">
+              ${sanitizeHTML(item.actionBtnText || '💬 WhatsApp Par Baat Karein')}
+            </a>
+          ` : ''}
         </div>
       </div>
     `;
   }).join('');
+}
+
+// Khali container ka placeholder function
+function renderEmptySponsorPlaceholder(container) {
+  container.innerHTML = `
+    <div style="width:100%; text-align:center; padding:16px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
+      <div style="font-size:1.8rem; margin-bottom:4px;">📢</div>
+      <h4 style="font-size:0.92rem; font-weight:800; color:#1e293b; margin:0 0 4px 0;">No Active Sponsor Currently</h4>
+      <p style="font-size:0.75rem; color:#64748b; margin:0 0 10px 0;">Apne business ya madarsa ko hazaron logon tak pahunchayein.</p>
+      <a href="ads.html" style="display:inline-block; background:#064e3b; color:#ffffff; font-weight:700; font-size:0.75rem; padding:6px 14px; border-radius:6px; text-decoration:none;">Book Ad Slot ➡️</a>
+    </div>
+  `;
 }
     // 8. EVENT HUB ENGINE
     const customAnnouncementsList = [
