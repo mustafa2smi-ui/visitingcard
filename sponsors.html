@@ -7,66 +7,161 @@
   <link rel="icon" type="image/png" href="icon-192.png">
   <script src="daily-features-data.js"></script>
   <style>
-    :root { --primary: #064e3b; --bg: #f0f4f9; --border: #e2e8f0; }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-    body { background: var(--bg); color: #1e293b; padding: 14px; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 650px; }
-    .header-box { background: #fff; padding: 16px; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 14px; }
-    .sec-title { font-size: 0.85rem; font-weight: 800; color: #064e3b; text-transform: uppercase; margin: 14px 0 8px; display: flex; align-items: center; gap: 6px; }
-    .partner-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+    :root { 
+      --primary: #064e3b; 
+      --bg: #f8fafc; 
+      --border: #e2e8f0; 
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 8px 6px 40px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 600px; }
+    
+    .header-box { background: #fff; padding: 14px; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .sec-title { font-size: 0.82rem; font-weight: 800; color: #064e3b; text-transform: uppercase; margin: 14px 2px 6px; display: flex; align-items: center; justify-content: space-between; }
+    
+    .partner-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
     .partner-card.premium { border-left: 4px solid #10b981; }
     .partner-card.standard { border-left: 4px solid #3b82f6; }
     .partner-card.free { border-left: 4px solid #94a3b8; }
-    .badge { font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
-    .btn-wa { display: inline-block; background: #047857; color: #fff; text-decoration: none; padding: 6px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 6px; margin-top: 8px; }
+    
+    .badge { font-size: 0.63rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+    .btn-wa { display: block; text-align: center; background: #047857; color: #fff; text-decoration: none; padding: 7px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 6px; margin-top: 8px; }
+    .btn-wa.standard-btn { background: #0f172a; }
+
+    .empty-tier { font-size: 0.72rem; color: var(--muted); background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 10px; }
   </style>
 </head>
 <body>
 
 <div class="container">
   <div class="header-box">
-    <a href="index.html" style="font-size:0.75rem; color:var(--primary); font-weight:700; text-decoration:none;">← Back to Dashboard</a>
-    <h1 style="font-size:1.15rem; color:#064e3b; font-weight:800; margin-top:4px;">Verified Community Partners</h1>
-    <p style="font-size:0.75rem; color:#64748b;">Browse authentic Islamic academies, services, and charities.</p>
+    <a href="index.html" style="font-size:0.75rem; color:var(--primary); font-weight:700; text-decoration:none; display:inline-block; margin-bottom:4px;">← Back to Dashboard</a>
+    <h1 style="font-size:1.15rem; color:#064e3b; font-weight:800; margin-top:2px;">Verified Community Partners</h1>
+    <p style="font-size:0.75rem; color:#64748b;">Browse authentic Islamic academies, books, and verified services.</p>
+    <a href="ads.html" style="display:inline-block; font-size:0.72rem; color:#0284c7; font-weight:700; text-decoration:none; margin-top:6px;">+ Apply for Listing / Sponsorship ↗</a>
   </div>
 
   <!-- Containers divided by Tier -->
-  <div class="sec-title">⭐ Premium Partners</div>
+  <div class="sec-title">
+    <span>⭐ Premium Partners</span>
+  </div>
   <div id="premiumSponsorsList"></div>
 
-  <div class="sec-title">🔷 Verified Educational Services</div>
+  <div class="sec-title">
+    <span>🔷 Verified Services & Academies</span>
+  </div>
   <div id="standardSponsorsList"></div>
 
-  <div class="sec-title">📌 Community Notices & Groups</div>
+  <div class="sec-title">
+    <span>📌 Community Notices & Groups</span>
+  </div>
   <div id="freeSponsorsList"></div>
 </div>
 
 <script>
+// XSS Sanitizer
+function sanitizeText(str) {
+  if (!str) return '';
+  return String(str).replace(/[&<>"']/g, m => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[m]);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const pList = document.getElementById('premiumSponsorsList');
   const sList = document.getElementById('standardSponsorsList');
   const fList = document.getElementById('freeSponsorsList');
 
-  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) return;
+  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) {
+    pList.innerHTML = `<div class="empty-tier">No partners found.</div>`;
+    return;
+  }
 
-  allSponsorsDatabase.forEach(item => {
-    const wa = `https://wa.me/${item.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Assalamu Alaikum, I saw your listing on AdeenDesk Directory.')}`;
-    const cardHtml = `
-      <div class="partner-card ${item.tier}">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span class="badge" style="background:#f1f5f9; color:#334155;">${item.badgeText}</span>
-          <span style="font-size:0.7rem; color:#64748b;">${item.category}</span>
+  // Active status filter (isActive: false walo ko exclude karega)
+  const activeAds = allSponsorsDatabase.filter(item => item.isActive !== false);
+
+  let pCount = 0, sCount = 0, fCount = 0;
+
+  activeAds.forEach(item => {
+    const hasWhatsApp = item.whatsapp && item.whatsapp.toString().trim() !== "";
+    const cleanNumber = hasWhatsApp ? item.whatsapp.toString().replace(/[^0-9]/g, '') : '';
+    const waLink = hasWhatsApp 
+      ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Assalamu Alaikum, I saw your listing on AdeenDesk Directory.')}`
+      : '#';
+
+    // 1. POSTER BANNER CARD (Agar sirf image ho)
+    if (item.imageUrl && item.imageUrl.trim() !== "") {
+      const clickAction = hasWhatsApp ? `onclick="window.open('${waLink}', '_blank')"` : '';
+      const posterHtml = `
+        <div class="partner-card ${item.tier}" style="padding:0; overflow:hidden; cursor:${hasWhatsApp ? 'pointer' : 'default'};">
+          <img src="${item.imageUrl}" 
+               alt="${sanitizeText(item.title || 'Sponsor')}" 
+               loading="lazy" 
+               style="width:100%; height:180px; object-fit:cover; display:block;"
+               ${clickAction}>
+          ${hasWhatsApp ? `
+            <div style="background:#047857; color:#fff; font-size:0.72rem; font-weight:700; text-align:center; padding:6px;" ${clickAction}>
+              💬 Contact on WhatsApp
+            </div>
+          ` : ''}
         </div>
-        <h3 style="font-size:0.95rem; font-weight:800; margin:4px 0 2px; color:#0f172a;">${item.title}</h3>
-        <p style="font-size:0.78rem; color:#475569; line-height:1.4;">${item.description}</p>
-        <a href="${wa}" target="_blank" class="btn-wa">${item.actionBtnText || 'Connect'}</a>
+      `;
+
+      if (item.tier === 'premium') { pList.innerHTML += posterHtml; pCount++; }
+      else if (item.tier === 'standard') { sList.innerHTML += posterHtml; sCount++; }
+      else { fList.innerHTML += posterHtml; fCount++; }
+      return;
+    }
+
+    // 2. TEXT CARD (Social Follow Icons ke sath)
+    const hasYT = item.videoUrl && item.videoUrl.trim() !== "";
+    const hasInsta = item.instagramUrl && item.instagramUrl.trim() !== "";
+    let followHtml = '';
+
+    if (hasYT || hasInsta) {
+      followHtml = `
+        <div style="display:flex; align-items:center; gap:6px; margin:6px 0; font-size:0.7rem; color:#475569; font-weight:600;">
+          <span>To Know More Follow:</span>
+          ${hasYT ? `<a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fee2e2; color:#dc2626; width:22px; height:22px; border-radius:50%; font-size:0.68rem;">▶</a>` : ''}
+          ${hasInsta ? `<a href="${item.instagramUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fce7f3; color:#db2777; width:22px; height:22px; border-radius:50%; font-size:0.72rem; font-weight:bold;">📷</a>` : ''}
+        </div>
+      `;
+    }
+
+    const isPremium = item.tier === 'premium';
+    const badgeBg = isPremium ? '#dcfce7' : '#f1f5f9';
+    const badgeColor = isPremium ? '#166534' : '#475569';
+
+    const textCardHtml = `
+      <div class="partner-card ${item.tier}">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span class="badge" style="background:${badgeBg}; color:${badgeColor};">${sanitizeText(item.badgeText || 'Partner')}</span>
+          <span style="font-size:0.68rem; color:#64748b; font-weight:600;">${sanitizeText(item.category || '')}</span>
+        </div>
+        <h3 style="font-size:0.92rem; font-weight:800; margin:2px 0; color:#064e3b;">${sanitizeText(item.title || '')}</h3>
+        <p style="font-size:0.75rem; color:#334155; line-height:1.4; margin-bottom:4px;">${sanitizeText(item.description || '')}</p>
+        
+        ${followHtml}
+
+        ${hasWhatsApp ? `
+          <a href="${waLink}" target="_blank" class="btn-wa ${isPremium ? '' : 'standard-btn'}">
+            ${sanitizeText(item.actionBtnText || '💬 Connect on WhatsApp')}
+          </a>
+        ` : ''}
       </div>
     `;
 
-    if (item.tier === 'premium') pList.innerHTML += cardHtml;
-    else if (item.tier === 'standard') sList.innerHTML += cardHtml;
-    else fList.innerHTML += cardHtml;
+    if (item.tier === 'premium') { pList.innerHTML += textCardHtml; pCount++; }
+    else if (item.tier === 'standard') { sList.innerHTML += textCardHtml; sCount++; }
+    else { fList.innerHTML += textCardHtml; fCount++; }
   });
+
+  // Empty state handling agar kisi category me ads na hon
+  if (pCount === 0) pList.innerHTML = `<div class="empty-tier">No active premium partners right now.</div>`;
+  if (sCount === 0) sList.innerHTML = `<div class="empty-tier">No educational service listings available.</div>`;
+  if (fCount === 0) fList.innerHTML = `<div class="empty-tier">No community notices at this time.</div>`;
 });
 </script>
 
