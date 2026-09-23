@@ -2842,48 +2842,31 @@ body {
     }
 
     // 7. SPONSOR & AD ENGINE
-    const adSettings = {
-      activeType: "text", // "text" | "image" | "empty"
-      textDemo: {
-        category: "Coaching / Classes",
-        title: "Al-Huda Online Quran Academy",
-        description: "Ghar baithe Tajweed, Hifz aur Arabic grammar seekhein. Bachhon aur baron ke liye certified ustaad. Free 3-day demo class!",
-        badgeText: "⭐ Verified Partner",
-        whatsapp: "919876543210",
-        actionBtnText: "💬 WhatsApp Par Baat Karein"
-      },
-      imageDemo: {
-        imageUrl: "https://i.ibb.co/example/banner.jpg",
-        targetUrl: "https://wa.me/919876543210?text=Assalamu%20Alaikum",
-        title: "Special Islamic Book Fair Discount"
-      },
-      emptyMessage: "Abhi Koi Sponsor / Ads Available Nahi Hai.",
-      emptySubtext: "Apne business, madrasa ya services ko hazaron logon tak pahunchane ke liye click karein."
-    };
-    
-
-    function renderAdeenSponsorModule() {
+    // 7. SPONSOR & AD ENGINE (Cleaned & Synchronized)
+function renderAdeenSponsorModule() {
   const container = document.getElementById('adeenSponsorContainer');
   if (!container) return;
 
+  // Agar database khali ho ya file load na ho
   if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase) || allSponsorsDatabase.length === 0) {
     container.innerHTML = `
       <div style="width:100%; text-align:center; padding:16px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
         <div style="font-size:1.8rem; margin-bottom:4px;">📢</div>
         <h4 style="font-size:0.92rem; font-weight:800; color:#1e293b; margin:0 0 4px 0;">No Active Sponsor Currently</h4>
-        <p style="font-size:0.75rem; color:#64748b; margin:0 0 10px 0;">Promote your academy or services to daily users.</p>
+        <p style="font-size:0.75rem; color:#64748b; margin:0 0 10px 0;">Apne business ya madarsa ko hazaron logon tak pahunchayein.</p>
         <a href="ads.html" style="display:inline-block; background:#064e3b; color:#ffffff; font-weight:700; font-size:0.75rem; padding:6px 14px; border-radius:6px; text-decoration:none;">Book Ad Slot ➡️</a>
       </div>
     `;
     return;
   }
 
+  // Priority sorting: Pehle 'premium', fir 'standard', fir 'free'
   const priorityOrder = { premium: 1, standard: 2, free: 3 };
   const sorted = [...allSponsorsDatabase].sort((a, b) => {
     return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
   });
 
-  // Top 4–5 ads ko side-scroll me daalenge
+  // Top 5 ads side-scroll me dikhayenge
   const displayAds = sorted.slice(0, 5);
 
   container.innerHTML = displayAds.map(item => {
@@ -2892,18 +2875,25 @@ body {
     const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
     const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
 
-    if (item.imageUrl && item.imageUrl.trim() !== "") {
+    // 1. Agar Sirf Photo Banner Wala Ad Ho (No text)
+    if (item.imageUrl && item.imageUrl.trim() !== "" && (!item.description || item.description.trim() === "")) {
       return `
         <div class="ad-scroll-card-item">
           <div style="border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#ffffff; height:100%;">
             <a href="${waLink}" target="_blank" rel="noopener noreferrer" style="display:block;">
-              <img src="${item.imageUrl}" alt="${sanitizeHTML(item.title)}" style="width:100%; height:150px; object-fit:cover; display:block;">
+              <img src="${item.imageUrl}" alt="${sanitizeHTML(item.title)}" style="width:100%; height:160px; object-fit:cover; display:block;">
             </a>
           </div>
         </div>
       `;
     }
 
+    // Optional Video Link Button
+    const videoBtnHtml = (item.videoUrl && item.videoUrl.trim() !== "") 
+      ? `<a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block; font-size:0.7rem; color:#dc2626; font-weight:700; text-decoration:none; margin-bottom:8px;">▶ Watch Demo Video</a>` 
+      : '';
+
+    // 2. Standard / Premium Text Card
     return `
       <div class="ad-scroll-card-item">
         <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px; height:100%; display:flex; flex-direction:column; justify-content:space-between;">
@@ -2914,13 +2904,18 @@ body {
               </span>
               <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category)}</span>
             </div>
-            <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0;">${sanitizeHTML(item.title)}</h4>
-            <p style="font-size:0.75rem; color:#334155; margin:0 0 10px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+            
+            <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title)}</h4>
+            
+            <p style="font-size:0.75rem; color:#334155; margin:0 0 6px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
               ${sanitizeHTML(item.description)}
             </p>
+
+            ${videoBtnHtml}
           </div>
+
           <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
-             style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none;">
+             style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:4px;">
             ${sanitizeHTML(item.actionBtnText || 'Contact Now')}
           </a>
         </div>
