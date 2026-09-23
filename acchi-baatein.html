@@ -129,27 +129,45 @@
       return { engDateStr, hijriDateStr };
     }
 
-    const list = document.getElementById('quotesList');
-    if (typeof acchiBaatDatabase !== 'undefined' && Array.isArray(acchiBaatDatabase)) {
-      acchiBaatDatabase.forEach((item, index) => {
-        const art = document.createElement('article');
-        art.className = 'quote-card';
-        const lines = item.quoteLines.map(l => `<div class="quote-line">⚄→ ${l}</div>`).join('');
-        
-        // Card par se undefined date strip hata kar clean badge aur counter set kiya gaya hai
-        art.innerHTML = `
-          <div class="quote-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
-          <div style="text-align:center; font-weight:800; color:#047857; margin:6px 0;">🌺💧 Sweet Word #${index + 1} 💧🌺</div>
-          ${lines}
-          <div class="quote-dua">${item.closingDua || ''}</div>
-          <div class="btn-row">
-            <button class="action-btn btn-copy" onclick="copyQuote(${index})">📋 Copy WhatsApp</button>
-            <button class="action-btn btn-share" onclick="shareQuote(${index})">📤 Share</button>
-          </div>
-        `;
-        list.appendChild(art);
-      });
-    }
+    // acchi-baatein.html ke script section ko isse update karein:
+const list = document.getElementById('quotesList');
+if (typeof acchiBaatDatabase !== 'undefined' && Array.isArray(acchiBaatDatabase)) {
+  acchiBaatDatabase.forEach((item, index) => {
+    const art = document.createElement('article');
+    art.className = 'quote-card';
+    art.style.position = 'relative'; // Corner badge ke liye
+
+    const lines = item.quoteLines.map(l => `<div class="quote-line">⚄→ ${l}</div>`).join('');
+    
+    // Disabled/Muted Corner Date: agar item.updatedAt ho to wo, warna default
+    const updateDateText = item.updatedAt || "Archived";
+
+    art.innerHTML = `
+      <!-- 📌 Disabled Style Last Update Date in Corner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed #e2e8f0; padding-bottom:4px; margin-bottom:8px;">
+        <span style="font-size:0.63rem; color:#94a3b8; font-weight:600; opacity:0.8; letter-spacing:0.2px;">
+          🕒 Updated: ${updateDateText}
+        </span>
+        <span style="font-size:0.65rem; background:#f1f5f9; color:#64748b; font-weight:700; padding:1px 6px; border-radius:4px;">
+          #${index + 1}
+        </span>
+      </div>
+
+      <div class="quote-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
+      <div style="text-align:center; font-weight:800; color:#047857; margin:4px 0 6px;">🌺💧 Sweet Word 💧🌺</div>
+      
+      ${lines}
+      
+      <div class="quote-dua">${item.closingDua || ''}</div>
+      
+      <div class="btn-row">
+        <button class="action-btn btn-copy" onclick="copyQuote(${index})">📋 Copy WhatsApp</button>
+        <button class="action-btn btn-share" onclick="shareQuote(${index})">📤 Share</button>
+      </div>
+    `;
+    list.appendChild(art);
+  });
+}
 
     function copyQuote(index) {
       const item = acchiBaatDatabase[index];
