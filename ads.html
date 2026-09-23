@@ -6,38 +6,39 @@
   <title>Book a Sponsor / Advertisement | AdeenDesk</title>
   <link rel="icon" type="image/png" href="icon-192.png">
   <meta name="description" content="Advertise and book sponsor placements on AdeenDesk. Promote your madrasa, online Islamic courses, or halal business to thousands of active daily readers.">
-<meta name="keywords" content="AdeenDesk sponsorship, Islamic ad booking, promote Islamic courses, Halal business marketing, madrasa sponsor">
-<link rel="canonical" href="https://yourdomain.com/ads.html">
+  <meta name="keywords" content="AdeenDesk sponsorship, Islamic ad booking, promote Islamic courses, Halal business marketing, madrasa sponsor">
+  <link rel="canonical" href="https://yourdomain.com/ads.html">
 
-<!-- Schema.org Service / Offer Schema -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "AdeenDesk Community Sponsorship & Advertising",
-  "serviceType": "Digital Advertising & Partner Sponsorship",
-  "provider": {
-    "@type": "Organization",
-    "name": "AdeenDesk",
-    "url": "https://yourdomain.com/"
-  },
-  "description": "Clean, ethical, and Shariah-compliant digital sponsorship slots for educational institutions, Islamic services, and halal businesses.",
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "Weekly Sponsor Slot",
-      "price": "Contact",
-      "priceCurrency": "INR"
+  <!-- Schema.org Service / Offer Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "AdeenDesk Community Sponsorship & Advertising",
+    "serviceType": "Digital Advertising & Partner Sponsorship",
+    "provider": {
+      "@type": "Organization",
+      "name": "AdeenDesk",
+      "url": "https://yourdomain.com/"
     },
-    {
-      "@type": "Offer",
-      "name": "Monthly Sponsor Slot",
-      "price": "Contact",
-      "priceCurrency": "INR"
-    }
-  ]
-}
-</script>
+    "description": "Clean, ethical, and Shariah-compliant digital sponsorship slots for educational institutions, Islamic services, and halal businesses.",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Weekly Sponsor Slot",
+        "price": "Contact",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Monthly Sponsor Slot",
+        "price": "Contact",
+        "priceCurrency": "INR"
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root {
       --primary: #064e3b;
@@ -50,44 +51,44 @@
       --muted: #64748b;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 14px; display: flex; justify-content: center; }
-    .page-wrapper { width: 100%; max-width: 640px; }
+    body { background: var(--bg); color: var(--text); padding: 8px 6px 40px; display: flex; justify-content: center; }
+    .page-wrapper { width: 100%; max-width: 600px; }
     
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.02); }
-    .header-box { text-align: center; border-bottom: 1px dashed var(--border); padding-bottom: 14px; margin-bottom: 16px; }
-    .header-box h1 { font-size: 1.25rem; color: var(--primary); font-weight: 800; }
-    .header-box p { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .header-box { text-align: center; border-bottom: 1px dashed var(--border); padding-bottom: 12px; margin-bottom: 14px; }
+    .header-box h1 { font-size: 1.15rem; color: var(--primary); font-weight: 800; }
+    .header-box p { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
     
     /* Pricing Plans */
-    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
-    .plan-card { border: 1px solid var(--border); border-radius: 10px; padding: 10px 6px; text-align: center; background: #fafaf9; }
+    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
+    .plan-card { border: 1px solid var(--border); border-radius: 8px; padding: 8px 4px; text-align: center; background: #fafaf9; }
     .plan-card.popular { border-color: #10b981; background: #f0fdf4; position: relative; }
-    .plan-badge { font-size: 0.62rem; font-weight: 800; background: #10b981; color: #fff; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
-    .plan-title { font-size: 0.8rem; font-weight: 800; color: #334155; }
-    .plan-price { font-size: 0.95rem; font-weight: 800; color: var(--primary); margin: 3px 0; }
-    .plan-desc { font-size: 0.68rem; color: var(--muted); }
+    .plan-badge { font-size: 0.58rem; font-weight: 800; background: #10b981; color: #fff; padding: 1px 5px; border-radius: 4px; display: inline-block; margin-bottom: 3px; }
+    .plan-title { font-size: 0.78rem; font-weight: 800; color: #334155; }
+    .plan-price { font-size: 0.88rem; font-weight: 800; color: var(--primary); margin: 2px 0; }
+    .plan-desc { font-size: 0.65rem; color: var(--muted); line-height: 1.3; }
 
     /* Form Fields */
-    .form-group { margin-bottom: 12px; }
-    label { display: block; font-size: 0.78rem; font-weight: 700; color: #334155; margin-bottom: 4px; }
-    input, textarea, select { width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none; background: #fff; }
-    input:focus, textarea:focus, select:focus { border-color: var(--primary); ring: 2px solid #a7f3d0; }
+    .form-group { margin-bottom: 11px; }
+    label { display: block; font-size: 0.76rem; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    input, textarea, select { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 0.82rem; outline: none; background: #fff; }
+    input:focus, textarea:focus, select:focus { border-color: var(--primary); }
     
-    .helper-row { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
-    .help-btn { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; color: #0284c7; cursor: pointer; }
+    .helper-row { display: flex; align-items: center; justify-content: space-between; margin-top: 3px; }
+    .help-btn { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #0284c7; cursor: pointer; }
     
     /* Submit Button */
-    .submit-btn { width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 0.9rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 5px rgba(6,78,59,0.2); }
+    .submit-btn { width: 100%; background: var(--primary); color: #fff; border: none; padding: 11px; border-radius: 8px; font-size: 0.88rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 5px rgba(6,78,59,0.2); }
     .submit-btn:hover { background: var(--primary-dark); }
     
     /* Terms List */
-    .terms-list { font-size: 0.76rem; color: #475569; line-height: 1.5; padding-left: 16px; margin: 8px 0 0 0; }
-    .terms-list li { margin-bottom: 6px; }
+    .terms-list { font-size: 0.74rem; color: #475569; line-height: 1.5; padding-left: 16px; margin: 6px 0 0 0; }
+    .terms-list li { margin-bottom: 5px; }
 
     /* Modal / Popup */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; padding: 14px; }
-    .modal-box { background: #fff; border-radius: 12px; max-width: 480px; width: 100%; padding: 18px; max-height: 88vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 12px; }
+    .modal-box { background: #fff; border-radius: 12px; max-width: 460px; width: 100%; padding: 16px; max-height: 88vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 10px; }
     .modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; font-weight: 800; }
   </style>
 </head>
@@ -104,65 +105,49 @@
     </div>
 
     <!-- Pricing Packages -->
-    <h3 style="font-size:0.85rem; color:var(--primary); font-weight:800; margin-bottom:4px;">💎 Sponsorship Plans</h3>
+    <h3 style="font-size:0.82rem; color:var(--primary); font-weight:800; margin-bottom:2px;">💎 Sponsorship Plans</h3>
     <div class="plans-grid">
       <div class="plan-card">
         <div class="plan-title">Weekly</div>
         <div class="plan-price">7 Din</div>
-        <div class="plan-desc">Short-term events & quick promotions</div>
+        <div class="plan-desc">Short events & fast reach</div>
       </div>
       <div class="plan-card popular">
         <span class="plan-badge">POPULAR</span>
         <div class="plan-title">Monthly</div>
         <div class="plan-price">30 Din</div>
-        <div class="plan-desc">Best for Courses & Regular Services</div>
+        <div class="plan-desc">Best for Courses & Academies</div>
       </div>
       <div class="plan-card">
         <div class="plan-title">Quarterly</div>
         <div class="plan-price">90 Din</div>
-        <div class="plan-desc">Maximum Reach & Best Discounted Value</div>
+        <div class="plan-desc">Maximum Discount & Value</div>
       </div>
     </div>
-    <p style="font-size:0.7rem; color:var(--muted); text-align:center;">* Hadiya / Charges community support aur server maintenance ke liye use hota hai.</p>
-  </div>
-<!-- 💡 Form Guidance & Visual Demo Card -->
-<div class="card" style="background:#f8fafc; border-left:4px solid #064e3b;">
-  <h3 style="font-size:0.95rem; color:#064e3b; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-    <span>💡</span> Form Kaise Bharein & Preview Guide
-  </h3>
-  <p style="font-size:0.78rem; color:#475569; margin-bottom:12px; line-height:1.4;">
-    Sponsor box me aapki details kaise display hongi aur har field ka kya maqsad hai, neeche samjhein:
-  </p>
-
-  <!-- Explainer Table -->
-  <div style="font-size:0.75rem; color:#334155; line-height:1.5; margin-bottom:14px;">
-    <div style="margin-bottom:6px;">• <strong>Sponsor Name:</strong> Aapke idare ya business ka naam (Yeh card me sabse bada aur bold dikhega).</div>
-    <div style="margin-bottom:6px;">• <strong>Tagline/Message:</strong> Aapki service ki short wazahat (1–2 line jo user ko attract kare).</div>
-    <div style="margin-bottom:6px;">• <strong>Contact/Link:</strong> Aapka WhatsApp number ya website link (Is par click karte hi customer seedha aapse rabta karega).</div>
-    <div style="margin-bottom:6px;">• <strong>Poster URL:</strong> ImgBB ka link (Agar poster nahi denge to automatic khoobsurat text card banega).</div>
-    <div>• <strong>Video Link:</strong> YouTube/Reel URL (Isse card me ek alag "Watch Video 🎬" button ban jayega).</div>
+    <p style="font-size:0.68rem; color:var(--muted); text-align:center;">* Hadiya / Charges community services aur server maintenance me kharch hota hai.</p>
   </div>
 
-  <!-- Live Demo Preview Box -->
-  <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:10px; padding:12px;">
-    <div style="font-size:0.68rem; font-weight:800; color:#059669; text-transform:uppercase; margin-bottom:4px;">
-      [Card Preview Aisa Dikhega]
-    </div>
-    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px; text-align:center;">
-      <span style="font-size:0.62rem; background:#dcfce7; color:#166534; font-weight:800; padding:2px 6px; border-radius:4px;">VERIFIED PARTNER</span>
-      <h4 style="font-size:0.9rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">Al-Huda Online Academy</h4>
-      <p style="font-size:0.74rem; color:#475569; margin:0 0 8px;">Ghar baithe Tajweed aur Hifz seekhein certified ustaad ke sath.</p>
-      
-      <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
-        <span style="font-size:0.7rem; background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; padding:4px 8px; border-radius:5px; font-weight:700;">Watch Video 🎬</span>
-        <span style="font-size:0.7rem; background:#047857; color:#ffffff; padding:4px 10px; border-radius:5px; font-weight:700;">💬 Contact on WhatsApp</span>
+  <!-- 💡 Form Guidance & Dynamic Live Preview Card -->
+  <div class="card" style="background:#f8fafc; border-left:4px solid #064e3b;">
+    <h3 style="font-size:0.88rem; color:#064e3b; font-weight:800; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+      <span>💡</span> Card Kaise Dikhega (Live Preview)
+    </h3>
+    <p style="font-size:0.74rem; color:#475569; margin-bottom:10px; line-height:1.4;">
+      • <strong>Poster Banner Link dene par:</strong> Sirf photo poster aayega, tap karte hi WhatsApp khulega.<br>
+      • <strong>Poster Link na dene par:</strong> Niche jaisa neat verified text card banega:
+    </p>
+
+    <!-- Dynamic Preview Container -->
+    <div id="liveAdPreviewWrapper" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:10px; padding:10px;">
+      <div id="liveAdPreviewBox">
+        <!-- Rendered by JavaScript dynamically -->
       </div>
     </div>
   </div>
-</div>
+
   <!-- Section 2: Booking Form -->
   <div class="card">
-    <h2 style="font-size:0.95rem; color:var(--primary); font-weight:800; margin-bottom:12px;">📝 Submit Your Advertisement Details</h2>
+    <h2 style="font-size:0.92rem; color:var(--primary); font-weight:800; margin-bottom:10px;">📝 Submit Advertisement Details</h2>
 
     <form id="adSubmissionForm" onsubmit="handleAdFormSubmit(event)">
       
@@ -179,91 +164,88 @@
       <!-- Sponsor Title -->
       <div class="form-group">
         <label>Business / Academy / Sponsor Name *</label>
-        <input type="text" id="fTitle" placeholder="e.g. Al-Huda Online Quran Academy" required>
+        <input type="text" id="fTitle" placeholder="e.g. Al-Huda Online Quran Academy" oninput="updateLivePreview()" required>
       </div>
 
       <!-- Tagline / Message -->
       <div class="form-group">
-        <label>Tagline / Description (Short 1–3 Lines) *</label>
-        <textarea id="fTagline" rows="3" placeholder="e.g. Online Tajweed aur Hifz seekhein certified ustaad ke zariye. Free 3-day demo class uplabdh hai." required></textarea>
+        <label>Tagline / Description (Short 1–3 Lines) <span id="taglineOptionalNotice" style="font-weight:normal; color:#64748b;">*</span></label>
+        <textarea id="fTagline" rows="2" placeholder="e.g. Online Tajweed aur Hifz seekhein certified ustaad ke zariye. Free 3-day demo class uplabdh hai." oninput="updateLivePreview()" required></textarea>
       </div>
 
       <!-- Contact / Redirect -->
       <div class="form-group">
-        <label>Contact Number (WhatsApp) ya Website / Form Link *</label>
-        <input type="text" id="fContact" placeholder="e.g. 91XXXXXXXXXX ya https://forms.gle/..." required>
+        <label>WhatsApp Number (Chat ke liye) *</label>
+        <input type="text" id="fContact" placeholder="e.g. 919876543210 ya 05XXXXXXXX" required>
       </div>
 
       <!-- Image / Poster URL with Help Button -->
       <div class="form-group">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
           <label style="margin:0;">Poster / Banner Direct Image URL (Optional)</label>
           <button type="button" class="help-btn" onclick="openImgbbHelp()" title="How to get direct image URL">❓</button>
         </div>
-        <input type="url" id="fImage" placeholder="https://i.ibb.co/abcxyz/banner.jpg">
+        <input type="url" id="fImage" placeholder="https://i.ibb.co/abcxyz/banner.jpg" oninput="updateLivePreview()">
         <div class="helper-row">
-          <span style="font-size:0.7rem; color:var(--muted);">Banner na hone par automatic neat text card banega.</span>
-          <a href="https://imgbb.com" target="_blank" rel="noopener" style="font-size:0.7rem; color:#0284c7; font-weight:700; text-decoration:none;">Upload on ImgBB ↗</a>
+          <span style="font-size:0.68rem; color:var(--muted);">Banner link denge to sirf poster card banega.</span>
+          <a href="https://imgbb.com" target="_blank" rel="noopener" style="font-size:0.68rem; color:#0284c7; font-weight:700; text-decoration:none;">Upload on ImgBB ↗</a>
         </div>
       </div>
 
-      <!-- Video Demo Link -->
-      <div class="form-group">
-        <label>Demo Video Link (Optional: YouTube, Shorts, Instagram Reel)</label>
-        <input type="url" id="fVideo" placeholder="https://youtube.com/watch?v=... ya Reel URL">
+      <!-- Video & Social Follow Links -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+        <div class="form-group">
+          <label>YouTube Link (Optional)</label>
+          <input type="url" id="fVideo" placeholder="https://youtu.be/..." oninput="updateLivePreview()">
+        </div>
+        <div class="form-group">
+          <label>Instagram Link (Optional)</label>
+          <input type="url" id="fInstagram" placeholder="https://instagram.com/..." oninput="updateLivePreview()">
+        </div>
       </div>
 
       <!-- Submit Action -->
       <button type="submit" class="submit-btn" id="submitActionBtn">
         <span>📩</span> Send Sponsor Request
       </button>
-      <div id="routingNotice" style="font-size:0.72rem; color:var(--muted); text-align:center; margin-top:8px;"></div>
+      <div id="routingNotice" style="font-size:0.7rem; color:var(--muted); text-align:center; margin-top:6px;"></div>
     </form>
   </div>
 
   <!-- Section 3: Halal Terms & Conditions -->
   <div class="card" style="background:#fefce8; border-color:#fef08a;">
-    <h3 style="font-size:0.85rem; color:#854d0e; font-weight:800; display:flex; align-items:center; gap:6px;">
+    <h3 style="font-size:0.82rem; color:#854d0e; font-weight:800; display:flex; align-items:center; gap:6px;">
       <span>⚖️</span> Advertising Guidelines & Terms (Shariah Compliance)
     </h3>
     <ul class="terms-list">
       <li><strong>100% Halal Content Only:</strong> Sirf deeni taleem, Islamic books, halal products, madaris khidmat aur authentic business services ka ishtihar (ad) lagaya jayega.</li>
-      <li><strong>No Prohibited Items:</strong> Sood (Interest/Banking loans), MLM/Cryptocurrency schemes, music/cinema, be-parda ya ghair-akhlaqi tasweerein bilkul manzoor nahi hongi.</li>
-      <li><strong>Authenticity Verification:</strong> Har sponsor ka review admin ke zariye kiya jayega. Kisi bhi qism ke scam ya fake daawe paye jane par bina notice ke ad foran hata diya jayega.</li>
-      <li><strong>Format Flexibility:</strong> Agar aap poster upload nahi kar sakte, to hamari team aapka content ek khoobsurat verified text card me display karegi.</li>
+      <li><strong>No Prohibited Items:</strong> Sood (Interest/Loans), MLM/Crypto schemes, music/cinema, be-parda ya ghair-akhlaqi tasweerein bilkul manzoor nahi hongi.</li>
+      <li><strong>Authenticity Verification:</strong> Har sponsor ka review admin ke zariye kiya jayega. Kisi bhi scam ya jhoote daawe par ad bina notice foran hata diya jayega.</li>
     </ul>
   </div>
 
 </div>
 
-<!-- ❓ ImgBB Instructions & Free vs Paid Modal -->
+<!-- ❓ ImgBB Instructions Modal -->
 <div class="modal-overlay" id="imgbbModal" onclick="closeImgbbHelp(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h3 style="font-size:0.95rem; color:var(--primary); font-weight:800;">🖼️ ImgBB Se Image Link Kaise Nikalein?</h3>
+      <h3 style="font-size:0.9rem; color:var(--primary); font-weight:800;">🖼️ ImgBB Se Image Link Kaise Nikalein?</h3>
       <button class="modal-close" onclick="closeImgbbHelp()">✕</button>
     </div>
     
-    <div style="font-size:0.8rem; color:#334155; line-height:1.5;">
-      <p style="margin-bottom:8px;"><strong>ImgBB 100% Free hai.</strong> Aapko koi paid plan lene ki zaroorat nahi hai. Direct link nikalne ka tareeqa yeh hai:</p>
+    <div style="font-size:0.78rem; color:#334155; line-height:1.5;">
+      <p style="margin-bottom:8px;"><strong>ImgBB 100% Free hai.</strong> Direct image link nikalne ka seedha tareeqa:</p>
       
-      <ol style="padding-left:18px; margin-bottom:12px;">
-        <li style="margin-bottom:4px;"><strong>imgbb.com</strong> website kholein aur apna banner upload karein.</li>
-        <li style="margin-bottom:4px;">Upload hone ke baad <strong>"Embed codes"</strong> wale dropdown par click karein.</li>
+      <ol style="padding-left:18px; margin-bottom:10px;">
+        <li style="margin-bottom:4px;"><strong>imgbb.com</strong> par banner upload karein.</li>
+        <li style="margin-bottom:4px;">Upload ke baad <strong>"Embed codes"</strong> par tap karein.</li>
         <li style="margin-bottom:4px;">Wahan <strong>"Direct links"</strong> select karein.</li>
-        <li style="margin-bottom:4px;">Jo URL milega wo <code>https://i.ibb.co/.../image.jpg</code> jaisa hoga. Use copy karke yahan paste karein.</li>
+        <li style="margin-bottom:4px;">Jo link <code>https://i.ibb.co/.../banner.jpg</code> jaisa ho use copy karke yahan paste kar dein.</li>
       </ol>
 
-      <div style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:10px; margin-top:8px;">
-        <h4 style="font-size:0.78rem; font-weight:800; color:#0f172a; margin-bottom:4px;">💡 Free vs Paid ImgBB ka farq:</h4>
-        <p style="font-size:0.74rem; color:#475569; margin:0;">
-          • <strong>Free:</strong> Hamesha free rehta hai, koi card nahi chahiye, aur direct image link milta hai jo AdeenDesk par mast display hota hai.<br>
-          • <strong>Paid:</strong> Paid sirf unke liye hai jo unlimited cloud storage chahte hain. Sponsor ke liye <strong>Free version 100% kaafi hai</strong>.
-        </p>
-      </div>
-
-      <button type="button" onclick="closeImgbbHelp()" style="width:100%; background:#064e3b; color:#fff; border:none; padding:8px; border-radius:6px; font-weight:700; margin-top:12px; cursor:pointer;">
-        Samajh Gaya (Done)
+      <button type="button" onclick="closeImgbbHelp()" style="width:100%; background:#064e3b; color:#fff; border:none; padding:8px; border-radius:6px; font-weight:700; margin-top:8px; cursor:pointer;">
+        Samajh Gaya (Close)
       </button>
     </div>
   </div>
@@ -275,23 +257,80 @@
 // ==========================================================
 // Options: "EMAIL" | "WHATSAPP"
 const SUBMISSION_CONFIG = {
-  mode: "EMAIL", // 👈 Abhi WhatsApp business nahi hai, isliye "EMAIL" par set hai.
-  adminEmail: "your-email@example.com", // 🔴 Apna Email address yahan likhein
-  adminWhatsApp: "91XXXXXXXXXX"         // 🔴 Jab WhatsApp chahiye ho to yahan number daalein
+  mode: "EMAIL", // 👈 "EMAIL" ya "WHATSAPP"
+  adminEmail: "your-email@example.com", // 🔴 Apna Email yahan likhein
+  adminWhatsApp: "91XXXXXXXXXX"         // 🔴 Apna WhatsApp number yahan likhein
 };
 
-// Update UI Notice based on mode
+// UI synchronization
 document.addEventListener('DOMContentLoaded', () => {
   const notice = document.getElementById('routingNotice');
   const btn = document.getElementById('submitActionBtn');
   if (SUBMISSION_CONFIG.mode === "EMAIL") {
     btn.innerHTML = `<span>✉️</span> Submit via Email`;
-    notice.innerText = `Yeh request direct hamari team ke email (${SUBMISSION_CONFIG.adminEmail}) par send hogi.`;
+    notice.innerText = `Yeh request direct hamari team ke email (${SUBMISSION_CONFIG.adminEmail}) par jayegi.`;
   } else {
     btn.innerHTML = `<span>💬</span> Submit via WhatsApp`;
-    notice.innerText = `Yeh request seedhe hamare WhatsApp number par message ban kar open hogi.`;
+    notice.innerText = `Yeh request seedhe hamare WhatsApp number par message ban kar send hogi.`;
   }
+
+  updateLivePreview();
 });
+
+// 🔄 Live Interactive Preview Generator
+function updateLivePreview() {
+  const box = document.getElementById('liveAdPreviewBox');
+  const imgUrl = document.getElementById('fImage').value.trim();
+  const title = document.getElementById('fTitle').value.trim() || "Al-Huda Online Quran Academy";
+  const desc = document.getElementById('fTagline').value.trim() || "Ghar baithe Tajweed aur Hifz seekhein certified ustaad ke sath.";
+  const hasYt = document.getElementById('fVideo').value.trim() !== "";
+  const hasInsta = document.getElementById('fInstagram').value.trim() !== "";
+  const taglineEl = document.getElementById('fTagline');
+  const taglineNotice = document.getElementById('taglineOptionalNotice');
+
+  // Agar Poster URL hai: Pure Poster Banner Preview
+  if (imgUrl !== "") {
+    taglineEl.removeAttribute('required');
+    if (taglineNotice) taglineNotice.innerText = "(Optional in poster mode)";
+
+    box.innerHTML = `
+      <div style="font-size:0.65rem; font-weight:800; color:#047857; margin-bottom:4px; text-transform:uppercase;">[Poster Card Preview]</div>
+      <div style="border:1px solid #cbd5e1; border-radius:8px; overflow:hidden; background:#ffffff; text-align:center;">
+        <img src="${imgUrl}" alt="Preview Poster" onerror="this.src='https://via.placeholder.com/400x160?text=Valid+Image+URL+Required'" style="width:100%; height:150px; object-fit:cover; display:block;">
+        <div style="background:#047857; color:#fff; font-size:0.7rem; font-weight:700; padding:4px;">👆 Tap karne par customer seedha WhatsApp par aayega</div>
+      </div>
+    `;
+    return;
+  }
+
+  // Agar Poster nahi hai: Text Card Mode Preview
+  taglineEl.setAttribute('required', 'true');
+  if (taglineNotice) taglineNotice.innerText = "*";
+
+  let followIconsHtml = '';
+  if (hasYt || hasInsta) {
+    followIconsHtml = `
+      <div style="display:flex; justify-content:center; align-items:center; gap:6px; margin:6px 0; font-size:0.7rem; color:#475569; font-weight:600;">
+        <span>To Know More Follow:</span>
+        ${hasYt ? '<span style="background:#fee2e2; color:#dc2626; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.68rem;">▶</span>' : ''}
+        ${hasInsta ? '<span style="background:#fce7f3; color:#db2777; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:bold;">📷</span>' : ''}
+      </div>
+    `;
+  }
+
+  box.innerHTML = `
+    <div style="font-size:0.65rem; font-weight:800; color:#047857; margin-bottom:4px; text-transform:uppercase;">[Text Card Preview]</div>
+    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px; text-align:center;">
+      <span style="font-size:0.62rem; background:#dcfce7; color:#166534; font-weight:800; padding:2px 6px; border-radius:4px;">⭐ PREMIER PARTNER</span>
+      <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${title}</h4>
+      <p style="font-size:0.72rem; color:#475569; margin:0 0 6px; line-height:1.4;">${desc}</p>
+      ${followIconsHtml}
+      <div style="display:inline-block; background:#047857; color:#ffffff; font-size:0.72rem; font-weight:700; padding:5px 12px; border-radius:6px; margin-top:2px;">
+        💬 Contact on WhatsApp
+      </div>
+    </div>
+  `;
+}
 
 // Form Submission Handler
 function handleAdFormSubmit(e) {
@@ -303,15 +342,17 @@ function handleAdFormSubmit(e) {
   const contact = document.getElementById('fContact').value.trim();
   const img = document.getElementById('fImage').value.trim();
   const video = document.getElementById('fVideo').value.trim();
+  const insta = document.getElementById('fInstagram').value.trim();
 
   // Structured Message Body
-  let content = `Nayi Sponsor Booking Request (AdeenDesk)\n\n`;
-  content += `📦 Plan: ${plan}\n`;
-  content += `🏢 Sponsor/Title: ${title}\n`;
-  content += `📝 Description: ${tagline}\n`;
-  content += `📞 Contact/Redirect: ${contact}\n`;
-  if (img) content += `🖼️ Banner URL: ${img}\n`;
-  if (video) content += `🎬 Video Link: ${video}\n`;
+  let content = `*Nayi Sponsor Booking Request (AdeenDesk)*\n\n`;
+  content += `📦 *Plan:* ${plan}\n`;
+  content += `🏢 *Sponsor/Title:* ${title}\n`;
+  if (tagline) content += `📝 *Description:* ${tagline}\n`;
+  content += `📞 *WhatsApp:* ${contact}\n`;
+  if (img) content += `🖼️ *Banner URL:* ${img}\n`;
+  if (video) content += `🎬 *YouTube Link:* ${video}\n`;
+  if (insta) content += `📷 *Instagram Link:* ${insta}\n`;
 
   // 1. EMAIL ROUTE
   if (SUBMISSION_CONFIG.mode === "EMAIL") {
@@ -333,7 +374,7 @@ function handleAdFormSubmit(e) {
 function openImgbbHelp() {
   document.getElementById('imgbbModal').style.display = 'flex';
 }
-function closeImgbbHelp(e) {
+function closeImgbbHelp() {
   document.getElementById('imgbbModal').style.display = 'none';
 }
 </script>
