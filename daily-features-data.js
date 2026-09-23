@@ -58,7 +58,7 @@ const allSponsorsDatabase = [
     category: "Online Quran & Tajweed",
     description: "Ghar baithe Tajweed aur Hifz seekhein certified ustaad ke sath. Free 3-day demo class available.",
     badgeText: "⭐ Premium Partner",
-    imageUrl: "https://i.ibb.co/example/banner1.jpg", // Banner link ya blank ""
+    imageUrl: "https://i.ibb.co/xtHZx61y/2564e3aaaf40.jpg", // Banner link ya blank ""
     videoUrl: "https://youtu.be/example",
     whatsapp: "919876543210",
     actionBtnText: "💬 WhatsApp Enquiry"
