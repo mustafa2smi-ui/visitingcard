@@ -51,68 +51,51 @@ const arabicWordsData = [
 ];
 // ads card
 const allSponsorsDatabase = [
+  // 1. Sirf Poster Banner Wala Ad (WhatsApp direct click)
   {
     id: 1,
-    tier: "premium", // "premium" | "standard" | "free"
-    title: "Al-Huda Online Quran Academy",
-    category: "Online Quran & Tajweed",
-    description: "Ghar baithe Tajweed aur Hifz seekhein certified ustaad ke sath. Free 3-day demo class available.",
-    badgeText: "⭐ Premium Partner",
-    imageUrl: "https://i.ibb.co/xtHZx61y/2564e3aaaf40.jpg", // Banner link ya blank ""
-    videoUrl: "https://youtu.be/example",
+    isActive: true, // 👈 true = Show hoga | false = Deactivate ho jayega (delete karne ki zaroorat nahi)
+    tier: "premium",
+    imageUrl: "https://i.ibb.co/RkHMfVk4/562359697234.jpg",
     whatsapp: "919876543210",
-    actionBtnText: "💬 WhatsApp Enquiry"
-  },
-  
-    /*
-    {
-    id: 1,
-    tier: "premium", // "premium" | "standard" | "free"
+    // Poster mode me baaqi sab khali chhod sakte hain:
     title: "",
     category: "",
     description: "",
-    badgeText: "⭐ Premium Partner",
-    imageUrl: "https://i.ibb.co/xtHZx61y/2564e3aaaf40.jpg", // Banner link ya blank ""
+    badgeText: "",
     videoUrl: "",
-    whatsapp: "919876543210",
+    instagramUrl: "",
     actionBtnText: ""
   },
-  */
+
+  // 2. Full Text Card (YouTube + Instagram icons ke sath)
   {
     id: 2,
+    isActive: true,
     tier: "premium",
+    imageUrl: "", // Blank = Text Card Mode
     title: "Maktabah Noor Islamic Books",
     category: "Islamic Bookstore",
-    description: "Authentic deeni kitabein, Quran Majeed tarjuma aur bachhon ke liye Islamic coloring books par 20% discount.",
+    description: "Authentic deeni kitabein aur bachhon ke liye Islamic books par special 20% discount.",
     badgeText: "⭐ Premium Partner",
-    imageUrl: "",
-    videoUrl: "https://youtu.be/fiEsee1ShGA?si=fGY5bi19u6gsxTya",
+    videoUrl: "https://youtu.be/fiEsee1ShGA",
+    instagramUrl: "https://instagram.com/maktabahnoor",
     whatsapp: "919876543211",
-    actionBtnText: "📚 Order Books"
+    actionBtnText: "📚 Order on WhatsApp"
   },
+
+  // 3. Deactivated Ad Ka Example (Card show nahi hoga)
   {
     id: 3,
+    isActive: false, // 👈 Band kar diya, data safe rahega
     tier: "standard",
+    imageUrl: "",
     title: "Madrasa Faiz-ul-Uloom Appeal",
     category: "Charity / Madrasa",
-    description: "Yateem aur ghareeb talaba ke khane aur taleem ke liye apne Imdaad aur Sadqaat jama karein.",
+    description: "Yateem talaba ki imdad ke liye apne sadqaat jama karein.",
     badgeText: "Verified Trust",
-    imageUrl: "",
-    videoUrl: "",
     whatsapp: "919876543212",
     actionBtnText: "🤝 Contact Madrasa"
-  },
-  {
-    id: 4,
-    tier: "free",
-    title: "Free Rozana Dars-e-Quran Group",
-    category: "Community Group",
-    description: "Har subah 1 aayat ka mukhtasar dars sunne ke liye WhatsApp group join karein.",
-    badgeText: "Community",
-    imageUrl: "",
-    videoUrl: "",
-    whatsapp: "919876543213",
-    actionBtnText: "Join Group"
   }
 ];
 // videos
