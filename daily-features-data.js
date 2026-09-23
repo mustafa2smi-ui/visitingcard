@@ -52,7 +52,7 @@ const arabicWordsData = [
 // ads card
 const allSponsorsDatabase = [
   {
-    id: 1,
+  /*  id: 1,
     tier: "premium", // "premium" | "standard" | "free"
     title: "Al-Huda Online Quran Academy",
     category: "Online Quran & Tajweed",
@@ -62,6 +62,19 @@ const allSponsorsDatabase = [
     videoUrl: "https://youtu.be/example",
     whatsapp: "919876543210",
     actionBtnText: "💬 WhatsApp Enquiry"
+  },
+  */
+    {
+    id: 1,
+    tier: "premium", // "premium" | "standard" | "free"
+    title: "",
+    category: "",
+    description: "",
+    badgeText: "⭐ Premium Partner",
+    imageUrl: "https://i.ibb.co/xtHZx61y/2564e3aaaf40.jpg", // Banner link ya blank ""
+    videoUrl: "",
+    whatsapp: "919876543210",
+    actionBtnText: ""
   },
   {
     id: 2,
