@@ -52,7 +52,7 @@ const acchiBaatDatabase = [
       "Na kisi ke qadmon me aur na kisi ki nazron me.",
       "Maseebat me shukr aur sabr ka daaman thame rahein."
     ],
-    closingDua: "Aye Allah! Hamein sabr-e-jameel ki taufeeq marhamat farma. Aameen."
+    closingDua: "Aye Allah! Hamein sabr-e-jameel ki taufeeq ata farma. Aameen."
   }
 ];
 // 3. Hadees Sharif Database
