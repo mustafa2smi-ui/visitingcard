@@ -29,6 +29,7 @@ const acchiBaatDatabase = [
 const acchiBaatDatabase = [
   {
     id: 1,
+    updatedAt: "10 Sep 2026",
     quoteLines: [
       "Kisi ka dil dukhane ke baad maafi maangna asaan hai,",
       "Magar uske dil me pehle jaisa aitebaar paida karna mushkil.",
@@ -38,6 +39,7 @@ const acchiBaatDatabase = [
   },
   {
     id: 2,
+    updatedAt: "10 Sep 2026", 
     quoteLines: [
       "Jab Allah kisi bande se bhalai chahta hai,",
       "To use uske apne aibo'n par muttala kar deta hai.",
@@ -47,6 +49,7 @@ const acchiBaatDatabase = [
   },
   {
     id: 3,
+    updatedAt: "10 Sep 2026", 
     quoteLines: [
       "Sabr ek aisi sawari hai jo apne sawar ko kabhi girne nahi deti,",
       "Na kisi ke qadmon me aur na kisi ki nazron me.",
