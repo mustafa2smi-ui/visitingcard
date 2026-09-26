@@ -6,20 +6,22 @@
   <title>Jugmug Mall 🛍️ 🛒 | Online Shopping Store</title>
 
   <!-- SEO & Social Meta Tags -->
-  <meta name="description" content="Jugmug Mall par trending YouTube products, home gadgets, daily items aur best offers direct buy karein. Easy checkout, fast delivery aur 24 hours return policy." />
-  <meta name="keywords" content="Jugmug Mall, YouTube Shopping, Viral Products, Trending Gadgets, Online Order, COD Store" />
+  <meta name="description" content="Jugmug Mall par trending YouTube products direct order karein. Best price, cash on delivery aur 24 hours return/cancel policy." />
+  <meta name="keywords" content="Jugmug Mall, YouTube Shopping, Viral Products, Trending Gadgets, Online Order" />
   <meta name="author" content="Jugmug Mall" />
   <meta property="og:title" content="Jugmug Mall 🛍️ 🛒 | Trending YouTube Products" />
-  <meta property="og:description" content="YouTube par dekhe sabhi products direct yaha se order karein. Best price & cash on delivery available." />
+  <meta property="og:description" content="YouTube par dekhe sabhi products direct yaha se order karein. Easy checkout." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#d97706" />
+  <meta name="theme-color" content="#1e3a8a" />
 
   <style>
     /* CSS RESET & VARIABLES */
     :root {
-      --primary: #d97706;
+      --primary: #d97706; /* Warm Amber */
       --primary-dark: #b45309;
-      --secondary: #0f172a;
+      --secondary: #0f172a; /* Deep Slate */
+      --ink-blue: #1e3a8a; /* Deep Royal Ink Blue for Form */
+      --ink-blue-dark: #172554;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #1e293b;
@@ -145,37 +147,37 @@
       margin: 16px;
       background: linear-gradient(135deg, #f59e0b, #d97706);
       border-radius: var(--radius);
-      padding: 24px 20px;
+      padding: 22px 18px;
       color: #fff;
       text-align: center;
       box-shadow: var(--shadow);
     }
 
     .hero-banner h1 {
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 800;
       margin-bottom: 6px;
     }
 
     .hero-banner p {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       opacity: 0.95;
     }
 
     .hero-banner .badge {
       display: inline-block;
-      margin-top: 12px;
-      background: rgba(0,0,0,0.2);
+      margin-top: 10px;
+      background: rgba(0,0,0,0.22);
       padding: 4px 12px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
     }
 
     /* SEARCH BAR */
     .search-section {
       padding: 0 16px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .search-box {
@@ -255,7 +257,7 @@
     /* 2-ROW HORIZONTAL SCROLL GRID */
     .catalog-wrapper {
       padding: 0 16px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .catalog-grid {
@@ -381,22 +383,24 @@
       font-size: 0.82rem;
     }
 
-    /* ORDER FORM */
+    /* ========================================================
+       ORDER FORM (SPECIAL INK BLUE STYLING & SOFT DARK TINT)
+       ======================================================== */
     .form-section {
-      background: var(--card-bg);
+      background: #f1f5f9; /* Halka Soft Dark/Grey-Blue Background */
       margin: 0 16px 24px;
-      padding: 20px 16px;
+      padding: 22px 18px;
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(30, 58, 138, 0.12);
+      border: 2px solid #cbd5e1;
     }
 
     .section-title {
       font-size: 1.35rem;
       font-weight: 800;
-      color: var(--secondary);
+      color: var(--ink-blue); /* Ink Blue Title */
       margin-bottom: 16px;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 2px solid #cbd5e1;
       padding-bottom: 8px;
     }
 
@@ -404,31 +408,36 @@
       margin-bottom: 14px;
     }
 
-    .form-group label {
+    /* Order Form Labels in Royal Ink Blue */
+    .form-section label {
       display: block;
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.84rem;
+      font-weight: 800;
       margin-bottom: 5px;
-      color: var(--secondary);
+      color: var(--ink-blue); /* Ink Blue Text */
+      letter-spacing: 0.2px;
     }
 
-    .form-group input, 
-    .form-group select, 
-    .form-group textarea {
+    .form-section input, 
+    .form-section select, 
+    .form-section textarea {
       width: 100%;
       padding: 11px 12px;
-      border: 1px solid var(--border);
+      border: 1.5px solid #94a3b8;
       border-radius: 8px;
-      font-size: 0.9rem;
-      background: #fafafa;
+      font-size: 0.92rem;
+      background: #ffffff;
+      color: var(--ink-blue-dark); /* Ink Blue User Input Text */
+      font-weight: 600;
       outline: none;
+      transition: all 0.2s;
     }
 
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: var(--primary);
+    .form-section input:focus,
+    .form-section textarea:focus {
+      border-color: var(--ink-blue);
       background: #fff;
-      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2);
     }
 
     .form-row {
@@ -448,25 +457,30 @@
 
     .btn-submit {
       flex: 2;
-      background: var(--success);
+      background: var(--ink-blue);
       color: #fff;
       border: none;
       padding: 13px;
       border-radius: 8px;
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 3px 8px rgba(30, 58, 138, 0.3);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
     }
 
     .btn-clear {
       flex: 1;
-      background: #f1f5f9;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
+      background: #e2e8f0;
+      color: var(--ink-blue);
+      border: 1px solid #cbd5e1;
       padding: 13px;
       border-radius: 8px;
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -531,7 +545,78 @@
     }
 
     .btn-download {
-      background: var(--primary);
+      background: var(--ink-blue);
+    }
+
+    /* ========================================================
+       CUSTOMER HISTORY SECTION (LOCAL STORAGE)
+       ======================================================== */
+    .history-section {
+      background: var(--card-bg);
+      margin: 0 16px 28px;
+      padding: 20px 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .history-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.83rem;
+    }
+
+    .history-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+    }
+
+    .badge-status {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .badge-placed { background: #dcfce7; color: #15803d; }
+    .badge-cancelled { background: #fee2e2; color: #b91c1c; }
+
+    .history-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hist-action {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-hist-action:hover {
+      background: #e2e8f0;
     }
 
     /* FOOTER */
@@ -620,6 +705,7 @@
       <a href="#catalogSection" onclick="toggleMenu(false)">📺 Trending YouTube Products</a>
       <a href="#orderSection" onclick="toggleMenu(false)">📝 Order Form</a>
       <a href="#receiptSection" onclick="toggleMenu(false)">🧾 View Bill</a>
+      <a href="#historySection" onclick="toggleMenu(false)">📜 Meri Order History</a>
       <a href="javascript:void(0)" onclick="openReturnModal(); toggleMenu(false)">🔄 Return / Cancel / Exchange</a>
       <a href="javascript:alert('Jugmug Mall: Direct factory-sourced viral products at unbeatable prices.')">ℹ️ About Us</a>
       <a href="javascript:alert('Privacy Policy: Customer contact details are strictly kept confidential and used solely for courier shipment.')">🔒 Privacy Policy</a>
@@ -657,14 +743,14 @@
     <button class="policy-action-btn" onclick="openReturnModal()">Click Karein: Return / Cancel Form Kholein ➔</button>
   </div>
 
-  <!-- ORDER FORM SECTION -->
+  <!-- ORDER FORM SECTION (INK BLUE THEME) -->
   <section class="form-section" id="orderSection">
     <h2 class="section-title">Order Form</h2>
     <form id="orderForm" onsubmit="handleOrderSubmit(event)">
       
       <div class="form-group">
         <label>Order ID (Auto Generated):</label>
-        <input type="text" id="orderId" readonly style="font-weight: bold; background: #e2e8f0;" />
+        <input type="text" id="orderId" readonly style="font-weight: 800; background: #e2e8f0; color: #1e3a8a;" />
       </div>
 
       <div class="form-group">
@@ -682,7 +768,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Price (₹):</label>
-          <input type="number" id="unitPrice" readonly style="background:#f1f5f9; font-weight: bold;" value="0" />
+          <input type="number" id="unitPrice" readonly style="background:#e2e8f0; font-weight: 800;" value="0" />
         </div>
         <div class="form-group">
           <label>Quantity:</label>
@@ -700,7 +786,7 @@
         </div>
         <div class="form-group">
           <label>Amount (₹):</label>
-          <input type="number" id="totalAmount" readonly style="background:#f1f5f9; font-weight: bold; color:var(--primary-dark);" value="0" />
+          <input type="number" id="totalAmount" readonly style="background:#e2e8f0; font-weight: 800; color:var(--ink-blue);" value="0" />
         </div>
       </div>
 
@@ -842,6 +928,17 @@
     </div>
   </section>
 
+  <!-- CUSTOMER ORDER HISTORY (LOCAL STORAGE) -->
+  <section class="history-section" id="historySection">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 class="section-title" style="margin-bottom:0; border:none; padding:0;">📜 Meri Order History</h2>
+      <button onclick="clearHistoryData()" style="background:none; border:none; color:var(--danger); font-size:0.8rem; cursor:pointer; font-weight:600;">Clear All</button>
+    </div>
+    <div class="history-list" id="historyList">
+      <!-- LocalStorage orders will render here -->
+    </div>
+  </section>
+
   <!-- RETURN / CANCEL / EXCHANGE MODAL -->
   <div class="modal" id="returnModal">
     <div class="modal-content">
@@ -862,7 +959,7 @@
         </div>
         <div class="form-group">
           <label>Request Type:</label>
-          <select id="returnType" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+          <select id="returnType" style="width:100%; padding: 10px; border-radius: 8px; border: 1.5px solid #94a3b8; font-weight: 600;">
             <option value="Cancel Order (Within 24hrs)">Cancel Order (Within 24hrs)</option>
             <option value="Return Product (Damaged/Not liked)">Return Product (Delivery ke 24hrs andar)</option>
             <option value="Exchange Product">Exchange Product</option>
@@ -883,31 +980,57 @@
     <p style="margin-top: 6px;">
       <a href="#orderSection">Order Now</a> | 
       <a href="javascript:void(0)" onclick="openReturnModal()">Return Policy</a> | 
-      <a href="#catalogSection">Products</a>
+      <a href="#historySection">Order History</a>
     </p>
   </footer>
 
-  <!-- 1. EXTERNAL PRODUCT DATABASE LOAD HOGA YAHA -->
+  <!-- 1. EXTERNAL PRODUCT DATABASE -->
   <script src="products.js"></script>
 
   <!-- 2. MAIN APPLICATION JAVASCRIPT -->
   <script>
     const CONFIG = {
-      USE_WHATSAPP: false, // Number aane par true karein
+      USE_WHATSAPP: false, // WhatsApp aane par true karein
       WHATSAPP_NUMBER: "919876543210", 
-      ENDPOINT_EMAIL: "jugmugmallorders@gmail.com", // Aapka Order Email
+      ENDPOINT_EMAIL: "jugmugmallorders@gmail.com",
     };
 
     let currentCategory = "All";
     let selectedProduct = null;
-    let catalogList = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
+    let catalogList = [];
+
+    // Helper: YouTube URL se Video ID nikaal kar auto thumbnail banana
+    function getYoutubeThumb(url) {
+      if(!url) return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400";
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      if (match && match[2].length === 11) {
+        return `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
+      }
+      return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400";
+    }
+
+    // Normalizing catalog so missing category or thumb never breaks anything
+    function processProductsList() {
+      const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
+      catalogList = raw.map(p => ({
+        id: p.id || "JM" + Math.floor(Math.random()*1000),
+        title: p.title || "Trending Product",
+        category: p.category && p.category.trim() !== "" ? p.category.trim() : "General",
+        price: p.price || 499,
+        videoUrl: p.videoUrl || "",
+        thumb: p.thumb && p.thumb.trim() !== "" ? p.thumb : getYoutubeThumb(p.videoUrl)
+      }));
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
+      processProductsList();
       generateOrderId();
       renderCategoryTabs();
       renderProductCards(catalogList);
       initVoiceAssistance();
       updateBillCalculation();
+      renderOrderHistory();
     });
 
     function generateOrderId() {
@@ -956,7 +1079,7 @@
         card.className = "product-card";
         card.innerHTML = `
           <div class="card-thumb">
-            <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
+            <img src="${item.thumb}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400';" />
             <div class="card-badge">#${index + 1} Video</div>
           </div>
           <div class="card-info">
@@ -1089,11 +1212,15 @@
       window.speechSynthesis.speak(utterance);
     }
 
+    /* ========================================================
+       ORDER SUBMISSION & LOCALSTORAGE PERSISTENCE
+       ======================================================== */
     function handleOrderSubmit(e) {
       e.preventDefault();
 
       const orderData = {
         orderId: document.getElementById('orderId').value,
+        date: new Date().toLocaleDateString('en-IN'),
         productUrl: document.getElementById('productUrl').value,
         productTitle: selectedProduct ? selectedProduct.title : "Custom Item",
         price: document.getElementById('unitPrice').value,
@@ -1105,7 +1232,11 @@
         district: document.getElementById('custDistrict').value,
         state: document.getElementById('custState').value,
         pincode: document.getElementById('custPincode').value,
+        status: "Order Successfully Placed"
       };
+
+      // Save to LocalStorage
+      saveOrderToHistory(orderData);
 
       if(CONFIG.USE_WHATSAPP) {
         const waMsg = `*🛍️ NEW ORDER - JUGMUG MALL*\n` +
@@ -1140,8 +1271,10 @@
         const mailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
         window.location.href = mailtoUrl;
 
-        alert(`Shukriya! Aapka Order ${orderData.orderId} ban gaya hai. Email app se dispatch karein.`);
+        alert(`Shukriya! Aapka Order ${orderData.orderId} register ho gaya hai aur history me save ho gaya hai.`);
       }
+
+      renderOrderHistory();
     }
 
     function resetOrderForm() {
@@ -1161,9 +1294,7 @@
       const text = `🧾 JUGMUG MALL RECEIPT\nOrder: ${orderId}\nItem: ${product}\nTotal: ₹${amount}\nCustomer: ${name} (${phone})\n24-Hours Return / Cancellation Guarantee.`;
 
       navigator.clipboard.writeText(text).then(() => {
-        alert("Receipt details clipboard par copy ho gayi hain!");
-      }).catch(() => {
-        alert("Copy failed.");
+        alert("Receipt details copy ho gayi!");
       });
     }
 
@@ -1171,6 +1302,100 @@
       window.print();
     }
 
+    /* ========================================================
+       ORDER HISTORY LOGIC (SAVE, CSV, PDF, COPY)
+       ======================================================== */
+    function getStoredOrders() {
+      try {
+        return JSON.parse(localStorage.getItem('jugmug_orders') || '[]');
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function saveOrderToHistory(order) {
+      const orders = getStoredOrders();
+      orders.unshift(order);
+      localStorage.setItem('jugmug_orders', JSON.stringify(orders));
+    }
+
+    function renderOrderHistory() {
+      const orders = getStoredOrders();
+      const listContainer = document.getElementById('historyList');
+
+      if(orders.length === 0) {
+        listContainer.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem; padding: 10px 0;">Abhi tak koi order history nahi hai.</p>`;
+        return;
+      }
+
+      listContainer.innerHTML = orders.map((o, idx) => `
+        <div class="history-card">
+          <div class="history-card-header">
+            <span>#${o.orderId}</span>
+            <span class="badge-status ${o.status.includes('Cancelled') ? 'badge-cancelled' : 'badge-placed'}">${o.status}</span>
+          </div>
+          <div><strong>Product:</strong> ${o.productTitle}</div>
+          <div><strong>Customer:</strong> ${o.name} | ₹${o.price} x ${o.qty} = <strong>₹${o.amount}</strong></div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${o.date}</div>
+          <div class="history-actions">
+            <button class="btn-hist-action" onclick="copyHistoryOrderWhatsApp(${idx})">📋 Copy WhatsApp</button>
+            <button class="btn-hist-action" onclick="exportHistorySingleCSV(${idx})">📊 Save CSV</button>
+            <button class="btn-hist-action" onclick="printHistoryOrder(${idx})">🖨️ PDF / Print</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function copyHistoryOrderWhatsApp(index) {
+      const o = getStoredOrders()[index];
+      if(!o) return;
+      const text = `🛍️ *JUGMUG MALL ORDER*\n*ID:* ${o.orderId}\n*Item:* ${o.productTitle}\n*Qty:* ${o.qty} | *Total:* ₹${o.amount}\n*Customer:* ${o.name} (${o.phone})\n*Status:* ${o.status}`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("WhatsApp format copy ho gaya! Chat me paste kar sakte hain.");
+      });
+    }
+
+    function exportHistorySingleCSV(index) {
+      const o = getStoredOrders()[index];
+      if(!o) return;
+      const csvContent = "data:text/csv;charset=utf-8," + 
+        "OrderID,Date,Customer,Phone,Product,Quantity,Price,Amount,Status,Address\n" +
+        `"${o.orderId}","${o.date}","${o.name}","${o.phone}","${o.productTitle}","${o.qty}","${o.price}","${o.amount}","${o.status}","${o.address} ${o.district} ${o.state} ${o.pincode}"`;
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Order_${o.orderId}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function printHistoryOrder(index) {
+      const o = getStoredOrders()[index];
+      if(!o) return;
+
+      // Populate into printable receipt container and print
+      document.getElementById('billOrderId').innerText = o.orderId;
+      document.getElementById('billDate').innerText = o.date;
+      document.getElementById('billProduct').innerText = o.productTitle;
+      document.getElementById('billRateQty').innerText = `₹${o.price} x ${o.qty}`;
+      document.getElementById('billTotalAmount').innerText = `₹${o.amount}`;
+      document.getElementById('billCustomerDetails').innerHTML = `<strong>${o.name}</strong><br/>Ph: ${o.phone}<br/>${o.address}<br/>${o.district}, ${o.state} - ${o.pincode}<br/><strong>Status: ${o.status}</strong>`;
+      
+      window.print();
+    }
+
+    function clearHistoryData() {
+      if(confirm("Kya aap saari order history delete karna chahte hain?")) {
+        localStorage.removeItem('jugmug_orders');
+        renderOrderHistory();
+      }
+    }
+
+    /* ========================================================
+       RETURN / CANCEL / EXCHANGE MODAL LOGIC
+       ======================================================== */
     function openReturnModal() {
       document.getElementById('returnModal').classList.add('active');
     }
@@ -1181,10 +1406,24 @@
 
     function handleReturnSubmit(e) {
       e.preventDefault();
-      const oid = document.getElementById('returnOrderId').value;
-      const phone = document.getElementById('returnPhone').value;
+      const oid = document.getElementById('returnOrderId').value.trim();
+      const phone = document.getElementById('returnPhone').value.trim();
       const type = document.getElementById('returnType').value;
       const reason = document.getElementById('returnReason').value;
+
+      // Update LocalStorage status if matching order ID exists
+      const orders = getStoredOrders();
+      let found = false;
+      orders.forEach(o => {
+        if(o.orderId.toUpperCase() === oid.toUpperCase()) {
+          o.status = type.includes("Cancel") ? "Cancelled" : "Return/Exchange Requested";
+          found = true;
+        }
+      });
+      if(found) {
+        localStorage.setItem('jugmug_orders', JSON.stringify(orders));
+        renderOrderHistory();
+      }
 
       const subject = `Return/Cancel Request: ${oid}`;
       const body = `REQUEST TYPE: ${type}\nOrder ID: ${oid}\nPhone: ${phone}\nReason: ${reason}\nNotice: Within 24 Hours.`;
@@ -1192,10 +1431,11 @@
       const mailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailtoUrl;
 
-      alert("Request bhej di gayi hai. Team 24 ghante me aapse connect karegi.");
+      alert("Request bhej di gayi hai aur aapki history me update kar diya gaya hai.");
       closeReturnModal();
     }
 
+    // Side Drawer Menu Toggle
     const sideDrawer = document.getElementById('sideDrawer');
     const drawerOverlay = document.getElementById('drawerOverlay');
     document.getElementById('openDrawer').onclick = () => toggleMenu(true);
