@@ -1,16 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Legal Policies & Disclaimers | MoonStar Mall 🌙 ⭐</title>
-  <meta name="description" content="Official Terms of Service, Reseller Disclaimers, Third-Party Marketplace Policy, and Return/Cancellation Guidelines for MoonStar Mall." />
+  <title>About Us, Contact & Legal Policies | MoonStar Mall 🌙 ⭐</title>
+  <meta name="description" content="MoonStar Mall Official Portal - About Us, Contact Desk, Reseller Disclaimers, Third-Party Marketplace Policy, Payment Terms, and 24-Hours Return Guidelines." />
+  <meta name="keywords" content="MoonStar Mall About Us, MoonStar Mall Contact, Legal Terms, Reseller Policy, COD Policy, Return Policy" />
+  <meta name="author" content="MoonStar Mall" />
   <meta name="theme-color" content="#1e3a8a" />
   <meta name="robots" content="index, follow" />
+
+  <!-- OPEN GRAPH / SOCIAL -->
+  <meta property="og:title" content="About Us, Contact & Legal Policies | MoonStar Mall 🌙 ⭐" />
+  <meta property="og:description" content="Know about MoonStar Mall, contact our order desk, and review our reseller policies & return guidelines." />
+  <meta property="og:type" content="website" />
+
+  <!-- DYNAMIC SEO JSON-LD SCHEMAS (BREADCRUMBS, ABOUT, CONTACT, LEGAL) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://moonstarmall.github.io/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Legal, About & Contact",
+            "item": "https://moonstarmall.github.io/legal.html"
+          }
+        ]
+      },
+      {
+        "@type": "AboutPage",
+        "@id": "https://moonstarmall.github.io/legal.html#about",
+        "name": "About MoonStar Mall",
+        "description": "Independent product showcase and curation platform for trending viral YouTube gadgets."
+      },
+      {
+        "@type": "ContactPage",
+        "@id": "https://moonstarmall.github.io/legal.html#contact",
+        "name": "Contact MoonStar Mall Support",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "MoonStar Mall",
+          "email": "moonstarmallorders@gmail.com",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Customer Support",
+            "availableLanguage": ["Hindi", "English"]
+          }
+        }
+      }
+    ]
+  }
+  </script>
 
   <style>
     :root {
       --primary: #1e3a8a; /* Deep Ink Blue */
+      --primary-dark: #172554;
       --secondary: #0f172a; /* Slate Dark */
       --accent: #d97706; /* Warm Amber */
       --bg: #f8fafc;
@@ -19,7 +74,8 @@
       --heading: #0f172a;
       --border: #e2e8f0;
       --danger: #b91c1c;
-      --radius: 10px;
+      --radius: 12px;
+      --shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
     }
 
     * {
@@ -33,18 +89,18 @@
     body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.7;
+      line-height: 1.65;
       padding-bottom: 60px;
     }
 
-    /* TOP HEADER */
+    /* HEADER */
     header {
       position: sticky;
       top: 0;
       z-index: 50;
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
+      padding: 12px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -58,7 +114,8 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
     }
 
     .brand-title span { color: var(--accent); }
@@ -66,12 +123,13 @@
     .back-btn {
       text-decoration: none;
       color: var(--primary);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       border: 1px solid var(--primary);
-      padding: 6px 12px;
+      padding: 5px 12px;
       border-radius: 6px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .back-btn:hover {
@@ -79,63 +137,112 @@
       color: #fff;
     }
 
-    /* PAGE CONTAINER */
+    /* CONTAINER & BREADCRUMBS */
     .container {
       max-width: 860px;
-      margin: 24px auto;
+      margin: 16px auto;
       padding: 0 16px;
     }
 
-    /* LANGUAGE QUICK TOGGLE */
-    .lang-switcher {
+    .breadcrumbs {
       display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 24px;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 16px;
     }
 
-    .lang-btn {
-      padding: 8px 18px;
-      border-radius: 20px;
-      border: 1px solid var(--primary);
-      background: #fff;
+    .breadcrumbs a {
       color: var(--primary);
-      font-weight: 700;
-      font-size: 0.85rem;
       text-decoration: none;
+      font-weight: 600;
     }
 
-    .lang-btn:hover, .lang-btn.active {
+    /* QUICK NAVIGATION PILLS */
+    .nav-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+    .nav-pills::-webkit-scrollbar { display: none; }
+
+    .pill-btn {
+      flex: 0 0 auto;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--secondary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .pill-btn:hover {
       background: var(--primary);
       color: #fff;
+      border-color: var(--primary);
     }
 
-    /* MAIN LEGAL CARD */
-    .legal-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
+    /* TOP INTRO BANNER */
+    .intro-banner {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: #fff;
+      padding: 22px 18px;
       border-radius: var(--radius);
-      padding: 28px 24px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-      margin-bottom: 30px;
-    }
-
-    .doc-header {
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 16px;
-      margin-bottom: 24px;
       text-align: center;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
     }
 
-    .doc-header h1 {
-      font-size: 1.6rem;
-      color: var(--heading);
+    .intro-banner h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
       margin-bottom: 6px;
     }
 
-    .doc-header p {
-      font-size: 0.85rem;
-      color: #64748b;
+    .intro-banner p {
+      font-size: 0.88rem;
+      opacity: 0.92;
+    }
+
+    /* CARD STYLING */
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      scroll-margin-top: 70px;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 14px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .highlight-box {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #1e40af;
+      margin: 14px 0;
+      font-weight: 600;
     }
 
     .critical-notice {
@@ -145,7 +252,7 @@
       border-radius: 6px;
       font-size: 0.88rem;
       color: #991b1b;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       line-height: 1.5;
     }
 
@@ -157,27 +264,24 @@
 
     /* CLAUSES */
     .clause {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
-    .clause h2 {
-      font-size: 1.15rem;
-      color: var(--primary);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .clause h3 {
+      font-size: 1.05rem;
+      color: var(--heading);
+      margin-bottom: 6px;
     }
 
     .clause p {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--text);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .clause ul {
       padding-left: 20px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text);
     }
 
@@ -185,10 +289,87 @@
       margin-bottom: 6px;
     }
 
+    /* CONTACT GRID */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .contact-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info h4 {
+      font-size: 0.88rem;
+      color: var(--heading);
+      margin-bottom: 2px;
+    }
+
+    .contact-info p, .contact-info a {
+      font-size: 0.82rem;
+      color: #64748b;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    /* FORM STYLES */
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--primary);
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: #fff;
+      outline: none;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+    }
+
+    .btn-send {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* DIVIDER */
     .divider {
       height: 2px;
       background: #e2e8f0;
-      margin: 40px 0;
+      margin: 35px 0;
       position: relative;
     }
 
@@ -199,16 +380,16 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: var(--bg);
-      padding: 0 14px;
+      padding: 0 12px;
       color: #94a3b8;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
     footer {
       text-align: center;
       font-size: 0.8rem;
       color: #64748b;
-      margin-top: 30px;
+      margin-top: 24px;
     }
   </style>
 </head>
@@ -221,142 +402,258 @@
   </header>
 
   <div class="container">
-    
-    <!-- QUICK NAVIGATION -->
-    <div class="lang-switcher">
-      <a href="#english-terms" class="lang-btn">English Documentation</a>
-      <a href="#hindi-terms" class="lang-btn">हिन्दी नियम एवं नीतियां</a>
+
+    <!-- BREADCRUMBS -->
+    <div class="breadcrumbs">
+      <a href="index.html">Home</a>
+      <span>/</span>
+      <span>Legal, About & Contact</span>
     </div>
 
-    <!-- ==========================================
-         SECTION 1: ENGLISH LEGAL DOCUMENTATION
-         ========================================== -->
-    <section class="legal-card" id="english-terms">
-      <div class="doc-header">
-        <h1>Terms of Service & Legal Disclaimers</h1>
-        <p>Last Updated & Effective: 2026 | Governing MoonStar Mall Operations</p>
+    <!-- QUICK NAV BUTTONS -->
+    <div class="nav-pills">
+      <a href="#about" class="pill-btn">ℹ️ About Us</a>
+      <a href="#contact" class="pill-btn">📞 Contact Support</a>
+      <a href="#english-terms" class="pill-btn">📜 Terms (English)</a>
+      <a href="#hindi-terms" class="pill-btn">📜 नियम व नीतियां (हिन्दी)</a>
+    </div>
+
+    <!-- TOP HERO BANNER -->
+    <div class="intro-banner">
+      <h1>Policies, About & Help Desk</h1>
+      <p>MoonStar Mall 🌙 ⭐ ke baare me jaanein, policies padhein aur sampark karein.</p>
+    </div>
+
+    <!-- ========================================================
+         SECTION 1: ABOUT US
+         ======================================================== -->
+    <section class="content-card" id="about">
+      <h2 class="section-title">ℹ️ Hamare Baare Me (About Us)</h2>
+      <p style="font-size:0.92rem; margin-bottom:10px;">
+        <strong>MoonStar Mall</strong> ek online showcase aur curated product platform hai jiska maksad internet aur YouTube par chal rahe sabse viral, upyogi aur smart gadgets ko sidha aap tak pahunchana hai.
+      </p>
+      <p style="font-size:0.92rem; margin-bottom:10px;">
+        Hamara safar YouTube channel se shuru hua jaha hum daily life gadgets aur unique products ki videos banate hain. Customers ki suvidha ke liye humne is website ko tayyar kiya hai taaki bina kisi jhanjhat ke, aap video dekhe kisi bhi product ko 1-click me order kar sakein.
+      </p>
+
+      <div class="highlight-box">
+        🎯 <strong>Hamara Mission:</strong> Trending viral products ki transparent jankari dena, easy order checkout aur 24-hours return support provide karna.
       </div>
 
+      <p style="font-size:0.9rem;">
+        <strong>Hum Kaise Kaam Karte Hain?</strong> Hum ek independent <strong>reselling platform aur marketplace</strong> hain. Hum verified manufacturers aur external sellers ke trending products ko showcase karte hain aur order tracking me customers ki madad karte hain.
+      </p>
+    </section>
+
+    <!-- ========================================================
+         SECTION 2: CONTACT US
+         ======================================================== -->
+    <section class="content-card" id="contact">
+      <h2 class="section-title">📞 Sampark Desk (Contact Us)</h2>
+      <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 16px;">
+        Order status, return request, listing inquiry ya kisi bhi query ke liye humse sampark karein:
+      </p>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div class="contact-info">
+            <h4>Official Email</h4>
+            <a href="mailto:moonstarmallorders@gmail.com">moonstarmallorders@gmail.com</a>
+            <p>24 Ghante me reply</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📺</div>
+          <div class="contact-info">
+            <h4>YouTube Channel</h4>
+            <a href="https://youtube.com" target="_blank">YouTube / MoonStar Mall</a>
+            <p>Daily Video Updates & Reviews</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">💬</div>
+          <div class="contact-info">
+            <h4>WhatsApp Helpline</h4>
+            <p>Active support via order email</p>
+            <p style="color:#0284c7; font-size:0.75rem;">(Number updating shortly)</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div class="contact-info">
+            <h4>Support Timing</h4>
+            <p>Somwaar - Shanivaar (Mon - Sat)</p>
+            <p>10:00 AM se 07:00 PM IST</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIRECT MESSAGE FORM -->
+      <h3 style="font-size: 1rem; color: var(--primary); margin: 18px 0 10px; border-top: 1px dashed var(--border); padding-top: 14px;">
+        ✉️ Direct Message Bhejein
+      </h3>
+
+      <form onsubmit="handleContactSubmit(event)">
+        <div class="form-group">
+          <label>Aapka Naam:</label>
+          <input type="text" id="contactName" placeholder="Pura naam likhein" required />
+        </div>
+
+        <div class="form-group">
+          <label>Mobile Number / Email:</label>
+          <input type="text" id="contactPhone" placeholder="Mobile number ya email id" required />
+        </div>
+
+        <div class="form-group">
+          <label>Query Type:</label>
+          <select id="contactType">
+            <option value="Order Status">Order Status Inquiry</option>
+            <option value="Return/Refund Query">Return / Refund Query (Within 24hrs)</option>
+            <option value="Seller Listing">Seller Product Listing Request</option>
+            <option value="Other">General Question</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Aapka Sandesh (Message):</label>
+          <textarea id="contactMsg" rows="3" placeholder="Apna sawal ya Order ID yaha likhein..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-send">📨 Send Message (Email Open Hoga)</button>
+      </form>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ========================================================
+         SECTION 3: LEGAL POLICIES (FORMAL ENGLISH)
+         ======================================================== -->
+    <section class="content-card" id="english-terms">
+      <h2 class="section-title">📜 Terms of Service & Legal Disclaimers</h2>
+      
       <div class="critical-notice">
         <strong>⚠️ CRITICAL RESELLER & MARKETPLACE DISCLAIMER</strong>
         MoonStar Mall operates strictly as an intermediary showcase and independent reseller. We are not a direct manufacturing entity. Products displayed are sourced from third-party manufacturers, open distributors, and registered independent sellers. MoonStar Mall disclaims any direct warranties regarding material quality, durability, or manufacturing defects.
       </div>
 
       <div class="clause">
-        <h2>1. Reseller & Non-Manufacturer Disclosure</h2>
-        <p>By browsing, accessing, or placing an order on MoonStar Mall, you acknowledge and agree to the following operational structure:</p>
+        <h3>1. Reseller & Non-Manufacturer Disclosure</h3>
+        <p>By placing an order on MoonStar Mall, you acknowledge and agree that:</p>
         <ul>
-          <li>MoonStar Mall is a marketing, curation, and resale platform designed to bridge consumers with third-party viral/trending products seen across online media (e.g., YouTube).</li>
-          <li>We do not design, fabricate, or control the internal manufacturing standards of the goods sold.</li>
-          <li>All product warranties, design claims, and certifications belong exclusively to the original manufacturers. MoonStar Mall provides no explicit or implied merchantability warranties.</li>
+          <li>MoonStar Mall is a marketing, curation, and resale platform connecting consumers with viral products seen across online media (e.g., YouTube).</li>
+          <li>We do not design or control the internal manufacturing standards of the goods sold.</li>
+          <li>Product warranties and manufacturing guarantees belong exclusively to original producers.</li>
         </ul>
       </div>
 
       <div class="clause">
-        <h2>2. Third-Party Sellers & Marketplace Products</h2>
-        <p>MoonStar Mall allows verified external merchants to showcase items via seller identification badges:</p>
+        <h3>2. Third-Party Sellers & Marketplace Products</h3>
+        <p>Our catalog features goods offered by independent merchants:</p>
         <ul>
-          <li>Goods denoted with independent seller badges are stored, packed, and fulfilled under the individual responsibility of the respective external vendor.</li>
-          <li>MoonStar Mall facilitates transaction routing and order coordination but assumes no liability for seller delays, inventory inaccuracies, or discrepancies in product execution by such independent third parties.</li>
+          <li>Items marked with seller identification badges are packed and fulfilled under the individual responsibility of the respective external vendor.</li>
+          <li>MoonStar Mall coordinates transaction routing but assumes no liability for independent seller delays or stock variations.</li>
           <li>Consumers are advised to exercise independent consumer judgment before purchasing items listed by multi-vendor sellers.</li>
         </ul>
       </div>
 
       <div class="clause">
-        <h2>3. Payment Terms: Cash on Delivery (COD) vs. Prepaid</h2>
-        <p>Consumers must not presume uniform payment terms across the catalog:</p>
+        <h3>3. Payment Terms: Cash on Delivery (COD) vs. Prepaid</h3>
+        <p>Payment conditions are subject to regional and logistics policies:</p>
         <ul>
-          <li><strong>Non-Universal COD:</strong> Cash on Delivery is strictly conditional. Availability is contingent upon courier logistics coverage, parcel dimension, and seller policy.</li>
-          <li><strong>Mandatory Prepaid Items:</strong> Specific electronic items, custom-sourced products, or high-value consignments may mandate 100% advance digital payment or a token advance reservation fee to mitigate fraudulent bookings.</li>
-          <li>MoonStar Mall reserves the absolute right to refuse, cancel, or convert COD consignments to prepaid status if a delivery territory reports elevated return-to-origin (RTO) frequencies.</li>
+          <li><strong>Non-Universal COD:</strong> Cash on Delivery is strictly conditional depending on courier logistics coverage and seller rules.</li>
+          <li><strong>Mandatory Prepaid Items:</strong> Specific electronic items, custom-sourced products, or high-value consignments may require partial/full advance digital payment to prevent fraudulent bookings.</li>
         </ul>
       </div>
 
       <div class="clause">
-        <h2>4. 24-Hour Return, Exchange & Cancellation Mandate</h2>
+        <h3>4. 24-Hour Return, Exchange & Cancellation Mandate</h3>
         <p>Given the low-margin resale distribution network, time boundaries are strictly enforced:</p>
         <ul>
-          <li><strong>Pre-Dispatch Cancellation:</strong> Order cancellations must be registered through the portal within twenty-four (24) hours of order submission, strictly prior to shipping manifest allocation.</li>
-          <li><strong>Post-Delivery Return Window:</strong> Damaged, missing, or materially defective products must be reported within twenty-four (24) hours of delivery confirmation. Requests raised post the 24-hour delivery mark stand unconditionally time-barred.</li>
-          <li><strong>Mandatory Unboxing Video Evidence:</strong> An uncut, unedited parcel opening video showing the outer shipping label, physical package condition, and initial item inspection is mandatory to adjudicate missing items or transit damages. Absence of video evidence renders claims void.</li>
+          <li><strong>Pre-Dispatch Cancellation:</strong> Order cancellations must be submitted within 24 hours of order submission and prior to courier manifest generation.</li>
+          <li><strong>Post-Delivery Return Window:</strong> Damaged or incorrect items must be reported within 24 hours of physical delivery confirmation. Requests raised post 24 hours stand unconditionally time-barred.</li>
+          <li><strong>Mandatory Unboxing Video:</strong> An uncut, continuous package opening video showing the outer shipping label and item inspection is mandatory to claim transit damages or missing components.</li>
         </ul>
-      </div>
-
-      <div class="clause">
-        <h2>5. Limitation of Legal Liability</h2>
-        <p>In no event shall MoonStar Mall, its proprietors, or operators be liable for indirect, incidental, punitive, or consequential damages resulting from product handling, electrical hazards, allergic reactions, or improper usage of items procured via this catalog.</p>
       </div>
     </section>
 
-    <!-- VISUAL SEPARATOR -->
-    <div class="divider"></div>
-
-    <!-- ==========================================
-         SECTION 2: HINDI LEGAL DOCUMENTATION (हिन्दी)
-         ========================================== -->
-    <section class="legal-card" id="hindi-terms">
-      <div class="doc-header">
-        <h1>नियम, शर्तें एवं कानूनी अस्वीकरण (Legal Policies)</h1>
-        <p>अंतिम संशोधन: 2026 | मूनस्टार मॉल (MoonStar Mall) आधिकारिक नीति</p>
-      </div>
+    <!-- ========================================================
+         SECTION 4: LEGAL POLICIES (FORMAL HINDI / हिन्दी)
+         ======================================================== -->
+    <section class="content-card" id="hindi-terms">
+      <h2 class="section-title">📜 नियम, शर्तें एवं कानूनी अस्वीकरण (हिन्दी)</h2>
 
       <div class="critical-notice">
         <strong>⚠️ महत्वपूर्ण पुनर्विक्रेता (Reseller) एवं बाज़ार अस्वीकरण</strong>
-        मूनस्टार मॉल (MoonStar Mall) कोई स्वयं की विनिर्माण इकाई (Factory/Manufacturer) नहीं है। हम एक स्वतंत्र रीसेलर एवं मध्यस्थ मंच हैं जो विभिन्न तृतीय-पक्ष निर्माताओं एवं स्वतंत्र विक्रेताओं (Third-Party Sellers) के उत्पाद प्रदर्शित करते हैं। अतः हम उत्पाद की आंतरिक गुणवत्ता, जीवनकाल या निर्माण दोषों की कोई प्रत्यक्ष कानूनी गारंटी नहीं लेते हैं।
+        मूनस्टार मॉल (MoonStar Mall) कोई स्वयं की विनिर्माण इकाई (Manufacturer) नहीं है। हम एक स्वतंत्र रीसेलर एवं बाज़ार मंच हैं जो विभिन्न तृतीय-पक्ष निर्माताओं एवं स्वतंत्र विक्रेताओं के उत्पाद प्रदर्शित करते हैं। अतः हम उत्पाद की आंतरिक गुणवत्ता, जीवनकाल या निर्माण दोषों की कोई प्रत्यक्ष कानूनी गारंटी नहीं लेते हैं।
       </div>
 
       <div class="clause">
-        <h2>१. पुनर्विक्रेता (रीसेलर) एवं निर्माण संबंधी स्पष्टीकरण</h2>
-        <p>मूनस्टार मॉल पर आने, ब्राउज़ करने अथवा ऑर्डर दर्ज करने पर ग्राहक निम्नलिखित शर्तों से सहमत होता है:</p>
+        <h3>१. पुनर्विक्रेता (रीसेलर) एवं निर्माण संबंधी स्पष्टीकरण</h3>
         <ul>
           <li>मूनस्टार मॉल केवल सोशल मीडिया (जैसे यूट्यूब) पर प्रचारित एवं ट्रेंडिंग उत्पादों को उपभोक्ताओं तक पहुंचाने हेतु एक रीसेलिंग व समन्वय मंच के रूप में कार्य करता है।</li>
-          <li>हम प्रदर्शित किसी भी उत्पाद का भौतिक निर्माण नहीं करते हैं। उत्पाद निर्माण के मानक, सामग्री की गुणवत्ता और टिकाऊपन पूर्णतः मूल निर्माता के अधीन हैं।</li>
-          <li>मूनस्टार मॉल किसी उत्पाद की उपयोगिता या प्रभावशीलता की कोई मौखिक अथवा लिखित गारंटी प्रदान नहीं करता है।</li>
+          <li>हम प्रदर्शित किसी भी उत्पाद का निर्माण नहीं करते हैं। उत्पाद निर्माण के मानक और सामग्री की गुणवत्ता पूर्णतः मूल निर्माता के अधीन हैं।</li>
+          <li>मूनस्टार मॉल किसी उत्पाद की उपयोगिता की कोई प्रत्यक्ष गारंटी प्रदान नहीं करता है।</li>
         </ul>
       </div>
 
       <div class="clause">
-        <h2>२. तृतीय-पक्ष विक्रेता (Third-Party Sellers) एवं बाज़ार नीति</h2>
-        <p>हमारी वेबसाइट पर स्वतंत्र विक्रेताओं द्वारा भी उत्पाद प्रदर्शित किए जाते हैं:</p>
+        <h3>२. तृतीय-पक्ष विक्रेता (Third-Party Sellers) एवं बाज़ार नीति</h3>
         <ul>
-          <li>जिन उत्पादों पर विक्रेता का नाम (Seller Name / Badge) अंकित है, उनके भंडारण, गुणवत्ता एवं प्रेषण का दायित्व संबंधित विक्रेता का होगा।</li>
-          <li>मूनस्टार मॉल केवल ग्राहक और विक्रेता के मध्य ऑर्डर समन्वय का कार्य करता है। किसी स्वतंत्र विक्रेता के स्तर पर हुए विलंब अथवा विसंगति के लिए हमारा मंच सीधे तौर पर उत्तरदायी नहीं होगा।</li>
-          <li>ग्राहकों से अनुरोध है कि वे किसी भी उत्पाद का चयन अपने स्वयं के विवेक और समझ के आधार पर करें।</li>
+          <li>जिन उत्पादों पर विक्रेता का नाम (Seller Badge) अंकित है, उनके भंडारण, गुणवत्ता एवं प्रेषण का दायित्व संबंधित विक्रेता का होगा।</li>
+          <li>मूनस्टार मॉल केवल ग्राहक और विक्रेता के मध्य ऑर्डर समन्वय का कार्य करता है। किसी स्वतंत्र विक्रेता के स्तर पर हुए विलंब के लिए हमारा मंच सीधे उत्तरदायी नहीं होगा।</li>
         </ul>
       </div>
 
       <div class="clause">
-        <h2>३. भुगतान के नियम: कैश ऑन डिलीवरी (COD) बनाम अग्रिम भुगतान (Prepaid)</h2>
-        <p>वेबसाइट पर प्रदर्शित सभी उत्पादों के लिए भुगतान की शर्तें एक समान होना अनिवार्य नहीं है:</p>
+        <h3>३. भुगतान के नियम: कैश ऑन डिलीवरी (COD) बनाम प्रीपेड</h3>
         <ul>
-          <li><strong>सीओडी की अनिश्चितता:</strong> प्रत्येक उत्पाद पर 'कैश ऑन डिलीवरी' (COD) उपलब्ध होना अनिवार्य नहीं है। यह कूरियर सेवा क्षेत्र, पार्सल के आकार तथा संबंधित विक्रेता की नीति पर निर्भर करता है।</li>
-          <li><strong>अनिवार्य प्रीपेड उत्पाद:</strong> कुछ विशेष इलेक्ट्रॉनिक सामान, दुर्लभ उत्पाद अथवा संवेदनशील पार्सल के लिए पूर्ण अथवा आंशिक अग्रिम भुगतान (Token Advance / Prepaid) अनिवार्य हो सकता है ताकि जाली ऑर्डरों से बचा जा सके।</li>
-          <li>यदि किसी क्षेत्र में पार्सल अस्वीकार होने (RTO) की संभावना अधिक पाई जाती है, तो मूनस्टार मॉल को उस ऑर्डर को रद्द करने या प्रीपेड में बदलने का पूर्ण अधिकार सुरक्षित है।</li>
+          <li><strong>सीओडी की अनिश्चितता:</strong> प्रत्येक उत्पाद पर 'कैश ऑन डिलीवरी' (COD) उपलब्ध होना अनिवार्य नहीं है। यह कूरियर सेवा क्षेत्र तथा विक्रेता की नीति पर निर्भर करता है।</li>
+          <li><strong>अनिवार्य प्रीपेड उत्पाद:</strong> कुछ विशेष इलेक्ट्रॉनिक सामान या संवेदनशील पार्सल के लिए आंशिक अथवा पूर्ण अग्रिम भुगतान (Token Advance/Prepaid) अनिवार्य हो सकता है।</li>
         </ul>
       </div>
 
       <div class="clause">
-        <h2>४. २४ घंटे की रिटर्न, निरस्तीकरण एवं एक्सचेंज नीति</h2>
-        <p>हमारी रीसेलिंग व्यवस्था कम मार्जिन पर संचालित होने के कारण समय सीमा का कड़ाई से पालन किया जाता है:</p>
+        <h3>४. २४ घंटे की रिटर्न, निरस्तीकरण एवं एक्सचेंज नीति</h3>
         <ul>
           <li><strong>ऑर्डर निरस्तीकरण (Cancellation):</strong> ऑर्डर दर्ज करने के २४ घंटे के भीतर तथा पार्सल कूरियर को सौंपे जाने से पूर्व ही ऑर्डर रद्द किया जा सकता है।</li>
-          <li><strong>डिलीवरी उपरांत रिटर्न (Return):</strong> यदि उत्पाद क्षतिग्रस्त, टूटा हुआ अथवा त्रुटिपूर्ण प्राप्त होता है, तो डिलीवरी के समय से अधिकतम २४ घंटे के भीतर वेबसाइट के रिटर्न फॉर्म द्वारा सूचना देना अनिवार्य है। २४ घंटे बीत जाने के उपरांत कोई भी रिटर्न अथवा एक्सचेंज स्वीकार नहीं किया जाएगा।</li>
-          <li><strong>अनबॉक्सिंग वीडियो की अनिवार्यता:</strong> पार्सल प्राप्त होने पर पैकेट खोलने का स्पष्ट, बिना रुकावट वाला (Uncut & Unedited Video) अनबॉक्सिंग वीडियो बनाना अनिवार्य है जिसमें पार्सल पर लगा शिपिंग लेबल और उत्पाद की स्थिति साफ दिखाई दे। बिना वीडियो प्रमाण के किसी भी क्षति अथवा गुम सामान का दावा अमान्य माना जाएगा।</li>
+          <li><strong>डिलीवरी उपरांत रिटर्न (Return):</strong> यदि उत्पाद क्षतिग्रस्त अथवा त्रुटिपूर्ण प्राप्त होता है, तो डिलीवरी के २४ घंटे के भीतर वेबसाइट के रिटर्न फॉर्म द्वारा सूचना देना अनिवार्य है। २४ घंटे बीत जाने के उपरांत कोई दावा स्वीकार नहीं किया जाएगा।</li>
+          <li><strong>अनबॉक्सिंग वीडियो की अनिवार्यता:</strong> पार्सल प्राप्त होने पर पैकेट खोलने का स्पष्ट, बिना रुकावट वाला (Uncut Video) अनबॉक्सिंग वीडियो बनाना अनिवार्य है। बिना वीडियो प्रमाण के किसी क्षति का दावा मान्य नहीं होगा।</li>
         </ul>
-      </div>
-
-      <div class="clause">
-        <h2>५. कानूनी दायित्व की सीमा (Limitation of Liability)</h2>
-        <p>किसी भी उत्पाद के गलत उपयोग, विद्युत खराबी, एलर्जी अथवा निर्माता द्वारा की गई किसी लापरवाही के परिणामस्वरूप होने वाले किसी भी प्रत्यक्ष या अप्रत्यक्ष नुकसान के लिए मूनस्टार मॉल अथवा इसके संचालक कानूनी रूप से उत्तरदायी नहीं होंगे।</p>
       </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
       <p>© 2026 MoonStar Mall 🌙 ⭐. All Rights Reserved.</p>
-      <p style="margin-top: 6px;"><a href="index.html" style="color:var(--primary); text-decoration: underline;">Back to Shopping Store</a></p>
+      <p style="margin-top: 6px;">
+        <a href="index.html" style="color:var(--primary); text-decoration: underline;">Home (Shopping Store)</a> | 
+        <a href="#contact" style="color:var(--primary); text-decoration: underline;">Contact Support</a>
+      </p>
     </footer>
 
   </div>
+
+  <script>
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('contactName').value.trim();
+      const contact = document.getElementById('contactPhone').value.trim();
+      const type = document.getElementById('contactType').value;
+      const msg = document.getElementById('contactMsg').value.trim();
+
+      const subject = `Inquiry: ${type} - ${name}`;
+      const body = `CUSTOMER INQUIRY\nName: ${name}\nContact: ${contact}\nSubject: ${type}\nMessage: ${msg}`;
+
+      const targetEmail = "moonstarmallorders@gmail.com";
+      window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      alert("Email application open ho rahi hai, send button daba kar sandesh dispatch karein.");
+    }
+  </script>
 
 </body>
 </html>
