@@ -66,9 +66,7 @@
       padding-bottom: 70px;
     }
 
-    /* ========================================================
-       STICKY TOP CONTAINER (HEADER + TICKER PATTI FREEZE TOGETHER)
-       ======================================================== */
+    /* TOP STICKY WRAPPER: HEADER + RUNNING PATTI FREEZE TOGETHER */
     .top-sticky-wrapper {
       position: sticky;
       top: 0;
@@ -76,7 +74,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    /* HEADER */
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
@@ -137,9 +134,7 @@
       padding: 2px 4px;
     }
 
-    /* ========================================================
-       FREEZE RUNNING PATTI (TICKER) - INSTANT & SMOOTH
-       ======================================================== */
+    /* RUNNING NOTICE PATTI */
     .ticker-strip {
       background: #0f172a;
       border-bottom: 2px solid var(--primary);
@@ -184,15 +179,15 @@
       display: inline-block;
       white-space: nowrap;
       will-change: transform;
-      animation: smoothTicker 35s linear infinite; /* Padhne layak smooth speed */
+      animation: smoothTicker 32s linear infinite;
       font-size: 0.8rem;
       font-weight: 700;
       color: #f8fafc;
-      padding-left: 10px; /* Instant start bina ruke */
+      padding-left: 10px;
     }
 
     .ticker-strip:hover .ticker-track {
-      animation-play-state: paused; /* Touch/Hover par ruk jayega */
+      animation-play-state: paused;
     }
 
     .ticker-track span {
@@ -342,8 +337,34 @@
     }
     .cat-btn.active .cat-count { background: rgba(255,255,255,0.25); }
 
+    /* SECTION TITLES FOR CATALOGS */
+    .shelf-header {
+      padding: 0 16px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shelf-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .shelf-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: #fef3c7;
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+
     /* 2-ROW HORIZONTAL SCROLL GRID */
-    .catalog-wrapper { padding: 0 16px; margin-bottom: 20px; }
+    .catalog-wrapper { padding: 0 16px; margin-bottom: 24px; }
     .catalog-grid {
       display: grid;
       grid-template-rows: repeat(2, 1fr);
@@ -765,12 +786,8 @@
 </head>
 <body>
 
-  <!-- ========================================================
-       TOP STICKY WRAPPER: HEADER + RUNNING PATTI FREEZE TOGETHER
-       ======================================================== -->
+  <!-- TOP STICKY WRAPPER: HEADER + TICKER PATTI FREEZE TOGETHER -->
   <div class="top-sticky-wrapper">
-    
-    <!-- HEADER -->
     <header>
       <div class="brand-title">MoonStar Mall 🌙 <span>⭐</span></div>
       <div class="header-right">
@@ -780,7 +797,7 @@
       </div>
     </header>
 
-    <!-- RUNNING NOTICE / TICKER PATTI (FREEZES WITH HEADER) -->
+    <!-- FREEZE RUNNING PATTI -->
     <div class="ticker-strip" id="globalTickerStrip">
       <div class="ticker-badge">🔥 LIVE OFFER</div>
       <div class="ticker-wrapper">
@@ -789,14 +806,13 @@
           <span>🚚 <strong>All India FREE Delivery</strong> Available On All Orders!</span>
           <span>🤝 <strong>Apna Product List Karwayein:</strong> Listing ke liye upar diye gaye <strong>[🤝 Sell]</strong> button par click karein.</span>
           <span>⏱️ <strong>24-Hours Return Guarantee:</strong> Delivery ke 24 ghante me easy return/exchange support.</span>
-          <!-- Duplicate text for seamless continuous scroll without any pause -->
+          <!-- Continuous loop duplicate -->
           <span>🎉 <strong>YouTube Family Special:</strong> Use Coupon <strong class="ticker-highlight">MOON50</strong> Aur Paayein ₹50 Ki Chhoot!</span>
           <span>🚚 <strong>All India FREE Delivery</strong> Available On All Orders!</span>
           <span>🤝 <strong>Apna Product List Karwayein:</strong> Listing ke liye upar diye gaye <strong>[🤝 Sell]</strong> button par click karein.</span>
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- DRAWER OVERLAY & MENU -->
@@ -807,7 +823,6 @@
       <button class="menu-btn" id="closeDrawer">✕</button>
     </div>
     <nav class="drawer-nav">
-      <!-- 1-CLICK SHARE WEBSITE BUTTON -->
       <a href="javascript:void(0)" onclick="shareMoonStarWebsite(); toggleMenu(false)" style="color:#0284c7; font-weight:800; background:#f0f9ff; padding:8px 6px; border-radius:6px;">
         📢 Share Website (WhatsApp / FB)
       </a>
@@ -817,14 +832,15 @@
       <a href="javascript:void(0)" id="pwaDrawerBtn" style="color:var(--ink-blue); font-weight:800;">
         📲 Install MoonStar App
       </a>
-      <a href="#catalogSection" onclick="toggleMenu(false)">📺 Trending Products</a>
+      <a href="#featuredSection" onclick="toggleMenu(false)">🔥 Featured & Trending</a>
+      <a href="#newArrivalsSection" onclick="toggleMenu(false)">✨ New Arrivals & Viral</a>
       <a href="#orderSection" onclick="toggleMenu(false)">📝 Order Form</a>
       <a href="#receiptSection" onclick="toggleMenu(false)">🧾 View Bill</a>
       <a href="#historySection" onclick="toggleMenu(false)">📜 Meri Order History</a>
       <a href="javascript:void(0)" onclick="openReturnModal(); toggleMenu(false)">🔄 Return / Cancel / Exchange</a>
-      <a href="faqmoon.html">❓ FAQ (Aksar Puche Jaane Wale Sawal)</a>
-      <a href="legalmoon.html#about">ℹ️ About Us & Contact</a>
-      <a href="legalmoon.html#english-terms">📄 Legal Terms & Policies</a>
+      <a href="faq.html">❓ FAQ (Aksar Puche Jaane Wale Sawal)</a>
+      <a href="legal.html#about">ℹ️ About Us & Contact</a>
+      <a href="legal.html#english-terms">📄 Legal Terms & Policies</a>
     </nav>
   </div>
 
@@ -846,9 +862,26 @@
   <!-- CATEGORY TABS -->
   <div class="category-tabs" id="categoryTabs"></div>
 
-  <!-- CATALOG (2 ROW HORIZONTAL SCROLL) -->
-  <section class="catalog-wrapper" id="catalogSection">
-    <div class="catalog-grid" id="productGrid"></div>
+  <!-- ========================================================
+       SECTION 1: TOP 50 FEATURED & TRENDING (2-ROW HORIZONTAL SCROLL)
+       ======================================================== -->
+  <div class="shelf-header" id="featuredSection">
+    <div class="shelf-title">🔥 Featured & Hot Trending</div>
+    <span class="shelf-badge" id="featuredCountBadge">0 Products</span>
+  </div>
+  <section class="catalog-wrapper">
+    <div class="catalog-grid" id="productGridFeatured"></div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 2: NEXT 50 NEW ARRIVALS & VIRAL GADGETS (2-ROW HORIZONTAL SCROLL)
+       ======================================================== -->
+  <div class="shelf-header" id="newArrivalsSection">
+    <div class="shelf-title">✨ New Arrivals & Viral Utility</div>
+    <span class="shelf-badge" id="newArrivalsCountBadge">0 Products</span>
+  </div>
+  <section class="catalog-wrapper">
+    <div class="catalog-grid" id="productGridNewArrivals"></div>
   </section>
 
   <!-- RETURN / CANCEL NOTICE -->
@@ -1158,21 +1191,12 @@
 
   <!-- 2. MAIN APPLICATION LOGIC -->
   <script>
-    /* ========================================================
-       GLOBAL CONTROLS & CONFIGURATION
-       ======================================================== */
     const CONFIG = {
-      USE_WHATSAPP: false, // WhatsApp number aane par true karein
+      USE_WHATSAPP: false,
       WHATSAPP_NUMBER: "919876543210", 
       ENDPOINT_EMAIL: "moonstarmallorders@gmail.com",
-
-      // TICKER / OFFER PATTI CONTROL (True = Show, False = Hide)
       SHOW_TICKER: true, 
-
-      // COUPON FEATURE TOGGLE
       ENABLE_COUPON: true,
-
-      // AVAILABLE ACTIVE COUPONS
       COUPONS: {
         "MOON50": { discount: 50, type: "flat" },
         "WELCOME10": { discount: 10, type: "percent" },
@@ -1249,13 +1273,11 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Toggle Ticker Strip
       const tickerElem = document.getElementById('globalTickerStrip');
       if(tickerElem) {
         tickerElem.style.display = CONFIG.SHOW_TICKER ? 'flex' : 'none';
       }
 
-      // Toggle Coupon Container
       if(!CONFIG.ENABLE_COUPON) {
         document.getElementById('couponBox').style.display = 'none';
       }
@@ -1263,11 +1285,12 @@
       processProductsList();
       generateOrderId();
       renderCategoryTabs();
-      renderProductCards(catalogList);
+      distributeAndRenderShelves(catalogList);
       initVoiceAssistance();
       updateBillCalculation();
       renderOrderHistory();
       setupPWA();
+      checkDirectOrderUrlParam();
     });
 
     function generateOrderId() {
@@ -1297,11 +1320,41 @@
       currentCategory = cat;
       renderCategoryTabs();
       const filtered = (cat === "All") ? catalogList : catalogList.filter(p => p.category === cat);
-      renderProductCards(filtered);
+      distributeAndRenderShelves(filtered);
     }
 
-    function renderProductCards(list) {
-      const grid = document.getElementById('productGrid');
+    /* ========================================================
+       SCALING LOGIC: 50 + 50 (TWO SHELVES OF 2-ROW GRIDS)
+       ======================================================== */
+    function distributeAndRenderShelves(list) {
+      // Shelf 1: Pehle 50 products (index 0 se 50)
+      const shelf1Products = list.slice(0, 50);
+      // Shelf 2: Agle 50 products (index 50 se 100+)
+      const shelf2Products = list.slice(50, 100);
+
+      document.getElementById('featuredCountBadge').innerText = `${shelf1Products.length} Items`;
+      document.getElementById('newArrivalsCountBadge').innerText = `${shelf2Products.length} Items`;
+
+      // Render Shelf 1
+      renderProductGrid('productGridFeatured', shelf1Products, 0);
+
+      // Render Shelf 2 (Agar list me 50 se zyada products hain to show hoga)
+      const shelf2Header = document.getElementById('newArrivalsSection');
+      const shelf2Container = document.getElementById('productGridNewArrivals').parentElement;
+
+      if(shelf2Products.length > 0) {
+        shelf2Header.style.display = 'flex';
+        shelf2Container.style.display = 'block';
+        renderProductGrid('productGridNewArrivals', shelf2Products, 50);
+      } else {
+        // Agar total products 50 se kam hain to dusra shelf hide rahega taaki khali na dikhe
+        shelf2Header.style.display = 'none';
+        shelf2Container.style.display = 'none';
+      }
+    }
+
+    function renderProductGrid(gridId, list, startIndexOffset) {
+      const grid = document.getElementById(gridId);
       grid.innerHTML = "";
 
       if(list.length === 0) {
@@ -1340,7 +1393,7 @@
         card.innerHTML = `
           <div style="position:relative;">
             <div class="badge-bar">
-              <span class="card-num-badge">#${index + 1}</span>
+              <span class="card-num-badge">#${startIndexOffset + index + 1}</span>
               ${sellerBadgeHtml}
             </div>
             ${mediaHtml}
@@ -1368,19 +1421,18 @@
     }
 
     /* ========================================================
-       SHARING LOGIC (WEBSITE & SINGLE PRODUCT)
+       UPDATED SHARE LOGIC: PREVIEWS YOUTUBE / IMGBB & NO DOUBLE URL
        ======================================================== */
     function shareMoonStarWebsite() {
-      const shareData = {
-        title: 'MoonStar Mall 🌙 ⭐',
-        text: 'YouTube trending viral products dekhein aur best offers par direct order karein!',
-        url: window.location.href
-      };
+      const baseUrl = window.location.origin + window.location.pathname;
+      const shareText = `🛍️ *MoonStar Mall 🌙 ⭐*\nYouTube viral trending gadgets & products direct factory price par order karein!\nCash on Delivery & 24hr Return Available.\nVisit: ${baseUrl}`;
 
       if (navigator.share) {
-        navigator.share(shareData).catch(() => {});
+        navigator.share({
+          text: shareText
+        }).catch(() => {});
       } else {
-        navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`).then(() => {
+        navigator.clipboard.writeText(shareText).then(() => {
           alert("Website link clipboard par copy ho gaya! WhatsApp/Facebook par paste karein.");
         });
       }
@@ -1390,18 +1442,40 @@
       const product = catalogList.find(p => p.id === productId);
       if(!product) return;
 
-      const shareText = `🛍️ *${product.title}*\nPrice: ₹${product.price} (FREE Delivery)\nMoonStar Mall par abhi order karein:\n${window.location.href}`;
+      const baseUrl = window.location.origin + window.location.pathname;
+      const productOrderUrl = `${baseUrl}?order=${product.id}`;
+
+      // Media preview link (YouTube watch link ya ImgBB image link)
+      // WhatsApp/Facebook is link ko padhkar attractive thumbnail preview banata hai!
+      const mediaPreviewLink = product.videoUrl ? product.videoUrl : product.thumb;
+
+      const shareContent = 
+        `🔥 *${product.title}*\n` +
+        `💰 *Best Price:* ₹${product.price} (FREE Home Delivery)\n` +
+        `🏬 *Seller:* ${product.sellerName}\n\n` +
+        `📺 *Watch Preview & Demo:* ${mediaPreviewLink}\n\n` +
+        `🛒 *MoonStar Mall Se Direct Order Karein:* ${productOrderUrl}`;
 
       if (navigator.share) {
+        // Sirf `text` pass kar rahe hain taaki URL do baar repeat NA ho
         navigator.share({
-          title: product.title,
-          text: shareText,
-          url: window.location.href
+          text: shareContent
         }).catch(() => {});
       } else {
-        navigator.clipboard.writeText(shareText).then(() => {
-          alert(`"${product.title}" ka link aur details copy ho gayi hain! WhatsApp ya Telegram par share karein.`);
+        navigator.clipboard.writeText(shareContent).then(() => {
+          alert(`"${product.title}" ka preview link copy ho gaya! WhatsApp ya Telegram par paste karein.`);
         });
+      }
+    }
+
+    // Agar koi customer share kiye huye link (`?order=MS01`) se website khole to form auto select ho jaye
+    function checkDirectOrderUrlParam() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderParam = urlParams.get('order');
+      if(orderParam) {
+        setTimeout(() => {
+          selectProductToOrder(orderParam);
+        }, 300);
       }
     }
 
@@ -1413,7 +1487,7 @@
         p.videoUrl.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q)
       );
-      renderProductCards(filtered);
+      distributeAndRenderShelves(filtered);
     }
 
     function selectProductToOrder(productId) {
@@ -1748,7 +1822,6 @@
       }
     }
 
-    /* SELLER MODAL ACTIONS */
     function openSellerModal() { document.getElementById('sellerModal').classList.add('active'); }
     function closeSellerModal() { document.getElementById('sellerModal').classList.remove('active'); }
     function handleSellerSubmit(e) {
@@ -1765,7 +1838,6 @@
       closeSellerModal();
     }
 
-    /* RETURN MODAL */
     function openReturnModal() { document.getElementById('returnModal').classList.add('active'); }
     function closeReturnModal() { document.getElementById('returnModal').classList.remove('active'); }
     function handleReturnSubmit(e) {
@@ -1790,7 +1862,6 @@
       closeReturnModal();
     }
 
-    /* DRAWER MENU */
     const sideDrawer = document.getElementById('sideDrawer');
     const drawerOverlay = document.getElementById('drawerOverlay');
     document.getElementById('openDrawer').onclick = () => toggleMenu(true);
@@ -1807,7 +1878,6 @@
       }
     }
 
-    /* PWA */
     let deferredPrompt;
     function setupPWA() {
       if ('serviceWorker' in navigator) {
