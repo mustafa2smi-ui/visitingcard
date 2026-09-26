@@ -5,22 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jugmug Mall 🛍️ 🛒 | Online Shopping Store</title>
 
+  <!-- PWA & Mobile Web Meta -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Jugmug Mall" />
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" />
+  <meta name="theme-color" content="#1e3a8a" />
+
   <!-- SEO & Social Meta Tags -->
-  <meta name="description" content="Jugmug Mall par trending YouTube products direct order karein. Best price, cash on delivery aur 24 hours return/cancel policy." />
-  <meta name="keywords" content="Jugmug Mall, YouTube Shopping, Viral Products, Trending Gadgets, Online Order" />
+  <meta name="description" content="Jugmug Mall par trending YouTube products direct order karein. Best viral gadgets, cash on delivery aur 24 hours return/cancel policy." />
+  <meta name="keywords" content="Jugmug Mall, YouTube Shopping, Viral Products, Trending Gadgets, Online Order, COD" />
   <meta name="author" content="Jugmug Mall" />
   <meta property="og:title" content="Jugmug Mall 🛍️ 🛒 | Trending YouTube Products" />
-  <meta property="og:description" content="YouTube par dekhe sabhi products direct yaha se order karein. Easy checkout." />
+  <meta property="og:description" content="YouTube par dekhe sabhi products direct yaha se order karein." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#1e3a8a" />
+
+  <!-- DYNAMIC JSON-LD SCHEMA CONTAINER -->
+  <script type="application/ld+json" id="schemaJsonLd">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Jugmug Mall",
+    "url": "https://jugmugmall.github.io/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://jugmugmall.github.io/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 
   <style>
     /* CSS RESET & VARIABLES */
     :root {
-      --primary: #d97706; /* Warm Amber */
+      --primary: #d97706;
       --primary-dark: #b45309;
-      --secondary: #0f172a; /* Deep Slate */
-      --ink-blue: #1e3a8a; /* Deep Royal Ink Blue for Form */
+      --secondary: #0f172a;
+      --ink-blue: #1e3a8a;
       --ink-blue-dark: #172554;
       --bg: #f8fafc;
       --card-bg: #ffffff;
@@ -37,7 +60,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -55,7 +78,7 @@
       z-index: 100;
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -71,8 +94,26 @@
       gap: 6px;
     }
 
-    .brand-title span {
-      color: var(--primary);
+    .brand-title span { color: var(--primary); }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pwa-btn {
+      display: none;
+      background: var(--ink-blue);
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      align-items: center;
+      gap: 4px;
     }
 
     .menu-btn {
@@ -100,9 +141,7 @@
       padding: 24px 20px;
     }
 
-    .drawer.open {
-      right: 0;
-    }
+    .drawer.open { right: 0; }
 
     .drawer-overlay {
       position: fixed;
@@ -115,9 +154,7 @@
       display: none;
     }
 
-    .drawer-overlay.active {
-      display: block;
-    }
+    .drawer-overlay.active { display: block; }
 
     .drawer-head {
       display: flex;
@@ -138,10 +175,6 @@
       border-bottom: 1px dashed var(--border);
     }
 
-    .drawer-nav a:hover {
-      color: var(--primary);
-    }
-
     /* HERO POSTER */
     .hero-banner {
       margin: 16px;
@@ -153,17 +186,8 @@
       box-shadow: var(--shadow);
     }
 
-    .hero-banner h1 {
-      font-size: 1.55rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .hero-banner p {
-      font-size: 0.92rem;
-      opacity: 0.95;
-    }
-
+    .hero-banner h1 { font-size: 1.55rem; font-weight: 800; margin-bottom: 6px; }
+    .hero-banner p { font-size: 0.92rem; opacity: 0.95; }
     .hero-banner .badge {
       display: inline-block;
       margin-top: 10px;
@@ -175,16 +199,8 @@
     }
 
     /* SEARCH BAR */
-    .search-section {
-      padding: 0 16px;
-      margin-bottom: 14px;
-    }
-
-    .search-box {
-      position: relative;
-      width: 100%;
-    }
-
+    .search-section { padding: 0 16px; margin-bottom: 14px; }
+    .search-box { position: relative; width: 100%; }
     .search-box input {
       width: 100%;
       padding: 12px 14px 12px 40px;
@@ -194,12 +210,6 @@
       background: #fff;
       outline: none;
     }
-
-    .search-box input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
-    }
-
     .search-icon {
       position: absolute;
       left: 14px;
@@ -217,11 +227,7 @@
       padding: 0 16px 12px;
       scrollbar-width: none;
     }
-
-    .category-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
+    .category-tabs::-webkit-scrollbar { display: none; }
     .cat-btn {
       flex: 0 0 auto;
       padding: 8px 16px;
@@ -236,30 +242,21 @@
       align-items: center;
       gap: 6px;
     }
-
     .cat-btn.active {
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
     }
-
     .cat-count {
       background: rgba(0,0,0,0.08);
       padding: 2px 6px;
       border-radius: 10px;
       font-size: 0.75rem;
     }
-
-    .cat-btn.active .cat-count {
-      background: rgba(255,255,255,0.25);
-    }
+    .cat-btn.active .cat-count { background: rgba(255,255,255,0.25); }
 
     /* 2-ROW HORIZONTAL SCROLL GRID */
-    .catalog-wrapper {
-      padding: 0 16px;
-      margin-bottom: 20px;
-    }
-
+    .catalog-wrapper { padding: 0 16px; margin-bottom: 20px; }
     .catalog-grid {
       display: grid;
       grid-template-rows: repeat(2, 1fr);
@@ -283,18 +280,65 @@
       scroll-snap-align: start;
     }
 
-    .card-thumb {
+    /* SMART MEDIA PLAYER (YOUTUBE + IMGBB + FALLBACK) */
+    .card-thumb-container {
       width: 100%;
-      height: 140px;
+      height: 150px;
       background: #e2e8f0;
       position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .card-thumb img {
+    .card-thumb-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
+    /* Centered Play Button (No Autoplay, click to play) */
+    .play-overlay-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(220, 38, 38, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .play-overlay-btn:active { transform: translate(-50%, -50%) scale(0.9); }
+
+    .card-thumb-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Fallback emoji card */
+    .media-fallback {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 2.2rem;
+      background: #f1f5f9;
+      width: 100%;
+      height: 100%;
+    }
+    .media-fallback span { font-size: 0.75rem; font-weight: 700; margin-top: 4px; }
 
     .card-badge {
       position: absolute;
@@ -306,6 +350,7 @@
       padding: 3px 8px;
       border-radius: 6px;
       font-weight: 600;
+      z-index: 2;
     }
 
     .card-info {
@@ -351,7 +396,7 @@
       cursor: pointer;
     }
 
-    /* POLICY BANNER */
+    /* NOTICE BANNER */
     .policy-banner {
       margin: 0 16px 20px;
       background: #fffbeb;
@@ -364,12 +409,7 @@
       flex-direction: column;
       gap: 4px;
     }
-
-    .policy-banner strong {
-      font-size: 0.88rem;
-      color: #78350f;
-    }
-
+    .policy-banner strong { color: #78350f; }
     .policy-action-btn {
       align-self: flex-start;
       margin-top: 4px;
@@ -383,11 +423,9 @@
       font-size: 0.82rem;
     }
 
-    /* ========================================================
-       ORDER FORM (SPECIAL INK BLUE STYLING & SOFT DARK TINT)
-       ======================================================== */
+    /* ORDER FORM (INK BLUE THEME) */
     .form-section {
-      background: #f1f5f9; /* Halka Soft Dark/Grey-Blue Background */
+      background: #f1f5f9;
       margin: 0 16px 24px;
       padding: 22px 18px;
       border-radius: var(--radius);
@@ -398,24 +436,19 @@
     .section-title {
       font-size: 1.35rem;
       font-weight: 800;
-      color: var(--ink-blue); /* Ink Blue Title */
+      color: var(--ink-blue);
       margin-bottom: 16px;
       border-bottom: 2px solid #cbd5e1;
       padding-bottom: 8px;
     }
 
-    .form-group {
-      margin-bottom: 14px;
-    }
-
-    /* Order Form Labels in Royal Ink Blue */
+    .form-group { margin-bottom: 14px; }
     .form-section label {
       display: block;
       font-size: 0.84rem;
       font-weight: 800;
       margin-bottom: 5px;
-      color: var(--ink-blue); /* Ink Blue Text */
-      letter-spacing: 0.2px;
+      color: var(--ink-blue);
     }
 
     .form-section input, 
@@ -427,34 +460,21 @@
       border-radius: 8px;
       font-size: 0.92rem;
       background: #ffffff;
-      color: var(--ink-blue-dark); /* Ink Blue User Input Text */
+      color: var(--ink-blue-dark);
       font-weight: 600;
       outline: none;
-      transition: all 0.2s;
     }
 
     .form-section input:focus,
     .form-section textarea:focus {
       border-color: var(--ink-blue);
-      background: #fff;
       box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2);
     }
 
-    .form-row {
-      display: flex;
-      gap: 10px;
-    }
+    .form-row { display: flex; gap: 10px; }
+    .form-row .form-group { flex: 1; }
 
-    .form-row .form-group {
-      flex: 1;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
+    .form-actions { display: flex; gap: 10px; margin-top: 20px; }
     .btn-submit {
       flex: 2;
       background: var(--ink-blue);
@@ -465,11 +485,6 @@
       font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 3px 8px rgba(30, 58, 138, 0.3);
-    }
-
-    .btn-submit:active {
-      transform: scale(0.98);
     }
 
     .btn-clear {
@@ -485,10 +500,7 @@
     }
 
     /* 2-INCH INVOICE (58MM THERMAL STYLE) */
-    .receipt-section {
-      margin: 0 16px 28px;
-    }
-
+    .receipt-section { margin: 0 16px 28px; }
     .receipt-container {
       width: 100%;
       max-width: 280px;
@@ -500,38 +512,17 @@
       font-family: 'Courier New', Courier, monospace;
       font-size: 0.8rem;
       color: #000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
-
     .receipt-header {
       text-align: center;
       border-bottom: 1px dashed #000;
       padding-bottom: 8px;
       margin-bottom: 8px;
     }
-
-    .receipt-header h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-    }
-
-    .receipt-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-
-    .receipt-divider {
-      border-bottom: 1px dashed #000;
-      margin: 8px 0;
-    }
-
-    .receipt-actions {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 14px;
-    }
+    .receipt-header h3 { font-size: 1.1rem; font-weight: 900; }
+    .receipt-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .receipt-divider { border-bottom: 1px dashed #000; margin: 8px 0; }
+    .receipt-actions { display: flex; justify-content: center; gap: 10px; margin-top: 14px; }
 
     .btn-copy, .btn-download {
       background: var(--secondary);
@@ -543,14 +534,9 @@
       font-weight: 600;
       cursor: pointer;
     }
+    .btn-download { background: var(--ink-blue); }
 
-    .btn-download {
-      background: var(--ink-blue);
-    }
-
-    /* ========================================================
-       CUSTOMER HISTORY SECTION (LOCAL STORAGE)
-       ======================================================== */
+    /* ORDER HISTORY (LOCAL STORAGE) */
     .history-section {
       background: var(--card-bg);
       margin: 0 16px 28px;
@@ -559,14 +545,7 @@
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
     }
-
-    .history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
+    .history-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
     .history-card {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -577,31 +556,11 @@
       gap: 6px;
       font-size: 0.83rem;
     }
-
-    .history-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 800;
-    }
-
-    .badge-status {
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
+    .history-card-header { display: flex; justify-content: space-between; align-items: center; font-weight: 800; }
+    .badge-status { padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; }
     .badge-placed { background: #dcfce7; color: #15803d; }
     .badge-cancelled { background: #fee2e2; color: #b91c1c; }
-
-    .history-actions {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-
+    .history-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
     .btn-hist-action {
       background: #fff;
       border: 1px solid var(--border);
@@ -610,31 +569,9 @@
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
-    .btn-hist-action:hover {
-      background: #e2e8f0;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--secondary);
-      color: #94a3b8;
-      text-align: center;
-      padding: 24px 16px;
-      font-size: 0.8rem;
-    }
-
-    footer a {
-      color: #cbd5e1;
-      text-decoration: underline;
-      margin: 0 6px;
-    }
-
-    /* MODAL POPUP */
+    /* MODAL */
     .modal {
       position: fixed;
       top: 0;
@@ -648,11 +585,7 @@
       justify-content: center;
       padding: 16px;
     }
-
-    .modal.active {
-      display: flex;
-    }
-
+    .modal.active { display: flex; }
     .modal-content {
       background: #fff;
       width: 100%;
@@ -661,7 +594,6 @@
       padding: 20px;
       position: relative;
     }
-
     .modal-close {
       position: absolute;
       top: 14px;
@@ -670,8 +602,16 @@
       cursor: pointer;
       background: none;
       border: none;
-      color: #64748b;
     }
+
+    footer {
+      background: var(--secondary);
+      color: #94a3b8;
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 0.8rem;
+    }
+    footer a { color: #cbd5e1; text-decoration: underline; margin: 0 6px; }
 
     @media print {
       body * { visibility: hidden; }
@@ -691,7 +631,10 @@
   <!-- HEADER -->
   <header>
     <div class="brand-title">Jugmug Mall 🛍️ <span>🛒</span></div>
-    <button class="menu-btn" id="openDrawer" aria-label="Open Menu">☰</button>
+    <div class="header-right">
+      <button class="pwa-btn" id="pwaInstallBtn">📲 Install App</button>
+      <button class="menu-btn" id="openDrawer" aria-label="Open Menu">☰</button>
+    </div>
   </header>
 
   <!-- DRAWER OVERLAY & MENU -->
@@ -702,14 +645,14 @@
       <button class="menu-btn" id="closeDrawer">✕</button>
     </div>
     <nav class="drawer-nav">
-      <a href="#catalogSection" onclick="toggleMenu(false)">📺 Trending YouTube Products</a>
+      <a href="javascript:void(0)" id="pwaDrawerBtn" style="color:var(--primary); font-weight:800;">📲 Install Jugmug App</a>
+      <a href="#catalogSection" onclick="toggleMenu(false)">📺 Trending Products</a>
       <a href="#orderSection" onclick="toggleMenu(false)">📝 Order Form</a>
       <a href="#receiptSection" onclick="toggleMenu(false)">🧾 View Bill</a>
       <a href="#historySection" onclick="toggleMenu(false)">📜 Meri Order History</a>
       <a href="javascript:void(0)" onclick="openReturnModal(); toggleMenu(false)">🔄 Return / Cancel / Exchange</a>
-      <a href="javascript:alert('Jugmug Mall: Direct factory-sourced viral products at unbeatable prices.')">ℹ️ About Us</a>
-      <a href="javascript:alert('Privacy Policy: Customer contact details are strictly kept confidential and used solely for courier shipment.')">🔒 Privacy Policy</a>
-      <a href="javascript:alert('Terms & Conditions: Orders are delivered in 4-7 business days across India.')">📄 Terms & Conditions</a>
+      <a href="javascript:alert('Jugmug Mall: Direct viral products at best prices.')">ℹ️ About Us</a>
+      <a href="javascript:alert('Privacy Policy: Customer contact details strictly safe.')">🔒 Privacy Policy</a>
     </nav>
   </div>
 
@@ -717,7 +660,7 @@
   <section class="hero-banner">
     <h1>Jugmug Mall 🛍️</h1>
     <p>YouTube Par Dekhe Sabhi Trending Products Yaha Direct Order Karein!</p>
-    <div class="badge">🔥 100% Quality Check • Fast Delivery • 24hr Return Policy</div>
+    <div class="badge">🔥 100% Quality Checked • Cash on Delivery • 24hr Return Policy</div>
   </section>
 
   <!-- SEARCH SECTION -->
@@ -738,9 +681,9 @@
 
   <!-- RETURN / CANCEL NOTICE -->
   <div class="policy-banner">
-    <div><strong>⏱️ 24 Hours Cancellation Guarantee:</strong> Order dispatch hone se pehle 24 ghante ke andar cancel karna aniwarya hai.</div>
-    <div><strong>📦 24 Hours Easy Return:</strong> Delivery milne ke baad agar product pasand na aaye to turant 24 ghante ke andar return request daalein.</div>
-    <button class="policy-action-btn" onclick="openReturnModal()">Click Karein: Return / Cancel Form Kholein ➔</button>
+    <div><strong>⏱️ 24 Hours Cancellation:</strong> Order dispatch hone se pehle 24 ghante me cancel karein.</div>
+    <div><strong>📦 24 Hours Easy Return:</strong> Delivery ke baad 24 ghante ke andar return request daalein.</div>
+    <button class="policy-action-btn" onclick="openReturnModal()">Return / Cancel Form Kholein ➔</button>
   </div>
 
   <!-- ORDER FORM SECTION (INK BLUE THEME) -->
@@ -754,12 +697,12 @@
       </div>
 
       <div class="form-group">
-        <label>Product URL Link Paste Here / Auto Selected:</label>
+        <label>Product URL / Link / Name (Auto Selected or Paste):</label>
         <input 
-          type="url" 
+          type="text" 
           id="productUrl" 
-          placeholder="https://youtu.be/..." 
-          data-voice="Product ka YouTube link daalein ya upar se select karein" 
+          placeholder="YouTube link ya ImgBB link..." 
+          data-voice="Product ka link daalein ya upar se select karein" 
           required 
           oninput="handleManualUrlPaste(this.value)"
         />
@@ -778,7 +721,7 @@
             value="1" 
             min="1" 
             max="20" 
-            data-voice="Product ki quantity select karein" 
+            data-voice="Quantity select karein" 
             onchange="updateBillCalculation()" 
             oninput="updateBillCalculation()" 
             required
@@ -809,18 +752,18 @@
           id="custPhone" 
           placeholder="10-digit Mobile Number" 
           pattern="[0-9]{10}" 
-          data-voice="Apna 10 digit ka mobile number likhein" 
+          data-voice="Apna 10 digit mobile number likhein" 
           required 
           oninput="updateLiveBill()"
         />
       </div>
 
       <div class="form-group">
-        <label>Full Delivery Address (Ghar ka pata, Gali, Landmark):</label>
+        <label>Full Delivery Address (Ghar ka pata, Landmark):</label>
         <textarea 
           id="custAddress" 
           rows="2" 
-          placeholder="Makan number, Mohalla ya Landmark" 
+          placeholder="Makan no, Gali ya Landmark" 
           data-voice="Ghar ka pura pata aur landmark darj karein" 
           required 
           oninput="updateLiveBill()"
@@ -835,7 +778,7 @@
             id="custPincode" 
             placeholder="6-digit Pincode" 
             pattern="[0-9]{6}" 
-            data-voice="Apna 6 digit ka area pincode bharein" 
+            data-voice="Apna area pincode bharein" 
             required 
             oninput="fetchPincodeData(this.value); updateLiveBill();"
           />
@@ -845,7 +788,7 @@
           <input 
             type="text" 
             id="custDistrict" 
-            placeholder="Zila (District)" 
+            placeholder="Zila" 
             data-voice="Apna district check karein" 
             required 
             oninput="updateLiveBill()"
@@ -858,7 +801,7 @@
         <input 
           type="text" 
           id="custState" 
-          placeholder="Rajya (State)" 
+          placeholder="Rajya" 
           data-voice="Apna state verify karein" 
           required 
           oninput="updateLiveBill()"
@@ -879,7 +822,7 @@
     <div class="receipt-container" id="printableReceipt">
       <div class="receipt-header">
         <h3>JUGMUG MALL</h3>
-        <p>Online YouTube Store</p>
+        <p>Online Store</p>
       </div>
       
       <div class="receipt-row">
@@ -923,29 +866,27 @@
     </div>
 
     <div class="receipt-actions">
-      <button class="btn-copy" onclick="copyOrderDetails()">📋 Copy Order Details</button>
+      <button class="btn-copy" onclick="copyOrderDetails()">📋 Copy Details</button>
       <button class="btn-download" onclick="downloadBill()">🖨️ Download / Print</button>
     </div>
   </section>
 
-  <!-- CUSTOMER ORDER HISTORY (LOCAL STORAGE) -->
+  <!-- CUSTOMER ORDER HISTORY -->
   <section class="history-section" id="historySection">
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <h2 class="section-title" style="margin-bottom:0; border:none; padding:0;">📜 Meri Order History</h2>
       <button onclick="clearHistoryData()" style="background:none; border:none; color:var(--danger); font-size:0.8rem; cursor:pointer; font-weight:600;">Clear All</button>
     </div>
-    <div class="history-list" id="historyList">
-      <!-- LocalStorage orders will render here -->
-    </div>
+    <div class="history-list" id="historyList"></div>
   </section>
 
-  <!-- RETURN / CANCEL / EXCHANGE MODAL -->
+  <!-- RETURN / CANCEL MODAL -->
   <div class="modal" id="returnModal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeReturnModal()">✕</button>
-      <h3 style="margin-bottom: 8px; color: var(--secondary);">Return / Cancel / Exchange Request</h3>
+      <h3 style="margin-bottom: 8px; color: var(--secondary);">Return / Cancel Request</h3>
       <p style="font-size: 0.8rem; color: #b45309; margin-bottom: 14px;">
-        * Notice: Dispatch se pehle 24 ghante ke andar Cancel, aur delivery ke 24 ghante ke andar Return/Exchange request karna aniwarya hai.
+        * Dispatch se pehle 24 ghante me Cancel, aur delivery ke 24 ghante me Return request karein.
       </p>
 
       <form onsubmit="handleReturnSubmit(event)">
@@ -961,7 +902,7 @@
           <label>Request Type:</label>
           <select id="returnType" style="width:100%; padding: 10px; border-radius: 8px; border: 1.5px solid #94a3b8; font-weight: 600;">
             <option value="Cancel Order (Within 24hrs)">Cancel Order (Within 24hrs)</option>
-            <option value="Return Product (Damaged/Not liked)">Return Product (Delivery ke 24hrs andar)</option>
+            <option value="Return Product (Within 24hrs)">Return Product (Delivery ke 24hrs)</option>
             <option value="Exchange Product">Exchange Product</option>
           </select>
         </div>
@@ -984,13 +925,13 @@
     </p>
   </footer>
 
-  <!-- 1. EXTERNAL PRODUCT DATABASE -->
+  <!-- 1. LOAD EXTERNAL DATABASE -->
   <script src="products.js"></script>
 
-  <!-- 2. MAIN APPLICATION JAVASCRIPT -->
+  <!-- 2. MAIN APPLICATION LOGIC -->
   <script>
     const CONFIG = {
-      USE_WHATSAPP: false, // WhatsApp aane par true karein
+      USE_WHATSAPP: false,
       WHATSAPP_NUMBER: "919876543210", 
       ENDPOINT_EMAIL: "jugmugmallorders@gmail.com",
     };
@@ -999,28 +940,66 @@
     let selectedProduct = null;
     let catalogList = [];
 
-    // Helper: YouTube URL se Video ID nikaal kar auto thumbnail banana
-    function getYoutubeThumb(url) {
-      if(!url) return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400";
+    // Extract YouTube Video ID
+    function extractYouTubeId(url) {
+      if(!url) return null;
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
       const match = url.match(regExp);
-      if (match && match[2].length === 11) {
-        return `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`;
-      }
-      return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400";
+      return (match && match[2].length === 11) ? match[2] : null;
     }
 
-    // Normalizing catalog so missing category or thumb never breaks anything
+    // Process & Fallback Manager (YouTube + ImgBB + Plain Text)
     function processProductsList() {
       const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
-      catalogList = raw.map(p => ({
-        id: p.id || "JM" + Math.floor(Math.random()*1000),
-        title: p.title || "Trending Product",
-        category: p.category && p.category.trim() !== "" ? p.category.trim() : "General",
-        price: p.price || 499,
-        videoUrl: p.videoUrl || "",
-        thumb: p.thumb && p.thumb.trim() !== "" ? p.thumb : getYoutubeThumb(p.videoUrl)
-      }));
+      catalogList = raw.map(p => {
+        const ytId = extractYouTubeId(p.videoUrl);
+        const hasImg = p.imageUrl && p.imageUrl.trim() !== "";
+        
+        let thumbUrl = null;
+        if(hasImg) {
+          thumbUrl = p.imageUrl.trim();
+        } else if(ytId) {
+          thumbUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+        }
+
+        return {
+          id: p.id || "JM" + Math.floor(Math.random()*1000),
+          title: p.title || "Trending Product",
+          category: p.category && p.category.trim() !== "" ? p.category.trim() : "General",
+          price: p.price || 499,
+          videoUrl: p.videoUrl || "",
+          imageUrl: p.imageUrl || "",
+          youtubeId: ytId,
+          thumb: thumbUrl
+        };
+      });
+
+      injectDynamicJsonLdSchema(catalogList);
+    }
+
+    // Inject SEO Schema Markup dynamically
+    function injectDynamicJsonLdSchema(products) {
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": products.map((item, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "Product",
+            "name": item.title,
+            "image": item.thumb || "https://cdn-icons-png.flaticon.com/512/3081/3081559.png",
+            "description": `${item.title} available online at Jugmug Mall.`,
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "INR",
+              "price": item.price,
+              "availability": "https://schema.org/InStock"
+            }
+          }
+        }))
+      };
+      document.getElementById('schemaJsonLd').textContent = JSON.stringify(schemaData);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -1031,6 +1010,7 @@
       initVoiceAssistance();
       updateBillCalculation();
       renderOrderHistory();
+      setupPWA();
     });
 
     function generateOrderId() {
@@ -1038,9 +1018,7 @@
       const generated = "JM-" + randomNum;
       document.getElementById('orderId').value = generated;
       document.getElementById('billOrderId').innerText = generated;
-      
-      const now = new Date();
-      document.getElementById('billDate').innerText = now.toLocaleDateString('en-IN');
+      document.getElementById('billDate').innerText = new Date().toLocaleDateString('en-IN');
     }
 
     function renderCategoryTabs() {
@@ -1065,6 +1043,7 @@
       renderProductCards(filtered);
     }
 
+    // Render Cards (Supports Inline YouTube, ImgBB, and Safe Fallback)
     function renderProductCards(list) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = "";
@@ -1077,10 +1056,40 @@
       list.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = "product-card";
+        
+        // Media Block Generation
+        let mediaHtml = "";
+        if(item.youtubeId) {
+          // Has YouTube Video (Click play button to play inline, no auto play)
+          mediaHtml = `
+            <div class="card-thumb-container" id="mediaBox_${item.id}">
+              <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
+              <div class="play-overlay-btn" onclick="playInlineVideo('${item.id}', '${item.youtubeId}')" title="Play Video">▶</div>
+            </div>
+          `;
+        } else if(item.thumb) {
+          // Only Image (ImgBB / Direct Link)
+          mediaHtml = `
+            <div class="card-thumb-container">
+              <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
+            </div>
+          `;
+        } else {
+          // Fallback (Only text/emoji, crash-proof)
+          mediaHtml = `
+            <div class="card-thumb-container">
+              <div class="media-fallback">
+                🛍️
+                <span>${item.category}</span>
+              </div>
+            </div>
+          `;
+        }
+
         card.innerHTML = `
-          <div class="card-thumb">
-            <img src="${item.thumb}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400';" />
-            <div class="card-badge">#${index + 1} Video</div>
+          <div style="position:relative;">
+            <div class="card-badge">#${index + 1}</div>
+            ${mediaHtml}
           </div>
           <div class="card-info">
             <h4 class="card-title" title="${item.title}">${item.title}</h4>
@@ -1094,11 +1103,20 @@
       });
     }
 
+    // Play YouTube video inline on click (Strictly NO autoplay initially)
+    function playInlineVideo(containerId, youtubeId) {
+      const container = document.getElementById(`mediaBox_${containerId}`);
+      if(container) {
+        container.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      }
+    }
+
     function handleSearch(query) {
       const q = query.trim().toLowerCase();
       const filtered = catalogList.filter(p => 
         p.title.toLowerCase().includes(q) || 
         p.videoUrl.toLowerCase().includes(q) ||
+        p.imageUrl.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q)
       );
       renderProductCards(filtered);
@@ -1109,7 +1127,7 @@
       if(!product) return;
 
       selectedProduct = product;
-      document.getElementById('productUrl').value = product.videoUrl;
+      document.getElementById('productUrl').value = product.videoUrl || product.imageUrl || product.title;
       document.getElementById('unitPrice').value = product.price;
       
       updateBillCalculation();
@@ -1118,13 +1136,16 @@
 
     function handleManualUrlPaste(url) {
       const cleanUrl = url.trim().toLowerCase();
-      const matched = catalogList.find(p => p.videoUrl.toLowerCase().includes(cleanUrl) || cleanUrl.includes(p.videoUrl.toLowerCase()));
+      const matched = catalogList.find(p => 
+        (p.videoUrl && p.videoUrl.toLowerCase().includes(cleanUrl)) ||
+        (p.imageUrl && p.imageUrl.toLowerCase().includes(cleanUrl))
+      );
       
       if(matched) {
         selectedProduct = matched;
         document.getElementById('unitPrice').value = matched.price;
       } else {
-        selectedProduct = { title: "Custom YouTube Product", price: 499, videoUrl: url };
+        selectedProduct = { title: "Custom YouTube/ImgBB Item", price: 499, videoUrl: url };
         document.getElementById('unitPrice').value = 499;
       }
       updateBillCalculation();
@@ -1150,13 +1171,12 @@
       const state = document.getElementById('custState').value.trim();
       const pin = document.getElementById('custPincode').value.trim();
 
-      const detailsHtml = `
+      document.getElementById('billCustomerDetails').innerHTML = `
         <strong>${name}</strong><br/>
         Ph: ${phone}<br/>
         ${addr}<br/>
         ${dist ? dist + ', ' : ''}${state ? state + ' ' : ''}${pin ? '- ' + pin : ''}
       `;
-      document.getElementById('billCustomerDetails').innerHTML = detailsHtml;
     }
 
     async function fetchPincodeData(pincode) {
@@ -1172,34 +1192,24 @@
             updateLiveBill();
           }
         } catch(err) {
-          console.warn("Pincode API offline or timeout.");
+          console.warn("Pincode API unavailable.");
         }
       }
     }
 
     function initVoiceAssistance() {
       if(!('speechSynthesis' in window)) return;
-
       const inputs = document.querySelectorAll('input[data-voice], textarea[data-voice]');
 
       inputs.forEach(input => {
         input.addEventListener('focus', () => {
-          if(input.value.trim() === "") {
-            speakVoice(input.getAttribute('data-voice'));
-          }
+          if(input.value.trim() === "") speakVoice(input.getAttribute('data-voice'));
         });
-
         input.addEventListener('input', () => {
-          if(input.value.length > 0) {
-            window.speechSynthesis.cancel();
-          } else {
-            speakVoice(input.getAttribute('data-voice'));
-          }
+          if(input.value.length > 0) window.speechSynthesis.cancel();
+          else speakVoice(input.getAttribute('data-voice'));
         });
-
-        input.addEventListener('blur', () => {
-          window.speechSynthesis.cancel();
-        });
+        input.addEventListener('blur', () => window.speechSynthesis.cancel());
       });
     }
 
@@ -1212,9 +1222,6 @@
       window.speechSynthesis.speak(utterance);
     }
 
-    /* ========================================================
-       ORDER SUBMISSION & LOCALSTORAGE PERSISTENCE
-       ======================================================== */
     function handleOrderSubmit(e) {
       e.preventDefault();
 
@@ -1235,43 +1242,16 @@
         status: "Order Successfully Placed"
       };
 
-      // Save to LocalStorage
       saveOrderToHistory(orderData);
 
       if(CONFIG.USE_WHATSAPP) {
-        const waMsg = `*🛍️ NEW ORDER - JUGMUG MALL*\n` +
-                      `*Order ID:* ${orderData.orderId}\n` +
-                      `*Product:* ${orderData.productTitle}\n` +
-                      `*Qty:* ${orderData.qty} | *Total:* ₹${orderData.amount}\n` +
-                      `*Link:* ${orderData.productUrl}\n\n` +
-                      `*Customer Details:*\n` +
-                      `*Name:* ${orderData.name}\n` +
-                      `*Mobile:* ${orderData.phone}\n` +
-                      `*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
-        
+        const waMsg = `*🛍️ NEW ORDER - JUGMUG MALL*\n*Order ID:* ${orderData.orderId}\n*Product:* ${orderData.productTitle}\n*Qty:* ${orderData.qty} | *Total:* ₹${orderData.amount}\n*Customer:* ${orderData.name} (${orderData.phone})\n*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
         window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
       } else {
         const emailSubject = `Order Placed: ${orderData.orderId} - ${orderData.name}`;
-        const emailBody = `JUGMUG MALL ORDER DETAILS\n` +
-                          `====================================\n` +
-                          `Order ID: ${orderData.orderId}\n` +
-                          `Product: ${orderData.productTitle}\n` +
-                          `URL: ${orderData.productUrl}\n` +
-                          `Qty: ${orderData.qty}\n` +
-                          `Amount: ₹${orderData.amount}\n\n` +
-                          `SHIPPING DETAILS:\n` +
-                          `Name: ${orderData.name}\n` +
-                          `Phone: ${orderData.phone}\n` +
-                          `Address: ${orderData.address}\n` +
-                          `District: ${orderData.district}\n` +
-                          `State: ${orderData.state}\n` +
-                          `Pincode: ${orderData.pincode}\n` +
-                          `====================================`;
-
-        const mailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-        window.location.href = mailtoUrl;
-
-        alert(`Shukriya! Aapka Order ${orderData.orderId} register ho gaya hai aur history me save ho gaya hai.`);
+        const emailBody = `JUGMUG MALL ORDER CONFIRMATION\nOrder ID: ${orderData.orderId}\nProduct: ${orderData.productTitle}\nQty: ${orderData.qty}\nAmount: ₹${orderData.amount}\nName: ${orderData.name}\nPhone: ${orderData.phone}\nAddress: ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
+        window.location.href = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        alert(`Order ${orderData.orderId} register ho gaya hai.`);
       }
 
       renderOrderHistory();
@@ -1292,25 +1272,15 @@
       const product = selectedProduct ? selectedProduct.title : "Custom Item";
 
       const text = `🧾 JUGMUG MALL RECEIPT\nOrder: ${orderId}\nItem: ${product}\nTotal: ₹${amount}\nCustomer: ${name} (${phone})\n24-Hours Return / Cancellation Guarantee.`;
-
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Receipt details copy ho gayi!");
-      });
+      navigator.clipboard.writeText(text).then(() => alert("Receipt copy ho gayi!"));
     }
 
-    function downloadBill() {
-      window.print();
-    }
+    function downloadBill() { window.print(); }
 
-    /* ========================================================
-       ORDER HISTORY LOGIC (SAVE, CSV, PDF, COPY)
-       ======================================================== */
+    /* HISTORY STORAGE LOGIC */
     function getStoredOrders() {
-      try {
-        return JSON.parse(localStorage.getItem('jugmug_orders') || '[]');
-      } catch(e) {
-        return [];
-      }
+      try { return JSON.parse(localStorage.getItem('jugmug_orders') || '[]'); }
+      catch(e) { return []; }
     }
 
     function saveOrderToHistory(order) {
@@ -1324,7 +1294,7 @@
       const listContainer = document.getElementById('historyList');
 
       if(orders.length === 0) {
-        listContainer.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem; padding: 10px 0;">Abhi tak koi order history nahi hai.</p>`;
+        listContainer.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem; padding: 10px 0;">Abhi koi order history nahi hai.</p>`;
         return;
       }
 
@@ -1335,7 +1305,7 @@
             <span class="badge-status ${o.status.includes('Cancelled') ? 'badge-cancelled' : 'badge-placed'}">${o.status}</span>
           </div>
           <div><strong>Product:</strong> ${o.productTitle}</div>
-          <div><strong>Customer:</strong> ${o.name} | ₹${o.price} x ${o.qty} = <strong>₹${o.amount}</strong></div>
+          <div><strong>Details:</strong> ₹${o.price} x ${o.qty} = <strong>₹${o.amount}</strong></div>
           <div style="font-size:0.75rem; color:var(--text-muted);">${o.date}</div>
           <div class="history-actions">
             <button class="btn-hist-action" onclick="copyHistoryOrderWhatsApp(${idx})">📋 Copy WhatsApp</button>
@@ -1350,21 +1320,16 @@
       const o = getStoredOrders()[index];
       if(!o) return;
       const text = `🛍️ *JUGMUG MALL ORDER*\n*ID:* ${o.orderId}\n*Item:* ${o.productTitle}\n*Qty:* ${o.qty} | *Total:* ₹${o.amount}\n*Customer:* ${o.name} (${o.phone})\n*Status:* ${o.status}`;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("WhatsApp format copy ho gaya! Chat me paste kar sakte hain.");
-      });
+      navigator.clipboard.writeText(text).then(() => alert("WhatsApp format copy ho gaya!"));
     }
 
     function exportHistorySingleCSV(index) {
       const o = getStoredOrders()[index];
       if(!o) return;
-      const csvContent = "data:text/csv;charset=utf-8," + 
-        "OrderID,Date,Customer,Phone,Product,Quantity,Price,Amount,Status,Address\n" +
-        `"${o.orderId}","${o.date}","${o.name}","${o.phone}","${o.productTitle}","${o.qty}","${o.price}","${o.amount}","${o.status}","${o.address} ${o.district} ${o.state} ${o.pincode}"`;
-
-      const encodedUri = encodeURI(csvContent);
+      const csvContent = "data:text/csv;charset=utf-8,OrderID,Date,Customer,Phone,Product,Qty,Amount,Status\n" +
+        `"${o.orderId}","${o.date}","${o.name}","${o.phone}","${o.productTitle}","${o.qty}","${o.amount}","${o.status}"`;
       const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
+      link.setAttribute("href", encodeURI(csvContent));
       link.setAttribute("download", `Order_${o.orderId}.csv`);
       document.body.appendChild(link);
       link.click();
@@ -1374,68 +1339,48 @@
     function printHistoryOrder(index) {
       const o = getStoredOrders()[index];
       if(!o) return;
-
-      // Populate into printable receipt container and print
       document.getElementById('billOrderId').innerText = o.orderId;
       document.getElementById('billDate').innerText = o.date;
       document.getElementById('billProduct').innerText = o.productTitle;
       document.getElementById('billRateQty').innerText = `₹${o.price} x ${o.qty}`;
       document.getElementById('billTotalAmount').innerText = `₹${o.amount}`;
       document.getElementById('billCustomerDetails').innerHTML = `<strong>${o.name}</strong><br/>Ph: ${o.phone}<br/>${o.address}<br/>${o.district}, ${o.state} - ${o.pincode}<br/><strong>Status: ${o.status}</strong>`;
-      
       window.print();
     }
 
     function clearHistoryData() {
-      if(confirm("Kya aap saari order history delete karna chahte hain?")) {
+      if(confirm("Saari order history delete karein?")) {
         localStorage.removeItem('jugmug_orders');
         renderOrderHistory();
       }
     }
 
-    /* ========================================================
-       RETURN / CANCEL / EXCHANGE MODAL LOGIC
-       ======================================================== */
-    function openReturnModal() {
-      document.getElementById('returnModal').classList.add('active');
-    }
-
-    function closeReturnModal() {
-      document.getElementById('returnModal').classList.remove('active');
-    }
-
+    /* RETURN MODAL */
+    function openReturnModal() { document.getElementById('returnModal').classList.add('active'); }
+    function closeReturnModal() { document.getElementById('returnModal').classList.remove('active'); }
     function handleReturnSubmit(e) {
       e.preventDefault();
       const oid = document.getElementById('returnOrderId').value.trim();
-      const phone = document.getElementById('returnPhone').value.trim();
       const type = document.getElementById('returnType').value;
+      const phone = document.getElementById('returnPhone').value;
       const reason = document.getElementById('returnReason').value;
 
-      // Update LocalStorage status if matching order ID exists
       const orders = getStoredOrders();
-      let found = false;
       orders.forEach(o => {
         if(o.orderId.toUpperCase() === oid.toUpperCase()) {
           o.status = type.includes("Cancel") ? "Cancelled" : "Return/Exchange Requested";
-          found = true;
         }
       });
-      if(found) {
-        localStorage.setItem('jugmug_orders', JSON.stringify(orders));
-        renderOrderHistory();
-      }
+      localStorage.setItem('jugmug_orders', JSON.stringify(orders));
+      renderOrderHistory();
 
-      const subject = `Return/Cancel Request: ${oid}`;
-      const body = `REQUEST TYPE: ${type}\nOrder ID: ${oid}\nPhone: ${phone}\nReason: ${reason}\nNotice: Within 24 Hours.`;
-
-      const mailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const mailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=Return Request ${oid}&body=Type: ${type}%0D%0AOrder: ${oid}%0D%0APhone: ${phone}%0D%0AReason: ${reason}`;
       window.location.href = mailtoUrl;
-
-      alert("Request bhej di gayi hai aur aapki history me update kar diya gaya hai.");
+      alert("Request submit ho gayi.");
       closeReturnModal();
     }
 
-    // Side Drawer Menu Toggle
+    /* DRAWER MENU */
     const sideDrawer = document.getElementById('sideDrawer');
     const drawerOverlay = document.getElementById('drawerOverlay');
     document.getElementById('openDrawer').onclick = () => toggleMenu(true);
@@ -1450,6 +1395,47 @@
         sideDrawer.classList.remove('open');
         drawerOverlay.classList.remove('active');
       }
+    }
+
+    /* ========================================================
+       PWA INSTALLATION & SERVICE WORKER REGISTRATION
+       ======================================================== */
+    let deferredPrompt;
+    function setupPWA() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('SW Registered'))
+          .catch((err) => console.log('SW Fail:', err));
+      }
+
+      const pwaBtn = document.getElementById('pwaInstallBtn');
+      const pwaDrawerBtn = document.getElementById('pwaDrawerBtn');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        pwaBtn.style.display = 'inline-flex';
+      });
+
+      const triggerInstall = () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              pwaBtn.style.display = 'none';
+            }
+            deferredPrompt = null;
+          });
+        } else {
+          alert("Aapka browser ya device PWA direct install support karta hai. Browser menu me jaakar 'Add to Home screen' par click karein.");
+        }
+      };
+
+      pwaBtn.addEventListener('click', triggerInstall);
+      pwaDrawerBtn.addEventListener('click', () => {
+        toggleMenu(false);
+        triggerInstall();
+      });
     }
   </script>
 </body>
