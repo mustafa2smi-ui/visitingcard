@@ -88,6 +88,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
 
     .brand-title span { color: var(--primary); }
@@ -102,16 +103,37 @@
       background: #e0f2fe;
       color: #0369a1;
       border: 1px solid #bae6fd;
-      padding: 5px 9px;
+      /*padding: 3px 6px;*/
       border-radius: 20px;
-      font-size: 0.73rem;
+      /*font-size: 0.73rem;*/
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 4px;
     }
+/* Header ko ek line me fit rakhne ke liye */
+.brand-title {
+  white-space: nowrap;
+  font-size: 1.15rem; /* Mobile par thoda neat font */
+}
 
+/* Sell button ko mobile par compact banana */
+.btn-seller-badge {
+  padding: 4px 8px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 380px) {
+  .brand-title {
+    font-size: 1rem; /* Ekdam chhote phones par bhi single line */
+  }
+  .btn-seller-badge {
+    padding: 3px 6px;
+    font-size: 0.65rem;
+  }
+}
     .pwa-btn {
       display: none;
       background: var(--ink-blue);
@@ -205,7 +227,76 @@
       font-size: 0.78rem;
       font-weight: 600;
     }
+/* ========================================================
+   RUNNING NOTICE / TICKER PATTI (BLINKING BADGE + MARQUEE)
+   ======================================================== */
+.ticker-strip {
+  background: #0f172a; /* Deep Slate Background */
+  border-top: 1px solid #334155;
+  border-bottom: 2px solid var(--primary); /* Golden bottom border */
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
 
+.ticker-badge {
+  background: #dc2626; /* Red Blink Badge */
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-left: 12px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: blinkBadge 1.2s infinite;
+  z-index: 2;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+  flex-shrink: 0;
+}
+
+@keyframes blinkBadge {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.96); }
+}
+
+.ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  animation: tickerScroll 24s linear infinite;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+/* Jab customer ungli se touch kare ya mouse le jaye to scroll ruk jaye */
+.ticker-strip:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-track span {
+  margin-right: 35px;
+}
+
+.ticker-highlight {
+  color: #fbbf24; /* Golden Highlight for Code */
+  background: rgba(251, 191, 36, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px dashed #fbbf24;
+}
+
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
     /* SEARCH BAR */
     .search-section { padding: 0 16px; margin-bottom: 14px; }
     .search-box { position: relative; width: 100%; }
@@ -696,7 +787,16 @@
       <button class="menu-btn" id="openDrawer" aria-label="Open Menu">☰</button>
     </div>
   </header>
-
+<!-- RUNNING NOTICE STRIP (SPECIAL OFFER / COUPON TICKER) -->
+  <div class="ticker-strip">
+    <div class="ticker-badge">🔥 LIVE OFFER</div>
+    <div class="ticker-track">
+      <span>🎉 <strong>YouTube Family Special:</strong> Use Coupon <strong class="ticker-highlight">MOON50</strong> Aur Paayein ₹50 Ki Chhoot!</span>
+      <span>🚚 <strong>All India FREE Delivery</strong> Available On All Orders!</span>
+      <span>⏱️ <strong>24-Hours Return & Cancel Guarantee</strong> | 100% Genuine Viral Products!</span>
+      <span>⭐ 10% Extra Discount On First Order With Code <strong class="ticker-highlight">WELCOME10</strong></span>
+    </div>
+  </div>
   <!-- DRAWER OVERLAY & MENU -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <div class="drawer" id="sideDrawer">
