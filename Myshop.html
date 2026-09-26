@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jugmug Mall 🛍️ 🛒 | Online Shopping Store</title>
+  <title>MoonStar Mall 🌙 ⭐ | Online Shopping Store</title>
 
   <!-- PWA & Mobile Web Meta -->
   <link rel="manifest" href="manifest.json" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Jugmug Mall" />
+  <meta name="apple-mobile-web-app-title" content="MoonStar Mall" />
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" />
   <meta name="theme-color" content="#1e3a8a" />
 
   <!-- SEO & Social Meta Tags -->
-  <meta name="description" content="Jugmug Mall par trending YouTube products direct order karein. Best viral gadgets, cash on delivery aur 24 hours return/cancel policy." />
-  <meta name="keywords" content="Jugmug Mall, YouTube Shopping, Viral Products, Trending Gadgets, Online Order, COD" />
-  <meta name="author" content="Jugmug Mall" />
-  <meta property="og:title" content="Jugmug Mall 🛍️ 🛒 | Trending YouTube Products" />
-  <meta property="og:description" content="YouTube par dekhe sabhi products direct yaha se order karein." />
+  <meta name="description" content="MoonStar Mall par trending YouTube products, gadgets aur daily viral items direct order karein. Best price, cash on delivery aur 24 hours return/cancel policy." />
+  <meta name="keywords" content="MoonStar Mall, YouTube Shopping, Viral Products, Trending Gadgets, Online Order, Sell on MoonStar Mall" />
+  <meta name="author" content="MoonStar Mall" />
+  <meta property="og:title" content="MoonStar Mall 🌙 ⭐ | Trending Products Store" />
+  <meta property="og:description" content="Trending YouTube products direct yaha se order karein." />
   <meta property="og:type" content="website" />
 
   <!-- DYNAMIC JSON-LD SCHEMA CONTAINER -->
@@ -27,23 +27,18 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Jugmug Mall",
-    "url": "https://jugmugmall.github.io/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://jugmugmall.github.io/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "name": "MoonStar Mall",
+    "url": "https://moonstarmall.github.io/"
   }
   </script>
 
   <style>
     /* CSS RESET & VARIABLES */
     :root {
-      --primary: #d97706;
+      --primary: #d97706; /* Warm Amber */
       --primary-dark: #b45309;
-      --secondary: #0f172a;
-      --ink-blue: #1e3a8a;
+      --secondary: #0f172a; /* Slate */
+      --ink-blue: #1e3a8a; /* Deep Ink Blue */
       --ink-blue-dark: #172554;
       --bg: #f8fafc;
       --card-bg: #ffffff;
@@ -52,6 +47,7 @@
       --border: #e2e8f0;
       --success: #16a34a;
       --danger: #dc2626;
+      --seller-badge: #0284c7;
       --radius: 12px;
       --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
@@ -102,18 +98,30 @@
       gap: 8px;
     }
 
+    .btn-seller-badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .pwa-btn {
       display: none;
       background: var(--ink-blue);
       color: #fff;
       border: none;
-      padding: 5px 10px;
+      padding: 5px 9px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       font-weight: 700;
       cursor: pointer;
-      align-items: center;
-      gap: 4px;
     }
 
     .menu-btn {
@@ -129,8 +137,8 @@
     .drawer {
       position: fixed;
       top: 0;
-      right: -280px;
-      width: 280px;
+      right: -290px;
+      width: 290px;
       height: 100%;
       background: var(--card-bg);
       z-index: 200;
@@ -178,7 +186,7 @@
     /* HERO POSTER */
     .hero-banner {
       margin: 16px;
-      background: linear-gradient(135deg, #f59e0b, #d97706);
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
       border-radius: var(--radius);
       padding: 22px 18px;
       color: #fff;
@@ -191,7 +199,7 @@
     .hero-banner .badge {
       display: inline-block;
       margin-top: 10px;
-      background: rgba(0,0,0,0.22);
+      background: rgba(255,255,255,0.15);
       padding: 4px 12px;
       border-radius: 20px;
       font-size: 0.78rem;
@@ -280,7 +288,7 @@
       scroll-snap-align: start;
     }
 
-    /* SMART MEDIA PLAYER (YOUTUBE + IMGBB + FALLBACK) */
+    /* SMART MEDIA CONTAINER */
     .card-thumb-container {
       width: 100%;
       height: 150px;
@@ -298,7 +306,6 @@
       object-fit: cover;
     }
 
-    /* Centered Play Button (No Autoplay, click to play) */
     .play-overlay-btn {
       position: absolute;
       top: 50%;
@@ -315,10 +322,8 @@
       font-size: 1.2rem;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
+      z-index: 3;
     }
-
-    .play-overlay-btn:active { transform: translate(-50%, -50%) scale(0.9); }
 
     .card-thumb-container iframe {
       width: 100%;
@@ -326,31 +331,51 @@
       border: none;
     }
 
-    /* Fallback emoji card */
     .media-fallback {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: var(--text-muted);
       font-size: 2.2rem;
       background: #f1f5f9;
       width: 100%;
       height: 100%;
     }
-    .media-fallback span { font-size: 0.75rem; font-weight: 700; margin-top: 4px; }
 
-    .card-badge {
+    /* BADGES */
+    .badge-bar {
       position: absolute;
       top: 8px;
       left: 8px;
+      right: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .card-num-badge {
       background: rgba(15, 23, 42, 0.85);
       color: #fff;
       font-size: 0.7rem;
-      padding: 3px 8px;
+      padding: 3px 7px;
       border-radius: 6px;
       font-weight: 600;
-      z-index: 2;
+    }
+
+    .card-seller-badge {
+      background: rgba(2, 132, 199, 0.95);
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      max-width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .card-info {
@@ -386,7 +411,7 @@
     }
 
     .order-now-btn {
-      background: var(--primary);
+      background: var(--ink-blue);
       color: #fff;
       border: none;
       padding: 6px 14px;
@@ -396,7 +421,7 @@
       cursor: pointer;
     }
 
-    /* NOTICE BANNER */
+    /* POLICY BANNER */
     .policy-banner {
       margin: 0 16px 20px;
       background: #fffbeb;
@@ -423,7 +448,9 @@
       font-size: 0.82rem;
     }
 
-    /* ORDER FORM (INK BLUE THEME) */
+    /* ========================================================
+       ORDER FORM (INK BLUE THEME & COUPON SECTION)
+       ======================================================== */
     .form-section {
       background: #f1f5f9;
       margin: 0 16px 24px;
@@ -473,6 +500,38 @@
 
     .form-row { display: flex; gap: 10px; }
     .form-row .form-group { flex: 1; }
+
+    /* COUPON BOX STYLING */
+    .coupon-container {
+      background: #e0f2fe;
+      border: 1.5px dashed #0284c7;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .coupon-input-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-apply-coupon {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 0 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .coupon-msg {
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
 
     .form-actions { display: flex; gap: 10px; margin-top: 20px; }
     .btn-submit {
@@ -536,7 +595,7 @@
     }
     .btn-download { background: var(--ink-blue); }
 
-    /* ORDER HISTORY (LOCAL STORAGE) */
+    /* ORDER HISTORY */
     .history-section {
       background: var(--card-bg);
       margin: 0 16px 28px;
@@ -571,7 +630,7 @@
       cursor: pointer;
     }
 
-    /* MODAL */
+    /* MODAL POPUPS */
     .modal {
       position: fixed;
       top: 0;
@@ -630,9 +689,10 @@
 
   <!-- HEADER -->
   <header>
-    <div class="brand-title">Jugmug Mall 🛍️ <span>🛒</span></div>
+    <div class="brand-title">MoonStar Mall 🌙 <span>⭐</span></div>
     <div class="header-right">
-      <button class="pwa-btn" id="pwaInstallBtn">📲 Install App</button>
+      <button class="btn-seller-badge" onclick="openSellerModal()">🤝 Sell with Us</button>
+      <button class="pwa-btn" id="pwaInstallBtn">📲 Install</button>
       <button class="menu-btn" id="openDrawer" aria-label="Open Menu">☰</button>
     </div>
   </header>
@@ -645,29 +705,30 @@
       <button class="menu-btn" id="closeDrawer">✕</button>
     </div>
     <nav class="drawer-nav">
-      <a href="javascript:void(0)" id="pwaDrawerBtn" style="color:var(--primary); font-weight:800;">📲 Install Jugmug App</a>
+      <a href="javascript:void(0)" onclick="openSellerModal(); toggleMenu(false)" style="color:#0284c7; font-weight:800;">🤝 Sell on MoonStar Mall (Listing)</a>
+      <a href="javascript:void(0)" id="pwaDrawerBtn" style="color:var(--primary); font-weight:800;">📲 Install MoonStar App</a>
       <a href="#catalogSection" onclick="toggleMenu(false)">📺 Trending Products</a>
       <a href="#orderSection" onclick="toggleMenu(false)">📝 Order Form</a>
       <a href="#receiptSection" onclick="toggleMenu(false)">🧾 View Bill</a>
       <a href="#historySection" onclick="toggleMenu(false)">📜 Meri Order History</a>
       <a href="javascript:void(0)" onclick="openReturnModal(); toggleMenu(false)">🔄 Return / Cancel / Exchange</a>
-      <a href="javascript:alert('Jugmug Mall: Direct viral products at best prices.')">ℹ️ About Us</a>
+      <a href="javascript:alert('MoonStar Mall: Direct viral products at best prices.')">ℹ️ About Us</a>
       <a href="javascript:alert('Privacy Policy: Customer contact details strictly safe.')">🔒 Privacy Policy</a>
     </nav>
   </div>
 
   <!-- HERO SECTION -->
   <section class="hero-banner">
-    <h1>Jugmug Mall 🛍️</h1>
+    <h1>MoonStar Mall 🌙 ⭐</h1>
     <p>YouTube Par Dekhe Sabhi Trending Products Yaha Direct Order Karein!</p>
-    <div class="badge">🔥 100% Quality Checked • Cash on Delivery • 24hr Return Policy</div>
+    <div class="badge">🔥 Verified Sellers • Cash on Delivery • 24hr Return Policy</div>
   </section>
 
   <!-- SEARCH SECTION -->
   <section class="search-section">
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Product name ya YouTube link search karein..." oninput="handleSearch(this.value)" />
+      <input type="text" id="searchInput" placeholder="Product, Seller ya YouTube link search karein..." oninput="handleSearch(this.value)" />
     </div>
   </section>
 
@@ -697,7 +758,12 @@
       </div>
 
       <div class="form-group">
-        <label>Product URL / Link / Name (Auto Selected or Paste):</label>
+        <label>Seller / Vendor Name:</label>
+        <input type="text" id="sellerNameField" readonly style="background:#e2e8f0; font-weight:700; color:#0284c7;" value="MoonStar Official" />
+      </div>
+
+      <div class="form-group">
+        <label>Product Link / Name (Auto Selected or Paste):</label>
         <input 
           type="text" 
           id="productUrl" 
@@ -731,6 +797,16 @@
           <label>Amount (₹):</label>
           <input type="number" id="totalAmount" readonly style="background:#e2e8f0; font-weight: 800; color:var(--ink-blue);" value="0" />
         </div>
+      </div>
+
+      <!-- DYNAMIC COUPON / DISCOUNT BOX (Can be hidden via CONFIG) -->
+      <div class="coupon-container" id="couponBox">
+        <label style="color:#0369a1; margin-bottom:2px;">🎟️ Have a Discount Coupon?</label>
+        <div class="coupon-input-group">
+          <input type="text" id="couponInput" placeholder="Code daalein (e.g. MOON50)" style="text-transform:uppercase; padding:8px; border-radius:6px; font-weight:700;" />
+          <button type="button" class="btn-apply-coupon" onclick="applyCouponCode()">Apply</button>
+        </div>
+        <div class="coupon-msg" id="couponMessage"></div>
       </div>
 
       <div class="form-group">
@@ -821,13 +897,17 @@
     
     <div class="receipt-container" id="printableReceipt">
       <div class="receipt-header">
-        <h3>JUGMUG MALL</h3>
-        <p>Online Store</p>
+        <h3>MOONSTAR MALL</h3>
+        <p>Marketplace & Order Desk</p>
       </div>
       
       <div class="receipt-row">
         <span>Order ID:</span>
         <span id="billOrderId">---</span>
+      </div>
+      <div class="receipt-row">
+        <span>Seller:</span>
+        <span id="billSeller">MoonStar Official</span>
       </div>
       <div class="receipt-row">
         <span>Date:</span>
@@ -843,6 +923,10 @@
         <span>Rate x Qty:</span>
         <span id="billRateQty">₹0 x 1</span>
       </div>
+      <div class="receipt-row" id="billDiscountRow" style="display:none; color: #dc2626;">
+        <span>Discount:</span>
+        <span id="billDiscountVal">-₹0</span>
+      </div>
       <div class="receipt-row">
         <span>Shipping:</span>
         <span>FREE</span>
@@ -850,7 +934,7 @@
       <div class="receipt-divider"></div>
 
       <div class="receipt-row" style="font-weight: bold; font-size: 0.95rem;">
-        <span>TOTAL DUE:</span>
+        <span>NET PAYABLE:</span>
         <span id="billTotalAmount">₹0</span>
       </div>
       <div class="receipt-divider"></div>
@@ -880,6 +964,37 @@
     <div class="history-list" id="historyList"></div>
   </section>
 
+  <!-- SELLER LISTING ONBOARDING MODAL -->
+  <div class="modal" id="sellerModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeSellerModal()">✕</button>
+      <h3 style="margin-bottom: 6px; color: var(--secondary);">🤝 Sell on MoonStar Mall</h3>
+      <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;">
+        Apna product hamari website par list karwayein aur direct orders paayein.
+      </p>
+
+      <form onsubmit="handleSellerSubmit(event)">
+        <div class="form-group">
+          <label style="color:var(--ink-blue); font-weight:700;">Business / Shop Name:</label>
+          <input type="text" id="sellerShopName" placeholder="e.g. Royal Traders" required />
+        </div>
+        <div class="form-group">
+          <label style="color:var(--ink-blue); font-weight:700;">WhatsApp Mobile Number:</label>
+          <input type="tel" id="sellerContact" pattern="[0-9]{10}" placeholder="10-digit number" required />
+        </div>
+        <div class="form-group">
+          <label style="color:var(--ink-blue); font-weight:700;">Product Title & Selling Price:</label>
+          <input type="text" id="sellerProductDetails" placeholder="e.g. Car Vacuum Cleaner - ₹649" required />
+        </div>
+        <div class="form-group">
+          <label style="color:var(--ink-blue); font-weight:700;">YouTube Video ya ImgBB Photo Link:</label>
+          <input type="url" id="sellerMediaLink" placeholder="https://..." required />
+        </div>
+        <button type="submit" class="btn-submit" style="width: 100%;">Submit Listing Request</button>
+      </form>
+    </div>
+  </div>
+
   <!-- RETURN / CANCEL MODAL -->
   <div class="modal" id="returnModal">
     <div class="modal-content">
@@ -892,7 +1007,7 @@
       <form onsubmit="handleReturnSubmit(event)">
         <div class="form-group">
           <label>Original Order ID:</label>
-          <input type="text" id="returnOrderId" placeholder="e.g. JM-84920" required />
+          <input type="text" id="returnOrderId" placeholder="e.g. MS-84920" required />
         </div>
         <div class="form-group">
           <label>Mobile Number:</label>
@@ -917,9 +1032,10 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 Jugmug Mall 🛍️ 🛒. All Rights Reserved.</p>
+    <p>© 2026 MoonStar Mall 🌙 ⭐. All Rights Reserved.</p>
     <p style="margin-top: 6px;">
       <a href="#orderSection">Order Now</a> | 
+      <a href="javascript:void(0)" onclick="openSellerModal()">Sell with Us</a> | 
       <a href="javascript:void(0)" onclick="openReturnModal()">Return Policy</a> | 
       <a href="#historySection">Order History</a>
     </p>
@@ -930,17 +1046,31 @@
 
   <!-- 2. MAIN APPLICATION LOGIC -->
   <script>
+    /* ========================================================
+       GLOBAL CONTROLS & CONFIGURATION
+       ======================================================== */
     const CONFIG = {
-      USE_WHATSAPP: false,
+      USE_WHATSAPP: false, // WhatsApp aane par true karein
       WHATSAPP_NUMBER: "919876543210", 
-      ENDPOINT_EMAIL: "jugmugmallorders@gmail.com",
+      ENDPOINT_EMAIL: "moonstarmallorders@gmail.com",
+
+      // COUPON / DISCOUNT FEATURE TOGGLE
+      ENABLE_COUPON: true, // false karne par website se coupon box pura gayab ho jayega
+
+      // AVAILABLE ACTIVE COUPONS
+      COUPONS: {
+        "MOON50": { discount: 50, type: "flat" },      // Flat 50 off
+        "WELCOME10": { discount: 10, type: "percent" }, // 10% off
+        "MOON100": { discount: 100, type: "flat" }     // Flat 100 off
+      }
     };
 
     let currentCategory = "All";
     let selectedProduct = null;
     let catalogList = [];
+    let appliedDiscount = 0;
+    let appliedCouponCode = "";
 
-    // Extract YouTube Video ID
     function extractYouTubeId(url) {
       if(!url) return null;
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -948,7 +1078,6 @@
       return (match && match[2].length === 11) ? match[2] : null;
     }
 
-    // Process & Fallback Manager (YouTube + ImgBB + Plain Text)
     function processProductsList() {
       const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
       catalogList = raw.map(p => {
@@ -963,10 +1092,12 @@
         }
 
         return {
-          id: p.id || "JM" + Math.floor(Math.random()*1000),
+          id: p.id || "MS" + Math.floor(Math.random()*1000),
           title: p.title || "Trending Product",
           category: p.category && p.category.trim() !== "" ? p.category.trim() : "General",
           price: p.price || 499,
+          sellerName: p.sellerName || "MoonStar Official",
+          allowCoupon: p.allowCoupon !== false, // Default true
           videoUrl: p.videoUrl || "",
           imageUrl: p.imageUrl || "",
           youtubeId: ytId,
@@ -977,7 +1108,6 @@
       injectDynamicJsonLdSchema(catalogList);
     }
 
-    // Inject SEO Schema Markup dynamically
     function injectDynamicJsonLdSchema(products) {
       const schemaData = {
         "@context": "https://schema.org",
@@ -989,11 +1119,12 @@
             "@type": "Product",
             "name": item.title,
             "image": item.thumb || "https://cdn-icons-png.flaticon.com/512/3081/3081559.png",
-            "description": `${item.title} available online at Jugmug Mall.`,
+            "description": `${item.title} offered by ${item.sellerName} on MoonStar Mall.`,
             "offers": {
               "@type": "Offer",
               "priceCurrency": "INR",
               "price": item.price,
+              "seller": { "@type": "Organization", "name": item.sellerName },
               "availability": "https://schema.org/InStock"
             }
           }
@@ -1003,6 +1134,11 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Check coupon toggle
+      if(!CONFIG.ENABLE_COUPON) {
+        document.getElementById('couponBox').style.display = 'none';
+      }
+
       processProductsList();
       generateOrderId();
       renderCategoryTabs();
@@ -1015,7 +1151,7 @@
 
     function generateOrderId() {
       const randomNum = Math.floor(10000 + Math.random() * 90000);
-      const generated = "JM-" + randomNum;
+      const generated = "MS-" + randomNum;
       document.getElementById('orderId').value = generated;
       document.getElementById('billOrderId').innerText = generated;
       document.getElementById('billDate').innerText = new Date().toLocaleDateString('en-IN');
@@ -1043,7 +1179,6 @@
       renderProductCards(filtered);
     }
 
-    // Render Cards (Supports Inline YouTube, ImgBB, and Safe Fallback)
     function renderProductCards(list) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = "";
@@ -1057,10 +1192,8 @@
         const card = document.createElement('div');
         card.className = "product-card";
         
-        // Media Block Generation
         let mediaHtml = "";
         if(item.youtubeId) {
-          // Has YouTube Video (Click play button to play inline, no auto play)
           mediaHtml = `
             <div class="card-thumb-container" id="mediaBox_${item.id}">
               <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
@@ -1068,27 +1201,28 @@
             </div>
           `;
         } else if(item.thumb) {
-          // Only Image (ImgBB / Direct Link)
           mediaHtml = `
             <div class="card-thumb-container">
               <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
             </div>
           `;
         } else {
-          // Fallback (Only text/emoji, crash-proof)
           mediaHtml = `
             <div class="card-thumb-container">
-              <div class="media-fallback">
-                🛍️
-                <span>${item.category}</span>
-              </div>
+              <div class="media-fallback">🛍️</div>
             </div>
           `;
         }
 
+        // Seller Badge
+        const sellerBadgeHtml = `<div class="card-seller-badge" title="Seller: ${item.sellerName}">🏬 ${item.sellerName}</div>`;
+
         card.innerHTML = `
           <div style="position:relative;">
-            <div class="card-badge">#${index + 1}</div>
+            <div class="badge-bar">
+              <span class="card-num-badge">#${index + 1}</span>
+              ${sellerBadgeHtml}
+            </div>
             ${mediaHtml}
           </div>
           <div class="card-info">
@@ -1103,7 +1237,6 @@
       });
     }
 
-    // Play YouTube video inline on click (Strictly NO autoplay initially)
     function playInlineVideo(containerId, youtubeId) {
       const container = document.getElementById(`mediaBox_${containerId}`);
       if(container) {
@@ -1115,8 +1248,8 @@
       const q = query.trim().toLowerCase();
       const filtered = catalogList.filter(p => 
         p.title.toLowerCase().includes(q) || 
+        p.sellerName.toLowerCase().includes(q) ||
         p.videoUrl.toLowerCase().includes(q) ||
-        p.imageUrl.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q)
       );
       renderProductCards(filtered);
@@ -1129,7 +1262,14 @@
       selectedProduct = product;
       document.getElementById('productUrl').value = product.videoUrl || product.imageUrl || product.title;
       document.getElementById('unitPrice').value = product.price;
+      document.getElementById('sellerNameField').value = product.sellerName;
       
+      // Reset coupon on new product select
+      appliedDiscount = 0;
+      appliedCouponCode = "";
+      document.getElementById('couponMessage').innerText = "";
+      document.getElementById('couponInput').value = "";
+
       updateBillCalculation();
       document.getElementById('orderSection').scrollIntoView({ behavior: 'smooth' });
     }
@@ -1144,22 +1284,80 @@
       if(matched) {
         selectedProduct = matched;
         document.getElementById('unitPrice').value = matched.price;
+        document.getElementById('sellerNameField').value = matched.sellerName;
       } else {
-        selectedProduct = { title: "Custom YouTube/ImgBB Item", price: 499, videoUrl: url };
+        selectedProduct = { title: "Custom YouTube/ImgBB Item", price: 499, sellerName: "MoonStar Official", allowCoupon: true };
         document.getElementById('unitPrice').value = 499;
+        document.getElementById('sellerNameField').value = "MoonStar Official";
       }
       updateBillCalculation();
+    }
+
+    /* ========================================================
+       COUPON DISCOUNT APPLY LOGIC
+       ======================================================== */
+    function applyCouponCode() {
+      const msgElem = document.getElementById('couponMessage');
+      const code = document.getElementById('couponInput').value.trim().toUpperCase();
+
+      if(!code) {
+        msgElem.style.color = "var(--danger)";
+        msgElem.innerText = "Kripya coupon code darj karein.";
+        return;
+      }
+
+      if(selectedProduct && selectedProduct.allowCoupon === false) {
+        msgElem.style.color = "var(--danger)";
+        msgElem.innerText = "Is specific product par coupon discount lagu nahi hai.";
+        return;
+      }
+
+      if(CONFIG.COUPONS[code]) {
+        const coupon = CONFIG.COUPONS[code];
+        const price = parseFloat(document.getElementById('unitPrice').value) || 0;
+        const qty = parseInt(document.getElementById('productQty').value) || 1;
+        const subtotal = price * qty;
+
+        if(coupon.type === "flat") {
+          appliedDiscount = coupon.discount;
+        } else if(coupon.type === "percent") {
+          appliedDiscount = Math.round((subtotal * coupon.discount) / 100);
+        }
+
+        appliedCouponCode = code;
+        msgElem.style.color = "var(--success)";
+        msgElem.innerText = `✅ Coupon ${code} applied! ₹${appliedDiscount} chhoot mili.`;
+        updateBillCalculation();
+      } else {
+        appliedDiscount = 0;
+        appliedCouponCode = "";
+        msgElem.style.color = "var(--danger)";
+        msgElem.innerText = "❌ Galat ya expired coupon code.";
+        updateBillCalculation();
+      }
     }
 
     function updateBillCalculation() {
       const price = parseFloat(document.getElementById('unitPrice').value) || 0;
       const qty = parseInt(document.getElementById('productQty').value) || 1;
-      const total = price * qty;
+      const subtotal = price * qty;
+      const finalAmount = Math.max(0, subtotal - appliedDiscount);
 
-      document.getElementById('totalAmount').value = total;
+      document.getElementById('totalAmount').value = finalAmount;
       document.getElementById('billProduct').innerText = selectedProduct ? selectedProduct.title : "Custom Item";
+      document.getElementById('billSeller').innerText = selectedProduct ? selectedProduct.sellerName : "MoonStar Official";
       document.getElementById('billRateQty').innerText = `₹${price} x ${qty}`;
-      document.getElementById('billTotalAmount').innerText = `₹${total}`;
+
+      // Discount Row in Receipt
+      const discRow = document.getElementById('billDiscountRow');
+      if(appliedDiscount > 0) {
+        discRow.style.display = 'flex';
+        document.getElementById('billDiscountVal').innerText = `-₹${appliedDiscount} (${appliedCouponCode})`;
+      } else {
+        discRow.style.display = 'none';
+      }
+
+      document.getElementById('billTotalAmount').innerText = `₹${finalAmount}`;
       updateLiveBill();
     }
 
@@ -1222,16 +1420,22 @@
       window.speechSynthesis.speak(utterance);
     }
 
+    /* ========================================================
+       ORDER SUBMISSION (APPROACH 2: ALWAYS COMES TO YOU WITH SELLER ID)
+       ======================================================== */
     function handleOrderSubmit(e) {
       e.preventDefault();
 
       const orderData = {
         orderId: document.getElementById('orderId').value,
+        seller: document.getElementById('sellerNameField').value,
         date: new Date().toLocaleDateString('en-IN'),
         productUrl: document.getElementById('productUrl').value,
         productTitle: selectedProduct ? selectedProduct.title : "Custom Item",
         price: document.getElementById('unitPrice').value,
         qty: document.getElementById('productQty').value,
+        discount: appliedDiscount,
+        coupon: appliedCouponCode,
         amount: document.getElementById('totalAmount').value,
         name: document.getElementById('custName').value,
         phone: document.getElementById('custPhone').value,
@@ -1245,13 +1449,42 @@
       saveOrderToHistory(orderData);
 
       if(CONFIG.USE_WHATSAPP) {
-        const waMsg = `*🛍️ NEW ORDER - JUGMUG MALL*\n*Order ID:* ${orderData.orderId}\n*Product:* ${orderData.productTitle}\n*Qty:* ${orderData.qty} | *Total:* ₹${orderData.amount}\n*Customer:* ${orderData.name} (${orderData.phone})\n*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
+        const waMsg = `*🛍️ NEW ORDER - MOONSTAR MALL*\n` +
+                      `*Order ID:* ${orderData.orderId}\n` +
+                      `*Seller:* ${orderData.seller}\n` +
+                      `*Product:* ${orderData.productTitle}\n` +
+                      `*Qty:* ${orderData.qty} | *Price:* ₹${orderData.price}\n` +
+                      (orderData.discount > 0 ? `*Discount (${orderData.coupon}):* -₹${orderData.discount}\n` : '') +
+                      `*Total Due:* ₹${orderData.amount}\n\n` +
+                      `*Customer Details:*\n` +
+                      `*Name:* ${orderData.name}\n` +
+                      `*Mobile:* ${orderData.phone}\n` +
+                      `*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
+        
         window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
       } else {
-        const emailSubject = `Order Placed: ${orderData.orderId} - ${orderData.name}`;
-        const emailBody = `JUGMUG MALL ORDER CONFIRMATION\nOrder ID: ${orderData.orderId}\nProduct: ${orderData.productTitle}\nQty: ${orderData.qty}\nAmount: ₹${orderData.amount}\nName: ${orderData.name}\nPhone: ${orderData.phone}\nAddress: ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
+        const emailSubject = `New Order: ${orderData.orderId} [Seller: ${orderData.seller}] - ${orderData.name}`;
+        const emailBody = `MOONSTAR MALL MARKETPLACE ORDER\n` +
+                          `====================================\n` +
+                          `Order ID: ${orderData.orderId}\n` +
+                          `Seller Name: ${orderData.seller}\n` +
+                          `Product: ${orderData.productTitle}\n` +
+                          `URL: ${orderData.productUrl}\n` +
+                          `Qty: ${orderData.qty}\n` +
+                          `Unit Price: ₹${orderData.price}\n` +
+                          `Discount: ₹${orderData.discount} (${orderData.coupon})\n` +
+                          `Total Payable: ₹${orderData.amount}\n\n` +
+                          `SHIPPING DETAILS:\n` +
+                          `Name: ${orderData.name}\n` +
+                          `Phone: ${orderData.phone}\n` +
+                          `Address: ${orderData.address}\n` +
+                          `District: ${orderData.district}\n` +
+                          `State: ${orderData.state}\n` +
+                          `Pincode: ${orderData.pincode}\n` +
+                          `====================================`;
+
         window.location.href = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-        alert(`Order ${orderData.orderId} register ho gaya hai.`);
+        alert(`Shukriya! Order ${orderData.orderId} submit ho gaya hai.`);
       }
 
       renderOrderHistory();
@@ -1261,17 +1494,22 @@
       document.getElementById('orderForm').reset();
       generateOrderId();
       selectedProduct = null;
+      appliedDiscount = 0;
+      appliedCouponCode = "";
+      document.getElementById('sellerNameField').value = "MoonStar Official";
+      document.getElementById('couponMessage').innerText = "";
       updateBillCalculation();
     }
 
     function copyOrderDetails() {
       const orderId = document.getElementById('orderId').value;
+      const seller = document.getElementById('sellerNameField').value;
       const amount = document.getElementById('totalAmount').value;
       const name = document.getElementById('custName').value;
       const phone = document.getElementById('custPhone').value;
       const product = selectedProduct ? selectedProduct.title : "Custom Item";
 
-      const text = `🧾 JUGMUG MALL RECEIPT\nOrder: ${orderId}\nItem: ${product}\nTotal: ₹${amount}\nCustomer: ${name} (${phone})\n24-Hours Return / Cancellation Guarantee.`;
+      const text = `🧾 MOONSTAR MALL RECEIPT\nOrder: ${orderId}\nSeller: ${seller}\nItem: ${product}\nTotal: ₹${amount}\nCustomer: ${name} (${phone})\n24-Hours Return / Cancellation Guarantee.`;
       navigator.clipboard.writeText(text).then(() => alert("Receipt copy ho gayi!"));
     }
 
@@ -1279,14 +1517,14 @@
 
     /* HISTORY STORAGE LOGIC */
     function getStoredOrders() {
-      try { return JSON.parse(localStorage.getItem('jugmug_orders') || '[]'); }
+      try { return JSON.parse(localStorage.getItem('moonstar_orders') || '[]'); }
       catch(e) { return []; }
     }
 
     function saveOrderToHistory(order) {
       const orders = getStoredOrders();
       orders.unshift(order);
-      localStorage.setItem('jugmug_orders', JSON.stringify(orders));
+      localStorage.setItem('moonstar_orders', JSON.stringify(orders));
     }
 
     function renderOrderHistory() {
@@ -1305,10 +1543,11 @@
             <span class="badge-status ${o.status.includes('Cancelled') ? 'badge-cancelled' : 'badge-placed'}">${o.status}</span>
           </div>
           <div><strong>Product:</strong> ${o.productTitle}</div>
-          <div><strong>Details:</strong> ₹${o.price} x ${o.qty} = <strong>₹${o.amount}</strong></div>
+          <div style="font-size:0.78rem; color:#0284c7;"><strong>Seller:</strong> ${o.seller || 'MoonStar Official'}</div>
+          <div><strong>Net Total:</strong> ₹${o.amount} ${o.discount > 0 ? `<small style="color:var(--danger);">(₹${o.discount} Off)</small>` : ''}</div>
           <div style="font-size:0.75rem; color:var(--text-muted);">${o.date}</div>
           <div class="history-actions">
-            <button class="btn-hist-action" onclick="copyHistoryOrderWhatsApp(${idx})">📋 Copy WhatsApp</button>
+            <button class="btn-hist-action" onclick="copyHistoryOrderWhatsApp(${idx})">📋 Forward to Seller</button>
             <button class="btn-hist-action" onclick="exportHistorySingleCSV(${idx})">📊 Save CSV</button>
             <button class="btn-hist-action" onclick="printHistoryOrder(${idx})">🖨️ PDF / Print</button>
           </div>
@@ -1319,15 +1558,15 @@
     function copyHistoryOrderWhatsApp(index) {
       const o = getStoredOrders()[index];
       if(!o) return;
-      const text = `🛍️ *JUGMUG MALL ORDER*\n*ID:* ${o.orderId}\n*Item:* ${o.productTitle}\n*Qty:* ${o.qty} | *Total:* ₹${o.amount}\n*Customer:* ${o.name} (${o.phone})\n*Status:* ${o.status}`;
-      navigator.clipboard.writeText(text).then(() => alert("WhatsApp format copy ho gaya!"));
+      const text = `🛍️ *ORDER FORWARD - MOONSTAR MALL*\n*Seller:* ${o.seller}\n*Order ID:* ${o.orderId}\n*Item:* ${o.productTitle}\n*Qty:* ${o.qty} | *Amount:* ₹${o.amount}\n*Customer:* ${o.name} (${o.phone})\n*Ship To:* ${o.address}, ${o.district}, ${o.state} - ${o.pincode}\n*Status:* ${o.status}`;
+      navigator.clipboard.writeText(text).then(() => alert("Order details copy ho gayi! Aap direct seller ko WhatsApp forward kar sakte hain."));
     }
 
     function exportHistorySingleCSV(index) {
       const o = getStoredOrders()[index];
       if(!o) return;
-      const csvContent = "data:text/csv;charset=utf-8,OrderID,Date,Customer,Phone,Product,Qty,Amount,Status\n" +
-        `"${o.orderId}","${o.date}","${o.name}","${o.phone}","${o.productTitle}","${o.qty}","${o.amount}","${o.status}"`;
+      const csvContent = "data:text/csv;charset=utf-8,OrderID,Seller,Date,Customer,Phone,Product,Qty,Amount,Status\n" +
+        `"${o.orderId}","${o.seller}","${o.date}","${o.name}","${o.phone}","${o.productTitle}","${o.qty}","${o.amount}","${o.status}"`;
       const link = document.createElement("a");
       link.setAttribute("href", encodeURI(csvContent));
       link.setAttribute("download", `Order_${o.orderId}.csv`);
@@ -1340,6 +1579,7 @@
       const o = getStoredOrders()[index];
       if(!o) return;
       document.getElementById('billOrderId').innerText = o.orderId;
+      document.getElementById('billSeller').innerText = o.seller || "MoonStar Official";
       document.getElementById('billDate').innerText = o.date;
       document.getElementById('billProduct').innerText = o.productTitle;
       document.getElementById('billRateQty').innerText = `₹${o.price} x ${o.qty}`;
@@ -1350,9 +1590,26 @@
 
     function clearHistoryData() {
       if(confirm("Saari order history delete karein?")) {
-        localStorage.removeItem('jugmug_orders');
+        localStorage.removeItem('moonstar_orders');
         renderOrderHistory();
       }
+    }
+
+    /* SELLER MODAL ACTIONS */
+    function openSellerModal() { document.getElementById('sellerModal').classList.add('active'); }
+    function closeSellerModal() { document.getElementById('sellerModal').classList.remove('active'); }
+    function handleSellerSubmit(e) {
+      e.preventDefault();
+      const shop = document.getElementById('sellerShopName').value;
+      const contact = document.getElementById('sellerContact').value;
+      const prod = document.getElementById('sellerProductDetails').value;
+      const media = document.getElementById('sellerMediaLink').value;
+
+      const subject = `Seller Onboarding Request: ${shop}`;
+      const body = `SELLER LISTING REQUEST\nShop: ${shop}\nWhatsApp: ${contact}\nProduct: ${prod}\nMedia Link: ${media}`;
+      window.location.href = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      alert("Aapki listing request bhej di gayi hai! Team aapse jaldi contact karegi.");
+      closeSellerModal();
     }
 
     /* RETURN MODAL */
@@ -1371,7 +1628,7 @@
           o.status = type.includes("Cancel") ? "Cancelled" : "Return/Exchange Requested";
         }
       });
-      localStorage.setItem('jugmug_orders', JSON.stringify(orders));
+      localStorage.setItem('moonstar_orders', JSON.stringify(orders));
       renderOrderHistory();
 
       const mailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=Return Request ${oid}&body=Type: ${type}%0D%0AOrder: ${oid}%0D%0APhone: ${phone}%0D%0AReason: ${reason}`;
@@ -1397,17 +1654,12 @@
       }
     }
 
-    /* ========================================================
-       PWA INSTALLATION & SERVICE WORKER REGISTRATION
-       ======================================================== */
+    /* PWA */
     let deferredPrompt;
     function setupPWA() {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-          .then(() => console.log('SW Registered'))
-          .catch((err) => console.log('SW Fail:', err));
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Fail:', err));
       }
-
       const pwaBtn = document.getElementById('pwaInstallBtn');
       const pwaDrawerBtn = document.getElementById('pwaDrawerBtn');
 
@@ -1420,22 +1672,14 @@
       const triggerInstall = () => {
         if (deferredPrompt) {
           deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              pwaBtn.style.display = 'none';
-            }
-            deferredPrompt = null;
-          });
+          deferredPrompt.userChoice.then(() => { pwaBtn.style.display = 'none'; deferredPrompt = null; });
         } else {
-          alert("Aapka browser ya device PWA direct install support karta hai. Browser menu me jaakar 'Add to Home screen' par click karein.");
+          alert("Browser menu me jaakar 'Add to Home screen' par tap karein.");
         }
       };
 
       pwaBtn.addEventListener('click', triggerInstall);
-      pwaDrawerBtn.addEventListener('click', () => {
-        toggleMenu(false);
-        triggerInstall();
-      });
+      pwaDrawerBtn.addEventListener('click', () => { toggleMenu(false); triggerInstall(); });
     }
   </script>
 </body>
