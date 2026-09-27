@@ -68,7 +68,25 @@
       z-index: 100;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
+.network-alert-banner {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #dc2626;
+  color: #ffffff;
+  text-align: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  z-index: 9999;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
 
+.network-alert-banner.online-recovered {
+  background: #16a34a;
+}
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
@@ -742,7 +760,9 @@
   </style>
 </head>
 <body>
-
+<div id="networkAlert" class="network-alert-banner">
+  ⚠️ कृपया अपना इंटरनेट कनेक्शन जांचें (ऑफ़लाइन)
+</div>
   <div class="top-sticky-wrapper">
     <header>
       <div class="brand-title">मूनस्टार मॉल 🌙 <span>⭐</span></div>
@@ -777,6 +797,9 @@
     </div>
     <nav class="drawer-nav">
       <!-- DRAWER ME ENGLISH VERSION SWITCH LINK -->
+      <a href="javascript:void(0)" onclick="handleNormalRefresh()" style="color:#16a34a; font-weight:800; background:#f0fdf4; padding:8px 6px; border-radius:6px; display:flex; align-items:center; gap:6px;">
+  🔄 स्टोर रिफ्रेश करें (नए उत्पाद देखें)
+</a>
       <a href="legal.html#english-terms" style="color:var(--primary); font-weight:800; background:#fef3c7; padding:8px 6px; border-radius:6px;">
         🇬🇧 English (English Version / Policies)
       </a>
@@ -1800,6 +1823,35 @@
       pwaBtn.addEventListener('click', triggerInstall);
       pwaDrawerBtn.addEventListener('click', () => { toggleMenu(false); triggerInstall(); });
     }
+    function handleNormalRefresh() {
+  toggleMenu(false);
+  window.location.reload();
+}
+
+function updateNetworkStatus() {
+  const alertBanner = document.getElementById('networkAlert');
+  if (!alertBanner) return;
+
+  if (!navigator.onLine) {
+    alertBanner.className = 'network-alert-banner';
+    alertBanner.innerHTML = '⚠️ कृपया अपना इंटरनेट कनेक्शन जांचें (ऑफ़लाइन)';
+    alertBanner.style.display = 'block';
+  } else {
+    if (alertBanner.style.display === 'block') {
+      alertBanner.className = 'network-alert-banner online-recovered';
+      alertBanner.innerHTML = '✅ इंटरनेट चालू हो गया है!';
+      setTimeout(() => {
+        alertBanner.style.display = 'none';
+      }, 2500);
+    } else {
+      alertBanner.style.display = 'none';
+    }
+  }
+}
+
+window.addEventListener('online', updateNetworkStatus);
+window.addEventListener('offline', updateNetworkStatus);
+window.addEventListener('DOMContentLoaded', updateNetworkStatus);
   </script>
 </body>
 </html>
