@@ -832,8 +832,7 @@
       <a href="javascript:void(0)" id="pwaDrawerBtn" style="color:var(--ink-blue); font-weight:800;">
         📲 Install MoonStar App
       </a>
-      <a href="#featuredSection" onclick="toggleMenu(false)">🔥 Featured & Trending</a>
-      <a href="#newArrivalsSection" onclick="toggleMenu(false)">✨ New Arrivals & Viral</a>
+      <a href="#catalogSection" onclick="toggleMenu(false)">📺 Trending Products</a>
       <a href="#orderSection" onclick="toggleMenu(false)">📝 Order Form</a>
       <a href="#receiptSection" onclick="toggleMenu(false)">🧾 View Bill</a>
       <a href="#historySection" onclick="toggleMenu(false)">📜 Meri Order History</a>
@@ -859,12 +858,12 @@
     </div>
   </section>
 
-  <!-- CATEGORY TABS -->
+  <!-- CATEGORY TABS --
   <div class="category-tabs" id="categoryTabs"></div>
-
+<!--
   <!-- ========================================================
        SECTION 1: TOP 50 FEATURED & TRENDING (2-ROW HORIZONTAL SCROLL)
-       ======================================================== -->
+       ======================================================== --
   <div class="shelf-header" id="featuredSection">
     <div class="shelf-title">🔥 Featured & Hot Trending</div>
     <span class="shelf-badge" id="featuredCountBadge">0 Products</span>
@@ -875,7 +874,7 @@
 
   <!-- ========================================================
        SECTION 2: NEXT 50 NEW ARRIVALS & VIRAL GADGETS (2-ROW HORIZONTAL SCROLL)
-       ======================================================== -->
+       ======================================================== --
   <div class="shelf-header" id="newArrivalsSection">
     <div class="shelf-title">✨ New Arrivals & Viral Utility</div>
     <span class="shelf-badge" id="newArrivalsCountBadge">0 Products</span>
@@ -883,7 +882,11 @@
   <section class="catalog-wrapper">
     <div class="catalog-grid" id="productGridNewArrivals"></div>
   </section>
-
+-->
+  <!-- SIMPLE SINGLE CATALOG SECTION -->
+<section class="catalog-wrapper" id="catalogSection">
+  <div class="catalog-grid" id="productGrid"></div>
+</section>
   <!-- RETURN / CANCEL NOTICE -->
   <div class="policy-banner">
     <div><strong>⏱️ 24 Hours Cancellation:</strong> Order dispatch hone se pehle 24 ghante me cancel karein.</div>
@@ -1285,7 +1288,8 @@
       processProductsList();
       generateOrderId();
       renderCategoryTabs();
-      distributeAndRenderShelves(catalogList);
+      /*distributeAndRenderShelves(catalogList);*/
+      renderProductCards(catalogList); // Ya filtered list
       initVoiceAssistance();
       updateBillCalculation();
       renderOrderHistory();
@@ -1320,12 +1324,13 @@
       currentCategory = cat;
       renderCategoryTabs();
       const filtered = (cat === "All") ? catalogList : catalogList.filter(p => p.category === cat);
-      distributeAndRenderShelves(filtered);
+     /* distributeAndRenderShelves(filtered);*/
+      renderProductCards(catalogList); // Ya filtered list
     }
 
     /* ========================================================
        SCALING LOGIC: 50 + 50 (TWO SHELVES OF 2-ROW GRIDS)
-       ======================================================== */
+       ======================================================== *
     function distributeAndRenderShelves(list) {
       // Shelf 1: Pehle 50 products (index 0 se 50)
       const shelf1Products = list.slice(0, 50);
@@ -1352,7 +1357,67 @@
         shelf2Container.style.display = 'none';
       }
     }
+*/
+    // Pure products ko bina kisi shelf ke ek sath simple render karne ke liye
+function renderProductCards(list) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = "";
 
+  if(list.length === 0) {
+    grid.innerHTML = `<p style="padding: 20px; color: var(--text-muted);">Koi product nahi mila.</p>`;
+    return;
+  }
+
+  list.forEach((item, index) => {
+    const card = document.createElement('div');
+    card.className = "product-card";
+    
+    let mediaHtml = "";
+    if(item.youtubeId) {
+      mediaHtml = `
+        <div class="card-thumb-container" id="mediaBox_${item.id}">
+          <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
+          <div class="play-overlay-btn" onclick="playInlineVideo('${item.id}', '${item.youtubeId}')" title="Play Video">▶</div>
+        </div>
+      `;
+    } else if(item.thumb) {
+      mediaHtml = `
+        <div class="card-thumb-container">
+          <img src="${item.thumb}" alt="${item.title}" loading="lazy" />
+        </div>
+      `;
+    } else {
+      mediaHtml = `
+        <div class="card-thumb-container">
+          <div class="media-fallback">🛍️</div>
+        </div>
+      `;
+    }
+
+    const sellerBadgeHtml = `<div class="card-seller-badge" title="Seller: ${item.sellerName}">🏬 ${item.sellerName}</div>`;
+
+    card.innerHTML = `
+      <div style="position:relative;">
+        <div class="badge-bar">
+          <span class="card-num-badge">#${index + 1}</span>
+          ${sellerBadgeHtml}
+        </div>
+        ${mediaHtml}
+      </div>
+      <div class="card-info">
+        <h4 class="card-title" title="${item.title}">${item.title}</h4>
+        <div class="card-footer">
+          <span class="card-price">₹${item.price}</span>
+          <div class="card-btn-group">
+            <button type="button" class="order-now-btn" onclick="selectProductToOrder('${item.id}')">Order Now 🛒</button>
+            <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${item.id}')" title="Share Product">↗ Share</button>
+          </div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
     function renderProductGrid(gridId, list, startIndexOffset) {
       const grid = document.getElementById(gridId);
       grid.innerHTML = "";
@@ -1487,7 +1552,8 @@
         p.videoUrl.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q)
       );
-      distributeAndRenderShelves(filtered);
+     /* distributeAndRenderShelves(filtered);*/
+      renderProductCards(catalogList); // Ya filtered list
     }
 
     function selectProductToOrder(productId) {
