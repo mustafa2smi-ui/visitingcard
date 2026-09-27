@@ -1,110 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MoonStar Mall frequently asked questions about orders, payments, delivery, returns, privacy and AI-generated product videos.">
-<title>MoonStar Mall - FAQ</title>
+<meta name="description" content="MoonStar Mall ke aksar puche jaane wale sawal (FAQ) - Orders, Payment, COD, Delivery, 24-Hours Returns, Privacy, aur AI Presentation Videos.">
+<title>Aksar Puche Jaane Wale Sawal (FAQ) | MoonStar Mall 🌙 ⭐</title>
+<meta name="theme-color" content="#1e3a8a">
+<meta name="robots" content="index, follow">
+
+<!-- GOOGLE SEO FAQ & BREADCRUMB JSON-LD SCHEMA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://moonstarmall.github.io/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "FAQ",
+          "item": "https://moonstarmall.github.io/faq.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "MoonStar Mall par order kaise karein?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Product card ke niche diye gaye Order Now button par click karein, form me apna naam, 10-digit mobile number aur pata daal kar submit karein."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kya har product par Cash on Delivery (COD) uplabdh hai?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nahi. COD delivery area pincode aur seller policy par depend karta hai. Kuch high-value gadgets ke liye token advance ya prepaid payment zaroori ho sakta hai."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kharab ya toota product aane par return kaise karein?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Parcel delivery ke 24 ghante ke andar Return Form bharein. Sath hi bina kisi cut wala uncut unboxing video proof dena aniwarya hai."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kya MoonStar Mall customer data Google Sheets me save karta hai?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nahi. MoonStar Mall order collection ke liye kisi public Google Form ya Google Sheets ka istemal nahi karta. Data direct private email aur WhatsApp par transmit hota hai."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
 <style>
-:root{--primary:#6d28d9;--primary2:#9333ea;--bg:#f6f7fb;--card:#fff;--text:#202124;--muted:#667085;--border:#e5e7eb}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
-.header{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;text-align:center;padding:34px 18px}
-.header h1{margin:0;font-size:30px}.header p{margin:7px 0 0}
-.wrap{max-width:1050px;margin:auto;padding:18px}.tabs{position:sticky;top:0;z-index:20;background:#fff;display:flex;gap:7px;overflow-x:auto;padding:10px;border-bottom:1px solid var(--border);border-radius:0 0 12px 12px;box-shadow:0 2px 10px #0000000a}
-.tabs button{border:0;background:#f1f3f5;padding:10px 15px;border-radius:9px;white-space:nowrap;font-weight:700;cursor:pointer}.tabs button.active{background:var(--primary);color:#fff}
-.panel{display:none;background:#fff;margin-top:16px;padding:24px;border-radius:15px;border:1px solid var(--border);box-shadow:0 5px 20px #00000008}.panel.active{display:block}
-.panel h2{margin-top:0;color:var(--primary);font-size:25px}
-.faq{border:1px solid var(--border);border-radius:11px;margin:10px 0;overflow:hidden;background:#fff}.q{width:100%;text-align:left;border:0;background:#fafafa;padding:15px 17px;font-size:16px;font-weight:700;cursor:pointer;color:#222}.q::after{content:'+';float:right;color:var(--primary);font-size:20px}.faq.open .q::after{content:'−'}.a{display:none;padding:0 17px 16px;color:#4b5563}.faq.open .a{display:block}
-.notice{background:#f5f3ff;border-left:4px solid var(--primary);padding:13px 15px;border-radius:8px;margin:15px 0}.footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:14px}
-@media(max-width:600px){.wrap{padding:10px}.panel{padding:18px}.header h1{font-size:25px}.tabs button{padding:9px 12px;font-size:13px}.q{font-size:15px}}
+:root{
+  --primary:#1e3a8a;
+  --primary-dark:#0f172a;
+  --accent:#d97706;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#334155;
+  --heading:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --danger:#b91c1c;
+  --success:#15803d;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+.header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;text-align:center;padding:32px 18px}
+.header h1{margin:0;font-size:28px}.header p{margin:8px 0 0;font-size:15px;opacity:.95}
+.wrap{max-width:1050px;margin:auto;padding:16px}
+.nav-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.back-link{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:4px}
+.tabs{position:sticky;top:0;z-index:20;background:#fff;display:flex;gap:8px;overflow-x:auto;padding:10px;border-bottom:1px solid var(--border);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.05);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:#f1f5f9;color:#334155;padding:10px 16px;border-radius:8px;white-space:nowrap;font-weight:700;cursor:pointer;font-size:13.5px;transition:all .2s ease}
+.tabs button.active{background:var(--primary);color:#fff}
+.panel{display:none;background:var(--card);margin-top:16px;padding:26px 20px;border-radius:12px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,0.04)}
+.panel.active{display:block}
+.panel h2{margin-top:0;color:var(--primary);font-size:23px;border-bottom:2px solid var(--border);padding-bottom:8px}
+.faq{border:1px solid var(--border);border-radius:10px;margin:10px 0;overflow:hidden;background:#fff}
+.q{width:100%;text-align:left;border:0;background:#f8fafc;padding:14px 16px;font-size:15px;font-weight:700;cursor:pointer;color:var(--heading);display:flex;justify-content:space-between;align-items:center}
+.q:hover{color:var(--primary)}
+.q::after{content:'+';font-size:18px;color:var(--primary);font-weight:800;transition:transform .2s ease}
+.faq.open .q::after{content:'−';font-size:20px}
+.a{display:none;padding:14px 16px;color:#475569;font-size:14px;line-height:1.6;border-top:1px solid var(--border);background:#fff}
+.faq.open .a{display:block}
+.notice{background:#eff6ff;border-left:4px solid var(--primary);padding:13px 15px;border-radius:6px;margin:15px 0;font-size:13.5px;color:#1e40af}
+.danger-notice{background:#fef2f2;border-left:4px solid var(--danger);padding:13px 15px;border-radius:6px;margin:15px 0;font-size:13.5px;color:#991b1b;line-height:1.5}
+.footer{text-align:center;color:var(--muted);padding:30px 10px;font-size:13px}
+a{color:var(--primary)} strong{color:#0f172a}
+@media(max-width:600px){.wrap{padding:10px}.panel{padding:18px}.header h1{font-size:24px}.tabs button{padding:8px 12px;font-size:12.5px}.q{font-size:14px}}
 </style>
 </head>
 <body>
+
 <header class="header">
-<h1>MoonStar Mall 🛍️</h1>
-<p>Frequently Asked Questions • Dekho Phir Order Karo!</p>
+  <h1>MoonStar Mall 🌙 ⭐</h1>
+  <p>Frequently Asked Questions • Dekho Phir Order Karo!</p>
 </header>
 
 <main class="wrap">
-<nav class="tabs">
-<button class="tab active" onclick="showTab('general',this)">General</button>
-<button class="tab" onclick="showTab('order',this)">Order</button>
-<button class="tab" onclick="showTab('delivery',this)">Delivery & Return</button>
-<button class="tab" onclick="showTab('payment',this)">Payment</button>
-<button class="tab" onclick="showTab('privacy',this)">Privacy</button>
-<button class="tab" onclick="showTab('content',this)">Content & AI</button>
-</nav>
+  <div class="nav-bar">
+    <a href="index.html" class="back-link">← Return to Shopping Store</a>
+    <span style="font-size:12px;color:var(--muted)">Help Desk 2026</span>
+  </div>
 
-<section id="general" class="panel active">
-<h2>General FAQs</h2>
-<div class="faq"><button class="q">MoonStar Mall kya hai?</button><div class="a">MoonStar Mall ek digital shopping discovery aur order-facilitation platform hai jahan useful products, interesting finds, budget-friendly products aur shopping information share ki jaati hai.</div></div>
-<div class="faq"><button class="q">Kya MoonStar Mall khud products manufacture karta hai?</button><div class="a">Nahi. MoonStar Mall generally products ka manufacturer nahi hai. Products different sellers, suppliers, manufacturers ya third-party platforms se ho sakte hain.</div></div>
-<div class="faq"><button class="q">Kya MoonStar Mall ke paas apna product stock hota hai?</button><div class="a">Zaroori nahi. Product ka stock aur fulfilment relevant seller ya supplier ke paas ho sakta hai.</div></div>
-<div class="faq"><button class="q">Kya MoonStar Mall kisi shopping platform ka official partner hai?</button><div class="a">MoonStar Mall kisi third-party platform ke saath official partnership ka claim tabhi karega jab actual partnership ho. Third-party brands aur trademarks unke respective owners ke hain.</div></div>
-</section>
+  <nav class="tabs" aria-label="FAQ Categories">
+    <button class="tab active" onclick="showTab('general',this)">General</button>
+    <button class="tab" onclick="showTab('order',this)">Order & Coupons</button>
+    <button class="tab" onclick="showTab('delivery',this)">Delivery & 24h Return</button>
+    <button class="tab" onclick="showTab('payment',this)">Payment & COD</button>
+    <button class="tab" onclick="showTab('privacy',this)">Privacy & Data</button>
+    <button class="tab" onclick="showTab('content',this)">Content & AI</button>
+    <button class="tab" onclick="showTab('seller',this)">Sell with Us</button>
+  </nav>
 
-<section id="order" class="panel">
-<h2>Order FAQs</h2>
-<div class="faq"><button class="q">Order kaise karein?</button><div class="a">Product page/video par diye gaye Order option ko open karein, Order Form ke required fields fill karein aur Submit karein.</div></div>
-<div class="faq"><button class="q">Order Form submit karte hi order confirm ho jayega?</button><div class="a">Nahi. Form submission ek order request hai. MoonStar Mall availability, price, delivery details aur other information verify karke aapse contact kar sakta hai.</div></div>
-<div class="faq"><button class="q">Order Form mein kaunsi information deni hogi?</button><div class="a">Product ke according Name, Mobile Number, WhatsApp Number, Delivery Address, City, State, PIN Code, Product aur Quantity jaise fields maange ja sakte hain.</div></div>
-<div class="faq"><button class="q">Meri Order Form ki information kahan jayegi?</button><div class="a">Submit karne ke baad information MoonStar Mall ke designated Email aur/or WhatsApp communication channel par receive hogi, website ke actual form implementation ke according.</div></div>
-<div class="faq"><button class="q">Kya Google Form use hota hai?</button><div class="a"><strong>Nahi.</strong> MoonStar Mall ka current order process website ke apne Order Form par based hai.</div></div>
-<div class="faq"><button class="q">Kya order data Google Sheet mein save hota hai?</button><div class="a"><strong>Nahi.</strong> MoonStar Mall current order collection ke liye Google Sheet use nahi karta.</div></div>
-<div class="faq"><button class="q">Order cancel kar sakte hain?</button><div class="a">Cancellation ke liye jitni jaldi possible ho contact karein. Processing, packing ya shipping start hone ke baad cancellation possible na bhi ho sakti hai.</div></div>
-</section>
+  <!-- TAB 1: GENERAL -->
+  <section id="general" class="panel active">
+    <h2>General FAQs</h2>
+    <div class="faq">
+      <button class="q">MoonStar Mall kya hai?</button>
+      <div class="a">MoonStar Mall ek digital shopping discovery aur order-facilitation platform hai jahan YouTube aur social media par viral hone wale useful gadgets, kitchen tools aur budget-friendly products ki presentation aur direct order suvidha di jaati hai.</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya MoonStar Mall khud factory chalaata hai ya manufacturing karta hai?</button>
+      <div class="a">Nahi. MoonStar Mall ek independent reseller aur marketplace coordinator hai. Products alag-alag verified manufacturers, open suppliers, ya third-party vendors ke hote hain[cite: 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya MoonStar Mall ke paas apna saara physical stock rehta hai?</button>
+      <div class="a">Zaroori nahi[cite: 3]. Products ka inventory stock aur packing relevant seller ya direct factory partner ke paas hota hai jo order aane par parcel coordinate karte hain[cite: 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya MoonStar Mall kisi bade shopping platform ka official partner hai?</button>
+      <div class="a">MoonStar Mall kisi platform ke sath official partnership ka claim tabhi karta hai jab formal contract ho[cite: 3]. Sabhi brands aur product trademarks unke respective owners ke hain[cite: 2, 3].</div>
+    </div>
+  </section>
 
-<section id="delivery" class="panel">
-<h2>Delivery & Return FAQs</h2>
-<div class="faq"><button class="q">Delivery kitne din mein hogi?</button><div class="a">Delivery time product, seller, courier aur customer location par depend karta hai. Exact estimate order confirmation ke time verify kiya ja sakta hai.</div></div>
-<div class="faq"><button class="q">COD available hai?</button><div class="a">COD product, seller aur location par depend karta hai. Isliye COD har product ke liye guaranteed nahi hai.</div></div>
-<div class="faq"><button class="q">Product damaged aaye to kya karein?</button><div class="a">Product receive karne ke baad applicable seller/fulfilment policy ke according complaint, replacement ya return request karein. MoonStar Mall ke available contact channel se bhi assistance maangi ja sakti hai.</div></div>
-<div class="faq"><button class="q">Return/refund kaise milega?</button><div class="a">Return/refund product aur seller ki applicable policy par depend karega. Order se pehle applicable return/refund terms check karein.</div></div>
-<div class="faq"><button class="q">Product ka price badal sakta hai?</button><div class="a">Haan. Seller ya supplier price, discount aur availability ko change kar sakta hai. Order confirm karne se pehle final price verify karein.</div></div>
-</section>
+  <!-- TAB 2: ORDER & COUPONS -->
+  <section id="order" class="panel">
+    <h2>Order & Coupons FAQs</h2>
+    <div class="faq">
+      <button class="q">MoonStar Mall par order kaise karein?</button>
+      <div class="a">Website catalog me jo product pasand aaye uske niche <strong>[Order Now]</strong> button dabayein[cite: 1, 3]. Product details form me auto-fill ho jayengi[cite: 1]. Apna naam, 10-digit mobile number aur pura delivery address daal kar <strong>[Submit Order]</strong> par click kar dein[cite: 1].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya Order Form submit karte hi order pakka confirm ho jata hai?</button>
+      <div class="a">Nahi[cite: 3]. Form submission ek <strong>Order Request</strong> hai[cite: 2, 3]. MoonStar Mall stock availability, delivery pincode coverage aur details verify karke customer se contact karta hai[cite: 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Discount Coupon code (jaise MOON50) kaise lagayein?</button>
+      <div class="a">Order Form ke andar <strong>"Have a Discount Coupon?"</strong> box me coupon code (jaise: <strong>MOON50</strong> ya <strong>WELCOME10</strong>) likhein aur <strong>Apply</strong> button dabayein[cite: 1]. Discount turant bill me minus ho jayega[cite: 1].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Order dispatch hone se pehle cancel kaise karein?</button>
+      <div class="a">Cancellation order submit karne ke <strong>24 ghante ke andar</strong> aur parcel courier ko assign hone se pehle hi sambhav hai[cite: 1, 2]. Website par diye gaye Return/Cancel form ya email se turant request bhejein[cite: 1, 2].</div>
+    </div>
+  </section>
 
-<section id="payment" class="panel">
-<h2>Payment FAQs</h2>
-<div class="faq"><button class="q">Kya website par payment karna hota hai?</button><div class="a"><strong>Nahi.</strong> MoonStar Mall website par currently online payment gateway available nahi hai. Order Form submit karte samay koi payment automatically nahi hoti.</div></div>
-<div class="faq"><button class="q">Payment kaise hoga?</button><div class="a">Agar kisi particular order ke liye payment required ho, to applicable payment method aur instructions order confirmation ke baad separately communicate kiye ja sakte hain. Payment karne se pehle details verify karein.</div></div>
-<div class="faq"><button class="q">Kya Order Form submit karna payment maana jayega?</button><div class="a">Nahi. Order Form submission sirf order request hai; payment ka proof nahi hai.</div></div>
-</section>
+  <!-- TAB 3: DELIVERY & 24H RETURN -->
+  <section id="delivery" class="panel">
+    <h2>Delivery & 24-Hours Return FAQs</h2>
+    <div class="faq">
+      <button class="q">Mera parcel aane me kitne din lagte hain?</button>
+      <div class="a">Samanya roop se All-India delivery <strong>4 se 7 business days</strong> ke andar ho jaati hai[cite: 2]. Pincode daalte hi district auto-fill ho jata hai taaki dispatch me koi delay na ho[cite: 1].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Product damaged, toota hua ya galat mile to kya karein?</button>
+      <div class="a">Delivery milne ke <strong>24 ghante ke andar</strong> website ke Return Form ya email par complaint darj karna aniwarya hai[cite: 1, 2]. 24 ghante ke baad koi bhi claim manzoor nahi hoga[cite: 1, 2].</div>
+    </div>
 
-<section id="privacy" class="panel">
-<h2>Privacy FAQs</h2>
-<div class="faq"><button class="q">MoonStar Mall meri personal information kyun leta hai?</button><div class="a">Order request process karne, customer se contact karne, product availability/price confirm karne aur delivery coordination jaise purposes ke liye relevant information ki zarurat ho sakti hai.</div></div>
-<div class="faq"><button class="q">Kya mera data third party ke saath share ho sakta hai?</button><div class="a">Order fulfilment ke liye reasonably necessary information seller, supplier, delivery/courier service ya relevant service provider ke saath share ki ja sakti hai. Applicable law ke tahat bhi information disclose ki ja sakti hai.</div></div>
-<div class="faq"><button class="q">Kya MoonStar Mall mera data sell karta hai?</button><div class="a">MoonStar Mall personal information ko simply data-selling ke purpose se sell karne ka intention nahi rakhta.</div></div>
-<div class="faq"><button class="q">Mera order data kahan stored hota hai?</button><div class="a">MoonStar Mall Google Sheets ya website customer-account database ka current use nahi karta. Submitted information Email, WhatsApp ya other designated communication system mein available reh sakti hai, jahan un services ki apni retention/privacy practices apply hoti hain.</div></div>
-</section>
+    <div class="danger-notice">
+      <strong>⚠️ Uncut Unboxing Video Mandatory Hai!</strong><br>
+      Parcel kholte waqt bina kisi cut, pause ya edit ke ek continuous unboxing video banayein jisme bahar ka shipping label aur andar ka saman saaf dikhe[cite: 2]. Bina video praman ke replacement ya refund claim process nahi kiya ja sakta[cite: 2].
+    </div>
 
-<section id="content" class="panel">
-<h2>Content & AI FAQs</h2>
-<div class="faq"><button class="q">AI-generated product video kya actual product hai?</button><div class="a">Zaroori nahi. MoonStar Mall AI-generated presentation videos ya visuals use kar sakta hai. AI-generated visual ko actual product footage nahi maana jana chahiye.</div></div>
-<div class="faq"><button class="q">AI-generated video ka purpose kya hai?</button><div class="a">AI-assisted content ka purpose product ko visually explain aur present karna hai. Actual product ke liye final product listing, specifications aur seller information ko reference karein.</div></div>
-<div class="faq"><button class="q">Kya MoonStar Mall real review videos bhi share karta hai?</button><div class="a">Jahan available ho, MoonStar Mall real product/review videos bhi share kar sakta hai. Content ko uske nature ke according samjhein aur final purchase se pehle seller/product information verify karein.</div></div>
-<div class="notice"><strong>Before You Order:</strong> Product details, seller, price, reviews/ratings, delivery charges, return/refund policy aur final payable amount zaroor check karein.</div>
-</section>
+    <div class="faq">
+      <button class="q">Kya delivery ke liye alag se shipping charge lagta hai?</button>
+      <div class="a">Nahi! MoonStar Mall standard catalog orders par <strong>All India FREE Delivery</strong> deta hai[cite: 1].</div>
+    </div>
+  </section>
 
-<div class="footer">© <span id="year"></span> MoonStar Mall. All Rights Reserved.</div>
+  <!-- TAB 4: PAYMENT & COD -->
+  <section id="payment" class="panel">
+    <h2>Payment & COD FAQs</h2>
+    <div class="faq">
+      <button class="q">Kya website par koi direct online payment gateway hai?</button>
+      <div class="a"><strong>Nahi[cite: 3].</strong> MoonStar Mall website par koi automatic payment gateway nahi hai[cite: 2, 3]. Form submit karne se aapka koi paisa nahi kat-ta[cite: 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya sabhi products par Cash on Delivery (COD) milta hai?</button>
+      <div class="a"><strong>Nahi, sabhi par aniwarya nahi hai[cite: 2, 3].</strong> COD aapke courier area pincode aur specific product par nirbhar karta hai[cite: 2, 3]. Kuch high-value items ya farzi booking rokne ke liye token advance ya prepaid payment lena pad sakta hai[cite: 1, 2].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Agar prepaid payment karni ho to kaise hogi?</button>
+      <div class="a">Order verify hone ke baad official support dwara secure UPI (GPay, PhonePe, Paytm ya Bank transfer) instructions alag se share kiye jaate hain[cite: 1, 2, 3].</div>
+    </div>
+  </section>
+
+  <!-- TAB 5: PRIVACY & DATA -->
+  <section id="privacy" class="panel">
+    <h2>Privacy & Data Security FAQs</h2>
+    <div class="faq">
+      <button class="q">MoonStar Mall meri kaunsi jankari leta hai?</button>
+      <div class="a">Sirf order complete karne ke liye zaroori details: Aapka Naam, Calling/WhatsApp Mobile Number, Ghar ka Pata, aur Pincode[cite: 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya mera order data Google Sheets ya Google Forms me save hota hai?</button>
+      <div class="a"><strong>Nahi[cite: 3].</strong> MoonStar Mall order lene ke liye kisi Google Form ya public Google Sheet ka use nahi karta[cite: 2, 3]. Data direct private official Email aur WhatsApp routing me transmit hota hai[cite: 1, 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya mera personal data kisi aur ko becha jata hai?</button>
+      <div class="a"><strong>Bilkul nahi[cite: 3].</strong> Hum kisi bhi telemarketing ya data-selling company ko user data nahi bechte[cite: 3]. Jankari sirf courier delivery aur order coordination ke liye use hoti hai[cite: 2, 3].</div>
+    </div>
+  </section>
+
+  <!-- TAB 6: CONTENT & AI -->
+  <section id="content" class="panel">
+    <h2>Content & AI Presentation FAQs</h2>
+    <div class="faq">
+      <button class="q">AI-generated product video kya 100% actual warehouse product hai?</button>
+      <div class="a">Zaroori nahi[cite: 3]. MoonStar Mall products ko aasan bhasha me samjhane ke liye AI tools, digital presentation visuals aur voiceover ka upyog karta hai[cite: 2, 3]. Yeh physical product testing ka praman nahi hai[cite: 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">AI presentation videos ka maqsad kya hai?</button>
+      <div class="a">Iska maqsad customer ko product ke features, use aur benefits visually explain karna hai[cite: 3]. Actual size, color aur material ke liye listing details aur specifications ko zaroor check karein[cite: 2, 3].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Kya MoonStar Mall real unboxing reviews bhi share karta hai?</button>
+      <div class="a">Ji haan[cite: 3]. Jaha uplabdh ho, hum real product videos aur real YouTube reviews bhi share karte hain taaki customer sahi faisla le sake[cite: 2, 3].</div>
+    </div>
+  </section>
+
+  <!-- TAB 7: SELL WITH US -->
+  <section id="seller" class="panel">
+    <h2>Sell on MoonStar Mall (Vendor Listing)</h2>
+    <div class="faq">
+      <button class="q">Kya mai apna product MoonStar Mall par bech sakta hu?</button>
+      <div class="a">Ji haan! Agar aap manufacturer, dukandar ya YouTube creator hain, to hamare platform par apna product list karwa kar direct orders le sakte hain[cite: 1, 2].</div>
+    </div>
+    <div class="faq">
+      <button class="q">Listing ke liye apply kaise karein?</button>
+      <div class="a">Store header me <strong>[🤝 Sell]</strong> button par click karein[cite: 1]. Apni shop ka naam, WhatsApp number, aur product ka YouTube/image link daal kar submit karein[cite: 1]. Hamari team aapse turant contact karegi[cite: 1].</div>
+    </div>
+    <div class="notice">
+      <strong>Important Reminder:</strong> Kisi bhi order ko submit karne se pehle product details, seller name, return terms aur final payable amount zaroor verify kar lein[cite: 2, 3].
+    </div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> MoonStar Mall 🌙 ⭐. All Rights Reserved. | <a href="index.html">Back to Store</a>[cite: 2, 3]
+  </div>
 </main>
 
 <script>
-function showTab(id,btn){
- document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
- document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- btn.classList.add('active');
- history.replaceState(null,'','#'+id);
- window.scrollTo({top:0,behavior:'smooth'});
+function showTab(id, btn){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  
+  const target = document.getElementById(id);
+  if(target){
+    target.classList.add('active');
+    if(btn) btn.classList.add('active');
+    history.replaceState(null, '', '#' + id);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
 }
-document.querySelectorAll('.q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
-const hash=location.hash.replace('#','');
-if(hash){
- const b=document.querySelector('.tab[onclick*="' + hash + '"]');
- if(b) showTab(hash,b);
-}
-document.getElementById('year').textContent=new Date().getFullYear();
+
+// Accordion Open/Close Logic
+document.querySelectorAll('.q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.parentElement;
+    parent.classList.toggle('open');
+  });
+});
+
+// URL Hash Deep Linking Support
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.replace('#', '');
+  if(hash){
+    const btn = document.querySelector(`.tab[onclick*="'${hash}'"]`);
+    if(btn) showTab(hash, btn);
+  }
+  document.getElementById('year').textContent = new Date().getFullYear();
+});
 </script>
+
 </body>
 </html>
