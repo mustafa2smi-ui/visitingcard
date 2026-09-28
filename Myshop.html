@@ -267,7 +267,10 @@
       font-weight: 600;
       border-bottom: 1px dashed var(--border);
     }
-
+.drawer {
+  overscroll-behavior: contain; /* Drawer ka scroll piche ke page par nahi jayega */
+  overflow-y: auto; /* Drawer ke andar aaram se scroll hoga */
+}
     .hero-banner {
       margin: 16px;
       background: linear-gradient(135deg, #1e3a8a, #0f172a);
@@ -781,6 +784,32 @@
       gap: 6px;
       font-size: 0.83rem;
     }
+    /* ORDER HISTORY SCROLLABLE CONTAINER */
+#orderHistoryList {
+  max-height: 280px; /* 2 ya 3 cards dikhenge, baki scroll honge */
+  overflow-y: auto;  /* Niche ki taraf aaram se scroll hoga */
+  overflow-x: hidden;
+  padding-right: 4px;
+  margin-top: 10px;
+  overscroll-behavior: contain; /* Piche ka page scroll hone se rokega */
+  -webkit-overflow-scrolling: touch; /* Mobile me butter smooth touch scroll */
+}
+
+/* Custom Clean Scrollbar for Mobile & Desktop */
+#orderHistoryList::-webkit-scrollbar {
+  width: 5px;
+}
+#orderHistoryList::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+#orderHistoryList::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+#orderHistoryList::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
     .history-card-header { display: flex; justify-content: space-between; align-items: center; font-weight: 800; }
     .badge-status { padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; }
     .badge-placed { background: #dcfce7; color: #15803d; }
@@ -2005,14 +2034,18 @@ function copyAndOpenFaq() {
     drawerOverlay.onclick = () => toggleMenu(false);
 
     function toggleMenu(open) {
-      if(open) {
-        sideDrawer.classList.add('open');
-        drawerOverlay.classList.add('active');
-      } else {
-        sideDrawer.classList.remove('open');
-        drawerOverlay.classList.remove('active');
-      }
-    }
+  if(open) {
+    sideDrawer.classList.add('open');
+    drawerOverlay.classList.add('active');
+    // Piche ka page scroll hona band ho jayega
+    document.body.style.overflow = 'hidden';
+  } else {
+    sideDrawer.classList.remove('open');
+    drawerOverlay.classList.remove('active');
+    // Piche ka page wapas normal scroll hone lagega
+    document.body.style.overflow = 'auto';
+  }
+}
 
     let deferredPrompt;
     function setupPWA() {
