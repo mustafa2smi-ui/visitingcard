@@ -1198,7 +1198,30 @@
       </form>
     </div>
   </div>
+<!-- EMAIL SUCCESS / FALLBACK PROMPT MODAL -->
+<div class="modal" id="orderSuccessModal">
+  <div class="modal-content" style="text-align:center;">
+    <div style="font-size: 2.5rem; margin-bottom: 8px;">🎉</div>
+    <h3 style="color:var(--ink-blue); margin-bottom: 6px;">Order Request Submitted!</h3>
+    <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:14px;">
+      Aapka order generate ho gaya hai. Final submit ke liye apne phone ka Email app open karein.
+    </p>
 
+    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px; font-size:0.78rem; color:#92400e; margin-bottom:16px; text-align:left;">
+      ⚠️ <strong>Agar Email app open nahi hota hai:</strong><br>
+      Niche <em>"Copy Order & Help"</em> dabayein, bill copy ho jayega aur aap asani se manual bhej sakte hain.
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <button type="button" class="btn-submit" id="btnTriggerEmail" style="width:100%;">
+        📧 Open Email App (Send Order)
+      </button>
+      <button type="button" class="btn-clear" onclick="copyAndOpenFaq()" style="width:100%; border:1px solid #cbd5e1; font-weight:700;">
+        📋 Copy Order & View Guide (FAQ)
+      </button>
+    </div>
+  </div>
+</div>
   <footer>
     <p>© 2026 मूनस्टार मॉल 🌙 ⭐. सर्वाधिकार सुरक्षित।</p>
     <p style="margin-top: 6px;">
@@ -1785,7 +1808,7 @@
         currentMailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
         // Email app open karne ki koshish karega
-        window.location.href = currentMailtoUrl;
+       // window.location.href = currentMailtoUrl;
 
         // Sath me modal popup khol dega agar app open na ho
         const btnMail = document.getElementById('btnTriggerEmail');
