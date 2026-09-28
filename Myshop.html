@@ -1808,7 +1808,7 @@
         currentMailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
         // Email app open karne ki koshish karega
-       // window.location.href = currentMailtoUrl;
+       window.location.href = currentMailtoUrl;
 
         // Sath me modal popup khol dega agar app open na ho
         const btnMail = document.getElementById('btnTriggerEmail');
