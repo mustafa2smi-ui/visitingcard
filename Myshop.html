@@ -543,7 +543,72 @@
       padding: 0;
       font-size: 0.82rem;
     }
-
+/* MULTIPLE SAVED ADDRESSES SLIDER / LIST */
+.saved-address-container {
+  display: none;
+  background: #f0fdf4;
+  border: 1.5px dashed #16a34a;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.saved-address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #15803d;
+  margin-bottom: 8px;
+}
+.saved-address-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+.saved-address-card {
+  flex: 0 0 240px;
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.saved-addr-preview {
+  font-size: 0.78rem;
+  color: #1e293b;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.saved-addr-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+.btn-use-addr {
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-del-addr {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
     .form-section {
       background: #f1f5f9;
       margin: 0 16px 24px;
@@ -851,7 +916,16 @@
   <section class="form-section" id="orderSection">
     <h2 class="section-title">ऑर्डर फॉर्म</h2>
     <form id="orderForm" onsubmit="handleOrderSubmit(event)">
-      
+      <!-- MULTIPLE SAVED ADDRESSES WRAPPER -->
+<div class="saved-address-container" id="savedAddressBox">
+  <div class="saved-address-header">
+    <span>📍 Aapke Bachaye Huye Pate (Saved Addresses)</span>
+    <button type="button" onclick="clearAllSavedAddresses()" style="background:none; border:none; color:#dc2626; font-size:0.75rem; font-weight:700; cursor:pointer;">Sab Hatayein</button>
+  </div>
+  <div class="saved-address-list" id="savedAddressList">
+    <!-- Saved addresses ke cards yahan dynamic load honge -->
+  </div>
+</div>
       <div class="form-group">
         <label>ऑर्डर आईडी (स्वतः निर्मित):</label>
         <input type="text" id="orderId" readonly style="font-weight: 800; background: #e2e8f0; color: #1e3a8a;" />
@@ -1249,6 +1323,7 @@
       renderOrderHistory();
       setupPWA();
       checkDirectOrderUrlParam();
+      checkAndDisplaySavedAddresses();
     });
 
     function generateOrderId() {
@@ -1568,7 +1643,7 @@
       utterance.rate = 0.95;
       window.speechSynthesis.speak(utterance);
     }
-
+/*
     function handleOrderSubmit(e) {
       e.preventDefault();
 
@@ -1635,7 +1710,98 @@
 
       renderOrderHistory();
     }
+*/
+    function handleOrderSubmit(e) {
+      e.preventDefault();
 
+      const orderData = {
+        orderId: sanitizeText(document.getElementById('orderId').value),
+        seller: sanitizeText(document.getElementById('sellerNameField').value),
+        date: new Date().toLocaleDateString('hi-IN'),
+        productUrl: sanitizeText(document.getElementById('productUrl').value),
+        productTitle: selectedProduct ? sanitizeText(selectedProduct.title) : "Custom Item",
+        price: parseFloat(document.getElementById('unitPrice').value) || 0,
+        qty: parseInt(document.getElementById('productQty').value) || 1,
+        discount: appliedDiscount,
+        coupon: sanitizeText(appliedCouponCode),
+        amount: parseFloat(document.getElementById('totalAmount').value) || 0,
+        name: sanitizeText(document.getElementById('custName').value.trim()),
+        phone: sanitizeText(document.getElementById('custPhone').value.trim()),
+        address: sanitizeText(document.getElementById('custAddress').value.trim()),
+        district: sanitizeText(document.getElementById('custDistrict').value.trim()),
+        state: sanitizeText(document.getElementById('custState').value.trim()),
+        pincode: sanitizeText(document.getElementById('custPincode').value.trim()),
+        status: "Order Successfully Placed"
+      };
+
+      // 1. Order History me save karega
+      saveOrderToHistory(orderData);
+
+      // 2. Customer ka address agle order ke liye save karega
+      saveAddressToStorage({
+        name: orderData.name,
+        phone: orderData.phone,
+        address: orderData.address,
+        district: orderData.district,
+        state: orderData.state,
+        pincode: orderData.pincode
+      });
+
+      if(CONFIG.USE_WHATSAPP) {
+        const waMsg = `*🛍️ NEW ORDER - MOONSTAR MALL*\n` +
+                      `*Order ID:* ${orderData.orderId}\n` +
+                      `*Seller:* ${orderData.seller}\n` +
+                      `*Product:* ${orderData.productTitle}\n` +
+                      `*Qty:* ${orderData.qty} | *Price:* ₹${orderData.price}\n` +
+                      (orderData.discount > 0 ? `*Discount (${orderData.coupon}):* -₹${orderData.discount}\n` : '') +
+                      `*Total Due:* ₹${orderData.amount}\n\n` +
+                      `*Customer Details:*\n` +
+                      `*Name:* ${orderData.name}\n` +
+                      `*Mobile:* ${orderData.phone}\n` +
+                      `*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
+        
+        window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
+      } else {
+        const emailSubject = `New Order: ${orderData.orderId} [Seller: ${orderData.seller}] - ${orderData.name}`;
+        const emailBody = `MOONSTAR MALL MARKETPLACE ORDER\n` +
+                          `====================================\n` +
+                          `Order ID: ${orderData.orderId}\n` +
+                          `Seller Name: ${orderData.seller}\n` +
+                          `Product: ${orderData.productTitle}\n` +
+                          `URL: ${orderData.productUrl}\n` +
+                          `Qty: ${orderData.qty}\n` +
+                          `Unit Price: ₹${orderData.price}\n` +
+                          `Discount: ₹${orderData.discount} (${orderData.coupon})\n` +
+                          `Total Payable: ₹${orderData.amount}\n\n` +
+                          `SHIPPING DETAILS:\n` +
+                          `Name: ${orderData.name}\n` +
+                          `Phone: ${orderData.phone}\n` +
+                          `Address: ${orderData.address}\n` +
+                          `District: ${orderData.district}\n` +
+                          `State: ${orderData.state}\n` +
+                          `Pincode: ${orderData.pincode}\n` +
+                          `====================================`;
+
+        currentMailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+        // Email app open karne ki koshish karega
+        window.location.href = currentMailtoUrl;
+
+        // Sath me modal popup khol dega agar app open na ho
+        const btnMail = document.getElementById('btnTriggerEmail');
+        if(btnMail) {
+          btnMail.onclick = () => { window.location.href = currentMailtoUrl; };
+        }
+        const modal = document.getElementById('orderSuccessModal');
+        if(modal) {
+          modal.classList.add('active');
+        } else {
+          alert(`Shukriya! Order ${orderData.orderId} submit ho gaya hai.`);
+        }
+      }
+
+      renderOrderHistory();
+    }
     function resetOrderForm() {
       document.getElementById('orderForm').reset();
       generateOrderId();
@@ -1852,6 +2018,109 @@ function updateNetworkStatus() {
 window.addEventListener('online', updateNetworkStatus);
 window.addEventListener('offline', updateNetworkStatus);
 window.addEventListener('DOMContentLoaded', updateNetworkStatus);
+  
+    /* ========================================================
+   MULTIPLE ADDRESSES AUTO-SAVE & QUICK FILL LOGIC
+   ======================================================== */
+
+// 1. LocalStorage se addresses fetch karne ka function
+function getStoredAddresses() {
+  try {
+    return JSON.parse(localStorage.getItem('moonstar_saved_addresses') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+// 2. Saved addresses ko horizontal scroll me render karna
+function checkAndDisplaySavedAddresses() {
+  const addresses = getStoredAddresses();
+  const box = document.getElementById('savedAddressBox');
+  const listContainer = document.getElementById('savedAddressList');
+
+  if (!box || !listContainer) return;
+
+  if (addresses.length === 0) {
+    box.style.display = 'none';
+    return;
+  }
+
+  box.style.display = 'block';
+  listContainer.innerHTML = addresses.map((addr, index) => `
+    <div class="saved-address-card">
+      <div class="saved-addr-preview">
+        <strong>${sanitizeText(addr.name)}</strong><br/>
+        <span style="color:#64748b;">${sanitizeText(addr.address)}</span>
+      </div>
+      <div class="saved-addr-actions">
+        <button type="button" class="btn-use-addr" onclick="applySingleSavedAddress(${index})">⚡ Use This</button>
+        <button type="button" class="btn-del-addr" onclick="removeSingleAddress(${index})">✕ Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 3. Kisi specific address par tap karke form me bharna
+function applySingleSavedAddress(index) {
+  const addresses = getStoredAddresses();
+  const addr = addresses[index];
+  if (!addr) return;
+
+  document.getElementById('custName').value = addr.name || '';
+  document.getElementById('custPhone').value = addr.phone || '';
+  document.getElementById('custAddress').value = addr.address || '';
+  document.getElementById('custPincode').value = addr.pincode || '';
+  document.getElementById('custDistrict').value = addr.district || '';
+  document.getElementById('custState').value = addr.state || '';
+
+  // Invoice bill ko
+  updateLiveBill();
+}
+
+// 4. Kisi ek purane address ko delete karna
+function removeSingleAddress(index) {
+  const addresses = getStoredAddresses();
+  addresses.splice(index, 1);
+  localStorage.setItem('moonstar_saved_addresses', JSON.stringify(addresses));
+  checkAndDisplaySavedAddresses();
+}
+
+// 5. Saare saved addresses ek sath delete karna
+function clearAllSavedAddresses() {
+  if (confirm("Saare bache huye pate (saved addresses) delete karein?")) {
+    localStorage.removeItem('moonstar_saved_addresses');
+    checkAndDisplaySavedAddresses();
+  }
+}
+
+// 6. Naya order submit hote hi address ko list me add karna
+function saveAddressToStorage(newAddr) {
+  if (!newAddr.name || !newAddr.address || !newAddr.phone) return;
+
+  let addresses = getStoredAddresses();
+
+  // Check karein ki ye address pehle se save to nahi hai
+  const existsIndex = addresses.findIndex(a => 
+    a.phone === newAddr.phone && 
+    a.address.toLowerCase().trim() === newAddr.address.toLowerCase().trim()
+  );
+
+  if (existsIndex !== -1) {
+    // Agar pehle se hai to use sabse aage (latest) le aao
+    addresses.splice(existsIndex, 1);
+  }
+
+  // Naye address ko sabse pehle rakhein
+  addresses.unshift(newAddr);
+
+  // Maximum 5 addresses hi rakhega taaki list bohot lambi na ho
+  if (addresses.length > 5) {
+    addresses = addresses.slice(0, 5);
+  }
+
+  localStorage.setItem('moonstar_saved_addresses', JSON.stringify(addresses));
+  checkAndDisplaySavedAddresses();
+}
   </script>
 </body>
 </html>
