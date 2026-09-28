@@ -1226,21 +1226,24 @@
   </div>
 <!-- EMAIL SUCCESS / FALLBACK PROMPT MODAL -->
 <div class="modal" id="orderSuccessModal">
-  <div class="modal-content" style="text-align:center;">
-    <div style="font-size: 2.5rem; margin-bottom: 8px;">🎉</div>
-    <h3 style="color:var(--ink-blue); margin-bottom: 6px;">Order Request Submitted!</h3>
-    <p style="font-size:0.85rem; color:#475569; line-height:1.5; margin-bottom:14px;">
-      Aapka order generate ho gaya hai. Final submit ke liye apne phone ka Email app open karein.
+  <div class="modal-content" style="text-align:center; position:relative;">
+    <!-- Close (✕) Button -->
+    <button class="modal-close" onclick="closeOrderModal()" style="position:absolute; top:10px; right:12px; font-size:1.3rem; border:none; background:none; cursor:pointer;">✕</button>
+
+    <div style="font-size: 2.3rem; margin-bottom: 6px;">🎉</div>
+    <h3 style="color:var(--ink-blue); margin-bottom: 6px;">Order Request Generated</h3>
+    <p style="font-size:0.85rem; color:#475569; line-height:1.4; margin-bottom:12px;">
+      Aapka order bill taiyar hai. Agar aapka Email app open nahi hua hai to niche diye gaye guide se bhejein.
     </p>
 
-    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px; font-size:0.78rem; color:#92400e; margin-bottom:16px; text-align:left;">
-      ⚠️ <strong>Agar Email app open nahi hota hai:</strong><br>
-      Niche <em>"Copy Order & Help"</em> dabayein, bill copy ho jayega aur aap asani se manual bhej sakte hain.
+    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px; font-size:0.78rem; color:#92400e; margin-bottom:14px; text-align:left;">
+      ⚠️ <strong>Email App Open Nahi Hua?</strong><br>
+      <em>"Copy Order & View Guide"</em> button dabayein, bill copy ho jayega aur aap 1 minute me mail send kar sakenge.
     </div>
 
     <div style="display:flex; flex-direction:column; gap:8px;">
       <button type="button" class="btn-submit" id="btnTriggerEmail" style="width:100%;">
-        📧 Open Email App (Send Order)
+        📧 Try Open Email App Again
       </button>
       <button type="button" class="btn-clear" onclick="copyAndOpenFaq()" style="width:100%; border:1px solid #cbd5e1; font-weight:700;">
         📋 Copy Order & View Guide (FAQ)
@@ -1760,97 +1763,96 @@
       renderOrderHistory();
     }
 */
-    function handleOrderSubmit(e) {
-      e.preventDefault();
+    let currentMailtoUrl = "";
+let emailAppOpened = false;
 
-      const orderData = {
-        orderId: sanitizeText(document.getElementById('orderId').value),
-        seller: sanitizeText(document.getElementById('sellerNameField').value),
-        date: new Date().toLocaleDateString('hi-IN'),
-        productUrl: sanitizeText(document.getElementById('productUrl').value),
-        productTitle: selectedProduct ? sanitizeText(selectedProduct.title) : "Custom Item",
-        price: parseFloat(document.getElementById('unitPrice').value) || 0,
-        qty: parseInt(document.getElementById('productQty').value) || 1,
-        discount: appliedDiscount,
-        coupon: sanitizeText(appliedCouponCode),
-        amount: parseFloat(document.getElementById('totalAmount').value) || 0,
-        name: sanitizeText(document.getElementById('custName').value.trim()),
-        phone: sanitizeText(document.getElementById('custPhone').value.trim()),
-        address: sanitizeText(document.getElementById('custAddress').value.trim()),
-        district: sanitizeText(document.getElementById('custDistrict').value.trim()),
-        state: sanitizeText(document.getElementById('custState').value.trim()),
-        pincode: sanitizeText(document.getElementById('custPincode').value.trim()),
-        status: "Order Successfully Placed"
-      };
+function handleOrderSubmit(e) {
+  e.preventDefault();
 
-      // 1. Order History me save karega
-      saveOrderToHistory(orderData);
+  const orderData = {
+    orderId: sanitizeText(document.getElementById('orderId').value),
+    seller: sanitizeText(document.getElementById('sellerNameField').value),
+    date: new Date().toLocaleDateString('hi-IN'),
+    productUrl: sanitizeText(document.getElementById('productUrl').value),
+    productTitle: selectedProduct ? sanitizeText(selectedProduct.title) : "Custom Item",
+    price: parseFloat(document.getElementById('unitPrice').value) || 0,
+    qty: parseInt(document.getElementById('productQty').value) || 1,
+    discount: appliedDiscount,
+    coupon: sanitizeText(appliedCouponCode),
+    amount: parseFloat(document.getElementById('totalAmount').value) || 0,
+    name: sanitizeText(document.getElementById('custName').value.trim()),
+    phone: sanitizeText(document.getElementById('custPhone').value.trim()),
+    address: sanitizeText(document.getElementById('custAddress').value.trim()),
+    district: sanitizeText(document.getElementById('custDistrict').value.trim()),
+    state: sanitizeText(document.getElementById('custState').value.trim()),
+    pincode: sanitizeText(document.getElementById('custPincode').value.trim()),
+    status: "Order Successfully Placed"
+  };
 
-      // 2. Customer ka address agle order ke liye save karega
-      saveAddressToStorage({
-        name: orderData.name,
-        phone: orderData.phone,
-        address: orderData.address,
-        district: orderData.district,
-        state: orderData.state,
-        pincode: orderData.pincode
-      });
+  saveOrderToHistory(orderData);
+  saveAddressToStorage({
+    name: orderData.name,
+    phone: orderData.phone,
+    address: orderData.address,
+    district: orderData.district,
+    state: orderData.state,
+    pincode: orderData.pincode
+  });
+  renderOrderHistory();
 
-      if(CONFIG.USE_WHATSAPP) {
-        const waMsg = `*🛍️ NEW ORDER - MOONSTAR MALL*\n` +
-                      `*Order ID:* ${orderData.orderId}\n` +
-                      `*Seller:* ${orderData.seller}\n` +
-                      `*Product:* ${orderData.productTitle}\n` +
-                      `*Qty:* ${orderData.qty} | *Price:* ₹${orderData.price}\n` +
-                      (orderData.discount > 0 ? `*Discount (${orderData.coupon}):* -₹${orderData.discount}\n` : '') +
-                      `*Total Due:* ₹${orderData.amount}\n\n` +
-                      `*Customer Details:*\n` +
-                      `*Name:* ${orderData.name}\n` +
-                      `*Mobile:* ${orderData.phone}\n` +
-                      `*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
-        
-        window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
-      } else {
-        const emailSubject = `New Order: ${orderData.orderId} [Seller: ${orderData.seller}] - ${orderData.name}`;
-        const emailBody = `MOONSTAR MALL MARKETPLACE ORDER\n` +
-                          `====================================\n` +
-                          `Order ID: ${orderData.orderId}\n` +
-                          `Seller Name: ${orderData.seller}\n` +
-                          `Product: ${orderData.productTitle}\n` +
-                          `URL: ${orderData.productUrl}\n` +
-                          `Qty: ${orderData.qty}\n` +
-                          `Unit Price: ₹${orderData.price}\n` +
-                          `Discount: ₹${orderData.discount} (${orderData.coupon})\n` +
-                          `Total Payable: ₹${orderData.amount}\n\n` +
-                          `SHIPPING DETAILS:\n` +
-                          `Name: ${orderData.name}\n` +
-                          `Phone: ${orderData.phone}\n` +
-                          `Address: ${orderData.address}\n` +
-                          `District: ${orderData.district}\n` +
-                          `State: ${orderData.state}\n` +
-                          `Pincode: ${orderData.pincode}\n` +
-                          `====================================`;
+  if(CONFIG.USE_WHATSAPP) {
+    const waMsg = `*🛍️ NEW ORDER - MOONSTAR MALL*\n*Order ID:* ${orderData.orderId}\n*Seller:* ${orderData.seller}\n*Product:* ${orderData.productTitle}\n*Qty:* ${orderData.qty} | *Price:* ₹${orderData.price}\n` +
+                  (orderData.discount > 0 ? `*Discount (${orderData.coupon}):* -₹${orderData.discount}\n` : '') +
+                  `*Total Due:* ₹${orderData.amount}\n\n*Customer:*\n*Name:* ${orderData.name}\n*Mobile:* ${orderData.phone}\n*Address:* ${orderData.address}, ${orderData.district}, ${orderData.state} - ${orderData.pincode}`;
+    window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`, '_blank');
+  } else {
+    const emailSubject = `New Order: ${orderData.orderId} [Seller: ${orderData.seller}] - ${orderData.name}`;
+    const emailBody = `MOONSTAR MALL MARKETPLACE ORDER\n====================================\nOrder ID: ${orderData.orderId}\nSeller Name: ${orderData.seller}\nProduct: ${orderData.productTitle}\nURL: ${orderData.productUrl}\nQty: ${orderData.qty}\nUnit Price: ₹${orderData.price}\nDiscount: ₹${orderData.discount} (${orderData.coupon})\nTotal Payable: ₹${orderData.amount}\n\nSHIPPING DETAILS:\nName: ${orderData.name}\nPhone: ${orderData.phone}\nAddress: ${orderData.address}\nDistrict: ${orderData.district}\nState: ${orderData.state}\nPincode: ${orderData.pincode}\n====================================`;
 
-        currentMailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    currentMailtoUrl = `mailto:${CONFIG.ENDPOINT_EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
-        // Email app open karne ki koshish karega
-       window.location.href = currentMailtoUrl;
+    emailAppOpened = false;
 
-        // Sath me modal popup khol dega agar app open na ho
-        const btnMail = document.getElementById('btnTriggerEmail');
-        if(btnMail) {
-          btnMail.onclick = () => { window.location.href = currentMailtoUrl; };
-        }
+    // Listener: Agar email app open hoga to browser window blur ho jayegi
+    const checkAppBlur = () => {
+      emailAppOpened = true;
+      window.removeEventListener('blur', checkAppBlur);
+    };
+    window.addEventListener('blur', checkAppBlur);
+
+    // Email App Trigger
+    window.location.href = currentMailtoUrl;
+
+    // Smart Timer: 1.5 seconds wait karega. 
+    // Agar app open NAHI hua (yani user abhi bhi browser screen par hai), tabhi popup aayega!
+    setTimeout(() => {
+      window.removeEventListener('blur', checkAppBlur);
+      if (!emailAppOpened && !document.hidden) {
         const modal = document.getElementById('orderSuccessModal');
-        if(modal) {
+        if (modal) {
+          document.getElementById('btnTriggerEmail').onclick = () => {
+            window.location.href = currentMailtoUrl;
+          };
           modal.classList.add('active');
-        } else {
-          alert(`Shukriya! Order ${orderData.orderId} submit ho gaya hai.`);
         }
       }
+    }, 1500);
+  }
+}
 
-      renderOrderHistory();
-    }
+// Modal ko band karne ka function
+function closeOrderModal() {
+  const modal = document.getElementById('orderSuccessModal');
+  if (modal) modal.classList.remove('active');
+}
+
+// Copy Order aur FAQ Redirect ka function
+function copyAndOpenFaq() {
+  copyOrderDetails();
+  closeOrderModal();
+  // Direct FAQ page ke order section par le jayega
+  window.location.href = "faq.html#order";
+}
     function resetOrderForm() {
       document.getElementById('orderForm').reset();
       generateOrderId();
@@ -2102,7 +2104,7 @@ function checkAndDisplaySavedAddresses() {
         <span style="color:#64748b;">${sanitizeText(addr.address)}</span>
       </div>
       <div class="saved-addr-actions">
-        <button type="button" class="btn-use-addr" onclick="applySingleSavedAddress(${index})">⚡ Use This</button>
+        <button type="button" class="btn-use-addr" onclick="applySingleSavedAddress(${index},this)">⚡ Use This</button>
         <button type="button" class="btn-del-addr" onclick="removeSingleAddress(${index})">✕ Delete</button>
       </div>
     </div>
@@ -2110,7 +2112,7 @@ function checkAndDisplaySavedAddresses() {
 }
 
 // 3. Kisi specific address par tap karke form me bharna
-function applySingleSavedAddress(index) {
+function applySingleSavedAddress(index, btn) {
   const addresses = getStoredAddresses();
   const addr = addresses[index];
   if (!addr) return;
@@ -2122,8 +2124,18 @@ function applySingleSavedAddress(index) {
   document.getElementById('custDistrict').value = addr.district || '';
   document.getElementById('custState').value = addr.state || '';
 
-  // Invoice bill ko
   updateLiveBill();
+
+  // Button text change visual feedback (0.8 sec ke liye)
+  if (btn) {
+    const originalText = btn.innerText;
+    btn.innerText = "✓ Applied!";
+    btn.classList.add('applied');
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.classList.remove('applied');
+    }, 800);
+  }
 }
 
 // 4. Kisi ek purane address ko delete karna
