@@ -967,12 +967,6 @@
     </div>
   </section>
 
-  <div class="policy-banner">
-    <div><strong>⏱️ 24-Hour Order Cancellation:</strong> Orders must be cancelled within 24 hours of submission prior to shipping dispatch.</div>
-    <div><strong>📦 24-Hour Return Window:</strong> If an item arrives broken or incorrect, submit a claim within 24 hours of delivery with an uncut unboxing video.</div>
-    <button class="policy-action-btn" onclick="openReturnModal()">Open Return / Cancel Form ➔</button>
-  </div>
-
   <section class="form-section" id="orderSection">
     <h2 class="section-title">Order Request Form</h2>
     <form id="orderForm" onsubmit="handleOrderSubmit(event)">
@@ -1193,7 +1187,11 @@
     </div>
     <div class="history-list" id="historyList"></div>
   </section>
-
+<div class="policy-banner">
+    <div><strong>⏱️ 24-Hour Order Cancellation:</strong> Orders must be cancelled within 24 hours of submission prior to shipping dispatch.</div>
+    <div><strong>📦 24-Hour Return Window:</strong> If an item arrives broken or incorrect, submit a claim within 24 hours of delivery with an uncut unboxing video.</div>
+    <button class="policy-action-btn" onclick="openReturnModal()">Open Return / Cancel Form ➔</button>
+  </div>
   <div class="modal" id="sellerModal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeSellerModal()">✕</button>
@@ -1335,11 +1333,12 @@
     }
 
     function extractYouTubeId(url) {
-      if(!url) return null;
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-      const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
-    }
+  if (!url) return null;
+  // Ab ye shorts, youtu.be, embed, watch?v= sabhi tarah ke links se 11-digit ID nikal lega
+  const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/|user\/\S+|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
 
     function processProductsList() {
       const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
