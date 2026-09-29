@@ -24,7 +24,7 @@ const PRODUCTS = [
     price: 649,
     sellerName: "Royal Traders", // Dusre businessman ka product (Seller Badge aayega)
     allowCoupon: true,
-    videoUrl: "https://youtu.be/3JZ_D3ELwOQ"
+    videoUrl: "https://youtube.com/shorts/JYS6vsFtFVo?si=JErLk1843By78zJJ"
   },
   {
     id: "MS03",
