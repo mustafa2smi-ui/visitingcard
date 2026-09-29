@@ -33,6 +33,7 @@ const PRODUCTS = [
     price: 399,
     sellerName: "Star Handicrafts",
     allowCoupon: false, // Is product par discount code allow nahi hoga
-    imageUrl: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400"
+    imageUrl: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400",
+    videoUrl: "https://youtu.be/MgeLnmzExCc?si=4gdHQG1axQvGMmFz"
   }
 ];
