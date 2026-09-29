@@ -1451,7 +1451,7 @@
       const filtered = (cat === "सभी") ? catalogList : catalogList.filter(p => p.category === cat);
       renderProductCards(filtered);
     }
-
+/*
     function renderProductCards(list) {
       const grid = document.getElementById('productGrid');
       if (!grid) return;
@@ -1513,7 +1513,100 @@
         grid.appendChild(card);
       });
     }
+*/
+    // 👉 Yahan aap tay kar sakte hain ki ek block me kitne products honge:
+// Agar 25+25 chahiye to 50 likhein.
+// Agar 15+15 chahiye to bas 30 kar dijiyega!
+const PRODUCTS_PER_BLOCK = 50; 
 
+function renderProductCards(list) {
+  const container = document.getElementById('productGrid');
+  if (!container) return;
+  container.innerHTML = "";
+
+  if(list.length === 0) {
+    container.innerHTML = `<p style="padding: 20px; color: var(--text-muted);">Aapki khoj se mel khata koi product nahi mila.</p>`;
+    return;
+  }
+
+  // 1. Products ko chunks (tukdon) me divide karein
+  const chunks = [];
+  for (let i = 0; i < list.length; i += PRODUCTS_PER_BLOCK) {
+    chunks.push(list.slice(i, i + PRODUCTS_PER_BLOCK));
+  }
+
+  // 2. Har chunk ka alag 2-row horizontal slider render karein
+  chunks.forEach((chunk, chunkIdx) => {
+    const blockWrapper = document.createElement('div');
+    blockWrapper.className = "catalog-block-wrapper";
+
+    // Agar 1 se zyada blocks bante hain to title dikhayega
+    if (chunks.length > 1) {
+      const blockTitle = document.createElement('div');
+      blockTitle.className = "catalog-block-title";
+      blockTitle.innerHTML = `📦 <span>Collection Part ${chunkIdx + 1} (${chunk.length} Items)</span>`;
+      blockWrapper.appendChild(blockTitle);
+    }
+
+    const grid = document.createElement('div');
+    grid.className = "catalog-grid";
+
+    chunk.forEach((item, index) => {
+      const globalIndex = (chunkIdx * PRODUCTS_PER_BLOCK) + index + 1;
+      const card = document.createElement('div');
+      card.className = "product-card";
+
+      let mediaHtml = "";
+      if(item.youtubeId) {
+        mediaHtml = `
+          <div class="card-thumb-container" id="mediaBox_${sanitizeText(item.id)}">
+            <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
+            <div class="play-overlay-btn" onclick="playInlineVideo('${sanitizeText(item.id)}', '${sanitizeText(item.youtubeId)}')" title="Video Play Karein">▶</div>
+          </div>
+        `;
+      } else if(item.thumb) {
+        mediaHtml = `
+          <div class="card-thumb-container">
+            <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
+          </div>
+        `;
+      } else {
+        mediaHtml = `
+          <div class="card-thumb-container">
+            <div class="media-fallback">🛍️</div>
+          </div>
+        `;
+      }
+
+      const safeTitle = sanitizeText(item.title);
+      const safeSeller = sanitizeText(item.sellerName);
+
+      card.innerHTML = `
+        <div style="position:relative;">
+          <div class="badge-bar">
+            <span class="card-num-badge">#${globalIndex}</span>
+            <div class="card-seller-badge" title="Seller: ${safeSeller}">🏬 ${safeSeller}</div>
+          </div>
+          ${mediaHtml}
+        </div>
+        <div class="card-info">
+          <h4 class="card-title" title="${safeTitle}">${safeTitle}</h4>
+          <div class="card-footer">
+            <span class="card-price">₹${item.price}</span>
+            <div class="card-btn-group">
+              <button type="button" class="order-now-btn" onclick="selectProductToOrder('${sanitizeText(item.id)}')">Order 🛒</button>
+              <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${sanitizeText(item.id)}')" title="Share Karein">↗</button>
+            </div>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    blockWrapper.appendChild(grid);
+    container.appendChild(blockWrapper);
+  });
+}
     function playInlineVideo(containerId, youtubeId, fullUrl) {
   const container = document.getElementById(`mediaBox_${containerId}`);
   if (!container) return;
