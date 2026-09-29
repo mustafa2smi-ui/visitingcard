@@ -276,14 +276,14 @@
       margin: 16px;
       background: linear-gradient(135deg, #1e3a8a, #0f172a);
       border-radius: var(--radius);
-      padding: 22px 18px;
+      padding: 20px 16px;
       color: #fff;
       text-align: center;
       box-shadow: var(--shadow);
     }
 
-    .hero-banner h1 { font-size: 1.55rem; font-weight: 800; margin-bottom: 6px; }
-    .hero-banner p { font-size: 0.92rem; opacity: 0.95; }
+    .hero-banner h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+    .hero-banner p { font-size: 0.9rem; opacity: 0.95; }
     .hero-banner .badge {
       display: inline-block;
       margin-top: 10px;
@@ -298,10 +298,10 @@
     .search-box { position: relative; width: 100%; }
     .search-box input {
       width: 100%;
-      padding: 12px 14px 12px 40px;
+      padding: 11px 14px 11px 40px;
       border: 1px solid var(--border);
       border-radius: 10px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       background: #fff;
       outline: none;
     }
@@ -324,11 +324,11 @@
     .category-tabs::-webkit-scrollbar { display: none; }
     .cat-btn {
       flex: 0 0 auto;
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 20px;
       border: 1px solid var(--border);
       background: #fff;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -345,56 +345,47 @@
       background: rgba(0,0,0,0.08);
       padding: 2px 6px;
       border-radius: 10px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
     }
     .cat-btn.active .cat-count { background: rgba(255,255,255,0.25); }
-/*
-    .catalog-wrapper { padding: 0 16px; margin-bottom: 24px; }
+
+    /* CATALOG HORIZONTAL SLIDER BLOCKS */
+    .catalog-wrapper { padding: 0 16px; margin-bottom: 20px; }
+    
+    .catalog-block-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .catalog-block-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--ink-blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* COMPACT 2-ROW HORIZONTAL GRID */
     .catalog-grid {
       display: grid;
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
       grid-auto-flow: column;
-      grid-auto-columns: minmax(265px, 285px);
-      gap: 12px;
+      grid-auto-columns: minmax(190px, 205px);
+      gap: 10px;
       overflow-x: auto;
-      padding-bottom: 10px;
+      padding-bottom: 8px;
       scroll-snap-type: x mandatory;
       scrollbar-width: thin;
     }
-*/
-    /* Slider blocks ke beech ka gap */
-.catalog-block-wrapper {
-  margin-bottom: 24px;
-}
 
-.catalog-block-title {
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--ink-blue);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* 2-Row Horizontal Scroll Grid */
-.catalog-grid {
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(265px, 285px);
-  gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-}
+    /* COMPACT PRODUCT CARD */
     .product-card {
       background: var(--card-bg);
       border-radius: 10px;
       border: 1px solid var(--border);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
       display: flex;
       flex-direction: column;
       scroll-snap-align: start;
@@ -402,7 +393,7 @@
 
     .card-thumb-container {
       width: 100%;
-      height: 150px;
+      height: 110px;
       background: #e2e8f0;
       position: relative;
       overflow: hidden;
@@ -422,17 +413,17 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       background: rgba(220, 38, 38, 0.9);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
       z-index: 3;
     }
 
@@ -447,7 +438,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       background: #f1f5f9;
       width: 100%;
       height: 100%;
@@ -455,9 +446,9 @@
 
     .badge-bar {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
+      top: 6px;
+      left: 6px;
+      right: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -468,27 +459,27 @@
     .card-num-badge {
       background: rgba(15, 23, 42, 0.85);
       color: #fff;
-      font-size: 0.7rem;
-      padding: 3px 7px;
-      border-radius: 6px;
-      font-weight: 600;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
     }
 
     .card-seller-badge {
       background: rgba(2, 132, 199, 0.95);
       color: #fff;
-      font-size: 0.68rem;
-      padding: 3px 8px;
-      border-radius: 6px;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
       font-weight: 700;
-      max-width: 140px;
+      max-width: 110px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .card-info {
-      padding: 10px 12px;
+      padding: 8px 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -496,10 +487,10 @@
     }
 
     .card-title {
-      font-size: 0.88rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 6px;
+      line-height: 1.25;
+      margin-bottom: 4px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -510,11 +501,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .card-price {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 800;
       color: var(--primary-dark);
     }
@@ -522,16 +513,16 @@
     .card-btn-group {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .order-now-btn {
       background: var(--ink-blue);
       color: #fff;
       border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 5px 9px;
+      border-radius: 5px;
+      font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -540,9 +531,9 @@
       background: #e2e8f0;
       color: var(--secondary);
       border: 1px solid #cbd5e1;
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 0.78rem;
+      padding: 5px 7px;
+      border-radius: 5px;
+      font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -575,7 +566,7 @@
       font-size: 0.82rem;
     }
 
-    /* MULTIPLE SAVED ADDRESSES SLIDER / LIST */
+    /* MULTIPLE SAVED ADDRESSES SLIDER */
     .saved-address-container {
       display: none;
       background: #f0fdf4;
@@ -783,7 +774,7 @@
       border: 1px solid var(--border);
     }
 
-    /* ORDER HISTORY SCROLLABLE CONTAINER (FIXED SELECTOR) */
+    /* ORDER HISTORY SCROLLABLE LIST */
     .history-list {
       display: flex;
       flex-direction: column;
@@ -971,7 +962,7 @@
   <div class="category-tabs" id="categoryTabs"></div>
 
   <section class="catalog-wrapper" id="catalogSection">
-    <div class="catalog-grid" id="productGrid"></div>
+    <div id="productGrid"></div>
   </section>
 
   <div class="policy-banner">
@@ -1265,7 +1256,7 @@
     </div>
   </div>
 
-  <!-- EMAIL SUCCESS / FALLBACK PROMPT MODAL (SHUDDH HINDI) -->
+  <!-- EMAIL SUCCESS / FALLBACK PROMPT MODAL -->
   <div class="modal" id="orderSuccessModal">
     <div class="modal-content" style="text-align:center; position:relative;">
       <button class="modal-close" onclick="closeOrderModal()" style="position:absolute; top:10px; right:12px; font-size:1.3rem; border:none; background:none; cursor:pointer;">✕</button>
@@ -1326,6 +1317,9 @@
     let appliedCouponCode = "";
     let currentMailtoUrl = "";
     let emailAppOpened = false;
+
+    // 25 + 25 = 50 Products per slider block
+    const PRODUCTS_PER_BLOCK = 50; 
 
     function sanitizeText(str) {
       if (!str) return "";
@@ -1451,177 +1445,110 @@
       const filtered = (cat === "सभी") ? catalogList : catalogList.filter(p => p.category === cat);
       renderProductCards(filtered);
     }
-/*
+
     function renderProductCards(list) {
-      const grid = document.getElementById('productGrid');
-      if (!grid) return;
-      grid.innerHTML = "";
+      const container = document.getElementById('productGrid');
+      if (!container) return;
+      container.innerHTML = "";
 
       if(list.length === 0) {
-        grid.innerHTML = `<p style="padding: 20px; color: var(--text-muted);">आपकी खोज से मेल खाता कोई उत्पाद नहीं मिला।</p>`;
+        container.innerHTML = `<p style="padding: 20px; color: var(--text-muted); text-align:center;">आपकी खोज से मेल खाता कोई उत्पाद नहीं मिला।</p>`;
         return;
       }
 
-      list.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = "product-card";
-        
-        let mediaHtml = "";
-        if(item.youtubeId) {
-          mediaHtml = `
-            <div class="card-thumb-container" id="mediaBox_${sanitizeText(item.id)}">
-              <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
-              <div class="play-overlay-btn" onclick="playInlineVideo('${sanitizeText(item.id)}', '${sanitizeText(item.youtubeId)}', '${encodeURIComponent(item.videoUrl)}')" title="वीडियो चलाएं">▶</div>
-            </div>
-          `;
-        } else if(item.thumb) {
-          mediaHtml = `
-            <div class="card-thumb-container">
-              <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
-            </div>
-          `;
-        } else {
-          mediaHtml = `
-            <div class="card-thumb-container">
-              <div class="media-fallback">🛍️</div>
-            </div>
-          `;
-        }
-
-        const safeTitle = sanitizeText(item.title);
-        const safeSeller = sanitizeText(item.sellerName);
-
-        card.innerHTML = `
-          <div style="position:relative;">
-            <div class="badge-bar">
-              <span class="card-num-badge">#${index + 1}</span>
-              <div class="card-seller-badge" title="विक्रेता: ${safeSeller}">🏬 ${safeSeller}</div>
-            </div>
-            ${mediaHtml}
-          </div>
-          <div class="card-info">
-            <h4 class="card-title" title="${safeTitle}">${safeTitle}</h4>
-            <div class="card-footer">
-              <span class="card-price">₹${item.price}</span>
-              <div class="card-btn-group">
-                <button type="button" class="order-now-btn" onclick="selectProductToOrder('${sanitizeText(item.id)}')">ऑर्डर करें 🛒</button>
-                <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${sanitizeText(item.id)}')" title="शेयर करें">↗ शेयर</button>
-              </div>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-*/
-    // 👉 Yahan aap tay kar sakte hain ki ek block me kitne products honge:
-// Agar 25+25 chahiye to 50 likhein.
-// Agar 15+15 chahiye to bas 30 kar dijiyega!
-const PRODUCTS_PER_BLOCK = 50; 
-
-function renderProductCards(list) {
-  const container = document.getElementById('productGrid');
-  if (!container) return;
-  container.innerHTML = "";
-
-  if(list.length === 0) {
-    container.innerHTML = `<p style="padding: 20px; color: var(--text-muted);">Aapki khoj se mel khata koi product nahi mila.</p>`;
-    return;
-  }
-
-  // 1. Products ko chunks (tukdon) me divide karein
-  const chunks = [];
-  for (let i = 0; i < list.length; i += PRODUCTS_PER_BLOCK) {
-    chunks.push(list.slice(i, i + PRODUCTS_PER_BLOCK));
-  }
-
-  // 2. Har chunk ka alag 2-row horizontal slider render karein
-  chunks.forEach((chunk, chunkIdx) => {
-    const blockWrapper = document.createElement('div');
-    blockWrapper.className = "catalog-block-wrapper";
-
-    // Agar 1 se zyada blocks bante hain to title dikhayega
-    if (chunks.length > 1) {
-      const blockTitle = document.createElement('div');
-      blockTitle.className = "catalog-block-title";
-      blockTitle.innerHTML = `📦 <span>Collection Part ${chunkIdx + 1} (${chunk.length} Items)</span>`;
-      blockWrapper.appendChild(blockTitle);
-    }
-
-    const grid = document.createElement('div');
-    grid.className = "catalog-grid";
-
-    chunk.forEach((item, index) => {
-      const globalIndex = (chunkIdx * PRODUCTS_PER_BLOCK) + index + 1;
-      const card = document.createElement('div');
-      card.className = "product-card";
-
-      let mediaHtml = "";
-      if(item.youtubeId) {
-        mediaHtml = `
-          <div class="card-thumb-container" id="mediaBox_${sanitizeText(item.id)}">
-            <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
-            <div class="play-overlay-btn" onclick="playInlineVideo('${sanitizeText(item.id)}', '${sanitizeText(item.youtubeId)}')" title="Video Play Karein">▶</div>
-          </div>
-        `;
-      } else if(item.thumb) {
-        mediaHtml = `
-          <div class="card-thumb-container">
-            <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
-          </div>
-        `;
-      } else {
-        mediaHtml = `
-          <div class="card-thumb-container">
-            <div class="media-fallback">🛍️</div>
-          </div>
-        `;
+      // Products ko 50-50 ke chunks me baatein
+      const chunks = [];
+      for (let i = 0; i < list.length; i += PRODUCTS_PER_BLOCK) {
+        chunks.push(list.slice(i, i + PRODUCTS_PER_BLOCK));
       }
 
-      const safeTitle = sanitizeText(item.title);
-      const safeSeller = sanitizeText(item.sellerName);
+      chunks.forEach((chunk, chunkIdx) => {
+        const blockWrapper = document.createElement('div');
+        blockWrapper.className = "catalog-block-wrapper";
 
-      card.innerHTML = `
-        <div style="position:relative;">
-          <div class="badge-bar">
-            <span class="card-num-badge">#${globalIndex}</span>
-            <div class="card-seller-badge" title="Seller: ${safeSeller}">🏬 ${safeSeller}</div>
-          </div>
-          ${mediaHtml}
-        </div>
-        <div class="card-info">
-          <h4 class="card-title" title="${safeTitle}">${safeTitle}</h4>
-          <div class="card-footer">
-            <span class="card-price">₹${item.price}</span>
-            <div class="card-btn-group">
-              <button type="button" class="order-now-btn" onclick="selectProductToOrder('${sanitizeText(item.id)}')">Order 🛒</button>
-              <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${sanitizeText(item.id)}')" title="Share Karein">↗</button>
+        // Title sirf tabhi dikhayega jab 50 se zyada products hon (multiple blocks hon)
+        if (chunks.length > 1) {
+          const blockTitle = document.createElement('div');
+          blockTitle.className = "catalog-block-title";
+          blockTitle.innerHTML = `📦 <span>कलेक्शन भाग ${chunkIdx + 1} (${chunk.length} उत्पाद)</span>`;
+          blockWrapper.appendChild(blockTitle);
+        }
+
+        const grid = document.createElement('div');
+        grid.className = "catalog-grid";
+
+        chunk.forEach((item, index) => {
+          const globalIndex = (chunkIdx * PRODUCTS_PER_BLOCK) + index + 1;
+          const card = document.createElement('div');
+          card.className = "product-card";
+
+          let mediaHtml = "";
+          if(item.youtubeId) {
+            mediaHtml = `
+              <div class="card-thumb-container" id="mediaBox_${sanitizeText(item.id)}">
+                <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
+                <div class="play-overlay-btn" onclick="playInlineVideo('${sanitizeText(item.id)}', '${sanitizeText(item.youtubeId)}', '${encodeURIComponent(item.videoUrl)}')" title="वीडियो चलाएं">▶</div>
+              </div>
+            `;
+          } else if(item.thumb) {
+            mediaHtml = `
+              <div class="card-thumb-container">
+                <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
+              </div>
+            `;
+          } else {
+            mediaHtml = `
+              <div class="card-thumb-container">
+                <div class="media-fallback">🛍️</div>
+              </div>
+            `;
+          }
+
+          const safeTitle = sanitizeText(item.title);
+          const safeSeller = sanitizeText(item.sellerName);
+
+          card.innerHTML = `
+            <div style="position:relative;">
+              <div class="badge-bar">
+                <span class="card-num-badge">#${globalIndex}</span>
+                <div class="card-seller-badge" title="विक्रेता: ${safeSeller}">🏬 ${safeSeller}</div>
+              </div>
+              ${mediaHtml}
             </div>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
+            <div class="card-info">
+              <h4 class="card-title" title="${safeTitle}">${safeTitle}</h4>
+              <div class="card-footer">
+                <span class="card-price">₹${item.price}</span>
+                <div class="card-btn-group">
+                  <button type="button" class="order-now-btn" onclick="selectProductToOrder('${sanitizeText(item.id)}')">ऑर्डर 🛒</button>
+                  <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${sanitizeText(item.id)}')" title="शेयर करें">↗</button>
+                </div>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
 
-    blockWrapper.appendChild(grid);
-    container.appendChild(blockWrapper);
-  });
-}
-    function playInlineVideo(containerId, youtubeId, fullUrl) {
-  const container = document.getElementById(`mediaBox_${containerId}`);
-  if (!container) return;
-
-  let startTime = 0;
-  if (fullUrl) {
-    const timeMatch = fullUrl.match(/[?&]t=(\d+)s?/);
-    if (timeMatch && timeMatch[1]) {
-      startTime = parseInt(timeMatch[1], 10);
+        blockWrapper.appendChild(grid);
+        container.appendChild(blockWrapper);
+      });
     }
-  }
 
-  const startParam = startTime > 0 ? `&start=${startTime}` : '';
-  container.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0${startParam}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-}
+    function playInlineVideo(containerId, youtubeId, fullUrl) {
+      const container = document.getElementById(`mediaBox_${containerId}`);
+      if (!container) return;
+
+      let startTime = 0;
+      if (fullUrl) {
+        const timeMatch = fullUrl.match(/[?&]t=(\d+)s?/);
+        if (timeMatch && timeMatch[1]) {
+          startTime = parseInt(timeMatch[1], 10);
+        }
+      }
+
+      const startParam = startTime > 0 ? `&start=${startTime}` : '';
+      container.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0${startParam}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    }
 
     function shareMoonStarWebsite() {
       const baseUrl = window.location.origin + window.location.pathname;
