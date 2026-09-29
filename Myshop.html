@@ -1332,11 +1332,12 @@
     }
 
     function extractYouTubeId(url) {
-      if(!url) return null;
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-      const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
-    }
+  if (!url) return null;
+  // Ab ye shorts, youtu.be, embed, watch?v= sabhi tarah ke links se 11-digit ID nikal lega
+  const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/|user\/\S+|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
 
     function processProductsList() {
       const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
