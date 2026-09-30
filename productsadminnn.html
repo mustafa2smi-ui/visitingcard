@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonStar Mall - Products.js Generator 🛠️</title>
+  <style>
+    :root {
+      --bg-color: #0b132b;
+      --card-bg: #1c2541;
+      --primary: #1e3a8a;
+      --accent: #d97706;
+      --green: #16a34a;
+      --text: #f8fafc;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg-color); color: var(--text); padding: 16px; line-height: 1.5; }
+
+    .admin-container { max-width: 850px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; }
+    .header h1 { color: #fbbf24; font-size: 1.5rem; font-weight: 800; }
+    .header p { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+
+    .form-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+    
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; }
+    .form-input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1.5px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.9rem; outline: none; }
+    .form-input:focus { border-color: var(--accent); }
+    
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .type-switcher { display: flex; gap: 10px; margin-bottom: 14px; background: #0f172a; padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+    .type-btn { flex: 1; padding: 8px; border: none; background: transparent; color: #94a3b8; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 0.82rem; }
+    .type-btn.active { background: var(--accent); color: #fff; }
+
+    .btn { padding: 9px 15px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-fetch { background: #1e3a8a; color: #93c5fd; margin-top: 6px; }
+    .btn-add { background: var(--green); color: #fff; width: 100%; justify-content: center; font-size: 0.95rem; margin-top: 14px; padding: 11px; }
+    .btn-copy { background: #0284c7; color: #fff; }
+    .btn-clear { background: #dc2626; color: #fff; }
+
+    /* Sub items box for Multi-product videos */
+    .multi-box { background: #0f172a; border: 1px dashed var(--accent); padding: 12px; border-radius: 8px; margin-top: 10px; display: none; }
+    .sub-item-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .btn-del-sub { background: #dc2626; color: #fff; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
+
+    .output-card { background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+    
+    pre { background: #050811; padding: 14px; border-radius: 8px; border: 1px solid #1e293b; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 0.82rem; overflow-x: auto; max-height: 420px; white-space: pre-wrap; word-break: break-all; }
+
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--green); color: #fff; padding: 9px 18px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 1000; }
+
+    @media(max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .sub-item-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <div class="header">
+      <h1>🛠️ MoonStar Mall `products.js` Generator</h1>
+      <p>Single ya Multi-Item Product add karein aur direct `products.js` ka code generate karein.</p>
+    </div>
+
+    <!-- Generator Input Form -->
+    <div class="form-card">
+      
+      <!-- Video Type Switcher -->
+      <div class="type-switcher">
+        <button type="button" class="type-btn active" id="btnTypeSingle" onclick="setProductType('single')">📦 Single Product Video</button>
+        <button type="button" class="type-btn" id="btnTypeMulti" onclick="setProductType('multi')">🎁 Multi-Product Combo (Top 3 / Top 5)</button>
+      </div>
+
+      <div class="form-group">
+        <label>YouTube Video / Shorts URL</label>
+        <input type="url" id="inpUrl" class="form-input" placeholder="https://www.youtube.com/watch?v=... ya /shorts/..." oninput="autoFetchTitle()">
+        <button type="button" class="btn btn-fetch" onclick="autoFetchTitle()">⚡ Auto Fetch Title From YouTube</button>
+      </div>
+
+      <div class="form-group">
+        <label>Main Product Title (Video Heading)</label>
+        <input type="text" id="inpTitle" class="form-input" placeholder="e.g. Mini Portable Sealer ya Top 3 Kitchen Gadgets">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" id="inpCategory" class="form-input" placeholder="e.g. Gadgets, Kitchen, Toys" value="Gadgets">
+        </div>
+        <div class="form-group">
+          <label>Seller / Vendor Name</label>
+          <input type="text" id="inpSeller" class="form-input" placeholder="e.g. MoonStar Official" value="मूनस्टार ऑफिशियल">
+        </div>
+      </div>
+
+      <!-- Single Product Specific Inputs -->
+      <div id="singleProductFields">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price (₹ INR)</label>
+            <input type="number" id="inpPrice" class="form-input" placeholder="e.g. 299">
+          </div>
+          <div class="form-group">
+            <label>Allow Coupon Discount?</label>
+            <select id="inpAllowCoupon" class="form-input">
+              <option value="true">Yes (Discount Allowed)</option>
+              <option value="false">No (Fixed Price)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multi-Item (Combo/Top 3) Specific Inputs -->
+      <div id="multiProductFields" class="multi-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <label style="color:#fbbf24;">📋 Products List Inside This Video:</label>
+          <button type="button" class="btn" style="background:#0284c7; color:#fff; padding:4px 8px; font-size:0.75rem;" onclick="addSubItemRow()">+ Add Item</button>
+        </div>
+        <div id="subItemsContainer">
+          <!-- Dynamic Sub-Item Rows yahan aayenge -->
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:10px;">
+        <label>Image Fallback URL (Optional - Agar direct photo ho to)</label>
+        <input type="url" id="inpImage" class="form-input" placeholder="https://... (Khali chhod sakte hain)">
+      </div>
+
+      <button type="button" class="btn btn-add" onclick="addProductToCatalog()">➕ Add Product To Code List</button>
+    </div>
+
+    <!-- Output Code Preview & Action Box -->
+    <div class="output-card">
+      <div class="output-header">
+        <h3 style="font-size:0.95rem; color:#f8fafc;">Generated Code (`products.js` ready array):</h3>
+        <div>
+          <button class="btn btn-copy" onclick="copyFullCode()">📋 Copy Code</button>
+          <button class="btn btn-clear" onclick="clearCatalog()">🗑️️ Clear All</button>
+        </div>
+      </div>
+
+      <pre id="codeOutput">// Aapke generate kiye huye products yahan show honge...</pre>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Notification</div>
+
+  <script>
+    let productsArray = [];
+    let currentType = 'single';
+
+    function setProductType(type) {
+      currentType = type;
+      if(type === 'single') {
+        document.getElementById('btnTypeSingle').classList.add('active');
+        document.getElementById('btnTypeMulti').classList.remove('active');
+        document.getElementById('singleProductFields').style.display = 'block';
+        document.getElementById('multiProductFields').style.display = 'none';
+      } else {
+        document.getElementById('btnTypeMulti').classList.add('active');
+        document.getElementById('btnTypeSingle').classList.remove('active');
+        document.getElementById('singleProductFields').style.display = 'none';
+        document.getElementById('multiProductFields').style.display = 'block';
+
+        // Pehla sub-item row agar khali ho to add karein
+        const container = document.getElementById('subItemsContainer');
+        if(container.children.length === 0) {
+          addSubItemRow();
+          addSubItemRow();
+        }
+      }
+    }
+
+    function addSubItemRow() {
+      const container = document.getElementById('subItemsContainer');
+      const row = document.createElement('div');
+      row.className = 'sub-item-row';
+      row.innerHTML = `
+        <input type="text" class="form-input sub-title" placeholder="Item Name (e.g. Sealer Machine)">
+        <input type="number" class="form-input sub-price" placeholder="Price (₹)">
+        <input type="number" class="form-input sub-sec" placeholder="Start Sec (e.g. 15)" value="0">
+        <button type="button" class="btn-del-sub" onclick="this.parentElement.remove()">✕</button>
+      `;
+      container.appendChild(row);
+    }
+
+    // Auto Fetch YouTube (Long & Shorts) Title & Channel Name
+    function autoFetchTitle() {
+      let rawUrl = document.getElementById('inpUrl').value.trim();
+      if (!rawUrl.includes('youtube.com') && !rawUrl.includes('youtu.be')) return;
+
+      let cleanUrl = rawUrl;
+      if (rawUrl.includes('/shorts/')) {
+        const videoId = rawUrl.split('/shorts/')[1].split('?')[0].split('&')[0];
+        cleanUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      } else if (rawUrl.includes('youtu.be/')) {
+        const videoId = rawUrl.split('youtu.be/')[1].split('?')[0].split('&')[0];
+        cleanUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      }
+
+      showToast("Fetching YouTube Title... 🔍");
+
+      fetch(`https://noembed.com/embed?dataType=json&url=${encodeURIComponent(cleanUrl)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.title) {
+            document.getElementById('inpTitle').value = data.title;
+          }
+          if (data.title) {
+            showToast("Title Auto-Fetched! ✨");
+          }
+        })
+        .catch(() => {
+          showToast("Could not auto-fetch. Please type manually.");
+        });
+    }
+
+    // Add Product To Catalog Array
+    function addProductToCatalog() {
+      const url = document.getElementById('inpUrl').value.trim();
+      const title = document.getElementById('inpTitle').value.trim();
+      const category = document.getElementById('inpCategory').value.trim() || "Gadgets";
+      const seller = document.getElementById('inpSeller').value.trim() || "मूनस्टार ऑफिशियल";
+      const imageUrl = document.getElementById('inpImage').value.trim();
+
+      if (!url || !title) {
+        alert("Kripya YouTube URL aur Product Title zaroor bharein!");
+        return;
+      }
+
+      const idIndex = (productsArray.length + 1).toString().padStart(3, '0');
+      const prodId = `MS${idIndex}`;
+
+      let productObj = {
+        id: prodId,
+        title: title,
+        category: category,
+        sellerName: seller,
+        videoUrl: url,
+        imageUrl: imageUrl
+      };
+
+      if (currentType === 'single') {
+        const price = parseInt(document.getElementById('inpPrice').value) || 0;
+        const allowCoupon = document.getElementById('inpAllowCoupon').value === "true";
+
+        if (!price) {
+          alert("Kripya Product Price bharein!");
+          return;
+        }
+
+        productObj.price = price;
+        productObj.allowCoupon = allowCoupon;
+      } else {
+        // Multi-Item Collect
+        const rows = document.querySelectorAll('.sub-item-row');
+        let itemsList = [];
+
+        rows.forEach((r, idx) => {
+          const sTitle = r.querySelector('.sub-title').value.trim();
+          const sPrice = parseInt(r.querySelector('.sub-price').value) || 0;
+          const sSec = parseInt(r.querySelector('.sub-sec').value) || 0;
+
+          if (sTitle && sPrice) {
+            itemsList.push({
+              id: `${prodId}-${idx + 1}`,
+              title: sTitle,
+              price: sPrice,
+              allowCoupon: true,
+              timeSec: sSec
+            });
+          }
+        });
+
+        if (itemsList.length === 0) {
+          alert("Multi-item video ke liye kam se kam 1 product ka naam aur price daalein!");
+          return;
+        }
+
+        productObj.items = itemsList;
+      }
+
+      productsArray.push(productObj);
+      renderOutputCode();
+
+      // Reset form
+      document.getElementById('inpUrl').value = '';
+      document.getElementById('inpTitle').value = '';
+      document.getElementById('inpPrice').value = '';
+      document.getElementById('inpImage').value = '';
+      document.getElementById('subItemsContainer').innerHTML = '';
+
+      showToast(`Added ${prodId} to Catalog List! 🎉`);
+    }
+
+    // Render Full products.js Code
+    function renderOutputCode() {
+      const preBox = document.getElementById('codeOutput');
+      if (productsArray.length === 0) {
+        preBox.textContent = "// Aapke generate kiye huye products yahan show honge...";
+        return;
+      }
+
+      let codeStr = "const PRODUCTS = [\n";
+      productsArray.forEach((p, idx) => {
+        codeStr += "  {\n";
+        codeStr += `    id: "${p.id}",\n`;
+        codeStr += `    title: "${p.title.replace(/"/g, '\\"')}",\n`;
+        codeStr += `    category: "${p.category.replace(/"/g, '\\"')}",\n`;
+        codeStr += `    sellerName: "${p.sellerName.replace(/"/g, '\\"')}",\n`;
+        codeStr += `    videoUrl: "${p.videoUrl}",\n`;
+        codeStr += `    imageUrl: "${p.imageUrl}",\n`;
+
+        if (!p.items) {
+          codeStr += `    price: ${p.price},\n`;
+          codeStr += `    allowCoupon: ${p.allowCoupon}\n`;
+        } else {
+          codeStr += "    items: [\n";
+          p.items.forEach((it, sIdx) => {
+            codeStr += `      { id: "${it.id}", title: "${it.title.replace(/"/g, '\\"')}", price: ${it.price}, allowCoupon: ${it.allowCoupon}, timeSec: ${it.timeSec} }` + (sIdx === p.items.length - 1 ? "" : ",") + "\n";
+          });
+          codeStr += "    ]\n";
+        }
+
+        codeStr += "  }" + (idx === productsArray.length - 1 ? "" : ",") + "\n";
+      });
+      codeStr += "];\n";
+
+      preBox.textContent = codeStr;
+    }
+
+    // Copy Code to Clipboard
+    function copyFullCode() {
+      const codeStr = document.getElementById('codeOutput').textContent;
+      if (productsArray.length === 0) {
+        showToast("No code to copy!");
+        return;
+      }
+
+      navigator.clipboard.writeText(codeStr).then(() => {
+        showToast("products.js Code Copied! 📋");
+      });
+    }
+
+    // Clear All
+    function clearCatalog() {
+      if (confirm("Kya aap saare added products ko clear karna chahte hain?")) {
+        productsArray = [];
+        renderOutputCode();
+        showToast("List Cleared!");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 2500);
+    }
+  </script>
+</body>
+</html>
