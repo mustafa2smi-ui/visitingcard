@@ -1719,7 +1719,7 @@ function selectSubItemToOrder(parentId, subItemIdx) {
 
       appendProductCardsBatch();
     }
-
+/*
     function appendProductCardsBatch() {
       const grid = document.getElementById('productGrid');
       const btnBox = document.getElementById('loadMoreContainer');
@@ -1791,7 +1791,36 @@ function selectSubItemToOrder(parentId, subItemIdx) {
         }
       }
     }
+*/
+    function appendProductCardsBatch() {
+  const grid = document.getElementById('productGrid');
+  const btnBox = document.getElementById('loadMoreContainer');
+  if (!grid) return;
 
+  const currentlyRendered = grid.children.length;
+  const nextBatch = currentDisplayList.slice(currentlyRendered, visibleProductCount);
+
+  nextBatch.forEach((item, idx) => {
+    const globalIndex = currentlyRendered + idx + 1;
+    const card = document.createElement('div');
+    card.className = "product-card";
+
+    // 👉 Yahan naya dynamic multi-item card HTML generate hoga:
+    card.innerHTML = generateCardHtml(item, globalIndex);
+    grid.appendChild(card);
+  });
+
+  if (btnBox) {
+    if (visibleProductCount < currentDisplayList.length) {
+      btnBox.style.display = 'block';
+      const remaining = currentDisplayList.length - visibleProductCount;
+      const nextCount = remaining > 10 ? 10 : remaining;
+      document.getElementById('btnLoadMore').innerText = `⬇️ Load More (${nextCount}+ Remaining)`;
+    } else {
+      btnBox.style.display = 'none';
+    }
+  }
+}
     function loadMoreProducts() {
       visibleProductCount += 10;
       appendProductCardsBatch();
