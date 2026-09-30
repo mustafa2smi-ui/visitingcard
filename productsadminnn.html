@@ -18,7 +18,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg-color); color: var(--text); padding: 16px; line-height: 1.5; }
 
-    .admin-container { max-width: 850px; margin: 0 auto; }
+    .admin-container { max-width: 880px; margin: 0 auto; }
     .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; }
     .header h1 { color: #fbbf24; font-size: 1.5rem; font-weight: 800; }
     .header p { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
@@ -44,8 +44,8 @@
 
     /* Sub items box for Multi-product videos */
     .multi-box { background: #0f172a; border: 1px dashed var(--accent); padding: 12px; border-radius: 8px; margin-top: 10px; display: none; }
-    .sub-item-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 6px; margin-bottom: 8px; align-items: center; }
-    .btn-del-sub { background: #dc2626; color: #fff; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
+    .sub-item-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr auto; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .btn-del-sub { background: #dc2626; color: #fff; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
 
     .output-card { background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
     .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
@@ -89,10 +89,25 @@
       </div>
 
       <div class="form-row">
+        <!-- Dynamic Category Select with +Add Option -->
         <div class="form-group">
           <label>Category</label>
-          <input type="text" id="inpCategory" class="form-input" placeholder="e.g. Gadgets, Kitchen, Toys" value="Gadgets">
+          <select id="selCategory" class="form-input" onchange="handleCategoryChange(this.value)">
+            <option value="Gadgets">Gadgets</option>
+            <option value="Toys">Toys</option>
+            <option value="Education">Education</option>
+            <option value="Kitchen">Kitchen</option>
+            <option value="Cloth">Cloth</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Dryfruits">Dryfruits</option>
+            <option value="Technology">Technology</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Accessories">Accessories</option>
+            <option value="__custom__" style="color:#fbbf24; font-weight:bold;">➕ + Add New Category...</option>
+          </select>
+          <input type="text" id="inpCustomCategory" class="form-input" placeholder="Nayi category ka naam likhein..." style="display:none; margin-top:6px;">
         </div>
+
         <div class="form-group">
           <label>Seller / Vendor Name</label>
           <input type="text" id="inpSeller" class="form-input" placeholder="e.g. MoonStar Official" value="मूनस्टार ऑफिशियल">
@@ -119,7 +134,7 @@
       <!-- Multi-Item (Combo/Top 3) Specific Inputs -->
       <div id="multiProductFields" class="multi-box">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <label style="color:#fbbf24;">📋 Products List Inside This Video:</label>
+          <label style="color:#fbbf24; font-size:0.82rem;">📋 Products Inside This Video (Title, Price, Start Sec, Coupon):</label>
           <button type="button" class="btn" style="background:#0284c7; color:#fff; padding:4px 8px; font-size:0.75rem;" onclick="addSubItemRow()">+ Add Item</button>
         </div>
         <div id="subItemsContainer">
@@ -141,7 +156,7 @@
         <h3 style="font-size:0.95rem; color:#f8fafc;">Generated Code (`products.js` ready array):</h3>
         <div>
           <button class="btn btn-copy" onclick="copyFullCode()">📋 Copy Code</button>
-          <button class="btn btn-clear" onclick="clearCatalog()">🗑️️ Clear All</button>
+          <button class="btn btn-clear" onclick="clearCatalog()">🗑 Clear All</button>
         </div>
       </div>
 
@@ -168,7 +183,6 @@
         document.getElementById('singleProductFields').style.display = 'none';
         document.getElementById('multiProductFields').style.display = 'block';
 
-        // Pehla sub-item row agar khali ho to add karein
         const container = document.getElementById('subItemsContainer');
         if(container.children.length === 0) {
           addSubItemRow();
@@ -177,20 +191,36 @@
       }
     }
 
+    // Category Selector with +Add Handler
+    function handleCategoryChange(val) {
+      const customInput = document.getElementById('inpCustomCategory');
+      if (val === '__custom__') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+      }
+    }
+
+    // Sub-item row with Coupon Selector
     function addSubItemRow() {
       const container = document.getElementById('subItemsContainer');
       const row = document.createElement('div');
       row.className = 'sub-item-row';
       row.innerHTML = `
-        <input type="text" class="form-input sub-title" placeholder="Item Name (e.g. Sealer Machine)">
+        <input type="text" class="form-input sub-title" placeholder="Item Name (e.g. Sealer)">
         <input type="number" class="form-input sub-price" placeholder="Price (₹)">
-        <input type="number" class="form-input sub-sec" placeholder="Start Sec (e.g. 15)" value="0">
+        <input type="number" class="form-input sub-sec" placeholder="Sec (0)" value="0">
+        <select class="form-input sub-coupon">
+          <option value="true">Coupon: Yes</option>
+          <option value="false">Coupon: No</option>
+        </select>
         <button type="button" class="btn-del-sub" onclick="this.parentElement.remove()">✕</button>
       `;
       container.appendChild(row);
     }
 
-    // Auto Fetch YouTube (Long & Shorts) Title & Channel Name
+    // Auto Fetch YouTube (Long & Shorts) Title
     function autoFetchTitle() {
       let rawUrl = document.getElementById('inpUrl').value.trim();
       if (!rawUrl.includes('youtube.com') && !rawUrl.includes('youtu.be')) return;
@@ -211,8 +241,6 @@
         .then(data => {
           if (data.title) {
             document.getElementById('inpTitle').value = data.title;
-          }
-          if (data.title) {
             showToast("Title Auto-Fetched! ✨");
           }
         })
@@ -225,9 +253,16 @@
     function addProductToCatalog() {
       const url = document.getElementById('inpUrl').value.trim();
       const title = document.getElementById('inpTitle').value.trim();
-      const category = document.getElementById('inpCategory').value.trim() || "Gadgets";
       const seller = document.getElementById('inpSeller').value.trim() || "मूनस्टार ऑफिशियल";
       const imageUrl = document.getElementById('inpImage').value.trim();
+
+      // Category logic
+      const selCat = document.getElementById('selCategory').value;
+      let category = selCat;
+      if (selCat === '__custom__') {
+        const customCat = document.getElementById('inpCustomCategory').value.trim();
+        category = customCat || "Gadgets";
+      }
 
       if (!url || !title) {
         alert("Kripya YouTube URL aur Product Title zaroor bharein!");
@@ -266,13 +301,14 @@
           const sTitle = r.querySelector('.sub-title').value.trim();
           const sPrice = parseInt(r.querySelector('.sub-price').value) || 0;
           const sSec = parseInt(r.querySelector('.sub-sec').value) || 0;
+          const sCoupon = r.querySelector('.sub-coupon').value === "true";
 
           if (sTitle && sPrice) {
             itemsList.push({
               id: `${prodId}-${idx + 1}`,
               title: sTitle,
               price: sPrice,
-              allowCoupon: true,
+              allowCoupon: sCoupon,
               timeSec: sSec
             });
           }
@@ -289,12 +325,15 @@
       productsArray.push(productObj);
       renderOutputCode();
 
-      // Reset form
+      // Reset form fields
       document.getElementById('inpUrl').value = '';
       document.getElementById('inpTitle').value = '';
       document.getElementById('inpPrice').value = '';
       document.getElementById('inpImage').value = '';
       document.getElementById('subItemsContainer').innerHTML = '';
+      if (selCat === '__custom__') {
+        document.getElementById('inpCustomCategory').value = '';
+      }
 
       showToast(`Added ${prodId} to Catalog List! 🎉`);
     }
