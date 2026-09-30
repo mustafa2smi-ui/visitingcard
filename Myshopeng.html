@@ -854,7 +854,69 @@
       background: none;
       border: none;
     }
+/* Multi-Item Modal Patti Card */
+.multi-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1.5px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 8px;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
 
+.multi-item-row:hover {
+  border-color: var(--ink-blue);
+  background: #f0f7ff;
+}
+
+.multi-item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.multi-item-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--secondary);
+  line-height: 1.25;
+}
+
+.multi-item-price {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-top: 2px;
+}
+
+.btn-select-subitem {
+  background: var(--ink-blue);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-select-subitem:active {
+  transform: scale(0.94);
+}
+
+.badge-multi-tag {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
     footer {
       background: var(--secondary);
       color: #94a3b8;
@@ -1282,7 +1344,24 @@
       </div>
     </div>
   </div>
+<!-- MULTI-ITEM SELECTION MODAL -->
+<div class="modal" id="multiItemModal">
+  <div class="modal-content" style="max-width: 360px; padding: 16px; border-radius: 12px; position: relative;">
+    <button class="modal-close" onclick="closeMultiItemModal()" style="position:absolute; top:10px; right:12px; font-size:1.3rem; border:none; background:none; cursor:pointer;">✕</button>
+    
+    <h3 id="multiModalMainTitle" style="font-size: 0.95rem; font-weight: 800; color: var(--ink-blue); margin-bottom: 4px; padding-right: 25px; line-height:1.3;">
+      Select an Item
+    </h3>
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px;">
+      Video me se jo product mangwana hai, use chunein:
+    </p>
 
+    <!-- Products Patti List -->
+    <div id="multiItemListContainer" style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; padding-right: 4px;">
+      <!-- Dynamic Item Cards yahan aayenge -->
+    </div>
+  </div>
+</div>
   <footer>
     <p>© 2026 MoonStar Mall 🌙 ⭐. All Rights Reserved.</p>
     <p style="margin-top: 6px;">
@@ -1331,7 +1410,7 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
-
+/*
     function extractYouTubeId(url) {
   if (!url) return null;
   // Ab ye shorts, youtu.be, embed, watch?v= sabhi tarah ke links se 11-digit ID nikal lega
@@ -1369,7 +1448,182 @@
 
       injectDynamicJsonLdSchema(catalogList);
     }
+*/
+    /* 1. Extract YouTube ID (Shorts & Regular Links Dono Ke Liye) */
+function extractYouTubeId(url) {
+  if (!url) return null;
+  const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/|user\/\S+|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
 
+/* 2. Process Products List (Multi-Item Support ke sath) */
+function processProductsList() {
+  const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
+  catalogList = raw.map(p => {
+    const ytId = extractYouTubeId(p.videoUrl);
+    const hasImg = p.imageUrl && p.imageUrl.trim() !== "";
+    
+    let thumbUrl = null;
+    if(hasImg) {
+      thumbUrl = p.imageUrl.trim();
+    } else if(ytId) {
+      thumbUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+    }
+
+    const isMulti = Array.isArray(p.items) && p.items.length > 0;
+    const minPrice = isMulti ? Math.min(...p.items.map(it => it.price || 0)) : (p.price || 499);
+
+    return {
+      id: p.id || "MS" + Math.floor(Math.random()*1000),
+      title: p.title || "Trending Product",
+      category: p.category && p.category.trim() !== "" ? p.category.trim() : "General",
+      price: minPrice,
+      sellerName: p.sellerName || "मूनस्टार ऑफिशियल",
+      allowCoupon: p.allowCoupon !== false,
+      videoUrl: p.videoUrl || "",
+      imageUrl: p.imageUrl || "",
+      youtubeId: ytId,
+      thumb: thumbUrl,
+      items: isMulti ? p.items : null
+    };
+  });
+
+  injectDynamicJsonLdSchema(catalogList);
+}
+
+/* 3. Card Template Generation Logic (Single vs Multi-Product) */
+function generateCardHtml(item, globalIndex) {
+  let mediaHtml = "";
+  if(item.youtubeId) {
+    mediaHtml = `
+      <div class="card-thumb-container" id="mediaBox_${sanitizeText(item.id)}">
+        <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
+        <div class="play-overlay-btn" onclick="playInlineVideo('${sanitizeText(item.id)}', '${sanitizeText(item.youtubeId)}', '${encodeURIComponent(item.videoUrl)}')" title="Play Video">▶</div>
+      </div>
+    `;
+  } else if(item.thumb) {
+    mediaHtml = `
+      <div class="card-thumb-container">
+        <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
+      </div>
+    `;
+  } else {
+    mediaHtml = `
+      <div class="card-thumb-container">
+        <div class="media-fallback">🛍️</div>
+      </div>
+    `;
+  }
+
+  const safeTitle = sanitizeText(item.title);
+  const safeSeller = sanitizeText(item.sellerName);
+  const isMulti = item.items && item.items.length > 0;
+
+  // Agar 1 se zyada items hain to price hide hokar badge banega, aur order button popup kholega
+  const priceDisplayHtml = isMulti 
+    ? `<span class="badge-multi-tag">📦 ${item.items.length} Products</span>`
+    : `<span class="card-price">₹${item.price}</span>`;
+
+  const orderBtnAction = isMulti
+    ? `openMultiItemModal('${sanitizeText(item.id)}')`
+    : `selectProductToOrder('${sanitizeText(item.id)}')`;
+
+  const orderBtnText = isMulti ? "Choose Item 🛒" : "Order 🛒";
+
+  return `
+    <div style="position:relative;">
+      <div class="badge-bar">
+        <span class="card-num-badge">#${globalIndex}</span>
+        <div class="card-seller-badge" title="Seller: ${safeSeller}">🏬 ${safeSeller}</div>
+      </div>
+      ${mediaHtml}
+    </div>
+    <div class="card-info">
+      <h4 class="card-title" title="${safeTitle}">${safeTitle}</h4>
+      <div class="card-footer">
+        ${priceDisplayHtml}
+        <div class="card-btn-group">
+          <button type="button" class="order-now-btn" onclick="${orderBtnAction}">${orderBtnText}</button>
+          <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${sanitizeText(item.id)}')" title="Share">↗</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* 4. Multi-Item Square Popup Open/Close Functions */
+function openMultiItemModal(parentId) {
+  const product = catalogList.find(p => p.id === parentId);
+  if (!product || !product.items) return;
+
+  document.getElementById('multiModalMainTitle').innerText = product.title;
+  const listContainer = document.getElementById('multiItemListContainer');
+  listContainer.innerHTML = "";
+
+  product.items.forEach((subItem, idx) => {
+    const row = document.createElement('div');
+    row.className = "multi-item-row";
+    row.innerHTML = `
+      <div class="multi-item-info">
+        <span class="multi-item-name">#${idx + 1}. ${sanitizeText(subItem.title)}</span>
+        <span class="multi-item-price">₹${subItem.price}</span>
+      </div>
+      <button type="button" class="btn-select-subitem" onclick="selectSubItemToOrder('${sanitizeText(parentId)}', ${idx})">
+        Select ➔
+      </button>
+    `;
+    listContainer.appendChild(row);
+  });
+
+  document.getElementById('multiItemModal').classList.add('active');
+}
+
+function closeMultiItemModal() {
+  const modal = document.getElementById('multiItemModal');
+  if (modal) modal.classList.remove('active');
+}
+
+/* 5. Sub-Item Select hokar Form Me Fill Hone Ka Logic */
+function selectSubItemToOrder(parentId, subItemIdx) {
+  const parent = catalogList.find(p => p.id === parentId);
+  if (!parent || !parent.items || !parent.items[subItemIdx]) return;
+
+  const subItem = parent.items[subItemIdx];
+
+  // Specific selected sub-item object taiyar karein
+  selectedProduct = {
+    id: subItem.id || `${parent.id}-${subItemIdx+1}`,
+    title: `${parent.title} [${subItem.title}]`,
+    price: subItem.price,
+    sellerName: parent.sellerName,
+    allowCoupon: subItem.allowCoupon !== false,
+    videoUrl: parent.videoUrl,
+    imageUrl: parent.thumb
+  };
+
+  // Video ko usi product ke second par chalayein (agar timeSec diya ho)
+  if (subItem.timeSec !== undefined && parent.youtubeId) {
+    playInlineVideo(parent.id, parent.youtubeId, `${parent.videoUrl}&t=${subItem.timeSec}s`);
+  }
+
+  // Order form auto-populate karein
+  document.getElementById('productUrl').value = `${parent.videoUrl || parent.title} (${subItem.title})`;
+  document.getElementById('unitPrice').value = subItem.price;
+  document.getElementById('sellerNameField').value = parent.sellerName;
+
+  // Coupon reset karein
+  appliedDiscount = 0;
+  appliedCouponCode = "";
+  document.getElementById('couponMessage').innerText = "";
+  document.getElementById('couponInput').value = "";
+
+  updateBillCalculation();
+  closeMultiItemModal();
+
+  // Smooth scroll order form par
+  document.getElementById('orderSection').scrollIntoView({ behavior: 'smooth' });
+}
     function injectDynamicJsonLdSchema(products) {
       const schemaData = {
         "@context": "https://schema.org",
