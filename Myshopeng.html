@@ -997,9 +997,9 @@
       <a href="#receiptSection" onclick="toggleMenu(false)">🧾 Invoice / Bill</a>
       <a href="#historySection" onclick="toggleMenu(false)">📜 My Order History</a>
       <a href="javascript:void(0)" onclick="openReturnModal(); toggleMenu(false)">🔄 Return / Cancel / Exchange</a>
-      <a href="faq.html">❓ Frequently Asked Questions (FAQ)</a>
-      <a href="legal.html#contact">ℹ️ About Us & Contact</a>
-      <a href="legal.html">📄 Terms & Legal Policies</a>
+      <a href="moonfaq.html">❓ Frequently Asked Questions (FAQ)</a>
+      <a href="moonlegal.html#contact">ℹ️ About Us & Contact</a>
+      <a href="moonlegal.html">📄 Terms & Legal Policies</a>
     </nav>
   </div>
 
@@ -1410,45 +1410,7 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
-/*
-    function extractYouTubeId(url) {
-  if (!url) return null;
-  // Ab ye shorts, youtu.be, embed, watch?v= sabhi tarah ke links se 11-digit ID nikal lega
-  const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/|user\/\S+|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  const match = url.match(regExp);
-  return match ? match[1] : null;
-}
 
-    function processProductsList() {
-      const raw = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
-      catalogList = raw.map(p => {
-        const ytId = extractYouTubeId(p.videoUrl);
-        const hasImg = p.imageUrl && p.imageUrl.trim() !== "";
-        
-        let thumbUrl = null;
-        if(hasImg) {
-          thumbUrl = p.imageUrl.trim();
-        } else if(ytId) {
-          thumbUrl = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
-        }
-
-        return {
-          id: p.id || "MS" + Math.floor(Math.random()*1000),
-          title: p.title || "Trending Product",
-          category: p.category && p.category.trim() !== "" ? p.category.trim() : "General",
-          price: p.price || 499,
-          sellerName: p.sellerName || "MoonStar Official",
-          allowCoupon: p.allowCoupon !== false,
-          videoUrl: p.videoUrl || "",
-          imageUrl: p.imageUrl || "",
-          youtubeId: ytId,
-          thumb: thumbUrl
-        };
-      });
-
-      injectDynamicJsonLdSchema(catalogList);
-    }
-*/
     /* 1. Extract YouTube ID (Shorts & Regular Links Dono Ke Liye) */
 function extractYouTubeId(url) {
   if (!url) return null;
@@ -1602,10 +1564,7 @@ function selectSubItemToOrder(parentId, subItemIdx) {
     imageUrl: parent.thumb
   };
 
-  // Video ko usi product ke second par chalayein (agar timeSec diya ho)
-  if (subItem.timeSec !== undefined && parent.youtubeId) {
-    playInlineVideo(parent.id, parent.youtubeId, `${parent.videoUrl}&t=${subItem.timeSec}s`);
-  }
+  // ❌ Yahan se video auto-play / jump wali line poori tarah hata di gayi hai taaki background disturb na ho!
 
   // Order form auto-populate karein
   document.getElementById('productUrl').value = `${parent.videoUrl || parent.title} (${subItem.title})`;
@@ -1719,79 +1678,6 @@ function selectSubItemToOrder(parentId, subItemIdx) {
 
       appendProductCardsBatch();
     }
-/*
-    function appendProductCardsBatch() {
-      const grid = document.getElementById('productGrid');
-      const btnBox = document.getElementById('loadMoreContainer');
-      if (!grid) return;
-
-      const currentlyRendered = grid.children.length;
-      const nextBatch = currentDisplayList.slice(currentlyRendered, visibleProductCount);
-
-      nextBatch.forEach((item, idx) => {
-        const globalIndex = currentlyRendered + idx + 1;
-        const card = document.createElement('div');
-        card.className = "product-card";
-
-        let mediaHtml = "";
-        if(item.youtubeId) {
-          mediaHtml = `
-            <div class="card-thumb-container" id="mediaBox_${sanitizeText(item.id)}">
-              <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
-              <div class="play-overlay-btn" onclick="playInlineVideo('${sanitizeText(item.id)}', '${sanitizeText(item.youtubeId)}', '${encodeURIComponent(item.videoUrl)}')" title="Play Video">▶</div>
-            </div>
-          `;
-        } else if(item.thumb) {
-          mediaHtml = `
-            <div class="card-thumb-container">
-              <img src="${sanitizeText(item.thumb)}" alt="${sanitizeText(item.title)}" loading="lazy" />
-            </div>
-          `;
-        } else {
-          mediaHtml = `
-            <div class="card-thumb-container">
-              <div class="media-fallback">🛍️</div>
-            </div>
-          `;
-        }
-
-        const safeTitle = sanitizeText(item.title);
-        const safeSeller = sanitizeText(item.sellerName);
-
-        card.innerHTML = `
-          <div style="position:relative;">
-            <div class="badge-bar">
-              <span class="card-num-badge">#${globalIndex}</span>
-              <div class="card-seller-badge" title="Seller: ${safeSeller}">🏬 ${safeSeller}</div>
-            </div>
-            ${mediaHtml}
-          </div>
-          <div class="card-info">
-            <h4 class="card-title" title="${safeTitle}">${safeTitle}</h4>
-            <div class="card-footer">
-              <span class="card-price">₹${item.price}</span>
-              <div class="card-btn-group">
-                <button type="button" class="order-now-btn" onclick="selectProductToOrder('${sanitizeText(item.id)}')">Order 🛒</button>
-                <button type="button" class="share-prod-btn" onclick="shareSingleProduct('${sanitizeText(item.id)}')" title="Share Item">↗</button>
-              </div>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      if (btnBox) {
-        if (visibleProductCount < currentDisplayList.length) {
-          btnBox.style.display = 'block';
-          const remaining = currentDisplayList.length - visibleProductCount;
-          const nextCount = remaining > 10 ? 10 : remaining;
-          document.getElementById('btnLoadMore').innerText = `⬇️ Load More (${nextCount}+ Remaining)`;
-        } else {
-          btnBox.style.display = 'none';
-        }
-      }
-    }
-*/
     function appendProductCardsBatch() {
   const grid = document.getElementById('productGrid');
   const btnBox = document.getElementById('loadMoreContainer');
