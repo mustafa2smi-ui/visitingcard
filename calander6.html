@@ -2025,7 +2025,7 @@
       if (navigator.share) {
         navigator.share({ title, text, url: link }).catch(() => {});
       } else {
-        navigator.clipboard.writeText(`${title}\\n\\n${text}\\n\\n${link}`);
+        navigator.clipboard.writeText(`${title}\n\n${text}\n\n${link}`);
         alert("Details copied to clipboard!");
       }
     }
@@ -2035,7 +2035,7 @@
     }
 
     function shareYouTubeFull(vidTitle, ytUrl) {
-      const fullText = `🎥 *${vidTitle}*\\n${ytUrl}\\n\\nExplore authentic Islamic resources on AdeenDesk:\\n${window.location.href}`;
+      const fullText = `🎥 *${vidTitle}*\n${ytUrl}\n\nExplore authentic Islamic resources on AdeenDesk:\n${window.location.href}`;
       shareNative(`${vidTitle} - AdeenDesk`, fullText, "");
     }
 
@@ -2043,7 +2043,7 @@
       const activeBtn = document.querySelector('.dua-cat-btn.active');
       const cat = activeBtn ? activeBtn.getAttribute('data-cat') : 'daily';
       const dua = duasData[cat];
-      shareNative(dua.title, `${dua.ar}\\n\\nTransliteration: ${dua.tr}\\n\\nTranslation: ${dua.en}`, window.location.href);
+      shareNative(dua.title, `${dua.ar}\n\nTransliteration: ${dua.tr}\n\nTranslation: ${dua.en}`, window.location.href);
     }
 
     function shareTitleArticleModal() {
@@ -2073,7 +2073,7 @@
       try {
         const d = new Date();
         const currentMins = d.getHours() * 60 + d.getMinutes();
-        const clean = liveMaghribTimeStr.replace(/[^\\d:]/g, "");
+        const clean = liveMaghribTimeStr.replace(/[^\d:]/g, "");
         const parts = clean.split(":");
         let h = parseInt(parts[0], 10);
         const m = parseInt(parts[1], 10) || 0;
@@ -2592,14 +2592,14 @@
         return;
       }
 
-      let text = `🕌 *7 Days Prayer Timetable (${currentDetectedCityName})*\\n━━━━━━━━━━━━━━━━━━━━━\\n`;
+      let text = `🕌 *7 Days Prayer Timetable (${currentDetectedCityName})*\n━━━━━━━━━━━━━━━━━━━━━\n`;
       nextSevenDaysCache.forEach(item => {
         const t = item.timings;
         const g = item.date.gregorian;
         const dateStr = `${g.day} ${g.month.en} (${g.weekday.en.slice(0,3)})`;
-        text += `📅 *${dateStr}*\\nFajr: ${convertTo12Hour(t.Fajr)} | Sunrise: ${convertTo12Hour(t.Sunrise)}\\nDhuhr: ${convertTo12Hour(t.Dhuhr)} | Asr: ${convertTo12Hour(t.Asr)}\\nMaghrib: ${convertTo12Hour(t.Maghrib)} | Isha: ${convertTo12Hour(t.Isha)}\\n\\n`;
+        text += `📅 *${dateStr}*\nFajr: ${convertTo12Hour(t.Fajr)} | Sunrise: ${convertTo12Hour(t.Sunrise)}\nDhuhr: ${convertTo12Hour(t.Dhuhr)} | Asr: ${convertTo12Hour(t.Asr)}\nMaghrib: ${convertTo12Hour(t.Maghrib)} | Isha: ${convertTo12Hour(t.Isha)}\n\n`;
       });
-      text += `━━━━━━━━━━━━━━━━━━━━━\\n📍 *Check your local prayer times on AdeenDesk:*\\n🔗 ${siteUrl}`;
+      text += `━━━━━━━━━━━━━━━━━━━━━\n📍 *Check your local prayer times on AdeenDesk:*\n🔗 ${siteUrl}`;
 
       navigator.clipboard.writeText(text).then(() => {
         if (btn) {
@@ -2630,7 +2630,7 @@
     }
 
     function useMyLocation() {
-      const choice = confirm("Press [OK] to auto-detect coordinates using GPS.\\nPress [CANCEL] to enter your city name manually.");
+      const choice = confirm("Press [OK] to auto-detect coordinates using GPS.\nPress [CANCEL] to enter your city name manually.");
       if (!choice) {
         const customCity = prompt("Enter your city name (e.g. London, Istanbul, New York, Cairo):");
         if (customCity && customCity.trim() !== "") {
@@ -2886,10 +2886,10 @@
     function copyTodayHistory() {
       if (!currentHistoryMatch) return;
       const siteUrl = window.location.origin + '/';
-      let msg = `🏛️ *Today in Islamic History*\\n`;
-      if (currentTodayHijriText) msg += `📅 *${currentTodayHijriText}*\\n\\n`;
-      msg += `📌 *${currentHistoryMatch.title}* (${currentHistoryMatch.year || ''})\\n${currentHistoryMatch.summary}\\n\\n`;
-      msg += `✨ Explore daily Islamic history and resources on AdeenDesk:\\n🔗 ${siteUrl}`;
+      let msg = `🏛️ *Today in Islamic History*\n`;
+      if (currentTodayHijriText) msg += `📅 *${currentTodayHijriText}*\n\n`;
+      msg += `📌 *${currentHistoryMatch.title}* (${currentHistoryMatch.year || ''})\n${currentHistoryMatch.summary}\n\n`;
+      msg += `✨ Explore daily Islamic history and resources on AdeenDesk:\n🔗 ${siteUrl}`;
 
       navigator.clipboard.writeText(msg).then(() => {
         triggerCopyBtnFeedback('btnCopyHistory', '📋 Copy Historical Summary');
@@ -2929,13 +2929,13 @@
     function copyDailyWords() {
       const hijriInfo = getCleanHijriDate();
       const siteUrl = window.location.origin + '/';
-      let msg = `📖 *10 Daily Quranic & Arabic Words*\\n📅 *${hijriInfo.display}*\\n\\n`;
+      let msg = `📖 *10 Daily Quranic & Arabic Words*\n📅 *${hijriInfo.display}*\n\n`;
       if (todaySeededWordsList.length > 0) {
         todaySeededWordsList.forEach((item, index) => {
-          msg += `${index + 1}. *${item.word}* (${item.trans})\\n   Meaning: ${item.en}\\n\\n`;
+          msg += `${index + 1}. *${item.word}* (${item.trans})\n   Meaning: ${item.en}\n\n`;
         });
       }
-      msg += `💡 Learn daily Quranic vocabulary with AdeenDesk:\\n🔗 ${siteUrl}`;
+      msg += `💡 Learn daily Quranic vocabulary with AdeenDesk:\n🔗 ${siteUrl}`;
       navigator.clipboard.writeText(msg).then(() => {
         triggerCopyBtnFeedback('btnCopyWords', '📋 Copy Vocabulary List');
       });
@@ -3295,7 +3295,7 @@
       const hij = getHijriDetailsByDate(d, hijriOffset);
       const cleanHij = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
 
-      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\\n\\n*🌙 ${hij.day} ${cleanHij} 🌙*\\n*☀ ${liveEng} ☀*\\n*🌺💧💧 Words of Wisdom 💧💧🌺*\\n\\n${currentActiveAcchiBaat.quoteLines.map(l => `*⚄→ ${l}*`).join('\\n')}\\n\\n_${currentActiveAcchiBaat.closingDua || ''}_\\n🌺💦💠💦💠🌹💦💠💦💠🌺\\n\\nDaily Islamic Utilities:\\n${window.location.href}`;
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${hij.day} ${cleanHij} 🌙*\n*☀ ${liveEng} ☀*\n*🌺💧💧 Words of Wisdom 💧💧🌺*\n\n${currentActiveAcchiBaat.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${currentActiveAcchiBaat.closingDua || ''}_\n🌺💦💠💦💠🌹💦💠💦💠🌺\n\nDaily Islamic Utilities:\n${window.location.href}`;
       navigator.clipboard.writeText(txt).then(() => alert("Copied in WhatsApp shareable format!"));
     }
 
@@ -3307,7 +3307,7 @@
       const hij = getHijriDetailsByDate(d, hijriOffset);
       const cleanHij = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
 
-      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\\n\\n*🌙 ${hij.day} ${cleanHij} 🌙*\\n*☀ ${liveEng} ☀*\\n\\n${currentActiveAcchiBaat.quoteLines.map(l => `*⚄→ ${l}*`).join('\\n')}\\n\\n_${currentActiveAcchiBaat.closingDua || ''}_\\n\\n${window.location.href}`;
+      const txt = `*🌺💦💠 ꧁﷽꧂ 💠💦🌺*\n\n*🌙 ${hij.day} ${cleanHij} 🌙*\n*☀ ${liveEng} ☀*\n\n${currentActiveAcchiBaat.quoteLines.map(l => `*⚄→ ${l}*`).join('\n')}\n\n_${currentActiveAcchiBaat.closingDua || ''}_\n\n${window.location.href}`;
       if (navigator.share) {
         navigator.share({ title: "Daily Spiritual Reflection", text: txt, url: window.location.href });
       } else {
@@ -3318,14 +3318,14 @@
     function shareFeaturedWaqiya() {
       if (typeof waqiatDatabase === 'undefined' || waqiatDatabase.length === 0) return;
       const w = waqiatDatabase[0];
-      const txt = `📖 *${w.title}*\\n\\n${w.snippet}\\n\\nRead the complete story on AdeenDesk:\\n${window.location.href}`;
+      const txt = `📖 *${w.title}*\n\n${w.snippet}\n\nRead the complete story on AdeenDesk:\n${window.location.href}`;
       shareNative(w.title, txt, window.location.href);
     }
 
     function shareFeaturedHadees() {
       if (typeof hadeesDatabase === 'undefined' || hadeesDatabase.length === 0) return;
       const h = hadeesDatabase[0];
-      const txt = `📜 *Prophetic Hadith*\\n\\n${h.arabic}\\n\\n*Translation:* ${h.tarjuma}\\n*Reference:* ${h.reference}\\n\\nExplore daily authentic Hadith on AdeenDesk:\\n${window.location.href}`;
+      const txt = `📜 *Prophetic Hadith*\n\n${h.arabic}\n\n*Translation:* ${h.tarjuma}\n*Reference:* ${h.reference}\n\nExplore daily authentic Hadith on AdeenDesk:\n${window.location.href}`;
       shareNative("Prophetic Hadith", txt, window.location.href);
     }
 
@@ -3396,7 +3396,7 @@
 
     function extractYouTubeID(url) {
       if (!url) return null;
-      const regExp = /(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/(?:watch\\?v=|shorts\\/|embed\\/)|youtu\\.be\\/)([a-zA-Z0-9_-]{11})/;
+      const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
       const match = url.match(regExp);
       return match ? match[1] : null;
     }
