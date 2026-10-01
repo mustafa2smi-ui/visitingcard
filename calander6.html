@@ -1162,7 +1162,7 @@
           <h1>AdeenDesk</h1>
           <p>Daily Islamic Dashboard & Prayer Times</p>
         </div>
-        <!-- 🌐 Pure Icon Globe Switcher -->
+        <!-- 🌐 Pure Icon Globe Switcher --
         <div style="position:relative; display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; flex-shrink:0;">
           <span style="font-size:0.95rem; line-height:1; pointer-events:none;">🌐</span>
           <select id="langSelector" onchange="switchSiteLanguage(this.value)" aria-label="Select Language" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; -webkit-appearance:menulist-button;">
@@ -1171,6 +1171,27 @@
             <option value="ur">اردو</option>
             <option value="hi">हिन्दी (Hindi)</option>
           </select>
+        </div>
+        -->
+        <!-- 🌐 Clean Expandable Language Menu (No Hinglish) -->
+        <div style="position:relative; display:inline-block;" id="langMenuWrapper">
+          <button type="button" onclick="toggleLanguageMenu(event)" aria-label="Select Language" 
+                  style="width:34px; height:34px; background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.05rem; padding:0;">
+            🌐
+          </button>
+          
+          <div id="languageDropdown" 
+               style="display:none; position:absolute; top:42px; left:0; background:#ffffff; min-width:140px; border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.18); border:1px solid #e2e8f0; z-index:9999; overflow:hidden;">
+            <div onclick="selectLanguageOption('en')" style="padding:10px 14px; font-size:0.78rem; font-weight:700; color:#064e3b; cursor:pointer; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+              <span>English</span> <span style="color:#047857;">✓</span>
+            </div>
+            <div onclick="selectLanguageOption('ur')" style="padding:10px 14px; font-size:0.78rem; font-weight:600; color:#1e293b; cursor:pointer; border-bottom:1px solid #f1f5f9;">
+              اردو (Urdu)
+            </div>
+            <div onclick="selectLanguageOption('hi')" style="padding:10px 14px; font-size:0.78rem; font-weight:600; color:#1e293b; cursor:pointer;">
+              हिन्दी (Hindi)
+            </div>
+          </div>
         </div>
       </div>
       <div class="header-actions">
@@ -2187,12 +2208,22 @@
         grid.appendChild(d);
       }
 
+      // 🍂 Sahi Season Mapping Fix
       document.querySelectorAll('.season-block').forEach(b => b.classList.remove('active-season'));
-      const activeSeasonIndex = Math.floor(selectedEngMonth / 3);
-      if (activeSeasonIndex >= 0 && activeSeasonIndex <= 3) {
-        document.querySelectorAll('.season-block')[activeSeasonIndex].classList.add('active-season');
+      const seasonBlocks = document.querySelectorAll('.season-block');
+      
+      let seasonIndex = 3; // Default: Winter (Dec, Jan, Feb)
+      if (selectedEngMonth >= 2 && selectedEngMonth <= 4) {
+        seasonIndex = 0; // Spring/Summer (Mar - May)
+      } else if (selectedEngMonth >= 5 && selectedEngMonth <= 7) {
+        seasonIndex = 1; // Monsoon (Jun - Aug)
+      } else if (selectedEngMonth >= 8 && selectedEngMonth <= 10) {
+        seasonIndex = 2; // Autumn (Sep - Nov) -> October yahi aayega
       }
-    }
+
+      if (seasonBlocks[seasonIndex]) {
+        seasonBlocks[seasonIndex].classList.add('active-season');
+      }
 
     function selectSeasonMonth(monthIdx) {
       selectedEngMonth = monthIdx;
@@ -3418,7 +3449,7 @@
         renderEnglishCalendarGrid();
       }
     }
-
+/*
     function switchSiteLanguage(lang) {
       localStorage.setItem('adeendesk_lang', lang);
       if (lang === 'ur') window.location.href = 'indexurdu.html';
@@ -3426,7 +3457,38 @@
       else if (lang === 'en') window.location.href = 'index.html?lang=en';
       else window.location.href = 'index.html';
     }
+*/
+      // 🌐 Language Switcher (Direct Clean Redirection)
+    function toggleLanguageMenu(event) {
+      event.stopPropagation();
+      const menu = document.getElementById('languageDropdown');
+      if (menu) {
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+      }
+    }
 
+    function selectLanguageOption(lang) {
+      localStorage.setItem('adeendesk_lang', lang);
+      const menu = document.getElementById('languageDropdown');
+      if (menu) menu.style.display = 'none';
+
+      if (lang === 'ur') {
+        window.location.href = 'indexurdu.html';
+      } else if (lang === 'hi') {
+        window.location.href = 'indexhindi.html';
+      } else {
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Bahar click karne par dropdown auto-close ho jaye
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('languageDropdown');
+      const wrapper = document.getElementById('langMenuWrapper');
+      if (menu && wrapper && !wrapper.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
     function closeDrawer() {
       document.getElementById('sideDrawer').style.right = '-280px';
       document.getElementById('drawerOverlay').classList.remove('active');
