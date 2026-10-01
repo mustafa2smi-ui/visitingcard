@@ -2422,11 +2422,11 @@
 
     async function fetch7DaysSalahTimes() {
       const tbody = document.getElementById("sevenDaysTableBody");
-      tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#64748b;">Loading 7-day schedule...</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#64748b;">Loading 7-day schedule...</td></tr>`;
 
       const nowDay = new Date();
-      const year = nowDay.getFullYear();
-      const month = nowDay.getMonth() + 1;
+      let year = nowDay.getFullYear();
+      let month = nowDay.getMonth() + 1;
       const todayDate = nowDay.getDate();
 
       const lat = localStorage.getItem('prayerLat');
@@ -2434,36 +2434,65 @@
       const city = localStorage.getItem('prayerCity') || "Delhi";
       const school = getAsrMethod();
 
-      let url = (lat && lng)
-        ? `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${lat}&longitude=${lng}&method=4&school=${school}`
-        : `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${encodeURIComponent(city)}&country=&method=4&school=${school}`;
+      // API URL Helper function
+      const getApiUrl = (y, m) => (lat && lng)
+        ? `https://api.aladhan.com/v1/calendar/${y}/${m}?latitude=${lat}&longitude=${lng}&method=4&school=${school}`
+        : `https://api.aladhan.com/v1/calendarByCity/${y}/${m}?city=${encodeURIComponent(city)}&country=&method=4&school=${school}`;
 
       try {
-        const res = await fetch(url);
+        // 1. Current Month ka data fetch karein
+        const res = await fetch(getApiUrl(year, month));
         const result = await res.json();
+        
         if (result.code === 200 && Array.isArray(result.data)) {
-          const currentMonthDays = result.data.filter(d => parseInt(d.date.gregorian.day, 10) >= todayDate);
-          nextSevenDaysCache = currentMonthDays.slice(0, 7);
+          // Current month ke aaj se aage ke din
+          let currentMonthRemaining = result.data.filter(d => parseInt(d.date.gregorian.day, 10) >= todayDate);
 
-          tbody.innerHTML = nextSevenDaysCache.map((item, idx) => {
-            const t = item.timings;
-            const gDate = `${item.date.gregorian.day} ${item.date.gregorian.month.en.slice(0,3)}`;
-            const bg = idx % 2 === 0 ? "#ffffff" : "#f8fafc";
-            return `
-              <tr style="background:${bg}; border-bottom:1px solid #f1f5f9;">
-                <td style="padding:6px 4px; font-weight:700; color:#064e3b;">${gDate}</td>
-                <td style="padding:6px 4px;">${convertTo12Hour(t.Fajr)}</td>
-                <td style="padding:6px 4px; color:#64748b;">${convertTo12Hour(t.Sunrise)}</td>
-                <td style="padding:6px 4px;">${convertTo12Hour(t.Dhuhr)}</td>
-                <td style="padding:6px 4px;">${convertTo12Hour(t.Asr)}</td>
-                <td style="padding:6px 4px;">${convertTo12Hour(t.Maghrib)}</td>
-                <td style="padding:6px 4px;">${convertTo12Hour(t.Isha)}</td>
-              </tr>
-            `;
-          }).join('');
+          // 2. 🎯 Agar 7 din poore nahi huye (Month End ho raha hai), to Agle Mahine ka fetch karein
+          if (currentMonthRemaining.length < 7) {
+            let nextMonth = month + 1;
+            let nextYear = year;
+            if (nextMonth > 12) {
+              nextMonth = 1;
+              nextYear = year + 1;
+            }
+
+            try {
+              const resNext = await fetch(getApiUrl(nextYear, nextMonth));
+              const resultNext = await resNext.json();
+              if (resultNext.code === 200 && Array.isArray(resultNext.data)) {
+                // Dono mahino ke days ko apas me jod lein
+                currentMonthRemaining = currentMonthRemaining.concat(resultNext.data);
+              }
+            } catch (errNext) {
+              console.warn("Could not fetch next month buffer", errNext);
+            }
+          }
+
+          // Exact pure 7 din filter karein
+          nextSevenDaysCache = currentMonthRemaining.slice(0, 7);
+
+          if (tbody) {
+            tbody.innerHTML = nextSevenDaysCache.map((item, idx) => {
+              const t = item.timings;
+              const gDate = `${item.date.gregorian.day} ${item.date.gregorian.month.en.slice(0,3)}`;
+              const bg = idx % 2 === 0 ? "#ffffff" : "#f8fafc";
+              return `
+                <tr style="background:${bg}; border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:6px 4px; font-weight:700; color:#064e3b;">${gDate}</td>
+                  <td style="padding:6px 4px;">${convertTo12Hour(t.Fajr)}</td>
+                  <td style="padding:6px 4px; color:#64748b;">${convertTo12Hour(t.Sunrise)}</td>
+                  <td style="padding:6px 4px;">${convertTo12Hour(t.Dhuhr)}</td>
+                  <td style="padding:6px 4px;">${convertTo12Hour(t.Asr)}</td>
+                  <td style="padding:6px 4px;">${convertTo12Hour(t.Maghrib)}</td>
+                  <td style="padding:6px 4px;">${convertTo12Hour(t.Isha)}</td>
+                </tr>
+              `;
+            }).join('');
+          }
         }
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#ef4444;">Failed to load schedule. Try again.</td></tr>`;
+        if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#ef4444;">Failed to load schedule. Try again.</td></tr>`;
       }
     }
 
