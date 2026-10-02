@@ -1943,6 +1943,9 @@ function sanitizeURL(url) {
   }
   return '';
 }
+    // Live Date Helper: Always returns fresh "now" (never stale)
+function getNow() { return new Date(); }
+    
     const slidingCountries = [
       { name: "Saudi Arabia", flag: "🇸🇦", zone: "Asia/Riyadh", abbr: "AST" },
       { name: "UAE", flag: "🇦🇪", zone: "Asia/Dubai", abbr: "GST" },
@@ -2235,24 +2238,26 @@ function sanitizeURL(url) {
       });
     }
 
-    function renderEnglishCalendarGrid() {
-      const fullMonthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-      document.getElementById('engMonthYearDisplay').innerText = `${fullMonthNames[selectedEngMonth]} ${selectedEngYear}`;
-      const grid = document.getElementById('engDatesGrid');
-      grid.innerHTML = '';
+function renderEnglishCalendarGrid() {
+  const fullMonthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+  document.getElementById('engMonthYearDisplay').innerText = `${fullMonthNames[selectedEngMonth]} ${selectedEngYear}`;
+  const grid = document.getElementById('engDatesGrid');
+  grid.innerHTML = '';
 
-      const firstDayIndex = new Date(selectedEngYear, selectedEngMonth, 1).getDay();
-      const totalDaysInMonth = new Date(selectedEngYear, selectedEngMonth + 1, 0).getDate();
+  const firstDayIndex = new Date(selectedEngYear, selectedEngMonth, 1).getDay();
+  const totalDaysInMonth = new Date(selectedEngYear, selectedEngMonth + 1, 0).getDate();
 
-      for (let i = 0; i < firstDayIndex; i++) {
-        const emptyD = document.createElement('div');
-        emptyD.className = 'cal-date muted';
-        grid.appendChild(emptyD);
-      }
+  for (let i = 0; i < firstDayIndex; i++) {
+    const emptyD = document.createElement('div');
+    emptyD.className = 'cal-date muted';
+    grid.appendChild(emptyD);
+  }
 
-      const currentDate = now.getDate();
-      const currentMonth = now.getMonth();
-      const currentYear = now.getFullYear();
+  // 🕒 Use fresh "now" so today's highlight stays correct across midnight
+  const freshNow = getNow();
+  const currentDate = freshNow.getDate();
+  const currentMonth = freshNow.getMonth();
+  const currentYear = freshNow.getFullYear();
 
       for (let day = 1; day <= totalDaysInMonth; day++) {
         const dateCell = document.createElement('div');
@@ -2405,12 +2410,16 @@ function sanitizeURL(url) {
     }
 */
     function renderHijriCalendarGrid() {
-      const currentHijri = getHijriDetailsByDate(now, hijriOffset);
-      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
-      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
-      
-      const grid = document.getElementById('hijriDatesGrid');
-      grid.innerHTML = '';
+  // 🕒 Use fresh "now" so the active day stays correct across midnight
+  const freshNow = getNow();
+  const currentHijri = getHijriDetailsByDate(freshNow, hijriOffset);
+  const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
+  document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
+  
+  const grid = document.getElementById('hijriDatesGrid');
+  grid.innerHTML = '';
+
+  const effectiveDate = new Date(freshNow);
 
       // ✅ FIX: Modulo 30 math calculation ke bajaye direct 1st day ka exact weekday
       let firstDayOffset = getHijriFirstDayWeekday(selectedHijriYear, selectedHijriMonthIndex);
@@ -3786,12 +3795,13 @@ function sanitizeURL(url) {
 
     // 12. INITIALIZATION PIPELINE
     window.addEventListener('DOMContentLoaded', () => {
-      // 1. Calendars Initialization
-      const initHijri = getHijriDetailsByDate(now, hijriOffset);
-      selectedEngMonth = now.getMonth();
-      selectedEngYear = now.getFullYear();
-      selectedHijriMonthIndex = initHijri.monthIndex;
-      selectedHijriYear = initHijri.year;
+  // 1. Calendars Initialization (using fresh date)
+  const freshNow = getNow();
+  const initHijri = getHijriDetailsByDate(freshNow, hijriOffset);
+  selectedEngMonth = freshNow.getMonth();
+  selectedEngYear = freshNow.getFullYear();
+  selectedHijriMonthIndex = initHijri.monthIndex;
+  selectedHijriYear = initHijri.year;
 
       renderEnglishCalendarTabs();
       renderHijriCalendarTabs();
@@ -3888,9 +3898,26 @@ function sanitizeURL(url) {
       document.getElementById('scrollRightWorld').onclick = () => document.getElementById('worldScroll').scrollBy({ left: 120, behavior: 'smooth' });
 
       // Live Timers
-      setInterval(updateLiveDashboardClocks, 1000);
-      setInterval(renderSmartEventHub, 60000);
-    });
+        // Live Timers
+  setInterval(updateLiveDashboardClocks, 1000);
+  setInterval(renderSmartEventHub, 60000);
+
+  // 🌙 Midnight Watchdog: Refresh calendars if day changes while page is open
+  let lastKnownDay = getNow().getDate();
+  setInterval(() => {
+    const currentDay = getNow().getDate();
+    if (currentDay !== lastKnownDay) {
+      lastKnownDay = currentDay;
+      // Refresh all date-dependent modules
+      updateLiveDashboardClocks();
+      renderEnglishCalendarGrid();
+      renderHijriCalendarGrid();
+      renderSmartEventHub();
+      initTodayHistory();
+      initDailyArabicWords();
+    }
+  }, 60000); // Check every minute
+});
 
     // ==========================================
     // 📲 SERVICE WORKER REGISTRATION (PWA Core)
