@@ -2100,7 +2100,7 @@
         return false;
       }
     }
-
+/*
     function getHijriDetailsByDate(dateObj, offset = 0) {
       const afterMaghrib = isAfterMaghribToday();  // ✅ Cache once
 
@@ -2126,7 +2126,35 @@
 
       return { day: d, monthIndex: m - 1, year: y, islamicDayName };
     }
+*/
+    function getHijriDetailsByDate(dateObj, offset = 0) {
+      // ✅ Fix: Maghrib shift sirf tab lage jab target date AAJ (Today) ho
+      const isTargetToday = dateObj.toDateString() === getNow().toDateString();
+      const afterMaghrib = isTargetToday && isAfterMaghribToday();
 
+      const dayTarget = new Date(dateObj);
+      if (afterMaghrib) dayTarget.setDate(dayTarget.getDate() + 1);
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const islamicDayName = dayNames[dayTarget.getDay()];
+
+      const dateTarget = new Date(dateObj);
+      if (afterMaghrib) dateTarget.setDate(dateTarget.getDate() + 1);
+      dateTarget.setDate(dateTarget.getDate() + offset);
+
+      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
+        day: 'numeric', month: 'numeric', year: 'numeric' 
+      }).formatToParts(dateTarget);
+
+      let d = 1, m = 1, y = 1448;
+      parts.forEach(p => {
+        if (p.type === 'day') d = parseInt(p.value, 10);
+        if (p.type === 'month') m = parseInt(p.value, 10);
+        if (p.type === 'year') y = parseInt(p.value, 10);
+      });
+
+      return { day: d, monthIndex: m - 1, year: y, islamicDayName };
+    }
+    /*
     function getCleanHijriDate() {
       const hijriMonths = [
         "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
@@ -2148,7 +2176,19 @@
         return { key: "24-Safar", display: "24 Safar" };
       }
     }
-
+    */
+    function getCleanHijriDate() {
+      const hijriMonths = [
+        "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
+        "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
+        "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
+      ];
+      // ✅ Fix: Main engine se date lein taaki moon offset aur maghrib dono reflect hon
+      const h = getHijriDetailsByDate(getNow(), hijriOffset);
+      const monthName = hijriMonths[h.monthIndex] || "Muharram";
+      return { key: `${h.day}-${monthName}`, display: `${h.day} ${monthName}` };
+    }
+/*
     // ✅ FIX Bug #1 (partial): First day weekday uses dynamic year anchor
     function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
       // Anchor: 1 Hijri year ≈ 0.970 Gregorian years (354.367 / 365.25)
@@ -2187,7 +2227,50 @@
       }
       return 29; // Day 30 not found → 29-day month
     }
+*/
+    // ✅ Reference Anchor: 1 Muharram 1448 AH ≈ 16 June 2026
+    function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
+      const baseDate = new Date(2026, 5, 16); // 16 June 2026
+      const monthDiff = (targetHijriYear - 1448) * 12 + targetHijriMonthIndex;
+      const approxDays = Math.round(monthDiff * 29.530588);
+      
+      const targetApprox = new Date(baseDate);
+      targetApprox.setDate(targetApprox.getDate() + approxDays);
 
+      // Target ke aas-paas ±6 din scan karke exact Day 1 dhoondhein
+      for (let offset = -6; offset <= 6; offset++) {
+        const testD = new Date(targetApprox);
+        testD.setDate(testD.getDate() + offset);
+        const hInfo = getHijriDetailsByDate(testD, hijriOffset);
+        if (hInfo.year === targetHijriYear && hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 1) {
+          return testD.getDay(); // Exact weekday
+        }
+      }
+      return 0;
+    }
+
+    function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
+      const baseDate = new Date(2026, 5, 16);
+      const monthDiff = (targetHijriYear - 1448) * 12 + targetHijriMonthIndex;
+      const approxDays = Math.round(monthDiff * 29.530588);
+      
+      const targetApprox = new Date(baseDate);
+      targetApprox.setDate(targetApprox.getDate() + approxDays);
+
+      // Day 1 milte hi uske 29 din baad check karein
+      for (let offset = -6; offset <= 6; offset++) {
+        const testD = new Date(targetApprox);
+        testD.setDate(testD.getDate() + offset);
+        const hInfo = getHijriDetailsByDate(testD, hijriOffset);
+        if (hInfo.year === targetHijriYear && hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 1) {
+          const test30 = new Date(testD);
+          test30.setDate(test30.getDate() + 29);
+          const h30 = getHijriDetailsByDate(test30, hijriOffset);
+          return (h30.monthIndex === targetHijriMonthIndex && h30.day === 30) ? 30 : 29;
+        }
+      }
+      return 30;
+    }
     // ✅ Moon Icon Calculator (astronomically accurate phases)
     function getMoonIconByDay(day) {
       if (day === 1) return "🌑";
