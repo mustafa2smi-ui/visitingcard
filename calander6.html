@@ -2533,7 +2533,20 @@
         // ✅ FIX: Real location ka Maghrib time store ho raha hai
         liveMaghribTimeStr = t.Maghrib;
         localStorage.setItem('last_known_maghrib', t.Maghrib);
-
+// 🟢 Qibla Dynamic Angle Calculation (Paste here)
+    const φ1 = (lat * Math.PI) / 180;
+    const φ2 = (21.4225 * Math.PI) / 180;
+    const Δλ = ((39.8262 - lng) * Math.PI) / 180;
+    const y = Math.sin(Δλ);
+    const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
+    let qiblaBearing = (Math.atan2(y, x) * 180) / Math.PI;
+    currentQiblaAngle = Math.round((qiblaBearing + 360) % 360);
+    
+    const qiblaTextEl = document.getElementById('qiblaText');
+    if (qiblaTextEl) {
+      qiblaTextEl.innerText = `Qibla: ~${currentQiblaAngle}° (from ${cityName})`;
+    }
+        
         document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
         document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
         document.getElementById('pt-dhuhr').innerText = convertTo12Hour(t.Dhuhr);
