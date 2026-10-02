@@ -2152,8 +2152,10 @@ function getNow() { return new Date(); }
 // ✅ FIX Bug #1: Asli astronomical calendar se Hijri month ke 1st day ka Weekday nikalna
     function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
       // 1 Hijri saal me lagbhag 354 din hote hain; approximate Gregorian match dhoondhna
-      const approxDate = new Date();
-      approxDate.setFullYear(2026, targetHijriMonthIndex, 1);
+      // Anchor: 1 Hijri year ≈ 0.970 Gregorian years (354.367 / 365.25)
+const estimatedGregYear = 2026 + Math.round((targetHijriYear - 1448) * 0.970);
+const approxDate = new Date();
+approxDate.setFullYear(estimatedGregYear, targetHijriMonthIndex, 1);
       
       // Target Hijri month ke aas-paas 40 din scan karke 1st date dhoondhein
       for (let offset = -30; offset <= 30; offset++) {
@@ -2167,7 +2169,22 @@ function getNow() { return new Date(); }
       }
       return 0; // Fallback Sunday
     }
-
+// ✅ FIX: Hijri mahine ki exact length (29 ya 30 din) detect karna
+function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
+  const approxDate = new Date();
+  approxDate.setFullYear(2026, targetHijriMonthIndex, 1);
+  
+  for (let offset = 25; offset <= 45; offset++) {
+    const testD = new Date(approxDate);
+    testD.setDate(testD.getDate() + offset);
+    
+    const hInfo = getHijriDetailsByDate(testD, hijriOffset);
+    if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 30) {
+      return 30; // Day 30 exists → 30-day month
+    }
+  }
+  return 29; // Day 30 not found → 29-day month
+}
     // ✅ FIX: Sahi Moon Icon Calculation (14-15th par Full Moon 🌕 aana chahiye)
     function getMoonIconByDay(day) {
       if (day === 1) return "🌑";
@@ -2428,8 +2445,9 @@ function renderEnglishCalendarGrid() {
       let firstDayOffset = getHijriFirstDayWeekday(selectedHijriYear, selectedHijriMonthIndex);
 
       // Umm al-Qura standard me mahine 29 ya 30 din ke hote hain
-      const daysInHijriMonth = 30;
-
+      // const daysInHijriMonth = 30;
+// Umm al-Qura standard me mahine 29 ya 30 din ke hote hain
+const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMonthIndex);
       for (let i = 0; i < firstDayOffset; i++) {
         const d = document.createElement('div');
         d.className = 'cal-date muted';
