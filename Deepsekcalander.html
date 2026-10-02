@@ -3424,37 +3424,8 @@ function renderEnglishCalendarGrid() {
       });
     }
 */
-    function renderHomeLatestNews() {
-  const container = document.getElementById('homeNewsHeadlinesContainer');
-  const updatedLabel = document.getElementById('homeNewsLastUpdated');
-  
-  if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
-    // 🛡️ Retry with limit (max 15 attempts = 3 seconds)
-    newsRetryCount++;
-    if (newsRetryCount < 15) {
-      setTimeout(renderHomeLatestNews, 200);
-    } else {
-      // Show graceful fallback message
-      if (container) {
-        container.innerHTML = `
-          <div style="padding:12px; text-align:center; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1;">
-            <div style="font-size:1.4rem; margin-bottom:4px;">📰</div>
-            <div style="font-size:0.78rem; color:#64748b; font-weight:600;">News feed is currently unavailable.</div>
-            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">Please check your internet connection.</div>
-          </div>
-        `;
-      }
-      if (updatedLabel) {
-        updatedLabel.innerText = "Updated: --";
-      }
-    }
-    return;
-  }
-  if (!container || !updatedLabel) return;
-
-  // ✅ Data loaded successfully — reset counter for any future calls
-  newsRetryCount = 0;
-      
+    
+      /*
     function toggleNewsTTS(btn, textEncoded) {
       const text = decodeURIComponent(textEncoded);
       if (window.speechSynthesis.speaking) {
@@ -3484,6 +3455,7 @@ function renderEnglishCalendarGrid() {
       };
       window.speechSynthesis.speak(utterance);
     }
+    */
 /*
     // 10. DAILY ISLAMIC REFLECTION MODULE
     function renderIslamicFeaturedContent() {
@@ -3535,7 +3507,93 @@ function renderEnglishCalendarGrid() {
       }
     }
 */
-      function renderIslamicFeaturedContent() {
+function renderHomeLatestNews() {
+  const container = document.getElementById('homeNewsHeadlinesContainer');
+  const updatedLabel = document.getElementById('homeNewsLastUpdated');
+  
+  if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
+    // 🛡️ Retry with limit (max 15 attempts = 3 seconds)
+    newsRetryCount++;
+    if (newsRetryCount < 15) {
+      setTimeout(renderHomeLatestNews, 200);
+    } else {
+      // Show graceful fallback message
+      if (container) {
+        container.innerHTML = `
+          <div style="padding:12px; text-align:center; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1;">
+            <div style="font-size:1.4rem; margin-bottom:4px;">📰</div>
+            <div style="font-size:0.78rem; color:#64748b; font-weight:600;">News feed is currently unavailable.</div>
+            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">Please check your internet connection.</div>
+          </div>
+        `;
+      }
+      if (updatedLabel) {
+        updatedLabel.innerText = "Updated: --";
+      }
+    }
+    return;
+  }
+  if (!container || !updatedLabel) return;
+
+  // ✅ Data loaded successfully — reset counter for any future calls
+  newsRetryCount = 0;
+
+  updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
+  const latestItems = islamicNewsDatabase.slice(0, 5);
+  container.innerHTML = '';
+
+  latestItems.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'news-headline-item';
+    const sourceHtml = (item.sourceUrl && item.sourceUrl.trim() !== "") 
+      ? `<a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-size:0.65rem; color:#64748b; text-decoration:underline;">Source: ${sanitizeHTML(item.sourceName || 'Link')} ↗</a>` 
+      : '';
+
+    row.innerHTML = `
+      <div style="flex:1;">
+        <div class="news-headline-text">${sanitizeHTML(item.headline)}</div>
+        ${sourceHtml}
+      </div>
+      <div class="news-action-btns">
+        <button class="news-tts-btn" title="Listen to Headline" onclick="toggleNewsTTS(this, '${encodeURIComponent(item.headline)}')">🔊</button>
+        <button class="news-share-btn" title="Share Headline" onclick="shareNative('Islamic News Update', '${sanitizeHTML(item.headline)}', window.location.href)">📤</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function toggleNewsTTS(btn, textEncoded) {
+  const text = decodeURIComponent(textEncoded);
+  if (window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+    if (currentlyPlayingBtn) {
+      currentlyPlayingBtn.classList.remove('playing');
+      currentlyPlayingBtn.innerText = '🔊';
+    }
+    if (currentlyPlayingBtn === btn) {
+      currentlyPlayingBtn = null;
+      return;
+    }
+  }
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  utterance.rate = 0.95;
+
+  btn.classList.add('playing');
+  btn.innerText = '⏹️';
+  currentlyPlayingBtn = btn;
+
+  utterance.onend = utterance.onerror = () => {
+    btn.classList.remove('playing');
+    btn.innerText = '🔊';
+    currentlyPlayingBtn = null;
+  };
+  window.speechSynthesis.speak(utterance);
+}
+
+function renderIslamicFeaturedContent() {
   if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
     // 🛡️ Retry with limit (max 15 attempts = ~2.25 seconds)
     featuredContentRetryCount++;
@@ -3567,6 +3625,50 @@ function renderEnglishCalendarGrid() {
 
   // ✅ Data loaded successfully — reset counter
   featuredContentRetryCount = 0;
+
+  // 1. Moral Reflection Story
+  if (typeof waqiatDatabase !== 'undefined' && waqiatDatabase.length > 0) {
+    const w = waqiatDatabase[0];
+    document.getElementById('homeWaqiyaDate').innerText = w.date;
+    document.getElementById('homeWaqiyaTitle').innerText = w.title;
+    document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
+  }
+
+  // 2. Daily Wisdom
+  const box = document.getElementById('homeSweetWordBox');
+  if (box) {
+    const randomIndex = Math.floor(Math.random() * acchiBaatDatabase.length);
+    currentActiveAcchiBaat = acchiBaatDatabase[randomIndex];
+
+    const d = new Date();
+    const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+
+    const hij = getHijriDetailsByDate(d, hijriOffset);
+    const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
+    const liveHijriDateStr = `${hij.day} ${cleanHijriName}`;
+
+    let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
+
+    box.innerHTML = `
+      <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
+      <div class="sweet-meta">🌙 ${liveHijriDateStr} | ☀ ${liveEngDateStr}</div>
+      <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Words of Wisdom 💧🌺</div>
+      ${linesHtml}
+      <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(currentActiveAcchiBaat.closingDua || '')}</div>
+    `;
+  }
+
+  // 3. Prophetic Hadith
+  if (typeof hadeesDatabase !== 'undefined' && hadeesDatabase.length > 0) {
+    const h = hadeesDatabase[0];
+    document.getElementById('homeHadeesRef').innerText = h.reference;
+    document.getElementById('homeHadeesArabic').innerText = h.arabic;
+    document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
+    document.getElementById('homeHadeesWazahat').innerText = `Commentary: ${h.wazahat}`;
+  }
+}
+    
     function toggleInlineWaqiya() {
       const fullBox = document.getElementById('homeWaqiyaFullContainer');
       const btn = document.getElementById('toggleWaqiyaBtn');
