@@ -44,7 +44,7 @@
   <meta name="twitter:description" content="Live Hijri calendar, astronomical prayer times, Quran reader, and moral reflections.">
   <meta name="twitter:image" content="https://yourdomain.com/icon-512.png">
 
-  <!-- 🔍 Google-Compliant JSON-LD Structured Data with BreadcrumbList & isPartOf -->
+  <!-- 🔍 Google-Compliant JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,9 +62,7 @@
         "@id": "https://yourdomain.com/index.html#webpage",
         "url": "https://yourdomain.com/index.html",
         "name": "AdeenDesk | Daily Islamic Dashboard, Prayer Times & Hijri Calendar 2026",
-        "isPartOf": {
-          "@id": "https://yourdomain.com/#website"
-        },
+        "isPartOf": { "@id": "https://yourdomain.com/#website" },
         "description": "Real-time Hijri date, accurate GPS prayer times, Qibla compass, Quran reader, and authentic spiritual reflections.",
         "inLanguage": "en"
       },
@@ -72,18 +70,8 @@
         "@type": "BreadcrumbList",
         "@id": "https://yourdomain.com/index.html#breadcrumb",
         "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://yourdomain.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Islamic Utility Dashboard",
-            "item": "https://yourdomain.com/index.html"
-          }
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://yourdomain.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Islamic Utility Dashboard", "item": "https://yourdomain.com/index.html" }
         ]
       },
       {
@@ -94,14 +82,8 @@
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "url": "https://yourdomain.com/",
-        "isPartOf": {
-          "@id": "https://yourdomain.com/#website"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
+        "isPartOf": { "@id": "https://yourdomain.com/#website" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     ]
   }
@@ -1313,7 +1295,7 @@
 
   <main class="main-container">
 
-    <!-- 🛠️ 1. Utility Tools Bar (id="sec-tools") -->
+    <!-- 🛠️ 1. Utility Tools Bar -->
     <section class="utility-tools-bar" id="sec-tools">
       <div class="tool-tile" onclick="openModal('tasbeehModal')"><span>📿</span> Tasbeeh Counter</div>
       <div class="tool-tile" onclick="openModal('zakatModal')"><span>💰</span> Zakat Calc</div>
@@ -1335,7 +1317,7 @@
     <!-- 🔔 Smart Auto Event Display Hub -->
     <div id="smartEventHub" class="event-hub-container"></div>
 
-    <!-- 🌍 3. Global Times (id="sec-worldtime") -->
+    <!-- 🌍 Global Times -->
     <section class="card-block" id="sec-worldtime">
       <div class="unified-blue-header">
         <span>🌐 Global City Time Zones</span>
@@ -1358,7 +1340,7 @@
       </div>
     </section>
 
-    <!-- 🕌 4. Prayer Times (id="prayerSection") -->
+    <!-- 🕌 Prayer Times -->
     <section class="card-block" id="prayerSection">
       <div class="unified-blue-header">
         <span>🕌 Daily Prayer Times & Schedule</span>
@@ -1433,7 +1415,7 @@
       </div>
     </section>
 
-    <!-- 📅 5. Solar & Hijri Dual Calendars -->
+    <!-- 📅 Solar & Hijri Dual Calendars -->
     <section class="calendar-dual-grid" id="calendarsSection">
       <!-- Solar Calendar -->
       <div class="cal-box" id="sec-engcal">
@@ -1500,7 +1482,7 @@
       </div>
     </section>
 
-    <!-- 🖼️ 6. Image Charts Gallery (id="sec-gallery") -->
+    <!-- 🖼️ Image Charts Gallery -->
     <section class="gallery-card-container" id="sec-gallery">
       <div class="unified-blue-header">
         <span>🖼️ Islamic Charts & Offline Images</span>
@@ -1520,7 +1502,7 @@
       <div class="gallery-preview-grid" id="galleryGridContainer"></div>
     </section>
 
-    <!-- 📢 18. Sponsor & Community Directory (id="sec-sponsor") -->
+    <!-- 📢 Sponsor & Community Directory -->
     <section class="portal-card" id="sec-sponsor">
       <div class="unified-blue-header">
         <span>📢 Community Directory & Sponsorships</span>
@@ -1536,7 +1518,7 @@
       </a>
     </section>
 
-    <!-- 📌 7. Upcoming Islamic Occasions (id="sec-events") -->
+    <!-- 📌 Upcoming Islamic Occasions -->
     <section class="card-block" id="sec-events">
       <div class="unified-blue-header">
         <span>✨ Notable Islamic Events</span>
@@ -1551,7 +1533,7 @@
       </div>
     </section>
 
-    <!-- 🎥 8. Lectures & Video Section (id="ytSection") -->
+    <!-- 🎥 Lectures & Video Section -->
     <section class="card-block" id="ytSection">
       <div class="unified-blue-header">
         <span>🎥 Islamic Lectures & Insights</span>
@@ -1563,7 +1545,7 @@
       </div>
     </section>
 
-    <!-- 📝 9. Articles & Daily Supplications -->
+    <!-- 📝 Articles & Daily Supplications -->
     <section class="media-dual-grid" id="mediaSection">
       <!-- Essential Articles -->
       <div class="card-block" id="sec-article">
@@ -1606,7 +1588,7 @@
       </div>
     </section>
 
-    <!-- 📖 10. Moral Story of Reflection (id="sec-waqia") -->
+    <!-- 📖 Moral Story -->
     <section class="portal-card" id="sec-waqia">
       <div class="unified-blue-header">
         <span>📖 Moral Story & Spiritual Reflection</span>
@@ -1625,7 +1607,7 @@
       <a href="waqiat.html" class="more-news-btn" style="background:#475569; margin-top:8px;">Moral Reflections Archive ➡️</a>
     </section>
 
-    <!-- 🌸 11. Daily Wisdom (id="sec-acchibaat") -->
+    <!-- 🌸 Daily Wisdom -->
     <section class="portal-card" id="sec-acchibaat">
       <div class="unified-blue-header">
         <span>🌸 Daily Spiritual Wisdom</span>
@@ -1639,7 +1621,7 @@
       <a href="acchi-baatein.html" class="more-news-btn" style="background:#047857; margin-top:8px;">Archived Wisdom Sayings ➡️</a>
     </section>
 
-    <!-- 📜 12. Prophetic Hadith (id="sec-hadees") -->
+    <!-- 📜 Prophetic Hadith -->
     <section class="portal-card" id="sec-hadees">
       <div class="unified-blue-header">
         <span>📜 Prophetic Hadith of the Day</span>
@@ -1656,7 +1638,7 @@
       </div>
     </section>
 
-    <!-- 🧠 13. Islamic Quiz (id="sec-quiz") -->
+    <!-- 🧠 Islamic Quiz -->
     <section class="portal-card" id="sec-quiz">
       <div class="unified-blue-header">
         <span>🧠 Daily Islamic Quiz & Trivia</span>
@@ -1679,7 +1661,7 @@
       <a href="quiz.html" class="more-news-btn" style="background:#064e3b;">Play Complete 50+ Questions Quiz ➔</a>
     </section>
     
-    <!-- 🏛️ 14. Islamic History Archives (id="sec-history") -->
+    <!-- 🏛️ Islamic History Archives -->
     <section class="portal-card" id="sec-history">
       <div class="unified-blue-header">
         <span>🏛️ Today in Islamic History</span>
@@ -1693,7 +1675,7 @@
       </div>
     </section>
 
-    <!-- 📖 15. Daily Quranic Vocabulary (id="sec-arabicwords") -->
+    <!-- 📖 Daily Quranic Vocabulary -->
     <section class="portal-card" id="sec-arabicwords">
       <div class="unified-blue-header">
         <span>📖 10 Daily Arabic Words</span>
@@ -1707,7 +1689,7 @@
       </div>
     </section>
 
-    <!-- 📚 16. Islamic Educational Modules (id="sec-learning-hub") -->
+    <!-- 📚 Islamic Educational Modules -->
     <section class="portal-card" id="sec-learning-hub">
       <div class="unified-blue-header">
         <span>📚 Islamic Learning & Comprehensive Guides</span>
@@ -1745,7 +1727,7 @@
       </div>
     </section>
 
-    <!-- 📰 17. Global Islamic Headlines (id="sec-news") -->
+    <!-- 📰 Global Islamic Headlines -->
     <section class="news-portal-card card-block" id="sec-news">
       <div class="unified-blue-header">
         <span>🌐 Global Muslim News & Updates</span>
@@ -1902,15 +1884,14 @@
   <!-- ================================================================ -->
   <script>
     // 1. GLOBAL STATE & CONFIGURATION
-    // 1. GLOBAL STATE & CONFIGURATION
     const now = new Date();
     let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '-1', 10);
     const offsetEl = document.getElementById('hijriOffsetSelect');
     if (offsetEl) offsetEl.value = hijriOffset;
 
-    // ✅ FIX: Maghrib time variable global define ho gaya
+    // ✅ FIX: Maghrib time cached to localStorage (survives reload)
     let liveMaghribTimeStr = localStorage.getItem('last_known_maghrib') || "18:30"; 
-    let currentQiblaAngle = 285; // Dynamic Qibla angle storage
+    let currentQiblaAngle = 285;
     let selectedEngYear = now.getFullYear();
     let selectedEngMonth = now.getMonth();
     let selectedHijriMonthIndex = null;
@@ -1922,13 +1903,17 @@
     let isWaqiyaExpanded = false;
 
     let currentHistoryMatch = null;
-let currentTodayHijriText = "";
-let todaySeededWordsList = [];
-let currentActiveAcchiBaat = null;
+    let currentTodayHijriText = "";
+    let todaySeededWordsList = [];
+    let currentActiveAcchiBaat = null;
 
-// 🛡️ Retry counters (prevents infinite loops if data files fail to load)
-let newsRetryCount = 0;
-let featuredContentRetryCount = 0;
+    // 🛡️ Retry counters (prevents infinite loops if data files fail to load)
+    let newsRetryCount = 0;
+    let featuredContentRetryCount = 0;
+
+    // ✅ FIX Bug #5: Qibla orientation handler stored globally so it can be removed
+    let qiblaOrientationHandler = null;
+
     // Security Helper: Sanitization to prevent XSS
     function sanitizeHTML(str) {
       if (!str) return '';
@@ -1936,18 +1921,37 @@ let featuredContentRetryCount = 0;
       temp.textContent = str;
       return temp.innerHTML;
     }
-// Security Helper: URL Sanitization (Only allow https:// links)
-function sanitizeURL(url) {
-  if (!url || typeof url !== 'string') return '';
-  const trimmed = url.trim();
-  // Only allow https:// URLs (blocks javascript:, data:, vbscript:, etc.)
-  if (/^https:\/\//i.test(trimmed)) {
-    return trimmed;
-  }
-  return '';
-}
+
+    // Security Helper: URL Sanitization (Only allow https:// links)
+    function sanitizeURL(url) {
+      if (!url || typeof url !== 'string') return '';
+      const trimmed = url.trim();
+      if (/^https:\/\//i.test(trimmed)) {
+        return trimmed;
+      }
+      return '';
+    }
+
     // Live Date Helper: Always returns fresh "now" (never stale)
-function getNow() { return new Date(); }
+    function getNow() { return new Date(); }
+
+    // ✅ FIX Bug #4: Helper to parse live Maghrib time into minutes since midnight
+    function getLiveMaghribMinutes() {
+      const fallback = 18 * 60 + 30;
+      try {
+        if (!liveMaghribTimeStr) return fallback;
+        const clean = liveMaghribTimeStr.replace(/[^\d:]/g, "");
+        const parts = clean.split(":");
+        let h = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) || 0;
+        if (isNaN(h)) return fallback;
+        if (liveMaghribTimeStr.toUpperCase().includes("PM") && h < 12) h += 12;
+        if (liveMaghribTimeStr.toUpperCase().includes("AM") && h === 12) h = 0;
+        return h * 60 + m;
+      } catch (e) {
+        return fallback;
+      }
+    }
     
     const slidingCountries = [
       { name: "Saudi Arabia", flag: "🇸🇦", zone: "Asia/Riyadh", abbr: "AST" },
@@ -2091,27 +2095,22 @@ function getNow() { return new Date(); }
       try {
         const d = new Date();
         const currentMins = d.getHours() * 60 + d.getMinutes();
-        const clean = liveMaghribTimeStr.replace(/[^\d:]/g, "");
-        const parts = clean.split(":");
-        let h = parseInt(parts[0], 10);
-        const m = parseInt(parts[1], 10) || 0;
-        if (liveMaghribTimeStr.toUpperCase().includes("PM") && h < 12) h += 12;
-        if (liveMaghribTimeStr.toUpperCase().includes("AM") && h === 12) h = 0;
-        const maghribMins = (!isNaN(h)) ? (h * 60 + m) : (18 * 60 + 30);
-        return currentMins >= maghribMins;
+        return currentMins >= getLiveMaghribMinutes();
       } catch (e) {
         return false;
       }
     }
 
     function getHijriDetailsByDate(dateObj, offset = 0) {
+      const afterMaghrib = isAfterMaghribToday();  // ✅ Cache once
+
       const dayTarget = new Date(dateObj);
-      if (isAfterMaghribToday()) dayTarget.setDate(dayTarget.getDate() + 1);
+      if (afterMaghrib) dayTarget.setDate(dayTarget.getDate() + 1);
       const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const islamicDayName = dayNames[dayTarget.getDay()];
 
       const dateTarget = new Date(dateObj);
-      if (isAfterMaghribToday()) dateTarget.setDate(dateTarget.getDate() + 1);
+      if (afterMaghrib) dateTarget.setDate(dateTarget.getDate() + 1);
       dateTarget.setDate(dateTarget.getDate() + offset);
 
       const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
@@ -2149,43 +2148,47 @@ function getNow() { return new Date(); }
         return { key: "24-Safar", display: "24 Safar" };
       }
     }
-// ✅ FIX Bug #1: Asli astronomical calendar se Hijri month ke 1st day ka Weekday nikalna
+
+    // ✅ FIX Bug #1 (partial): First day weekday uses dynamic year anchor
     function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
-      // 1 Hijri saal me lagbhag 354 din hote hain; approximate Gregorian match dhoondhna
       // Anchor: 1 Hijri year ≈ 0.970 Gregorian years (354.367 / 365.25)
-const estimatedGregYear = 2026 + Math.round((targetHijriYear - 1448) * 0.970);
-const approxDate = new Date();
-approxDate.setFullYear(estimatedGregYear, targetHijriMonthIndex, 1);
+      const estimatedGregYear = 2026 + Math.round((targetHijriYear - 1448) * 0.970);
+      const approxDate = new Date();
+      approxDate.setFullYear(estimatedGregYear, targetHijriMonthIndex, 1);
       
-      // Target Hijri month ke aas-paas 40 din scan karke 1st date dhoondhein
+      // Scan ±30 days to find the 1st of the Hijri month
       for (let offset = -30; offset <= 30; offset++) {
         const testD = new Date(approxDate);
         testD.setDate(testD.getDate() + offset);
         
         const hInfo = getHijriDetailsByDate(testD, hijriOffset);
         if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 1) {
-          return testD.getDay(); // Exact day of week (0=Sun, 1=Mon, ..., 6=Sat)
+          return testD.getDay(); // Exact day of week
         }
       }
       return 0; // Fallback Sunday
     }
-// ✅ FIX: Hijri mahine ki exact length (29 ya 30 din) detect karna
-function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
-  const approxDate = new Date();
-  approxDate.setFullYear(2026, targetHijriMonthIndex, 1);
-  
-  for (let offset = 25; offset <= 45; offset++) {
-    const testD = new Date(approxDate);
-    testD.setDate(testD.getDate() + offset);
-    
-    const hInfo = getHijriDetailsByDate(testD, hijriOffset);
-    if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 30) {
-      return 30; // Day 30 exists → 30-day month
+
+    // ✅ FIX Bug #2: Month length uses SAME dynamic anchor as above
+    function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
+      // Anchor: 1 Hijri year ≈ 0.970 Gregorian years
+      const estimatedGregYear = 2026 + Math.round((targetHijriYear - 1448) * 0.970);
+      const approxDate = new Date();
+      approxDate.setFullYear(estimatedGregYear, targetHijriMonthIndex, 1);
+      
+      for (let offset = 25; offset <= 45; offset++) {
+        const testD = new Date(approxDate);
+        testD.setDate(testD.getDate() + offset);
+        
+        const hInfo = getHijriDetailsByDate(testD, hijriOffset);
+        if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 30) {
+          return 30; // Day 30 exists → 30-day month
+        }
+      }
+      return 29; // Day 30 not found → 29-day month
     }
-  }
-  return 29; // Day 30 not found → 29-day month
-}
-    // ✅ FIX: Sahi Moon Icon Calculation (14-15th par Full Moon 🌕 aana chahiye)
+
+    // ✅ Moon Icon Calculator (astronomically accurate phases)
     function getMoonIconByDay(day) {
       if (day === 1) return "🌑";
       if (day >= 2 && day <= 6) return "🌒";
@@ -2227,7 +2230,6 @@ function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
       }
     }
 
-    // Container inner horizontal scrolling (No page jump)
     function renderEnglishCalendarTabs() {
       const el = document.getElementById('engMonthTabs');
       if (!el) return;
@@ -2252,26 +2254,26 @@ function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
       });
     }
 
-function renderEnglishCalendarGrid() {
-  const fullMonthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-  document.getElementById('engMonthYearDisplay').innerText = `${fullMonthNames[selectedEngMonth]} ${selectedEngYear}`;
-  const grid = document.getElementById('engDatesGrid');
-  grid.innerHTML = '';
+    function renderEnglishCalendarGrid() {
+      const fullMonthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+      document.getElementById('engMonthYearDisplay').innerText = `${fullMonthNames[selectedEngMonth]} ${selectedEngYear}`;
+      const grid = document.getElementById('engDatesGrid');
+      grid.innerHTML = '';
 
-  const firstDayIndex = new Date(selectedEngYear, selectedEngMonth, 1).getDay();
-  const totalDaysInMonth = new Date(selectedEngYear, selectedEngMonth + 1, 0).getDate();
+      const firstDayIndex = new Date(selectedEngYear, selectedEngMonth, 1).getDay();
+      const totalDaysInMonth = new Date(selectedEngYear, selectedEngMonth + 1, 0).getDate();
 
-  for (let i = 0; i < firstDayIndex; i++) {
-    const emptyD = document.createElement('div');
-    emptyD.className = 'cal-date muted';
-    grid.appendChild(emptyD);
-  }
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyD = document.createElement('div');
+        emptyD.className = 'cal-date muted';
+        grid.appendChild(emptyD);
+      }
 
-  // 🕒 Use fresh "now" so today's highlight stays correct across midnight
-  const freshNow = getNow();
-  const currentDate = freshNow.getDate();
-  const currentMonth = freshNow.getMonth();
-  const currentYear = freshNow.getFullYear();
+      // 🕒 Use fresh "now" so today's highlight stays correct across midnight
+      const freshNow = getNow();
+      const currentDate = freshNow.getDate();
+      const currentMonth = freshNow.getMonth();
+      const currentYear = freshNow.getFullYear();
 
       for (let day = 1; day <= totalDaysInMonth; day++) {
         const dateCell = document.createElement('div');
@@ -2314,7 +2316,7 @@ function renderEnglishCalendarGrid() {
         grid.appendChild(d);
       }
 
-      // 🍂 Sahi Season Mapping Fix (Cleaned & Error Free)
+      // 🍂 Correct Season Mapping
       document.querySelectorAll('.season-block').forEach(b => b.classList.remove('active-season'));
       const seasonBlocks = document.querySelectorAll('.season-block');
       
@@ -2338,7 +2340,6 @@ function renderEnglishCalendarGrid() {
       renderEnglishCalendarGrid();
     }
 
-    // Hijri inner horizontal scrolling (No page jump)
     function renderHijriCalendarTabs() {
       const el = document.getElementById('hijriMonthTabs');
       if (!el) return;
@@ -2364,24 +2365,21 @@ function renderEnglishCalendarGrid() {
     }
 
     function renderHijriCalendarGrid() {
-  // 🕒 Use fresh "now" so the active day stays correct across midnight
-  const freshNow = getNow();
-  const currentHijri = getHijriDetailsByDate(freshNow, hijriOffset);
-  const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
-  document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
-  
-  const grid = document.getElementById('hijriDatesGrid');
-  grid.innerHTML = '';
+      // 🕒 Use fresh "now" so the active day stays correct across midnight
+      const freshNow = getNow();
+      const currentHijri = getHijriDetailsByDate(freshNow, hijriOffset);
+      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
+      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
+      
+      const grid = document.getElementById('hijriDatesGrid');
+      grid.innerHTML = '';
 
-  const effectiveDate = new Date(freshNow);
+      // ✅ FIX: Actual 1st day weekday from astronomical lookup (handles 29/30-day months)
+      const firstDayOffset = getHijriFirstDayWeekday(selectedHijriYear, selectedHijriMonthIndex);
 
-      // ✅ FIX: Modulo 30 math calculation ke bajaye direct 1st day ka exact weekday
-      let firstDayOffset = getHijriFirstDayWeekday(selectedHijriYear, selectedHijriMonthIndex);
+      // ✅ FIX: Dynamic month length (29 or 30 days)
+      const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMonthIndex);
 
-      // Umm al-Qura standard me mahine 29 ya 30 din ke hote hain
-      // const daysInHijriMonth = 30;
-// Umm al-Qura standard me mahine 29 ya 30 din ke hote hain
-const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMonthIndex);
       for (let i = 0; i < firstDayOffset; i++) {
         const d = document.createElement('div');
         d.className = 'cal-date muted';
@@ -2420,6 +2418,7 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
         grid.appendChild(d);
       }
     }
+
     // 4. PRAYER TIMES & ASR ENGINE
     function convertTo12Hour(time24) {
       if (!time24) return "--:--";
@@ -2481,8 +2480,10 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
       }
     }
 
+    // ✅ FIX Bug #7: Safe fallback for empty city name
     function updateLocationLabels(cityName) {
-      currentDetectedCityName = sanitizeHTML(cityName);
+      const safeCity = sanitizeHTML(String(cityName || 'Unknown Location'));
+      currentDetectedCityName = safeCity || 'Unknown Location';
       const locEl = document.getElementById("locationText");
       if (locEl) locEl.innerText = `📍 ${currentDetectedCityName}`;
       const subEl = document.getElementById("userLocationSub");
@@ -2501,24 +2502,30 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
         const school = getAsrMethod();
         const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4&school=${school}`);
         const data = await res.json();
+        
+        // ✅ FIX Bug #8: Validate API response before accessing
+        if (!data || data.code !== 200 || !data.data || !data.data.timings) {
+          throw new Error("Invalid API response");
+        }
         const t = data.data.timings;
 
-        // ✅ FIX: Real location ka Maghrib time store ho raha hai
+        // ✅ Cache Maghrib time
         liveMaghribTimeStr = t.Maghrib;
         localStorage.setItem('last_known_maghrib', t.Maghrib);
-// 🟢 Qibla Dynamic Angle Calculation (Paste here)
-    const φ1 = (lat * Math.PI) / 180;
-    const φ2 = (21.4225 * Math.PI) / 180;
-    const Δλ = ((39.8262 - lng) * Math.PI) / 180;
-    const y = Math.sin(Δλ);
-    const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
-    let qiblaBearing = (Math.atan2(y, x) * 180) / Math.PI;
-    currentQiblaAngle = Math.round((qiblaBearing + 360) % 360);
-    
-    const qiblaTextEl = document.getElementById('qiblaText');
-    if (qiblaTextEl) {
-      qiblaTextEl.innerText = `Qibla: ~${currentQiblaAngle}° (from ${cityName})`;
-    }
+
+        // 🟢 Dynamic Qibla Angle Calculation
+        const φ1 = (lat * Math.PI) / 180;
+        const φ2 = (21.4225 * Math.PI) / 180;
+        const Δλ = ((39.8262 - lng) * Math.PI) / 180;
+        const y = Math.sin(Δλ);
+        const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
+        let qiblaBearing = (Math.atan2(y, x) * 180) / Math.PI;
+        currentQiblaAngle = Math.round((qiblaBearing + 360) % 360);
+        
+        const qiblaTextEl = document.getElementById('qiblaText');
+        if (qiblaTextEl) {
+          qiblaTextEl.innerText = `Qibla: ~${currentQiblaAngle}° (from ${cityName})`;
+        }
         
         document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
         document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
@@ -2545,9 +2552,10 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
         const data = await res.json();
         if (data.code === 200 && data.data) {
           const t = data.data.timings;
-          // ✅ FIX: Real location ka Maghrib time store ho raha hai
-        liveMaghribTimeStr = t.Maghrib;
-        localStorage.setItem('last_known_maghrib', t.Maghrib);
+          
+          // ✅ Cache Maghrib time
+          liveMaghribTimeStr = t.Maghrib;
+          localStorage.setItem('last_known_maghrib', t.Maghrib);
           
           document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
           document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
@@ -2570,7 +2578,7 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
       return false;
     }
 
-    // 🟢 Fixed: Complete 7-Day Salah Timetable with Month-End Transition
+    // 7-Day Salah Timetable with Month-End Transition
     async function fetch7DaysSalahTimes() {
       const tbody = document.getElementById("sevenDaysTableBody");
       if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="padding:10px; color:#64748b;">Loading 7-day timetable...</td></tr>`;
@@ -3017,115 +3025,116 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
     }
 
     function renderAdeenSponsorModule() {
-  const container = document.getElementById('adeenSponsorContainer');
-  if (!container) return;
+      const container = document.getElementById('adeenSponsorContainer');
+      if (!container) return;
 
-  if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) {
-    renderEmptySponsorPlaceholder(container);
-    return;
-  }
+      if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) {
+        renderEmptySponsorPlaceholder(container);
+        return;
+      }
 
-  const activeAds = allSponsorsDatabase.filter(ad => ad.isActive !== false);
+      const activeAds = allSponsorsDatabase.filter(ad => ad.isActive !== false);
 
-  if (activeAds.length === 0) {
-    renderEmptySponsorPlaceholder(container);
-    return;
-  }
+      if (activeAds.length === 0) {
+        renderEmptySponsorPlaceholder(container);
+        return;
+      }
 
-  const priorityOrder = { premium: 1, standard: 2, free: 3 };
-  const sorted = [...activeAds].sort((a, b) => {
-    return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
-  });
+      const priorityOrder = { premium: 1, standard: 2, free: 3 };
+      const sorted = [...activeAds].sort((a, b) => {
+        return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
+      });
 
-  const displayAds = sorted.slice(0, 5);
+      const displayAds = sorted.slice(0, 5);
 
-  container.innerHTML = displayAds.map(item => {
-    // 🔒 Sanitize all URLs before use
-    const safeImageUrl = sanitizeURL(item.imageUrl);
-    const safeVideoUrl = sanitizeURL(item.videoUrl);
-    const safeInstaUrl = sanitizeURL(item.instagramUrl);
+      container.innerHTML = displayAds.map(item => {
+        // 🔒 Sanitize all URLs before use
+        const safeImageUrl = sanitizeURL(item.imageUrl);
+        const safeVideoUrl = sanitizeURL(item.videoUrl);
+        const safeInstaUrl = sanitizeURL(item.instagramUrl);
 
-    const hasWhatsApp = item.whatsapp && item.whatsapp.toString().trim() !== "";
-    const cleanNumber = hasWhatsApp ? item.whatsapp.toString().replace(/[^0-9]/g, '') : '';
-    const waLink = hasWhatsApp 
-      ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Assalamu Alaikum, I am contacting you regarding your listing on AdeenDesk.')}`
-      : '#';
+        const hasWhatsApp = item.whatsapp && item.whatsapp.toString().trim() !== "";
+        const cleanNumber = hasWhatsApp ? item.whatsapp.toString().replace(/[^0-9]/g, '') : '';
+        const waLink = hasWhatsApp 
+          ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Assalamu Alaikum, I am contacting you regarding your listing on AdeenDesk.')}`
+          : '#';
 
-    // 🔒 Image card (only if valid https image URL exists)
-    if (safeImageUrl) {
-      const clickAction = hasWhatsApp 
-        ? `onclick="window.open('${waLink}', '_blank', 'noopener,noreferrer')"` 
-        : '';
+        // 🔒 Image card (only if valid https image URL exists)
+        if (safeImageUrl) {
+          const clickAction = hasWhatsApp 
+            ? `onclick="window.open('${waLink}', '_blank', 'noopener,noreferrer')"` 
+            : '';
 
-      return `
-        <div class="ad-scroll-card-item">
-          <div style="border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); cursor:${hasWhatsApp ? 'pointer' : 'default'};" ${clickAction}>
-            <img src="${safeImageUrl}" 
-                 alt="${sanitizeHTML(item.title || 'Sponsor Ad')}" 
-                 loading="lazy" 
-                 style="width:100%; height:180px; object-fit:cover; display:block;">
-          </div>
-        </div>
-      `;
-    }
-
-    const isPremium = item.tier === 'premium';
-    const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
-    const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
-
-    const hasYT = safeVideoUrl !== "";
-    const hasInsta = safeInstaUrl !== "";
-    let socialLinksHtml = '';
-
-    if (hasYT || hasInsta) {
-      socialLinksHtml = `
-        <div style="display:flex; align-items:center; gap:8px; margin:6px 0 10px; font-size:0.72rem; color:#475569; font-weight:600;">
-          <span>Follow for More:</span>
-          <div style="display:flex; gap:6px; align-items:center;">
-            ${hasYT ? `
-              <a href="${safeVideoUrl}" target="_blank" rel="noopener noreferrer" title="Watch on YouTube" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fee2e2; color:#dc2626; width:24px; height:24px; border-radius:50%; font-size:0.75rem;">
-                ▶
-              </a>` : ''}
-            ${hasInsta ? `
-              <a href="${safeInstaUrl}" target="_blank" rel="noopener noreferrer" title="Follow on Instagram" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fce7f3; color:#db2777; width:24px; height:24px; border-radius:50%; font-size:0.8rem; font-weight:bold;">
-                📷
-              </a>` : ''}
-          </div>
-        </div>
-      `;
-    }
-
-    return `
-      <div class="ad-scroll-card-item">
-        <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-              <span style="font-size:0.63rem; font-weight:800; color:${isPremium ? '#166534' : '#475569'}; background:${isPremium ? '#dcfce7' : '#e2e8f0'}; padding:2px 6px; border-radius:4px;">
-                ${sanitizeHTML(item.badgeText || 'Verified Partner')}
-              </span>
-              <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category || '')}</span>
+          return `
+            <div class="ad-scroll-card-item">
+              <div style="border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); cursor:${hasWhatsApp ? 'pointer' : 'default'};" ${clickAction}>
+                <img src="${safeImageUrl}" 
+                     alt="${sanitizeHTML(item.title || 'Sponsor Ad')}" 
+                     loading="lazy" 
+                     style="width:100%; height:180px; object-fit:cover; display:block;">
+              </div>
             </div>
-            
-            <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title || '')}</h4>
-            
-            <p style="font-size:0.75rem; color:#334155; margin:0 0 4px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
-              ${sanitizeHTML(item.description || '')}
-            </p>
+          `;
+        }
 
-            ${socialLinksHtml}
+        const isPremium = item.tier === 'premium';
+        const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
+        const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
+
+        const hasYT = safeVideoUrl !== "";
+        const hasInsta = safeInstaUrl !== "";
+        let socialLinksHtml = '';
+
+        if (hasYT || hasInsta) {
+          socialLinksHtml = `
+            <div style="display:flex; align-items:center; gap:8px; margin:6px 0 10px; font-size:0.72rem; color:#475569; font-weight:600;">
+              <span>Follow for More:</span>
+              <div style="display:flex; gap:6px; align-items:center;">
+                ${hasYT ? `
+                  <a href="${safeVideoUrl}" target="_blank" rel="noopener noreferrer" title="Watch on YouTube" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fee2e2; color:#dc2626; width:24px; height:24px; border-radius:50%; font-size:0.75rem;">
+                    ▶
+                  </a>` : ''}
+                ${hasInsta ? `
+                  <a href="${safeInstaUrl}" target="_blank" rel="noopener noreferrer" title="Follow on Instagram" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fce7f3; color:#db2777; width:24px; height:24px; border-radius:50%; font-size:0.8rem; font-weight:bold;">
+                    📷
+                  </a>` : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="ad-scroll-card-item">
+            <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-size:0.63rem; font-weight:800; color:${isPremium ? '#166534' : '#475569'}; background:${isPremium ? '#dcfce7' : '#e2e8f0'}; padding:2px 6px; border-radius:4px;">
+                    ${sanitizeHTML(item.badgeText || 'Verified Partner')}
+                  </span>
+                  <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category || '')}</span>
+                </div>
+                
+                <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title || '')}</h4>
+                
+                <p style="font-size:0.75rem; color:#334155; margin:0 0 4px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+                  ${sanitizeHTML(item.description || '')}
+                </p>
+
+                ${socialLinksHtml}
+              </div>
+
+              ${hasWhatsApp ? `
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
+                   style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:4px;">
+                  ${sanitizeHTML(item.actionBtnText || '💬 Contact on WhatsApp')}
+                </a>
+              ` : ''}
+            </div>
           </div>
+        `;
+      }).join('');
+    }
 
-          ${hasWhatsApp ? `
-            <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
-               style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:4px;">
-              ${sanitizeHTML(item.actionBtnText || '💬 Contact on WhatsApp')}
-            </a>
-          ` : ''}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
     function renderEmptySponsorPlaceholder(container) {
       container.innerHTML = `
         <div style="width:100%; text-align:center; padding:16px 10px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;">
@@ -3159,7 +3168,9 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
 
       const day = d.getDay();
       const currentMins = d.getHours() * 60 + d.getMinutes();
-      let maghribMins = 18 * 60 + 30;
+      
+      // ✅ FIX Bug #4: Use live Maghrib time instead of hardcoded 18:30
+      const maghribMins = getLiveMaghribMinutes();
 
       let isJummahActive = (day === 4 && currentMins >= maghribMins) || (day === 5 && currentMins < maghribMins);
       if (isJummahActive) {
@@ -3235,167 +3246,168 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
     // 9. NEWS & AUDIO TTS PLAYER
     let currentlyPlayingBtn = null;
 
-function renderHomeLatestNews() {
-  const container = document.getElementById('homeNewsHeadlinesContainer');
-  const updatedLabel = document.getElementById('homeNewsLastUpdated');
-  
-  if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
-    // 🛡️ Retry with limit (max 15 attempts = 3 seconds)
-    newsRetryCount++;
-    if (newsRetryCount < 15) {
-      setTimeout(renderHomeLatestNews, 200);
-    } else {
-      // Show graceful fallback message
-      if (container) {
-        container.innerHTML = `
-          <div style="padding:12px; text-align:center; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1;">
-            <div style="font-size:1.4rem; margin-bottom:4px;">📰</div>
-            <div style="font-size:0.78rem; color:#64748b; font-weight:600;">News feed is currently unavailable.</div>
-            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">Please check your internet connection.</div>
+    function renderHomeLatestNews() {
+      const container = document.getElementById('homeNewsHeadlinesContainer');
+      const updatedLabel = document.getElementById('homeNewsLastUpdated');
+      
+      if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
+        // 🛡️ Retry with limit (max 15 attempts = 3 seconds)
+        newsRetryCount++;
+        if (newsRetryCount < 15) {
+          setTimeout(renderHomeLatestNews, 200);
+        } else {
+          if (container) {
+            container.innerHTML = `
+              <div style="padding:12px; text-align:center; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1;">
+                <div style="font-size:1.4rem; margin-bottom:4px;">📰</div>
+                <div style="font-size:0.78rem; color:#64748b; font-weight:600;">News feed is currently unavailable.</div>
+                <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">Please check your internet connection.</div>
+              </div>
+            `;
+          }
+          if (updatedLabel) {
+            updatedLabel.innerText = "Updated: --";
+          }
+        }
+        return;
+      }
+      if (!container || !updatedLabel) return;
+
+      newsRetryCount = 0;
+
+      updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
+      const latestItems = islamicNewsDatabase.slice(0, 5);
+      container.innerHTML = '';
+
+      latestItems.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'news-headline-item';
+        const sourceHtml = (item.sourceUrl && item.sourceUrl.trim() !== "") 
+          ? `<a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-size:0.65rem; color:#64748b; text-decoration:underline;">Source: ${sanitizeHTML(item.sourceName || 'Link')} ↗</a>` 
+          : '';
+
+        row.innerHTML = `
+          <div style="flex:1;">
+            <div class="news-headline-text">${sanitizeHTML(item.headline)}</div>
+            ${sourceHtml}
+          </div>
+          <div class="news-action-btns">
+            <button class="news-tts-btn" title="Listen to Headline" onclick="toggleNewsTTS(this, '${encodeURIComponent(item.headline)}')">🔊</button>
+            <button class="news-share-btn" title="Share Headline" onclick="shareNative('Islamic News Update', '${sanitizeHTML(item.headline)}', window.location.href)">📤</button>
           </div>
         `;
-      }
-      if (updatedLabel) {
-        updatedLabel.innerText = "Updated: --";
-      }
+        container.appendChild(row);
+      });
     }
-    return;
-  }
-  if (!container || !updatedLabel) return;
 
-  // ✅ Data loaded successfully — reset counter for any future calls
-  newsRetryCount = 0;
-
-  updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
-  const latestItems = islamicNewsDatabase.slice(0, 5);
-  container.innerHTML = '';
-
-  latestItems.forEach(item => {
-    const row = document.createElement('div');
-    row.className = 'news-headline-item';
-    const sourceHtml = (item.sourceUrl && item.sourceUrl.trim() !== "") 
-      ? `<a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-size:0.65rem; color:#64748b; text-decoration:underline;">Source: ${sanitizeHTML(item.sourceName || 'Link')} ↗</a>` 
-      : '';
-
-    row.innerHTML = `
-      <div style="flex:1;">
-        <div class="news-headline-text">${sanitizeHTML(item.headline)}</div>
-        ${sourceHtml}
-      </div>
-      <div class="news-action-btns">
-        <button class="news-tts-btn" title="Listen to Headline" onclick="toggleNewsTTS(this, '${encodeURIComponent(item.headline)}')">🔊</button>
-        <button class="news-share-btn" title="Share Headline" onclick="shareNative('Islamic News Update', '${sanitizeHTML(item.headline)}', window.location.href)">📤</button>
-      </div>
-    `;
-    container.appendChild(row);
-  });
-}
-
-function toggleNewsTTS(btn, textEncoded) {
-  const text = decodeURIComponent(textEncoded);
-  if (window.speechSynthesis.speaking) {
-    window.speechSynthesis.cancel();
-    if (currentlyPlayingBtn) {
-      currentlyPlayingBtn.classList.remove('playing');
-      currentlyPlayingBtn.innerText = '🔊';
-    }
-    if (currentlyPlayingBtn === btn) {
-      currentlyPlayingBtn = null;
-      return;
-    }
-  }
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';
-  utterance.rate = 0.95;
-
-  btn.classList.add('playing');
-  btn.innerText = '⏹️';
-  currentlyPlayingBtn = btn;
-
-  utterance.onend = utterance.onerror = () => {
-    btn.classList.remove('playing');
-    btn.innerText = '🔊';
-    currentlyPlayingBtn = null;
-  };
-  window.speechSynthesis.speak(utterance);
-}
-
-function renderIslamicFeaturedContent() {
-  if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
-    // 🛡️ Retry with limit (max 15 attempts = ~2.25 seconds)
-    featuredContentRetryCount++;
-    if (featuredContentRetryCount < 15) {
-      setTimeout(renderIslamicFeaturedContent, 150);
-    } else {
-      // Show graceful fallback in each affected box
-      const waqiyaBox = document.getElementById('homeWaqiyaTitle');
-      if (waqiyaBox) waqiyaBox.innerText = "Content loading...";
+    // ✅ FIX Bug #1: TTS always cancels before speaking (no overlap)
+    function toggleNewsTTS(btn, textEncoded) {
+      const text = decodeURIComponent(textEncoded);
       
-      const waqiyaSnippet = document.getElementById('homeWaqiyaSnippet');
-      if (waqiyaSnippet) waqiyaSnippet.innerText = "Reflection service is temporarily unavailable. Please refresh the page.";
+      // 🛡️ Always clean up previous button's visual state
+      if (currentlyPlayingBtn) {
+        currentlyPlayingBtn.classList.remove('playing');
+        currentlyPlayingBtn.innerText = '🔊';
+      }
       
-      const sweetBox = document.getElementById('homeSweetWordBox');
-      if (sweetBox) {
-        sweetBox.innerHTML = `
-          <div style="text-align:center; padding:12px;">
-            <div style="font-size:1.2rem; margin-bottom:4px;">🌸</div>
-            <div style="font-size:0.75rem; color:#64748b;">Daily wisdom is loading. Please refresh.</div>
-          </div>
+      // If user clicked SAME button that was already playing → stop
+      if (currentlyPlayingBtn === btn) {
+        window.speechSynthesis.cancel();
+        currentlyPlayingBtn = null;
+        return;
+      }
+      
+      // 🛡️ Unconditionally cancel any queued/active utterance
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.95;
+
+      btn.classList.add('playing');
+      btn.innerText = '⏹️';
+      currentlyPlayingBtn = btn;
+
+      utterance.onend = utterance.onerror = () => {
+        btn.classList.remove('playing');
+        btn.innerText = '🔊';
+        currentlyPlayingBtn = null;
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function renderIslamicFeaturedContent() {
+      if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
+        featuredContentRetryCount++;
+        if (featuredContentRetryCount < 15) {
+          setTimeout(renderIslamicFeaturedContent, 150);
+        } else {
+          const waqiyaBox = document.getElementById('homeWaqiyaTitle');
+          if (waqiyaBox) waqiyaBox.innerText = "Content loading...";
+          
+          const waqiyaSnippet = document.getElementById('homeWaqiyaSnippet');
+          if (waqiyaSnippet) waqiyaSnippet.innerText = "Reflection service is temporarily unavailable. Please refresh the page.";
+          
+          const sweetBox = document.getElementById('homeSweetWordBox');
+          if (sweetBox) {
+            sweetBox.innerHTML = `
+              <div style="text-align:center; padding:12px;">
+                <div style="font-size:1.2rem; margin-bottom:4px;">🌸</div>
+                <div style="font-size:0.75rem; color:#64748b;">Daily wisdom is loading. Please refresh.</div>
+              </div>
+            `;
+          }
+          
+          const hadeesBox = document.getElementById('homeHadeesArabic');
+          if (hadeesBox) hadeesBox.innerText = "Content unavailable";
+        }
+        return;
+      }
+
+      featuredContentRetryCount = 0;
+
+      // 1. Moral Reflection Story
+      if (typeof waqiatDatabase !== 'undefined' && waqiatDatabase.length > 0) {
+        const w = waqiatDatabase[0];
+        document.getElementById('homeWaqiyaDate').innerText = w.date;
+        document.getElementById('homeWaqiyaTitle').innerText = w.title;
+        document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
+      }
+
+      // 2. Daily Wisdom
+      const box = document.getElementById('homeSweetWordBox');
+      if (box) {
+        const randomIndex = Math.floor(Math.random() * acchiBaatDatabase.length);
+        currentActiveAcchiBaat = acchiBaatDatabase[randomIndex];
+
+        const d = new Date();
+        const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
+
+        const hij = getHijriDetailsByDate(d, hijriOffset);
+        const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
+        const liveHijriDateStr = `${hij.day} ${cleanHijriName}`;
+
+        let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
+
+        box.innerHTML = `
+          <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
+          <div class="sweet-meta">🌙 ${liveHijriDateStr} | ☀ ${liveEngDateStr}</div>
+          <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Words of Wisdom 💧🌺</div>
+          ${linesHtml}
+          <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(currentActiveAcchiBaat.closingDua || '')}</div>
         `;
       }
-      
-      const hadeesBox = document.getElementById('homeHadeesArabic');
-      if (hadeesBox) hadeesBox.innerText = "Content unavailable";
+
+      // 3. Prophetic Hadith
+      if (typeof hadeesDatabase !== 'undefined' && hadeesDatabase.length > 0) {
+        const h = hadeesDatabase[0];
+        document.getElementById('homeHadeesRef').innerText = h.reference;
+        document.getElementById('homeHadeesArabic').innerText = h.arabic;
+        document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
+        document.getElementById('homeHadeesWazahat').innerText = `Commentary: ${h.wazahat}`;
+      }
     }
-    return;
-  }
-
-  // ✅ Data loaded successfully — reset counter
-  featuredContentRetryCount = 0;
-
-  // 1. Moral Reflection Story
-  if (typeof waqiatDatabase !== 'undefined' && waqiatDatabase.length > 0) {
-    const w = waqiatDatabase[0];
-    document.getElementById('homeWaqiyaDate').innerText = w.date;
-    document.getElementById('homeWaqiyaTitle').innerText = w.title;
-    document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
-  }
-
-  // 2. Daily Wisdom
-  const box = document.getElementById('homeSweetWordBox');
-  if (box) {
-    const randomIndex = Math.floor(Math.random() * acchiBaatDatabase.length);
-    currentActiveAcchiBaat = acchiBaatDatabase[randomIndex];
-
-    const d = new Date();
-    const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
-
-    const hij = getHijriDetailsByDate(d, hijriOffset);
-    const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
-    const liveHijriDateStr = `${hij.day} ${cleanHijriName}`;
-
-    let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
-
-    box.innerHTML = `
-      <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
-      <div class="sweet-meta">🌙 ${liveHijriDateStr} | ☀ ${liveEngDateStr}</div>
-      <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Words of Wisdom 💧🌺</div>
-      ${linesHtml}
-      <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(currentActiveAcchiBaat.closingDua || '')}</div>
-    `;
-  }
-
-  // 3. Prophetic Hadith
-  if (typeof hadeesDatabase !== 'undefined' && hadeesDatabase.length > 0) {
-    const h = hadeesDatabase[0];
-    document.getElementById('homeHadeesRef').innerText = h.reference;
-    document.getElementById('homeHadeesArabic').innerText = h.arabic;
-    document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
-    document.getElementById('homeHadeesWazahat').innerText = `Commentary: ${h.wazahat}`;
-  }
-}
     
     function toggleInlineWaqiya() {
       const fullBox = document.getElementById('homeWaqiyaFullContainer');
@@ -3506,10 +3518,18 @@ function renderIslamicFeaturedContent() {
       const netSavings = Math.max(0, (cashValue + goldValue) - debtValue);
       document.getElementById('zkTotalDisplay').innerText = (netSavings * 0.025).toFixed(2);
     }
+
+    // ✅ FIX Bug #5: Qibla handler registered once, removed on re-open (prevents leak)
     function openQiblaModal() {
       openModal('qiblaModal');
       
-      const handleOrientation = (e) => {
+      // Remove any previous handler to prevent duplicate listeners
+      if (qiblaOrientationHandler) {
+        window.removeEventListener('deviceorientation', qiblaOrientationHandler, true);
+        qiblaOrientationHandler = null;
+      }
+      
+      qiblaOrientationHandler = (e) => {
         let compassHeading = 0;
         
         // iOS Safari (webkitCompassHeading) vs Android Chrome (alpha)
@@ -3519,7 +3539,6 @@ function renderIslamicFeaturedContent() {
           compassHeading = 360 - e.alpha;
         }
         
-        // Dial rotation: Device heading minus calculated local Qibla direction
         const dial = document.getElementById('compassDial');
         if (dial) {
           const rotation = currentQiblaAngle - compassHeading;
@@ -3528,9 +3547,10 @@ function renderIslamicFeaturedContent() {
       };
 
       if (window.DeviceOrientationEvent && window.screen.width < 768) {
-        window.addEventListener('deviceorientation', handleOrientation, true);
+        window.addEventListener('deviceorientation', qiblaOrientationHandler, true);
       }
     }
+
     function extractYouTubeID(url) {
       if (!url) return null;
       const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -3598,18 +3618,18 @@ function renderIslamicFeaturedContent() {
         `;
       }).join('');
 
+      // ✅ FIX Bug #6 (was already applied): Re-fetch element after await + isConnected check
       selected.forEach(async (item, idx) => {
-  const vidId = extractYouTubeID(item.url);
-  if (!vidId) return;
-  
-  const realTitle = await fetchYouTubeTitle(vidId, item.fallbackTitle);
-  
-  // 🛡️ FIX: Re-fetch the element after await (it may have been removed)
-  const titleEl = document.getElementById(`ytTitleText_${idx}`);
-  if (titleEl && titleEl.isConnected) {
-    titleEl.innerText = realTitle;
-  }
-});
+        const vidId = extractYouTubeID(item.url);
+        if (!vidId) return;
+        
+        const realTitle = await fetchYouTubeTitle(vidId, item.fallbackTitle);
+        
+        const titleEl = document.getElementById(`ytTitleText_${idx}`);
+        if (titleEl && titleEl.isConnected) {
+          titleEl.innerText = realTitle;
+        }
+      });
     }
 
     function openArticleModal(id) {
@@ -3629,7 +3649,7 @@ function renderIslamicFeaturedContent() {
       }
     }
 
-    // 🌐 Language Switcher (Direct Clean Redirection)
+    // 🌐 Language Switcher
     function toggleLanguageMenu(event) {
       event.stopPropagation();
       const menu = document.getElementById('languageDropdown');
@@ -3667,13 +3687,13 @@ function renderIslamicFeaturedContent() {
 
     // 12. INITIALIZATION PIPELINE
     window.addEventListener('DOMContentLoaded', () => {
-  // 1. Calendars Initialization (using fresh date)
-  const freshNow = getNow();
-  const initHijri = getHijriDetailsByDate(freshNow, hijriOffset);
-  selectedEngMonth = freshNow.getMonth();
-  selectedEngYear = freshNow.getFullYear();
-  selectedHijriMonthIndex = initHijri.monthIndex;
-  selectedHijriYear = initHijri.year;
+      // 1. Calendars Initialization (using fresh date)
+      const freshNow = getNow();
+      const initHijri = getHijriDetailsByDate(freshNow, hijriOffset);
+      selectedEngMonth = freshNow.getMonth();
+      selectedEngYear = freshNow.getFullYear();
+      selectedHijriMonthIndex = initHijri.monthIndex;
+      selectedHijriYear = initHijri.year;
 
       renderEnglishCalendarTabs();
       renderHijriCalendarTabs();
@@ -3700,38 +3720,37 @@ function renderIslamicFeaturedContent() {
         document.getElementById('sideDrawer').style.right = '0';
         document.getElementById('drawerOverlay').classList.add('active');
       };
-// ⌨️ FIX: Close drawer/modals with Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const drawer = document.getElementById('sideDrawer');
-    if (drawer && drawer.style.right === '0px') {
-      closeDrawer();
-    }
-    // Close any active modal overlays
-    document.querySelectorAll('.modal-overlay.active').forEach(m => {
-      m.classList.remove('active');
-    });
-    // Also dismiss language dropdown if open
-    const langMenu = document.getElementById('languageDropdown');
-    if (langMenu && langMenu.style.display === 'block') {
-      langMenu.style.display = 'none';
-    }
-  }
-});
+
+      // ⌨️ Escape key handler
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const drawer = document.getElementById('sideDrawer');
+          if (drawer && drawer.style.right === '0px') {
+            closeDrawer();
+          }
+          document.querySelectorAll('.modal-overlay.active').forEach(m => {
+            m.classList.remove('active');
+          });
+          const langMenu = document.getElementById('languageDropdown');
+          if (langMenu && langMenu.style.display === 'block') {
+            langMenu.style.display = 'none';
+          }
+        }
+      });
+
       document.getElementById('hijriOffsetSelect').onchange = (e) => {
-  hijriOffset = parseInt(e.target.value, 10);
-  localStorage.setItem('hijri_offset', hijriOffset);
-  renderHijriCalendarGrid();
-  updateLiveDashboardClocks();
-  renderSmartEventHub();
-  initTodayHistory();   // ✅ Refresh history module (uses Hijri date)
-  
-  // ✅ Refresh 7-day table if it's currently open
-  const sevenDayContainer = document.getElementById('sevenDaysContainer');
-  if (sevenDayContainer && sevenDayContainer.style.display === 'block') {
-    fetch7DaysSalahTimes();
-  }
-};
+        hijriOffset = parseInt(e.target.value, 10);
+        localStorage.setItem('hijri_offset', hijriOffset);
+        renderHijriCalendarGrid();
+        updateLiveDashboardClocks();
+        renderSmartEventHub();
+        initTodayHistory();
+        
+        const sevenDayContainer = document.getElementById('sevenDaysContainer');
+        if (sevenDayContainer && sevenDayContainer.style.display === 'block') {
+          fetch7DaysSalahTimes();
+        }
+      };
 
       document.querySelectorAll('.dua-cat-btn').forEach(b => {
         b.onclick = () => {
@@ -3794,26 +3813,24 @@ document.addEventListener('keydown', (e) => {
       document.getElementById('scrollRightWorld').onclick = () => document.getElementById('worldScroll').scrollBy({ left: 120, behavior: 'smooth' });
 
       // Live Timers
-        // Live Timers
-  setInterval(updateLiveDashboardClocks, 1000);
-  setInterval(renderSmartEventHub, 60000);
+      setInterval(updateLiveDashboardClocks, 1000);
+      setInterval(renderSmartEventHub, 60000);
 
-  // 🌙 Midnight Watchdog: Refresh calendars if day changes while page is open
-  let lastKnownDay = getNow().getDate();
-  setInterval(() => {
-    const currentDay = getNow().getDate();
-    if (currentDay !== lastKnownDay) {
-      lastKnownDay = currentDay;
-      // Refresh all date-dependent modules
-      updateLiveDashboardClocks();
-      renderEnglishCalendarGrid();
-      renderHijriCalendarGrid();
-      renderSmartEventHub();
-      initTodayHistory();
-      initDailyArabicWords();
-    }
-  }, 60000); // Check every minute
-});
+      // 🌙 Midnight Watchdog: Refresh calendars if day changes while page is open
+      let lastKnownDay = getNow().getDate();
+      setInterval(() => {
+        const currentDay = getNow().getDate();
+        if (currentDay !== lastKnownDay) {
+          lastKnownDay = currentDay;
+          updateLiveDashboardClocks();
+          renderEnglishCalendarGrid();
+          renderHijriCalendarGrid();
+          renderSmartEventHub();
+          initTodayHistory();
+          initDailyArabicWords();
+        }
+      }, 60000);
+    });
 
     // ==========================================
     // 📲 SERVICE WORKER REGISTRATION (PWA Core)
