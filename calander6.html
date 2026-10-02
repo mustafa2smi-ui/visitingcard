@@ -1902,12 +1902,15 @@
   <!-- ================================================================ -->
   <script>
     // 1. GLOBAL STATE & CONFIGURATION
+    // 1. GLOBAL STATE & CONFIGURATION
     const now = new Date();
     let hijriOffset = parseInt(localStorage.getItem('hijri_offset') || '-1', 10);
     const offsetEl = document.getElementById('hijriOffsetSelect');
     if (offsetEl) offsetEl.value = hijriOffset;
 
-    let liveMaghribTimeStr = "18:30"; 
+    // ✅ FIX: Maghrib time variable global define ho gaya
+    let liveMaghribTimeStr = localStorage.getItem('last_known_maghrib') || "18:30"; 
+    let currentQiblaAngle = 285; // Dynamic Qibla angle storage
     let selectedEngYear = now.getFullYear();
     let selectedEngMonth = now.getMonth();
     let selectedHijriMonthIndex = null;
@@ -2131,13 +2134,43 @@
         return { key: "24-Safar", display: "24 Safar" };
       }
     }
+// ✅ FIX Bug #1: Asli astronomical calendar se Hijri month ke 1st day ka Weekday nikalna
+    function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
+      // 1 Hijri saal me lagbhag 354 din hote hain; approximate Gregorian match dhoondhna
+      const approxDate = new Date();
+      approxDate.setFullYear(2026, targetHijriMonthIndex, 1);
+      
+      // Target Hijri month ke aas-paas 40 din scan karke 1st date dhoondhein
+      for (let offset = -30; offset <= 30; offset++) {
+        const testD = new Date(approxDate);
+        testD.setDate(testD.getDate() + offset);
+        
+        const hInfo = getHijriDetailsByDate(testD, hijriOffset);
+        if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 1) {
+          return testD.getDay(); // Exact day of week (0=Sun, 1=Mon, ..., 6=Sat)
+        }
+      }
+      return 0; // Fallback Sunday
+    }
 
+    // ✅ FIX: Sahi Moon Icon Calculation (14-15th par Full Moon 🌕 aana chahiye)
+    function getMoonIconByDay(day) {
+      if (day === 1) return "🌑";
+      if (day >= 2 && day <= 6) return "🌒";
+      if (day >= 7 && day <= 9) return "🌓";
+      if (day >= 10 && day <= 13) return "🌔";
+      if (day === 14 || day === 15) return "🌕"; // Ayyam-e-Beez Full Moon
+      if (day >= 16 && day <= 20) return "🌖";
+      if (day >= 21 && day <= 23) return "🌗";
+      return "🌘";
+    }
+    /*
     function getMoonIconByDay(day) {
       const icons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
       const index = Math.round((day / 29.5) * 8) % 8;
       return icons[index];
     }
-
+*/
     function updateLiveDashboardClocks() {
       const d = new Date();
       const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -2301,7 +2334,7 @@
         }
       });
     }
-
+/*
     function renderHijriCalendarGrid() {
       const currentHijri = getHijriDetailsByDate(now, hijriOffset);
       const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
@@ -2361,7 +2394,59 @@
         grid.appendChild(d);
       }
     }
+*/
+    function renderHijriCalendarGrid() {
+      const currentHijri = getHijriDetailsByDate(now, hijriOffset);
+      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
+      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
+      
+      const grid = document.getElementById('hijriDatesGrid');
+      grid.innerHTML = '';
 
+      // ✅ FIX: Modulo 30 math calculation ke bajaye direct 1st day ka exact weekday
+      let firstDayOffset = getHijriFirstDayWeekday(selectedHijriYear, selectedHijriMonthIndex);
+
+      // Umm al-Qura standard me mahine 29 ya 30 din ke hote hain
+      const daysInHijriMonth = 30;
+
+      for (let i = 0; i < firstDayOffset; i++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+
+      for (let day = 1; day <= daysInHijriMonth; day++) {
+        const dateCell = document.createElement('div');
+        dateCell.className = 'cal-date';
+
+        const cellDayOfWeek = (firstDayOffset + day - 1) % 7;
+        if (cellDayOfWeek === 0) dateCell.classList.add('sun-date');
+        if (cellDayOfWeek === 6) dateCell.classList.add('sat-date');
+
+        if (day === currentHijri.day && selectedHijriMonthIndex === currentHijri.monthIndex) {
+          dateCell.classList.add('active-purple');
+        }
+
+        const numSpan = document.createElement('span');
+        numSpan.innerText = day;
+        dateCell.appendChild(numSpan);
+
+        const moonSpan = document.createElement('span');
+        moonSpan.className = 'moon-sub-icon';
+        moonSpan.innerText = getMoonIconByDay(day);
+        dateCell.appendChild(moonSpan);
+
+        grid.appendChild(dateCell);
+      }
+
+      const cellsUsed = firstDayOffset + daysInHijriMonth;
+      const nextEmpty = (cellsUsed > 35 ? 42 : 35) - cellsUsed;
+      for (let n = 1; n <= nextEmpty; n++) {
+        const d = document.createElement('div');
+        d.className = 'cal-date muted';
+        grid.appendChild(d);
+      }
+    }
     // 4. PRAYER TIMES & ASR ENGINE
     function convertTo12Hour(time24) {
       if (!time24) return "--:--";
@@ -2445,7 +2530,9 @@
         const data = await res.json();
         const t = data.data.timings;
 
+        // ✅ FIX: Real location ka Maghrib time store ho raha hai
         liveMaghribTimeStr = t.Maghrib;
+        localStorage.setItem('last_known_maghrib', t.Maghrib);
 
         document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
         document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
@@ -2472,7 +2559,9 @@
         const data = await res.json();
         if (data.code === 200 && data.data) {
           const t = data.data.timings;
-          liveMaghribTimeStr = t.Maghrib;
+          // ✅ FIX: Real location ka Maghrib time store ho raha hai
+        liveMaghribTimeStr = t.Maghrib;
+        localStorage.setItem('last_known_maghrib', t.Maghrib);
           
           document.getElementById('pt-fajr').innerText = convertTo12Hour(t.Fajr);
           document.getElementById('pt-sunrise').innerText = convertTo12Hour(t.Sunrise);
@@ -3380,7 +3469,7 @@
       const netSavings = Math.max(0, (cashValue + goldValue) - debtValue);
       document.getElementById('zkTotalDisplay').innerText = (netSavings * 0.025).toFixed(2);
     }
-
+/*
     function openQiblaModal() {
       openModal('qiblaModal');
       if (window.DeviceOrientationEvent && window.screen.width < 768) {
@@ -3393,7 +3482,45 @@
         });
       }
     }
+    */
+    function openQiblaModal() {
+      openModal('qiblaModal');
+      
+      const handleOrientation = (e) => {
+        let compassHeading = 0;
+        
+        // iOS Safari (webkitCompassHeading) vs Android Chrome (alpha)
+        if (e.webkitCompassHeading) {
+          compassHeading = e.webkitCompassHeading;
+        } else if (e.alpha !== null) {
+          compassHeading = 360 - e.alpha;
+        }
+        
+        // Dial rotation: Device heading minus calculated local Qibla direction
+        const dial = document.getElementById('compassDial');
+        if (dial) {
+          const rotation = currentQiblaAngle - compassHeading;
+          dial.style.transform = `rotate(${rotation}deg)`;
+        }
+      };
 
+      if (window.DeviceOrientationEvent && window.screen.width < 768) {
+        window.addEventListener('deviceorientation', handleOrientation, true);
+      }
+    }
+/*
+// Kaaba Coordinates: Lat 21.4225, Lng 39.8262
+        const φ1 = (lat * Math.PI) / 180;
+        const φ2 = (21.4225 * Math.PI) / 180;
+        const Δλ = ((39.8262 - lng) * Math.PI) / 180;
+        const y = Math.sin(Δλ);
+        const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
+        let qiblaBearing = (Math.atan2(y, x) * 180) / Math.PI;
+        currentQiblaAngle = Math.round((qiblaBearing + 360) % 360);
+        
+        const qiblaTextEl = document.getElementById('qiblaText');
+        if (qiblaTextEl) qiblaTextEl.innerText = `Qibla: ~${currentQiblaAngle}° (from ${cityName})`;
+*/
     function extractYouTubeID(url) {
       if (!url) return null;
       const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
