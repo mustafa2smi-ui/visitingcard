@@ -1922,10 +1922,13 @@
     let isWaqiyaExpanded = false;
 
     let currentHistoryMatch = null;
-    let currentTodayHijriText = "";
-    let todaySeededWordsList = [];
-    let currentActiveAcchiBaat = null;
+let currentTodayHijriText = "";
+let todaySeededWordsList = [];
+let currentActiveAcchiBaat = null;
 
+// 🛡️ Retry counters (prevents infinite loops if data files fail to load)
+let newsRetryCount = 0;
+let featuredContentRetryCount = 0;
     // Security Helper: Sanitization to prevent XSS
     function sanitizeHTML(str) {
       if (!str) return '';
@@ -3385,7 +3388,7 @@ function renderEnglishCalendarGrid() {
 
     // 9. NEWS & AUDIO TTS PLAYER
     let currentlyPlayingBtn = null;
-
+/*
     function renderHomeLatestNews() {
       const container = document.getElementById('homeNewsHeadlinesContainer');
       const updatedLabel = document.getElementById('homeNewsLastUpdated');
@@ -3420,7 +3423,38 @@ function renderEnglishCalendarGrid() {
         container.appendChild(row);
       });
     }
+*/
+    function renderHomeLatestNews() {
+  const container = document.getElementById('homeNewsHeadlinesContainer');
+  const updatedLabel = document.getElementById('homeNewsLastUpdated');
+  
+  if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
+    // 🛡️ Retry with limit (max 15 attempts = 3 seconds)
+    newsRetryCount++;
+    if (newsRetryCount < 15) {
+      setTimeout(renderHomeLatestNews, 200);
+    } else {
+      // Show graceful fallback message
+      if (container) {
+        container.innerHTML = `
+          <div style="padding:12px; text-align:center; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1;">
+            <div style="font-size:1.4rem; margin-bottom:4px;">📰</div>
+            <div style="font-size:0.78rem; color:#64748b; font-weight:600;">News feed is currently unavailable.</div>
+            <div style="font-size:0.68rem; color:#94a3b8; margin-top:2px;">Please check your internet connection.</div>
+          </div>
+        `;
+      }
+      if (updatedLabel) {
+        updatedLabel.innerText = "Updated: --";
+      }
+    }
+    return;
+  }
+  if (!container || !updatedLabel) return;
 
+  // ✅ Data loaded successfully — reset counter for any future calls
+  newsRetryCount = 0;
+      
     function toggleNewsTTS(btn, textEncoded) {
       const text = decodeURIComponent(textEncoded);
       if (window.speechSynthesis.speaking) {
@@ -3450,7 +3484,7 @@ function renderEnglishCalendarGrid() {
       };
       window.speechSynthesis.speak(utterance);
     }
-
+/*
     // 10. DAILY ISLAMIC REFLECTION MODULE
     function renderIslamicFeaturedContent() {
       if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
@@ -3500,7 +3534,39 @@ function renderEnglishCalendarGrid() {
         document.getElementById('homeHadeesWazahat').innerText = `Commentary: ${h.wazahat}`;
       }
     }
+*/
+      function renderIslamicFeaturedContent() {
+  if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
+    // 🛡️ Retry with limit (max 15 attempts = ~2.25 seconds)
+    featuredContentRetryCount++;
+    if (featuredContentRetryCount < 15) {
+      setTimeout(renderIslamicFeaturedContent, 150);
+    } else {
+      // Show graceful fallback in each affected box
+      const waqiyaBox = document.getElementById('homeWaqiyaTitle');
+      if (waqiyaBox) waqiyaBox.innerText = "Content loading...";
+      
+      const waqiyaSnippet = document.getElementById('homeWaqiyaSnippet');
+      if (waqiyaSnippet) waqiyaSnippet.innerText = "Reflection service is temporarily unavailable. Please refresh the page.";
+      
+      const sweetBox = document.getElementById('homeSweetWordBox');
+      if (sweetBox) {
+        sweetBox.innerHTML = `
+          <div style="text-align:center; padding:12px;">
+            <div style="font-size:1.2rem; margin-bottom:4px;">🌸</div>
+            <div style="font-size:0.75rem; color:#64748b;">Daily wisdom is loading. Please refresh.</div>
+          </div>
+        `;
+      }
+      
+      const hadeesBox = document.getElementById('homeHadeesArabic');
+      if (hadeesBox) hadeesBox.innerText = "Content unavailable";
+    }
+    return;
+  }
 
+  // ✅ Data loaded successfully — reset counter
+  featuredContentRetryCount = 0;
     function toggleInlineWaqiya() {
       const fullBox = document.getElementById('homeWaqiyaFullContainer');
       const btn = document.getElementById('toggleWaqiyaBtn');
