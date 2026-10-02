@@ -2196,13 +2196,7 @@ function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
       if (day >= 21 && day <= 23) return "🌗";
       return "🌘";
     }
-    /*
-    function getMoonIconByDay(day) {
-      const icons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
-      const index = Math.round((day / 29.5) * 8) % 8;
-      return icons[index];
-    }
-*/
+    
     function updateLiveDashboardClocks() {
       const d = new Date();
       const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -2368,67 +2362,7 @@ function renderEnglishCalendarGrid() {
         }
       });
     }
-/*
-    function renderHijriCalendarGrid() {
-      const currentHijri = getHijriDetailsByDate(now, hijriOffset);
-      const cleanMonthName = hijriMonthsFullList[selectedHijriMonthIndex].substring(4).toUpperCase();
-      document.getElementById('hijriMonthYearDisplay').innerText = `${cleanMonthName} ${selectedHijriYear} AH`;
-      
-      const grid = document.getElementById('hijriDatesGrid');
-      grid.innerHTML = '';
 
-      const effectiveDate = new Date(now);
-      if (isAfterMaghribToday()) effectiveDate.setDate(effectiveDate.getDate() + 1);
-
-      const currentDayOfWeek = effectiveDate.getDay(); 
-      let firstDayOffset = (currentDayOfWeek - ((currentHijri.day - 1) % 7) + 7) % 7;
-
-      if (selectedHijriMonthIndex !== currentHijri.monthIndex) {
-        const monthDiff = selectedHijriMonthIndex - currentHijri.monthIndex;
-        firstDayOffset = (firstDayOffset + (monthDiff * 30) % 7 + 7) % 7;
-      }
-
-      const daysInHijriMonth = 30;
-
-      for (let i = 0; i < firstDayOffset; i++) {
-        const d = document.createElement('div');
-        d.className = 'cal-date muted';
-        grid.appendChild(d);
-      }
-
-      for (let day = 1; day <= daysInHijriMonth; day++) {
-        const dateCell = document.createElement('div');
-        dateCell.className = 'cal-date';
-
-        const cellDayOfWeek = (firstDayOffset + day - 1) % 7;
-        if (cellDayOfWeek === 0) dateCell.classList.add('sun-date');
-        if (cellDayOfWeek === 6) dateCell.classList.add('sat-date');
-
-        if (day === currentHijri.day && selectedHijriMonthIndex === currentHijri.monthIndex) {
-          dateCell.classList.add('active-purple');
-        }
-
-        const numSpan = document.createElement('span');
-        numSpan.innerText = day;
-        dateCell.appendChild(numSpan);
-
-        const moonSpan = document.createElement('span');
-        moonSpan.className = 'moon-sub-icon';
-        moonSpan.innerText = getMoonIconByDay(day);
-        dateCell.appendChild(moonSpan);
-
-        grid.appendChild(dateCell);
-      }
-
-      const cellsUsed = firstDayOffset + daysInHijriMonth;
-      const nextEmpty = (cellsUsed > 35 ? 42 : 35) - cellsUsed;
-      for (let n = 1; n <= nextEmpty; n++) {
-        const d = document.createElement('div');
-        d.className = 'cal-date muted';
-        grid.appendChild(d);
-      }
-    }
-*/
     function renderHijriCalendarGrid() {
   // 🕒 Use fresh "now" so the active day stays correct across midnight
   const freshNow = getNow();
@@ -3081,113 +3015,7 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
         triggerCopyBtnFeedback('btnCopyWords', '📋 Copy Vocabulary List');
       });
     }
-/*
-    // 7. SPONSOR & DIRECTORY ENGINE
-    function renderAdeenSponsorModule() {
-      const container = document.getElementById('adeenSponsorContainer');
-      if (!container) return;
 
-      if (typeof allSponsorsDatabase === 'undefined' || !Array.isArray(allSponsorsDatabase)) {
-        renderEmptySponsorPlaceholder(container);
-        return;
-      }
-
-      const activeAds = allSponsorsDatabase.filter(ad => ad.isActive !== false);
-
-      if (activeAds.length === 0) {
-        renderEmptySponsorPlaceholder(container);
-        return;
-      }
-
-      const priorityOrder = { premium: 1, standard: 2, free: 3 };
-      const sorted = [...activeAds].sort((a, b) => {
-        return (priorityOrder[a.tier] || 99) - (priorityOrder[b.tier] || 99);
-      });
-
-      const displayAds = sorted.slice(0, 5);
-
-      container.innerHTML = displayAds.map(item => {
-        const hasWhatsApp = item.whatsapp && item.whatsapp.toString().trim() !== "";
-        const cleanNumber = hasWhatsApp ? item.whatsapp.toString().replace(/[^0-9]/g, '') : '';
-        const waLink = hasWhatsApp 
-          ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Assalamu Alaikum, I am contacting you regarding your listing on AdeenDesk.')}`
-          : 'javascript:void(0);';
-
-        if (item.imageUrl && item.imageUrl.trim() !== "") {
-          const clickAction = hasWhatsApp 
-            ? `onclick="window.open('${waLink}', '_blank')"` 
-            : '';
-
-          return `
-            <div class="ad-scroll-card-item">
-              <div style="border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); cursor:${hasWhatsApp ? 'pointer' : 'default'};" ${clickAction}>
-                <img src="${item.imageUrl}" 
-                     alt="${sanitizeHTML(item.title || 'Sponsor Ad')}" 
-                     loading="lazy" 
-                     style="width:100%; height:180px; object-fit:cover; display:block;">
-              </div>
-            </div>
-          `;
-        }
-
-        const isPremium = item.tier === 'premium';
-        const cardBg = isPremium ? '#f0fdf4' : '#f8fafc';
-        const borderColor = isPremium ? '#bbf7d0' : '#e2e8f0';
-
-        const hasYT = item.videoUrl && item.videoUrl.trim() !== "";
-        const hasInsta = item.instagramUrl && item.instagramUrl.trim() !== "";
-        let socialLinksHtml = '';
-
-        if (hasYT || hasInsta) {
-          socialLinksHtml = `
-            <div style="display:flex; align-items:center; gap:8px; margin:6px 0 10px; font-size:0.72rem; color:#475569; font-weight:600;">
-              <span>Follow for More:</span>
-              <div style="display:flex; gap:6px; align-items:center;">
-                ${hasYT ? `
-                  <a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" title="Watch on YouTube" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fee2e2; color:#dc2626; width:24px; height:24px; border-radius:50%; font-size:0.75rem;">
-                    ▶
-                  </a>` : ''}
-                ${hasInsta ? `
-                  <a href="${item.instagramUrl}" target="_blank" rel="noopener noreferrer" title="Follow on Instagram" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#fce7f3; color:#db2777; width:24px; height:24px; border-radius:50%; font-size:0.8rem; font-weight:bold;">
-                    📷
-                  </a>` : ''}
-              </div>
-            </div>
-          `;
-        }
-
-        return `
-          <div class="ad-scroll-card-item">
-            <div style="background:${cardBg}; border:1px solid ${borderColor}; border-radius:10px; padding:12px; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                  <span style="font-size:0.63rem; font-weight:800; color:${isPremium ? '#166534' : '#475569'}; background:${isPremium ? '#dcfce7' : '#e2e8f0'}; padding:2px 6px; border-radius:4px;">
-                    ${sanitizeHTML(item.badgeText || 'Verified Partner')}
-                  </span>
-                  <span style="font-size:0.66rem; color:#64748b; font-weight:600;">${sanitizeHTML(item.category || '')}</span>
-                </div>
-                
-                <h4 style="font-size:0.88rem; font-weight:800; color:#064e3b; margin:4px 0 2px;">${sanitizeHTML(item.title || '')}</h4>
-                
-                <p style="font-size:0.75rem; color:#334155; margin:0 0 4px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
-                  ${sanitizeHTML(item.description || '')}
-                </p>
-
-                ${socialLinksHtml}
-              </div>
-
-              ${hasWhatsApp ? `
-                <a href="${waLink}" target="_blank" rel="noopener noreferrer" 
-                   style="display:block; text-align:center; background:${isPremium ? '#047857' : '#0f172a'}; color:#ffffff; font-weight:700; font-size:0.75rem; padding:7px 0; border-radius:6px; text-decoration:none; margin-top:4px;">
-                  ${sanitizeHTML(item.actionBtnText || '💬 Contact on WhatsApp')}
-                </a>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-*/
     function renderAdeenSponsorModule() {
   const container = document.getElementById('adeenSponsorContainer');
   if (!container) return;
@@ -3406,125 +3234,7 @@ const daysInHijriMonth = getHijriMonthLength(selectedHijriYear, selectedHijriMon
 
     // 9. NEWS & AUDIO TTS PLAYER
     let currentlyPlayingBtn = null;
-/*
-    function renderHomeLatestNews() {
-      const container = document.getElementById('homeNewsHeadlinesContainer');
-      const updatedLabel = document.getElementById('homeNewsLastUpdated');
-      
-      if (typeof islamicNewsDatabase === 'undefined' || !Array.isArray(islamicNewsDatabase) || islamicNewsDatabase.length === 0) {
-        setTimeout(renderHomeLatestNews, 200);
-        return;
-      }
-      if (!container || !updatedLabel) return;
 
-      updatedLabel.innerText = `Updated: ${islamicNewsDatabase[0].date}`;
-      const latestItems = islamicNewsDatabase.slice(0, 5);
-      container.innerHTML = '';
-
-      latestItems.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'news-headline-item';
-        const sourceHtml = (item.sourceUrl && item.sourceUrl.trim() !== "") 
-          ? `<a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow" style="font-size:0.65rem; color:#64748b; text-decoration:underline;">Source: ${sanitizeHTML(item.sourceName || 'Link')} ↗</a>` 
-          : '';
-
-        row.innerHTML = `
-          <div style="flex:1;">
-            <div class="news-headline-text">${sanitizeHTML(item.headline)}</div>
-            ${sourceHtml}
-          </div>
-          <div class="news-action-btns">
-            <button class="news-tts-btn" title="Listen to Headline" onclick="toggleNewsTTS(this, '${encodeURIComponent(item.headline)}')">🔊</button>
-            <button class="news-share-btn" title="Share Headline" onclick="shareNative('Islamic News Update', '${sanitizeHTML(item.headline)}', window.location.href)">📤</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-*/
-    
-      /*
-    function toggleNewsTTS(btn, textEncoded) {
-      const text = decodeURIComponent(textEncoded);
-      if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-        if (currentlyPlayingBtn) {
-          currentlyPlayingBtn.classList.remove('playing');
-          currentlyPlayingBtn.innerText = '🔊';
-        }
-        if (currentlyPlayingBtn === btn) {
-          currentlyPlayingBtn = null;
-          return;
-        }
-      }
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.95;
-
-      btn.classList.add('playing');
-      btn.innerText = '⏹️';
-      currentlyPlayingBtn = btn;
-
-      utterance.onend = utterance.onerror = () => {
-        btn.classList.remove('playing');
-        btn.innerText = '🔊';
-        currentlyPlayingBtn = null;
-      };
-      window.speechSynthesis.speak(utterance);
-    }
-    */
-/*
-    // 10. DAILY ISLAMIC REFLECTION MODULE
-    function renderIslamicFeaturedContent() {
-      if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
-        setTimeout(renderIslamicFeaturedContent, 150);
-        return;
-      }
-
-      // 1. Moral Reflection Story
-      if (typeof waqiatDatabase !== 'undefined' && waqiatDatabase.length > 0) {
-        const w = waqiatDatabase[0];
-        document.getElementById('homeWaqiyaDate').innerText = w.date;
-        document.getElementById('homeWaqiyaTitle').innerText = w.title;
-        document.getElementById('homeWaqiyaSnippet').innerText = w.snippet;
-      }
-
-      // 2. Daily Wisdom
-      const box = document.getElementById('homeSweetWordBox');
-      if (box) {
-        const randomIndex = Math.floor(Math.random() * acchiBaatDatabase.length);
-        currentActiveAcchiBaat = acchiBaatDatabase[randomIndex];
-
-        const d = new Date();
-        const engMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const liveEngDateStr = `${d.getDate()} ${engMonths[d.getMonth()]} ${d.getFullYear()}`;
-
-        const hij = getHijriDetailsByDate(d, hijriOffset);
-        const cleanHijriName = hijriMonthsFullList[hij.monthIndex].substring(4).trim();
-        const liveHijriDateStr = `${hij.day} ${cleanHijriName}`;
-
-        let linesHtml = currentActiveAcchiBaat.quoteLines.map(l => `<div class="sweet-line">⚄→ ${sanitizeHTML(l)}</div>`).join('');
-
-        box.innerHTML = `
-          <div class="sweet-meta">🌺💦 ꧁﷽꧂ 💦🌺</div>
-          <div class="sweet-meta">🌙 ${liveHijriDateStr} | ☀ ${liveEngDateStr}</div>
-          <div style="text-align:center; font-weight:800; color:#047857; margin-bottom:6px;">🌺💧 Words of Wisdom 💧🌺</div>
-          ${linesHtml}
-          <div style="font-size:0.7rem; color:#64748b; margin-top:6px; font-style:italic;">${sanitizeHTML(currentActiveAcchiBaat.closingDua || '')}</div>
-        `;
-      }
-
-      // 3. Prophetic Hadith
-      if (typeof hadeesDatabase !== 'undefined' && hadeesDatabase.length > 0) {
-        const h = hadeesDatabase[0];
-        document.getElementById('homeHadeesRef').innerText = h.reference;
-        document.getElementById('homeHadeesArabic').innerText = h.arabic;
-        document.getElementById('homeHadeesTarjuma').innerText = `"${h.tarjuma}"`;
-        document.getElementById('homeHadeesWazahat').innerText = `Commentary: ${h.wazahat}`;
-      }
-    }
-*/
 function renderHomeLatestNews() {
   const container = document.getElementById('homeNewsHeadlinesContainer');
   const updatedLabel = document.getElementById('homeNewsLastUpdated');
@@ -3796,20 +3506,6 @@ function renderIslamicFeaturedContent() {
       const netSavings = Math.max(0, (cashValue + goldValue) - debtValue);
       document.getElementById('zkTotalDisplay').innerText = (netSavings * 0.025).toFixed(2);
     }
-/*
-    function openQiblaModal() {
-      openModal('qiblaModal');
-      if (window.DeviceOrientationEvent && window.screen.width < 768) {
-        window.addEventListener('deviceorientation', (e) => {
-          if (e.alpha !== null) {
-            const heading = Math.round(-e.alpha + 285);
-            const dial = document.getElementById('compassDial');
-            if (dial) dial.style.transform = `rotate(${heading}deg)`;
-          }
-        });
-      }
-    }
-    */
     function openQiblaModal() {
       openModal('qiblaModal');
       
@@ -3835,19 +3531,6 @@ function renderIslamicFeaturedContent() {
         window.addEventListener('deviceorientation', handleOrientation, true);
       }
     }
-/*
-// Kaaba Coordinates: Lat 21.4225, Lng 39.8262
-        const φ1 = (lat * Math.PI) / 180;
-        const φ2 = (21.4225 * Math.PI) / 180;
-        const Δλ = ((39.8262 - lng) * Math.PI) / 180;
-        const y = Math.sin(Δλ);
-        const x = Math.cos(φ1) * Math.tan(φ2) - Math.sin(φ1) * Math.cos(Δλ);
-        let qiblaBearing = (Math.atan2(y, x) * 180) / Math.PI;
-        currentQiblaAngle = Math.round((qiblaBearing + 360) % 360);
-        
-        const qiblaTextEl = document.getElementById('qiblaText');
-        if (qiblaTextEl) qiblaTextEl.innerText = `Qibla: ~${currentQiblaAngle}° (from ${cityName})`;
-*/
     function extractYouTubeID(url) {
       if (!url) return null;
       const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -3916,14 +3599,17 @@ function renderIslamicFeaturedContent() {
       }).join('');
 
       selected.forEach(async (item, idx) => {
-        const vidId = extractYouTubeID(item.url);
-        if (!vidId) return;
-        const titleEl = document.getElementById(`ytTitleText_${idx}`);
-        if (titleEl) {
-          const realTitle = await fetchYouTubeTitle(vidId, item.fallbackTitle);
-          titleEl.innerText = realTitle;
-        }
-      });
+  const vidId = extractYouTubeID(item.url);
+  if (!vidId) return;
+  
+  const realTitle = await fetchYouTubeTitle(vidId, item.fallbackTitle);
+  
+  // 🛡️ FIX: Re-fetch the element after await (it may have been removed)
+  const titleEl = document.getElementById(`ytTitleText_${idx}`);
+  if (titleEl && titleEl.isConnected) {
+    titleEl.innerText = realTitle;
+  }
+});
     }
 
     function openArticleModal(id) {
@@ -4014,14 +3700,38 @@ function renderIslamicFeaturedContent() {
         document.getElementById('sideDrawer').style.right = '0';
         document.getElementById('drawerOverlay').classList.add('active');
       };
-
+// ⌨️ FIX: Close drawer/modals with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const drawer = document.getElementById('sideDrawer');
+    if (drawer && drawer.style.right === '0px') {
+      closeDrawer();
+    }
+    // Close any active modal overlays
+    document.querySelectorAll('.modal-overlay.active').forEach(m => {
+      m.classList.remove('active');
+    });
+    // Also dismiss language dropdown if open
+    const langMenu = document.getElementById('languageDropdown');
+    if (langMenu && langMenu.style.display === 'block') {
+      langMenu.style.display = 'none';
+    }
+  }
+});
       document.getElementById('hijriOffsetSelect').onchange = (e) => {
-        hijriOffset = parseInt(e.target.value, 10);
-        localStorage.setItem('hijri_offset', hijriOffset);
-        renderHijriCalendarGrid();
-        updateLiveDashboardClocks();
-        renderSmartEventHub();
-      };
+  hijriOffset = parseInt(e.target.value, 10);
+  localStorage.setItem('hijri_offset', hijriOffset);
+  renderHijriCalendarGrid();
+  updateLiveDashboardClocks();
+  renderSmartEventHub();
+  initTodayHistory();   // ✅ Refresh history module (uses Hijri date)
+  
+  // ✅ Refresh 7-day table if it's currently open
+  const sevenDayContainer = document.getElementById('sevenDaysContainer');
+  if (sevenDayContainer && sevenDayContainer.style.display === 'block') {
+    fetch7DaysSalahTimes();
+  }
+};
 
       document.querySelectorAll('.dua-cat-btn').forEach(b => {
         b.onclick = () => {
