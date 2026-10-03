@@ -2100,33 +2100,7 @@
         return false;
       }
     }
-/*
-    function getHijriDetailsByDate(dateObj, offset = 0) {
-      const afterMaghrib = isAfterMaghribToday();  // ✅ Cache once
 
-      const dayTarget = new Date(dateObj);
-      if (afterMaghrib) dayTarget.setDate(dayTarget.getDate() + 1);
-      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      const islamicDayName = dayNames[dayTarget.getDay()];
-
-      const dateTarget = new Date(dateObj);
-      if (afterMaghrib) dateTarget.setDate(dateTarget.getDate() + 1);
-      dateTarget.setDate(dateTarget.getDate() + offset);
-
-      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { 
-        day: 'numeric', month: 'numeric', year: 'numeric' 
-      }).formatToParts(dateTarget);
-
-      let d = 1, m = 1, y = 1448;
-      parts.forEach(p => {
-        if (p.type === 'day') d = parseInt(p.value, 10);
-        if (p.type === 'month') m = parseInt(p.value, 10);
-        if (p.type === 'year') y = parseInt(p.value, 10);
-      });
-
-      return { day: d, monthIndex: m - 1, year: y, islamicDayName };
-    }
-*/
     function getHijriDetailsByDate(dateObj, offset = 0) {
       // ✅ Fix: Maghrib shift sirf tab lage jab target date AAJ (Today) ho
       const isTargetToday = dateObj.toDateString() === getNow().toDateString();
@@ -2154,29 +2128,7 @@
 
       return { day: d, monthIndex: m - 1, year: y, islamicDayName };
     }
-    /*
-    function getCleanHijriDate() {
-      const hijriMonths = [
-        "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
-        "JamadilAwwal", "JamadilAkhir", "Rajab", "Shaban",
-        "Ramadan", "Shawwal", "Zulqadah", "Zulhijjah"
-      ];
-      const today = new Date();
-      try {
-        const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
-          day: 'numeric', month: 'numeric'
-        }).formatToParts(today);
-
-        let day = parts.find(p => p.type === 'day')?.value || today.getDate();
-        let monthIndex = parseInt(parts.find(p => p.type === 'month')?.value || "1", 10) - 1;
-        let monthName = hijriMonths[monthIndex] || "Safar";
-
-        return { key: `${day}-${monthName}`, display: `${day} ${monthName}` };
-      } catch (e) {
-        return { key: "24-Safar", display: "24 Safar" };
-      }
-    }
-    */
+    
     function getCleanHijriDate() {
       const hijriMonths = [
         "Muharram", "Safar", "RabiulAwwal", "RabiulAkhir",
@@ -2188,46 +2140,7 @@
       const monthName = hijriMonths[h.monthIndex] || "Muharram";
       return { key: `${h.day}-${monthName}`, display: `${h.day} ${monthName}` };
     }
-/*
-    // ✅ FIX Bug #1 (partial): First day weekday uses dynamic year anchor
-    function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
-      // Anchor: 1 Hijri year ≈ 0.970 Gregorian years (354.367 / 365.25)
-      const estimatedGregYear = 2026 + Math.round((targetHijriYear - 1448) * 0.970);
-      const approxDate = new Date();
-      approxDate.setFullYear(estimatedGregYear, targetHijriMonthIndex, 1);
-      
-      // Scan ±30 days to find the 1st of the Hijri month
-      for (let offset = -30; offset <= 30; offset++) {
-        const testD = new Date(approxDate);
-        testD.setDate(testD.getDate() + offset);
-        
-        const hInfo = getHijriDetailsByDate(testD, hijriOffset);
-        if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 1) {
-          return testD.getDay(); // Exact day of week
-        }
-      }
-      return 0; // Fallback Sunday
-    }
 
-    // ✅ FIX Bug #2: Month length uses SAME dynamic anchor as above
-    function getHijriMonthLength(targetHijriYear, targetHijriMonthIndex) {
-      // Anchor: 1 Hijri year ≈ 0.970 Gregorian years
-      const estimatedGregYear = 2026 + Math.round((targetHijriYear - 1448) * 0.970);
-      const approxDate = new Date();
-      approxDate.setFullYear(estimatedGregYear, targetHijriMonthIndex, 1);
-      
-      for (let offset = 25; offset <= 45; offset++) {
-        const testD = new Date(approxDate);
-        testD.setDate(testD.getDate() + offset);
-        
-        const hInfo = getHijriDetailsByDate(testD, hijriOffset);
-        if (hInfo.monthIndex === targetHijriMonthIndex && hInfo.day === 30) {
-          return 30; // Day 30 exists → 30-day month
-        }
-      }
-      return 29; // Day 30 not found → 29-day month
-    }
-*/
     // ✅ Reference Anchor: 1 Muharram 1448 AH ≈ 16 June 2026
     function getHijriFirstDayWeekday(targetHijriYear, targetHijriMonthIndex) {
       const baseDate = new Date(2026, 5, 16); // 16 June 2026
@@ -3327,7 +3240,7 @@
     }
 
     // 9. NEWS & AUDIO TTS PLAYER
-    let currentlyPlayingBtn = null;
+/*    let currentlyPlayingBtn = null;*/
 
     function renderHomeLatestNews() {
       const container = document.getElementById('homeNewsHeadlinesContainer');
@@ -3375,14 +3288,14 @@
             ${sourceHtml}
           </div>
           <div class="news-action-btns">
-            <button class="news-tts-btn" title="Listen to Headline" onclick="toggleNewsTTS(this, '${encodeURIComponent(item.headline)}')">🔊</button>
+            
             <button class="news-share-btn" title="Share Headline" onclick="shareNative('Islamic News Update', '${sanitizeHTML(item.headline)}', window.location.href)">📤</button>
           </div>
         `;
         container.appendChild(row);
       });
     }
-
+/*
     // ✅ FIX Bug #1: TTS always cancels before speaking (no overlap)
     function toggleNewsTTS(btn, textEncoded) {
       const text = decodeURIComponent(textEncoded);
@@ -3418,7 +3331,7 @@
       };
       window.speechSynthesis.speak(utterance);
     }
-
+*/
     function renderIslamicFeaturedContent() {
       if (typeof acchiBaatDatabase === 'undefined' || !Array.isArray(acchiBaatDatabase) || acchiBaatDatabase.length === 0) {
         featuredContentRetryCount++;
