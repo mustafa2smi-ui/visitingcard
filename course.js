@@ -1,46 +1,105 @@
 /**
- * Course LMS & Authentication Controller (Optimized for High-Density UI & Modal Trigger)
+ * Course LMS Controller - Demo & Direct URL Engine
  */
 
 const CONFIG = {
-  APPS_SCRIPT_API_URL: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
+  // ==========================================
+  // 1) TEST/DEMO SWITCH: 
+  // true = Saare videos unlock, bina password/email chalenge
+  // false = Production mode (Lock + Status check active)
+  // ==========================================
+  DEMO_MODE: true, 
+
   STORAGE_KEY_TOKEN: "smc_device_token",
   STORAGE_KEY_EMAIL: "smc_user_email",
   STORAGE_KEY_STATUS: "smc_access_status"
 };
 
-// 300+ Index demo set (Dense testing)
+// ==========================================
+// 2) SEEDHA YOUTUBE SHARE LINK PASTE KAREIN
+// (Long video ho ya Shorts link, direct paste chalega)
+// ==========================================
 const SAMPLE_LESSONS = [
-  { id: "L001", cat: "Basics", title: "Stock Market Kya Hai?", type: "long", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L002", cat: "Basics", title: "BSE aur NSE me antar kya hai?", type: "short", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L003", cat: "Basics", title: "Demat aur Trading Account ka role", type: "long", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L004", cat: "Basics", title: "Nifty aur Sensex index kaise calculate hote hain?", type: "long", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L005", cat: "Charts", title: "Candlestick Chart Basics", type: "short", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L006", cat: "Charts", title: "Support aur Resistance Level Draw Karna", type: "short", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L007", cat: "Patterns", title: "Hammer & Inverted Hammer Candlestick", type: "short", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L008", cat: "Patterns", title: "Bullish Engulfing & Bearish Engulfing", type: "long", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L009", cat: "Rules", title: "Stop Loss lagane ka exact tarika", type: "short", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L010", cat: "Rules", title: "Risk Reward Ratio 1:2 kaise maintain karein", type: "long", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L011", cat: "F&O", title: "Options Trading: Call vs Put Kya Hai?", type: "long", youtubeId: "dQw4w9WgXcQ" },
-  { id: "L012", cat: "F&O", title: "Strike Price (ITM, ATM, OTM) ka concept", type: "short", youtubeId: "dQw4w9WgXcQ" }
+  {
+    id: "L001",
+    cat: "Basics",
+    title: "Stock Market Kya Hai? Complete Guide",
+    type: "long",
+    url: "https://youtu.be/M7lc1UVf-VE" // <-- Direct share link paste karein
+  },
+  {
+    id: "L002",
+    cat: "Basics",
+    title: "BSE aur NSE me antar kya hai?",
+    type: "short",
+    url: "https://www.youtube.com/shorts/dQw4w9WgXcQ" // <-- Direct shorts link
+  },
+  {
+    id: "L003",
+    cat: "Basics",
+    title: "Demat aur Trading Account ka role",
+    type: "long",
+    url: "https://www.youtube.com/watch?v=M7lc1UVf-VE" // <-- Standard watch link
+  },
+  {
+    id: "L004",
+    cat: "Charts",
+    title: "Candlestick Charts reading kaise shuru karein?",
+    type: "long",
+    url: "https://youtu.be/M7lc1UVf-VE"
+  },
+  {
+    id: "L005",
+    cat: "Charts",
+    title: "Support aur Resistance Level Draw Karna",
+    type: "short",
+    url: "https://www.youtube.com/shorts/dQw4w9WgXcQ"
+  },
+  {
+    id: "L006",
+    cat: "Rules",
+    title: "Stop Loss lagane ka exact rule",
+    type: "short",
+    url: "https://www.youtube.com/shorts/dQw4w9WgXcQ"
+  }
 ];
 
-function sanitizeInput(str) {
-  const temp = document.createElement("div");
-  temp.textContent = str;
-  return temp.innerHTML.trim();
+// YouTube URL se automatically Embed URL banane wala smart helper
+function getCleanEmbedUrl(rawUrl) {
+  if (!rawUrl) return "";
+  let videoId = "";
+
+  // 1. Shorts URL: youtube.com/shorts/ID
+  if (rawUrl.includes("/shorts/")) {
+    videoId = rawUrl.split("/shorts/")[1].split("?")[0].split("/")[0];
+  } 
+  // 2. Short URL: youtu.be/ID
+  else if (rawUrl.includes("youtu.be/")) {
+    videoId = rawUrl.split("youtu.be/")[1].split("?")[0].split("/")[0];
+  } 
+  // 3. Regular URL: youtube.com/watch?v=ID
+  else if (rawUrl.includes("v=")) {
+    videoId = rawUrl.split("v=")[1].split("&")[0];
+  } 
+  // 4. Pehle se embed ID ya direct string
+  else {
+    videoId = rawUrl.trim();
+  }
+
+  return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
 }
 
+// Device Token Generator
 function getOrCreateDeviceToken() {
   let token = localStorage.getItem(CONFIG.STORAGE_KEY_TOKEN);
   if (!token) {
-    const raw = navigator.userAgent + screen.width + "x" + screen.height + Math.random().toString(36).substring(2);
-    token = "dev_" + btoa(raw).replace(/[^a-zA-Z0-9]/g, "").substring(0, 24);
+    token = "dev_" + Math.random().toString(36).substring(2, 12);
     localStorage.setItem(CONFIG.STORAGE_KEY_TOKEN, token);
   }
   return token;
 }
 
+// Main Initializer
 document.addEventListener("DOMContentLoaded", () => {
   const deviceToken = getOrCreateDeviceToken();
 
@@ -53,37 +112,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ---------------- INDEX PAGE ---------------- */
+/* ---------------- INDEX PAGE LOGIC ---------------- */
 function initIndexPage(deviceToken) {
   const notesContainer = document.getElementById("notesContainer");
-  const emailInput = document.getElementById("userEmail");
-  const authBtn = document.getElementById("authBtn");
-  const statusBadge = document.getElementById("statusBadge");
   const accessNotice = document.getElementById("accessNotice");
-  const sendPlanRequestBtn = document.getElementById("sendPlanRequestBtn");
+  const authBtn = document.getElementById("authBtn");
+  const userEmail = document.getElementById("userEmail");
+  const statusBadge = document.getElementById("statusBadge");
 
-  const noteColors = ["note-c1", "note-c2", "note-c3", "note-c4", "note-c5"];
- // const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
-/* --- YAHAN CHANGE KAREIN --- */
-// const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
-const currentStatus = "active"; // <-- ISE 'active' KAR DEIN TEST KE LIYE
+  // DEMO MODE check
+  const isUnlocked = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
 
-  if (currentStatus === "active") {
-    accessNotice.innerText = "Status: Unlocked (Active)";
-    accessNotice.style.color = "#10b981";
+  if (isUnlocked) {
+    if (accessNotice) {
+      accessNotice.innerText = CONFIG.DEMO_MODE ? "Status: DEMO MODE (Unlocked)" : "Status: Active (Unlocked)";
+      accessNotice.style.color = "#10b981";
+    }
   }
 
-  // Render High Density Notes
+  const noteColors = ["note-c1", "note-c2", "note-c3", "note-c4", "note-c5"];
   notesContainer.innerHTML = "";
+
   SAMPLE_LESSONS.forEach((lesson, index) => {
     const colorClass = noteColors[index % noteColors.length];
     const note = document.createElement("div");
     note.className = `sticky-note ${colorClass}`;
-    
-    // Agar active nahi hai to lock icon dikhega
-    const lockIcon = (currentStatus === "active") 
-      ? "" 
-      : `<span class="locked-indicator"><i class="fa-solid fa-lock"></i></span>`;
+
+    const lockIcon = isUnlocked ? "" : `<span class="locked-indicator"><i class="fa-solid fa-lock"></i></span>`;
 
     note.innerHTML = `
       ${lockIcon}
@@ -93,107 +148,55 @@ const currentStatus = "active"; // <-- ISE 'active' KAR DEIN TEST KE LIYE
       </div>
       <div class="note-footer">
         <span><i class="fa-solid ${lesson.type === 'short' ? 'fa-mobile' : 'fa-play'}"></i> ${lesson.type}</span>
-        <i class="fa-solid ${currentStatus === 'active' ? 'fa-arrow-right' : 'fa-lock'}"></i>
+        <i class="fa-solid ${isUnlocked ? 'fa-arrow-right' : 'fa-lock'}"></i>
       </div>
     `;
 
-    // Click behavior
     note.addEventListener("click", () => {
-      const liveStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
-      if (liveStatus === "active") {
+      if (isUnlocked) {
         window.location.href = `course.html?id=${lesson.id}`;
       } else {
-        // Non-touchable: Blur nahi hai, seedha attractive modal pop-up open hoga
-        showLockedModal(lesson.title);
+        if (typeof showLockedModal === "function") {
+          showLockedModal(lesson.title);
+        } else {
+          alert("Ye course locked hai. Pehle subscription activate karein.");
+        }
       }
     });
 
-    notesContainer.appendChild(notesContainer.children.length === 0 ? note : note);
+    notesContainer.appendChild(note);
   });
 
-  // Auth Button handler
-  authBtn.addEventListener("click", async () => {
-    const email = sanitizeInput(emailInput.value);
-    if (!email || !email.includes("@")) {
-      alert("Kripya sahi email address dalein.");
-      return;
-    }
-
-    authBtn.disabled = true;
-    authBtn.innerText = "Verifying...";
-
-    setTimeout(() => {
-      authBtn.disabled = false;
-      authBtn.innerText = "Verify Access";
-
-      // Mock status: Default "waiting" taaki payment manual verify ho
-     // const mockStatus = "waiting"; 
-// const mockStatus = "waiting";
-const mockStatus = "active"; // <-- ISE BHI 'active' KAR DEIN
-
-      if (mockStatus === "active") {
-        localStorage.setItem(CONFIG.STORAGE_KEY_STATUS, "active");
-        localStorage.setItem(CONFIG.STORAGE_KEY_EMAIL, email);
-        accessNotice.innerText = "Status: Unlocked (Active)";
-        accessNotice.style.color = "#10b981";
-        showStatus("Access Granted! Sabhi lessons unlock ho gaye.", "status-active");
-        location.reload();
-      } else if (mockStatus === "waiting") {
-        localStorage.setItem(CONFIG.STORAGE_KEY_STATUS, "waiting");
-        showStatus("Payment Verification Pending. Admin review ke baad unlock hoga.", "status-waiting");
-      } else {
-        localStorage.setItem(CONFIG.STORAGE_KEY_STATUS, "denied");
-        showStatus("Access Denied. Plan active nahi hai.", "status-denied");
+  // Verify button for testing
+  if (authBtn) {
+    authBtn.addEventListener("click", () => {
+      const email = userEmail.value.trim();
+      if (!email) {
+        alert("Email enter karein");
+        return;
       }
-    }, 600);
-  });
-
-  sendPlanRequestBtn.addEventListener("click", () => {
-    const email = sanitizeInput(emailInput.value);
-    const subject = encodeURIComponent("Share Market Course Activation Request");
-    const body = encodeURIComponent(
-      `Hello Admin,\n\nMaine plan select kar liya hai.\nEmail: ${email || "N/A"}\nDevice Token: ${deviceToken}\nKripya status active karein.`
-    );
-    window.location.href = `mailto:admin@example.com?subject=${subject}&body=${body}`;
-  });
-
-  function showStatus(msg, className) {
-    statusBadge.className = `status-badge ${className}`;
-    statusBadge.innerText = msg;
-    statusBadge.style.display = "block";
+      localStorage.setItem(CONFIG.STORAGE_KEY_STATUS, "active");
+      localStorage.setItem(CONFIG.STORAGE_KEY_EMAIL, email);
+      if (statusBadge) {
+        statusBadge.className = "status-badge status-active";
+        statusBadge.innerText = "Access Activated Successfully!";
+        statusBadge.style.display = "block";
+      }
+      setTimeout(() => location.reload(), 500);
+    });
   }
 }
 
-/* Modal Helpers */
-function showLockedModal(title) {
-  document.getElementById("modalTopicTitle").innerText = `"${title}"`;
-  document.getElementById("subscribeModal").style.display = "flex";
-}
-function closeModal() {
-  document.getElementById("subscribeModal").style.display = "none";
-}
-function closeModalAndScroll() {
-  closeModal();
-  scrollToAuth();
-}
-function scrollToAuth() {
-  const el = document.getElementById("authBox");
-  if (el) el.scrollIntoView({ behavior: "smooth" });
-}
-
-/* ---------------- PLAYER PAGE ---------------- */
+/* ---------------- PLAYER PAGE LOGIC ---------------- */
 function initPlayerPage() {
-//  const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
-//  const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "Member";
-  
-/*  if (currentStatus !== "active") {
+  const isUnlocked = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
+
+  // Agar demo mode band hai aur access nahi hai tabhi rokega
+  if (!isUnlocked) {
     alert("Unauthorized! Pehle subscription active karein.");
     window.location.href = "index.html";
     return;
   }
-*/
-  const userEmailDisplay = document.getElementById("userActiveEmail");
-  if (userEmailDisplay) userEmailDisplay.innerText = activeEmail;
 
   const urlParams = new URLSearchParams(window.location.search);
   let currentLessonId = urlParams.get("id") || SAMPLE_LESSONS[0].id;
@@ -227,9 +230,10 @@ function initPlayerPage() {
 
   function loadLesson(id) {
     currentLessonId = id;
-    const lesson = SAMPLE_LESSONS.find(l => l.id === id);
+    const lesson = SAMPLE_LESSONS.find(l => l.id === id) || SAMPLE_LESSONS[0];
     if (!lesson) return;
 
+    // Aspect Ratio auto adjust
     if (lesson.type === "short") {
       videoViewport.classList.remove("mode-long");
       videoViewport.classList.add("mode-short");
@@ -241,7 +245,8 @@ function initPlayerPage() {
     if (currentLessonTitle) currentLessonTitle.innerText = lesson.title;
     if (currentLessonCat) currentLessonCat.innerText = lesson.cat;
 
-    videoPlayerFrame.src = `https://www.youtube-nocookie.com/embed/${lesson.youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+    // Helper se direct embed link set hoga
+    videoPlayerFrame.src = getCleanEmbedUrl(lesson.url);
     renderList();
   }
 
