@@ -682,7 +682,7 @@ async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, tok
 }
 */
   
-
+/*
 // Render Playlist View in Course Page
 function renderPlaylistView(activeId, isUserActive) {
   const listContainer = document.getElementById("lessonList");
@@ -709,6 +709,63 @@ function renderPlaylistView(activeId, isUserActive) {
           ${parent.subLessons.map(sub => `
             <li class="sub-item ${sub.id === activeId ? 'active' : ''}" data-id="${sub.id}">
               <i class="fa-solid fa-play" style="font-size:0.6rem;"></i> ${sub.title}
+            </li>
+          `).join("")}
+        </ul>
+      ` : ""}
+    `;
+
+    group.querySelector(".parent-header").addEventListener("click", () => {
+      window.location.href = `course.html?id=${parent.id}`;
+    });
+
+    group.querySelectorAll(".sub-item").forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.location.href = `course.html?id=${item.getAttribute("data-id")}`;
+      });
+    });
+
+    listContainer.appendChild(group);
+  });
+}
+*/
+// Render Numbered & Colorful Border Separated Playlist
+function renderPlaylistView(activeId, isUserActive) {
+  const listContainer = document.getElementById("lessonList");
+  if (!listContainer) return;
+
+  const counter = document.getElementById("totalCounter");
+  if (counter) counter.innerText = `${LESSONS_DATA.length} Chapters`;
+
+  // 6 Alternating Border Colors
+  const borderColors = ["border-blue", "border-red", "border-green", "border-amber", "border-purple", "border-cyan"];
+
+  listContainer.innerHTML = "";
+  LESSONS_DATA.forEach((parent, index) => {
+    const isParentActive = (parent.id === activeId);
+    const canAccessParent = isUserActive || parent.isFree;
+    const borderClass = borderColors[index % borderColors.length];
+
+    // Chapter number (e.g., #01, #02, #10)
+    const chapNumber = `#${String(index + 1).padStart(2, '0')}`;
+
+    const group = document.createElement("li");
+    group.className = `parent-group ${borderClass}`;
+
+    group.innerHTML = `
+      <div class="parent-header ${isParentActive ? 'active' : ''}">
+        <span class="chap-badge">${chapNumber}</span>
+        <span class="chap-title-text">${parent.title}</span>
+        ${parent.isFree ? '<span class="badge-free">FREE</span>' : (!canAccessParent ? '<i class="fa-solid fa-lock" style="font-size:0.75rem; color:#94a3b8;"></i>' : '')}
+      </div>
+      ${parent.subLessons && parent.subLessons.length > 0 ? `
+        <ul class="sub-list">
+          ${parent.subLessons.map((sub, sIdx) => `
+            <li class="sub-item ${sub.id === activeId ? 'active' : ''}" data-id="${sub.id}">
+              <span style="font-size:0.65rem; color:#94a3b8; font-weight:700;">${chapNumber}.${sIdx + 1}</span>
+              <span style="flex:1;">${sub.title}</span>
+              <i class="fa-solid fa-play" style="font-size:0.55rem; color:#94a3b8;"></i>
             </li>
           `).join("")}
         </ul>
