@@ -27,7 +27,7 @@
       overflow: hidden;
     }
 
-    /* Fixed Compact Header */
+    /* Fixed Compact Header with Back Button */
     .player-header {
       padding: 0.55rem 1rem;
       background: #ffffff;
@@ -40,7 +40,6 @@
     }
     .back-btn { color: #0284c7; text-decoration: none; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
 
-    /* Main Container */
     .main-app-container {
       display: flex;
       flex-direction: column;
@@ -116,12 +115,27 @@
       padding: 1rem;
     }
 
-    /* Video Meta Info */
+    /* Video Meta Info with Breadcrumbs */
     .video-info-bar {
       background: #fff;
       padding: 0.5rem 0.8rem;
       border-bottom: 2px solid var(--border-color);
     }
+
+    /* Compact Breadcrumbs inside sticky header */
+    .compact-breadcrumb {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .compact-breadcrumb a { color: #0284c7; text-decoration: none; }
+
     .video-info-bar h2 {
       font-size: 0.95rem;
       color: #0f172a;
@@ -170,7 +184,6 @@
 
     .lesson-list { list-style: none; padding-bottom: 3.5rem; }
     
-    /* Alternating Card Border Accents */
     .parent-group {
       margin-bottom: 0.6rem;
       border-radius: 8px;
@@ -178,11 +191,10 @@
       overflow: hidden;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       border: 1px solid #e2e8f0;
-      border-left-width: 5px; /* Distinct left border */
+      border-left-width: 5px;
       transition: transform 0.15s ease;
     }
 
-    /* Color variations for chapters */
     .border-blue { border-left-color: #2563eb; }
     .border-red { border-left-color: #dc2626; }
     .border-green { border-left-color: #059669; }
@@ -202,13 +214,8 @@
       gap: 8px;
     }
     .parent-header:hover { background: #f1f5f9; }
-    
-    .parent-header.active {
-      background: #ecfdf5;
-      color: #065f46;
-    }
+    .parent-header.active { background: #ecfdf5; color: #065f46; }
 
-    /* Chapter Number Pill Badge */
     .chap-badge {
       background: #0f172a;
       color: #38bdf8;
@@ -224,12 +231,8 @@
       color: #ffffff;
     }
 
-    .chap-title-text {
-      flex: 1;
-      line-height: 1.3;
-    }
+    .chap-title-text { flex: 1; line-height: 1.3; }
 
-    /* Sub-lessons list */
     .sub-list { list-style: none; background: #ffffff; border-top: 1px solid #f1f5f9; }
     .sub-item {
       padding: 0.5rem 0.8rem 0.5rem 1.8rem;
@@ -254,7 +257,7 @@
 </head>
 <body>
 
-  <!-- Top App Bar -->
+  <!-- Top App Bar (Ek click me index.html wapas jane wala) -->
   <header class="player-header">
     <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
     <span style="font-size:0.75rem; color:var(--text-muted);" id="userActiveEmail">Member</span>
@@ -277,12 +280,20 @@
           </a>
         </div>
 
-        <!-- Official YouTube Player with Native Fullscreen Support -->
         <iframe id="videoPlayerFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
 
-      <!-- Compact Meta & Credit Bar -->
+      <!-- Compact Meta Bar with Breadcrumb Navigation -->
       <div class="video-info-bar">
+        <!-- Google Robot & User Breadcrumb Path -->
+        <nav class="compact-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
+          <span id="breadCat">Category</span>
+          <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
+          <span id="breadTitle" style="color:#0f172a; font-weight:600;">Lesson</span>
+        </nav>
+
         <h2 id="currentLessonTitle">Loading Chapter...</h2>
         <div class="credit-tag">
           <i class="fa-brands fa-youtube" style="color:#ef4444;"></i>
@@ -291,7 +302,7 @@
       </div>
     </div>
 
-    <!-- 2. SCROLLABLE PLAYLIST (Numbered + Border Separated) -->
+    <!-- 2. SCROLLABLE PLAYLIST -->
     <div class="scrollable-content-section">
       <div class="playlist-head">
         <span>Roadmap Index (300+ Chapters)</span>
