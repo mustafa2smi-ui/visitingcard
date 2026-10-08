@@ -536,7 +536,7 @@ function initPlayerPage() {
   // Pull Video from Google Sheet Engine
   fetchVideoFromSheet(activeId, selectedLesson, isUserActive, activeEmail, deviceToken);
 }
-
+/*
 // Secure Video Pull from Google Sheet (Apps Script Backend)
 async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
   const frame = document.getElementById("videoPlayerFrame");
@@ -580,6 +580,63 @@ async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, tok
   } catch (err) {
     console.error("Sheet API Error:", err);
     alert("Connection error! Video link fetch nahi ho saka.");
+  }
+}
+*/
+  async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
+  const frame = document.getElementById("videoPlayerFrame");
+  frame.src = "about:blank"; // Reset frame
+
+  // 1. Agar Free Demo Video hai to direct fast play karein
+  if (lessonObj.isFree) {
+    if (lessonObj.url) {
+      frame.src = getCleanEmbedUrl(lessonObj.url);
+    } else {
+      frame.src = getCleanEmbedUrl("https://youtu.be/M7lc1UVf-VE");
+    }
+    return;
+  }
+
+  // 2. Testing mode override (agar CONFIG.DEMO_MODE: true ho)
+  if (CONFIG.DEMO_MODE && lessonObj.url) {
+    frame.src = getCleanEmbedUrl(lessonObj.url);
+    return;
+  }
+
+  // 3. AGAR USER ACTIVE NAHI HAI TO API CALL ROKO (Yeh pehle miss tha)
+  if (!isUserActive) {
+    alert("⚠️ Ye chapter locked hai. Pehle subscription activate karein.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // 4. Paid Video: User active hone par hi Google Sheet se mangwayenge
+  try {
+    const response = await fetch(CONFIG.APPS_SCRIPT_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "get_video_url",
+        lessonId: lessonId,
+        email: email,
+        deviceToken: token
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.url) {
+      // Backend verified -> Play Video
+      frame.src = getCleanEmbedUrl(data.url);
+    } else {
+      alert("⚠️ Access Notice: " + (data.message || "Aapka subscription expired ya inactive hai."));
+      window.location.href = "index.html";
+    }
+
+  } catch (err) {
+    console.error("Sheet API Error:", err);
+    alert("Backend Sheet connect nahi hui hai ya invalid URL hai.");
+    window.location.href = "index.html";
   }
 }
 
