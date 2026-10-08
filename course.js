@@ -1,266 +1,285 @@
 /**
- * Course LMS Controller - Demo & Direct URL Engine
+ * Course Controller - Structured Sub-lessons, Color Palettes & Filters
  */
 
 const CONFIG = {
-  // ==========================================
-  // 1) TEST/DEMO SWITCH: 
-  // true = Saare videos unlock, bina password/email chalenge
-  // false = Production mode (Lock + Status check active)
-  // ==========================================
-  DEMO_MODE: true, 
-
+  DEMO_MODE: true, // Test ke liye true, real locked ke liye false
   STORAGE_KEY_TOKEN: "smc_device_token",
   STORAGE_KEY_EMAIL: "smc_user_email",
   STORAGE_KEY_STATUS: "smc_access_status"
 };
 
-// ==========================================
-// 2) SEEDHA YOUTUBE SHARE LINK PASTE KAREIN
-// (Long video ho ya Shorts link, direct paste chalega)
-// ==========================================
-const SAMPLE_LESSONS = [
+// 7 Vibrant Note Color Classes
+const NOTE_COLORS = ["c-green", "c-cyan", "c-pink", "c-yellow", "c-blue", "c-peach", "c-lavender"];
+
+// 9 & 10) Category-wise 300+ Model with Sub-lessons & Free Demo flags
+const LESSONS_DATA = [
   {
     id: "L001",
     cat: "Basics",
-    title: "Stock Market Kya Hai? Complete Guide",
-    type: "long",
-    url: "https://youtu.be/M7lc1UVf-VE" // <-- Direct share link paste karein
+    title: "Stock Market Kya Hai? Complete Beginner Guide",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: true, // 2) FREE DEMO VIDEO
+    subLessons: [
+      { id: "L001-1", title: "Share aur Equity kya hoti hai?", url: "https://youtu.be/M7lc1UVf-VE" },
+      { id: "L001-2", title: "BSE aur NSE exchanges kaise operate karte hain?", url: "https://youtu.be/M7lc1UVf-VE" }
+    ]
   },
   {
     id: "L002",
     cat: "Basics",
-    title: "BSE aur NSE me antar kya hai?",
-    type: "short",
-    url: "https://www.youtube.com/shorts/dQw4w9WgXcQ" // <-- Direct shorts link
+    title: "Demat aur Trading Account Open & Setup",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: false,
+    subLessons: []
   },
   {
     id: "L003",
-    cat: "Basics",
-    title: "Demat aur Trading Account ka role",
-    type: "long",
-    url: "https://www.youtube.com/watch?v=M7lc1UVf-VE" // <-- Standard watch link
+    cat: "Technical",
+    title: "Support aur Resistance Levels draw karna",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: false,
+    subLessons: [
+      { id: "L003-1", title: "Major Swing High aur Low identify karna", url: "https://youtu.be/M7lc1UVf-VE" }
+    ]
   },
   {
     id: "L004",
-    cat: "Charts",
-    title: "Candlestick Charts reading kaise shuru karein?",
-    type: "long",
-    url: "https://youtu.be/M7lc1UVf-VE"
+    cat: "Candlestick",
+    title: "Hammer aur Inverted Hammer Candlestick Strategy",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: false,
+    subLessons: []
   },
   {
     id: "L005",
-    cat: "Charts",
-    title: "Support aur Resistance Level Draw Karna",
-    type: "short",
-    url: "https://www.youtube.com/shorts/dQw4w9WgXcQ"
+    cat: "Fundamental",
+    title: "PE Ratio, PB Ratio aur Balance Sheet Analysis",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: false,
+    subLessons: []
   },
   {
     id: "L006",
-    cat: "Rules",
-    title: "Stop Loss lagane ka exact rule",
-    type: "short",
-    url: "https://www.youtube.com/shorts/dQw4w9WgXcQ"
+    cat: "F&O",
+    title: "Options Trading: Call (CE) vs Put (PE) Basics",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: false,
+    subLessons: []
+  },
+  {
+    id: "L007",
+    cat: "Psychology",
+    title: "Trading Discipline aur Fear & Greed Control",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    isFree: false,
+    subLessons: []
   }
 ];
 
-// YouTube URL se automatically Embed URL banane wala smart helper
+// Helper: YouTube Direct Share link to Embed URL
 function getCleanEmbedUrl(rawUrl) {
   if (!rawUrl) return "";
   let videoId = "";
-
-  // 1. Shorts URL: youtube.com/shorts/ID
   if (rawUrl.includes("/shorts/")) {
     videoId = rawUrl.split("/shorts/")[1].split("?")[0].split("/")[0];
-  } 
-  // 2. Short URL: youtu.be/ID
-  else if (rawUrl.includes("youtu.be/")) {
+  } else if (rawUrl.includes("youtu.be/")) {
     videoId = rawUrl.split("youtu.be/")[1].split("?")[0].split("/")[0];
-  } 
-  // 3. Regular URL: youtube.com/watch?v=ID
-  else if (rawUrl.includes("v=")) {
+  } else if (rawUrl.includes("v=")) {
     videoId = rawUrl.split("v=")[1].split("&")[0];
-  } 
-  // 4. Pehle se embed ID ya direct string
-  else {
+  } else {
     videoId = rawUrl.trim();
   }
-
-  return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+  // Anti-redirect & branding params
+  return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
 }
 
-// Device Token Generator
-function getOrCreateDeviceToken() {
-  let token = localStorage.getItem(CONFIG.STORAGE_KEY_TOKEN);
-  if (!token) {
-    token = "dev_" + Math.random().toString(36).substring(2, 12);
-    localStorage.setItem(CONFIG.STORAGE_KEY_TOKEN, token);
-  }
-  return token;
-}
-
-// Main Initializer
 document.addEventListener("DOMContentLoaded", () => {
-  const deviceToken = getOrCreateDeviceToken();
-
   if (document.getElementById("notesContainer")) {
-    initIndexPage(deviceToken);
+    initIndexPage();
   }
-
   if (document.getElementById("videoPlayerFrame")) {
     initPlayerPage();
   }
 });
 
-/* ---------------- INDEX PAGE LOGIC ---------------- */
-function initIndexPage(deviceToken) {
-  const notesContainer = document.getElementById("notesContainer");
-  const accessNotice = document.getElementById("accessNotice");
-  const authBtn = document.getElementById("authBtn");
-  const userEmail = document.getElementById("userEmail");
-  const statusBadge = document.getElementById("statusBadge");
+/* ---------------- INDEX PAGE ---------------- */
+function initIndexPage() {
+  const container = document.getElementById("notesContainer");
+  const searchInput = document.getElementById("searchInput");
+  const catFilter = document.getElementById("catFilter");
+  const shareBtn = document.getElementById("shareBtn");
 
-  // DEMO MODE check
-  const isUnlocked = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
+  let currentCategory = "All";
+  let searchQuery = "";
 
-  if (isUnlocked) {
-    if (accessNotice) {
-      accessNotice.innerText = CONFIG.DEMO_MODE ? "Status: DEMO MODE (Unlocked)" : "Status: Active (Unlocked)";
-      accessNotice.style.color = "#10b981";
+  const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
+
+  function renderGrid() {
+    container.innerHTML = "";
+
+    const filtered = LESSONS_DATA.filter(lesson => {
+      const matchCat = (currentCategory === "All" || lesson.cat === currentCategory);
+      const matchSearch = lesson.title.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchCat && matchSearch;
+    });
+
+    filtered.forEach((lesson, index) => {
+      const color = NOTE_COLORS[index % NOTE_COLORS.length];
+      const note = document.createElement("div");
+      note.className = `sticky-note ${color}`;
+
+      const isPlayable = isUserActive || lesson.isFree;
+      const statusIcon = isPlayable 
+        ? (lesson.isFree ? `<span class="badge-free">FREE DEMO</span>` : `<i class="fa-solid fa-play"></i>`)
+        : `<i class="fa-solid fa-lock lock-tag"></i>`;
+
+      note.innerHTML = `
+        <div>
+          <span class="lesson-num">#${lesson.id} ${lesson.cat}</span>
+          <div class="lesson-title">${lesson.title}</div>
+        </div>
+        <div class="note-footer">
+          <span>${lesson.subLessons.length > 0 ? `<i class="fa-solid fa-list-ul"></i> +${lesson.subLessons.length}` : ''}</span>
+          ${statusIcon}
+        </div>
+      `;
+
+      note.addEventListener("click", () => {
+        if (isPlayable) {
+          window.location.href = `course.html?id=${lesson.id}`;
+        } else {
+          showLockedModal(lesson.title);
+        }
+      });
+
+      container.appendChild(note);
+    });
+  }
+
+  // 4) Live Search Filter
+  searchInput.addEventListener("input", (e) => {
+    searchQuery = e.target.value.trim();
+    renderGrid();
+  });
+
+  // 10) Category Tabs Filter
+  catFilter.addEventListener("click", (e) => {
+    if (e.target.classList.contains("cat-chip")) {
+      document.querySelectorAll(".cat-chip").forEach(c => c.classList.remove("active"));
+      e.target.classList.add("active");
+      currentCategory = e.target.getAttribute("data-cat");
+      renderGrid();
+    }
+  });
+
+  // 5) Web Share API
+  if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Share Market Master Course",
+            text: "300+ Best stock market lectures in Hindi. Dekho zero se advanced trading setup!",
+            url: window.location.href
+          });
+        } catch (err) { /* Share canceled */ }
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied! Apne doston ke sath share karein.");
+      }
+    });
+  }
+
+  renderGrid();
+}
+
+/* Modal Helpers */
+function showLockedModal(title) {
+  document.getElementById("modalTopicTitle").innerText = `"${title}"`;
+  document.getElementById("subscribeModal").style.display = "flex";
+}
+function closeModal() {
+  document.getElementById("subscribeModal").style.display = "none";
+}
+function closeModalAndScroll() {
+  closeModal();
+  focusAuth();
+}
+function focusAuth() {
+  document.getElementById("authBox").scrollIntoView({ behavior: "smooth" });
+}
+
+/* ---------------- PLAYER PAGE ---------------- */
+function initPlayerPage() {
+  const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeId = urlParams.get("id") || LESSONS_DATA[0].id;
+
+  // Selected lesson find karo (chahe parent ho ya sub-lesson)
+  let selectedLesson = LESSONS_DATA.find(l => l.id === activeId);
+  let parentLesson = selectedLesson;
+
+  if (!selectedLesson) {
+    // Agar sub-lesson click hua ho
+    for (let p of LESSONS_DATA) {
+      const sub = p.subLessons.find(s => s.id === activeId);
+      if (sub) {
+        selectedLesson = sub;
+        parentLesson = p;
+        break;
+      }
     }
   }
 
-  const noteColors = ["note-c1", "note-c2", "note-c3", "note-c4", "note-c5"];
-  notesContainer.innerHTML = "";
+  if (!selectedLesson) selectedLesson = LESSONS_DATA[0];
 
-  SAMPLE_LESSONS.forEach((lesson, index) => {
-    const colorClass = noteColors[index % noteColors.length];
-    const note = document.createElement("div");
-    note.className = `sticky-note ${colorClass}`;
-
-    const lockIcon = isUnlocked ? "" : `<span class="locked-indicator"><i class="fa-solid fa-lock"></i></span>`;
-
-    note.innerHTML = `
-      ${lockIcon}
-      <div>
-        <span class="lesson-num">#${index + 1} ${lesson.cat}</span>
-        <div class="lesson-title">${lesson.title}</div>
-      </div>
-      <div class="note-footer">
-        <span><i class="fa-solid ${lesson.type === 'short' ? 'fa-mobile' : 'fa-play'}"></i> ${lesson.type}</span>
-        <i class="fa-solid ${isUnlocked ? 'fa-arrow-right' : 'fa-lock'}"></i>
-      </div>
-    `;
-
-    note.addEventListener("click", () => {
-      if (isUnlocked) {
-        window.location.href = `course.html?id=${lesson.id}`;
-      } else {
-        if (typeof showLockedModal === "function") {
-          showLockedModal(lesson.title);
-        } else {
-          alert("Ye course locked hai. Pehle subscription activate karein.");
-        }
-      }
-    });
-
-    notesContainer.appendChild(note);
-  });
-
-  // Verify button for testing
-  if (authBtn) {
-    authBtn.addEventListener("click", () => {
-      const email = userEmail.value.trim();
-      if (!email) {
-        alert("Email enter karein");
-        return;
-      }
-      localStorage.setItem(CONFIG.STORAGE_KEY_STATUS, "active");
-      localStorage.setItem(CONFIG.STORAGE_KEY_EMAIL, email);
-      if (statusBadge) {
-        statusBadge.className = "status-badge status-active";
-        statusBadge.innerText = "Access Activated Successfully!";
-        statusBadge.style.display = "block";
-      }
-      setTimeout(() => location.reload(), 500);
-    });
-  }
-}
-
-/* ---------------- PLAYER PAGE LOGIC ---------------- */
-function initPlayerPage() {
-  const isUnlocked = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
-
-  // Agar demo mode band hai aur access nahi hai tabhi rokega
-  if (!isUnlocked) {
-    alert("Unauthorized! Pehle subscription active karein.");
+  // Free Demo check
+  if (!isUserActive && !parentLesson.isFree) {
+    alert("Unauthorized! Pehle subscription activate karein.");
     window.location.href = "index.html";
     return;
   }
 
-  const urlParams = new URLSearchParams(window.location.search);
-  let currentLessonId = urlParams.get("id") || SAMPLE_LESSONS[0].id;
+  // Update Breadcrumbs & Titles
+  document.getElementById("breadCat").innerText = parentLesson.cat || "Topic";
+  document.getElementById("breadTitle").innerText = selectedLesson.title;
+  document.getElementById("currentLessonTitle").innerText = selectedLesson.title;
 
-  const videoViewport = document.getElementById("videoViewport");
-  const videoPlayerFrame = document.getElementById("videoPlayerFrame");
-  const currentLessonTitle = document.getElementById("currentLessonTitle");
-  const currentLessonCat = document.getElementById("currentLessonCat");
-  const lessonList = document.getElementById("lessonList");
-  const ratioToggleBtn = document.getElementById("ratioToggleBtn");
-  const totalCounter = document.getElementById("totalCounter");
+  // Load video
+  const frame = document.getElementById("videoPlayerFrame");
+  frame.src = getCleanEmbedUrl(selectedLesson.url);
 
-  if (totalCounter) totalCounter.innerText = `${SAMPLE_LESSONS.length} Topics`;
+  // Render Sub-lesson Playlist
+  const playlist = document.getElementById("lessonList");
+  playlist.innerHTML = "";
 
-  function renderList() {
-    if (!lessonList) return;
-    lessonList.innerHTML = "";
-    SAMPLE_LESSONS.forEach((lesson, index) => {
-      const li = document.createElement("li");
-      li.className = `lesson-item ${lesson.id === currentLessonId ? "active" : ""}`;
-      li.innerHTML = `
-        <span class="badge-type">${lesson.type}</span>
-        <div style="flex:1; font-size:0.8rem; line-height:1.2;">
-          <strong>#${index + 1}:</strong> ${lesson.title}
-        </div>
-      `;
-      li.addEventListener("click", () => loadLesson(lesson.id));
-      lessonList.appendChild(li);
+  LESSONS_DATA.forEach(parent => {
+    const li = document.createElement("li");
+    li.className = "parent-item";
+
+    const isCurrentParent = (parent.id === parentLesson.id);
+    li.innerHTML = `
+      <div class="parent-header ${isCurrentParent ? 'active' : ''}">
+        <span>${parent.title}</span>
+        ${parent.isFree ? '<span class="badge-free">FREE</span>' : ''}
+      </div>
+      ${parent.subLessons.length > 0 ? `
+        <ul class="sub-list">
+          ${parent.subLessons.map(sub => `
+            <li class="sub-item ${sub.id === activeId ? 'active' : ''}" onclick="window.location.href='course.html?id=${sub.id}'">
+              <i class="fa-solid fa-play" style="font-size:0.6rem; margin-right:4px;"></i> ${sub.title}
+            </li>
+          `).join('')}
+        </ul>
+      ` : ''}
+    `;
+
+    li.querySelector(".parent-header").addEventListener("click", () => {
+      window.location.href = `course.html?id=${parent.id}`;
     });
-  }
 
-  function loadLesson(id) {
-    currentLessonId = id;
-    const lesson = SAMPLE_LESSONS.find(l => l.id === id) || SAMPLE_LESSONS[0];
-    if (!lesson) return;
-
-    // Aspect Ratio auto adjust
-    if (lesson.type === "short") {
-      videoViewport.classList.remove("mode-long");
-      videoViewport.classList.add("mode-short");
-    } else {
-      videoViewport.classList.remove("mode-short");
-      videoViewport.classList.add("mode-long");
-    }
-
-    if (currentLessonTitle) currentLessonTitle.innerText = lesson.title;
-    if (currentLessonCat) currentLessonCat.innerText = lesson.cat;
-
-    // Helper se direct embed link set hoga
-    videoPlayerFrame.src = getCleanEmbedUrl(lesson.url);
-    renderList();
-  }
-
-  if (ratioToggleBtn) {
-    ratioToggleBtn.addEventListener("click", () => {
-      if (videoViewport.classList.contains("mode-long")) {
-        videoViewport.classList.remove("mode-long");
-        videoViewport.classList.add("mode-short");
-      } else {
-        videoViewport.classList.remove("mode-short");
-        videoViewport.classList.add("mode-long");
-      }
-    });
-  }
-
-  loadLesson(currentLessonId);
+    playlist.appendChild(li);
+  });
 }
