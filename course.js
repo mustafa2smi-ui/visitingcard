@@ -491,7 +491,7 @@ function closeModalAndScroll() {
 /* ==========================================================================
    PLAYER PAGE LOGIC (Google Sheet Secure Video Pull & Channel Credits)
 ========================================================================== */
-function initPlayerPage() {
+/* function initPlayerPage() {
   const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
   const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "";
   const deviceToken = localStorage.getItem(CONFIG.STORAGE_KEY_TOKEN) || "";
@@ -536,6 +536,104 @@ function initPlayerPage() {
   // Pull Video from Google Sheet Engine
   fetchVideoFromSheet(activeId, selectedLesson, isUserActive, activeEmail, deviceToken);
 }
+*/
+  function initPlayerPage() {
+  const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
+  const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "";
+  const deviceToken = localStorage.getItem(CONFIG.STORAGE_KEY_TOKEN) || "";
+
+  const userEmailDisplay = document.getElementById("userActiveEmail");
+  if (userEmailDisplay) userEmailDisplay.innerText = activeEmail ? activeEmail : "Member";
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeId = urlParams.get("id") || LESSONS_DATA[0].id;
+
+  // 1. Identify Active Lesson & Parent
+  let selectedLesson = LESSONS_DATA.find(l => l.id === activeId);
+  let parentLesson = selectedLesson;
+
+  if (!selectedLesson) {
+    for (let p of LESSONS_DATA) {
+      const sub = p.subLessons.find(s => s.id === activeId);
+      if (sub) {
+        selectedLesson = sub;
+        parentLesson = p;
+        break;
+      }
+    }
+  }
+
+  if (!selectedLesson) selectedLesson = LESSONS_DATA[0];
+
+  // 2. Update Breadcrumbs & Titles
+  const breadCat = document.getElementById("breadCat");
+  const breadTitle = document.getElementById("breadTitle");
+  const currentTitle = document.getElementById("currentLessonTitle");
+  const creatorNameEl = document.getElementById("creatorName");
+
+  if (breadCat) breadCat.innerText = parentLesson.cat || "Topic";
+  if (breadTitle) breadTitle.innerText = selectedLesson.title;
+  if (currentTitle) currentTitle.innerText = selectedLesson.title;
+  if (creatorNameEl) creatorNameEl.innerText = selectedLesson.channelName || parentLesson.channelName || "Market Expert";
+
+  // 3. Render Sidebar / Bottom List (User saare titles dekh sake)
+  renderPlaylistView(activeId, isUserActive);
+
+  // 4. Video Pull ya Lock Overlay show karna (No Redirect!)
+  fetchVideoFromSheet(activeId, selectedLesson, isUserActive, activeEmail, deviceToken);
+}
+
+// ========================================================
+// NO-REDIRECT VIDEO FETCH / LOCK CONTROLLER
+// ========================================================
+async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
+  const frame = document.getElementById("videoPlayerFrame");
+  const lockOverlay = document.getElementById("playerLockOverlay");
+
+  frame.src = "about:blank";
+
+  // Case 1: Agar Free Demo Video hai to video chalne do, overlay chupao
+  if (lessonObj.isFree) {
+    if (lockOverlay) lockOverlay.style.display = "none";
+    frame.src = getCleanEmbedUrl(lessonObj.url || "https://youtu.be/M7lc1UVf-VE");
+    return;
+  }
+
+  // Case 2: Agar User Active NAHI hai, to Redirect MAT KARO, sirf Lock Card dikhao!
+  if (!isUserActive) {
+    if (lockOverlay) lockOverlay.style.display = "flex";
+    return; // User usi page par rahega aur baaki saare titles scroll karke dekhega
+  }
+
+  // Case 3: Agar User Active hai, to overlay chupao aur Google Sheet se video load karo
+  if (lockOverlay) lockOverlay.style.display = "none";
+
+  try {
+    const response = await fetch(CONFIG.APPS_SCRIPT_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "get_video_url",
+        lessonId: lessonId,
+        email: email,
+        deviceToken: token
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.url) {
+      frame.src = getCleanEmbedUrl(data.url);
+    } else {
+      if (lockOverlay) lockOverlay.style.display = "flex";
+    }
+
+  } catch (err) {
+    console.error("Sheet API Error:", err);
+    if (lockOverlay) lockOverlay.style.display = "flex";
+  }
+}
+
 /*
 // Secure Video Pull from Google Sheet (Apps Script Backend)
 async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
@@ -583,62 +681,7 @@ async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, tok
   }
 }
 */
-  async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
-  const frame = document.getElementById("videoPlayerFrame");
-  frame.src = "about:blank"; // Reset frame
-
-  // 1. Agar Free Demo Video hai to direct fast play karein
-  if (lessonObj.isFree) {
-    if (lessonObj.url) {
-      frame.src = getCleanEmbedUrl(lessonObj.url);
-    } else {
-      frame.src = getCleanEmbedUrl("https://youtu.be/M7lc1UVf-VE");
-    }
-    return;
-  }
-
-  // 2. Testing mode override (agar CONFIG.DEMO_MODE: true ho)
-  if (CONFIG.DEMO_MODE && lessonObj.url) {
-    frame.src = getCleanEmbedUrl(lessonObj.url);
-    return;
-  }
-
-  // 3. AGAR USER ACTIVE NAHI HAI TO API CALL ROKO (Yeh pehle miss tha)
-  if (!isUserActive) {
-    alert("⚠️ Ye chapter locked hai. Pehle subscription activate karein.");
-    window.location.href = "index.html";
-    return;
-  }
-
-  // 4. Paid Video: User active hone par hi Google Sheet se mangwayenge
-  try {
-    const response = await fetch(CONFIG.APPS_SCRIPT_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        action: "get_video_url",
-        lessonId: lessonId,
-        email: email,
-        deviceToken: token
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.success && data.url) {
-      // Backend verified -> Play Video
-      frame.src = getCleanEmbedUrl(data.url);
-    } else {
-      alert("⚠️ Access Notice: " + (data.message || "Aapka subscription expired ya inactive hai."));
-      window.location.href = "index.html";
-    }
-
-  } catch (err) {
-    console.error("Sheet API Error:", err);
-    alert("Backend Sheet connect nahi hui hai ya invalid URL hai.");
-    window.location.href = "index.html";
-  }
-}
+  
 
 // Render Playlist View in Course Page
 function renderPlaylistView(activeId, isUserActive) {
