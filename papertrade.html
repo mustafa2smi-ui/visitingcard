@@ -3,304 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Share Market Master Course</title>
+  <title>Share Market Master Course | 300+ Structured Hindi Lectures</title>
+  <meta name="description" content="Seekhiye stock market zero se advanced level tak. Basics, Technical Analysis, Candlesticks aur Futures & Options simplified Hindi me.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / WhatsApp Share Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Share Market Master Course - 300+ Chapters">
+  <meta property="og:description" content="Complete Stock Market Course in Hindi with Live Examples.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200">
+
+  <!-- Structured Data / Course Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Share Market Master Course",
+    "description": "Zero to Hero stock market course in Hindi covering Basics, Technical, and Derivatives.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Share Market Hub",
+      "sameAs": "https://yoursite.com"
+    }
+  }
+  </script>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary: #10b981;
-      --primary-dark: #059669;
       --bg-dark: #0b1120;
       --card-bg: #151e32;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
-      --note-yellow: #fef08a;
+      
+      /* 7 Vibrant Sticky Note Colors */
+      --note-green: #a7f3d0;
       --note-cyan: #a5f3fc;
-      --note-green: #bbf7d0;
       --note-pink: #fbcfe8;
-      --note-orange: #fed7aa;
+      --note-yellow: #fef08a;
+      --note-blue: #bfdbfe;
+      --note-peach: #fed7aa;
+      --note-lavender: #ddd6fe;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.4; }
 
-    /* Compact Header */
     header {
       background: rgba(11, 17, 32, 0.95);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       border-bottom: 1px solid #1e293b;
       padding: 0.5rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .brand-title { font-size: 1.05rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; }
-    .hamburger-btn { background: none; border: none; color: var(--text-main); font-size: 1.2rem; cursor: pointer; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .share-btn {
+      background: #1e293b; color: #38bdf8; border: 1px solid #334155;
+      padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    }
 
-    /* Slim Hero */
-    .hero { text-align: center; padding: 1.2rem 0.8rem 0.5rem; max-width: 700px; margin: 0 auto; }
+    .hero { text-align: center; padding: 1.2rem 0.8rem 0.4rem; max-width: 700px; margin: 0 auto; }
     .hero h1 { font-size: 1.4rem; font-weight: 800; background: linear-gradient(90deg, #34d399, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.2rem; }
+    .hero p { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem; }
 
-    /* 1) Horizontal Side-Scroll Pricing Cards */
+    /* Side-Scroll Price Cards */
     .pricing-scroll-wrapper {
-      display: flex;
-      gap: 0.8rem;
-      overflow-x: auto;
-      padding: 0.8rem 1rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
+      display: flex; gap: 0.8rem; overflow-x: auto;
+      padding: 0.8rem 1rem; scroll-snap-type: x mandatory;
     }
     .pricing-scroll-wrapper::-webkit-scrollbar { height: 4px; }
     .pricing-scroll-wrapper::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-
     .price-card {
-      flex: 0 0 210px;
-      scroll-snap-align: start;
-      background: var(--card-bg);
-      border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 0.9rem 0.8rem;
-      text-align: center;
-      position: relative;
+      flex: 0 0 210px; scroll-snap-align: start;
+      background: var(--card-bg); border: 1px solid #1e293b;
+      border-radius: 8px; padding: 0.8rem; text-align: center; position: relative;
     }
     .price-card.popular { border-color: var(--primary); }
-    .badge-pop {
-      position: absolute; top: -8px; right: 8px;
-      background: var(--primary); color: #0b1120;
-      font-size: 0.65rem; font-weight: 800;
-      padding: 1px 6px; border-radius: 10px;
-    }
-    .price-card h3 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .badge-pop { position: absolute; top: -8px; right: 8px; background: var(--primary); color: #0b1120; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 10px; }
+    .price-card h3 { font-size: 0.95rem; }
     .price-val { font-size: 1.35rem; font-weight: 800; color: #38bdf8; margin: 0.2rem 0; }
     .price-card p { font-size: 0.72rem; color: var(--text-muted); }
-    .price-card ul { list-style: none; text-align: left; margin: 0.5rem 0 0.7rem; font-size: 0.75rem; color: #cbd5e1; }
-    .price-card ul li { margin-bottom: 0.2rem; white-space: nowrap; }
+    .price-card ul { list-style: none; text-align: left; margin: 0.4rem 0 0.6rem; font-size: 0.75rem; color: #cbd5e1; }
 
-    /* Slim Auth Section */
+    /* Auth Box */
     .auth-section {
-      background: var(--card-bg);
-      max-width: 500px;
-      margin: 0.8rem auto;
-      padding: 0.9rem;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
+      background: var(--card-bg); max-width: 500px; margin: 0.8rem auto;
+      padding: 0.8rem; border-radius: 8px; border: 1px solid #1e293b;
     }
-    .form-group { margin-bottom: 0.6rem; }
     .form-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; }
     .input-box {
-      width: 100%; padding: 0.5rem 0.7rem;
-      background: #0b1120; border: 1px solid #334155;
-      color: #fff; border-radius: 6px; font-size: 0.85rem; outline: none;
+      width: 100%; padding: 0.5rem 0.7rem; background: #0b1120;
+      border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 0.85rem; outline: none;
     }
-    .input-box:focus { border-color: var(--primary); }
     .btn-action {
-      width: 100%; padding: 0.55rem;
-      background: var(--primary); color: #0b1120;
-      border: none; border-radius: 6px;
-      font-size: 0.85rem; font-weight: 700; cursor: pointer;
+      width: 100%; padding: 0.55rem; background: var(--primary);
+      color: #0b1120; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer;
     }
-    .btn-secondary { background: #1e293b; color: #cbd5e1; margin-top: 0.4rem; font-size: 0.78rem; border: 1px solid #334155; }
-    
-    .status-badge {
-      display: none; margin-top: 0.6rem; padding: 0.5rem;
-      border-radius: 6px; text-align: center; font-size: 0.78rem; font-weight: 600;
-    }
+    .status-badge { display: none; margin-top: 0.5rem; padding: 0.45rem; border-radius: 6px; text-align: center; font-size: 0.78rem; font-weight: 600; }
     .status-active { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
-    .status-waiting { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
-    .status-denied { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
-    /* Dashboard Header */
-    .dashboard-wrapper { max-width: 1200px; margin: 1.2rem auto; padding: 0 0.6rem; }
-    .section-head { margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; }
-    .section-head h2 { font-size: 1rem; font-weight: 700; }
+    /* Category Filter & Search Bar */
+    .controls-panel { max-width: 1200px; margin: 1rem auto 0.6rem; padding: 0 0.6rem; }
+    .search-wrapper { position: relative; margin-bottom: 0.6rem; }
+    .search-input {
+      width: 100%; padding: 0.55rem 0.7rem 0.55rem 2rem;
+      background: #151e32; border: 1px solid #334155;
+      color: #fff; border-radius: 6px; font-size: 0.82rem; outline: none;
+    }
+    .search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); }
 
-    /* 3 & 4) Dense & Compact Sticky Notes Grid */
+    .category-scroll {
+      display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.4rem;
+    }
+    .category-scroll::-webkit-scrollbar { display: none; }
+    .cat-chip {
+      background: #1e293b; color: var(--text-muted); border: 1px solid #334155;
+      padding: 0.25rem 0.65rem; border-radius: 20px; font-size: 0.72rem; white-space: nowrap; cursor: pointer;
+    }
+    .cat-chip.active { background: var(--primary); color: #0b1120; font-weight: 700; border-color: var(--primary); }
+
+    /* Dense Sticky Notes Grid */
+    .dashboard-wrapper { max-width: 1200px; margin: 0.5rem auto 2rem; padding: 0 0.6rem; }
     .notes-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
       gap: 0.5rem;
     }
     @media (min-width: 768px) {
-      .notes-container { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 0.6rem; }
+      .notes-container { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; }
     }
 
     .sticky-note {
-      min-height: 105px;
-      padding: 0.55rem;
-      border-radius: 6px;
-      color: #0f172a;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.25);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
+      min-height: 100px; padding: 0.55rem; border-radius: 6px;
+      color: #0f172a; box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+      cursor: pointer; display: flex; flex-direction: column;
+      justify-content: space-between; position: relative;
       transition: transform 0.15s ease;
     }
     .sticky-note:hover { transform: translateY(-2px); z-index: 2; }
     .sticky-note .lesson-num { font-size: 0.62rem; font-weight: 800; opacity: 0.75; text-transform: uppercase; }
     .sticky-note .lesson-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin: 0.25rem 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 0.78rem; font-weight: 700; line-height: 1.25; margin: 0.25rem 0;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .sticky-note .note-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; font-weight: 700; }
+    .sticky-note .note-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 800; }
     
-    .locked-indicator {
-      position: absolute; top: 5px; right: 6px;
-      font-size: 0.7rem; color: #475569; opacity: 0.8;
+    .badge-free {
+      background: #0f172a; color: #34d399; font-size: 0.58rem;
+      padding: 1px 4px; border-radius: 3px; font-weight: 800;
     }
+    .lock-tag { color: #475569; }
 
-    /* Colors */
-    .note-c1 { background-color: var(--note-yellow); }
-    .note-c2 { background-color: var(--note-cyan); }
-    .note-c3 { background-color: var(--note-green); }
-    .note-c4 { background-color: var(--note-pink); }
-    .note-c5 { background-color: var(--note-orange); }
+    /* 7 Vibrant Colors */
+    .c-green { background-color: var(--note-green); }
+    .c-cyan { background-color: var(--note-cyan); }
+    .c-pink { background-color: var(--note-pink); }
+    .c-yellow { background-color: var(--note-yellow); }
+    .c-blue { background-color: var(--note-blue); }
+    .c-peach { background-color: var(--note-peach); }
+    .c-lavender { background-color: var(--note-lavender); }
 
-    /* 2) Subscription Alert Pop-up Modal */
+    /* Modal Alert */
     .modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(4px);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+      z-index: 999; justify-content: center; align-items: center; padding: 1rem;
     }
     .modal-box {
-      background: #151e32;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      max-width: 380px; width: 100%;
-      padding: 1.2rem;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      animation: popIn 0.2s ease-out;
+      background: #151e32; border: 1px solid #334155;
+      border-radius: 10px; max-width: 380px; width: 100%;
+      padding: 1.2rem; text-align: center;
     }
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .modal-box i.fa-lock { font-size: 2rem; color: #fbbf24; margin-bottom: 0.5rem; }
-    .modal-box h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
-    .modal-box p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.3; }
-    .modal-close-btn { background: #334155; color: #fff; padding: 0.4rem 1rem; border: none; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
-
-    /* Footer */
-    footer { border-top: 1px solid #1e293b; padding: 1.2rem 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 2rem; }
-    .footer-links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.4rem; }
-    .footer-links a { color: var(--text-muted); text-decoration: none; }
+    .modal-box h3 { font-size: 1.05rem; margin: 0.5rem 0 0.3rem; }
+    .modal-box p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.8rem; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="brand-title"><i class="fa-solid fa-chart-line"></i> Share Market Course</div>
-    <button class="hamburger-btn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    <div class="header-actions">
+      <button class="share-btn" id="shareBtn"><i class="fa-solid fa-share-nodes"></i> Share</button>
+      <button style="background:none; border:none; color:#fff; font-size:1.1rem;"><i class="fa-solid fa-bars"></i></button>
+    </div>
   </header>
 
   <section class="hero">
-    <h1>300+ Complete Market Lessons</h1>
-    <p>Zero se Advanced Strategy, Live Analysis, Indicators aur Candlestick Rules.</p>
+    <h1>300+ Complete Stock Market Lessons</h1>
+    <p>Zero se Advanced Strategy, Live Price Action aur Candlestick Rules.</p>
   </section>
 
-  <!-- 1) Side-Scroll Price Cards -->
+  <!-- Side-Scroll Price Cards -->
   <div class="pricing-scroll-wrapper">
     <div class="price-card">
       <h3>Monthly Pass</h3>
       <div class="price-val">₹499</div>
-      <p>30 Days Validity</p>
+      <p>30 Din Validity</p>
       <ul>
-        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> All 300+ Lessons</li>
-        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Mobile / Web Play</li>
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> 300+ Chapters</li>
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Sub-lesson Notes</li>
       </ul>
-      <button class="btn-action" style="font-size:0.75rem; padding:0.4rem;" onclick="scrollToAuth()">Select Plan</button>
+      <button class="btn-action" style="padding:0.4rem; font-size:0.75rem;" onclick="focusAuth()">Subscribe</button>
     </div>
-
     <div class="price-card popular">
       <div class="badge-pop">POPULAR</div>
       <h3>Quarterly Pass</h3>
       <div class="price-val">₹999</div>
-      <p>90 Days Full Access</p>
+      <p>90 Din Full Access</p>
       <ul>
-        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> 300+ Videos + Updates</li>
-        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Email Priority Support</li>
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> All 300+ Topics</li>
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Direct Doubt Email</li>
       </ul>
-      <button class="btn-action" style="font-size:0.75rem; padding:0.4rem;" onclick="scrollToAuth()">Select Plan</button>
-    </div>
-
-    <div class="price-card">
-      <h3>Lifetime Elite</h3>
-      <div class="price-val">₹1,999</div>
-      <p>Unlimited Validity</p>
-      <ul>
-        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Lifetime Updates</li>
-        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Future Bonus Guides</li>
-      </ul>
-      <button class="btn-action" style="font-size:0.75rem; padding:0.4rem;" onclick="scrollToAuth()">Select Plan</button>
+      <button class="btn-action" style="padding:0.4rem; font-size:0.75rem;" onclick="focusAuth()">Subscribe</button>
     </div>
   </div>
 
-  <!-- Auth / Verification Box -->
+  <!-- Auth Box -->
   <section class="auth-section" id="authBox">
     <div class="form-group">
-      <label for="userEmail">Apna Registered Email ID daalein:</label>
-      <input type="email" id="userEmail" class="input-box" placeholder="example@email.com" required>
+      <label for="userEmail">Registered Email ID:</label>
+      <input type="email" id="userEmail" class="input-box" placeholder="name@example.com">
     </div>
-    
-    <div class="form-group" id="otpGroup" style="display: none;">
-      <label for="otpInput">Enter 6-digit OTP:</label>
-      <input type="number" id="otpInput" class="input-box" placeholder="123456">
-    </div>
-
-    <button id="authBtn" class="btn-action">Verify Access / Check Plan</button>
-    <button id="sendPlanRequestBtn" class="btn-action btn-secondary">
-      <i class="fa-solid fa-envelope"></i> Send Activation Request via Email
-    </button>
+    <button id="authBtn" class="btn-action" style="margin-top:0.4rem;">Verify & Unlock</button>
     <div id="statusBadge" class="status-badge"></div>
   </section>
 
-  <!-- Course Modules Dashboard -->
-  <section class="dashboard-wrapper">
-    <div class="section-head">
-      <h2><i class="fa-solid fa-book-open"></i> Course Index (300+ Topics)</h2>
-      <span id="accessNotice" style="font-size: 0.75rem; color: #fbbf24; font-weight: 600;">Status: Locked</span>
+  <!-- Search & Category Filter Controls -->
+  <div class="controls-panel">
+    <div class="search-wrapper">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search 300+ topics (e.g. Demat, Candlestick, Nifty)...">
     </div>
-
-    <!-- 2, 3, 4) No Blur, Clean, High-Density Grid -->
-    <div id="notesContainer" class="notes-container"></div>
-  </section>
-
-  <!-- Non-touchable Click Modal Alert -->
-  <div id="subscribeModal" class="modal-overlay">
-    <div class="modal-box">
-      <i class="fa-solid fa-lock"></i>
-      <h3 id="modalTopicTitle">Lesson Locked</h3>
-      <p>Ye video dekhne ke liye subscription active hona zaroori hai. Kripya upar apna email verify karein ya activation request bhejein.</p>
-      <button class="btn-action" style="margin-bottom:0.5rem;" onclick="closeModalAndScroll()">Subscribe / Activate Now</button>
-      <br>
-      <button class="modal-close-btn" onclick="closeModal()">Close</button>
+    <div class="category-scroll" id="catFilter">
+      <button class="cat-chip active" data-cat="All">All Topics</button>
+      <button class="cat-chip" data-cat="Basics">Basics</button>
+      <button class="cat-chip" data-cat="Fundamental">Fundamental</button>
+      <button class="cat-chip" data-cat="Technical">Technical</button>
+      <button class="cat-chip" data-cat="Candlestick">Candlestick</button>
+      <button class="cat-chip" data-cat="F&O">F&O Derivatives</button>
+      <button class="cat-chip" data-cat="Psychology">Psychology</button>
     </div>
   </div>
 
-  <footer>
-    <div class="footer-links">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Refunds</a>
-      <a href="#">Contact</a>
+  <!-- Sticky Notes Grid -->
+  <section class="dashboard-wrapper">
+    <div id="notesContainer" class="notes-container"></div>
+  </section>
+
+  <!-- Locked Pop-up Modal -->
+  <div id="subscribeModal" class="modal-overlay">
+    <div class="modal-box">
+      <i class="fa-solid fa-lock" style="font-size:2rem; color:#fbbf24;"></i>
+      <h3 id="modalTopicTitle">Lesson Locked</h3>
+      <p>Ye video dekhne ke liye subscription active hona zaroori hai. Aap "FREE DEMO" lesson pehle chala kar check kar sakte hain.</p>
+      <button class="btn-action" style="margin-bottom:0.4rem;" onclick="closeModalAndScroll()">Subscribe / Activate</button>
+      <br>
+      <button style="background:none; border:none; color:var(--text-muted); font-size:0.75rem; cursor:pointer;" onclick="closeModal()">Close</button>
     </div>
-    <p>&copy; 2026 Share Market Learning Hub.</p>
-  </footer>
+  </div>
 
   <script src="course.js"></script>
 </body>
