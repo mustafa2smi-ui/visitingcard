@@ -1,77 +1,101 @@
 /**
- * Course Controller - Fully Secured & Restored Modal Alert System
+ * Course Controller - OTP Verification, Strict Sanitization, Subcategories & Email Linker
  */
 
 const CONFIG = {
-  // Production setting: False rakha hai taaki lock aur popup properly trigger hon
-  DEMO_MODE: false, 
+  ADMIN_EMAIL: "admin@example.com", // Aapka official email
+  DEMO_MODE: false, // Locked mode: only isFree:true opens
   STORAGE_KEY_TOKEN: "smc_device_token",
   STORAGE_KEY_EMAIL: "smc_user_email",
   STORAGE_KEY_STATUS: "smc_access_status"
 };
 
-// 7 Vibrant Note Color Classes
 const NOTE_COLORS = ["c-green", "c-cyan", "c-pink", "c-yellow", "c-blue", "c-peach", "c-lavender"];
 
-// Course Data (Pehla lesson Free Demo hai, baqi sab locked)
+// 1) 300+ Model with Sub-lessons
 const LESSONS_DATA = [
   {
     id: "L001",
     cat: "Basics",
     title: "Stock Market Kya Hai? Complete Beginner Guide",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: true // FREE DEMO VIDEO
+    isFree: true,
+    subLessons: [
+      { id: "L001-1", title: "Share aur Equity me antar", url: "https://youtu.be/M7lc1UVf-VE" },
+      { id: "L001-2", title: "BSE vs NSE: Stock exchanges kaise chalte hain", url: "https://youtu.be/M7lc1UVf-VE" }
+    ]
   },
   {
     id: "L002",
     cat: "Basics",
-    title: "BSE aur NSE me kya antar hai?",
+    title: "Demat & Trading Account Setup",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
+    isFree: false,
+    subLessons: [
+      { id: "L002-1", title: "Brokers aur DP Charges samajhiye", url: "https://youtu.be/M7lc1UVf-VE" }
+    ]
   },
   {
     id: "L003",
-    cat: "Basics",
-    title: "Demat aur Trading Account Open & Setup",
+    cat: "Technical",
+    title: "Support & Resistance Masterclass",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
+    isFree: false,
+    subLessons: [
+      { id: "L003-1", title: "Swing High aur Swing Low draw karna", url: "https://youtu.be/M7lc1UVf-VE" },
+      { id: "L003-2", title: "Breakout vs Fakeout kaise pehchane", url: "https://youtu.be/M7lc1UVf-VE" }
+    ]
   },
   {
     id: "L004",
-    cat: "Technical",
-    title: "Support aur Resistance Levels draw karna",
+    cat: "Candlestick",
+    title: "Hammer & Inverted Hammer Strategy",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
+    isFree: false,
+    subLessons: []
   },
   {
     id: "L005",
-    cat: "Candlestick",
-    title: "Hammer aur Inverted Hammer Candlestick Strategy",
+    cat: "Fundamental",
+    title: "PE Ratio, PB Ratio & Balance Sheet",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
+    isFree: false,
+    subLessons: [
+      { id: "L005-1", title: "Financial statement reading", url: "https://youtu.be/M7lc1UVf-VE" }
+    ]
   },
   {
     id: "L006",
-    cat: "Fundamental",
-    title: "PE Ratio, PB Ratio aur Balance Sheet Analysis",
+    cat: "F&O",
+    title: "Options Trading: Call (CE) vs Put (PE)",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
+    isFree: false,
+    subLessons: []
   },
   {
     id: "L007",
-    cat: "F&O",
-    title: "Options Trading: Call (CE) vs Put (PE) Basics",
-    url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
-  },
-  {
-    id: "L008",
     cat: "Psychology",
-    title: "Trading Discipline aur Fear & Greed Control",
+    title: "Risk Management & Emotion Control",
     url: "https://youtu.be/M7lc1UVf-VE",
-    isFree: false
+    isFree: false,
+    subLessons: []
   }
 ];
+
+// 3) Strict Input Sanitization & Email Check
+function sanitizeAndValidateEmail(rawEmail) {
+  if (!rawEmail) return { valid: false, error: "Enter your email to register" };
+  
+  // Script tags & spaces remove
+  let cleaned = rawEmail.replace(/<[^>]*>?/gm, "").trim();
+
+  // Strict RFC compliant email regex
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(cleaned)) {
+    return { valid: false, error: "Kripya valid email address dalein (@ aur domain zaroori hai)." };
+  }
+  return { valid: true, email: cleaned };
+}
 
 function getCleanEmbedUrl(rawUrl) {
   if (!rawUrl) return "";
@@ -115,6 +139,8 @@ function initIndexPage(deviceToken) {
   const catFilter = document.getElementById("catFilter");
   const authBtn = document.getElementById("authBtn");
   const userEmail = document.getElementById("userEmail");
+  const otpGroup = document.getElementById("otpGroup");
+  const otpInput = document.getElementById("otpInput");
   const sendPlanRequestBtn = document.getElementById("sendPlanRequestBtn");
   const statusBadge = document.getElementById("statusBadge");
   const accessNotice = document.getElementById("accessNotice");
@@ -122,6 +148,7 @@ function initIndexPage(deviceToken) {
 
   let currentCategory = "All";
   let searchQuery = "";
+  let isOtpStep = false; // Step tracking: false = need email, true = need OTP
 
   const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
 
@@ -145,13 +172,17 @@ function initIndexPage(deviceToken) {
       note.className = `sticky-note ${color}`;
 
       const canPlay = isUserActive || lesson.isFree;
+      const cornerLock = canPlay ? "" : `<span class="corner-lock"><i class="fa-solid fa-lock"></i></span>`;
 
-      // 4) Top-Right Corner 🔒 Lock Icon for paid lessons
-      const cornerLock = canPlay 
-        ? "" 
-        : `<span class="corner-lock"><i class="fa-solid fa-lock"></i></span>`;
+      // 1) Subcategories Preview List on card (Always visible to attract)
+      let subPreviewHtml = "";
+      if (lesson.subLessons && lesson.subLessons.length > 0) {
+        subPreviewHtml = `<ul class="subtopics-preview">
+          ${lesson.subLessons.slice(0, 2).map(s => `<li>${s.title}</li>`).join("")}
+          ${lesson.subLessons.length > 2 ? `<li>+${lesson.subLessons.length - 2} more...</li>` : ""}
+        </ul>`;
+      }
 
-      // Status indicator at bottom
       const footerTag = lesson.isFree 
         ? `<span class="badge-free">FREE DEMO</span>` 
         : (isUserActive ? `<i class="fa-solid fa-play"></i>` : `<i class="fa-solid fa-lock" style="color:#475569;"></i>`);
@@ -161,6 +192,7 @@ function initIndexPage(deviceToken) {
         <div>
           <span class="lesson-num">#${lesson.id} • ${lesson.cat}</span>
           <div class="lesson-title">${lesson.title}</div>
+          ${subPreviewHtml}
         </div>
         <div class="note-footer">
           <span></span>
@@ -168,12 +200,11 @@ function initIndexPage(deviceToken) {
         </div>
       `;
 
-      // B) Click Correction: Sirf free demo play hoga, baaki sab par POPUP aayega!
       note.addEventListener("click", () => {
         if (canPlay) {
           window.location.href = `course.html?id=${lesson.id}`;
         } else {
-          showLockedModal(lesson.title);
+          showLockedModal(lesson.title, lesson.subLessons);
         }
       });
 
@@ -181,50 +212,79 @@ function initIndexPage(deviceToken) {
     });
   }
 
-  // 2) Bina email ke button click karne par alert prompt
+  // 3) Multi-step Smart OTP Register flow
   authBtn.addEventListener("click", () => {
-    const email = userEmail.value.trim();
-    if (!email || !email.includes("@")) {
-      alert("⚠️ Kripya apna registered email ID enter karein!");
+    const emailResult = sanitizeAndValidateEmail(userEmail.value);
+    
+    // Email blank ya invalid hone par prompt
+    if (!emailResult.valid) {
+      alert(emailResult.error);
       userEmail.focus();
       return;
     }
 
-    authBtn.disabled = true;
-    authBtn.innerText = "Checking...";
+    if (!isOtpStep) {
+      // Step 1: Email valid hai -> OTP field show karo
+      authBtn.innerText = "Sending OTP...";
+      authBtn.disabled = true;
 
-    setTimeout(() => {
-      authBtn.disabled = false;
-      authBtn.innerText = "Verify Access / Check Plan";
-
-      // Mock status: Default "waiting" taaki payment manual verify ho
-      const status = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) || "waiting";
-
-      if (status === "active") {
-        statusBadge.className = "status-badge status-active";
-        statusBadge.innerText = "Access Active! Sabhi lessons unlock hain.";
-      } else {
+      setTimeout(() => {
+        authBtn.disabled = false;
+        authBtn.innerText = "Submit OTP & Verify";
+        otpGroup.style.display = "block"; // OTP Box reveal
+        otpInput.focus();
+        isOtpStep = true;
+        
         statusBadge.className = "status-badge status-waiting";
-        statusBadge.innerText = "Payment verification pending. Manual approval ke baad unlock hoga.";
+        statusBadge.innerText = `OTP sent to ${emailResult.email}. (Demo: enter 123456)`;
+        statusBadge.style.display = "block";
+      }, 700);
+
+    } else {
+      // Step 2: OTP verify step
+      const otp = otpInput.value.trim();
+      if (!otp || otp.length < 4) {
+        alert("Kripya 6-digit OTP enter karein.");
+        otpInput.focus();
+        return;
       }
-      statusBadge.style.display = "block";
-    }, 600);
+
+      authBtn.innerText = "Verifying...";
+      authBtn.disabled = true;
+
+      setTimeout(() => {
+        authBtn.disabled = false;
+        authBtn.innerText = "Verify Access";
+
+        // Default Denied / Waiting for admin manual payment verification
+        const status = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) || "waiting";
+
+        if (status === "active") {
+          statusBadge.className = "status-badge status-active";
+          statusBadge.innerText = "Account Active! Sabhi lessons unlock ho gaye.";
+        } else {
+          statusBadge.className = "status-badge status-waiting";
+          statusBadge.innerText = "OTP Verified! Payment approval pending hai. Admin approval ke baad full access mil jayega.";
+        }
+        statusBadge.style.display = "block";
+      }, 700);
+    }
   });
 
-  // 1) Wapas aaya Manual Email Button handler
+  // 2) Native Email App Redirect with pre-filled content
   sendPlanRequestBtn.addEventListener("click", () => {
-    const email = userEmail.value.trim();
-    if (!email) {
-      alert("⚠️ Kripya apna email ID box me pehle likhein!");
-      userEmail.focus();
-      return;
-    }
+    const emailResult = sanitizeAndValidateEmail(userEmail.value);
+    const email = emailResult.valid ? emailResult.email : "Not specified";
 
-    const subject = encodeURIComponent("Share Market Course Activation Request");
+    const subject = encodeURIComponent("Course Access Activation Request");
     const body = encodeURIComponent(
-      `Hello Admin,\n\nMaine course activate karne ke liye request bheji hai.\nEmail: ${email}\nDevice Token: ${deviceToken}\n\nKripya verification karke dashboard access chalu karein.`
+      `Hello Admin,\n\nMaine Share Market course ke liye request bheji hai.\n` +
+      `User Email: ${email}\n` +
+      `Device Token: ${deviceToken}\n\n` +
+      `Maine plan select kar liya hai, kripya verify karke mera dashboard access chalu karein.\n\nDhanyawad!`
     );
-    window.location.href = `mailto:admin@example.com?subject=${subject}&body=${body}`;
+    // Directly opens Gmail / Default Email client app
+    window.location.href = `mailto:${CONFIG.ADMIN_EMAIL}?subject=${subject}&body=${body}`;
   });
 
   // Live Search
@@ -243,7 +303,7 @@ function initIndexPage(deviceToken) {
     }
   });
 
-  // Share Button
+  // Share
   if (shareBtn) {
     shareBtn.addEventListener("click", async () => {
       if (navigator.share) {
@@ -265,8 +325,14 @@ function initIndexPage(deviceToken) {
 }
 
 /* Modal Helpers */
-function showLockedModal(title) {
+function showLockedModal(title, subLessons) {
   document.getElementById("modalTopicTitle").innerText = `"${title}"`;
+  
+  let desc = "Ye lesson dekhne ke liye subscription zaroori hai.";
+  if (subLessons && subLessons.length > 0) {
+    desc += ` Iske andar ${subLessons.length} aur practical sub-topics shamil hain.`;
+  }
+  document.getElementById("modalTopicDesc").innerText = desc;
   document.getElementById("subscribeModal").style.display = "flex";
 }
 function closeModal() {
@@ -288,49 +354,88 @@ function initPlayerPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const activeId = urlParams.get("id") || LESSONS_DATA[0].id;
 
-  const currentLesson = LESSONS_DATA.find(l => l.id === activeId) || LESSONS_DATA[0];
+  // Find Lesson (parent ya sub)
+  let selectedLesson = LESSONS_DATA.find(l => l.id === activeId);
+  let parentLesson = selectedLesson;
 
-  // Agar user active nahi hai aur video free nahi hai toh rok do
-  if (!isUserActive && !currentLesson.isFree) {
+  if (!selectedLesson) {
+    for (let p of LESSONS_DATA) {
+      const sub = p.subLessons.find(s => s.id === activeId);
+      if (sub) {
+        selectedLesson = sub;
+        parentLesson = p;
+        break;
+      }
+    }
+  }
+
+  if (!selectedLesson) selectedLesson = LESSONS_DATA[0];
+
+  // Access Guard
+  if (!isUserActive && !parentLesson.isFree) {
     alert("Unauthorized! Ye video locked hai.");
     window.location.href = "index.html";
     return;
   }
 
-  document.getElementById("currentLessonTitle").innerText = currentLesson.title;
+  // Breadcrumbs & Title updates
+  document.getElementById("breadCat").innerText = parentLesson.cat || "Topic";
+  document.getElementById("breadTitle").innerText = selectedLesson.title;
+  document.getElementById("currentLessonTitle").innerText = selectedLesson.title;
 
   const frame = document.getElementById("videoPlayerFrame");
-  frame.src = getCleanEmbedUrl(currentLesson.url);
+  frame.src = getCleanEmbedUrl(selectedLesson.url);
 
-  // 3) White Theme List View Render
+  // Render White Theme Collapsible Subcategory List
   const listContainer = document.getElementById("lessonList");
   const counter = document.getElementById("totalCounter");
-  if (counter) counter.innerText = `${LESSONS_DATA.length} Topics`;
+  if (counter) counter.innerText = `${LESSONS_DATA.length} Chapters`;
 
   listContainer.innerHTML = "";
-  LESSONS_DATA.forEach((lesson, index) => {
-    const li = document.createElement("li");
-    li.className = `lesson-item ${lesson.id === activeId ? "active" : ""}`;
+  LESSONS_DATA.forEach(parent => {
+    const isParentActive = (parent.id === parentLesson.id);
+    const canAccessParent = isUserActive || parent.isFree;
 
-    const canAccess = isUserActive || lesson.isFree;
+    const group = document.createElement("li");
+    group.className = "parent-group";
 
-    li.innerHTML = `
-      <i class="fa-solid ${canAccess ? (lesson.id === activeId ? 'fa-circle-play' : 'fa-play') : 'fa-lock'}" 
-         style="font-size:0.8rem; color:${canAccess ? 'var(--primary)' : '#94a3b8'}"></i>
-      <div style="flex:1; font-size:0.82rem;">
-        <strong>#${index + 1}:</strong> ${lesson.title}
+    group.innerHTML = `
+      <div class="parent-header ${isParentActive ? 'active' : ''}">
+        <span><i class="fa-solid ${canAccessParent ? 'fa-book-open' : 'fa-lock'}" style="margin-right:6px; color:${canAccessParent ? 'var(--primary)' : '#94a3b8'}"></i>${parent.title}</span>
+        ${parent.isFree ? '<span class="badge-free">FREE</span>' : ''}
       </div>
-      ${lesson.isFree ? '<span class="badge-free">FREE</span>' : ''}
+      ${parent.subLessons && parent.subLessons.length > 0 ? `
+        <ul class="sub-list">
+          ${parent.subLessons.map(sub => `
+            <li class="sub-item ${sub.id === activeId ? 'active' : ''}" data-id="${sub.id}">
+              <i class="fa-solid fa-play" style="font-size:0.6rem;"></i> ${sub.title}
+            </li>
+          `).join("")}
+        </ul>
+      ` : ""}
     `;
 
-    li.addEventListener("click", () => {
-      if (canAccess) {
-        window.location.href = `course.html?id=${lesson.id}`;
+    // Click parent
+    group.querySelector(".parent-header").addEventListener("click", () => {
+      if (canAccessParent) {
+        window.location.href = `course.html?id=${parent.id}`;
       } else {
-        alert("Ye lesson locked hai. Pehle subscription active karein.");
+        alert("Ye chapter locked hai. Pehle subscription active karein.");
       }
     });
 
-    listContainer.appendChild(li);
+    // Click sub-items
+    group.querySelectorAll(".sub-item").forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (canAccessParent) {
+          window.location.href = `course.html?id=${item.getAttribute("data-id")}`;
+        } else {
+          alert("Ye sub-topic locked hai.");
+        }
+      });
+    });
+
+    listContainer.appendChild(group);
   });
 }
