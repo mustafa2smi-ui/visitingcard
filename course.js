@@ -184,7 +184,7 @@ function scrollToAuth() {
 /* ---------------- PLAYER PAGE ---------------- */
 function initPlayerPage() {
 //  const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
-  const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "Member";
+//  const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "Member";
   
 /*  if (currentStatus !== "active") {
     alert("Unauthorized! Pehle subscription active karein.");
