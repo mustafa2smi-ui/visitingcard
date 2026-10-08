@@ -12,7 +12,7 @@
       --card-white: #ffffff;
       --text-dark: #0f172a;
       --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --border-color: #cbd5e1;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -23,8 +23,8 @@
       line-height: 1.4;
       display: flex;
       flex-direction: column;
-      height: 100vh; /* Fixed app height */
-      overflow: hidden; /* Main window scroll block */
+      height: 100vh;
+      overflow: hidden;
     }
 
     /* Fixed Compact Header */
@@ -40,7 +40,7 @@
     }
     .back-btn { color: #0284c7; text-decoration: none; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
 
-    /* Main Container (Mobile-first app layout) */
+    /* Main Container */
     .main-app-container {
       display: flex;
       flex-direction: column;
@@ -59,7 +59,7 @@
       }
     }
 
-    /* 1) STICKY TOP VIDEO AREA */
+    /* STICKY TOP VIDEO AREA */
     .sticky-video-section {
       position: sticky;
       top: 0;
@@ -79,7 +79,6 @@
       }
     }
 
-    /* Viewport & Shield Layers */
     .video-viewport {
       position: relative;
       width: 100%;
@@ -87,7 +86,7 @@
       background: #000;
       overflow: hidden;
       margin: 0 auto;
-      max-height: 45vh; /* Mobile par screen cover na kare */
+      max-height: 42vh;
     }
 
     @media (min-width: 850px) {
@@ -103,53 +102,25 @@
       border: none;
     }
 
-    /* Anti-Redirect Shields: Top title & Logo click block */
-    .yt-shield-top {
+    /* Lock Overlay */
+    .player-lock-overlay {
+      display: none;
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 48px;
-      z-index: 15;
-      background: transparent;
-    }
-    .yt-shield-logo {
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 75px; height: 42px;
-      z-index: 15;
-      background: transparent;
-    }
-
-    /* Custom Web Fullscreen (Blocks YouTube app redirect in full view) */
-    .video-viewport.is-custom-fullscreen {
-      position: fixed !important;
-      inset: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      max-height: none !important;
-      aspect-ratio: auto !important;
-      z-index: 99999 !important;
-      border-radius: 0 !important;
-    }
-
-    .fs-toggle-btn {
-      position: absolute;
-      bottom: 8px;
-      left: 10px;
-      z-index: 25;
-      background: rgba(15, 23, 42, 0.75);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 4px;
-      padding: 3px 8px;
-      font-size: 0.72rem;
-      cursor: pointer;
+      inset: 0;
+      background: rgba(11, 17, 32, 0.94);
+      z-index: 20;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
     }
 
     /* Video Meta Info */
     .video-info-bar {
       background: #fff;
       padding: 0.5rem 0.8rem;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 2px solid var(--border-color);
     }
     .video-info-bar h2 {
       font-size: 0.95rem;
@@ -167,10 +138,10 @@
       margin-top: 2px;
     }
 
-    /* 2) INDEPENDENT SCROLLABLE PLAYLIST */
+    /* SCROLLABLE PLAYLIST */
     .scrollable-content-section {
       flex: 1;
-      overflow-y: auto; /* Sirf playlist scroll hogi */
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding: 0.6rem;
       background: var(--bg-white);
@@ -189,68 +160,95 @@
 
     .playlist-head {
       font-size: 0.85rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 0.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.6rem;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
-    .lesson-list { list-style: none; padding-bottom: 3rem; }
+    .lesson-list { list-style: none; padding-bottom: 3.5rem; }
     
+    /* Alternating Card Border Accents */
     .parent-group {
-      margin-bottom: 0.45rem;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      background: #fff;
+      margin-bottom: 0.6rem;
+      border-radius: 8px;
+      background: #ffffff;
       overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      border-left-width: 5px; /* Distinct left border */
+      transition: transform 0.15s ease;
     }
+
+    /* Color variations for chapters */
+    .border-blue { border-left-color: #2563eb; }
+    .border-red { border-left-color: #dc2626; }
+    .border-green { border-left-color: #059669; }
+    .border-amber { border-left-color: #d97706; }
+    .border-purple { border-left-color: #7c3aed; }
+    .border-cyan { border-left-color: #0891b2; }
+
     .parent-header {
-      padding: 0.6rem 0.75rem;
+      padding: 0.65rem 0.8rem;
       background: #f8fafc;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
+      gap: 8px;
     }
+    .parent-header:hover { background: #f1f5f9; }
+    
     .parent-header.active {
       background: #ecfdf5;
       color: #065f46;
-      border-left: 3px solid var(--primary);
     }
 
-    .sub-list { list-style: none; background: #fff; border-top: 1px solid var(--border-color); }
+    /* Chapter Number Pill Badge */
+    .chap-badge {
+      background: #0f172a;
+      color: #38bdf8;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
+    }
+    .parent-header.active .chap-badge {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .chap-title-text {
+      flex: 1;
+      line-height: 1.3;
+    }
+
+    /* Sub-lessons list */
+    .sub-list { list-style: none; background: #ffffff; border-top: 1px solid #f1f5f9; }
     .sub-item {
-      padding: 0.5rem 0.75rem 0.5rem 1.6rem;
+      padding: 0.5rem 0.8rem 0.5rem 1.8rem;
       font-size: 0.76rem;
       color: #475569;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f8fafc;
     }
+    .sub-item:last-child { border-bottom: none; }
+    .sub-item:hover { background: #f8fafc; color: #0284c7; }
     .sub-item.active { background: #eff6ff; color: #0284c7; font-weight: 700; }
 
     .badge-free {
       background: #10b981; color: #fff; font-size: 0.6rem;
-      padding: 1px 4px; border-radius: 3px; font-weight: 700;
-    }
-
-    /* Lock Overlay */
-    .player-lock-overlay {
-      display: none;
-      position: absolute;
-      inset: 0;
-      background: rgba(11, 17, 32, 0.94);
-      z-index: 20;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 1rem;
+      padding: 2px 5px; border-radius: 3px; font-weight: 800;
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -267,15 +265,6 @@
     <!-- 1. STICKY TOP VIDEO AREA -->
     <div class="sticky-video-section">
       <div id="videoViewport" class="video-viewport">
-        <!-- Anti Redirect Click Interceptors -->
-        <div class="yt-shield-top"></div>
-        <div class="yt-shield-logo"></div>
-
-        <!-- Custom Safe Fullscreen Toggle Button -->
-        <button id="customFsBtn" class="fs-toggle-btn">
-          <i class="fa-solid fa-expand"></i> Theater View
-        </button>
-
         <!-- Lock Card Overlay -->
         <div id="playerLockOverlay" class="player-lock-overlay">
           <i class="fa-solid fa-lock" style="font-size:1.8rem; color:#fbbf24; margin-bottom:0.4rem;"></i>
@@ -288,7 +277,8 @@
           </a>
         </div>
 
-        <iframe id="videoPlayerFrame" src="" allow="autoplay; encrypted-media" allowfullscreen="false"></iframe>
+        <!-- Official YouTube Player with Native Fullscreen Support -->
+        <iframe id="videoPlayerFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
 
       <!-- Compact Meta & Credit Bar -->
@@ -301,7 +291,7 @@
       </div>
     </div>
 
-    <!-- 2. SCROLLABLE PLAYLIST (Independently scrolls without moving the video) -->
+    <!-- 2. SCROLLABLE PLAYLIST (Numbered + Border Separated) -->
     <div class="scrollable-content-section">
       <div class="playlist-head">
         <span>Roadmap Index (300+ Chapters)</span>
@@ -313,19 +303,5 @@
   </div>
 
   <script src="course.js"></script>
-  <script>
-    // Custom Theater Fullscreen Controller
-    const fsBtn = document.getElementById("customFsBtn");
-    const viewport = document.getElementById("videoViewport");
-
-    if (fsBtn && viewport) {
-      fsBtn.addEventListener("click", () => {
-        const isFs = viewport.classList.toggle("is-custom-fullscreen");
-        fsBtn.innerHTML = isFs 
-          ? '<i class="fa-solid fa-compress"></i> Close View' 
-          : '<i class="fa-solid fa-expand"></i> Theater View';
-      });
-    }
-  </script>
 </body>
 </html>
