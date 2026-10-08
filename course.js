@@ -63,7 +63,10 @@ function initIndexPage(deviceToken) {
   const sendPlanRequestBtn = document.getElementById("sendPlanRequestBtn");
 
   const noteColors = ["note-c1", "note-c2", "note-c3", "note-c4", "note-c5"];
-  const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
+ // const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
+/* --- YAHAN CHANGE KAREIN --- */
+// const currentStatus = localStorage.getItem(CONFIG.STORAGE_KEY_STATUS);
+const currentStatus = "active"; // <-- ISE 'active' KAR DEIN TEST KE LIYE
 
   if (currentStatus === "active") {
     accessNotice.innerText = "Status: Unlocked (Active)";
@@ -124,7 +127,9 @@ function initIndexPage(deviceToken) {
       authBtn.innerText = "Verify Access";
 
       // Mock status: Default "waiting" taaki payment manual verify ho
-      const mockStatus = "waiting"; 
+     // const mockStatus = "waiting"; 
+// const mockStatus = "waiting";
+const mockStatus = "active"; // <-- ISE BHI 'active' KAR DEIN
 
       if (mockStatus === "active") {
         localStorage.setItem(CONFIG.STORAGE_KEY_STATUS, "active");
