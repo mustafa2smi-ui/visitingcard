@@ -1,311 +1,435 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0b1220">
-<meta name="description" content="Paper Trade - Educational virtual trading simulator. No real money.">
-<title>Paper Trade Simulator</title>
-<style>
-*{box-sizing:border-box}
-:root{
-  --bg:#07101d;--card:#0d1828;--card2:#111f33;--line:#22334b;
-  --text:#f3f7fb;--muted:#8fa3ba;--green:#19c37d;--red:#ff5c67;
-  --blue:#4f8cff;--yellow:#ffc857;
-}
-body{margin:0;background:linear-gradient(180deg,#07101d,#0a1422);color:var(--text);
-font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button,input,select{font:inherit}
-.app{max-width:1100px;margin:auto;padding:14px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.brand h1{font-size:22px;margin:0}.brand p{font-size:11px;color:var(--muted);margin:3px 0 0}
-.badge{background:#13253b;border:1px solid #29415f;color:#a9c8ee;border-radius:20px;padding:7px 10px;font-size:11px;white-space:nowrap}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.card{background:rgba(13,24,40,.95);border:1px solid var(--line);border-radius:14px;padding:14px}
-.label{font-size:11px;color:var(--muted)}.value{font-size:20px;font-weight:750;margin-top:5px}
-.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
-.panel{background:rgba(13,24,40,.96);border:1px solid var(--line);border-radius:16px;margin-top:12px;padding:14px}
-.panel h2{font-size:15px;margin:0 0 12px}
-.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
-.searchrow{display:flex;gap:8px}.searchrow input{flex:1}
-input,select{width:100%;background:#091523;border:1px solid #2a3d58;color:#fff;border-radius:10px;padding:11px;outline:none}
-input:focus,select:focus{border-color:var(--blue)}
-.market{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
-.stock{padding:12px;border:1px solid #263a55;border-radius:11px;background:#0b1727;cursor:pointer}
-.stock:hover{border-color:#527eb7}.stock b{display:block}.stock span{font-size:11px;color:var(--muted)}
-.stock .price{font-size:16px;color:#fff;margin-top:4px}
-.tradebox{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tradebox .full{grid-column:1/-1}
-.qtyrow{display:flex;gap:8px}.qtyrow button{width:44px}
-.btn{border:0;border-radius:10px;padding:11px 13px;color:#fff;font-weight:700;cursor:pointer}
-.btn:active{transform:scale(.98)}.buy{background:#087f55}.sell{background:#b52e39}
-.secondary{background:#17283e;border:1px solid #29405c}.bluebtn{background:var(--blue)}
-.info{font-size:11px;color:var(--muted);line-height:1.5;margin-top:10px}
-.tablewrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:650px}
-th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #203149;font-size:12px}
-th{color:#91a7bf;font-weight:600}.empty{text-align:center;color:var(--muted);padding:22px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.notice{background:#101f32;border:1px solid #294361;border-radius:11px;padding:10px;font-size:11px;color:#a9bad0;margin-top:10px}
-.footer{text-align:center;color:#63788f;font-size:10px;padding:18px}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(80px);opacity:0;
-background:#122239;border:1px solid #355071;padding:11px 15px;border-radius:10px;font-size:12px;transition:.25s;z-index:20}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-@media(max-width:760px){
- .cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}
- .header{align-items:flex-start}.badge{font-size:10px}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Market Master Course</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --note-yellow: #fef08a;
+      --note-cyan: #a5f3fc;
+      --note-green: #bbf7d0;
+      --note-pink: #fbcfe8;
+      --note-orange: #fed7aa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #334155;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hamburger-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #34d399, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Pricing Cards */
+    .pricing-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: 1.5rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--card-bg);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.8rem;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .price-card.popular {
+      border-color: var(--primary);
+    }
+
+    .badge-pop {
+      position: absolute;
+      top: -12px;
+      right: 15px;
+      background: var(--primary);
+      color: #0f172a;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    .price-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-val {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #38bdf8;
+      margin: 0.5rem 0;
+    }
+
+    /* Access & Verification Section */
+    .auth-section {
+      background: #1e293b;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      border: 1px solid #475569;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-box:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--primary);
+      color: #0f172a;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #334155;
+      color: #f8fafc;
+      margin-top: 0.6rem;
+    }
+
+    .status-badge {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .status-active { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .status-waiting { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .status-denied { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    /* Sticky Notes Dashboard */
+    .dashboard-wrapper {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    .section-head {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Blur & Lock Overlay */
+    .notes-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      transition: filter 0.3s ease;
+    }
+
+    .notes-container.is-locked {
+      filter: blur(8px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .lock-overlay-msg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #475569;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      z-index: 10;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      width: 90%;
+      max-width: 450px;
+    }
+
+    /* Sticky Note Design */
+    .sticky-note {
+      min-height: 180px;
+      padding: 1.2rem;
+      border-radius: 8px;
+      color: #1e293b;
+      box-shadow: 4px 6px 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transform: rotate(-1deg);
+    }
+
+    .sticky-note:nth-child(even) {
+      transform: rotate(1.5deg);
+    }
+
+    .sticky-note:hover {
+      transform: scale(1.04) rotate(0deg);
+      box-shadow: 6px 10px 20px rgba(0,0,0,0.4);
+      z-index: 5;
+    }
+
+    .sticky-note .lesson-num {
+      font-size: 0.75rem;
+      font-weight: 800;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+
+    .sticky-note .lesson-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 0.5rem;
+    }
+
+    .sticky-note .note-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Color variations */
+    .note-c1 { background-color: var(--note-yellow); }
+    .note-c2 { background-color: var(--note-cyan); }
+    .note-c3 { background-color: var(--note-green); }
+    .note-c4 { background-color: var(--note-pink); }
+    .note-c5 { background-color: var(--note-orange); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid #334155;
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-  <header class="header">
-    <div class="brand">
-      <h1>📈 Paper Trade</h1>
-      <p>Educational Virtual Trading Simulator</p>
+
+  <!-- Header -->
+  <header>
+    <div class="brand-title">
+      <i class="fa-solid fa-chart-line"></i> Share Market Course
     </div>
-    <div class="badge">NO REAL MONEY</div>
+    <button class="hamburger-btn" aria-label="Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
   </header>
 
-  <section class="cards">
-    <div class="card"><div class="label">Virtual Cash</div><div class="value" id="cash">₹1,00,000</div></div>
-    <div class="card"><div class="label">Portfolio Value</div><div class="value" id="portfolio">₹1,00,000</div></div>
-    <div class="card"><div class="label">Total P&amp;L</div><div class="value" id="pnl">₹0</div></div>
-    <div class="card"><div class="label">Open Positions</div><div class="value" id="positions">0</div></div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Learn Stock Market Step-by-Step</h1>
+    <p>Zero se Hero: 300+ Categorized index lectures, practical charts, live market basics, aur full trading setup.</p>
   </section>
 
-  <div class="grid">
-    <section class="panel">
-      <h2>Market Watch</h2>
-      <div class="searchrow">
-        <input id="search" placeholder="Search stock..." oninput="renderStocks()">
-      </div>
-      <div class="market" id="market"></div>
-      <div class="notice">⚠️ Prices in this demo are simulated. They are not live NSE/BSE prices.</div>
-    </section>
-
-    <section class="panel">
-      <h2>Place Paper Order</h2>
-      <div class="tradebox">
-        <div class="full">
-          <div class="label">Selected Stock</div>
-          <select id="symbol" onchange="selectStock(this.value)"></select>
-        </div>
-        <div>
-          <div class="label">Price</div>
-          <input id="price" type="number" min="0" step="0.05">
-        </div>
-        <div>
-          <div class="label">Quantity</div>
-          <div class="qtyrow">
-            <button class="btn secondary" onclick="changeQty(-1)">−</button>
-            <input id="qty" type="number" min="1" step="1" value="1">
-            <button class="btn secondary" onclick="changeQty(1)">+</button>
-          </div>
-        </div>
-        <button class="btn buy" onclick="trade('BUY')">BUY</button>
-        <button class="btn sell" onclick="trade('SELL')">SELL</button>
-      </div>
-      <div class="info">
-        Buy uses your virtual cash. Sell is allowed only against shares already held.
-        There is no broker connection and no real order is sent anywhere.
-      </div>
-    </section>
-  </div>
-
-  <section class="panel">
-    <h2>My Holdings</h2>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Stock</th><th>Qty</th><th>Avg. Price</th><th>Current</th><th>Value</th><th>P&amp;L</th></tr></thead>
-        <tbody id="holdings"></tbody>
-      </table>
+  <!-- Pricing Cards -->
+  <section class="pricing-container">
+    <div class="price-card">
+      <h3>Monthly Access</h3>
+      <div class="price-val">₹499</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">30 Din Access Validity</p>
+      <ul style="list-style: none; text-align: left; margin: 1rem 0; font-size: 0.85rem; color: #cbd5e1;">
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> 300+ Video Lectures</li>
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Mobile & Desktop Access</li>
+      </ul>
+    </div>
+    <div class="price-card popular">
+      <div class="badge-pop">RECOMMENDED</div>
+      <h3>Quarterly Pass</h3>
+      <div class="price-val">₹999</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">90 Din Full Access Validity</p>
+      <ul style="list-style: none; text-align: left; margin: 1rem 0; font-size: 0.85rem; color: #cbd5e1;">
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Saare Topics & Strategies</li>
+        <li><i class="fa-solid fa-check" style="color:var(--primary)"></i> Daily Doubt Email Support</li>
+      </ul>
     </div>
   </section>
 
-  <section class="panel">
-    <h2>Trade History</h2>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Date &amp; Time</th><th>Type</th><th>Stock</th><th>Qty</th><th>Price</th><th>Amount</th></tr></thead>
-        <tbody id="history"></tbody>
-      </table>
+  <!-- Verification & Email Auth Box -->
+  <section class="auth-section">
+    <div class="form-group">
+      <label for="userEmail">Registered Email ID daalein:</label>
+      <input type="email" id="userEmail" class="input-box" placeholder="aapkaemail@example.com" required>
+    </div>
+    
+    <div class="form-group" id="otpGroup" style="display: none;">
+      <label for="otpInput">Enter 6-digit OTP:</label>
+      <input type="number" id="otpInput" class="input-box" placeholder="123456">
+    </div>
+
+    <button id="authBtn" class="btn-action">Verify Access / Send OTP</button>
+
+    <!-- Resubmit Manual Email Trigger -->
+    <button id="sendPlanRequestBtn" class="btn-action btn-secondary">
+      <i class="fa-solid fa-paper-plane"></i> Send Manual Activation Request via Email
+    </button>
+
+    <!-- Status Messages -->
+    <div id="statusBadge" class="status-badge"></div>
+  </section>
+
+  <!-- Sticky Note Course Dashboard -->
+  <section class="dashboard-wrapper">
+    <div class="section-head">
+      <h2><i class="fa-solid fa-layer-group"></i> Course Modules (300+ Topics)</h2>
+      <span id="accessNotice" style="font-size: 0.85rem; color: var(--text-muted);">Preview Mode (Locked)</span>
+    </div>
+
+    <!-- Lock notice overlay -->
+    <div id="lockOverlay" class="lock-overlay-msg">
+      <i class="fa-solid fa-lock" style="font-size: 2.5rem; color: #fbbf24; margin-bottom: 1rem;"></i>
+      <h3>Dashboard Locked Hai</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+        Course access karne ke liye apna verified email enter karein ya subscription activate karwayein.
+      </p>
+    </div>
+
+    <!-- Grid Container -->
+    <div id="notesContainer" class="notes-container is-locked">
+      <!-- Injected dynamically via course.js -->
     </div>
   </section>
 
-  <section class="panel">
-    <h2>Account</h2>
-    <div class="actions">
-      <button class="btn secondary" onclick="exportData()">Export Data</button>
-      <button class="btn secondary" onclick="document.getElementById('importFile').click()">Import Data</button>
-      <button class="btn bluebtn" onclick="resetAccount()">Reset Virtual Account</button>
-      <input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)">
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms & Conditions</a>
+      <a href="#">Refund Policy</a>
+      <a href="#">Support Contact</a>
     </div>
-  </section>
+    <p>&copy; 2026 Share Market Learning Hub. All rights reserved.</p>
+  </footer>
 
-  <div class="footer">
-    Paper Trade is an educational simulator. It does not provide investment advice or execute real trades.
-  </div>
-</div>
-<div class="toast" id="toast"></div>
-
-<script>
-const STARTING_CASH = 100000;
-const STOCKS = [
-  {symbol:"RELIANCE",name:"Reliance Industries",price:1450},
-  {symbol:"TCS",name:"Tata Consultancy Services",price:3180},
-  {symbol:"INFY",name:"Infosys",price:1520},
-  {symbol:"HDFCBANK",name:"HDFC Bank",price:1740},
-  {symbol:"ICICIBANK",name:"ICICI Bank",price:1325},
-  {symbol:"SBIN",name:"State Bank of India",price:1010},
-  {symbol:"ITC",name:"ITC",price:525},
-  {symbol:"BHARTIARTL",name:"Bharti Airtel",price:1920},
-  {symbol:"LT",name:"Larsen & Toubro",price:3850},
-  {symbol:"MARUTI",name:"Maruti Suzuki",price:13800},
-  {symbol:"TATAMOTORS",name:"Tata Motors",price:690},
-  {symbol:"SUNPHARMA",name:"Sun Pharma",price:1760}
-];
-
-let prices = {};
-STOCKS.forEach(s => prices[s.symbol] = s.price);
-
-const defaultState = () => ({
-  cash: STARTING_CASH,
-  holdings: {},
-  history: []
-});
-
-let state = loadState();
-
-function loadState(){
-  try{
-    const x = JSON.parse(localStorage.getItem("paperTradeState"));
-    if(x && typeof x.cash === "number" && x.holdings && Array.isArray(x.history)) return x;
-  }catch(e){}
-  return defaultState();
-}
-function save(){localStorage.setItem("paperTradeState", JSON.stringify(state));}
-function money(n){return "₹" + Number(n).toLocaleString("en-IN",{maximumFractionDigits:2});}
-function fmt(n){return Number(n).toLocaleString("en-IN",{maximumFractionDigits:2});}
-function stock(s){return STOCKS.find(x=>x.symbol===s);}
-
-function renderStocks(){
-  const q = document.getElementById("search").value.trim().toLowerCase();
-  const list = STOCKS.filter(s => (s.symbol+" "+s.name).toLowerCase().includes(q));
-  document.getElementById("market").innerHTML = list.map(s => `
-    <div class="stock" onclick="selectStock('${s.symbol}')">
-      <b>${s.symbol}</b><span>${s.name}</span>
-      <div class="price">${money(prices[s.symbol])}</div>
-    </div>`).join("") || '<div class="empty">No stock found</div>';
-}
-function fillSymbols(){
-  document.getElementById("symbol").innerHTML = STOCKS.map(s=>`<option value="${s.symbol}">${s.symbol} — ${s.name}</option>`).join("");
-}
-function selectStock(sym){
-  document.getElementById("symbol").value=sym;
-  document.getElementById("price").value=prices[sym];
-}
-function changeQty(n){
-  const q=document.getElementById("qty");
-  q.value=Math.max(1,(parseInt(q.value)||1)+n);
-}
-function trade(type){
-  const sym=document.getElementById("symbol").value;
-  const qty=Math.floor(Number(document.getElementById("qty").value));
-  const price=Number(document.getElementById("price").value);
-  if(!sym || !Number.isFinite(qty) || qty<1 || !Number.isFinite(price) || price<=0){
-    return toast("Enter a valid quantity and price.");
-  }
-  const amount=qty*price;
-  const h=state.holdings[sym] || {qty:0,avg:0};
-
-  if(type==="BUY"){
-    if(amount>state.cash) return toast("Insufficient virtual cash.");
-    const newQty=h.qty+qty;
-    h.avg=((h.qty*h.avg)+(qty*price))/newQty;
-    h.qty=newQty;
-    state.holdings[sym]=h;
-    state.cash-=amount;
-  }else{
-    if(qty>h.qty) return toast("You don't have enough shares to sell.");
-    state.cash+=amount;
-    h.qty-=qty;
-    if(h.qty===0) delete state.holdings[sym];
-    else state.holdings[sym]=h;
-  }
-
-  state.history.unshift({
-    time:new Date().toLocaleString("en-IN"),
-    type,sym,qty,price,amount
-  });
-  save(); render(); toast(`${type} successful: ${qty} ${sym}`);
-}
-function render(){
-  let holdingsValue=0,totalPnl=0,count=0;
-  const rows=Object.entries(state.holdings).map(([sym,h])=>{
-    const cur=prices[sym] ?? h.avg;
-    const value=h.qty*cur;
-    const pnl=(cur-h.avg)*h.qty;
-    holdingsValue+=value; totalPnl+=pnl; count++;
-    return `<tr>
-      <td><b>${sym}</b></td><td>${fmt(h.qty)}</td><td>${money(h.avg)}</td>
-      <td>${money(cur)}</td><td>${money(value)}</td>
-      <td class="${pnl>=0?'green':'red'}">${pnl>=0?'+':''}${money(pnl)}</td>
-    </tr>`;
-  }).join("");
-  document.getElementById("holdings").innerHTML=rows||'<tr><td colspan="6" class="empty">No open holdings</td></tr>';
-  document.getElementById("cash").textContent=money(state.cash);
-  document.getElementById("portfolio").textContent=money(state.cash+holdingsValue);
-  const pnlEl=document.getElementById("pnl");
-  pnlEl.textContent=(totalPnl>=0?"+":"")+money(totalPnl);
-  pnlEl.className="value "+(totalPnl>=0?"green":"red");
-  document.getElementById("positions").textContent=count;
-
-  document.getElementById("history").innerHTML=state.history.length ? state.history.map(t=>`
-    <tr><td>${t.time}</td><td class="${t.type==='BUY'?'green':'red'}"><b>${t.type}</b></td>
-    <td>${t.sym}</td><td>${t.qty}</td><td>${money(t.price)}</td><td>${money(t.amount)}</td></tr>
-  `).join("") : '<tr><td colspan="6" class="empty">No trades yet</td></tr>';
-
-  renderStocks();
-}
-function toast(msg){
-  const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");
-  clearTimeout(window.__toast);window.__toast=setTimeout(()=>el.classList.remove("show"),2200);
-}
-function resetAccount(){
-  if(!confirm("Reset account to ₹1,00,000 and delete all paper trades?")) return;
-  state=defaultState();save();render();toast("Virtual account reset.");
-}
-function exportData(){
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
-  a.download="paper-trade-backup.json";a.click();URL.revokeObjectURL(a.href);
-}
-function importData(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const x=JSON.parse(reader.result);
-      if(typeof x.cash!=="number"||!x.holdings||!Array.isArray(x.history)) throw Error();
-      state=x;save();render();toast("Data imported successfully.");
-    }catch(err){toast("Invalid backup file.");}
-  };reader.readAsText(file);e.target.value="";
-}
-
-/* Demo market movement: small simulated price changes every 15 seconds.
-   Replace this section later with a market-data API if required. */
-setInterval(()=>{
-  STOCKS.forEach(s=>{
-    const move=(Math.random()-0.5)*0.012;
-    prices[s.symbol]=Math.max(1,prices[s.symbol]*(1+move));
-  });
-  render();
-},15000);
-
-fillSymbols();
-selectStock("RELIANCE");
-render();
-</script>
+  <script src="course.js"></script>
 </body>
 </html>
