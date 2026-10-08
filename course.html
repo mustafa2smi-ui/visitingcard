@@ -8,32 +8,34 @@
   <style>
     :root {
       --primary: #10b981;
-      --bg-dark: #090d16;
-      --card-bg: #151f30;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg-white: #f8fafc;
+      --card-white: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-main); }
+    
+    /* 3) White Background View */
+    body { background-color: var(--bg-white); color: var(--text-dark); line-height: 1.4; }
 
     .player-header {
-      padding: 0.6rem 1rem; background: #111827;
-      display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937;
+      padding: 0.7rem 1.2rem; background: #ffffff;
+      display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);
     }
-    .back-btn { color: #38bdf8; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 5px; }
-
-    /* Breadcrumbs */
-    .breadcrumb-bar { max-width: 1200px; margin: 0.6rem auto 0; padding: 0 1rem; font-size: 0.75rem; color: var(--text-muted); }
-    .breadcrumb-bar a { color: #38bdf8; text-decoration: none; }
+    .back-btn { color: #0284c7; text-decoration: none; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
 
     .main-layout {
-      max-width: 1200px; margin: 0.6rem auto 1.5rem;
-      padding: 0 1rem; display: grid; grid-template-columns: 2.2fr 1fr; gap: 1rem;
+      max-width: 1200px; margin: 1rem auto 2rem;
+      padding: 0 1rem; display: grid; grid-template-columns: 2.2fr 1fr; gap: 1.2rem;
     }
     @media (max-width: 850px) { .main-layout { grid-template-columns: 1fr; } }
 
-    /* Video Player & Shield Layer */
-    .player-card { background: var(--card-bg); border-radius: 8px; padding: 0.8rem; border: 1px solid #1f2937; }
+    /* Video Player Card */
+    .player-card {
+      background: var(--card-white); border-radius: 8px; padding: 0.9rem;
+      border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
     
     .video-viewport {
       position: relative; width: 100%; aspect-ratio: 16 / 9;
@@ -41,34 +43,42 @@
     }
     .video-viewport iframe { width: 100%; height: 100%; border: none; }
 
-    /* 3) YouTube Touch/Click Intercept Layer */
-    /* Ye layer top header aur YouTube branding link par click block karegi */
-    .yt-shield-top {
-      position: absolute; top: 0; left: 0; right: 0; height: 50px;
-      z-index: 10; background: transparent; cursor: default;
-    }
-    .yt-shield-logo {
-      position: absolute; bottom: 0; right: 0; width: 80px; height: 45px;
-      z-index: 10; background: transparent; cursor: default;
-    }
+    /* Anti-Redirect Shields */
+    .yt-shield-top { position: absolute; top: 0; left: 0; right: 0; height: 50px; z-index: 10; background: transparent; }
+    .yt-shield-logo { position: absolute; bottom: 0; right: 0; width: 80px; height: 45px; z-index: 10; background: transparent; }
 
     .video-meta { margin-top: 0.8rem; }
-    .video-meta h2 { font-size: 1.15rem; }
+    .video-meta h2 { font-size: 1.2rem; color: #0f172a; }
 
-    /* Sub-lesson & Playlist */
-    .playlist-card { background: var(--card-bg); border-radius: 8px; border: 1px solid #1f2937; max-height: 80vh; display: flex; flex-direction: column; }
-    .playlist-head { padding: 0.8rem; border-bottom: 1px solid #1f2937; font-size: 0.9rem; font-weight: 700; }
-    .lesson-list { list-style: none; overflow-y: auto; padding: 0.4rem; }
+    /* 3) White & Clean Playlist List View */
+    .playlist-card {
+      background: var(--card-white); border-radius: 8px; border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-height: 82vh; display: flex; flex-direction: column;
+    }
+    .playlist-head {
+      padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color);
+      font-size: 0.92rem; font-weight: 700; color: #1e293b; display: flex; justify-content: space-between;
+    }
+    
+    .lesson-list { list-style: none; overflow-y: auto; padding: 0.5rem; }
 
-    .parent-item { margin-bottom: 0.4rem; border-radius: 6px; background: #0f172a; overflow: hidden; }
-    .parent-header { padding: 0.6rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; }
-    .parent-header:hover { background: #1e293b; }
-    .parent-header.active { color: var(--primary); }
+    .lesson-item {
+      padding: 0.65rem 0.8rem; border-radius: 6px; margin-bottom: 0.4rem;
+      background: #f1f5f9; cursor: pointer; display: flex; align-items: center;
+      gap: 10px; border: 1px solid transparent; transition: all 0.2s;
+    }
+    .lesson-item:hover { background: #e2e8f0; }
+    .lesson-item.active {
+      border-color: var(--primary);
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 700;
+    }
 
-    .sub-list { list-style: none; background: #090d16; padding-left: 0.8rem; }
-    .sub-item { padding: 0.45rem 0.6rem; font-size: 0.75rem; color: #cbd5e1; cursor: pointer; border-left: 2px solid #334155; }
-    .sub-item:hover { color: #38bdf8; background: #131c2e; }
-    .sub-item.active { border-left-color: var(--primary); color: var(--primary); font-weight: 700; }
+    .badge-free {
+      background: #10b981; color: #fff; font-size: 0.65rem;
+      padding: 2px 5px; border-radius: 3px; font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -78,19 +88,11 @@
     <span style="font-size:0.8rem; color:var(--text-muted);" id="userActiveEmail">Member</span>
   </header>
 
-  <!-- Breadcrumbs for SEO & Navigation -->
-  <div class="breadcrumb-bar">
-    <a href="index.html">Home</a> &gt; <span id="breadCat">Category</span> &gt; <span id="breadTitle">Lesson</span>
-  </div>
-
   <div class="main-layout">
     <div class="player-card">
       <div class="video-viewport">
-        <!-- Anti-Redirect Shields -->
-        <div class="yt-shield-top" title="Protected Player"></div>
-        <div class="yt-shield-logo" title="Protected Player"></div>
-
-        <!-- Player Frame -->
+        <div class="yt-shield-top"></div>
+        <div class="yt-shield-logo"></div>
         <iframe id="videoPlayerFrame" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
       </div>
 
@@ -99,9 +101,12 @@
       </div>
     </div>
 
-    <!-- Playlist & Sub-lessons -->
+    <!-- White List View -->
     <div class="playlist-card">
-      <div class="playlist-head">Course Modules</div>
+      <div class="playlist-head">
+        <span>Course Index</span>
+        <span style="color:var(--primary); font-size:0.8rem;" id="totalCounter">Topics</span>
+      </div>
       <ul id="lessonList" class="lesson-list"></ul>
     </div>
   </div>
