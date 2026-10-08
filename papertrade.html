@@ -4,6 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Share Market Master Course | 300+ Chapters</title>
+  <meta name="description" content="300+ Chapters on Stock Market Basics, Technical Analysis, Candlesticks, and Derivatives in Hindi.">
+
+  <!-- Schema.org Course Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Share Market Master Course",
+    "description": "Comprehensive Hindi Stock Market Course from Basics to F&O.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Share Market Academy"
+    }
+  }
+  </script>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -13,7 +29,6 @@
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
       
-      /* Vibrant Sticky Note Colors */
       --note-green: #a7f3d0;
       --note-cyan: #a5f3fc;
       --note-pink: #fbcfe8;
@@ -63,14 +78,15 @@
     .price-card p { font-size: 0.72rem; color: var(--text-muted); }
     .price-card ul { list-style: none; text-align: left; margin: 0.4rem 0 0.6rem; font-size: 0.75rem; color: #cbd5e1; }
 
-    /* Auth & Verification Box */
+    /* Auth & Verification Section */
     .auth-section {
       background: var(--card-bg); max-width: 500px; margin: 0.8rem auto;
       padding: 0.9rem; border-radius: 8px; border: 1px solid #1e293b;
     }
+    .form-group { margin-bottom: 0.5rem; }
     .form-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; }
     .input-box {
-      width: 100%; padding: 0.5rem 0.7rem; background: #0b1120;
+      width: 100%; padding: 0.55rem 0.7rem; background: #0b1120;
       border: 1px solid #334155; color: #fff; border-radius: 6px; font-size: 0.85rem; outline: none;
     }
     .input-box:focus { border-color: var(--primary); }
@@ -88,7 +104,7 @@
     .status-waiting { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
     .status-denied { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
-    /* Search & Category Filter */
+    /* Controls: Search & Category */
     .controls-panel { max-width: 1200px; margin: 1rem auto 0.5rem; padding: 0 0.6rem; }
     .search-wrapper { position: relative; margin-bottom: 0.5rem; }
     .search-input {
@@ -106,22 +122,22 @@
     }
     .cat-chip.active { background: var(--primary); color: #0b1120; font-weight: 700; border-color: var(--primary); }
 
-    /* Dense Sticky Notes Grid */
+    /* Sticky Notes Grid */
     .dashboard-wrapper { max-width: 1200px; margin: 0.5rem auto 2rem; padding: 0 0.6rem; }
     .section-head { margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
     .section-head h2 { font-size: 0.95rem; font-weight: 700; }
 
     .notes-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
       gap: 0.5rem;
     }
     @media (min-width: 768px) {
-      .notes-container { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; }
+      .notes-container { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.6rem; }
     }
 
     .sticky-note {
-      min-height: 105px; padding: 0.55rem; border-radius: 6px;
+      min-height: 120px; padding: 0.55rem; border-radius: 6px;
       color: #0f172a; box-shadow: 0 2px 5px rgba(0,0,0,0.25);
       cursor: pointer; display: flex; flex-direction: column;
       justify-content: space-between; position: relative;
@@ -129,7 +145,6 @@
     }
     .sticky-note:hover { transform: translateY(-2px); z-index: 2; }
     
-    /* 4) Corner Lock Icon */
     .sticky-note .corner-lock {
       position: absolute; top: 6px; right: 7px;
       font-size: 0.72rem; color: #334155; opacity: 0.85;
@@ -137,10 +152,21 @@
 
     .sticky-note .lesson-num { font-size: 0.62rem; font-weight: 800; opacity: 0.75; text-transform: uppercase; }
     .sticky-note .lesson-title {
-      font-size: 0.78rem; font-weight: 700; line-height: 1.25; margin: 0.25rem 0;
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+      font-size: 0.78rem; font-weight: 700; line-height: 1.25; margin: 0.2rem 0;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .sticky-note .note-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 800; }
+    
+    /* 1) Sub-topics preview list inside sticky card */
+    .subtopics-preview {
+      list-style: none; margin: 0.2rem 0; font-size: 0.65rem; color: #334155; font-weight: 600;
+      border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 0.2rem;
+    }
+    .subtopics-preview li {
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;
+    }
+    .subtopics-preview li::before { content: "• "; color: #0f172a; }
+
+    .sticky-note .note-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; font-weight: 800; margin-top: 0.2rem; }
     
     .badge-free {
       background: #0f172a; color: #34d399; font-size: 0.58rem;
@@ -168,10 +194,7 @@
       padding: 1.3rem; text-align: center;
       animation: popIn 0.2s ease-out;
     }
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .modal-box i.fa-lock { font-size: 2.2rem; color: #fbbf24; margin-bottom: 0.5rem; }
     .modal-box h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
     .modal-box p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.35; }
@@ -220,17 +243,23 @@
     </div>
   </div>
 
-  <!-- Auth & Verification Box -->
+  <!-- 3) Auth & OTP Section -->
   <section class="auth-section" id="authBox">
     <div class="form-group">
-      <label for="userEmail">Registered Email ID daalein:</label>
-      <input type="email" id="userEmail" class="input-box" placeholder="name@example.com">
+      <label for="userEmail">Enter Your Email to Register:</label>
+      <input type="email" id="userEmail" class="input-box" placeholder="name@example.com" autocomplete="email">
     </div>
 
-    <!-- Verify Button -->
-    <button id="authBtn" class="btn-action">Verify Access / Check Plan</button>
+    <!-- Hidden OTP input box: Reveal on Get OTP click -->
+    <div class="form-group" id="otpGroup" style="display: none;">
+      <label for="otpInput">Enter 6-digit OTP:</label>
+      <input type="text" id="otpInput" maxlength="6" class="input-box" placeholder="123456" inputmode="numeric">
+    </div>
 
-    <!-- 1) Wapas aaya Manual Email Request Button -->
+    <!-- Action Button (Get OTP / Verify) -->
+    <button id="authBtn" class="btn-action">Get OTP / Register</button>
+
+    <!-- 2) Manual Email App Redirect Button -->
     <button id="sendPlanRequestBtn" class="btn-action btn-secondary">
       <i class="fa-solid fa-envelope"></i> Send Activation Request via Email
     </button>
@@ -238,7 +267,7 @@
     <div id="statusBadge" class="status-badge"></div>
   </section>
 
-  <!-- Search & Category Filter -->
+  <!-- Search & Category Filters -->
   <div class="controls-panel">
     <div class="search-wrapper">
       <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -264,12 +293,12 @@
     <div id="notesContainer" class="notes-container"></div>
   </section>
 
-  <!-- B) Sundar Popup Modal (Locked Lessons ke liye) -->
+  <!-- Popup Modal -->
   <div id="subscribeModal" class="modal-overlay">
     <div class="modal-box">
       <i class="fa-solid fa-lock"></i>
       <h3 id="modalTopicTitle">Lesson Locked</h3>
-      <p>Ye lesson dekhne ke liye subscription zaroori hai. Aap upar apna registered email verify karein ya activation request bhejein.</p>
+      <p id="modalTopicDesc">Ye lesson dekhne ke liye subscription zaroori hai. Aap upar apna registered email verify karein ya activation request bhejein.</p>
       <button class="btn-action" style="margin-bottom:0.5rem;" onclick="closeModalAndScroll()">Subscribe / Activate Now</button>
       <br>
       <button class="modal-close-btn" onclick="closeModal()">Close</button>
