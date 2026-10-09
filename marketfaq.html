@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Aksar Pooche Jane Wale Sawal (FAQ) | SaralShareMarket</title>
+<meta name="description" content="SaralShareMarket FAQ: SEBI registration status, tips disclaimer, subscription duration, refund policy, and single-device access guidelines.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#10251d">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --primary: #10b981;
+  --primary-dark: #0f172a;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --accent: #ecfdf5;
+  --warning-bg: #fffbeb;
+  --warning-border: #fcd34d;
+  --danger-bg: #fef2f2;
+  --danger-border: #fca5a5;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 60px;
+}
+
+/* Header */
+.faq-header {
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand span {
+  color: var(--primary);
+}
+
+.back-btn {
+  color: #38bdf8;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #0b1120, #0f172a);
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px 30px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.hero h1 {
+  font-size: clamp(1.6rem, 3.8vw, 2.3rem);
+  margin-bottom: 8px;
+}
+
+.hero p {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  max-width: 650px;
+  margin: auto;
+}
+
+/* Tab Switcher Container */
+.tab-container {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0 15px;
+  padding: 0 15px;
+}
+
+.lang-switch {
+  background: #e2e8f0;
+  border-radius: 30px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  max-width: 320px;
+  width: 100%;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tab-btn.active {
+  background: var(--surface);
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Main FAQ Accordion Container */
+.main-wrapper {
+  max-width: 850px;
+  margin: 15px auto;
+  padding: 0 16px;
+}
+
+.faq-panel {
+  display: none; /* Controlled by JavaScript */
+}
+
+.faq-panel.show {
+  display: block;
+}
+
+/* Category Subheads */
+.faq-category {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #0284c7;
+  letter-spacing: 0.6px;
+  margin: 22px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Accordion Card */
+.faq-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: border-color 0.2s ease;
+}
+
+.faq-card:hover {
+  border-color: #cbd5e1;
+}
+
+.faq-question {
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0f172a;
+  user-select: none;
+  background: #ffffff;
+}
+
+.faq-question i.chevron-icon {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+}
+
+.faq-card.open .faq-question {
+  background: #f8fafc;
+  color: var(--primary-dark);
+}
+
+.faq-card.open .faq-question i.chevron-icon {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  background: #ffffff;
+  padding: 0 18px;
+  font-size: 0.88rem;
+  color: #334155;
+  border-top: 1px solid transparent;
+}
+
+.faq-card.open .faq-answer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+}
+
+.faq-answer ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.faq-answer li {
+  margin: 4px 0;
+}
+
+.badge-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+.badge-no {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: #b91c1c;
+}
+
+.badge-info {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  color: #92400e;
+}
+
+.badge-yes {
+  background: var(--accent);
+  border: 1px solid #86efac;
+  color: #065f46;
+}
+
+/* Contact Footer Card */
+.support-box {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  margin-top: 35px;
+}
+
+.support-box h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #0f172a;
+}
+
+.support-box p {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.support-box a {
+  display: inline-block;
+  background: var(--primary-dark);
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 40px;
+}
+</style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="faq-header">
+    <a href="index.html" class="brand">
+      <i class="fa-solid fa-chart-line" style="color:var(--primary)"></i> Saral<span>ShareMarket</span>
+    </a>
+    <a href="index.html" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i> Home
+    </a>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Frequently Asked Questions</h1>
+    <p>Apke har sawaal ka saaf aur seedha jawaab | Clear and transparent answers to all common questions.</p>
+  </section>
+
+  <!-- Language Switcher Tabs -->
+  <div class="tab-container">
+    <div class="lang-switch">
+      <button class="tab-btn active" id="btnHi" onclick="switchLanguage('hi')">
+        <i class="fa-solid fa-language"></i> हिंदी (Hindi)
+      </button>
+      <button class="tab-btn" id="btnEn" onclick="switchLanguage('en')">
+        <i class="fa-solid fa-globe"></i> English
+      </button>
+    </div>
+  </div>
+
+  <div class="main-wrapper">
+
+    <!-- ================================================================
+         SECTION 1: HINDI FAQ PANEL (Default Active)
+         Kisi naye sawal ko add karne ke liye niche naya card jod sakte hain
+    ================================================================ -->
+    <div id="panelHi" class="faq-panel show">
+
+      <div class="faq-category">
+        <i class="fa-solid fa-shield-halved"></i> सेबी (SEBI) एवं वित्तीय नियम
+      </div>
+
+      <!-- Q1 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>1. क्या यह SEBI रजिस्टर्ड वेबसाइट या एडवाइजरी है?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">नहीं</span> <strong>SaralShareMarket कोई SEBI-रजिस्टर्ड एडवाइजर, रिसर्च एनालिस्ट या ब्रोकर नहीं है।</strong></p>
+          <p>यह पूरी तरह से एक शैक्षणिक (Educational) प्लेटफॉर्म है जिसका उद्देश्य शेयर बाजार की बुनियादी और आधुनिक जानकारी को एक सुव्यवस्थित इंडेक्स में क्रमबद्ध सिखाना है।</p>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>2. क्या यहाँ स्टॉक खरीदने/बेचने की टिप्स या कॉल्स (Tips/Calls) दी जाती हैं?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">बिल्कुल नहीं</span> <strong>हम कोई भी Buy/Sell टिप्स, ट्रेडिंग कॉल्स, या फिक्स्ड रिटर्न का वादा नहीं करते हैं।</strong></p>
+          <p>हमारा उद्देश्य केवल आपको चार्ट्स, प्राइस एक्शन, कैंडलस्टिक्स और इंडिकेटर्स को खुद पढ़ना और समझना सिखाना है ताकि आप स्वयं स्वतंत्र निर्णय ले सकें।</p>
+        </div>
+      </div>
+
+      <div class="faq-category">
+        <i class="fa-solid fa-graduation-cap"></i> कोर्स, वीडियो एवं सब्सक्रिप्शन नियम
+      </div>
+
+      <!-- Q3 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>3. जब यूट्यूब पर वीडियो फ्री हैं, तो सब्सक्रिप्शन फीस किस बात की है?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-info">पारदर्शिता</span> आप वीडियो का मालिकाना हक नहीं खरीद रहे हैं। आपकी फीस निम्नलिखित सुविधाओं के लिए है:</p>
+          <ul>
+            <li>हजारों बिखरे हुए वीडियो में से 300+ सबसे महत्वपूर्ण चैप्टर्स को स्टेप-बाय-स्टेप क्रम में व्यवस्थित करना।</li>
+            <li>यूट्यूब के एल्गोरिदम और भटकाव से मुक्त एक सिंगल-स्क्रीन लर्निंग पोर्टल प्रदान करना।</li>
+            <li>सिंगल-डिवाइस ऑथेंटिकेशन और सर्वर का रख-रखाव।</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>4. क्या 30 दिन में 100 वीडियो देखने पर बचा हुआ कोर्स आगे बढ़ेगा?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">नहीं</span> <strong>सब्सक्रिप्शन समय आधारित (Time-Based: 30 या 90 दिन) है, कोर्स खत्म होने पर आधारित नहीं।</strong></p>
+          <p>यदि 30 दिनों में आप केवल 100 या 150 वीडियो ही देख पाते हैं, तो 30 दिन पूरे होते ही एक्सेस अपने आप लॉक हो जाएगा। आगे की पढ़ाई जारी रखने के लिए प्लान को रिन्यू करना अनिवार्य होगा।</p>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>5. अगर कोई वीडियो बाद में यूट्यूब क्रिएटर द्वारा प्राइवेट या डिलीट कर दिया जाए तो?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>वीडियो की होस्टिंग मूल क्रिएटर के पास होती है। यदि कोई क्रिएटर वीडियो को हटा देता है, तो एडमिन तुरंत उसी टॉपिक पर दूसरा उच्च गुणवत्ता वाला वीडियो पोर्टल में अपडेट कर देगा। उपयोगकर्ता किसी पुराने या विशिष्ट वीडियो की ही जिद नहीं कर सकते।</p>
+        </div>
+      </div>
+
+      <div class="faq-category">
+        <i class="fa-solid fa-lock"></i> डिवाइस सुरक्षा, लॉगिन एवं रिफंड
+      </div>
+
+      <!-- Q6 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>6. क्या मैं एक सब्सक्रिप्शन दो मोबाइल या लैपटॉप पर चला सकता हूँ?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">नहीं</span> आपका खाता <strong>केवल एक ही प्राथमिक डिवाइस (Mobile/Browser)</strong> पर चलेगा। यदि फोन खराब हो जाए या नया फोन लिया जाए, तो आप सपोर्ट पर ईमेल भेजकर अपना पुराना डिवाइस टोकन रीसेट करवा सकते हैं।</p>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>7. क्या कोर्स पसंद न आने पर रिफंड (Refund) मिल सकता है?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">सख्त नो-रिफंड</span> चूंकि आपको खरीदने से पहले 300+ चैप्टर्स की पूरी सूची और <strong>फ्री डेमो लेक्चर्स</strong> देखने की पूरी सुविधा दी गई है, अतः एक्टिवेशन के बाद कोई भी रिफंड संभव नहीं होगा।</p>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>8. पेमेंट करने के बाद कोर्स कितनी देर में एक्टिवेट होता है?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-yes">2 से 6 घंटे</span> UPI से पेमेंट करने के बाद सफल ट्रांजेक्शन का स्क्रीनशॉट (जिसमें 12 अंकों का UTR नंबर साफ दिखे) हमारे आधिकारिक ईमेल पर भेजना होता है। एडमिन द्वारा सत्यापन होते ही आपका पोर्टल चालू कर दिया जाता है।</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================
+         SECTION 2: ENGLISH FAQ PANEL
+         To add any new English question, simply copy-paste a card below
+    ================================================================ -->
+    <div id="panelEn" class="faq-panel">
+
+      <div class="faq-category">
+        <i class="fa-solid fa-shield-halved"></i> SEBI & Financial Disclaimers
+      </div>
+
+      <!-- Q1 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>1. Is SaralShareMarket registered with SEBI?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">NO</span> <strong>SaralShareMarket is NOT a SEBI-registered Research Analyst, Investment Adviser, or Stock Broker.</strong></p>
+          <p>We operate purely as an educational learning portal designed to help users learn stock market concepts systematically.</p>
+        </div>
+      </div>
+
+      <!-- Q2 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>2. Do you provide stock buy/sell tips, calls, or profit guarantees?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">STRICTLY NO</span> <strong>We do NOT provide buy/sell tips, intraday signals, or guaranteed return schemes.</strong></p>
+          <p>Our curriculum is solely designed to teach you how to analyze charts, price action, and market data independently.</p>
+        </div>
+      </div>
+
+      <div class="faq-category">
+        <i class="fa-solid fa-graduation-cap"></i> Course, Content & Subscription
+      </div>
+
+      <!-- Q3 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>3. If YouTube videos are free, what am I paying the subscription fee for?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-info">TRANSPARENCY</span> You are not purchasing video ownership. Your fee strictly covers:</p>
+          <ul>
+            <li>Curating 300+ advanced topics into an organized beginner-to-advanced roadmap.</li>
+            <li>A distraction-free web dashboard without YouTube algorithm traps or irrelevant recommendations.</li>
+            <li>Single-device security infrastructure and server maintenance.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Q4 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>4. If I watch only 100 lessons in 30 days, will my remaining days carry forward?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">NO</span> <strong>Access is strictly time-based (30 or 90 days), not syllabus-completion based.</strong></p>
+          <p>If your 30-day window ends, access expires automatically regardless of how many videos you watched. You must renew your plan to continue studying.</p>
+        </div>
+      </div>
+
+      <!-- Q5 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>5. What if an original YouTube creator deletes or restricts a video?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Since third-party creators retain hosting rights, any video marked private or deleted by them will be replaced with another high-quality equivalent lesson by the website administrator. Users cannot insist on specific legacy links.</p>
+        </div>
+      </div>
+
+      <div class="faq-category">
+        <i class="fa-solid fa-lock"></i> Device Security, Accounts & Refunds
+      </div>
+
+      <!-- Q6 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>6. Can I share my login across multiple mobile devices or laptops?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">NO</span> Your subscription is bound to a <strong>single primary hardware device or browser</strong>. If your phone is damaged or replaced, you can email support from your registered address to request an authorized device token reset.</p>
+        </div>
+      </div>
+
+      <!-- Q7 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>7. Is there a refund if I decide to discontinue studying?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-no">NO REFUND</span> Because we provide free preview demo lessons and clear syllabus listings prior to payment, all sales are strictly final and non-refundable once activated.</p>
+        </div>
+      </div>
+
+      <!-- Q8 En -->
+      <div class="faq-card">
+        <div class="faq-question">
+          <span>8. How long does it take for my account to be activated after payment?</span>
+          <i class="fa-solid fa-chevron-down chevron-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p><span class="badge-tag badge-yes">2 TO 6 HOURS</span> After remitting via UPI, email an unedited payment screenshot showing the 12-digit UTR/Ref ID to our official support email. Once manually verified, your access is approved immediately.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Need More Help Box -->
+    <div class="support-box">
+      <h3>Kuch aur poochna hai? / Have more questions?</h3>
+      <p>Aap hume seedha official support email par likh sakte hain.</p>
+      <a href="mailto:admin@example.com">
+        <i class="fa-solid fa-envelope"></i> Contact Support Email
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2026 SaralShareMarket. All rights reserved.</p>
+    <p style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">
+      Educational learning index. Video rights belong to respective YouTube creators.
+    </p>
+  </footer>
+
+  <!-- Simple JavaScript for Tab Switching & Smooth Accordion -->
+  <script>
+    // 1. Language Tab Switcher
+    function switchLanguage(lang) {
+      const panelHi = document.getElementById("panelHi");
+      const panelEn = document.getElementById("panelEn");
+      const btnHi = document.getElementById("btnHi");
+      const btnEn = document.getElementById("btnEn");
+
+      if (lang === 'hi') {
+        panelHi.classList.add("show");
+        panelEn.classList.remove("show");
+        btnHi.classList.add("active");
+        btnEn.classList.remove("active");
+      } else {
+        panelEn.classList.add("show");
+        panelHi.classList.remove("show");
+        btnEn.classList.add("active");
+        btnHi.classList.remove("active");
+      }
+    }
+
+    // 2. Interactive Accordion Toggle
+    document.querySelectorAll(".faq-question").forEach(question => {
+      question.addEventListener("click", () => {
+        const card = question.parentElement;
+        const answer = card.querySelector(".faq-answer");
+        
+        // Toggle Open State
+        const isOpen = card.classList.contains("open");
+
+        if (isOpen) {
+          card.classList.remove("open");
+          answer.style.maxHeight = null;
+        } else {
+          card.classList.add("open");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
