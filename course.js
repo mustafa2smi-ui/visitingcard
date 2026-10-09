@@ -28,7 +28,7 @@ const NOTE_COLORS = ["c-green", "c-cyan", "c-pink", "c-yellow", "c-blue", "c-pea
 // Note: Asli private video links Google Sheet ke 'Videos' tab me rahenge.
 // ==========================================================================
 const LESSONS_DATA = [
-  {
+/*  {
     id: "L001",
     cat: "Basics",
     title: "Stock Market Kya Hai? Complete Beginner Guide",
@@ -40,6 +40,30 @@ const LESSONS_DATA = [
       { id: "L001-2", title: "BSE aur NSE: Stock exchanges kaise chalte hain", channelName: "Asset Yogi" }
     ]
   },
+  */
+  // Example in course.js:
+// 10 minute 15 second = (10 * 60) + 15 = 615 seconds
+// 25 minute 30 second = (25 * 60) + 30 = 1530 seconds
+  {
+    id: "L001",
+    cat: "Basics",
+    title: "Stock Market Kya Hai? Complete Beginner Guide",
+    channelName: "CA Rachana Phadke Ranade",
+    url: "https://youtu.be/M7lc1UVf-VE",
+    start: 60,   // Video 1:00 minute se shuru hoga
+    end: 300,    // Video 5:00 minute par ruk jayega
+    isFree: true,
+    subLessons: [
+      { 
+        id: "L001-1", 
+        title: "Share aur Equity me antar kya hai?", 
+        channelName: "CA Rachana Phadke Ranade",
+        start: 310,  // Sub-lesson ka apna start time
+        end: 650     // Sub-lesson ka apna end time
+      }
+    ]
+  },
+
   {
     id: "L002",
     cat: "Basics",
@@ -117,7 +141,7 @@ function sanitizeAndValidateEmail(rawEmail) {
   }
   return { valid: true, email: cleaned };
 }
-
+/*
 // YouTube URL to Clean Embed Player Formatter
 function getCleanEmbedUrl(rawUrl) {
   if (!rawUrl) return "";
@@ -133,6 +157,37 @@ function getCleanEmbedUrl(rawUrl) {
   }
   // Anti-branding & embed protection query parameters
   return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+}
+*/
+// YouTube URL Formatter with Custom Start & End Timestamps
+function getCleanEmbedUrl(rawUrl, startSec = 0, endSec = 0) {
+  if (!rawUrl) return "";
+  let videoId = "";
+  
+  if (rawUrl.includes("/shorts/")) {
+    videoId = rawUrl.split("/shorts/")[1].split("?")[0].split("/")[0];
+  } else if (rawUrl.includes("youtu.be/")) {
+    videoId = rawUrl.split("youtu.be/")[1].split("?")[0].split("/")[0];
+  } else if (rawUrl.includes("v=")) {
+    videoId = rawUrl.split("v=")[1].split("&")[0];
+  } else {
+    videoId = rawUrl.trim();
+  }
+
+  // Base embed URL
+  let embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+
+  // Start timing parameter
+  if (startSec && Number(startSec) > 0) {
+    embedUrl += `&start=${Math.floor(startSec)}`;
+  }
+
+  // End timing parameter
+  if (endSec && Number(endSec) > 0) {
+    embedUrl += `&end=${Math.floor(endSec)}`;
+  }
+
+  return embedUrl;
 }
 
 // Single Device Fingerprint Token Generator
@@ -595,7 +650,7 @@ function switchLessonInPlayer(activeId, isUserActive, activeEmail, deviceToken, 
 // ========================================================
 // NO-REDIRECT VIDEO FETCH / LOCK CONTROLLER
 // ========================================================
-async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
+/* async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
   const frame = document.getElementById("videoPlayerFrame");
   const lockOverlay = document.getElementById("playerLockOverlay");
 
@@ -642,7 +697,61 @@ async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, tok
     if (lockOverlay) lockOverlay.style.display = "flex";
   }
 }
- 
+ */
+   async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
+  const frame = document.getElementById("videoPlayerFrame");
+  const lockOverlay = document.getElementById("playerLockOverlay");
+
+  frame.src = "about:blank";
+
+  // Case 1: Agar Free Demo Video hai to video chalne do (with Start/End timing)
+  if (lessonObj.isFree) {
+    if (lockOverlay) lockOverlay.style.display = "none";
+    const startSec = lessonObj.start || 0;
+    const endSec = lessonObj.end || 0;
+    frame.src = getCleanEmbedUrl(lessonObj.url || "https://youtu.be/M7lc1UVf-VE", startSec, endSec);
+    return;
+  }
+
+  // Case 2: Agar User Active NAHI hai, to Redirect MAT KARO, sirf Lock Card dikhao!
+  if (!isUserActive) {
+    if (lockOverlay) lockOverlay.style.display = "flex";
+    return; // User usi page par rahega aur baaki saare titles scroll karke dekhega
+  }
+
+  // Case 3: Agar User Active hai, to overlay chupao aur Google Sheet se video load karo
+  if (lockOverlay) lockOverlay.style.display = "none";
+
+  try {
+    const response = await fetch(CONFIG.APPS_SCRIPT_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "get_video_url",
+        lessonId: lessonId,
+        email: email,
+        deviceToken: token
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.url) {
+      // Backend se ya local lesson data se start aur end timing uthana
+      const startSec = (data.start !== undefined ? data.start : lessonObj.start) || 0;
+      const endSec = (data.end !== undefined ? data.end : lessonObj.end) || 0;
+      
+      frame.src = getCleanEmbedUrl(data.url, startSec, endSec);
+    } else {
+      if (lockOverlay) lockOverlay.style.display = "flex";
+    }
+
+  } catch (err) {
+    console.error("Sheet API Error:", err);
+    if (lockOverlay) lockOverlay.style.display = "flex";
+  }
+}
+
 /*
 function renderPlaylistView(activeId, isUserActive) {
   const listContainer = document.getElementById("lessonList");
