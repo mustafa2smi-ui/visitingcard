@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Legal Centre | SaralShareMarket</title>
+
+<meta name="description"
+content="Read SaralShareMarket's About Us, Privacy Policy, Terms and Conditions, Subscription Policy, Refund Policy, Financial Disclaimer and Copyright Policy.">
+
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#10251d">
+
+<style>
+:root {
+  --bg: #f5f7f4;
+  --surface: #ffffff;
+  --primary: #176b48;
+  --primary-dark: #10251d;
+  --text: #25332c;
+  --muted: #65736b;
+  --border: #e1e8e2;
+  --accent: #e6f5e9;
+  --warning: #fff6df;
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+
+a {
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
+
+button {
+  font: inherit;
+}
+
+.topbar {
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 17px 20px;
+}
+
+.topbar-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.brand span {
+  color: #81e0a9;
+}
+
+.topbar-label {
+  font-size: 0.82rem;
+  color: #d1e5d8;
+}
+
+.hero {
+  background: linear-gradient(135deg, #10251d, #176b48);
+  color: white;
+  padding: 48px 20px 42px;
+}
+
+.hero-inner {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: .8rem;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  line-height: 1.18;
+  margin: 0 0 15px;
+  letter-spacing: -1px;
+}
+
+.hero p {
+  max-width: 720px;
+  color: #e0eee5;
+  margin: 0;
+}
+
+.updated {
+  margin-top: 18px;
+  font-size: .85rem;
+  color: #c6dfd0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 28px auto 60px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 255px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  top: 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 14px;
+  max-height: calc(100vh - 30px);
+  overflow-y: auto;
+}
+
+.toc h2 {
+  font-size: 1rem;
+  margin: 0 0 12px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.toc a:hover,
+.toc a:focus {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.content {
+  min-width: 0;
+}
+
+.notice {
+  padding: 17px 19px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  font-size: .93rem;
+}
+
+.notice.green {
+  background: var(--accent);
+  border: 1px solid #cce8d3;
+}
+
+.notice.yellow {
+  background: var(--warning);
+  border: 1px solid #f0dfad;
+}
+
+.legal-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 25px;
+  margin-bottom: 18px;
+  scroll-margin-top: 20px;
+}
+
+.legal-section h2 {
+  color: var(--primary-dark);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  margin: 0 0 15px;
+}
+
+.legal-section h3 {
+  font-size: 1.02rem;
+  margin: 22px 0 7px;
+  color: var(--primary);
+}
+
+.legal-section p {
+  margin: 10px 0;
+}
+
+.legal-section ul,
+.legal-section ol {
+  padding-left: 23px;
+}
+
+.legal-section li {
+  margin: 6px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--primary);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: .77rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.highlight {
+  padding: 15px;
+  background: #f3f7f4;
+  border-left: 4px solid var(--primary);
+  border-radius: 7px;
+  margin: 16px 0;
+}
+
+.contact-card {
+  background: var(--primary-dark);
+  color: white;
+  border-radius: var(--radius);
+  padding: 25px;
+}
+
+.contact-card h2 {
+  margin-top: 0;
+}
+
+.contact-card a {
+  color: #a5edbd;
+}
+
+footer {
+  background: var(--primary-dark);
+  color: #d1e5d8;
+  padding: 25px 16px;
+  text-align: center;
+  font-size: .85rem;
+}
+
+footer a {
+  color: #a5edbd;
+}
+
+@media (max-width: 800px) {
+  .container {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+  }
+
+  .toc {
+    position: static;
+    max-height: none;
+  }
+
+  .toc-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .legal-section {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .topbar-label {
+    display: none;
+  }
+
+  .hero {
+    padding: 35px 17px;
+  }
+
+  .toc-links {
+    grid-template-columns: 1fr;
+  }
+
+  .legal-section {
+    padding: 17px;
+  }
+}
+
+@media print {
+  .toc,
+  .topbar-label {
+    display: none;
+  }
+
+  .container {
+    display: block;
+    max-width: 100%;
+  }
+
+  body {
+    background: white;
+  }
+
+  .legal-section {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/" aria-label="SaralShareMarket Home">
+      Saral<span>ShareMarket</span>
+    </a>
+    <div class="topbar-label">Legal &amp; Policies</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Transparency • Education • Trust</span>
+    <h1>Legal Centre</h1>
+    <p>
+      Learn about our educational platform, paid subscription,
+      privacy practices, third-party videos, financial disclaimer,
+      copyright policy and the terms governing your use of
+      SaralShareMarket.
+    </p>
+    <div class="updated">
+      Last Updated: [DD Month YYYY]
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <nav class="toc" aria-label="Legal page navigation">
+    <h2>On This Page</h2>
+
+    <div class="toc-links">
+      <a href="#about">About Us</a>
+      <a href="#subscription">Paid Subscription</a>
+      <a href="#terms">Terms &amp; Conditions</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#financial">Financial Disclaimer</a>
+      <a href="#copyright">Copyright Policy</a>
+      <a href="#thirdparty">Third-Party Content</a>
+      <a href="#refund">Cancellation &amp; Refunds</a>
+      <a href="#security">Security &amp; Acceptable Use</a>
+      <a href="#liability">Limitation of Liability</a>
+      <a href="#changes">Policy Changes</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <div class="notice green">
+      <strong>Our purpose:</strong>
+      SaralShareMarket helps learners discover and follow
+      organised financial-market learning resources. Our paid
+      service focuses on curation, categorisation, learning
+      sequences and convenient access to educational resources.
+    </div>
+
+    <div class="notice yellow">
+      <strong>Important:</strong>
+      Educational information is not personalised investment advice.
+      Stock market and trading activities involve financial risk.
+      Please read the Financial Disclaimer and Subscription Policy
+      before purchasing a subscription.
+    </div>
+
+    <!-- ABOUT US -->
+
+    <section class="legal-section" id="about">
+      <span class="badge">Who We Are</span>
+      <h2>1. About SaralShareMarket</h2>
+
+      <p>
+        SaralShareMarket is an educational platform designed to
+        make stock market and financial education easier to discover,
+        understand and follow.
+      </p>
+
+      <p>
+        The financial education landscape contains a large number
+        of educational videos and resources published on YouTube
+        and other platforms. Finding the right lesson, following
+        topics in a sensible order and moving from basic concepts
+        to advanced subjects can be difficult for learners.
+      </p>
+
+      <p>
+        SaralShareMarket aims to address this problem by organising
+        educational resources into topic-wise categories, learning
+        levels and structured course sequences.
+      </p>
+
+      <h3>What We Offer</h3>
+
+      <ul>
+        <li>Organised stock market learning topics.</li>
+        <li>Topic-wise educational video collections.</li>
+        <li>Beginner-to-advanced learning sequences.</li>
+        <li>Convenient access to related lessons in one place.</li>
+        <li>Categories covering fundamental and technical analysis.</li>
+        <li>Educational resources covering trading, investing,
+            mutual funds, derivatives and other financial subjects.</li>
+        <li>Course discovery and navigation features.</li>
+      </ul>
+
+      <h3>Why Do We Charge If YouTube Videos Are Free?</h3>
+
+      <div class="highlight">
+        <strong>
+          The subscription fee is for our organised learning service,
+          not a claim of ownership over free YouTube videos.
+        </strong>
+      </div>
+
+      <p>
+        Many educational videos available through YouTube can be
+        watched without paying the original publisher. However,
+        finding relevant videos across hundreds or thousands of
+        topics, identifying suitable lessons and arranging them into
+        a useful learning sequence can require considerable time
+        and effort.
+      </p>
+
+      <p>
+        SaralShareMarket provides a curated educational experience
+        by organising selected learning resources into categories,
+        arranging lessons in a structured order and making them
+        easier to discover through a dedicated course dashboard.
+      </p>
+
+      <p>
+        Our monthly subscription fee is intended to cover the value
+        of this organisation, curation, course structure, website
+        functionality and convenience.
+      </p>
+
+      <p>
+        We do not charge users on the basis that we own the original
+        YouTube videos merely because they are displayed or embedded
+        on our website. The original creators retain their applicable
+        rights in their content.
+      </p>
+
+      <p>
+        A subscription to SaralShareMarket does not automatically
+        grant access to paid YouTube content, private videos,
+        restricted third-party material or any service that requires
+        separate payment or permission.
+      </p>
+
+      <h3>Our Independence</h3>
+
+      <p>
+        Unless expressly stated otherwise, SaralShareMarket is an
+        independent educational platform and is not officially
+        affiliated with YouTube, NSE, BSE, SEBI, any stockbroker,
+        or any financial institution.
+      </p>
+    </section>
+
+    <!-- PAID SUBSCRIPTION -->
+
+    <section class="legal-section" id="subscription">
+      <span class="badge">Paid Service</span>
+      <h2>2. Paid Subscription Policy</h2>
+
+      <h3>2.1 What Does the Subscription Include?</h3>
+
+      <p>
+        A paid subscription provides access to the SaralShareMarket
+        features and organised educational resources included in
+        the selected plan.
+      </p>
+
+      <p>
+        Depending on the plan and current website features, these
+        may include course categories, curated video listings,
+        structured learning sequences, course navigation and other
+        educational organisation features.
+      </p>
+
+      <p>
+        The exact features, subscription duration, price and any
+        applicable taxes will be displayed on the relevant
+        subscription or checkout page before payment.
+      </p>
+
+      <h3>2.2 Monthly Subscription</h3>
+
+      <p>
+        SaralShareMarket offers a monthly paid subscription.
+        The applicable subscription price and duration will be
+        displayed before the user confirms a purchase.
+      </p>
+
+      <p>
+        Unless the checkout page expressly states otherwise,
+        a monthly subscription provides access for the stated
+        subscription period beginning on the activation date.
+      </p>
+
+      <h3>2.3 What Are You Paying For?</h3>
+
+      <p>
+        The subscription pays for the SaralShareMarket service,
+        including the organisation, categorisation, curation,
+        sequencing and presentation of educational resources and
+        the website features included in your selected plan.
+      </p>
+
+      <p>
+        It does not mean that SaralShareMarket owns every video,
+        that the original videos have become paid videos, or that
+        the subscription transfers copyright in third-party content.
+      </p>
+
+      <h3>2.4 Third-Party Availability</h3>
+
+      <p>
+        Some educational resources may be hosted by YouTube or
+        other independent platforms. Their availability may change
+        if the original publisher removes a video, changes its
+        visibility, disables embedding or restricts access.
+      </p>
+
+      <p>
+        We will make reasonable efforts to maintain useful course
+        organisation, but we cannot guarantee that every third-party
+        video will remain available indefinitely.
+      </p>
+
+      <h3>2.5 Price and Payment</h3>
+
+      <p>
+        The applicable price and payment terms will be disclosed
+        before purchase. Users should check the amount, duration,
+        applicable taxes and other charges displayed at checkout.
+      </p>
+
+      <p>
+        Payment processing, where provided by a third-party payment
+        provider, may be subject to that provider's terms and
+        privacy policy.
+      </p>
+
+      <h3>2.6 Automatic Renewal</h3>
+
+      <p>
+        Automatic renewal will apply only if it is clearly disclosed
+        before purchase and is supported by the applicable payment
+        arrangement. Where automatic renewal applies, the renewal
+        amount, billing interval and cancellation procedure will
+        be communicated to the user.
+      </p>
+
+      <p>
+        If the subscription is not set up for automatic renewal,
+        users must purchase another subscription to continue
+        accessing paid features after the current period ends.
+      </p>
+
+      <h3>2.7 Access and Account Sharing</h3>
+
+      <p>
+        Subscription access is subject to the plan description
+        and the access method communicated at purchase.
+        Users must not resell, publicly redistribute or commercially
+        exploit paid access in a manner that violates these terms
+        or applicable law.
+      </p>
+
+      <h3>2.8 No Guaranteed Results</h3>
+
+      <p>
+        A subscription provides access to educational resources,
+        not guaranteed profits, employment, investment returns
+        or trading success.
+      </p>
+    </section>
+
+    <!-- TERMS -->
+
+    <section class="legal-section" id="terms">
+      <h2>3. Terms and Conditions</h2>
+
+      <p>
+        By accessing or using SaralShareMarket, you agree to use
+        the website in accordance with these terms and applicable law.
+      </p>
+
+      <h3>Permitted Use</h3>
+
+      <p>
+        You may use the website for lawful personal educational
+        purposes within the scope of the features and access rights
+        provided to you.
+      </p>
+
+      <h3>Prohibited Activities</h3>
+
+      <ul>
+        <li>Attempting unauthorised access to website systems.</li>
+        <li>Interfering with website security or functionality.</li>
+        <li>Uploading or transmitting malicious code.</li>
+        <li>Using the website for fraud or unlawful activities.</li>
+        <li>Misrepresenting third-party content as your own.</li>
+        <li>Redistributing paid access in violation of applicable terms.</li>
+        <li>Copying or commercially exploiting protected materials
+            without the necessary rights or permission.</li>
+        <li>Attempting to bypass lawful access restrictions.</li>
+      </ul>
+
+      <h3>Changes to Features</h3>
+
+      <p>
+        We may update, improve, reorganise or discontinue features
+        where reasonably necessary. We will handle material changes
+        affecting paid subscriptions in accordance with the
+        applicable subscription terms and law.
+      </p>
+    </section>
+
+    <!-- PRIVACY -->
+
+    <section class="legal-section" id="privacy">
+      <h2>4. Privacy Policy</h2>
+
+      <p>
+        SaralShareMarket aims to handle personal information
+        responsibly. The information processed depends on the
+        website features you use and how those features are
+        technically implemented.
+      </p>
+
+      <h3>4.1 Information You Provide</h3>
+
+      <p>
+        If you use an email request form, contact form, subscription
+        form or other communication feature, we may process
+        information such as your email address, contact details
+        or the information you choose to submit.
+      </p>
+
+      <h3>4.2 How Information May Be Used</h3>
+
+      <ul>
+        <li>To respond to enquiries and course requests.</li>
+        <li>To process subscriptions and provide paid access.</li>
+        <li>To send service-related messages.</li>
+        <li>To address payment disputes or support requests.</li>
+        <li>To maintain security and prevent misuse.</li>
+        <li>To comply with applicable legal obligations.</li>
+      </ul>
+
+      <h3>4.3 Google Sheets and Course Data</h3>
+
+      <p>
+        Our course catalogue may use Google Sheets as a source
+        of course titles, categories, sequence information and
+        educational video links.
+      </p>
+
+      <p>
+        Using Google Sheets for course information does not by
+        itself mean that visitor personal information is stored
+        in those sheets. The actual processing depends on our
+        forms, scripts, integrations and other website features.
+      </p>
+
+      <p>
+        If personal information is collected through a form or
+        integration and transferred to Google Sheets or another
+        service, the relevant collection and use must be reflected
+        in this policy.
+      </p>
+
+      <h3>4.4 Payment Information</h3>
+
+      <p>
+        If payments are processed through a third-party payment
+        provider, that provider may process payment information
+        under its own terms and privacy policy.
+      </p>
+
+      <p>
+        The payment information actually collected or retained
+        by SaralShareMarket will depend on the payment integration
+        used. We will not claim that we never handle payment-related
+        information unless that statement accurately reflects
+        our implementation.
+      </p>
+
+      <h3>4.5 Browser Storage</h3>
+
+      <p>
+        If enabled, browser storage may be used to remember
+        preferences, favourites, notes or learning progress.
+        Such information may remain on the device or browser
+        where it was saved.
+      </p>
+
+      <p>
+        Clearing browser data, changing devices or using a
+        different browser profile may remove or make this
+        information unavailable.
+      </p>
+
+      <h3>4.6 Cookies and Third-Party Technologies</h3>
+
+      <p>
+        The website or its third-party services may use cookies,
+        local storage, embedded-player technologies or similar
+        mechanisms for functionality, preferences, analytics
+        or service delivery.
+      </p>
+
+      <p>
+        The actual technologies used depend on our configuration.
+        Embedded videos may allow the hosting platform to process
+        technical information when you interact with the player.
+      </p>
+
+      <h3>4.7 Data Sharing</h3>
+
+      <p>
+        Personal information may be shared with service providers
+        where reasonably necessary to provide website features,
+        process payments, respond to requests, maintain security
+        or comply with applicable law.
+      </p>
+
+      <p>
+        Any sharing must be consistent with applicable legal
+        requirements and the purposes for which the information
+        is processed.
+      </p>
+
+      <h3>4.8 Data Retention</h3>
+
+      <p>
+        Personal information will be retained for as long as
+        reasonably necessary for the relevant purpose, subject
+        to applicable legal, accounting and dispute-resolution
+        requirements.
+      </p>
+
+      <h3>4.9 Your Privacy Requests</h3>
+
+      <p>
+        Where applicable, you may contact us to request access
+        to, correction of or deletion of personal information
+        held by us, subject to legal requirements and exceptions.
+      </p>
+
+      <h3>4.10 Security</h3>
+
+      <p>
+        We take reasonable measures appropriate to our
+        implementation to protect information under our control.
+        However, no electronic system or internet transmission
+        can be guaranteed to be completely secure.
+      </p>
+
+      <h3>4.11 Children's Privacy</h3>
+
+      <p>
+        Our website provides financial education and is not
+        intended to encourage children to undertake financial
+        trading without appropriate guidance. Any collection
+        or processing of children's personal information will
+        be subject to applicable legal requirements.
+      </p>
+
+      <h3>4.12 Privacy Questions</h3>
+
+      <p>
+        For privacy-related enquiries, contact:
+        <a href="mailto:[CONTACT_EMAIL]">[CONTACT_EMAIL]</a>
+      </p>
+    </section>
+
+    <!-- FINANCIAL DISCLAIMER -->
+
+    <section class="legal-section" id="financial">
+      <span class="badge">Important Notice</span>
+      <h2>5. Financial Disclaimer</h2>
+
+      <h3>5.1 Educational Information Only</h3>
+
+      <p>
+        All information available on SaralShareMarket is provided
+        for general educational and informational purposes.
+      </p>
+
+      <p>
+        Nothing on the website constitutes personalised investment
+        advice, a recommendation to buy or sell a financial
+        instrument, or a guarantee of financial results.
+      </p>
+
+      <h3>5.2 Investment Risks</h3>
+
+      <p>
+        Investments and trading involve risk. Users may lose some
+        or all of their invested capital. Different financial
+        products carry different risks.
+      </p>
+
+      <ul>
+        <li>Equity prices can rise or fall substantially.</li>
+        <li>Penny stocks may have limited liquidity and elevated risk.</li>
+        <li>Small-cap shares may be highly volatile.</li>
+        <li>Intraday trading can result in rapid losses.</li>
+        <li>Futures and options may involve leverage and complex risks.</li>
+        <li>Currency and commodity markets can be affected by
+            global economic and political developments.</li>
+        <li>Technical indicators and trading systems can produce
+            false or unsuccessful signals.</li>
+      </ul>
+
+      <h3>5.3 No Profit Guarantee</h3>
+
+      <p>
+        We do not guarantee profits, a particular return on
+        investment, financial independence, employment or
+        trading success.
+      </p>
+
+      <p>
+        Past performance, hypothetical results, backtests and
+        historical examples do not guarantee future performance.
+      </p>
+
+      <h3>5.4 Independent Research</h3>
+
+      <p>
+        Users should independently verify financial information,
+        consider their risk tolerance and seek qualified
+        professional advice where appropriate.
+      </p>
+
+      <p>
+        Any decision to buy, sell or hold a financial instrument
+        is made at the user's own discretion and responsibility.
+      </p>
+
+      <h3>5.5 Regulatory Status</h3>
+
+      <p>
+        Providing educational resources does not by itself
+        determine the regulatory status of a service.
+        SaralShareMarket's actual activities must comply with
+        the laws and regulations applicable to those activities.
+      </p>
+    </section>
+
+    <!-- COPYRIGHT -->
+
+    <section class="legal-section" id="copyright">
+      <h2>6. Copyright and Intellectual Property Policy</h2>
+
+      <h3>6.1 Our Original Materials</h3>
+
+      <p>
+        The original website design, original text, branding,
+        original graphics, software code and other original
+        materials created for SaralShareMarket may be protected
+        by applicable intellectual property laws.
+      </p>
+
+      <p>
+        These materials may not be copied, republished, sold or
+        redistributed in violation of applicable rights or
+        permissions.
+      </p>
+
+      <h3>6.2 Third-Party Rights</h3>
+
+      <p>
+        YouTube videos, creator names, logos, trademarks,
+        thumbnails and other third-party materials remain
+        subject to the rights of their respective owners.
+      </p>
+
+      <p>
+        Listing or embedding a video does not transfer ownership
+        or copyright to SaralShareMarket.
+      </p>
+
+      <h3>6.3 Copyright Complaints</h3>
+
+      <p>
+        If you believe that content displayed on our website
+        infringes your copyright or other rights, contact us with:
+      </p>
+
+      <ol>
+        <li>Your name and contact information.</li>
+        <li>Identification of the protected work.</li>
+        <li>The URL or specific location of the disputed material.</li>
+        <li>An explanation of your rights and the concern.</li>
+        <li>Any additional information reasonably necessary
+            to evaluate the request.</li>
+      </ol>
+
+      <p>
+        We will review genuine notices and take appropriate
+        action where warranted.
+      </p>
+
+      <h3>6.4 Requests from Video Creators</h3>
+
+      <p>
+        Video creators or authorised rights holders may contact
+        us if they do not want their content listed or embedded
+        on our website.
+      </p>
+
+      <p>
+        We will review the request and may remove a listing or
+        disable an embed where appropriate.
+      </p>
+
+      <p>
+        Removing an embedded video from SaralShareMarket does
+        not remove the original video from its hosting platform.
+      </p>
+
+      <p>
+        Copyright enquiries:
+        <a href="mailto:[CONTACT_EMAIL]">[CONTACT_EMAIL]</a>
+      </p>
+    </section>
+
+    <!-- THIRD PARTY -->
+
+    <section class="legal-section" id="thirdparty">
+      <h2>7. Third-Party Content and External Links</h2>
+
+      <p>
+        SaralShareMarket may display or link to educational
+        videos hosted by YouTube and other independent services.
+      </p>
+
+      <p>
+        The views, opinions, statements, recommendations and
+        examples presented in third-party content belong to
+        their respective creators. They do not necessarily
+        represent the views of SaralShareMarket.
+      </p>
+
+      <p>
+        We do not necessarily verify, endorse or guarantee
+        every statement made in third-party content.
+      </p>
+
+      <p>
+        Videos may become unavailable if the publisher removes
+        them, changes their visibility or disables embedding.
+      </p>
+
+      <p>
+        Third-party platforms may apply their own terms,
+        privacy policies, advertisements and technical
+        requirements when you interact with embedded content.
+      </p>
+
+      <p>
+        YouTube's official website:
+        <a href="https://www.youtube.com/"
+           target="_blank"
+           rel="noopener noreferrer">YouTube</a>
+      </p>
+
+      <p>
+        Users should review the relevant third-party policies
+        when accessing those services.
+      </p>
+    </section>
+
+    <!-- REFUNDS -->
+
+    <section class="legal-section" id="refund">
+      <h2>8. Subscription Cancellation and Refund Policy</h2>
+
+      <div class="notice yellow">
+        <strong>Before publishing:</strong>
+        Replace the placeholders below with your actual cancellation
+        procedure, refund conditions and applicable time limits.
+        Do not publish an unconfirmed promise.
+      </div>
+
+      <h3>8.1 Subscription Duration</h3>
+
+      <p>
+        The subscription duration and expiry date will be
+        determined by the plan and payment confirmation
+        communicated at purchase.
+      </p>
+
+      <h3>8.2 Cancellation</h3>
+
+      <p>
+        Users may cancel future subscription renewals through
+        the cancellation method provided by SaralShareMarket
+        or the relevant payment provider, where applicable.
+      </p>
+
+      <p>
+        Cancellation of future renewal does not necessarily
+        mean that an already-paid subscription period ends
+        immediately. Access after cancellation will follow
+        the terms disclosed at purchase and applicable law.
+      </p>
+
+      <p>
+        <strong>Cancellation method:</strong>
+        [Insert your actual cancellation instructions.]
+      </p>
+
+      <h3>8.3 Refund Eligibility</h3>
+
+      <p>
+        Refund requests will be handled according to the
+        refund terms disclosed before purchase and applicable
+        law. Any exclusions, eligibility conditions and
+        processing timelines must be clearly communicated
+        to users before payment.
+      </p>
+
+      <p>
+        <strong>Refund conditions:</strong>
+        [Insert your actual refund policy, including eligibility
+        and any applicable request deadline.]
+      </p>
+
+      <p>
+        <strong>Refund request contact:</strong>
+        <a href="mailto:[CONTACT_EMAIL]">[CONTACT_EMAIL]</a>
+      </p>
+
+      <h3>8.4 Duplicate or Failed Payments</h3>
+
+      <p>
+        If a payment appears to have been deducted more than
+        once or a transaction fails despite a debit, contact
+        us with the transaction reference and relevant details.
+        We will review the issue and coordinate with the
+        payment provider where necessary.
+      </p>
+
+      <h3>8.5 Changes to Paid Features</h3>
+
+      <p>
+        If a material change significantly affects a paid
+        subscription, we will address the matter in accordance
+        with the disclosed subscription terms and applicable law.
+      </p>
+    </section>
+
+    <!-- SECURITY -->
+
+    <section class="legal-section" id="security">
+      <h2>9. Security and Acceptable Use</h2>
+
+      <p>
+        Users must not attempt to compromise the security,
+        integrity or availability of SaralShareMarket.
+      </p>
+
+      <p>Prohibited activities include:</p>
+
+      <ul>
+        <li>Unauthorised access to systems, data or accounts.</li>
+        <li>Distributing malware or harmful code.</li>
+        <li>Attempting to bypass access controls.</li>
+        <li>Abusing forms, services or website resources.</li>
+        <li>Interfering with other users' lawful access.</li>
+        <li>Using the platform to distribute fraudulent
+            financial claims or unlawful material.</li>
+      </ul>
+
+      <p>
+        We may take reasonable steps to investigate suspected
+        misuse and protect the website, its users and its services.
+      </p>
+    </section>
+
+    <!-- LIABILITY -->
+
+    <section class="legal-section" id="liability">
+      <h2>10. Website Availability and Limitation of Liability</h2>
+
+      <h3>10.1 Availability</h3>
+
+      <p>
+        We aim to maintain a useful and accessible educational
+        platform. However, uninterrupted access cannot be guaranteed.
+      </p>
+
+      <p>
+        Temporary interruptions may occur due to maintenance,
+        hosting issues, network problems, software changes or
+        third-party service interruptions.
+      </p>
+
+      <h3>10.2 Educational Information</h3>
+
+      <p>
+        Users are responsible for independently verifying
+        information before relying on it for important decisions.
+        We do not guarantee that all website content will be
+        accurate, complete or continuously updated.
+      </p>
+
+      <h3>10.3 Liability</h3>
+
+      <p>
+        To the extent permitted by applicable law, SaralShareMarket
+        shall not be liable for financial losses arising from
+        independent investment decisions, reliance on educational
+        content without verification, third-party service
+        interruptions or events beyond our reasonable control.
+      </p>
+
+      <p>
+        Nothing in this policy excludes or limits liability,
+        consumer rights or other protections that cannot lawfully
+        be excluded or limited.
+      </p>
+    </section>
+
+    <!-- CHANGES -->
+
+    <section class="legal-section" id="changes">
+      <h2>11. Changes to These Policies</h2>
+
+      <p>
+        We may update this Legal Centre when our services,
+        features, subscription arrangements, privacy practices
+        or legal obligations change.
+      </p>
+
+      <p>
+        The latest version and its revision date will be
+        published on this page.
+      </p>
+
+      <p>
+        Where applicable law requires additional notice or
+        consent for a material change, we will follow the
+        relevant requirements.
+      </p>
+
+      <h3>Governing Law</h3>
+
+      <p>
+        These terms are intended to be interpreted in accordance
+        with the laws of India, to the extent applicable.
+        Disputes will be handled by competent courts or
+        authorities having jurisdiction under applicable law.
+      </p>
+
+      <p>
+        Nothing in this section removes mandatory statutory
+        protections or rights that apply to users.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+
+    <section class="contact-card" id="contact">
+      <h2>12. Contact SaralShareMarket</h2>
+
+      <p>
+        If you have questions about our website, subscriptions,
+        privacy practices, copyright concerns, course requests
+        or other legal matters, please contact us.
+      </p>
+
+      <p>
+        <strong>Website:</strong> SaralShareMarket
+      </p>
+
+      <p>
+        <strong>Website URL:</strong>
+        [Insert your actual website URL]
+      </p>
+
+      <p>
+        <strong>Contact Email:</strong>
+        <a href="mailto:[CONTACT_EMAIL]">[CONTACT_EMAIL]</a>
+      </p>
+
+      <p>
+        <strong>Website Operator:</strong>
+        [Insert your actual operator or business name, if applicable]
+      </p>
+
+      <p>
+        We will review genuine enquiries and respond as
+        appropriate under our policies and applicable law.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>
+    &copy; <span id="year"></span> SaralShareMarket.
+    All rights reserved.
+  </p>
+
+  <p>
+    Financial education only. No guaranteed returns.
+    Investments and trading involve risk.
+  </p>
+
+  <p>
+    <a href="#about">About Us</a> &nbsp;|&nbsp;
+    <a href="#subscription">Subscription Policy</a> &nbsp;|&nbsp;
+    <a href="#privacy">Privacy</a> &nbsp;|&nbsp;
+    <a href="#financial">Disclaimer</a> &nbsp;|&nbsp;
+    <a href="#contact">Contact</a>
+  </p>
+</footer>
+
+<script>
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+</script>
+
+</body>
+</html>
