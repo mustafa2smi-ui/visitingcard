@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Legal Centre & Policy Directory | SaralShareMarket</title>
+
+<meta name="description"
+content="Official legal policies of SaralShareMarket covering 300+ topic curation, subscription validity, device token policy, strict no-refund terms, SEBI disclaimers, payment verification, and copyright attribution.">
+
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#10251d">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --primary: #10b981;
+  --primary-dark: #0f172a;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --accent: #ecfdf5;
+  --warning: #fef3c7;
+  --danger-bg: #fef2f2;
+  --danger-border: #fca5a5;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+a {
+  color: #0284c7;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.topbar {
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #334155;
+}
+
+.topbar-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand span {
+  color: var(--primary);
+}
+
+.topbar-link {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+.topbar-link:hover {
+  color: #fff;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0b1120, #0f172a);
+  color: white;
+  padding: 40px 20px 36px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: .78rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.hero p {
+  max-width: 750px;
+  color: #94a3b8;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.updated {
+  margin-top: 14px;
+  font-size: .8rem;
+  color: #64748b;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 24px auto 60px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  top: 75px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.toc h2 {
+  font-size: 0.9rem;
+  margin: 0 0 10px;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.toc a {
+  display: block;
+  padding: 6px 10px;
+  color: #475569;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: .82rem;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.toc a:hover {
+  background: var(--accent);
+  color: #065f46;
+  font-weight: 600;
+}
+
+.content {
+  min-width: 0;
+}
+
+.notice {
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: .88rem;
+}
+
+.notice.green {
+  background: var(--accent);
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.notice.yellow {
+  background: var(--warning);
+  border: 1px solid #fde68a;
+  color: #78350f;
+}
+
+.legal-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  scroll-margin-top: 85px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.legal-section h2 {
+  color: #0f172a;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legal-section h3 {
+  font-size: 0.98rem;
+  margin: 18px 0 6px;
+  color: #0284c7;
+}
+
+.legal-section p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.legal-section ul,
+.legal-section ol {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.legal-section li {
+  margin: 5px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #065f46;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: .72rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.highlight-box {
+  padding: 14px;
+  background: #f8fafc;
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+}
+
+.warning-box {
+  padding: 14px;
+  background: var(--warning);
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  color: #78350f;
+}
+
+.danger-box {
+  padding: 14px;
+  background: var(--danger-bg);
+  border-left: 4px solid #ef4444;
+  border-radius: 6px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  color: #991b1b;
+}
+
+footer {
+  background: var(--primary-dark);
+  color: #94a3b8;
+  padding: 25px 16px;
+  text-align: center;
+  font-size: .82rem;
+  border-top: 1px solid #1e293b;
+}
+
+footer a {
+  color: var(--primary);
+}
+
+@media (max-width: 820px) {
+  .container {
+    grid-template-columns: 1fr;
+    margin-top: 16px;
+  }
+  .toc {
+    position: static;
+    max-height: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="SaralShareMarket Home">
+      <i class="fa-solid fa-chart-line" style="color:var(--primary)"></i> Saral<span>ShareMarket</span>
+    </a>
+    <a href="index.html" class="topbar-link"><i class="fa-solid fa-arrow-left"></i> Return to Course App</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Transparency • Curation • Legal Protection</span>
+    <h1>Legal Centre &amp; Platform Policies</h1>
+    <p>
+      Comprehensive disclosures covering our structured 300+ topic curation, time-based subscription validity, single-device security, SEBI disclaimers, fraud prevention, and strict defamation terms.
+    </p>
+    <div class="updated">
+      Last Revised: October 2026
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- Table of Contents -->
+  <nav class="toc" aria-label="Legal Index Navigation">
+    <h2>Legal Index</h2>
+    <a href="#transparency">1. Free Video Transparency</a>
+    <a href="#subscription">2. Time-Based Validity</a>
+    <a href="#payment-proof">3. Payment Verification &amp; Proof</a>
+    <a href="#device-lock">4. Single Device &amp; Recovery</a>
+    <a href="#refund-policy">5. Strict No-Refund Policy</a>
+    <a href="#sebi-disclaimer">6. SEBI &amp; Risk Disclaimer</a>
+    <a href="#defamation">7. Defamation &amp; False Claims</a>
+    <a href="#copyright-takedown">8. Copyright &amp; Takedown</a>
+    <a href="#privacy">9. Privacy &amp; Data Security</a>
+    <a href="#terms-contact">10. Contact &amp; Jurisdiction</a>
+  </nav>
+
+  <main class="content">
+
+    <div class="notice green">
+      <strong>Core Purpose:</strong> SaralShareMarket provides an organized learning roadmap. Our subscription fee covers structured categorization, single-device access tokens, distraction-free curation, and platform infrastructure—not the sale or ownership of free YouTube content.
+    </div>
+
+    <!-- 1. TRANSPARENCY ON FREE CONTENT -->
+    <section class="legal-section" id="transparency">
+      <span class="badge">Transparency Disclosure</span>
+      <h2><i class="fa-solid fa-circle-info" style="color:#0284c7;"></i> 1. Public Content &amp; Service Fee Transparency</h2>
+
+      <div class="highlight-box">
+        <strong>Pre-Purchase Disclosure:</strong> All educational videos listed on this platform are hosted on YouTube and are publicly accessible for free. SaralShareMarket does not sell, license, or claim proprietary ownership over third-party video lectures.
+      </div>
+
+      <p>
+        Finding relevant lessons across hundreds of unconnected channels and organizing them into a progressive learning curve requires extensive effort. SaralShareMarket charges a platform subscription fee strictly for:
+      </p>
+      <ul>
+        <li>Screening and curating 300+ advanced topics into a step-by-step roadmap.</li>
+        <li>Providing an ad-free, distraction-free mobile web portal with sequential chapter navigation.</li>
+        <li>Managing single-device token bindings, Google Apps Script server sync, and OTP authentication.</li>
+      </ul>
+      <p>
+        The original creators retain all intellectual property and monetization rights to their content via YouTube's official embed API.
+      </p>
+    </section>
+
+    <!-- 2. TIME-BASED VALIDITY VS COURSE COMPLETION -->
+    <section class="legal-section" id="subscription">
+      <span class="badge">Access Validity</span>
+      <h2><i class="fa-solid fa-calendar-days" style="color:#10b981;"></i> 2. Time-Based Validity (Not Course Completion)</h2>
+
+      <div class="warning-box">
+        <strong>Important Notice Before Purchase:</strong> Subscriptions are strictly time-bound (e.g., 30 Days or 90 Days) and are <em>NOT</em> based on syllabus completion.
+      </div>
+
+      <p>
+        Your paid plan activates immediate, full access to the roadmap directory for the exact calendar duration chosen (30 or 90 days from timestamp approval):
+      </p>
+      <ul>
+        <li>If a user completes only 50 or 100 out of 300 topics within their 30-day window, access automatically expires at the end of day 30.</li>
+        <li>Unwatched lessons or incomplete modules do <strong>NOT</strong> carry forward as free extensions.</li>
+        <li>To continue watching remaining modules after expiration, the user must purchase a renewal subscription.</li>
+      </ul>
+    </section>
+
+    <!-- 3. PAYMENT VERIFICATION PROOF & FRAUD PRECAUTION -->
+    <section class="legal-section" id="payment-proof">
+      <span class="badge">Payment Verification</span>
+      <h2><i class="fa-solid fa-receipt" style="color:#059669;"></i> 3. Payment Verification, Screenshot Submission &amp; Anti-Fraud</h2>
+
+      <p>
+        To activate a chosen pass (Monthly ₹499 / Quarterly ₹999), users must remit the exact fee via the official UPI method and transmit an authentic transaction confirmation email:
+      </p>
+      <ul>
+        <li><strong>Mandatory Verification Proof:</strong> The confirmation email must include an uncropped, high-resolution payment screenshot showing the successful status, transaction timestamp, and clear 12-digit UTR/Bank Reference ID.</li>
+        <li><strong>Activation SLA:</strong> Manual verification is performed within 2 to 6 business hours following transaction confirmation.</li>
+      </ul>
+
+      <div class="danger-box">
+        <strong>Strict Anti-Fraud &amp; Zero Tolerance Policy:</strong><br>
+        Submission of doctored, edited, fictitious, cloned, or already-used payment screenshots constitutes deliberate fraud. Any user attempting fraudulent activation will face immediate blacklisting of their registered email, permanent hardware device lock, and potential reporting under the <em>Information Technology Act, 2000</em> and applicable Indian legal statutes.
+      </div>
+    </section>
+
+    <!-- 4. DEVICE TOKEN BINDING & REPLACEMENT -->
+    <section class="legal-section" id="device-lock">
+      <span class="badge">Account Protection</span>
+      <h2><i class="fa-solid fa-mobile-screen-button" style="color:#7c3aed;"></i> 4. Hardware Device Binding &amp; Loss Recovery</h2>
+
+      <p>
+        To prevent unauthorized account resale and illegal credential sharing, SaralShareMarket operates a strict <strong>Primary Hardware Token System</strong>:
+      </p>
+      <ul>
+        <li>An active subscription is strictly bound to <strong>one mobile device or primary web browser</strong>.</li>
+        <li>Simultaneous login attempts or OTP verification on an unrecognized secondary device will be rejected by our backend.</li>
+        <li><strong>Device Loss, Theft, or Hardware Upgrade:</strong> In genuine cases where a phone is broken or replaced, the user must contact support via their registered email. Upon manual verification, the administrator will reset the database token to allow pairing on the replacement device.</li>
+      </ul>
+    </section>
+
+    <!-- 5. STRICT NO-REFUND POLICY -->
+    <section class="legal-section" id="refund-policy">
+      <span class="badge">Cancellation &amp; Refunds</span>
+      <h2><i class="fa-solid fa-money-bill-transfer" style="color:#dc2626;"></i> 5. Strict No-Refund &amp; Cancellation Terms</h2>
+
+      <p>
+        Because SaralShareMarket provides unrestricted upfront access to syllabus roadmaps and <strong>Free Demo Chapters</strong> before requiring payment:
+      </p>
+      <ul>
+        <li><strong>All Sales Are Final:</strong> Once a subscription is activated on the database, payments are non-refundable, non-creditable, and non-transferable under any circumstances.</li>
+        <li><strong>Dislike / Personal Discontinuation:</strong> Inability to study, schedule changes, or personal dissatisfaction does not entitle a user to a partial or pro-rated refund.</li>
+        <li><strong>Accidental Duplicate Payments:</strong> If a technical glitch results in duplicate debits for the same plan, the duplicate transaction will be refunded upon verification of banking records within 5–7 business days.</li>
+      </ul>
+    </section>
+
+    <!-- 6. SEBI & FINANCIAL RISK DISCLAIMER -->
+    <section class="legal-section" id="sebi-disclaimer">
+      <span class="badge">Statutory Disclaimer</span>
+      <h2><i class="fa-solid fa-shield-halved" style="color:#ea580c;"></i> 6. SEBI Regulatory &amp; Financial Risk Disclaimer</h2>
+
+      <p>
+        <strong>SaralShareMarket is purely an educational platform and is NOT a SEBI-registered Research Analyst, Investment Adviser, or Stock Broker.</strong>
+      </p>
+      <ul>
+        <li>Nothing on this platform constitutes trading calls, investment tips, buy/sell recommendations, or Portfolio Management Services (PMS).</li>
+        <li>We offer zero guarantees of financial profit, capital growth, or risk-free returns.</li>
+        <li>Trading in equities, futures, options, and intraday segments carries substantial market risk and may result in partial or total loss of capital. Users are advised to consult a certified financial advisor before committing real funds.</li>
+      </ul>
+    </section>
+
+    <!-- 7. DEFAMATION, MISINFORMATION & MAAN-HAANI CLAUSE -->
+    <section class="legal-section" id="defamation">
+      <span class="badge">Legal Protection</span>
+      <h2><i class="fa-solid fa-gavel" style="color:#b91c1c;"></i> 7. Anti-Defamation, False Allegations &amp; Brand Protection</h2>
+
+      <p>
+        We are committed to resolving genuine user concerns through fair communication. However, users agree to uphold standard consumer ethics:
+      </p>
+      <ul>
+        <li><strong>Mandatory Dispute Resolution:</strong> Prior to publishing any online review or public complaint, users agree to contact support via official email and allow up to 48 hours for dispute redressal.</li>
+        <li><strong>Prohibition on Malicious Disparagement:</strong> Users shall not circulate baseless, untruthful, malicious, or fabricated allegations, or coordinate smear campaigns across social media, YouTube, forums, or consumer review portals.</li>
+        <li><strong>Legal Liability (Maan-Haani):</strong> Any individual found engaging in defamatory misconduct, brand disparagement, or spreading false claims regarding our curated model will face immediate service termination without refund. SaralShareMarket reserves the unreserved legal right to pursue civil and criminal defamation proceedings, injunctions, and financial damage remedies under the laws of India.</li>
+      </ul>
+    </section>
+
+    <!-- 8. COPYRIGHT ATTRIBUTION & CREATOR TAKEDOWN -->
+    <section class="legal-section" id="copyright-takedown">
+      <span class="badge">Intellectual Property</span>
+      <h2><i class="fa-solid fa-copyright" style="color:#475569;"></i> 8. Creator Copyright &amp; Fast-Takedown Protocol</h2>
+
+      <p>
+        We hold original educational creators in the highest regard. All video metadata, trademarks, and embedded streams belong entirely to their respective channel owners.
+      </p>
+      <p>
+        We employ standard YouTube embed frames, which ensure that view counts, channel subscribers, and native attribution remain intact for the creators.
+      </p>
+      <div class="highlight-box">
+        <strong>Creator Removal Request:</strong> If an original content author prefers not to have their publicly embeddable video indexed in our educational catalog, please contact us at our support address. We will verify your request and delist the embedded video within 24 to 48 business hours.
+      </div>
+    </section>
+
+    <!-- 9. PRIVACY POLICY & DATA STORAGE -->
+    <section class="legal-section" id="privacy">
+      <span class="badge">Privacy Policy</span>
+      <h2><i class="fa-solid fa-user-shield" style="color:#0891b2;"></i> 9. Privacy Policy &amp; Minimal Data Retention</h2>
+
+      <p>
+        We practice data minimization and do not collect unnecessary personal files. Information handled is strictly limited to:
+      </p>
+      <ul>
+        <li>Registered Email ID (for account matching and OTP communication).</li>
+        <li>Browser Device Token (used exclusively for single-device hardware authentication).</li>
+        <li>Transaction Reference numbers &amp; UTR IDs (to record validity start and end timestamps).</li>
+      </ul>
+      <p>
+        We do not sell, rent, or trade student email lists to third-party marketing companies. Data is processed securely through standard Google Cloud infrastructure.
+      </p>
+    </section>
+
+    <!-- 10. GOVERNING LAW & CONTACT -->
+    <section class="legal-section" id="terms-contact">
+      <span class="badge">Governing Law</span>
+      <h2><i class="fa-solid fa-scale-balanced" style="color:#0f172a;"></i> 10. Jurisdiction &amp; Official Contact</h2>
+
+      <p>
+        These terms and conditions are governed by and construed in accordance with the laws of India. Any unresolved disputes arising from platform use shall fall under the competent legal jurisdiction of courts within India.
+      </p>
+
+      <div style="background:#f1f5f9; padding:15px; border-radius:8px; margin-top:15px;">
+        <p style="margin:0 0 5px;"><strong>Platform Name:</strong> SaralShareMarket</p>
+        <p style="margin:0 0 5px;"><strong>Official Support Email:</strong> <a href="mailto:admin@example.com">admin@example.com</a></p>
+        <p style="margin:0;"><strong>Platform Category:</strong> Curated Educational Learning Management System (LMS)</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>&copy; 2026 SaralShareMarket. All rights reserved.</p>
+  <p style="font-size:0.75rem; color:#64748b; margin-top:5px;">
+    Curated Hindi financial roadmap. Videos belong to their respective original YouTube authors.
+  </p>
+</footer>
+
+</body>
+</html>
