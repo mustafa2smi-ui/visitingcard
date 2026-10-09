@@ -282,6 +282,7 @@ function initIndexPage(deviceToken) {
         ? `<span class="badge-free">FREE DEMO</span>` 
         : (isUserActive ? `<i class="fa-solid fa-play"></i>` : `<i class="fa-solid fa-lock" style="color:#475569;"></i>`);
 
+            // Pehle By ${lesson.channelName} likha tha, ab use clean kar diya gaya hai
       note.innerHTML = `
         ${cornerLock}
         <div>
@@ -289,10 +290,7 @@ function initIndexPage(deviceToken) {
           <div class="lesson-title">${lesson.title}</div>
           ${subPreviewHtml}
         </div>
-        <div class="note-footer">
-          <span style="font-size:0.62rem; color:#475569; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:85px;">
-            By ${lesson.channelName}
-          </span>
+        <div class="note-footer" style="display:flex; justify-content:flex-end; align-items:center;">
           ${footerTag}
         </div>
       `;
