@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>कानूनी केंद्र एवं नियम नीतियां | SaralShareMarket</title>
+
+<meta name="description"
+content="SaralShareMarket की आधिकारिक नीतियां: 300+ चैप्टर्स क्यूरेशन, समय आधारित वैधता, सिंगल डिवाइस टोकन, सख्त नो-रिफंड पॉलिसी, सेबी डिस्क्लेमर, पेमेंट स्क्रीनशॉट वेरिफिकेशन और मानहानि सुरक्षा नियम।">
+
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#10251d">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --primary: #10b981;
+  --primary-dark: #0f172a;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --accent: #ecfdf5;
+  --warning: #fef3c7;
+  --danger-bg: #fef2f2;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+
+a {
+  color: #0284c7;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.topbar {
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #334155;
+}
+
+.topbar-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand span {
+  color: var(--primary);
+}
+
+.topbar-link {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+.topbar-link:hover {
+  color: #fff;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0b1120, #0f172a);
+  color: white;
+  padding: 40px 20px 36px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: .78rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.hero p {
+  max-width: 780px;
+  color: #94a3b8;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.updated {
+  margin-top: 14px;
+  font-size: .8rem;
+  color: #64748b;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 24px auto 60px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  top: 75px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.toc h2 {
+  font-size: 0.9rem;
+  margin: 0 0 10px;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.toc a {
+  display: block;
+  padding: 6px 10px;
+  color: #475569;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: .82rem;
+  line-height: 1.45;
+  margin-bottom: 2px;
+}
+
+.toc a:hover {
+  background: var(--accent);
+  color: #065f46;
+  font-weight: 600;
+}
+
+.content {
+  min-width: 0;
+}
+
+.notice {
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: .88rem;
+}
+
+.notice.green {
+  background: var(--accent);
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.notice.yellow {
+  background: var(--warning);
+  border: 1px solid #fde68a;
+  color: #78350f;
+}
+
+.legal-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  scroll-margin-top: 85px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.legal-section h2 {
+  color: #0f172a;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legal-section h3 {
+  font-size: 0.98rem;
+  margin: 18px 0 6px;
+  color: #0284c7;
+}
+
+.legal-section p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.legal-section ul,
+.legal-section ol {
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.legal-section li {
+  margin: 5px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #065f46;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: .72rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.highlight-box {
+  padding: 14px;
+  background: #f8fafc;
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+}
+
+.warning-box {
+  padding: 14px;
+  background: var(--warning);
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  color: #78350f;
+}
+
+.danger-box {
+  padding: 14px;
+  background: var(--danger-bg);
+  border-left: 4px solid #ef4444;
+  border-radius: 6px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  color: #991b1b;
+}
+
+footer {
+  background: var(--primary-dark);
+  color: #94a3b8;
+  padding: 25px 16px;
+  text-align: center;
+  font-size: .82rem;
+  border-top: 1px solid #1e293b;
+}
+
+footer a {
+  color: var(--primary);
+}
+
+@media (max-width: 820px) {
+  .container {
+    grid-template-columns: 1fr;
+    margin-top: 16px;
+  }
+  .toc {
+    position: static;
+    max-height: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="SaralShareMarket होम">
+      <i class="fa-solid fa-chart-line" style="color:var(--primary)"></i> Saral<span>ShareMarket</span>
+    </a>
+    <a href="index.html" class="topbar-link"><i class="fa-solid fa-arrow-left"></i> डैशबोर्ड पर वापस जाएं</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">पारदर्शिता • व्यवस्थित शिक्षा • कानूनी सुरक्षा</span>
+    <h1>कानूनी केंद्र एवं नियम नीतियां (Legal Centre)</h1>
+    <p>
+      SaralShareMarket के 300+ चैप्टर्स क्यूरेशन, समय आधारित सदस्यता वैधता, सिंगल-डिवाइस ऑथेंटिकेशन, सेबी वैधानिक डिस्क्लेमर, पेमेंट स्क्रीनशॉट सत्यापन और मानहानि रोकथाम के नियम।
+    </p>
+    <div class="updated">
+      अंतिम संशोधन: अक्टूबर 2026
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- विषय सूची (Table of Contents) -->
+  <nav class="toc" aria-label="कानूनी अनुक्रमणिका">
+    <h2>विषय सूची</h2>
+    <a href="#transparency">1. फ्री वीडियो एवं फीस पारदर्शिता</a>
+    <a href="#subscription">2. समय आधारित वैधता नियम</a>
+    <a href="#payment-proof">3. पेमेंट स्क्रीनशॉट एवं धोखाधड़ी रोकथाम</a>
+    <a href="#device-lock">4. सिंगल डिवाइस व फोन गुम होने पर नियम</a>
+    <a href="#refund-policy">5. सख्त नो-रिफंड पॉलिसी</a>
+    <a href="#sebi-disclaimer">6. सेबी एवं वित्तीय जोखिम डिस्क्लेमर</a>
+    <a href="#defamation">7. मानहानि, झूठे आरोप एवं कानूनी कार्रवाई</a>
+    <a href="#copyright-takedown">8. कॉपीराइट एवं क्रिएटर टेकडाउन</a>
+    <a href="#privacy">9. गोपनीयता एवं डेटा सुरक्षा</a>
+    <a href="#terms-contact">10. संपर्क विवरण एवं कानूनी क्षेत्राधिकार</a>
+  </nav>
+
+  <main class="content">
+
+    <div class="notice green">
+      <strong>हमारा मुख्य उद्देश्य:</strong> SaralShareMarket एक संरचित एवं व्यवस्थित लर्निंग रोडमैप प्रदान करता है। ली जाने वाली सब्सक्रिप्शन फीस हमारे 300+ चैप्टर्स के वर्गीकरण, बिना किसी भटकाव के लर्निंग पोर्टल, सिंगल-डिवाइस सुरक्षा टोकन और सर्वर इन्फ्रास्ट्रक्चर के लिए है—यह यूट्यूब के सार्वजनिक व मुफ्त वीडियो का स्वामित्व बेचने का शुल्क नहीं है[span_1](start_span)[span_1](end_span)।
+    </div>
+
+    <!-- 1. फ्री वीडियो एवं फीस पारदर्शिता -->
+    <section class="legal-section" id="transparency">
+      <span class="badge">पारदर्शिता स्पष्टीकरण</span>
+      <h2><i class="fa-solid fa-circle-info" style="color:#0284c7;"></i> 1. सार्वजनिक यूट्यूब वीडियो और प्लेटफॉर्म सर्विस फीस</h2>
+
+      <div class="highlight-box">
+        <strong>खरीदने से पूर्व स्पष्ट सूचना:</strong> इस प्लेटफॉर्म पर सूचीबद्ध अधिकांश शैक्षिक वीडियो यूट्यूब पर सार्वजनिक (Public) रूप से मुफ्त उपलब्ध हैं[span_2](start_span)[span_2](end_span)। SaralShareMarket इन तीसरे पक्ष (Third-party) के वीडियो पर किसी स्वामित्व का दावा नहीं करता है[span_3](start_span)[span_3](end_span)।
+      </div>
+
+      <p>
+        सैकड़ों अलग-अलग यूट्यूब चैनलों में से सही और उपयोगी वीडियो ढूंढना और उन्हें बुनियादी स्तर से लेकर एडवांस लेवल तक के 300+ अध्यायों में क्रमबद्ध लगाना बेहद कठिन कार्य है[span_4](start_span)[span_4](end_span)। SaralShareMarket द्वारा लिया जाने वाला शुल्क पूरी तरह से निम्नलिखित सुविधाओं के लिए है[span_5](start_span)[span_5](end_span):
+      </p>
+      <ul>
+        <li>बिखरे हुए हजारों वीडियो में से सबसे बेहतरीन 300+ चैप्टर्स को स्टेप-बाय-स्टेप रोडमैप में व्यवस्थित करना[span_6](start_span)[span_6](end_span)।</li>
+        <li>बिना किसी विज्ञापन और यूट्यूब के भटकाव के एक स्वतंत्र और क्रमबद्ध मोबाइल वेब पोर्टल प्रदान करना।</li>
+        <li>सिंगल-डिवाइस हार्डवेयर टोकन सुरक्षा, ईमेल ओटीपी सत्यापन और सुरक्षित डेटाबेस का रख-रखाव[span_7](start_span)[span_7](end_span)।</li>
+      </ul>
+      <p>
+        मूल यूट्यूब क्रिएटर्स का उनके वीडियो पर पूरा अधिकार सुरक्षित रहता है और यूट्यूब की आधिकारिक एम्बेड प्रणाली के माध्यम से सभी व्यूज सीधे मूल क्रिएटर्स को ही प्राप्त होते हैं।
+      </p>
+    </section>
+
+    <!-- 2. समय आधारित वैधता नियम -->
+    <section class="legal-section" id="subscription">
+      <span class="badge">एक्सेस वैधता</span>
+      <h2><i class="fa-solid fa-calendar-days" style="color:#10b981;"></i> 2. समय आधारित वैधता (कोर्स पूरा होने पर आधारित नहीं)</h2>
+
+      <div class="warning-box">
+        <strong>खरीदने से पहले अवश्य पढ़ें:</strong> यह सब्सक्रिप्शन पूरी तरह से <strong>समय सीमा आधारित (Time-Based: 30 दिन या 90 दिन)</strong> है, कोर्स खत्म होने (Course Completion) पर आधारित नहीं है[span_8](start_span)[span_8](end_span)!
+      </div>
+
+      <p>
+        चुने गए प्लान के अनुसार एक्टिवेशन तिथि से लेकर निश्चित दिनों तक ही पोर्टल का एक्सेस मान्य रहेगा[span_9](start_span)[span_9](end_span):
+      </p>
+      <ul>
+        <li>यदि कोई छात्र 30 दिनों में अपनी व्यस्तता या गति के कारण 300 में से केवल 50, 100 या 150 वीडियो ही देख पाता है, तो 30 दिन समाप्त होते ही उसका एक्सेस अपने आप समाप्त (Expire) हो जाएगा[span_10](start_span)[span_10](end_span)।</li>
+        <li>बचे हुए या न देखे गए वीडियो के बदले में अतिरिक्त दिनों का फ्री एक्सटेंशन नहीं दिया जाएगा[span_11](start_span)[span_11](end_span)।</li>
+        <li>शेष अध्यायों को आगे देखने के लिए छात्र को नया सब्सक्रिप्शन प्लान खरीदकर रिन्यू करना अनिवार्य होगा[span_12](start_span)[span_12](end_span)।</li>
+      </ul>
+    </section>
+
+    <!-- 3. पेमेंट स्क्रीनशॉट एवं धोखाधड़ी रोकथाम -->
+    <section class="legal-section" id="payment-proof">
+      <span class="badge">पेमेंट सत्यापन</span>
+      <h2><i class="fa-solid fa-receipt" style="color:#059669;"></i> 3. पेमेंट स्क्रीनशॉट सत्यापन, यूटीआर (UTR) एवं धोखाधड़ी रोकथाम</h2>
+
+      <p>
+        प्लान (मंथली ₹499 अथवा 90 दिन ₹999) सक्रिय करवाने के लिए उपयोगकर्ता को निर्धारित यूपीआई माध्यम से भुगतान करके हमारे आधिकारिक ईमेल पर पुष्टिकरण भेजना अनिवार्य है[span_13](start_span)[span_13](end_span):
+      </p>
+      <ul>
+        <li><strong>अनिवार्य सत्यापन प्रमाण:</strong> ईमेल में पेमेंट का स्पष्ट, बिना क्रॉप किया हुआ और उच्च गुणवत्ता वाला स्क्रीनशॉट होना चाहिए जिसमें <strong>सफल (Successful) स्टेटस, तारीख-समय और 12 अंकों का वैध UTR / Bank Reference Number</strong> साफ दिख रहा हो[span_14](start_span)[span_14](end_span)।</li>
+        <li><strong>सक्रियण समय (SLA):</strong> स्क्रीनशॉट और बैंक रिकॉर्ड मिलान के बाद 2 से 6 कार्य घंटों के भीतर कोर्स सक्रिय कर दिया जाता है।</li>
+      </ul>
+
+      <div class="danger-box">
+        <strong>धोखाधड़ी के विरुद्ध सख्त नियम (Zero Tolerance):</strong><br>
+        एडिट किया हुआ (Photoshop/Fake), पुराना, या किसी अन्य व्यक्ति का इस्तेमाल किया हुआ स्क्रीनशॉट भेजना धोखाधड़ी माना जाएगा। ऐसा करने वाले व्यक्ति का ईमेल स्थायी रूप से ब्लैकलिस्ट कर दिया जाएगा, उसके डिवाइस पर हमेशा के लिए प्रतिबंध लगा दिया जाएगा और भारतीय सूचना प्रौद्योगिकी अधिनियम (IT Act, 2000) तथा अन्य दंडात्मक कानूनों के तहत कानूनी कार्रवाई की जा सकती है[span_15](start_span)[span_15](end_span)।
+      </div>
+    </section>
+
+    <!-- 4. सिंगल डिवाइस व फोन गुम होने पर नियम -->
+    <section class="legal-section" id="device-lock">
+      <span class="badge">अकाउंट सुरक्षा</span>
+      <h2><i class="fa-solid fa-mobile-screen-button" style="color:#7c3aed;"></i> 4. सिंगल-डिवाइस सुरक्षा टोकन एवं फोन बदलने/गुम होने की नीति</h2>
+
+      <p>
+        अकाउंट की अवैध शेयरिंग और अनाधिकृत पुनर्विक्रय को रोकने के लिए हमारी प्रणाली <strong>सिंगल-डिवाइस टोकन बाइंडिंग</strong> पर काम करती है[span_16](start_span)[span_16](end_span):
+      </p>
+      <ul>
+        <li>एक सक्रिय सब्सक्रिप्शन एक समय में केवल <strong>एक ही प्राथमिक मोबाइल या कंप्यूटर ब्राउज़र</strong> पर चलेगा[span_17](start_span)[span_17](end_span)।</li>
+        <li>एक ही ईमेल आईडी से किसी अन्य डिवाइस पर लॉगिन करने का प्रयास सर्वर द्वारा सीधे अस्वीकार कर दिया जाएगा[span_18](start_span)[span_18](end_span)।</li>
+        <li><strong>मोबाइल खोने या खराब होने की स्थिति में:</strong> यदि छात्र का फोन खो जाता है, चोरी हो जाता है या वह नया फोन लेता है, तो उसे अपने रजिस्टर्ड ईमेल से सपोर्ट पर संपर्क करना होगा[span_19](start_span)[span_19](end_span)। एडमिन सत्यापन के बाद पुराने डिवाइस टोकन को रीसेट कर देगा ताकि नए फोन पर एक्सेस चालू हो सके[span_20](start_span)[span_20](end_span)।</li>
+      </ul>
+    </section>
+
+    <!-- 5. सख्त नो-रिफंड पॉलिसी -->
+    <section class="legal-section" id="refund-policy">
+      <span class="badge">रिफंड एवं कैंसलेशन</span>
+      <h2><i class="fa-solid fa-money-bill-transfer" style="color:#dc2626;"></i> 5. सख्त नो-रिफंड पॉलिसी (No-Refund Policy)</h2>
+
+      <p>
+        चूंकि SaralShareMarket उपयोगकर्ताओं को निर्णय लेने के लिए 300+ चैप्टर्स की पूरी सूची और <strong>"FREE DEMO" वीडियो</strong> पहले से देखने की सुविधा प्रदान करता है[span_21](start_span)[span_21](end_span):
+      </p>
+      <ul>
+        <li><strong>अंतिम बिक्री (All Sales Final):</strong> एक बार डेटाबेस पर सब्सक्रिप्शन सक्रिय होने के बाद, किसी भी परिस्थिति में कोई रिफंड, ट्रांसफर या रद्दीकरण स्वीकार नहीं किया जाएगा[span_22](start_span)[span_22](end_span)।</li>
+        <li><strong>व्यक्तिगत कारण या असंतोष:</strong> समय की कमी, पढ़ाई न कर पाना या व्यक्तिगत पसंद न आना रिफंड का आधार नहीं होगा।</li>
+        <li><strong>तकनीकी त्रुटि के कारण दोहरा भुगतान:</strong> यदि किसी तकनीकी कारण से एक ही प्लान के लिए दो बार राशि कट जाती है, तो बैंक रिकॉर्ड मिलान के बाद अतिरिक्त राशि 5 से 7 कार्य दिवसों में वापस कर दी जाएगी[span_23](start_span)[span_23](end_span)।</li>
+      </ul>
+    </section>
+
+    <!-- 6. सेबी एवं वित्तीय जोखिम डिस्क्लेमर -->
+    <section class="legal-section" id="sebi-disclaimer">
+      <span class="badge">वैधानिक डिस्क्लेमर</span>
+      <h2><i class="fa-solid fa-shield-halved" style="color:#ea580c;"></i> 6. सेबी (SEBI) एवं वित्तीय जोखिम वैधानिक डिस्क्लेमर</h2>
+
+      <p>
+        <strong>SaralShareMarket विशुद्ध रूप से एक शैक्षणिक प्लेटफॉर्म है और यह कोई SEBI-पंजीकृत रिसर्च एनालिस्ट, एडवाइजर या ब्रोकर नहीं है[span_24](start_span)[span_24](end_span)।</strong>
+      </p>
+      <ul>
+        <li>इस प्लेटफॉर्म पर कोई भी स्टॉक टिप्स, कॉल, पुट, या पक्के मुनाफे की सलाह नहीं दी जाती है[span_25](start_span)[span_25](end_span)।</li>
+        <li>शेयर बाजार, फ्यूचर्स एवं ऑप्शंस (F&O) और इंट्राडे ट्रेडिंग में भारी वित्तीय जोखिम शामिल है और इसमें आपकी जमा पूंजी का नुकसान हो सकता है[span_26](start_span)[span_26](end_span)।</li>
+        <li>किसी भी निवेश या व्यापार से पूर्व अपने सेबी-प्रमाणित वित्तीय सलाहकार से परामर्श अवश्य लें। किसी भी वित्तीय हानि के लिए यह प्लेटफॉर्म जिम्मेदार नहीं होगा[span_27](start_span)[span_27](end_span)।</li>
+      </ul>
+    </section>
+
+    <!-- 7. मानहानि, झूठे आरोप एवं कानूनी कार्रवाई -->
+    <section class="legal-section" id="defamation">
+      <span class="badge">कानूनी सुरक्षा</span>
+      <h2><i class="fa-solid fa-gavel" style="color:#b91c1c;"></i> 7. मानहानि, झूठे दुष्प्रचार के विरुद्ध सुरक्षा एवं कानूनी दायित्व</h2>
+
+      <p>
+        हम उपभोक्ताओं के साथ निष्पक्ष संवाद में विश्वास रखते हैं, किंतु सभी उपयोगकर्ता निम्नलिखित कानूनी दायित्वों से बंधे हैं[span_28](start_span)[span_28](end_span):
+      </p>
+      <ul>
+        <li><strong>अनिवार्य शिकायत निवारण:</strong> सार्वजनिक मंच पर कोई भी समीक्षा पोस्ट करने से पहले उपयोगकर्ता को अपनी समस्या के समाधान हेतु आधिकारिक ईमेल पर लिखना होगा और समाधान के लिए 48 घंटों का समय देना होगा।</li>
+        <li><strong>झूठे दुष्प्रचार पर प्रतिबंध:</strong> सोशल मीडिया, यूट्यूब, फोरम या उपभोक्ता मंचों पर बिना साक्ष्य के भ्रामक, दुर्भावनापूर्ण या संस्था की साख को नुकसान पहुंचाने वाले बयान पोस्ट करना सख्त वर्जित है[span_29](start_span)[span_29](end_span)।</li>
+        <li><strong>मानहानि का कानूनी दायित्व (Defamation):</strong> हमारे क्यूरेटेड मॉडल के संदर्भ में जानबूझकर झूठी अफवाह फैलाने या मानहानि करने वाले व्यक्ति का खाता बिना रिफंड तुरंत बंद कर दिया जाएगा[span_30](start_span)[span_30](end_span)। SaralShareMarket भारतीय न्याय संहिता (BNS) और दीवानी कानून के तहत सिविल एवं क्रिमिनल मानहानि का मुकदमा दर्ज करने और हर्जाना वसूलने का पूर्ण कानूनी अधिकार सुरक्षित रखता है।</li>
+      </ul>
+    </section>
+
+    <!-- 8. कॉपीराइट एवं क्रिएटर टेकडाउन -->
+    <section class="legal-section" id="copyright-takedown">
+      <span class="badge">बौद्धिक संपदा</span>
+      <h2><i class="fa-solid fa-copyright" style="color:#475569;"></i> 8. कॉपीराइट सम्मान एवं वीडियो हटाने की नीति (Takedown Policy)</h2>
+
+      <p>
+        हम सभी मूल शैक्षिक यूट्यूब क्रिएटर्स का सर्वोच्च सम्मान करते हैं[span_31](start_span)[span_31](end_span)। वीडियो, ट्रेडमार्क और मूल सामग्री उनके संबंधित चैनल स्वामियों की संपत्ति है[span_32](start_span)[span_32](end_span)।
+      </p>
+      <p>
+        हम यूट्यूब की आधिकारिक एम्बेड प्रणाली का उपयोग करते हैं, जिससे व्यूज, वॉच-टाइम और क्रेडिट सीधे मूल चैनल को ही प्राप्त होते हैं।
+      </p>
+      <div class="highlight-box">
+        <strong>क्रिएटर निष्कासन अनुरोध:</strong> यदि किसी मूल कंटेंट क्रिएटर को इस शैक्षणिक इंडेक्स में अपने सार्वजनिक वीडियो के शामिल होने पर आपत्ति है, तो वे हमें ईमेल कर सकते हैं[span_33](start_span)[span_33](end_span)। सत्यापन के बाद 24 से 48 कार्य घंटों के भीतर वीडियो को पोर्टल से हटा दिया जाएगा[span_34](start_span)[span_34](end_span)।
+      </div>
+    </section>
+
+    <!-- 9. गोपनीयता एवं डेटा सुरक्षा -->
+    <section class="legal-section" id="privacy">
+      <span class="badge">गोपनीयता नीति</span>
+      <h2><i class="fa-solid fa-user-shield" style="color:#0891b2;"></i> 9. गोपनीयता नीति (Privacy Policy) एवं डेटा सुरक्षा</h2>
+
+      <p>
+        हम उपयोगकर्ता की निजता का सम्मान करते हैं और केवल आवश्यक जानकारी ही संग्रहीत करते हैं[span_35](start_span)[span_35](end_span):
+      </p>
+      <ul>
+        <li>पंजीकृत ईमेल आईडी (अकाउंट सत्यापन और ओटीपी के लिए)[span_36](start_span)[span_36](end_span)।</li>
+        <li>ब्राउज़र डिवाइस टोकन (सिंगल-डिवाइस एक्सेस सुनिश्चित करने के लिए)[span_37](start_span)[span_37](end_span)।</li>
+        <li>पेमेंट यूटीआर (UTR) संख्या और तिथि (वैधता समय की गणना के लिए)[span_38](start_span)[span_38](end_span)।</li>
+      </ul>
+      <p>
+        हम किसी भी छात्र का डेटा तीसरे पक्ष की मार्केटिंग कंपनियों को बेचते या साझा नहीं करते हैं[span_39](start_span)[span_39](end_span)। डेटा सुरक्षित गूगल क्लाउड इन्फ्रास्ट्रक्चर पर प्रोसेस किया जाता है।
+      </p>
+    </section>
+
+    <!-- 10. संपर्क विवरण एवं कानूनी क्षेत्राधिकार -->
+    <section class="legal-section" id="terms-contact">
+      <span class="badge">क्षेत्राधिकार</span>
+      <h2><i class="fa-solid fa-scale-balanced" style="color:#0f172a;"></i> 10. कानूनी क्षेत्राधिकार एवं आधिकारिक संपर्क</h2>
+
+      <p>
+        ये नियम और नीतियां भारत के कानूनों द्वारा शासित हैं[span_40](start_span)[span_40](end_span)। किसी भी विवाद की स्थिति में न्यायिक क्षेत्राधिकार भारत की संबंधित सक्षम अदालतों के अधीन होगा[span_41](start_span)[span_41](end_span)।
+      </p>
+
+      <div style="background:#f1f5f9; padding:15px; border-radius:8px; margin-top:15px;">
+        <p style="margin:0 0 5px;"><strong>प्लेटफॉर्म का नाम:</strong> SaralShareMarket</p>
+        <p style="margin:0 0 5px;"><strong>आधिकारिक सहायता ईमेल:</strong> <a href="mailto:admin@example.com">admin@example.com</a>[span_42](start_span)[span_42](end_span)</p>
+        <p style="margin:0;"><strong>प्लेटफॉर्म श्रेणी:</strong> क्यूरेटेड शैक्षिक शिक्षण प्रबंधन प्रणाली (LMS)</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>&copy; 2026 SaralShareMarket. सर्वाधिकार सुरक्षित।[span_43](start_span)[span_43](end_span)</p>
+  <p style="font-size:0.75rem; color:#64748b; margin-top:5px;">
+    क्यूरेटेड हिंदी स्टॉक मार्केट रोडमैप। सभी वीडियो उनके संबंधित यूट्यूब स्वामियों की संपत्ति हैं।[span_44](start_span)[span_44](end_span)
+  </p>
+</footer>
+
+</body>
+</html>
