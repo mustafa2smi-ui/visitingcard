@@ -487,9 +487,10 @@ function closeModalAndScroll() {
 }
 
 /* ==========================================================================
-   PLAYER PAGE LOGIC (Google Sheet Secure Video Pull & Channel Credits)
+   SMOOTH IN-PAGE SWITCHER (Single Back Press Fix)
 ========================================================================== */
-/* function initPlayerPage() {
+
+function initPlayerPage() {
   const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
   const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "";
   const deviceToken = localStorage.getItem(CONFIG.STORAGE_KEY_TOKEN) || "";
@@ -500,7 +501,12 @@ function closeModalAndScroll() {
   const urlParams = new URLSearchParams(window.location.search);
   const activeId = urlParams.get("id") || LESSONS_DATA[0].id;
 
-  // Identify Active Lesson & Parent
+  // Initial load
+  switchLessonInPlayer(activeId, isUserActive, activeEmail, deviceToken, false);
+}
+
+// Function to switch lesson dynamically without creating new history entries
+function switchLessonInPlayer(activeId, isUserActive, activeEmail, deviceToken, pushHistory = true) {
   let selectedLesson = LESSONS_DATA.find(l => l.id === activeId);
   let parentLesson = selectedLesson;
 
@@ -517,7 +523,12 @@ function closeModalAndScroll() {
 
   if (!selectedLesson) selectedLesson = LESSONS_DATA[0];
 
-  // Update Breadcrumbs & Titles
+  // 1. URL update bina naya history record banaye (Single Back Click Fix)
+  if (pushHistory) {
+    history.replaceState({ id: activeId }, selectedLesson.title, `course.html?id=${activeId}`);
+  }
+
+  // 2. Breadcrumbs aur Titles update
   const breadCat = document.getElementById("breadCat");
   const breadTitle = document.getElementById("breadTitle");
   const currentTitle = document.getElementById("currentLessonTitle");
@@ -526,15 +537,15 @@ function closeModalAndScroll() {
   if (breadCat) breadCat.innerText = parentLesson.cat || "Topic";
   if (breadTitle) breadTitle.innerText = selectedLesson.title;
   if (currentTitle) currentTitle.innerText = selectedLesson.title;
-  if (creatorNameEl) creatorNameEl.innerText = selectedLesson.channelName || parentLesson.channelName;
+  if (creatorNameEl) creatorNameEl.innerText = selectedLesson.channelName || parentLesson.channelName || "Market Expert";
 
-  // Render Sidebar / Bottom White List
-  renderPlaylistView(activeId, isUserActive);
+  // 3. Playlist active highlights update
+  renderPlaylistView(activeId, isUserActive, activeEmail, deviceToken);
 
-  // Pull Video from Google Sheet Engine
+  // 4. Video load
   fetchVideoFromSheet(activeId, selectedLesson, isUserActive, activeEmail, deviceToken);
 }
-*/
+/*
   function initPlayerPage() {
   const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
   const activeEmail = localStorage.getItem(CONFIG.STORAGE_KEY_EMAIL) || "";
@@ -580,7 +591,7 @@ function closeModalAndScroll() {
   // 4. Video Pull ya Lock Overlay show karna (No Redirect!)
   fetchVideoFromSheet(activeId, selectedLesson, isUserActive, activeEmail, deviceToken);
 }
-
+*/
 // ========================================================
 // NO-REDIRECT VIDEO FETCH / LOCK CONTROLLER
 // ========================================================
@@ -631,161 +642,8 @@ async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, tok
     if (lockOverlay) lockOverlay.style.display = "flex";
   }
 }
-
+ 
 /*
-// Secure Video Pull from Google Sheet (Apps Script Backend)
-async function fetchVideoFromSheet(lessonId, lessonObj, isUserActive, email, token) {
-  const frame = document.getElementById("videoPlayerFrame");
-  frame.src = "about:blank"; // Reset frame
-
-  // 1. Agar Free Demo Video hai to direct fast play karein
-  if (lessonObj.isFree && lessonObj.url) {
-    frame.src = getCleanEmbedUrl(lessonObj.url);
-    return;
-  }
-
-  // 2. Testing mode override
-  if (CONFIG.DEMO_MODE && lessonObj.url) {
-    frame.src = getCleanEmbedUrl(lessonObj.url);
-    return;
-  }
-
-  // 3. Paid Video: Google Sheet Verification Call
-  try {
-    const response = await fetch(CONFIG.APPS_SCRIPT_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        action: "get_video_url",
-        lessonId: lessonId,
-        email: email,
-        deviceToken: token
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.success && data.url) {
-      // Backend verified -> Play Video
-      frame.src = getCleanEmbedUrl(data.url);
-    } else {
-      alert("⚠️ Access Denied: " + (data.message || "Aapka subscription expired ya inactive hai."));
-      window.location.href = "index.html";
-    }
-
-  } catch (err) {
-    console.error("Sheet API Error:", err);
-    alert("Connection error! Video link fetch nahi ho saka.");
-  }
-}
-*/
-  
-/*
-// Render Playlist View in Course Page
-function renderPlaylistView(activeId, isUserActive) {
-  const listContainer = document.getElementById("lessonList");
-  if (!listContainer) return;
-
-  const counter = document.getElementById("totalCounter");
-  if (counter) counter.innerText = `${LESSONS_DATA.length} Chapters`;
-
-  listContainer.innerHTML = "";
-  LESSONS_DATA.forEach(parent => {
-    const isParentActive = (parent.id === activeId);
-    const canAccessParent = isUserActive || parent.isFree;
-
-    const group = document.createElement("li");
-    group.className = "parent-group";
-
-    group.innerHTML = `
-      <div class="parent-header ${isParentActive ? 'active' : ''}">
-        <span><i class="fa-solid ${canAccessParent ? 'fa-book-open' : 'fa-lock'}" style="margin-right:6px; color:${canAccessParent ? 'var(--primary)' : '#94a3b8'}"></i>${parent.title}</span>
-        ${parent.isFree ? '<span class="badge-free">FREE</span>' : ''}
-      </div>
-      ${parent.subLessons && parent.subLessons.length > 0 ? `
-        <ul class="sub-list">
-          ${parent.subLessons.map(sub => `
-            <li class="sub-item ${sub.id === activeId ? 'active' : ''}" data-id="${sub.id}">
-              <i class="fa-solid fa-play" style="font-size:0.6rem;"></i> ${sub.title}
-            </li>
-          `).join("")}
-        </ul>
-      ` : ""}
-    `;
-
-    group.querySelector(".parent-header").addEventListener("click", () => {
-      window.location.href = `course.html?id=${parent.id}`;
-    });
-
-    group.querySelectorAll(".sub-item").forEach(item => {
-      item.addEventListener("click", (e) => {
-        e.stopPropagation();
-        window.location.href = `course.html?id=${item.getAttribute("data-id")}`;
-      });
-    });
-
-    listContainer.appendChild(group);
-  });
-}
-*/
-/*
-// Render Numbered & Colorful Border Separated Playlist
-function renderPlaylistView(activeId, isUserActive) {
-  const listContainer = document.getElementById("lessonList");
-  if (!listContainer) return;
-
-  const counter = document.getElementById("totalCounter");
-  if (counter) counter.innerText = `${LESSONS_DATA.length} Chapters`;
-
-  // 6 Alternating Border Colors
-  const borderColors = ["border-blue", "border-red", "border-green", "border-amber", "border-purple", "border-cyan"];
-
-  listContainer.innerHTML = "";
-  LESSONS_DATA.forEach((parent, index) => {
-    const isParentActive = (parent.id === activeId);
-    const canAccessParent = isUserActive || parent.isFree;
-    const borderClass = borderColors[index % borderColors.length];
-
-    // Chapter number (e.g., #01, #02, #10)
-    const chapNumber = `#${String(index + 1).padStart(2, '0')}`;
-
-    const group = document.createElement("li");
-    group.className = `parent-group ${borderClass}`;
-
-    group.innerHTML = `
-      <div class="parent-header ${isParentActive ? 'active' : ''}">
-        <span class="chap-badge">${chapNumber}</span>
-        <span class="chap-title-text">${parent.title}</span>
-        ${parent.isFree ? '<span class="badge-free">FREE</span>' : (!canAccessParent ? '<i class="fa-solid fa-lock" style="font-size:0.75rem; color:#94a3b8;"></i>' : '')}
-      </div>
-      ${parent.subLessons && parent.subLessons.length > 0 ? `
-        <ul class="sub-list">
-          ${parent.subLessons.map((sub, sIdx) => `
-            <li class="sub-item ${sub.id === activeId ? 'active' : ''}" data-id="${sub.id}">
-              <span style="font-size:0.65rem; color:#94a3b8; font-weight:700;">${chapNumber}.${sIdx + 1}</span>
-              <span style="flex:1;">${sub.title}</span>
-              <i class="fa-solid fa-play" style="font-size:0.55rem; color:#94a3b8;"></i>
-            </li>
-          `).join("")}
-        </ul>
-      ` : ""}
-    `;
-
-    group.querySelector(".parent-header").addEventListener("click", () => {
-      window.location.href = `course.html?id=${parent.id}`;
-    });
-
-    group.querySelectorAll(".sub-item").forEach(item => {
-      item.addEventListener("click", (e) => {
-        e.stopPropagation();
-        window.location.href = `course.html?id=${item.getAttribute("data-id")}`;
-      });
-    });
-
-    listContainer.appendChild(group);
-  });
-}
-*/
 function renderPlaylistView(activeId, isUserActive) {
   const listContainer = document.getElementById("lessonList");
   if (!listContainer) return;
@@ -835,6 +693,63 @@ function renderPlaylistView(activeId, isUserActive) {
       item.addEventListener("click", (e) => {
         e.stopPropagation();
         window.location.href = `course.html?id=${item.getAttribute("data-id")}`;
+      });
+    });
+
+    listContainer.appendChild(group);
+  });
+}
+*/
+// Render Numbered & Colorful Border Playlist with In-Page Click
+function renderPlaylistView(activeId, isUserActive, activeEmail, deviceToken) {
+  const listContainer = document.getElementById("lessonList");
+  if (!listContainer) return;
+
+  const counter = document.getElementById("totalCounter");
+  if (counter) counter.innerText = `${LESSONS_DATA.length} Chapters`;
+
+  const borderColors = ["border-blue", "border-red", "border-green", "border-amber", "border-purple", "border-cyan"];
+
+  listContainer.innerHTML = "";
+  LESSONS_DATA.forEach((parent, index) => {
+    const isParentActive = (parent.id === activeId);
+    const canAccessParent = isUserActive || parent.isFree;
+    const borderClass = borderColors[index % borderColors.length];
+    const chapNumber = `#${String(index + 1).padStart(2, '0')}`;
+
+    const group = document.createElement("li");
+    group.className = `parent-group ${borderClass}`;
+
+    group.innerHTML = `
+      <div class="parent-header ${isParentActive ? 'active' : ''}">
+        <span class="chap-badge">${chapNumber}</span>
+        <span class="chap-title-text">${parent.title}</span>
+        ${parent.isFree ? '<span class="badge-free">FREE</span>' : (!canAccessParent ? '<i class="fa-solid fa-lock" style="font-size:0.75rem; color:#94a3b8;"></i>' : '')}
+      </div>
+      ${parent.subLessons && parent.subLessons.length > 0 ? `
+        <ul class="sub-list">
+          ${parent.subLessons.map((sub, sIdx) => `
+            <li class="sub-item ${sub.id === activeId ? 'active' : ''}" data-id="${sub.id}">
+              <span style="font-size:0.65rem; color:#94a3b8; font-weight:700;">${chapNumber}.${sIdx + 1}</span>
+              <span style="flex:1;">${sub.title}</span>
+              <i class="fa-solid fa-play" style="font-size:0.55rem; color:#94a3b8;"></i>
+            </li>
+          `).join("")}
+        </ul>
+      ` : ""}
+    `;
+
+    // Click Parent -> Dynamic Switch (No full page reload)
+    group.querySelector(".parent-header").addEventListener("click", () => {
+      switchLessonInPlayer(parent.id, isUserActive, activeEmail, deviceToken, true);
+    });
+
+    // Click Sub-item -> Dynamic Switch
+    group.querySelectorAll(".sub-item").forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const subId = item.getAttribute("data-id");
+        switchLessonInPlayer(subId, isUserActive, activeEmail, deviceToken, true);
       });
     });
 
