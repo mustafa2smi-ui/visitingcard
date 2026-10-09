@@ -257,6 +257,35 @@
     .modal-close-btn {
       background: none; border: none; color: #78716c; font-size: 0.78rem; font-weight: 600; cursor: pointer;
     }
+/* Pre-Purchase Transparency Statement Box */
+.payment-clarity-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-left: 3px solid #38bdf8; /* Soft blue accent */
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  margin: 0.8rem 0;
+  text-align: left;
+}
+
+.payment-clarity-box h4 {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.payment-clarity-box p {
+  font-size: 0.73rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin: 0;
+}
 
     /* 2) Comprehensive Footer */
     footer {
@@ -308,11 +337,17 @@
     </div>
   </div>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>300+ Complete Stock Market Lessons</h1>
-    <p>Zero se Advanced Strategy, Live Price Action aur Candlestick Rules ek structured roadmap me.</p>
-  </section>
+  <!-- Hero Section (Updated with Core Value & Clarity) -->
+<section class="hero">
+  <div style="display:inline-block; background:rgba(16, 185, 129, 0.15); border:1px solid rgba(16, 185, 129, 0.3); color:#34d399; padding:3px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; margin-bottom:8px;">
+    🎯 Curated Learning Roadmap • No Algorithm Trap
+  </div>
+  <h1>300+ Chapters: Stock Market Step-by-Step</h1>
+  <p style="max-width:650px; margin:0.4rem auto 0; font-size:0.84rem; color:var(--text-muted); line-height:1.5;">
+    YouTube par hazaron ghante bhatakne ke bajaye seekhiye ek systematic kram me. Basics, Candlestick, Technical Analysis aur Derivatives ko ek structured, distraction-free roadmap index me arrange kiya gaya hai.
+  </p>
+</section>
+
 
   <!-- 3) Side-Scroll Radio Selectable Pricing Cards -->
   <div class="pricing-scroll-wrapper">
@@ -347,6 +382,30 @@
       </div>
     </div>
   </div>
+<!-- Developer Recommended: Pre-Purchase Value Clarity Notice -->
+<div class="payment-clarity-box">
+  <h4><i class="fa-solid fa-circle-info"></i> What are you paying for?</h4>
+  <p>
+    Your subscription provides access to <strong>SaralShareMarket's</strong> curated and organized educational roadmap. Many listed videos are hosted on YouTube and may be available there for free. Your subscription fee covers our platform's systematic indexing, learning structure, and distraction-free features—not ownership of third-party videos.
+  </p>
+</div>
+
+<!-- Aapka Existing Activation Button -->
+<button id="sendPlanRequestBtn" class="btn-action btn-secondary">
+  <i class="fa-solid fa-envelope"></i> Send Activation Request via Email
+</button>
+<!-- Final Pre-Purchase Transparency & Validity Notice -->
+<div class="payment-clarity-box">
+  <h4><i class="fa-solid fa-circle-info"></i> What are you paying for? (महत्वपूर्ण जानकारी)</h4>
+  <p style="margin-bottom: 0.5rem;">
+    Your subscription provides time-based access to <strong>SaralShareMarket's</strong> curated learning index. Many videos are hosted publicly on YouTube. Your fee covers our platform's 300+ topic structuring, indexing, and LMS features—not video ownership.
+  </p>
+  
+  <div style="background: rgba(245, 158, 11, 0.12); border-left: 2px solid #f59e0b; padding: 0.45rem 0.6rem; border-radius: 4px; font-size: 0.72rem; color: #fde68a; line-height: 1.4;">
+    <strong>⏳ Access Validity Rule:</strong><br>
+    यह सब्सक्रिप्शन <strong>समय आधारित (Time-Based: 30 या 90 दिन)</strong> है, कोर्स खत्म होने (Course Completion) पर आधारित नहीं। यदि समय सीमा समाप्त होने तक आप 100 या 150 वीडियो ही देख पाते हैं, तो शेष चैप्टर्स जारी रखने के लिए प्लान रिन्यू (Renew) करना अनिवार्य होगा।
+  </div>
+</div>
 
   <!-- Auth & Verification Section -->
   <section class="auth-section" id="authBox">
