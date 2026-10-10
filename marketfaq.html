@@ -217,7 +217,7 @@ body {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: max-height 0.35s ease-out, padding 0.3s ease;
   background: #ffffff;
   padding: 0 18px;
   font-size: 0.88rem;
@@ -228,6 +228,8 @@ body {
 .faq-card.open .faq-answer {
   padding: 14px 18px;
   border-top: 1px solid var(--border);
+  /* Height limit hata di taaki lamba text kabhi na kate */
+  max-height: 2000px; 
 }
 
 .faq-answer ul {
@@ -612,13 +614,11 @@ footer {
       }
     }
 
-    // 2. Interactive Accordion Toggle
+        // 2. Interactive Accordion Toggle with Auto-Scroll
     document.querySelectorAll(".faq-question").forEach(question => {
       question.addEventListener("click", () => {
         const card = question.parentElement;
         const answer = card.querySelector(".faq-answer");
-        
-        // Toggle Open State
         const isOpen = card.classList.contains("open");
 
         if (isOpen) {
@@ -626,10 +626,17 @@ footer {
           answer.style.maxHeight = null;
         } else {
           card.classList.add("open");
-          answer.style.maxHeight = answer.scrollHeight + "px";
+          // Full natural height allow karein
+          answer.style.maxHeight = (answer.scrollHeight + 40) + "px";
+
+          // Expand hone ke baad screen ko auto-scroll karke view me laayein
+          setTimeout(() => {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 150);
         }
       });
     });
+
   </script>
 </body>
 </html>
