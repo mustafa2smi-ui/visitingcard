@@ -286,6 +286,89 @@
   line-height: 1.4;
   margin: 0;
 }
+/* ==========================================================
+   Dual Tab Switcher & Fullscreen Lightbox Modal CSS
+   ========================================================== */
+.learning-tab-switcher {
+  display: flex; gap: 8px; margin-bottom: 0.8rem; background: #0f172a;
+  padding: 4px; border-radius: 12px; border: 1.5px solid #22436d;
+}
+.tab-btn {
+  flex: 1; padding: 0.6rem 0.8rem; border-radius: 8px; background: transparent;
+  color: #94a3b8; font-size: 0.82rem; font-weight: 800; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.25s ease;
+}
+.tab-btn:hover { color: #fff; }
+.tab-btn.active {
+  background: #1e293b; color: #38bdf8;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); border: 1px solid #38bdf8;
+}
+
+/* Lightbox Modal Overlay */
+.reading-lightbox-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(3, 7, 18, 0.94); backdrop-filter: blur(10px);
+  z-index: 3000; justify-content: center; align-items: center; padding: 0.6rem;
+}
+.reading-lightbox-overlay.active { display: flex; }
+
+.reading-lightbox-box {
+  background: #0d1527; border: 2px solid #22436d; border-radius: 16px;
+  max-width: 780px; width: 100%; height: 92vh; display: flex; flex-direction: column;
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.35); overflow: hidden;
+  animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox-header {
+  padding: 0.8rem 1.1rem; background: #111c30; border-bottom: 1.5px solid #1e293b;
+  display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+}
+.lightbox-title-box { display: flex; align-items: center; gap: 8px; max-width: 70%; }
+.lightbox-badge {
+  background: #0284c7; color: #fff; font-size: 0.64rem; font-weight: 800;
+  padding: 2px 7px; border-radius: 4px; flex-shrink: 0;
+}
+.lightbox-title-box h3 {
+  font-size: 0.92rem; font-weight: 800; color: #f8fafc;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;
+}
+.lightbox-actions { display: flex; align-items: center; gap: 10px; }
+.slide-counter-badge {
+  font-size: 0.72rem; font-weight: 800; color: #38bdf8;
+  background: #0b1120; border: 1px solid #22436d; padding: 3px 8px; border-radius: 6px;
+}
+.lightbox-close-btn {
+  background: #1e293b; border: 1px solid #334155; border-radius: 50%;
+  width: 32px; height: 32px; font-size: 1.1rem; color: #cbd5e1;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+}
+.lightbox-close-btn:hover { background: #dc2626; color: #fff; border-color: #ef4444; }
+
+.lightbox-content-area {
+  flex: 1; overflow-y: auto; padding: 1.2rem;
+  background: radial-gradient(circle at top, #132038 0%, #0b1120 100%);
+  -webkit-overflow-scrolling: touch;
+}
+.slide-card-body { max-width: 650px; margin: 0 auto; }
+.slide-img-frame {
+  width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px;
+  border: 1.5px solid #22436d; margin-bottom: 1.1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.slide-headline { font-size: 1.15rem; font-weight: 900; color: #38bdf8; margin-bottom: 0.8rem; }
+.slide-text { font-size: 0.88rem; line-height: 1.7; color: #cbd5e1; }
+
+.lightbox-bottom-nav {
+  padding: 0.75rem 1.1rem; background: #111c30; border-top: 1.5px solid #1e293b;
+  display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+}
+.nav-arrow-btn {
+  background: #16243d; color: #38bdf8; border: 1.5px solid #22436d;
+  padding: 0.55rem 1.1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+}
+.nav-arrow-btn:hover:not(:disabled) { background: #0284c7; color: #fff; border-color: #38bdf8; }
+.nav-arrow-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.swipe-hint { font-size: 0.72rem; color: #64748b; font-weight: 700; }
 
     /* 2) Comprehensive Footer */
     footer {
@@ -338,7 +421,7 @@
     </div>
   </div>
 
-  <!-- Hero Section (Updated with Core Value & Clarity) --
+  <!-- Hero Section (Updated with Core Value & Clarity) -->
 <section class="hero">
   <div style="display:inline-block; background:rgba(16, 185, 129, 0.15); border:1px solid rgba(16, 185, 129, 0.3); color:#34d399; padding:3px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; margin-bottom:8px;">
     🎯 Curated Learning Roadmap • No Algorithm Trap
@@ -348,8 +431,8 @@
     YouTube par hazaron ghante bhatakne ke bajaye seekhiye ek systematic kram me. Basics, Candlestick, Technical Analysis aur Derivatives ko ek structured, distraction-free roadmap index me arrange kiya gaya hai.
   </p>
 </section>
--->
-<!-- Hero Section (Clean, Transparent & Modern) -->
+
+<!-- Hero Section (Clean, Transparent & Modern) --
 <section class="hero">
   <div class="hero-badge">
     🎯 300+ Chapters • Curated Learning Index
@@ -365,7 +448,7 @@
     स्वागत है आपका SaralShareMarket में!
   </p>
 
-  <!-- Transparent Disclaimer Notice Box -->
+  <!-- Transparent Disclaimer Notice Box --
   <div style="background: rgba(15, 23, 42, 0.7); border: 1.5px solid #22436d; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 0.65rem 0.9rem; max-width: 650px; margin: 0.9rem auto 0; text-align: left; font-size: 0.76rem; color: #cbd5e1; line-height: 1.5;">
     <strong style="color: #fbbf24; display: block; margin-bottom: 2px;">
       <i class="fa-solid fa-circle-exclamation"></i> ज़रूरी सूचना (Transparency Note):
@@ -373,7 +456,7 @@
     यहाँ सभी वीडियो आधिकारिक <strong>YouTube Embed Player</strong> के ज़रिए दिखाए जा रहे हैं, जो हमारे अपडेट तक सार्वजनिक रूप से मुफ़्त (Free) थे और आगे भी मुफ़्त हो सकते हैं। इस प्लेटफॉर्म पर किसी भी क्रिएटर का कोई पेड या प्राइवेट मेंबरशिप कोर्स अपलोड नहीं है। हमारी फ़ीस केवल इस 300+ टॉपिक इंडेक्स और सुव्यवस्थित लर्निंग पाथ के लिए है।
   </div>
 
-  <!-- Hero Dynamic Actions -->
+  <!-- Hero Dynamic Actions --
   <div class="hero-action-box" style="margin-top: 1.2rem;">
     <button class="btn-unlock-hero" id="heroUnlockBtn">
       <i class="fa-solid fa-lock-open"></i> Buy / Unlock Full Course
@@ -384,7 +467,7 @@
     <span class="hero-subtext" id="heroSubtext">✨ Free Demo Chapters Available Below • Single Device Protected</span>
   </div>
 </section>
-
+-->
   <!-- 3) Side-Scroll Radio Selectable Pricing Cards -->
   <div class="pricing-scroll-wrapper">
     <!-- Card 1 -->
@@ -510,6 +593,15 @@
       <i class="fa-solid fa-magnifying-glass search-icon"></i>
       <input type="text" id="searchInput" class="search-input" placeholder="Search 300+ topics (e.g. Demat, Candlestick, Nifty)...">
     </div>
+    <!-- Interactive Dual Learning Switcher (Read vs Video) -->
+<div class="learning-tab-switcher">
+  <button class="tab-btn" id="tabViewVideo" data-mode="video">
+    <i class="fa-solid fa-play"></i> Watch Lectures
+  </button>
+  <button class="tab-btn active" id="tabReadContent" data-mode="read">
+    <i class="fa-solid fa-book-open-reader"></i> Read Notes
+  </button>
+</div>
     <div class="category-scroll" id="catFilter">
       <button class="cat-chip active" data-cat="All">All Topics</button>
       <button class="cat-chip" data-cat="Basics">Basics</button>
@@ -542,6 +634,42 @@
       <button class="modal-close-btn" onclick="closeModal()">Dismiss</button>
     </div>
   </div>
+<!-- FULLSCREEN READING LIGHTBOX MODAL -->
+<div class="reading-lightbox-overlay" id="readingLightbox">
+  <div class="reading-lightbox-box">
+    
+    <!-- Top Floating Controller Bar -->
+    <div class="lightbox-header">
+      <div class="lightbox-title-box">
+        <span class="lightbox-badge" id="lightboxTopicCat">Basics</span>
+        <h3 id="lightboxTopicTitle">Lesson Title</h3>
+      </div>
+      <div class="lightbox-actions">
+        <span class="slide-counter-badge" id="slideCounter">Slide 1 / 3</span>
+        <button class="lightbox-close-btn" id="closeLightboxBtn" title="Close Notes">&times;</button>
+      </div>
+    </div>
+
+    <!-- Main Sliding Content Container -->
+    <div class="lightbox-content-area" id="lightboxScrollArea">
+      <div class="slide-card-body" id="slideBody">
+        <!-- Image & Content JS se render hoga -->
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Bar (Prev / Next & Swipe) -->
+    <div class="lightbox-bottom-nav">
+      <button class="nav-arrow-btn" id="prevSlideBtn">
+        <i class="fa-solid fa-chevron-left"></i> Previous
+      </button>
+      <div class="swipe-hint"><i class="fa-solid fa-arrows-left-right"></i> Swipe to read</div>
+      <button class="nav-arrow-btn" id="nextSlideBtn">
+        Next <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+  </div>
+</div>
 
   <!-- 2) Comprehensive Footer -->
   <footer>
@@ -575,6 +703,10 @@
     </div>
   </footer>
 
+    <!-- Course Reading Notes Database -->
+  <script src="course-content.js"></script>
+
+  <!-- Master Controller -->
   <script src="course.js"></script>
 </body>
 </html>
