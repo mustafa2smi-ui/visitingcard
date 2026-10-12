@@ -522,18 +522,21 @@ function initIndexPage(deviceToken) {
       `;
 
       // Card Click Handler
-      note.addEventListener("click", () => {
+            note.addEventListener("click", () => {
         if (!canPlay) {
           triggerCheckoutModal();
           return;
         }
 
         if (currentLearningMode === "read") {
-          openReadingLightbox(lesson);
+          // Direct Full-Page Reader par redirect karega
+          window.location.href = `course-content.html?id=${lesson.id}`;
         } else {
+          // Video player par redirect karega
           window.location.href = `course.html?id=${lesson.id}`;
         }
       });
+
 
       container.appendChild(note);
     });
@@ -862,4 +865,126 @@ function renderPlaylistView(activeId, isUserActive, activeEmail, deviceToken) {
 
     listContainer.appendChild(group);
   });
+}
+/* ==========================================================================
+   FULL-PAGE CONTENT READER CONTROLLER (course-content.html)
+========================================================================== */
+function initContentReaderPage() {
+  const isUserActive = CONFIG.DEMO_MODE || localStorage.getItem(CONFIG.STORAGE_KEY_STATUS) === "active";
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeId = urlParams.get("id") || LESSONS_DATA[0].id;
+
+  const drawerToggleBtn = document.getElementById("drawerToggleBtn");
+  const closeDrawerBtn = document.getElementById("closeDrawerBtn");
+  const drawerOverlay = document.getElementById("drawerOverlay");
+  const drawerList = document.getElementById("drawerList");
+
+  // Drawer Slide Open / Close (< and > Controls)
+  if (drawerToggleBtn && drawerOverlay) {
+    drawerToggleBtn.addEventListener("click", () => {
+      drawerOverlay.classList.add("active");
+    });
+    if (closeDrawerBtn) {
+      closeDrawerBtn.addEventListener("click", () => {
+        drawerOverlay.classList.remove("active");
+      });
+    }
+    drawerOverlay.addEventListener("click", (e) => {
+      if (e.target === drawerOverlay) drawerOverlay.classList.remove("active");
+    });
+  }
+
+  // 1. Render Drawer Index List
+  if (drawerList) {
+    drawerList.innerHTML = "";
+    LESSONS_DATA.forEach((item, index) => {
+      const canAccess = isUserActive || item.isFree;
+      const li = document.createElement("li");
+      li.className = `drawer-item ${item.id === activeId ? 'active' : ''}`;
+      
+      const lockTag = item.isFree 
+        ? `<span style="color:#10b981; font-size:0.65rem; font-weight:800;">FREE</span>` 
+        : (canAccess ? `<i class="fa-solid fa-check" style="font-size:0.7rem; color:#38bdf8;"></i>` : `<i class="fa-solid fa-lock" style="font-size:0.7rem; color:#94a3b8;"></i>`);
+
+      li.innerHTML = `
+        <span style="font-size:0.68rem; color:#94a3b8; font-weight:800;">#${item.id}</span>
+        <span class="drawer-item-title">${item.title}</span>
+        ${lockTag}
+      `;
+
+      li.addEventListener("click", () => {
+        window.location.href = `course-content.html?id=${item.id}`;
+      });
+
+      drawerList.appendChild(li);
+    });
+  }
+
+  // 2. Load Active Lesson Data
+  const currentLesson = LESSONS_DATA.find(l => l.id === activeId) || LESSONS_DATA[0];
+  const readData = (typeof COURSE_READING_CONTENT !== 'undefined') ? COURSE_READING_CONTENT[currentLesson.id] : null;
+
+  // Header & Breadcrumb Updates
+  const pageTitle = document.getElementById("pageTitle");
+  const breadCat = document.getElementById("breadCat");
+  const breadTitle = document.getElementById("breadTitle");
+  const topicCatBadge = document.getElementById("topicCatBadge");
+  const lessonMainTitle = document.getElementById("lessonMainTitle");
+  const videoSwitchBtn = document.getElementById("videoSwitchBtn");
+  const articleBodyWrapper = document.getElementById("articleBodyWrapper");
+  const contentLockScreen = document.getElementById("contentLockScreen");
+
+  if (pageTitle) pageTitle.innerText = `${currentLesson.title} - Notes`;
+  if (breadCat) breadCat.innerText = currentLesson.cat;
+  if (breadTitle) breadTitle.innerText = currentLesson.title;
+  if (topicCatBadge) topicCatBadge.innerText = currentLesson.cat;
+  if (lessonMainTitle) lessonMainTitle.innerText = currentLesson.title;
+
+  // Video Icon Route Set Karein
+  if (videoSwitchBtn) {
+    videoSwitchBtn.href = `course.html?id=${currentLesson.id}`;
+  }
+
+  // 3. Permission Check (Free vs Locked)
+  const canRead = isUserActive || currentLesson.isFree;
+
+  if (!canRead) {
+    if (articleBodyWrapper) articleBodyWrapper.style.display = "none";
+    if (contentLockScreen) contentLockScreen.style.display = "block";
+    return;
+  }
+
+  // 4. Render Article Reading Cards
+  if (articleBodyWrapper) {
+    articleBodyWrapper.style.display = "flex";
+    if (contentLockScreen) contentLockScreen.style.display = "none";
+    articleBodyWrapper.innerHTML = "";
+
+    if (!readData || !readData.slides || readData.slides.length === 0) {
+      articleBodyWrapper.innerHTML = `
+        <div class="reading-card">
+          <h2><i class="fa-solid fa-circle-info"></i> Parichay</h2>
+          <div class="reading-content-text">
+            Is chapter ke vistarit notes jald hi upload kiye ja rahe hain. Tab tak aap upar diye gaye <strong>Watch Video</strong> button par click karke lecture dekh sakte hain.
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    readData.slides.forEach((slide) => {
+      const card = document.createElement("div");
+      card.className = "reading-card";
+
+      const imgHtml = slide.image ? `<img src="${slide.image}" class="slide-media-frame" alt="${slide.headline}">` : "";
+
+      card.innerHTML = `
+        <h2><i class="fa-solid fa-book-bookmark"></i> ${slide.headline}</h2>
+        ${imgHtml}
+        <div class="reading-content-text">${slide.content}</div>
+      `;
+
+      articleBodyWrapper.appendChild(card);
+    });
+  }
 }
