@@ -283,9 +283,9 @@
         <iframe id="videoPlayerFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
 
-      <!-- Compact Meta Bar with Breadcrumb Navigation -->
+      <!-- Compact Meta Bar with Breadcrumb Navigation --
       <div class="video-info-bar">
-        <!-- Google Robot & User Breadcrumb Path -->
+        <!-- Google Robot & User Breadcrumb Path --
         <nav class="compact-breadcrumb" aria-label="Breadcrumb">
           <a href="index.html">Home</a>
           <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
@@ -301,6 +301,33 @@
         </div>
       </div>
     </div>
+-->
+          <!-- Compact Meta Bar with Breadcrumbs & Credit -->
+      <div class="video-info-bar">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+          <div style="flex:1; overflow:hidden;">
+            <!-- Breadcrumb Path -->
+            <nav class="compact-breadcrumb" aria-label="Breadcrumb">
+              <a href="index.html">Home</a>
+              <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
+              <span id="breadCat">Category</span>
+              <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
+              <span id="breadTitle" style="color:#0f172a; font-weight:800;">Lesson</span>
+            </nav>
+            <h2 id="currentLessonTitle">Loading Chapter...</h2>
+          </div>
+
+          <!-- Quick Read Notes Button -->
+          <button class="btn-read-notes" id="openPlayerNotesBtn" title="Is chapter ke notes padhein">
+            <i class="fa-solid fa-book-open-reader"></i> <span>Read Notes</span>
+          </button>
+        </div>
+        
+        <div class="credit-tag">
+          <i class="fa-brands fa-youtube" style="color:#ef4444; font-size:0.85rem;"></i>
+          <span>Curated from: <strong id="creatorName">Expert Channel</strong></span>
+        </div>
+      </div>
 
     <!-- 2. SCROLLABLE PLAYLIST -->
     <div class="scrollable-content-section">
@@ -312,7 +339,34 @@
     </div>
 
   </div>
+  <!-- IN-PLAYER READING LIGHTBOX MODAL -->
+  <div class="reading-lightbox-overlay" id="readingLightbox">
+    <div class="reading-lightbox-box">
+      <div class="lightbox-header">
+        <div class="lightbox-title-box">
+          <span class="lightbox-badge" id="lightboxTopicCat">Basics</span>
+          <h3 id="lightboxTopicTitle">Lesson Notes</h3>
+        </div>
+        <div class="lightbox-actions">
+          <span class="slide-counter-badge" id="slideCounter">Slide 1 / 1</span>
+          <button class="lightbox-close-btn" id="closeLightboxBtn">&times;</button>
+        </div>
+      </div>
 
+      <div class="lightbox-content-area" id="lightboxScrollArea">
+        <div class="slide-card-body" id="slideBody"></div>
+      </div>
+
+      <div class="lightbox-bottom-nav">
+        <button class="nav-arrow-btn" id="prevSlideBtn"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+        <div class="swipe-hint"><i class="fa-solid fa-arrows-left-right"></i> Swipe to read</div>
+        <button class="nav-arrow-btn" id="nextSlideBtn">Next <i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Database Script -->
+  <script src="course-content.js"></script>
   <script src="course.js"></script>
 </body>
 </html>
