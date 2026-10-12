@@ -304,6 +304,185 @@ function initIndexPage(deviceToken) {
       }
     });
   });
+  //New 
+
+  // 1. Dual Tab Learning Mode State ('read' | 'video')
+  let currentLearningMode = "read"; // Default tab
+  let activeLightboxLesson = null;
+  let activeSlideIndex = 0;
+
+  const tabReadContent = document.getElementById("tabReadContent");
+  const tabViewVideo = document.getElementById("tabViewVideo");
+
+  if (tabReadContent && tabViewVideo) {
+    tabReadContent.addEventListener("click", () => {
+      currentLearningMode = "read";
+      tabReadContent.classList.add("active");
+      tabViewVideo.classList.remove("active");
+      renderGrid();
+    });
+
+    tabViewVideo.addEventListener("click", () => {
+      currentLearningMode = "video";
+      tabViewVideo.classList.add("active");
+      tabReadContent.classList.remove("active");
+      renderGrid();
+    });
+  }
+
+  // 2. Dynamic SEO Injection Function
+  function injectDynamicSeoSchema(lessonId, lessonData, readData) {
+    let scriptTag = document.getElementById("dynamicLessonSchema");
+    if (!scriptTag) {
+      scriptTag = document.createElement("script");
+      scriptTag.id = "dynamicLessonSchema";
+      scriptTag.type = "application/ld+json";
+      document.head.appendChild(scriptTag);
+    }
+
+    const keywords = (readData && readData.keywords) ? readData.keywords : [lessonData.cat, "Stock Market Hindi"];
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "LearningResource",
+      "name": lessonData.title,
+      "educationalLevel": "Beginner to Advanced",
+      "learningResourceType": currentLearningMode === "read" ? "Slide Notes / Article" : "Video Lecture",
+      "keywords": keywords.join(", "),
+      "provider": {
+        "@type": "Organization",
+        "name": "SaralShareMarket"
+      }
+    };
+    scriptTag.text = JSON.stringify(schemaData);
+  }
+
+  // 3. Lightbox Render & Slide Navigation
+  const readingLightbox = document.getElementById("readingLightbox");
+  const closeLightboxBtn = document.getElementById("closeLightboxBtn");
+  const prevSlideBtn = document.getElementById("prevSlideBtn");
+  const nextSlideBtn = document.getElementById("nextSlideBtn");
+  const slideCounter = document.getElementById("slideCounter");
+  const slideBody = document.getElementById("slideBody");
+  const lightboxTopicTitle = document.getElementById("lightboxTopicTitle");
+  const lightboxTopicCat = document.getElementById("lightboxTopicCat");
+  const lightboxScrollArea = document.getElementById("lightboxScrollArea");
+
+  function openReadingLightbox(lesson) {
+    const readData = typeof COURSE_READING_CONTENT !== 'undefined' ? COURSE_READING_CONTENT[lesson.id] : null;
+
+    activeLightboxLesson = lesson;
+    activeSlideIndex = 0;
+
+    lightboxTopicTitle.innerText = lesson.title;
+    lightboxTopicCat.innerText = lesson.cat;
+
+    renderCurrentSlide(readData);
+    injectDynamicSeoSchema(lesson.id, lesson, readData);
+
+    if (readingLightbox) readingLightbox.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeReadingLightbox() {
+    if (readingLightbox) readingLightbox.classList.remove("active");
+    document.body.style.overflow = "auto";
+  }
+
+  function renderCurrentSlide(readData) {
+    if (!slideBody) return;
+
+    if (!readData || !readData.slides || readData.slides.length === 0) {
+      slideBody.innerHTML = `
+        <div class="slide-headline">${activeLightboxLesson.title}</div>
+        <div class="slide-text">Is chapter ke notes jald hi upload kiye ja rahe hain. Tab tak aap iska video lecture dekh sakte hain.</div>
+      `;
+      slideCounter.innerText = "Slide 1 / 1";
+      prevSlideBtn.disabled = true;
+      nextSlideBtn.disabled = true;
+      return;
+    }
+
+    const slide = readData.slides[activeSlideIndex];
+    slideCounter.innerText = `Slide ${activeSlideIndex + 1} / ${readData.slides.length}`;
+
+    let imgHtml = slide.image ? `<img src="${slide.image}" class="slide-img-frame" alt="${slide.headline}">` : "";
+
+    slideBody.innerHTML = `
+      ${imgHtml}
+      <div class="slide-headline">${slide.headline}</div>
+      <div class="slide-text">${slide.content}</div>
+    `;
+
+    prevSlideBtn.disabled = (activeSlideIndex === 0);
+    nextSlideBtn.disabled = (activeSlideIndex === readData.slides.length - 1);
+    if (lightboxScrollArea) lightboxScrollArea.scrollTop = 0;
+  }
+
+  if (prevSlideBtn) {
+    prevSlideBtn.addEventListener("click", () => {
+      const readData = COURSE_READING_CONTENT[activeLightboxLesson.id];
+      if (activeSlideIndex > 0) {
+        activeSlideIndex--;
+        renderCurrentSlide(readData);
+      }
+    });
+  }
+
+  if (nextSlideBtn) {
+    nextSlideBtn.addEventListener("click", () => {
+      const readData = COURSE_READING_CONTENT[activeLightboxLesson.id];
+      if (readData && activeSlideIndex < readData.slides.length - 1) {
+        activeSlideIndex++;
+        renderCurrentSlide(readData);
+      }
+    });
+  }
+
+  if (closeLightboxBtn) closeLightboxBtn.addEventListener("click", closeReadingLightbox);
+
+  // Touch Swipe Support (Mobile)
+  let touchStartX = 0;
+  let touchEndX = 0;
+  if (lightboxScrollArea) {
+    lightboxScrollArea.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightboxScrollArea.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+  }
+
+  function handleSwipe() {
+    const diff = touchEndX - touchStartX;
+    const readData = COURSE_READING_CONTENT[activeLightboxLesson.id];
+    if (Math.abs(diff) > 50) {
+      if (diff < 0 && activeSlideIndex < (readData.slides.length - 1)) {
+        activeSlideIndex++;
+        renderCurrentSlide(readData);
+      } else if (diff > 0 && activeSlideIndex > 0) {
+        activeSlideIndex--;
+        renderCurrentSlide(readData);
+      }
+    }
+  }
+
+  // 4. Update Note Click Inside renderGrid()
+  // note.addEventListener("click", ...) block ko is tarah replace karein:
+  note.addEventListener("click", () => {
+    if (!canPlay) {
+      openCheckout(); // Locked content prompt trigger
+      return;
+    }
+
+    if (currentLearningMode === "read") {
+      openReadingLightbox(lesson);
+    } else {
+      window.location.href = `course.html?id=${lesson.id}`;
+    }
+  });
+
 
   // 3. Render High-Density Sticky Notes Grid
   function renderGrid() {
