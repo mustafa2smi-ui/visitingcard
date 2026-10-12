@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title id="pageTitle">Chapter Notes - SaralShareMarket</title>
+  
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0b1120">
+
+  <!-- Favicon Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================================
+       1. Dark Neon Theme Styling
+       ========================================================== */
+    :root {
+      --bg-page: #0b1120;
+      --bg-surface: #111c30;
+      --bg-card: #16243d;
+      
+      --neon-blue: #38bdf8;
+      --neon-emerald: #10b981;
+      --neon-amber: #f59e0b;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-dark: #1e293b;
+      --border-accent: #22436d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+    /* Top Sticky Header */
+    .reader-header {
+      background: rgba(17, 28, 48, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1.5px solid var(--border-dark);
+      padding: 0.7rem 1.1rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .home-btn {
+      color: var(--neon-blue); font-size: 1.15rem; text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px; background: #16243d;
+      border: 1px solid var(--border-accent); transition: all 0.2s;
+    }
+    .home-btn:hover { box-shadow: 0 0 12px rgba(56, 189, 248, 0.4); border-color: var(--neon-blue); }
+
+    .header-brand-title {
+      font-size: 1rem; font-weight: 800; color: #f8fafc;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
+    }
+    @media(min-width: 600px) { .header-brand-title { max-width: 400px; } }
+
+    .video-switch-btn {
+      background: linear-gradient(135deg, #0284c7, #0f766e);
+      color: #fff; text-decoration: none; font-size: 0.8rem; font-weight: 800;
+      padding: 0.45rem 0.9rem; border-radius: 8px; border: 1px solid var(--neon-blue);
+      display: flex; align-items: center; gap: 6px; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+      transition: all 0.2s;
+    }
+    .video-switch-btn:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); transform: translateY(-1px); }
+
+    /* Side Roadmap Drawer & Floating Toggle */
+    .drawer-toggle-btn {
+      position: fixed; top: 75px; left: 0; z-index: 150;
+      background: var(--neon-blue); color: #0b1120;
+      border: none; border-radius: 0 8px 8px 0;
+      padding: 0.65rem 0.65rem 0.65rem 0.5rem;
+      font-size: 1rem; font-weight: 900; cursor: pointer;
+      box-shadow: 2px 0 15px rgba(56, 189, 248, 0.4);
+      transition: all 0.25s ease;
+    }
+    .drawer-toggle-btn:hover { padding-right: 0.85rem; }
+
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px); z-index: 200; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .roadmap-drawer {
+      position: fixed; top: 0; left: -320px; width: 310px; height: 100%;
+      background: #0d1527; border-right: 2px solid var(--border-accent);
+      z-index: 201; display: flex; flex-direction: column;
+      transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 8px 0 30px rgba(0, 0, 0, 0.6);
+    }
+    .drawer-overlay.active .roadmap-drawer { left: 0; }
+
+    .drawer-head {
+      padding: 1rem 1.1rem; border-bottom: 1.5px solid var(--border-dark);
+      display: flex; justify-content: space-between; align-items: center;
+      background: #111c30; flex-shrink: 0;
+    }
+    .drawer-head h3 { font-size: 0.95rem; color: var(--neon-blue); font-weight: 800; }
+    .close-drawer-icon {
+      background: #16243d; border: 1px solid var(--border-accent); color: var(--text-muted);
+      width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.85rem;
+    }
+    .close-drawer-icon:hover { color: #fff; border-color: #ef4444; }
+
+    .drawer-list { list-style: none; padding: 0.8rem; overflow-y: auto; flex: 1; }
+    .drawer-item {
+      padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; border-radius: 8px;
+      background: #16243d; border: 1px solid var(--border-dark);
+      cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; font-weight: 700; color: #cbd5e1; transition: all 0.2s;
+    }
+    .drawer-item:hover { border-color: var(--neon-blue); color: #fff; }
+    .drawer-item.active { background: #1c3154; border-color: var(--neon-blue); color: var(--neon-blue); }
+    .drawer-item-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 8px; }
+
+    /* Main Article Container */
+    .reader-main-container {
+      max-width: 820px; margin: 0 auto; padding: 1.2rem 1rem 3rem;
+    }
+
+    .compact-breadcrumb {
+      font-size: 0.74rem; color: var(--text-muted); display: flex;
+      align-items: center; gap: 6px; margin-bottom: 0.6rem; font-weight: 700;
+    }
+    .compact-breadcrumb a { color: var(--neon-blue); text-decoration: none; }
+
+    .article-header-card {
+      background: var(--bg-surface); border: 1.5px solid var(--border-dark);
+      border-left: 5px solid var(--neon-blue); border-radius: 12px;
+      padding: 1.1rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .topic-cat-badge {
+      font-size: 0.68rem; font-weight: 800; color: var(--neon-blue);
+      background: rgba(56, 189, 248, 0.12); padding: 2px 8px; border-radius: 4px;
+      border: 1px solid rgba(56, 189, 248, 0.3); display: inline-block; margin-bottom: 0.4rem;
+    }
+    .article-header-card h1 { font-size: 1.35rem; font-weight: 900; color: #f8fafc; line-height: 1.35; }
+
+    /* Article Body & Slides */
+    .article-body-wrapper {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .reading-card {
+      background: var(--bg-surface); border: 1.5px solid var(--border-dark);
+      border-radius: 12px; padding: 1.3rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .reading-card h2 {
+      font-size: 1.1rem; font-weight: 800; color: var(--neon-blue);
+      margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;
+    }
+    .slide-media-frame {
+      width: 100%; max-height: 320px; object-fit: cover; border-radius: 10px;
+      border: 1.5px solid var(--border-accent); margin-bottom: 1rem;
+    }
+    .reading-content-text {
+      font-size: 0.92rem; color: #cbd5e1; line-height: 1.75;
+    }
+
+    /* Lock Overlay Screen */
+    .content-lock-screen {
+      display: none; background: #111c30; border: 2px solid #22436d;
+      border-radius: 14px; padding: 2.2rem 1.2rem; text-align: center;
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.2); margin-top: 1rem;
+    }
+    .content-lock-screen i.lock-icon { font-size: 2.4rem; color: var(--neon-amber); margin-bottom: 0.7rem; }
+    .content-lock-screen h3 { font-size: 1.2rem; font-weight: 900; color: #fff; margin-bottom: 0.4rem; }
+    .content-lock-screen p { font-size: 0.85rem; color: var(--text-muted); max-width: 380px; margin: 0 auto 1.2rem; }
+    .btn-unlock-screen {
+      background: var(--neon-blue); color: #0b1120; border: none;
+      padding: 0.7rem 1.6rem; border-radius: 8px; font-size: 0.88rem; font-weight: 900;
+      cursor: pointer; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      background: #090e1a; border-top: 1.5px solid var(--border-dark);
+      padding: 2.4rem 1rem 1.5rem; color: var(--text-muted); font-size: 0.82rem;
+    }
+    .footer-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+    .footer-col h4 { color: #f8fafc; font-size: 0.95rem; font-weight: 800; margin-bottom: 0.7rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.4rem; }
+    .footer-col a { color: var(--text-muted); text-decoration: none; }
+    .footer-col a:hover { color: var(--neon-blue); }
+    .footer-bottom {
+      max-width: 1100px; margin: 1.5rem auto 0; padding-top: 1rem; border-top: 1px solid var(--border-dark);
+      text-align: center; font-size: 0.75rem; color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Toggle Button for Drawer (< and >) -->
+  <button class="drawer-toggle-btn" id="drawerToggleBtn" title="Chapters Drawer Kholein">&gt;</button>
+
+  <!-- Side Chapters Drawer Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay">
+    <div class="roadmap-drawer" id="roadmapDrawer">
+      <div class="drawer-head">
+        <h3><i class="fa-solid fa-list-check"></i> 300+ Chapter Notes</h3>
+        <button class="close-drawer-icon" id="closeDrawerBtn">&lt;</button>
+      </div>
+      <ul class="drawer-list" id="drawerList">
+        <!-- Rendered by JS -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Top App Header -->
+  <header class="reader-header">
+    <div class="header-left">
+      <a href="index.html" class="home-btn" title="Dashboard Home"><i class="fa-solid fa-house"></i></a>
+      <span class="header-brand-title" id="headerTitle">SaralShareMarket</span>
+    </div>
+    <a href="course.html" id="videoSwitchBtn" class="video-switch-btn" title="Video Lecture Dekhein">
+      <i class="fa-solid fa-play"></i> <span>Watch Video</span>
+    </a>
+  </header>
+
+  <!-- Main Article Container -->
+  <main class="reader-main-container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="compact-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
+      <span id="breadCat">Category</span>
+      <i class="fa-solid fa-angle-right" style="font-size:0.6rem;"></i>
+      <span id="breadTitle" style="color:#f8fafc;">Lesson</span>
+    </nav>
+
+    <!-- Article Header Card -->
+    <div class="article-header-card">
+      <span class="topic-cat-badge" id="topicCatBadge">Basics</span>
+      <h1 id="lessonMainTitle">Loading Topic Notes...</h1>
+    </div>
+
+    <!-- Free / Unlocked Article Content Body -->
+    <div class="article-body-wrapper" id="articleBodyWrapper">
+      <!-- Cards rendered from course-content.js -->
+    </div>
+
+    <!-- Locked State Prompt Screen -->
+    <div class="content-lock-screen" id="contentLockScreen">
+      <i class="fa-solid fa-lock lock-icon"></i>
+      <h3>Yeh Notes Locked Hain</h3>
+      <p>Is topic ke detailed reading notes aur video lectures dekhne ke liye subscription active hona zaroori hai.</p>
+      <button class="btn-unlock-screen" onclick="window.location.href='index.html#authBox'">
+        <i class="fa-solid fa-key"></i> Unlock Full Course
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Comprehensive Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>SaralShareMarket</h4>
+        <p style="line-height:1.5; color:#94a3b8;">
+          YouTube ke best educational lectures ka curated aur step-by-step 300+ Hindi learning roadmap.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Legal Documents & Policies</h4>
+        <ul>
+          <li><a href="marketlegal.html">Terms & Conditions (English)</a></li>
+          <li><a href="legal-hi.html">Niyam aur Kanoon (Hindi Legal)</a></li>
+          <li><a href="faq.html">❓ FAQ (Frequently Asked Questions)</a></li>
+          <li><a href="marketlegal.html#sebi-disclaimer">SEBI & Market Disclaimer</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help & Support</h4>
+        <ul>
+          <li><a href="marketlegal.html#device-lock">Device Replacement Recovery</a></li>
+          <li><a href="mailto:admin@example.com">Admin Support Se Baat Karein</a></li>
+          <li><a href="marketlegal.html#copyright-takedown">Creator Takedown Request</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 SaralShareMarket. All rights reserved. Platform fees sirf structured learning index aur LMS infrastructure ke liye li jati hai.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="course-content.js"></script>
+  <script src="course.js"></script>
+  
+  <script>
+    // In-page Router Logic for course-content.html
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof initContentReaderPage === "function") {
+        initContentReaderPage();
+      }
+    });
+  </script>
+</body>
+</html>
