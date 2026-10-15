@@ -1,5 +1,10 @@
 /**
- * Salah.js - Enhanced Application Logic for Salah Time Chart
+ * Salah.js - Precision Sub-Minute Waterfall Chart Logic
+ * Features:
+ * 1. High precision sub-minute mapping: 6:18 falls exactly below 6:15 and 6:32 below 6:30.
+ * 2. 2-Part Manual Islamic Calendar inputs support.
+ * 3. Notes strip completely removed; chart width expands to 100%.
+ * 4. Multi-month A4 single page engine: Mode IV (2 days x 12 months = 24 pillars) & Mode I (4 days x 12 months = 48 pillars).
  */
 
 const MONTH_NAMES = [
@@ -7,15 +12,19 @@ const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December"
 ];
 
+const MONTH_SHORT = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
 const SalahApp = {
   currentMonthIndex: 9, // October
   monthsData: {},
   orientation: "portrait",
   config: {
-    startMinutes: 3 * 60,       // 03:00 AM
-    endMinutes: 21 * 60,         // 21:00 (09:00 PM)
+    startMinutes: 3 * 60,       // 03:00 AM = 180 min
+    endMinutes: 21 * 60,         // 21:00 (09:00 PM) = 1260 min
     totalMinutes: (21 - 3) * 60, // 1080 min
-    stepMinutes: 15
+    stepMinutes: 15              // 15-minute scale grid
   }
 };
 
@@ -27,16 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
   renderChartPreview();
 });
 
+// Initialize all 12 months data
 function initMonthsStore() {
   for (let m = 0; m < 12; m++) {
     SalahApp.monthsData[m] = generateMonthData(m);
   }
 }
 
+// Generate realistic data for each month
 function generateMonthData(monthIndex) {
   const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthIndex];
   const list = [];
-  const seasonalShift = Math.sin((monthIndex / 12) * Math.PI * 2) * 40;
+  const seasonalShift = Math.sin((monthIndex / 12) * Math.PI * 2) * 45;
 
   for (let day = 1; day <= daysInMonth; day++) {
     const fMin = Math.round(4 * 60 + 20 - (seasonalShift * 0.5) - (day * 0.4));
@@ -59,6 +70,7 @@ function generateMonthData(monthIndex) {
   return list;
 }
 
+// Render 12 Month Tabs
 function renderMonthTabs() {
   const container = document.getElementById("monthTabsContainer");
   container.innerHTML = "";
@@ -95,8 +107,17 @@ function minutesToTime(totalMin) {
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 }
 
+/**
+ * EXACT FRACTIONAL PERCENTAGE CALCULATION (Sub-Minute Precision)
+ * Example:
+ * 18:00 (1080m) -> ((1080-180)/1080)*100 = 83.333%
+ * 18:15 (1095m) -> ((1095-180)/1080)*100 = 84.722%
+ * 18:18 (1098m) -> ((1098-180)/1080)*100 = 85.000% (Accurately below 18:15!)
+ * 18:30 (1110m) -> ((1110-180)/1080)*100 = 86.111%
+ * 18:32 (1112m) -> ((1112-180)/1080)*100 = 86.296% (Accurately below 18:30!)
+ */
 function getYPercent(minutes) {
-  if (minutes === null) return 0;
+  if (minutes === null || minutes === undefined) return 0;
   const clamped = Math.max(SalahApp.config.startMinutes, Math.min(SalahApp.config.endMinutes, minutes));
   return ((clamped - SalahApp.config.startMinutes) / SalahApp.config.totalMinutes) * 100;
 }
@@ -121,7 +142,7 @@ function initUIListeners() {
   document.getElementById("modeSelect").onchange = () => renderChartPreview();
 
   const liveInputs = [
-    "inputMosque", "inputLocation", "inputGregorianDate", "inputIslamicDate",
+    "inputMosque", "inputLocation", "inputGregorianDate", "inputIslamicDate1", "inputIslamicDate2",
     "dua1", "dua2", "dua3", "dua4",
     "labelFajr", "labelSunrise", "labelZuhr", "labelAsr", "labelMaghrib", "labelIsha"
   ];
@@ -230,29 +251,72 @@ function handleFileUpload(e) {
   reader.readAsText(file);
 }
 
-function getFilteredDays(mode) {
-  const list = SalahApp.monthsData[SalahApp.currentMonthIndex] || [];
-  if (list.length === 0) return [];
+/**
+ * Multi-Month Data Fetcher based on Selected Scope
+ */
+function getDisplayPillars(mode) {
+  const result = [];
 
-  switch (mode) {
-    case "weekly": return list.filter(d => [7, 14, 21, 28].includes(parseInt(d.day, 10)));
-    case "ten_days": return list.filter(d => { const n = parseInt(d.day, 10); return n % 3 === 0 && n <= 30; });
-    case "three_days": return list.filter(d => [10, 20, 30, 31].includes(parseInt(d.day, 10)));
-    case "two_days": return list.filter(d => [15, 30].includes(parseInt(d.day, 10)));
-    case "complete":
-    default: return list;
+  // Mode IV: All 12 Months Full Year (15 & 30 of Each Month -> 24 Pillars)
+  if (mode === "two_days_all_year") {
+    for (let m = 0; m < 12; m++) {
+      const monthList = SalahApp.monthsData[m] || [];
+      const twoDays = monthList.filter(d => [15, 30].includes(parseInt(d.day, 10)));
+      twoDays.forEach((d, idx) => {
+        result.push({
+          ...d,
+          monthLabel: MONTH_SHORT[m],
+          isFirstOfMonth: idx === 0
+        });
+      });
+    }
+    return result;
   }
+
+  // Mode I: All 12 Months Weekly (7, 14, 21, 28 -> 48 Pillars)
+  if (mode === "weekly_all_year") {
+    for (let m = 0; m < 12; m++) {
+      const monthList = SalahApp.monthsData[m] || [];
+      const fourDays = monthList.filter(d => [7, 14, 21, 28].includes(parseInt(d.day, 10)));
+      fourDays.forEach((d, idx) => {
+        result.push({
+          ...d,
+          monthLabel: MONTH_SHORT[m],
+          isFirstOfMonth: idx === 0
+        });
+      });
+    }
+    return result;
+  }
+
+  // Current Month Modes
+  const curList = SalahApp.monthsData[SalahApp.currentMonthIndex] || [];
+  if (mode === "ten_days_current") {
+    return curList.filter(d => {
+      const n = parseInt(d.day, 10);
+      return n % 3 === 0 && n <= 30;
+    }).map(d => ({ ...d, monthLabel: "" }));
+  }
+
+  if (mode === "three_days_current") {
+    return curList.filter(d => [10, 20, 30, 31].includes(parseInt(d.day, 10)))
+                  .map(d => ({ ...d, monthLabel: "" }));
+  }
+
+  // Mode V: Complete Selected Month
+  return curList.map(d => ({ ...d, monthLabel: "" }));
 }
 
+// Render Preview
 function renderChartPreview() {
   const container = document.getElementById("previewContainer");
   container.innerHTML = "";
 
   const mode = document.getElementById("modeSelect").value;
-  const filteredDays = getFilteredDays(mode);
+  const pillarsData = getDisplayPillars(mode);
 
-  if (filteredDays.length === 0) {
-    container.innerHTML = `<div style="background:#fff; padding:30px; border-radius:8px; font-weight:bold;">No data available. Click 'Fill Realistic 30 Days' or Paste CSV.</div>`;
+  if (pillarsData.length === 0) {
+    container.innerHTML = `<div style="background:#fff; padding:30px; border-radius:8px; font-weight:bold;">No data available. Fill data for month.</div>`;
     return;
   }
 
@@ -262,8 +326,16 @@ function renderChartPreview() {
 
   const mosque = document.getElementById("inputMosque").value || "Jamia Masjid";
   const location = document.getElementById("inputLocation").value || "District, State";
-  const gregDate = document.getElementById("inputGregorianDate").value || "October 2026";
-  const islamicDate = document.getElementById("inputIslamicDate").value || "";
+  const gregDate = document.getElementById("inputGregorianDate").value || "Calendar 2026";
+  const islamic1 = document.getElementById("inputIslamicDate1").value || "";
+  const islamic2 = document.getElementById("inputIslamicDate2").value || "";
+
+  const islamicHtml = `
+    <div class="print-islamic-container">
+      ${islamic1 ? `<div class="print-islamic-pill">🌙 ${escapeHtml(islamic1)}</div>` : ""}
+      ${islamic2 ? `<div class="print-islamic-pill">🌙 ${escapeHtml(islamic2)}</div>` : ""}
+    </div>
+  `;
 
   const headerHtml = `
     <div class="print-header">
@@ -273,7 +345,7 @@ function renderChartPreview() {
       </div>
       <div class="print-date-badge">
         <div class="print-month-year">${escapeHtml(gregDate)}</div>
-        ${islamicDate ? `<div class="print-islamic-range">🌙 ${escapeHtml(islamicDate)}</div>` : ""}
+        ${islamicHtml}
       </div>
     </div>
   `;
@@ -292,6 +364,7 @@ function renderChartPreview() {
     </div>
   `;
 
+  // Scale (03:00 to 21:00)
   let timeScaleTicksHtml = "";
   let gridLinesHtml = "";
 
@@ -308,8 +381,9 @@ function renderChartPreview() {
     }
   }
 
+  // Generate Pillars with Exact Sub-minute Fractional Y-Percentage
   let pillarsHtml = "";
-  filteredDays.forEach(dayRow => {
+  pillarsData.forEach(dayRow => {
     const fMin = timeToMinutes(dayRow.fajr);
     const srMin = timeToMinutes(dayRow.sunrise);
     const zMin = timeToMinutes(dayRow.zuhr);
@@ -337,8 +411,10 @@ function renderChartPreview() {
     let markersHtml = "";
     markers.forEach(m => {
       if (m.min !== null && m.text) {
+        // High-precision sub-minute percentage
+        const yPos = getYPercent(m.min);
         markersHtml += `
-          <div class="salah-marker" style="top: ${getYPercent(m.min)}%;">
+          <div class="salah-marker" style="top: ${yPos}%;">
             <div class="marker-pin-line"></div>
             <span class="marker-time-tag">${m.text}</span>
           </div>
@@ -347,10 +423,14 @@ function renderChartPreview() {
     });
 
     const dayLength = calculateDayLength(dayRow.sunrise, dayRow.sunset);
+    const boundaryClass = dayRow.isFirstOfMonth ? "month-group-boundary" : "";
 
     pillarsHtml += `
-      <div class="day-column">
-        <div class="day-col-header">D${dayRow.day}</div>
+      <div class="day-column ${boundaryClass}">
+        <div class="day-col-header">
+          ${dayRow.monthLabel ? `<span class="month-sub-tag">${dayRow.monthLabel}</span>` : ""}
+          D${dayRow.day}
+        </div>
         <div class="day-col-body">
           ${ribbonHtml}
           ${markersHtml}
@@ -360,12 +440,7 @@ function renderChartPreview() {
     `;
   });
 
-  let ruledLinesHtml = "";
-  const linesCount = SalahApp.orientation === "landscape" ? 18 : 28;
-  for (let i = 0; i < linesCount; i++) {
-    ruledLinesHtml += `<div class="notes-line"></div>`;
-  }
-
+  // Note strip removed: chart expands across 100% width
   sheet.innerHTML = `
     ${headerHtml}
     ${duasHtml}
@@ -375,13 +450,9 @@ function renderChartPreview() {
         <div class="grid-lines-overlay">${gridLinesHtml}</div>
         ${pillarsHtml}
       </div>
-      <div class="print-notes-strip">
-        <div class="notes-title">Notes / Announce</div>
-        <div class="notes-ruled-lines">${ruledLinesHtml}</div>
-      </div>
     </div>
     <div class="print-footer">
-      <span>* Scale: 03:00 to 21:00 (15m grid). Yellow bar: Daylight. Bottom: Day length.</span>
+      <span>* Precision Sub-minute Scale (03:00-21:00). Yellow bar: Daylight. Bottom: Day Length.</span>
       <span class="print-order-email">📧 To Order mail:- mustafa2smi@gmail.com</span>
     </div>
   `;
@@ -395,7 +466,7 @@ function downloadA4Pdf() {
 
   const opt = {
     margin: 0,
-    filename: `Salah_Time_Chart_${MONTH_NAMES[SalahApp.currentMonthIndex]}.pdf`,
+    filename: `Salah_Time_Chart_Precision.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2, useCORS: true, logging: false },
     jsPDF: { unit: 'mm', format: 'a4', orientation: SalahApp.orientation }
