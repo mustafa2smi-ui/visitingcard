@@ -1,5 +1,5 @@
 /**
- * Salah.js - Synchronized Sub-Pixel Waterfall Chart Engine
+ * Salah.js - Enhanced with Strict Time Validation & Solution A Smart Paste
  */
 
 const MONTH_NAMES = [
@@ -84,10 +84,6 @@ function renderMonthTabs() {
   });
 }
 
-/**
- * SMART TIME PARSER
- * Supports both 24-hr ("20:05") and 12-hr ("8:05") without distortion!
- */
 function parseTimeToMinutes(timeStr, prayerType = "") {
   if (!timeStr) return null;
   const s = String(timeStr).trim().toLowerCase();
@@ -99,9 +95,12 @@ function parseTimeToMinutes(timeStr, prayerType = "") {
 
   let h = parseInt(parts[0], 10);
   const m = parseInt(parts[1], 10);
-  if (isNaN(h) || isNaN(m)) return null;
 
-  // Auto-detect PM for afternoon/evening prayers if user typed 12-hr format (e.g., 8:05 for Isha)
+  // STRICT VALIDATION: Minutes MUST be 0..59, Hours 0..23
+  if (isNaN(h) || isNaN(m)) return null;
+  if (m < 0 || m >= 60) return null; // Blocks 61, 62!
+  if (h < 0 || h > 23) return null;
+
   if (["asr", "sunset", "maghrib", "isha"].includes(prayerType)) {
     if (h < 12 && !isAM) h += 12;
   } else if (prayerType === "zuhr") {
@@ -113,6 +112,19 @@ function parseTimeToMinutes(timeStr, prayerType = "") {
   }
 
   return h * 60 + m;
+}
+
+function isValidTimeString(timeStr) {
+  if (!timeStr) return true;
+  const clean = String(timeStr).trim().toLowerCase().replace(/am|pm/g, "").trim();
+  const parts = clean.split(":");
+  if (parts.length < 2) return false;
+  const h = parseInt(parts[0], 10);
+  const m = parseInt(parts[1], 10);
+  if (isNaN(h) || isNaN(m)) return false;
+  if (m < 0 || m > 59) return false; // Strict no 61, 62!
+  if (h < 0 || h > 23) return false;
+  return true;
 }
 
 function minutesToTime(totalMin) {
@@ -170,13 +182,105 @@ function initUIListeners() {
     }
   };
 
-  document.getElementById("pasteCsvBtn").onclick = handleCsvPaste;
+  // Solution A: Smart Paste Modal Listeners
+  const modal = document.getElementById("smartPasteModal");
+  document.getElementById("openPasteModalBtn").onclick = () => {
+    document.getElementById("smartPasteTextarea").value = "";
+    modal.classList.add("active");
+  };
+  const closeModal = () => modal.classList.remove("active");
+  document.getElementById("closePasteModalBtn").onclick = closeModal;
+  document.getElementById("cancelPasteModalBtn").onclick = closeModal;
+  document.getElementById("applySmartPasteBtn").onclick = handleSmartPasteSubmit;
+
   document.getElementById("csvFileInput").onchange = handleFileUpload;
 }
 
-/**
- * Render Data Table with instant 'oninput' triggers
- */
+function handleSmartPasteSubmit() {
+  const text = document.getElementById("smartPasteTextarea").value.trim();
+  if (!text) {
+    alert("Kripya pehle text area me data paste karein!");
+    return;
+  }
+
+  const hasDateCol = document.getElementById("chkFirstColDate").checked;
+  const autoPM = document.getElementById("chkAutoConvertPM").checked;
+
+  const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+  const parsedList = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i].trim();
+    const normalized = rawLine.replace(/([0-9]{1,2}:[0-9]{2})\s*(AM|PM|am|pm)/gi, "$1_$2");
+    const tokens = normalized.split(/[\t,;\s]+/).map(t => t.replace(/_/g, " ").trim());
+
+    if (i === 0 && (tokens.some(t => /fajr|zuhr|asr|maghrib|isha|sunrise/i.test(t)))) {
+      continue;
+    }
+
+    if (tokens.length < (hasDateCol ? 7 : 6)) {
+      continue;
+    }
+
+    let dayVal = parsedList.length + 1;
+    let timeStartIndex = 0;
+
+    if (hasDateCol) {
+      const dateToken = tokens[0];
+      const matchNum = dateToken.match(/\b([0-9]{1,2})\b/);
+      if (matchNum) {
+        dayVal = parseInt(matchNum[1], 10);
+      }
+      timeStartIndex = 1;
+    }
+
+    const fajr = sanitizePastedTime(tokens[timeStartIndex], "fajr", autoPM);
+    const sunrise = sanitizePastedTime(tokens[timeStartIndex + 1], "sunrise", autoPM);
+    const zuhr = sanitizePastedTime(tokens[timeStartIndex + 2], "zuhr", autoPM);
+    const asr = sanitizePastedTime(tokens[timeStartIndex + 3], "asr", autoPM);
+    const sunset = sanitizePastedTime(tokens[timeStartIndex + 4], "sunset", autoPM);
+    const isha = sanitizePastedTime(tokens[timeStartIndex + 5], "isha", autoPM);
+
+    parsedList.push({
+      day: dayVal,
+      fajr,
+      sunrise,
+      zuhr,
+      asr,
+      sunset,
+      isha
+    });
+  }
+
+  if (parsedList.length > 0) {
+    SalahApp.monthsData[SalahApp.currentMonthIndex] = parsedList;
+    renderDataTable();
+    renderChartPreview();
+    document.getElementById("smartPasteModal").classList.remove("active");
+    alert(`Alhamdulillah! ${parsedList.length} dino ka data safalta-purvak import ho gaya.`);
+  } else {
+    alert("Data parse nahi ho saka. Kripya check karein ki data me 6 salah times maujood hain.");
+  }
+}
+
+function sanitizePastedTime(timeToken, prayerType, autoPM) {
+  if (!timeToken) return "";
+  const min = parseTimeToMinutes(timeToken, autoPM ? prayerType : "");
+  if (min === null) return timeToken;
+  return minutesToTime(min);
+}
+
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    document.getElementById("smartPasteTextarea").value = event.target.result;
+    document.getElementById("smartPasteModal").classList.add("active");
+  };
+  reader.readAsText(file);
+}
+
 function renderDataTable() {
   const tbody = document.getElementById("tableBody");
   tbody.innerHTML = "";
@@ -184,14 +288,22 @@ function renderDataTable() {
 
   currentList.forEach((row, index) => {
     const tr = document.createElement("tr");
+
+    const fValid = isValidTimeString(row.fajr);
+    const srValid = isValidTimeString(row.sunrise);
+    const zValid = isValidTimeString(row.zuhr);
+    const aValid = isValidTimeString(row.asr);
+    const ssValid = isValidTimeString(row.sunset);
+    const iValid = isValidTimeString(row.isha);
+
     tr.innerHTML = `
-      <td><input type="text" value="${row.day}" style="width:45px; text-align:center;" oninput="updateCell(${index}, 'day', this.value)"></td>
-      <td><input type="text" value="${row.fajr}" style="width:65px;" oninput="updateCell(${index}, 'fajr', this.value)"></td>
-      <td><input type="text" value="${row.sunrise}" style="width:65px;" oninput="updateCell(${index}, 'sunrise', this.value)"></td>
-      <td><input type="text" value="${row.zuhr}" style="width:65px;" oninput="updateCell(${index}, 'zuhr', this.value)"></td>
-      <td><input type="text" value="${row.asr}" style="width:65px;" oninput="updateCell(${index}, 'asr', this.value)"></td>
-      <td><input type="text" value="${row.sunset}" style="width:65px;" oninput="updateCell(${index}, 'sunset', this.value)"></td>
-      <td><input type="text" value="${row.isha}" style="width:65px;" oninput="updateCell(${index}, 'isha', this.value)"></td>
+      <td><input type="text" value="${row.day}" style="width:45px; text-align:center;" oninput="updateCell(${index}, 'day', this.value, this)"></td>
+      <td><input type="text" value="${row.fajr}" class="${fValid ? '' : 'invalid-cell'}" style="width:65px;" oninput="updateCell(${index}, 'fajr', this.value, this)"></td>
+      <td><input type="text" value="${row.sunrise}" class="${srValid ? '' : 'invalid-cell'}" style="width:65px;" oninput="updateCell(${index}, 'sunrise', this.value, this)"></td>
+      <td><input type="text" value="${row.zuhr}" class="${zValid ? '' : 'invalid-cell'}" style="width:65px;" oninput="updateCell(${index}, 'zuhr', this.value, this)"></td>
+      <td><input type="text" value="${row.asr}" class="${aValid ? '' : 'invalid-cell'}" style="width:65px;" oninput="updateCell(${index}, 'asr', this.value, this)"></td>
+      <td><input type="text" value="${row.sunset}" class="${ssValid ? '' : 'invalid-cell'}" style="width:65px;" oninput="updateCell(${index}, 'sunset', this.value, this)"></td>
+      <td><input type="text" value="${row.isha}" class="${iValid ? '' : 'invalid-cell'}" style="width:65px;" oninput="updateCell(${index}, 'isha', this.value, this)"></td>
       <td style="text-align:center;">
         <button style="color:#dc2626; border:none; background:none; cursor:pointer; font-weight:bold;" onclick="deleteTableRow(${index})">✖</button>
       </td>
@@ -200,11 +312,17 @@ function renderDataTable() {
   });
 }
 
-function updateCell(index, key, value) {
+function updateCell(index, key, value, inputEl) {
   const list = SalahApp.monthsData[SalahApp.currentMonthIndex];
   if (list && list[index]) {
     list[index][key] = value.trim();
-    // Instantly reflect in preview chart
+
+    if (key !== "day") {
+      const valid = isValidTimeString(value);
+      if (inputEl) {
+        inputEl.classList.toggle("invalid-cell", !valid);
+      }
+    }
     renderChartPreview();
   }
 }
@@ -216,48 +334,6 @@ function deleteTableRow(index) {
     renderDataTable();
     renderChartPreview();
   }
-}
-
-function parseCsvContent(text) {
-  const lines = text.trim().split(/\r?\n/).filter(line => line.trim().length > 0);
-  if (lines.length === 0) return;
-
-  const parsed = [];
-  for (let i = 0; i < lines.length; i++) {
-    const cols = lines[i].split(/[\t,;]+/).map(c => c.trim().replace(/^["']|["']$/g, ""));
-    if (i === 0 && (isNaN(parseInt(cols[0], 10)) || cols[1]?.toLowerCase().includes("fajr"))) continue;
-    if (cols.length >= 6) {
-      parsed.push({
-        day: cols[0] || (parsed.length + 1),
-        fajr: cols[1] || "",
-        sunrise: cols[2] || "",
-        zuhr: cols[3] || "",
-        asr: cols[4] || "",
-        sunset: cols[5] || "",
-        isha: cols[6] || ""
-      });
-    }
-  }
-
-  if (parsed.length > 0) {
-    SalahApp.monthsData[SalahApp.currentMonthIndex] = parsed;
-    renderDataTable();
-    renderChartPreview();
-    alert(`Successfully loaded ${parsed.length} days into ${MONTH_NAMES[SalahApp.currentMonthIndex]}.`);
-  }
-}
-
-function handleCsvPaste() {
-  const input = prompt("Paste your Tab or Comma-separated Salah Timetable data:");
-  if (input) parseCsvContent(input);
-}
-
-function handleFileUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (event) => parseCsvContent(event.target.result);
-  reader.readAsText(file);
 }
 
 function getDisplayPillars(mode) {
@@ -306,7 +382,6 @@ function getDisplayPillars(mode) {
                   .map(d => ({ ...d, monthLabel: "" }));
   }
 
-  // Mode V: Complete Selected Month
   return curList.map(d => ({ ...d, monthLabel: "" }));
 }
 
@@ -332,7 +407,6 @@ function renderChartPreview() {
   const islamic1 = document.getElementById("inputIslamicDate1").value || "";
   const islamic2 = document.getElementById("inputIslamicDate2").value || "";
 
-  // Check if current mode is single month (Mode V / Mode II / Mode III) or full year (Mode I / Mode IV)
   const isSingleMonthMode = (mode === "complete" || mode === "ten_days_current" || mode === "three_days_current");
 
   const islamicHtml = `
@@ -342,7 +416,6 @@ function renderChartPreview() {
     </div>
   `;
 
-  // Condition 1: When 12-month full year is rendered, hide September/October month name completely!
   const monthDisplayHtml = isSingleMonthMode 
     ? `<div class="print-month-year">${escapeHtml(gregDate)}</div>` 
     : `<div class="print-month-year">FULL YEAR SCHEDULE</div>`;
@@ -374,7 +447,6 @@ function renderChartPreview() {
     </div>
   `;
 
-  // Scale (03:00 to 21:00)
   let timeScaleTicksHtml = "";
   let gridLinesHtml = "";
 
@@ -391,7 +463,6 @@ function renderChartPreview() {
     }
   }
 
-  // Generate Pillars with Exact Sub-minute Fractional Y-Percentage
   let pillarsHtml = "";
   pillarsData.forEach(dayRow => {
     const fMin = parseTimeToMinutes(dayRow.fajr, "fajr");
@@ -449,7 +520,6 @@ function renderChartPreview() {
     `;
   });
 
-  // Exactly synchronized vertical height mapping
   sheet.innerHTML = `
     ${headerHtml}
     ${duasHtml}
@@ -474,18 +544,47 @@ function renderChartPreview() {
 }
 
 function downloadA4Pdf() {
-  const element = document.getElementById("a4PrintableSheet");
-  if (!element) return;
+  const original = document.getElementById("a4PrintableSheet");
+  if (!original) {
+    alert("Kripya preview load hone ka intezar karein.");
+    return;
+  }
+
+  const clone = original.cloneNode(true);
+  clone.style.position = "fixed";
+  clone.style.top = "0";
+  clone.style.left = "-9999px";
+  clone.style.zIndex = "-1000";
+  clone.style.boxShadow = "none";
+  clone.style.margin = "0";
+  document.body.appendChild(clone);
 
   const opt = {
-    margin: 0,
-    filename: `Salah_Time_Chart_Precision.pdf`,
+    margin: [0, 0, 0, 0],
+    filename: `Salah_Time_Chart_${MONTH_NAMES[SalahApp.currentMonthIndex]}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, logging: false },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: SalahApp.orientation }
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      scrollY: 0,
+      scrollX: 0
+    },
+    jsPDF: {
+      unit: 'mm',
+      format: 'a4',
+      orientation: SalahApp.orientation
+    }
   };
 
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(clone).save().then(() => {
+    document.body.removeChild(clone);
+  }).catch((err) => {
+    console.error("PDF generation error:", err);
+    document.body.removeChild(clone);
+    alert("Notice: Direct PDF download me browser ne rok lagayi. Native Print window open ho rahi hai, wahan 'Save as PDF' chunein.");
+    window.print();
+  });
 }
 
 function escapeHtml(str) {
