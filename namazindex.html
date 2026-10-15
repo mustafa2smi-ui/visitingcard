@@ -17,7 +17,6 @@
       --text-muted: #475569;
       --daylight-bar: #fde68a;
       --daylight-border: #d97706;
-      /* Synchronized exact header & footer heights for 100% pixel-perfect vertical alignment */
       --header-height: 22px;
       --footer-height: 16px;
     }
@@ -42,6 +41,7 @@
     .form-group { display: flex; flex-direction: column; gap: 4px; }
     label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
     input[type="text"], select, textarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; outline: none; }
+    input[type="text"].invalid-cell { border: 2px solid #ef4444 !important; background-color: #fee2e2 !important; color: #b91c1c !important; }
     textarea { resize: vertical; min-height: 55px; }
 
     .month-tabs-bar { display: flex; flex-wrap: wrap; gap: 6px; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 12px; }
@@ -75,7 +75,7 @@
     .print-mosque-name { font-size: 18px; font-weight: 900; text-transform: uppercase; line-height: 1.1; }
     .print-location { font-size: 11px; font-weight: 700; color: #334155; }
     .print-date-badge { text-align: right; border-left: 2px solid #0f172a; padding-left: 10px; }
-    .print-month-year { font-size: 13.5px; font-weight: 900; color: var(--primary); text-transform: uppercase; line-height: 1.1; }
+    .print-month-year { font-size: 13.5px; font-weight: 900; color: #113f2a; text-transform: uppercase; line-height: 1.1; }
 
     .print-islamic-container { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; margin-top: 3px; }
     .print-islamic-pill { font-size: 9px; font-weight: 800; color: #92400e; background: #fef3c7; padding: 1px 6px; border-radius: 3px; border: 0.5px solid #fde68a; white-space: nowrap; }
@@ -86,7 +86,6 @@
 
     .chart-layout-wrapper { display: flex; flex: 1; border: 1.5px solid #0f172a; border-radius: 4px; position: relative; background: #fff; overflow: hidden; }
 
-    /* Synchronized Left Time Scale */
     .time-scale-col { width: 44px; border-right: 1.5px solid #0f172a; display: flex; flex-direction: column; background: #f8fafc; flex-shrink: 0; }
     .time-scale-header { height: var(--header-height); background: #e2e8f0; border-bottom: 1px solid #334155; font-size: 8px; font-weight: 900; display: flex; align-items: center; justify-content: center; color: #0f172a; }
     .time-scale-body { flex: 1; position: relative; }
@@ -119,9 +118,50 @@
     .print-footer { margin-top: 5px; padding-top: 3px; border-top: 1px solid #0f172a; display: flex; justify-content: space-between; align-items: center; font-size: 7.5px; font-weight: 600; color: #334155; }
     .print-order-email { font-weight: 900; color: #b45309; }
 
+    /* Modal Styling for Solution A */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: #ffffff; width: 640px; max-width: 95vw;
+      border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .modal-header h3 { font-size: 16px; font-weight: 800; }
+    .modal-close-btn { background: transparent; border: none; color: #fff; font-size: 22px; cursor: pointer; }
+
+    .modal-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .modal-body textarea {
+      width: 100%; height: 170px; font-family: monospace; font-size: 12.5px;
+      padding: 10px; border: 1.5px solid var(--border); border-radius: 6px; outline: none; white-space: pre;
+    }
+    .modal-body textarea:focus { border-color: var(--primary); }
+
+    .modal-options-row {
+      display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px;
+      color: var(--text); background: #f8fafc; padding: 10px 14px;
+      border-radius: 6px; border: 1px solid var(--border);
+    }
+    .modal-options-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 700; color: var(--text); }
+    .modal-options-row input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+
+    .modal-footer {
+      padding: 12px 20px; background: #f1f5f9; border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 10px;
+    }
+
     @media print {
       body { background: #fff !important; padding: 0 !important; }
-      .app-header, .container > .card:not(#previewCard), .preview-section-header { display: none !important; }
+      .app-header, .container > .card:not(#previewCard), .preview-section-header, .modal-overlay { display: none !important; }
       .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
       #previewCard { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
       .preview-viewport { background: transparent !important; padding: 0 !important; max-height: none !important; overflow: visible !important; }
@@ -135,12 +175,12 @@
   <header class="app-header">
     <div class="brand-title">
       <span>🕌 Salah Time Chart</span>
-      <span class="brand-badge">Waterfall Pro v4</span>
+      <span class="brand-badge">Waterfall Pro v5</span>
     </div>
   </header>
 
   <div class="container">
-    <!-- Mosque & Calendar Details -->
+    <!-- Mosque & Calendar -->
     <div class="card">
       <div class="card-title">1. Mosque & Calendar Range (2 Islamic Month Support)</div>
       <div class="grid-4">
@@ -176,7 +216,7 @@
       </div>
     </div>
 
-    <!-- Timetable Data with instant oninput -->
+    <!-- Month Tabs & Table -->
     <div class="card">
       <div class="card-title">
         <span>4. Salah Timetable Data (Select Month Tab to Edit)</span>
@@ -186,8 +226,8 @@
       <div class="month-tabs-bar" id="monthTabsContainer"></div>
 
       <div class="table-tools">
-        <button class="btn btn-primary" id="loadSampleBtn">📋 Fill Realistic 30 Days</button>
-        <button class="btn btn-outline" id="pasteCsvBtn">📥 Paste CSV / Text</button>
+        <button class="btn btn-accent" id="openPasteModalBtn">📋 Smart Paste Modal (Website Data)</button>
+        <button class="btn btn-primary" id="loadSampleBtn">⚡ Fill Realistic 30 Days</button>
         <label class="btn btn-outline" style="margin-bottom:0;">
           📂 Upload CSV <input type="file" id="csvFileInput" accept=".csv, .txt" style="display:none;">
         </label>
@@ -253,6 +293,37 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Smart Paste Modal -->
+  <div class="modal-overlay" id="smartPasteModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>📋 Smart Paste Box (Website / Excel Timetable)</h3>
+        <button class="modal-close-btn" id="closePasteModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 12px; color: var(--text-muted);">
+          Kisi bhi Islamic website ya Excel se copy kiya hua data yahan <code>Ctrl + V</code> karke paste karein. AM / PM aur Dates automatically parse ho jayenge.
+        </p>
+        <textarea id="smartPasteTextarea" placeholder="Yahan data paste karein (e.g. 1  05:12 AM  06:28 AM  12:15 PM  03:45 PM  06:18 PM  07:55 PM)"></textarea>
+        
+        <div class="modal-options-row">
+          <label>
+            <input type="checkbox" id="chkFirstColDate" checked>
+            Pehle column me Date / Day shamil hai
+          </label>
+          <label>
+            <input type="checkbox" id="chkAutoConvertPM" checked>
+            Auto AM / PM convert karein (No distortion)
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancelPasteModalBtn">Cancel</button>
+        <button class="btn btn-primary" id="applySmartPasteBtn">⚡ Process & Import Data</button>
+      </div>
+    </div>
   </div>
 
   <script src="Salah.js"></script>
