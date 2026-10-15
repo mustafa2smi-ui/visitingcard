@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salah Time Chart - Advanced Waterfall A4</title>
-  <!-- html2pdf for direct PDF download -->
+  <title>Salah Time Chart - Precision Waterfall A4</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
@@ -16,106 +15,551 @@
       --border: #cbd5e1;
       --text: #0f172a;
       --text-muted: #475569;
-      --daylight-bar: #faecc7;
+      --daylight-bar: #fde68a;
       --daylight-border: #d97706;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.4; padding-bottom: 60px; }
-
-    header.app-header {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
-      position: sticky; top: 0; z-index: 100;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
-    .brand-title { font-size: 19px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
-    .brand-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 12px; }
-    .hamburger-btn { background: transparent; border: 1px solid rgba(255,255,255,0.35); color: #fff; font-size: 20px; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+      padding-bottom: 60px;
+    }
 
-    .container { max-width: 1360px; margin: 16px auto; padding: 0 16px; }
-    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-    .card-title { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 12px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    /* Header Bar */
+    header.app-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
-    .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
-    .form-group { display: flex; flex-direction: column; gap: 4px; }
-    label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
-    input[type="text"], select, textarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; outline: none; }
-    textarea { resize: vertical; min-height: 55px; }
+    .brand-title {
+      font-size: 19px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: var(--accent);
+      color: #000;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+
+    .hamburger-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+      font-size: 20px;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 16px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 12px;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .grid-6 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 55px;
+    }
 
     /* Month Tabs Bar */
-    .month-tabs-bar { display: flex; flex-wrap: wrap; gap: 6px; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 12px; }
-    .month-tab-btn { padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 4px; border: 1px solid var(--border); background: #fff; cursor: pointer; }
-    .month-tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .month-tabs-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: #f8fafc;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
 
-    .table-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; align-items: center; }
-    .btn { padding: 6px 14px; border-radius: 5px; font-size: 12.5px; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; }
+    .month-tab-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .month-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .table-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-accent { background: var(--accent); color: #000; }
     .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
     .btn-danger { background: #dc2626; color: #fff; }
 
-    .table-container { max-height: 250px; overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
-    table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    table.data-table th, table.data-table td { padding: 6px 8px; border: 1px solid var(--border); white-space: nowrap; }
-    table.data-table th { background: #f1f5f9; position: sticky; top: 0; z-index: 2; font-weight: 800; }
-    table.data-table th.fixed-col { background: #e2e8f0; color: var(--primary); }
+    .table-container {
+      max-height: 250px;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
 
-    .order-mail-notice { margin-top: 10px; padding: 8px 12px; background: #fef3c7; border: 1.5px dashed #f59e0b; border-radius: 6px; font-weight: 800; color: #92400e; font-size: 13px; text-align: center; }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
 
-    /* Scroll Clipping Fixed Viewport */
-    .preview-viewport { background: #94a3b8; padding: 24px; border-radius: 8px; overflow: auto; max-height: 900px; text-align: left; }
-    .preview-viewport-inner { display: inline-flex; flex-direction: column; gap: 24px; min-width: 100%; align-items: center; }
+    table.data-table th, table.data-table td {
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
 
-    .a4-sheet { background: #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.25); position: relative; display: flex; flex-direction: column; box-sizing: border-box; margin: 0 auto; }
-    .a4-portrait { width: 210mm; min-height: 297mm; padding: 10mm 12mm; }
-    .a4-landscape { width: 297mm; min-height: 210mm; padding: 8mm 10mm; }
+    table.data-table th {
+      background: #f1f5f9;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      font-weight: 800;
+    }
 
-    .print-header { border-bottom: 2px solid #0f172a; padding-bottom: 4px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-end; }
-    .print-mosque-name { font-size: 18px; font-weight: 900; text-transform: uppercase; line-height: 1.1; }
-    .print-location { font-size: 11px; font-weight: 700; color: #334155; }
-    .print-date-badge { text-align: right; border-left: 2px solid #0f172a; padding-left: 10px; }
-    .print-month-year { font-size: 14px; font-weight: 900; color: var(--primary); text-transform: uppercase; line-height: 1.1; }
-    .print-islamic-range { font-size: 10.5px; font-weight: 800; color: #b45309; background: #fef3c7; padding: 1px 6px; border-radius: 3px; display: inline-block; margin-top: 2px; }
+    table.data-table th.fixed-col {
+      background: #e2e8f0;
+      color: var(--primary);
+    }
 
-    .print-duas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 6px; }
-    .print-dua-box { border: 1px solid #94a3b8; border-radius: 3px; padding: 3px 5px; font-size: 8px; line-height: 1.2; background: #f8fafc; }
-    .print-dua-title { font-weight: 800; font-size: 8px; text-transform: uppercase; margin-bottom: 2px; }
+    .order-mail-notice {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #fef3c7;
+      border: 1.5px dashed #f59e0b;
+      border-radius: 6px;
+      font-weight: 800;
+      color: #92400e;
+      font-size: 13px;
+      text-align: center;
+    }
 
-    .chart-layout-wrapper { display: flex; flex: 1; border: 1.5px solid #0f172a; border-radius: 4px; position: relative; background: #fff; overflow: hidden; }
-    .time-scale-col { width: 46px; border-right: 1.5px solid #0f172a; position: relative; background: #f8fafc; flex-shrink: 0; }
-    .time-tick { position: absolute; width: 100%; right: 0; text-align: right; padding-right: 4px; font-size: 7.5px; line-height: 1; transform: translateY(-50%); font-family: monospace; }
-    .time-tick.hour-tick { font-weight: 900; color: #000; }
-    .time-tick.hour-tick::after { content: ''; position: absolute; right: 0; top: 50%; width: 4px; height: 1px; background: #000; }
+    /* Scroll Viewport */
+    .preview-viewport {
+      background: #94a3b8;
+      padding: 24px;
+      border-radius: 8px;
+      overflow: auto;
+      max-height: 900px;
+      text-align: left;
+    }
 
-    .chart-pillars-container { flex: 1; display: flex; position: relative; border-right: 1.5px solid #0f172a; background: #ffffff; overflow-x: auto; }
-    .grid-lines-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-    .grid-line-15m { position: absolute; left: 0; width: 100%; height: 0.5px; background: #f1f5f9; }
-    .grid-line-hour { background: #cbd5e1; height: 1px; }
+    .preview-viewport-inner {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 100%;
+      align-items: center;
+    }
 
-    .day-column { flex: 1; min-width: 28px; display: flex; flex-direction: column; position: relative; border-right: 0.8px solid #e2e8f0; }
-    .day-col-header { background: #f1f5f9; border-bottom: 1px solid #334155; text-align: center; padding: 2px 1px; font-size: 8.5px; font-weight: 800; }
-    .day-col-body { flex: 1; position: relative; }
+    /* A4 Base Styling (100% Width Utilized - Note strip removed) */
+    .a4-sheet {
+      background: #ffffff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
 
-    .vertical-daylight-ribbon { position: absolute; left: 18%; width: 64%; background: var(--daylight-bar); border: 1px solid var(--daylight-border); border-radius: 2px; opacity: 0.85; z-index: 1; }
-    .salah-marker { position: absolute; width: 100%; left: 0; transform: translateY(-50%); z-index: 3; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
-    .marker-pin-line { width: 100%; height: 0.8px; background: rgba(0, 0, 0, 0.4); position: absolute; top: 50%; }
-    .marker-time-tag { background: rgba(255, 255, 255, 0.95); border: 0.5px solid #1e293b; border-radius: 2px; font-size: 7px; font-weight: 900; font-style: italic; color: #000; line-height: 1; white-space: nowrap; z-index: 4; }
+    .a4-portrait {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 8mm 10mm;
+    }
 
-    .day-length-tag { background: #e2e8f0; color: #0f172a; border-top: 1px solid #94a3b8; font-size: 6.5px; font-weight: 800; text-align: center; padding: 2px 0; }
+    .a4-landscape {
+      width: 297mm;
+      min-height: 210mm;
+      padding: 8mm 10mm;
+    }
 
-    .print-notes-strip { width: 25.4mm; border-left: 1px dashed #475569; background: #fbfbfb; display: flex; flex-direction: column; padding: 4px; flex-shrink: 0; }
-    .notes-title { font-size: 8px; font-weight: 900; text-transform: uppercase; text-align: center; border-bottom: 1px solid #64748b; margin-bottom: 4px; }
-    .notes-ruled-lines { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .notes-line { border-bottom: 0.5px dotted #cbd5e1; height: 10px; }
+    /* Header */
+    .print-header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
 
-    .print-footer { margin-top: 5px; padding-top: 3px; border-top: 1px solid #0f172a; display: flex; justify-content: space-between; align-items: center; font-size: 7.5px; font-weight: 600; }
-    .print-order-email { font-weight: 900; color: #b45309; }
+    .print-title-area {
+      flex: 1;
+    }
+
+    .print-mosque-name {
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      line-height: 1.1;
+    }
+
+    .print-location {
+      font-size: 11px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .print-date-badge {
+      text-align: right;
+      border-left: 2px solid #0f172a;
+      padding-left: 10px;
+    }
+
+    .print-month-year {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: var(--primary);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .print-islamic-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: flex-end;
+      margin-top: 3px;
+    }
+
+    .print-islamic-pill {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 1px 6px;
+      border-radius: 3px;
+      border: 0.5px solid #fde68a;
+      white-space: nowrap;
+    }
+
+    /* Duas Grid */
+    .print-duas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .print-dua-box {
+      border: 1px solid #94a3b8;
+      border-radius: 3px;
+      padding: 3px 5px;
+      font-size: 8px;
+      line-height: 1.2;
+      background: #f8fafc;
+    }
+
+    .print-dua-title {
+      font-weight: 800;
+      font-size: 8px;
+      text-transform: uppercase;
+      border-bottom: 0.5px solid #cbd5e1;
+      margin-bottom: 2px;
+    }
+
+    /* Main Chart Layout - Stretches 100% full width */
+    .chart-layout-wrapper {
+      display: flex;
+      flex: 1;
+      border: 1.5px solid #0f172a;
+      border-radius: 4px;
+      position: relative;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    /* Left Time Scale (03:00 to 21:00) */
+    .time-scale-col {
+      width: 44px;
+      border-right: 1.5px solid #0f172a;
+      position: relative;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+
+    .time-tick {
+      position: absolute;
+      width: 100%;
+      right: 0;
+      text-align: right;
+      padding-right: 4px;
+      font-size: 7.5px;
+      line-height: 1;
+      transform: translateY(-50%);
+      font-family: monospace;
+    }
+
+    .time-tick.hour-tick {
+      font-weight: 900;
+      color: #000;
+    }
+    .time-tick.hour-tick::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 4px;
+      height: 1px;
+      background: #000;
+    }
+
+    /* Pillars Container */
+    .chart-pillars-container {
+      flex: 1;
+      display: flex;
+      position: relative;
+      background: #ffffff;
+      overflow-x: auto;
+    }
+
+    .grid-lines-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .grid-line-15m {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0.5px;
+      background: #f1f5f9;
+    }
+    .grid-line-hour {
+      background: #cbd5e1;
+      height: 1px;
+    }
+
+    /* Month Group Boundary (When multi-month is displayed) */
+    .month-group-boundary {
+      border-left: 2px solid #0f172a !important;
+    }
+
+    .day-column {
+      flex: 1;
+      min-width: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-right: 0.8px solid #e2e8f0;
+    }
+    .day-column:last-child {
+      border-right: none;
+    }
+
+    .day-col-header {
+      background: #f1f5f9;
+      border-bottom: 1px solid #334155;
+      text-align: center;
+      padding: 2px 1px;
+      font-size: 8px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+    }
+
+    .day-col-header .month-sub-tag {
+      display: block;
+      font-size: 6.5px;
+      color: var(--primary);
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .day-col-body {
+      flex: 1;
+      position: relative;
+    }
+
+    /* Daylight Ribbon */
+    .vertical-daylight-ribbon {
+      position: absolute;
+      left: 15%;
+      width: 70%;
+      background: var(--daylight-bar);
+      border: 1px solid var(--daylight-border);
+      border-radius: 2px;
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    /* Sub-minute Exact Positioned Salah Marker */
+    .salah-marker {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      transform: translateY(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .marker-pin-line {
+      width: 100%;
+      height: 0.8px;
+      background: rgba(0, 0, 0, 0.4);
+      position: absolute;
+      top: 50%;
+    }
+
+    .marker-time-tag {
+      background: rgba(255, 255, 255, 0.95);
+      border: 0.5px solid #1e293b;
+      border-radius: 2px;
+      padding: 0px 1px;
+      font-size: 6.8px;
+      font-weight: 900;
+      font-style: italic;
+      color: #000;
+      line-height: 1;
+      white-space: nowrap;
+      z-index: 4;
+    }
+
+    .day-length-tag {
+      background: #e2e8f0;
+      color: #0f172a;
+      border-top: 1px solid #94a3b8;
+      font-size: 6.5px;
+      font-weight: 800;
+      text-align: center;
+      padding: 2px 0;
+    }
+
+    /* Sheet Footer */
+    .print-footer {
+      margin-top: 5px;
+      padding-top: 3px;
+      border-top: 1px solid #0f172a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7.5px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .print-order-email {
+      font-weight: 900;
+      color: #b45309;
+    }
 
     @media print {
       body { background: #fff !important; padding: 0 !important; }
-      .app-header, .container > .card:not(#previewCard), .preview-section-header, .drawer, .drawer-overlay { display: none !important; }
+      .app-header, .container > .card:not(#previewCard), .preview-section-header { display: none !important; }
       .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
       #previewCard { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
       .preview-viewport { background: transparent !important; padding: 0 !important; max-height: none !important; overflow: visible !important; }
@@ -129,24 +573,40 @@
   <header class="app-header">
     <div class="brand-title">
       <span>🕌 Salah Time Chart</span>
-      <span class="brand-badge">Waterfall Pro</span>
+      <span class="brand-badge">Waterfall Pro v3</span>
     </div>
-    <button class="hamburger-btn" id="openDrawerBtn">☰</button>
   </header>
 
   <div class="container">
-    <!-- Mosque & Date Details -->
+
+    <!-- Mosque Info, Gregorian & 2 Manual Islamic Month Inputs -->
     <div class="card">
-      <div class="card-title">1. Mosque, Gregorian & Islamic Date Details</div>
+      <div class="card-title">1. Mosque & Calendar Range (2 Islamic Month Support)</div>
       <div class="grid-4">
-        <div class="form-group"><label>Mosque / Area Name</label><input type="text" id="inputMosque" value="Markaz Jamia Masjid"></div>
-        <div class="form-group"><label>District & State</label><input type="text" id="inputLocation" value="Central District, State"></div>
-        <div class="form-group"><label>Gregorian Month & Year</label><input type="text" id="inputGregorianDate" value="October 2026"></div>
-        <div class="form-group"><label>Islamic Month Range</label><input type="text" id="inputIslamicDate" value="4. Rabi' al-Thani: 5 Oct To 5 Nov"></div>
+        <div class="form-group">
+          <label>Mosque / Area Name</label>
+          <input type="text" id="inputMosque" value="Markaz Jamia Masjid">
+        </div>
+        <div class="form-group">
+          <label>District & State</label>
+          <input type="text" id="inputLocation" value="Central District, State">
+        </div>
+        <div class="form-group">
+          <label>Gregorian Month / Scope</label>
+          <input type="text" id="inputGregorianDate" value="October 2026 (Or Full Year)">
+        </div>
+        <div class="form-group">
+          <label>Islamic Month 1 (e.g. 15 Shawwal - 29 Shawwal)</label>
+          <input type="text" id="inputIslamicDate1" value="15 Shawwal 1448 - 29 Shawwal 1448">
+        </div>
+        <div class="form-group">
+          <label>Islamic Month 2 (e.g. 1 Dhu al-Qadah - 15 Dhu al-Qadah)</label>
+          <input type="text" id="inputIslamicDate2" value="1 Dhu al-Qadah 1448 - 14 Dhu al-Qadah 1448">
+        </div>
       </div>
     </div>
 
-    <!-- 4 Duas -->
+    <!-- 4 Dua Sections -->
     <div class="card">
       <div class="card-title">2. Dua Sections (4 Blocks)</div>
       <div class="grid-4">
@@ -157,7 +617,7 @@
       </div>
     </div>
 
-    <!-- Custom Labels -->
+    <!-- Salah Zone Labels -->
     <div class="card">
       <div class="card-title">3. Salah Zone Customizable Labels</div>
       <div class="grid-6">
@@ -173,8 +633,8 @@
     <!-- Month Tabs & Table -->
     <div class="card">
       <div class="card-title">
-        <span>4. Salah Timetable Data (Select Month Tab)</span>
-        <span style="font-size:11px; font-weight:normal; color:var(--text-muted);">Switch tabs to edit each month individually</span>
+        <span>4. Salah Timetable Data (Select Month Tab to Edit)</span>
+        <span style="font-size:11px; font-weight:normal; color:var(--text-muted);">Switch tabs to edit each month's timetable</span>
       </div>
 
       <div class="month-tabs-bar" id="monthTabsContainer"></div>
@@ -211,28 +671,32 @@
       </div>
     </div>
 
-    <!-- Chart Preview -->
+    <!-- Preview & Controls -->
     <div class="card" id="previewCard">
       <div class="preview-section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-        <div class="card-title" style="margin-bottom:0; border:none; padding:0;">5. A4 Size Waterfall Chart Preview</div>
+        <div class="card-title" style="margin-bottom:0; border:none; padding:0;">
+          5. A4 Waterfall Chart Preview (Note Strip Removed, 100% Space Utilized)
+        </div>
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <div style="display:flex; align-items:center; gap:4px;">
             <label style="font-weight:800; color:var(--primary);">Orientation:</label>
             <select id="orientationSelect" style="width: auto; padding:5px 8px; font-weight:700;">
-              <option value="portrait" selected>📄 Portrait (Lambai)</option>
-              <option value="landscape">📑 Landscape (Choudai)</option>
+              <option value="portrait" selected>📄 Portrait</option>
+              <option value="landscape">📑 Landscape</option>
             </select>
           </div>
+
           <div style="display:flex; align-items:center; gap:4px;">
-            <label style="font-weight:800; color:var(--primary);">Mode:</label>
-            <select id="modeSelect" style="width: auto; padding:5px 8px;">
-              <option value="weekly">Mode I: 4 Days Weekly (7, 14, 21, 28)</option>
-              <option value="ten_days">Mode II: 10 Days (3, 6, 9... 30)</option>
-              <option value="three_days">Mode III: 3 Days (10, 20, 30)</option>
-              <option value="two_days">Mode IV: 2 Days (15, 30)</option>
-              <option value="complete" selected>Mode V: Complete Days (1 to 30/31)</option>
+            <label style="font-weight:800; color:var(--primary);">Display Scope:</label>
+            <select id="modeSelect" style="width: auto; padding:5px 8px; font-weight:700;">
+              <option value="complete">Mode V: Selected Single Month (All Days 1-30/31)</option>
+              <option value="two_days_all_year" selected>Mode IV: All 12 Months Full Year (15 & 30 of Each Month - 24 Pillars)</option>
+              <option value="weekly_all_year">Mode I: All 12 Months Weekly (7, 14, 21, 28 - 48 Pillars)</option>
+              <option value="ten_days_current">Mode II: Current Month 10 Days (3, 6, 9... 30)</option>
+              <option value="three_days_current">Mode III: Current Month 3 Days (10, 20, 30)</option>
             </select>
           </div>
+
           <button class="btn btn-accent" id="downloadPdfBtn">📥 Download A4 PDF</button>
           <button class="btn btn-primary" id="printBtn">🖨 Browser Print</button>
         </div>
@@ -242,6 +706,7 @@
         <div class="preview-viewport-inner" id="previewContainer"></div>
       </div>
     </div>
+
   </div>
 
   <script src="Salah.js"></script>
