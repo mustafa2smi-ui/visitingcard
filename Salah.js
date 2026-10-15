@@ -1,78 +1,92 @@
 /**
- * Salah.js - Main Application Logic for Vertical Ribbon Salah Time Chart
+ * Salah.js - Enhanced Application Logic for Salah Time Chart
  */
 
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 const SalahApp = {
-  data: [],
+  currentMonthIndex: 9, // October
+  monthsData: {},
+  orientation: "portrait",
   config: {
-    startMinutes: 3 * 60,       // 03:00 AM = 180 min
-    endMinutes: 21 * 60,         // 21:00 (09:00 PM) = 1260 min
+    startMinutes: 3 * 60,       // 03:00 AM
+    endMinutes: 21 * 60,         // 21:00 (09:00 PM)
     totalMinutes: (21 - 3) * 60, // 1080 min
-    stepMinutes: 15              // 15-minute scale grid
+    stepMinutes: 15
   }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  initMonthsStore();
+  renderMonthTabs();
   initUIListeners();
-  generateDefaultSampleData();
   renderDataTable();
   renderChartPreview();
 });
 
-function initUIListeners() {
-  const drawer = document.getElementById("sideDrawer");
-  const overlay = document.getElementById("drawerOverlay");
-  document.getElementById("openDrawerBtn").onclick = () => {
-    drawer.classList.add("active");
-    overlay.classList.add("active");
-  };
-  const closeDrawer = () => {
-    drawer.classList.remove("active");
-    overlay.classList.remove("active");
-  };
-  document.getElementById("closeDrawerBtn").onclick = closeDrawer;
-  overlay.onclick = closeDrawer;
+function initMonthsStore() {
+  for (let m = 0; m < 12; m++) {
+    SalahApp.monthsData[m] = generateMonthData(m);
+  }
+}
 
-  document.getElementById("printBtn").onclick = () => window.print();
-  document.getElementById("modeSelect").onchange = () => renderChartPreview();
+function generateMonthData(monthIndex) {
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthIndex];
+  const list = [];
+  const seasonalShift = Math.sin((monthIndex / 12) * Math.PI * 2) * 40;
 
-  const liveInputs = [
-    "inputMosque", "inputDistrict", "inputState",
-    "dua1", "dua2", "dua3", "dua4",
-    "labelFajr", "labelSunrise", "labelZuhr", "labelAsr", "labelMaghrib", "labelIsha"
-  ];
-  liveInputs.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener("input", () => renderChartPreview());
-  });
+  for (let day = 1; day <= daysInMonth; day++) {
+    const fMin = Math.round(4 * 60 + 20 - (seasonalShift * 0.5) - (day * 0.4));
+    const srMin = Math.round(5 * 60 + 40 - (seasonalShift * 0.6) - (day * 0.5));
+    const zMin = 12 * 60 + 15;
+    const aMin = Math.round(15 * 60 + 40 + (seasonalShift * 0.3) + (day * 0.3));
+    const ssMin = Math.round(18 * 60 + 30 + (seasonalShift * 0.6) + (day * 0.5));
+    const iMin = Math.round(19 * 60 + 50 + (seasonalShift * 0.5) + (day * 0.5));
 
-  document.getElementById("loadSampleBtn").onclick = () => {
-    generateDefaultSampleData();
-    renderDataTable();
-    renderChartPreview();
-  };
+    list.push({
+      day: day,
+      fajr: minutesToTime(fMin),
+      sunrise: minutesToTime(srMin),
+      zuhr: minutesToTime(zMin),
+      asr: minutesToTime(aMin),
+      sunset: minutesToTime(ssMin),
+      isha: minutesToTime(iMin)
+    });
+  }
+  return list;
+}
 
-  document.getElementById("clearDataBtn").onclick = () => {
-    if (confirm("Are you sure you want to clear the timetable?")) {
-      SalahApp.data = [];
+function renderMonthTabs() {
+  const container = document.getElementById("monthTabsContainer");
+  container.innerHTML = "";
+
+  MONTH_NAMES.forEach((name, idx) => {
+    const btn = document.createElement("button");
+    btn.className = `month-tab-btn ${idx === SalahApp.currentMonthIndex ? "active" : ""}`;
+    btn.textContent = name;
+    btn.onclick = () => {
+      SalahApp.currentMonthIndex = idx;
+      document.querySelectorAll(".month-tab-btn").forEach((b, i) => {
+        b.classList.toggle("active", i === idx);
+      });
+      document.getElementById("inputGregorianDate").value = `${name} 2026`;
       renderDataTable();
       renderChartPreview();
-    }
-  };
-
-  document.getElementById("pasteCsvBtn").onclick = handleCsvPaste;
-  document.getElementById("csvFileInput").onchange = handleFileUpload;
+    };
+    container.appendChild(btn);
+  });
 }
 
 function timeToMinutes(timeStr) {
   if (!timeStr) return null;
-  const clean = timeStr.trim().split(" ")[0];
-  const parts = clean.split(":");
+  const parts = timeStr.trim().split(" ")[0].split(":");
   if (parts.length < 2) return null;
-  const hours = parseInt(parts[0], 10);
-  const minutes = parseInt(parts[1], 10);
-  if (isNaN(hours) || isNaN(minutes)) return null;
-  return hours * 60 + minutes;
+  const h = parseInt(parts[0], 10);
+  const m = parseInt(parts[1], 10);
+  return (isNaN(h) || isNaN(m)) ? null : h * 60 + m;
 }
 
 function minutesToTime(totalMin) {
@@ -82,49 +96,75 @@ function minutesToTime(totalMin) {
 }
 
 function getYPercent(minutes) {
-  if (minutes === null || minutes === undefined) return 0;
+  if (minutes === null) return 0;
   const clamped = Math.max(SalahApp.config.startMinutes, Math.min(SalahApp.config.endMinutes, minutes));
   return ((clamped - SalahApp.config.startMinutes) / SalahApp.config.totalMinutes) * 100;
 }
 
-function generateDefaultSampleData() {
-  SalahApp.data = [];
-  for (let day = 1; day <= 30; day++) {
-    const fajrMin = (4 * 60 + 15) - Math.floor(day * 0.7);
-    const sunriseMin = (5 * 60 + 35) - Math.floor(day * 0.8);
-    const zuhrMin = 12 * 60 + 15;
-    const asrMin = (15 * 60 + 45) + Math.floor(day * 0.4);
-    const sunsetMin = (18 * 60 + 35) + Math.floor(day * 0.7);
-    const ishaMin = (19 * 60 + 55) + Math.floor(day * 0.7);
+function calculateDayLength(srStr, ssStr) {
+  const srMin = timeToMinutes(srStr);
+  const ssMin = timeToMinutes(ssStr);
+  if (srMin === null || ssMin === null || ssMin <= srMin) return "";
+  const diff = ssMin - srMin;
+  return `${Math.floor(diff / 60)}h ${diff % 60}m`;
+}
 
-    SalahApp.data.push({
-      day: day,
-      fajr: minutesToTime(fajrMin),
-      sunrise: minutesToTime(sunriseMin),
-      zuhr: minutesToTime(zuhrMin),
-      asr: minutesToTime(asrMin),
-      sunset: minutesToTime(sunsetMin),
-      isha: minutesToTime(ishaMin)
-    });
-  }
+function initUIListeners() {
+  document.getElementById("printBtn").onclick = () => window.print();
+  document.getElementById("downloadPdfBtn").onclick = downloadA4Pdf;
+
+  document.getElementById("orientationSelect").onchange = (e) => {
+    SalahApp.orientation = e.target.value;
+    renderChartPreview();
+  };
+
+  document.getElementById("modeSelect").onchange = () => renderChartPreview();
+
+  const liveInputs = [
+    "inputMosque", "inputLocation", "inputGregorianDate", "inputIslamicDate",
+    "dua1", "dua2", "dua3", "dua4",
+    "labelFajr", "labelSunrise", "labelZuhr", "labelAsr", "labelMaghrib", "labelIsha"
+  ];
+  liveInputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", () => renderChartPreview());
+  });
+
+  document.getElementById("loadSampleBtn").onclick = () => {
+    SalahApp.monthsData[SalahApp.currentMonthIndex] = generateMonthData(SalahApp.currentMonthIndex);
+    renderDataTable();
+    renderChartPreview();
+  };
+
+  document.getElementById("clearDataBtn").onclick = () => {
+    if (confirm(`Clear all data for ${MONTH_NAMES[SalahApp.currentMonthIndex]}?`)) {
+      SalahApp.monthsData[SalahApp.currentMonthIndex] = [];
+      renderDataTable();
+      renderChartPreview();
+    }
+  };
+
+  document.getElementById("pasteCsvBtn").onclick = handleCsvPaste;
+  document.getElementById("csvFileInput").onchange = handleFileUpload;
 }
 
 function renderDataTable() {
   const tbody = document.getElementById("tableBody");
   tbody.innerHTML = "";
+  const currentList = SalahApp.monthsData[SalahApp.currentMonthIndex] || [];
 
-  SalahApp.data.forEach((row, index) => {
+  currentList.forEach((row, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><input type="text" value="${row.day}" style="width:50px; text-align:center;" onchange="updateCell(${index}, 'day', this.value)"></td>
-      <td><input type="text" value="${row.fajr}" style="width:70px;" onchange="updateCell(${index}, 'fajr', this.value)"></td>
-      <td><input type="text" value="${row.sunrise}" style="width:70px;" onchange="updateCell(${index}, 'sunrise', this.value)"></td>
-      <td><input type="text" value="${row.zuhr}" style="width:70px;" onchange="updateCell(${index}, 'zuhr', this.value)"></td>
-      <td><input type="text" value="${row.asr}" style="width:70px;" onchange="updateCell(${index}, 'asr', this.value)"></td>
-      <td><input type="text" value="${row.sunset}" style="width:70px;" onchange="updateCell(${index}, 'sunset', this.value)"></td>
-      <td><input type="text" value="${row.isha}" style="width:70px;" onchange="updateCell(${index}, 'isha', this.value)"></td>
+      <td><input type="text" value="${row.day}" style="width:45px; text-align:center;" onchange="updateCell(${index}, 'day', this.value)"></td>
+      <td><input type="text" value="${row.fajr}" style="width:65px;" onchange="updateCell(${index}, 'fajr', this.value)"></td>
+      <td><input type="text" value="${row.sunrise}" style="width:65px;" onchange="updateCell(${index}, 'sunrise', this.value)"></td>
+      <td><input type="text" value="${row.zuhr}" style="width:65px;" onchange="updateCell(${index}, 'zuhr', this.value)"></td>
+      <td><input type="text" value="${row.asr}" style="width:65px;" onchange="updateCell(${index}, 'asr', this.value)"></td>
+      <td><input type="text" value="${row.sunset}" style="width:65px;" onchange="updateCell(${index}, 'sunset', this.value)"></td>
+      <td><input type="text" value="${row.isha}" style="width:65px;" onchange="updateCell(${index}, 'isha', this.value)"></td>
       <td style="text-align:center;">
-        <button class="delete-row-btn" onclick="deleteTableRow(${index})" title="Delete row">✖</button>
+        <button style="color:#dc2626; border:none; background:none; cursor:pointer; font-weight:bold;" onclick="deleteTableRow(${index})">✖</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -132,16 +172,20 @@ function renderDataTable() {
 }
 
 function updateCell(index, key, value) {
-  if (SalahApp.data[index]) {
-    SalahApp.data[index][key] = value.trim();
+  const list = SalahApp.monthsData[SalahApp.currentMonthIndex];
+  if (list && list[index]) {
+    list[index][key] = value.trim();
     renderChartPreview();
   }
 }
 
 function deleteTableRow(index) {
-  SalahApp.data.splice(index, 1);
-  renderDataTable();
-  renderChartPreview();
+  const list = SalahApp.monthsData[SalahApp.currentMonthIndex];
+  if (list) {
+    list.splice(index, 1);
+    renderDataTable();
+    renderChartPreview();
+  }
 }
 
 function parseCsvContent(text) {
@@ -151,9 +195,7 @@ function parseCsvContent(text) {
   const parsed = [];
   for (let i = 0; i < lines.length; i++) {
     const cols = lines[i].split(/[\t,;]+/).map(c => c.trim().replace(/^["']|["']$/g, ""));
-    if (i === 0 && (isNaN(parseInt(cols[0], 10)) || cols[1]?.toLowerCase().includes("fajr"))) {
-      continue;
-    }
+    if (i === 0 && (isNaN(parseInt(cols[0], 10)) || cols[1]?.toLowerCase().includes("fajr"))) continue;
     if (cols.length >= 6) {
       parsed.push({
         day: cols[0] || (parsed.length + 1),
@@ -168,17 +210,15 @@ function parseCsvContent(text) {
   }
 
   if (parsed.length > 0) {
-    SalahApp.data = parsed;
+    SalahApp.monthsData[SalahApp.currentMonthIndex] = parsed;
     renderDataTable();
     renderChartPreview();
-    alert(`Successfully imported ${parsed.length} days of Salah data.`);
-  } else {
-    alert("Invalid data. Ensure format: Day, Fajr, Sunrise, Zuhr, Asr, Sunset, Isha");
+    alert(`Successfully loaded ${parsed.length} days into ${MONTH_NAMES[SalahApp.currentMonthIndex]}.`);
   }
 }
 
 function handleCsvPaste() {
-  const input = prompt("Paste your Tab-separated or Comma-separated Salah Timetable data here:");
+  const input = prompt("Paste your Tab or Comma-separated Salah Timetable data:");
   if (input) parseCsvContent(input);
 }
 
@@ -190,25 +230,17 @@ function handleFileUpload(e) {
   reader.readAsText(file);
 }
 
-function filterDataByMode(mode) {
-  const total = SalahApp.data.length;
-  if (total === 0) return [];
+function getFilteredDays(mode) {
+  const list = SalahApp.monthsData[SalahApp.currentMonthIndex] || [];
+  if (list.length === 0) return [];
 
   switch (mode) {
-    case "weekly": // Mode I: 7, 14, 21, 28
-      return SalahApp.data.filter(d => [7, 14, 21, 28].includes(parseInt(d.day, 10)));
-    case "ten_days": // Mode II: 3, 6, 9... 30
-      return SalahApp.data.filter(d => {
-        const n = parseInt(d.day, 10);
-        return n % 3 === 0 && n <= 30;
-      });
-    case "three_days": // Mode III: 10, 20, 30
-      return SalahApp.data.filter(d => [10, 20, 30, 31].includes(parseInt(d.day, 10)));
-    case "two_days": // Mode IV: 15, 30
-      return SalahApp.data.filter(d => [15, 30].includes(parseInt(d.day, 10)));
-    case "complete": // Mode V: All 30/31 days
-    default:
-      return SalahApp.data;
+    case "weekly": return list.filter(d => [7, 14, 21, 28].includes(parseInt(d.day, 10)));
+    case "ten_days": return list.filter(d => { const n = parseInt(d.day, 10); return n % 3 === 0 && n <= 30; });
+    case "three_days": return list.filter(d => [10, 20, 30, 31].includes(parseInt(d.day, 10)));
+    case "two_days": return list.filter(d => [15, 30].includes(parseInt(d.day, 10)));
+    case "complete":
+    default: return list;
   }
 }
 
@@ -217,25 +249,32 @@ function renderChartPreview() {
   container.innerHTML = "";
 
   const mode = document.getElementById("modeSelect").value;
-  const filteredDays = filterDataByMode(mode);
+  const filteredDays = getFilteredDays(mode);
 
   if (filteredDays.length === 0) {
-    container.innerHTML = `<div style="background:#fff; padding:40px; border-radius:8px;">No Salah data available.</div>`;
+    container.innerHTML = `<div style="background:#fff; padding:30px; border-radius:8px; font-weight:bold;">No data available. Click 'Fill Realistic 30 Days' or Paste CSV.</div>`;
     return;
   }
 
   const sheet = document.createElement("div");
-  sheet.className = "a4-sheet";
+  sheet.id = "a4PrintableSheet";
+  sheet.className = `a4-sheet ${SalahApp.orientation === "landscape" ? "a4-landscape" : "a4-portrait"}`;
 
-  const mosque = document.getElementById("inputMosque").value || "Jamia Mosque";
-  const district = document.getElementById("inputDistrict").value || "";
-  const state = document.getElementById("inputState").value || "";
-  const locationLine = [district, state].filter(Boolean).join(", ");
+  const mosque = document.getElementById("inputMosque").value || "Jamia Masjid";
+  const location = document.getElementById("inputLocation").value || "District, State";
+  const gregDate = document.getElementById("inputGregorianDate").value || "October 2026";
+  const islamicDate = document.getElementById("inputIslamicDate").value || "";
 
   const headerHtml = `
     <div class="print-header">
-      <div class="print-mosque-name">${escapeHtml(mosque)}</div>
-      <div class="print-meta">${escapeHtml(locationLine)} | Salah Timetable Schedule | A4 Vector Waterfall</div>
+      <div class="print-title-area">
+        <div class="print-mosque-name">${escapeHtml(mosque)}</div>
+        <div class="print-location">${escapeHtml(location)} | Salah Waterfall Chart</div>
+      </div>
+      <div class="print-date-badge">
+        <div class="print-month-year">${escapeHtml(gregDate)}</div>
+        ${islamicDate ? `<div class="print-islamic-range">🌙 ${escapeHtml(islamicDate)}</div>` : ""}
+      </div>
     </div>
   `;
 
@@ -261,18 +300,10 @@ function renderChartPreview() {
     const isHour = (min % 60 === 0);
 
     if (isHour) {
-      timeScaleTicksHtml += `
-        <div class="time-tick hour-tick" style="top: ${yPercent}%;">
-          ${minutesToTime(min)}
-        </div>
-      `;
+      timeScaleTicksHtml += `<div class="time-tick hour-tick" style="top: ${yPercent}%;">${minutesToTime(min)}</div>`;
       gridLinesHtml += `<div class="grid-line-15m grid-line-hour" style="top: ${yPercent}%;"></div>`;
     } else {
-      timeScaleTicksHtml += `
-        <div class="time-tick" style="top: ${yPercent}%;">
-          ${minutesToTime(min).slice(3)}
-        </div>
-      `;
+      timeScaleTicksHtml += `<div class="time-tick" style="top: ${yPercent}%;">${minutesToTime(min).slice(3)}</div>`;
       gridLinesHtml += `<div class="grid-line-15m" style="top: ${yPercent}%;"></div>`;
     }
   }
@@ -291,12 +322,7 @@ function renderChartPreview() {
       const topY = getYPercent(srMin);
       const bottomY = getYPercent(ssMin);
       const heightY = Math.max(2, bottomY - topY);
-      ribbonHtml = `
-        <div class="vertical-daylight-ribbon" 
-             style="top: ${topY}%; height: ${heightY}%;" 
-             title="Daylight: ${dayRow.sunrise} - ${dayRow.sunset}">
-        </div>
-      `;
+      ribbonHtml = `<div class="vertical-daylight-ribbon" style="top: ${topY}%; height: ${heightY}%;"></div>`;
     }
 
     const markers = [
@@ -311,15 +337,16 @@ function renderChartPreview() {
     let markersHtml = "";
     markers.forEach(m => {
       if (m.min !== null && m.text) {
-        const yPos = getYPercent(m.min);
         markersHtml += `
-          <div class="salah-marker" style="top: ${yPos}%;">
+          <div class="salah-marker" style="top: ${getYPercent(m.min)}%;">
             <div class="marker-pin-line"></div>
             <span class="marker-time-tag">${m.text}</span>
           </div>
         `;
       }
     });
+
+    const dayLength = calculateDayLength(dayRow.sunrise, dayRow.sunset);
 
     pillarsHtml += `
       <div class="day-column">
@@ -328,12 +355,14 @@ function renderChartPreview() {
           ${ribbonHtml}
           ${markersHtml}
         </div>
+        ${dayLength ? `<div class="day-length-tag">☀️ ${dayLength}</div>` : ""}
       </div>
     `;
   });
 
   let ruledLinesHtml = "";
-  for (let i = 0; i < 28; i++) {
+  const linesCount = SalahApp.orientation === "landscape" ? 18 : 28;
+  for (let i = 0; i < linesCount; i++) {
     ruledLinesHtml += `<div class="notes-line"></div>`;
   }
 
@@ -341,34 +370,41 @@ function renderChartPreview() {
     ${headerHtml}
     ${duasHtml}
     <div class="chart-layout-wrapper">
-      <div class="time-scale-col">
-        ${timeScaleTicksHtml}
-      </div>
+      <div class="time-scale-col">${timeScaleTicksHtml}</div>
       <div class="chart-pillars-container">
         <div class="grid-lines-overlay">${gridLinesHtml}</div>
         ${pillarsHtml}
       </div>
       <div class="print-notes-strip">
         <div class="notes-title">Notes / Announce</div>
-        <div class="notes-ruled-lines">
-          ${ruledLinesHtml}
-        </div>
+        <div class="notes-ruled-lines">${ruledLinesHtml}</div>
       </div>
     </div>
     <div class="print-footer">
-      <span>* Faint horizontal lines indicate 15-minute scale intervals. Daylight ribbon: Sunrise to Sunset.</span>
-      <span>Approved by Mosque Management</span>
+      <span>* Scale: 03:00 to 21:00 (15m grid). Yellow bar: Daylight. Bottom: Day length.</span>
+      <span class="print-order-email">📧 To Order mail:- mustafa2smi@gmail.com</span>
     </div>
   `;
 
   container.appendChild(sheet);
 }
 
+function downloadA4Pdf() {
+  const element = document.getElementById("a4PrintableSheet");
+  if (!element) return;
+
+  const opt = {
+    margin: 0,
+    filename: `Salah_Time_Chart_${MONTH_NAMES[SalahApp.currentMonthIndex]}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: SalahApp.orientation }
+  };
+
+  html2pdf().set(opt).from(element).save();
+}
+
 function escapeHtml(str) {
   if (!str) return "";
-  return str.replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
