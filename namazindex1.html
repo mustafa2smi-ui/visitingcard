@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salah Time Chart - Vertical Waterfall A4</title>
+  <style>
+    :root {
+      --primary: #1b4332;
+      --primary-light: #2d6a4f;
+      --accent: #d4af37;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --daylight-bar: #e9d8a6;
+      --daylight-border: #ee9b00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 50px;
+    }
+
+    /* Header Bar */
+    header.app-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: var(--accent);
+      color: #000;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+
+    .hamburger-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 20px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 14px;
+      border-bottom: 2px solid #edf2f7;
+      padding-bottom: 8px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .table-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-accent { background: var(--accent); color: #000; font-weight: 700; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
+    .btn-danger { background: #ef4444; color: #fff; }
+
+    .table-container {
+      max-height: 280px;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    table.data-table th, table.data-table td {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    table.data-table th {
+      background: #f1f5f9;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    table.data-table th.fixed-col {
+      background: #e2e8f0;
+      color: var(--primary);
+    }
+
+    .delete-row-btn {
+      color: #ef4444;
+      cursor: pointer;
+      font-weight: bold;
+      border: none;
+      background: transparent;
+    }
+
+    /* Print Preview Viewport */
+    .preview-viewport {
+      background: #cbd5e1;
+      padding: 30px;
+      border-radius: 10px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      max-height: 850px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Exact A4 Sheet (210mm x 297mm) */
+    .a4-sheet {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      padding: 25.4mm; /* Exact 1-Inch Margin */
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    .print-header {
+      text-align: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .print-mosque-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .print-meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .print-duas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .print-dua-box {
+      border: 1px dashed #777;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      line-height: 1.25;
+      background: #fafafa;
+    }
+
+    .print-dua-title {
+      font-weight: 700;
+      font-size: 9px;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 2px;
+    }
+
+    /* Chart Layout */
+    .chart-layout-wrapper {
+      display: flex;
+      flex: 1;
+      border: 1px solid #333;
+      border-radius: 4px;
+      position: relative;
+      background: #fff;
+    }
+
+    .time-scale-col {
+      width: 52px;
+      border-right: 1.5px solid #222;
+      position: relative;
+      background: #fdfdfd;
+      flex-shrink: 0;
+    }
+
+    .time-tick {
+      position: absolute;
+      width: 100%;
+      right: 0;
+      text-align: right;
+      padding-right: 4px;
+      font-size: 8px;
+      line-height: 1;
+      transform: translateY(-50%);
+      color: #444;
+      font-family: monospace;
+    }
+
+    .time-tick.hour-tick {
+      font-weight: bold;
+      color: #000;
+    }
+    .time-tick.hour-tick::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 4px;
+      height: 1px;
+      background: #000;
+    }
+
+    .chart-pillars-container {
+      flex: 1;
+      display: flex;
+      position: relative;
+      border-right: 1.5px solid #222;
+      background: #ffffff;
+    }
+
+    .grid-lines-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .grid-line-15m {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0.5px;
+      background: #ececec;
+    }
+    .grid-line-hour {
+      background: #d4d4d4;
+      height: 1px;
+    }
+
+    .day-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-right: 1px solid #e0e0e0;
+      min-width: 0;
+    }
+    .day-column:last-child { border-right: none; }
+
+    .day-col-header {
+      background: #f1f5f9;
+      border-bottom: 1px solid #444;
+      text-align: center;
+      padding: 3px 1px;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .day-col-body {
+      flex: 1;
+      position: relative;
+      overflow: visible;
+    }
+
+    /* Daylight Ribbon (Sunrise to Sunset) */
+    .vertical-daylight-ribbon {
+      position: absolute;
+      left: 20%;
+      width: 60%;
+      background: var(--daylight-bar);
+      border: 1px solid var(--daylight-border);
+      border-radius: 3px;
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    /* Mapped Bold & Italic Salah Marker */
+    .salah-marker {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      transform: translateY(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .marker-pin-line {
+      width: 100%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.45);
+      position: absolute;
+      top: 50%;
+    }
+
+    .marker-time-tag {
+      background: rgba(255, 255, 255, 0.95);
+      border: 0.5px solid #444;
+      border-radius: 2px;
+      padding: 0px 1px;
+      font-size: 7.5px;
+      font-weight: bold;
+      font-style: italic;
+      color: #000;
+      line-height: 1;
+      white-space: nowrap;
+      z-index: 4;
+    }
+
+    /* 1-Inch Blank Notes Area */
+    .print-notes-strip {
+      width: 25.4mm; /* Exactly 1 inch */
+      border-left: 1px dashed #666;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      padding: 6px;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .notes-title {
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+      border-bottom: 1px solid #999;
+      padding-bottom: 2px;
+      margin-bottom: 8px;
+    }
+
+    .notes-ruled-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .notes-line {
+      border-bottom: 0.5px dotted #aaa;
+      height: 12px;
+    }
+
+    .print-footer {
+      margin-top: 8px;
+      padding-top: 4px;
+      border-top: 1px solid #444;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8px;
+      color: #444;
+    }
+
+    /* Modal / Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+    .drawer-overlay.active { display: block; }
+
+    .drawer {
+      position: fixed;
+      top: 0; right: -420px;
+      width: 380px;
+      max-width: 90vw;
+      height: 100%;
+      background: #fff;
+      z-index: 1000;
+      box-shadow: -4px 0 16px rgba(0,0,0,0.2);
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+    }
+    .drawer.active { right: 0; }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* PRINT RULE FOR EXACT A4 PAPER */
+    @media print {
+      body { background: #fff !important; padding: 0 !important; }
+      .app-header, .container > .card:not(#previewCard), .preview-section-header, .drawer, .drawer-overlay {
+        display: none !important;
+      }
+      .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      #previewCard { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+      .preview-viewport { background: transparent !important; padding: 0 !important; max-height: none !important; box-shadow: none !important; }
+      .a4-sheet {
+        margin: 0 !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        break-after: page;
+        padding: 25.4mm !important; /* Exact 1-Inch margin */
+      }
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-title">
+      <span>🕌 Salah Time Chart</span>
+      <span class="brand-badge">Vertical Ribbon</span>
+    </div>
+    <button class="hamburger-btn" id="openDrawerBtn" title="Menu & Legal Terms">☰</button>
+  </header>
+
+  <div class="container">
+
+    <!-- Location & Metadata -->
+    <div class="card">
+      <div class="card-title">1. Location & Mosque Details</div>
+      <div class="grid-3">
+        <div class="form-group">
+          <label>Mosque / Area Name</label>
+          <input type="text" id="inputMosque" placeholder="e.g. Jamia Masjid" value="Markaz Jamia Masjid">
+        </div>
+        <div class="form-group">
+          <label>District</label>
+          <input type="text" id="inputDistrict" placeholder="e.g. Raipur / Hyderabad" value="Central District">
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <input type="text" id="inputState" placeholder="e.g. State Name" value="State">
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Dua Sections -->
+    <div class="card">
+      <div class="card-title">2. Dua Sections (4 Blocks)</div>
+      <div class="grid-4">
+        <div class="form-group">
+          <label>Dua 1 (Sehri / Fasting)</label>
+          <textarea id="dua1">وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ&#10;(Wa bisawmi ghadinn nawaiytu...)</textarea>
+        </div>
+        <div class="form-group">
+          <label>Dua 2 (Iftar / Fast Breaking)</label>
+          <textarea id="dua2">اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ...&#10;(Allahumma inni laka sumtu...)</textarea>
+        </div>
+        <div class="form-group">
+          <label>Dua 3 (Entering Mosque)</label>
+          <textarea id="dua3">اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ&#10;(Allahummaftah li abwaba rahmatik)</textarea>
+        </div>
+        <div class="form-group">
+          <label>Dua 4 (General Notice)</label>
+          <textarea id="dua4">نماز دین کا ستون ہے۔ وقت کی پابندی لازم ہے۔&#10;(Keep mobile phones silent)</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Salah Zone Customizable Labels -->
+    <div class="card">
+      <div class="card-title">3. Salah Zone Customizable Labels (Rename as needed)</div>
+      <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+        <div class="form-group"><label>Label 1: Fajr Start</label><input type="text" id="labelFajr" value="Start Fajr (Sehri End)"></div>
+        <div class="form-group"><label>Label 2: Sunrise</label><input type="text" id="labelSunrise" value="Sunrise (Tulu)"></div>
+        <div class="form-group"><label>Label 3: Mid / Zuhr</label><input type="text" id="labelZuhr" value="Zuhr (Zawal End)"></div>
+        <div class="form-group"><label>Label 4: Asr</label><input type="text" id="labelAsr" value="Asr"></div>
+        <div class="form-group"><label>Label 5: Sunset / Maghrib</label><input type="text" id="labelMaghrib" value="Sunset / Maghrib (Iftar)"></div>
+        <div class="form-group"><label>Label 6: Isha</label><input type="text" id="labelIsha" value="Isha"></div>
+      </div>
+    </div>
+
+    <!-- Data Import & Table Management -->
+    <div class="card">
+      <div class="card-title">4. Salah Timetable Data (Paste or Upload CSV / Excel)</div>
+      <div class="table-tools">
+        <button class="btn btn-primary" id="loadSampleBtn">📋 Load Sample 30-Day Data</button>
+        <button class="btn btn-outline" id="pasteCsvBtn">📥 Paste CSV / Text Data</button>
+        <label class="btn btn-outline" style="margin-bottom:0;">
+          📂 Upload CSV File <input type="file" id="csvFileInput" accept=".csv, .txt" style="display:none;">
+        </label>
+        <button class="btn btn-danger" id="clearDataBtn">🗑 Clear All Data</button>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table" id="dataTable">
+          <thead>
+            <tr>
+              <th class="fixed-col">Day / Date</th>
+              <th class="fixed-col">Fajr</th>
+              <th class="fixed-col">Sunrise</th>
+              <th class="fixed-col">Zuhr</th>
+              <th class="fixed-col">Asr</th>
+              <th class="fixed-col">Sunset</th>
+              <th class="fixed-col">Isha</th>
+              <th style="width: 50px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <p style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
+        * Predefined 6 columns are locked to ensure scale accuracy. Extra columns will be ignored.
+      </p>
+    </div>
+
+    <!-- Chart Configuration & Preview -->
+    <div class="card" id="previewCard">
+      <div class="preview-section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+        <div class="card-title" style="margin-bottom:0; border:none; padding:0;">
+          5. A4 Size Waterfall Chart Preview
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label style="font-weight:700; color:var(--primary);">Display Mode:</label>
+            <select id="modeSelect" style="width: auto; padding:6px 10px;">
+              <option value="weekly">Mode I: 4 Days Weekly (7, 14, 21, 28)</option>
+              <option value="ten_days">Mode II: 10 Days (3, 6, 9... 30)</option>
+              <option value="three_days">Mode III: 3 Days (10, 20, 30)</option>
+              <option value="two_days">Mode IV: 2 Days (15, 30)</option>
+              <option value="complete" selected>Mode V: Complete Days (1 to 30/31)</option>
+            </select>
+          </div>
+          <button class="btn btn-accent" id="printBtn">🖨 Print / Download A4 PDF</button>
+        </div>
+      </div>
+
+      <div class="preview-viewport" id="previewContainer"></div>
+    </div>
+
+  </div>
+
+  <!-- Slide-out Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <h3 style="color:var(--primary); font-size:18px;">Salah Chart - Legal & Guide</h3>
+      <button class="drawer-close" id="closeDrawerBtn" style="background:none; border:none; font-size:24px; cursor:pointer;">&times;</button>
+    </div>
+    <div class="drawer-body" style="font-size:13.5px; line-height:1.6;">
+      <h4>📌 How It Works:</h4>
+      <p>1. <strong>Time Scale:</strong> 03:00 AM se 09:00 PM (21:00) tak 15-minute accurate reference line ke sath.</p>
+      <p>2. <strong>Daylight Ribbon:</strong> Har din Sunrise se lekar Sunset tak vertical bar banega.</p>
+      <p>3. <strong>6 Bold Italic Timings:</strong> Har prayer time bar aur time scale se perfectly aligned hoga.</p>
+      <p>4. <strong>1-Inch Notes Gap:</strong> Right side me exact 1-inch blank notes area reserved hai handwritten notices ke liye.</p>
+      <br>
+      <h4>📄 Print Setting:</h4>
+      <p>Print karte waqt <strong>Paper: A4</strong>, <strong>Margins: Default / None</strong>, aur <strong>Background Graphics: ON</strong> select karein.</p>
+    </div>
+  </aside>
+
+  <script src="Salah.js"></script>
+</body>
+</html>
