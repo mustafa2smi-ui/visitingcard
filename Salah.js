@@ -1,10 +1,5 @@
 /**
- * Salah.js - Precision Sub-Minute Waterfall Chart Logic
- * Features:
- * 1. High precision sub-minute mapping: 6:18 falls exactly below 6:15 and 6:32 below 6:30.
- * 2. 2-Part Manual Islamic Calendar inputs support.
- * 3. Notes strip completely removed; chart width expands to 100%.
- * 4. Multi-month A4 single page engine: Mode IV (2 days x 12 months = 24 pillars) & Mode I (4 days x 12 months = 48 pillars).
+ * Salah.js - Synchronized Sub-Pixel Waterfall Chart Engine
  */
 
 const MONTH_NAMES = [
@@ -24,7 +19,7 @@ const SalahApp = {
     startMinutes: 3 * 60,       // 03:00 AM = 180 min
     endMinutes: 21 * 60,         // 21:00 (09:00 PM) = 1260 min
     totalMinutes: (21 - 3) * 60, // 1080 min
-    stepMinutes: 15              // 15-minute scale grid
+    stepMinutes: 15              // 15-minute grid lines
   }
 };
 
@@ -36,14 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
   renderChartPreview();
 });
 
-// Initialize all 12 months data
 function initMonthsStore() {
   for (let m = 0; m < 12; m++) {
     SalahApp.monthsData[m] = generateMonthData(m);
   }
 }
 
-// Generate realistic data for each month
 function generateMonthData(monthIndex) {
   const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthIndex];
   const list = [];
@@ -70,7 +63,6 @@ function generateMonthData(monthIndex) {
   return list;
 }
 
-// Render 12 Month Tabs
 function renderMonthTabs() {
   const container = document.getElementById("monthTabsContainer");
   container.innerHTML = "";
@@ -92,13 +84,35 @@ function renderMonthTabs() {
   });
 }
 
-function timeToMinutes(timeStr) {
+/**
+ * SMART TIME PARSER
+ * Supports both 24-hr ("20:05") and 12-hr ("8:05") without distortion!
+ */
+function parseTimeToMinutes(timeStr, prayerType = "") {
   if (!timeStr) return null;
-  const parts = timeStr.trim().split(" ")[0].split(":");
+  const s = String(timeStr).trim().toLowerCase();
+  const isPM = s.includes("pm");
+  const isAM = s.includes("am");
+  const clean = s.replace(/am|pm/g, "").trim();
+  const parts = clean.split(":");
   if (parts.length < 2) return null;
-  const h = parseInt(parts[0], 10);
+
+  let h = parseInt(parts[0], 10);
   const m = parseInt(parts[1], 10);
-  return (isNaN(h) || isNaN(m)) ? null : h * 60 + m;
+  if (isNaN(h) || isNaN(m)) return null;
+
+  // Auto-detect PM for afternoon/evening prayers if user typed 12-hr format (e.g., 8:05 for Isha)
+  if (["asr", "sunset", "maghrib", "isha"].includes(prayerType)) {
+    if (h < 12 && !isAM) h += 12;
+  } else if (prayerType === "zuhr") {
+    if (h >= 1 && h <= 11 && !isAM) h += 12;
+  } else if (isPM && h < 12) {
+    h += 12;
+  } else if (isAM && h === 12) {
+    h = 0;
+  }
+
+  return h * 60 + m;
 }
 
 function minutesToTime(totalMin) {
@@ -107,15 +121,6 @@ function minutesToTime(totalMin) {
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 }
 
-/**
- * EXACT FRACTIONAL PERCENTAGE CALCULATION (Sub-Minute Precision)
- * Example:
- * 18:00 (1080m) -> ((1080-180)/1080)*100 = 83.333%
- * 18:15 (1095m) -> ((1095-180)/1080)*100 = 84.722%
- * 18:18 (1098m) -> ((1098-180)/1080)*100 = 85.000% (Accurately below 18:15!)
- * 18:30 (1110m) -> ((1110-180)/1080)*100 = 86.111%
- * 18:32 (1112m) -> ((1112-180)/1080)*100 = 86.296% (Accurately below 18:30!)
- */
 function getYPercent(minutes) {
   if (minutes === null || minutes === undefined) return 0;
   const clamped = Math.max(SalahApp.config.startMinutes, Math.min(SalahApp.config.endMinutes, minutes));
@@ -123,8 +128,8 @@ function getYPercent(minutes) {
 }
 
 function calculateDayLength(srStr, ssStr) {
-  const srMin = timeToMinutes(srStr);
-  const ssMin = timeToMinutes(ssStr);
+  const srMin = parseTimeToMinutes(srStr, "sunrise");
+  const ssMin = parseTimeToMinutes(ssStr, "sunset");
   if (srMin === null || ssMin === null || ssMin <= srMin) return "";
   const diff = ssMin - srMin;
   return `${Math.floor(diff / 60)}h ${diff % 60}m`;
@@ -169,6 +174,9 @@ function initUIListeners() {
   document.getElementById("csvFileInput").onchange = handleFileUpload;
 }
 
+/**
+ * Render Data Table with instant 'oninput' triggers
+ */
 function renderDataTable() {
   const tbody = document.getElementById("tableBody");
   tbody.innerHTML = "";
@@ -177,13 +185,13 @@ function renderDataTable() {
   currentList.forEach((row, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><input type="text" value="${row.day}" style="width:45px; text-align:center;" onchange="updateCell(${index}, 'day', this.value)"></td>
-      <td><input type="text" value="${row.fajr}" style="width:65px;" onchange="updateCell(${index}, 'fajr', this.value)"></td>
-      <td><input type="text" value="${row.sunrise}" style="width:65px;" onchange="updateCell(${index}, 'sunrise', this.value)"></td>
-      <td><input type="text" value="${row.zuhr}" style="width:65px;" onchange="updateCell(${index}, 'zuhr', this.value)"></td>
-      <td><input type="text" value="${row.asr}" style="width:65px;" onchange="updateCell(${index}, 'asr', this.value)"></td>
-      <td><input type="text" value="${row.sunset}" style="width:65px;" onchange="updateCell(${index}, 'sunset', this.value)"></td>
-      <td><input type="text" value="${row.isha}" style="width:65px;" onchange="updateCell(${index}, 'isha', this.value)"></td>
+      <td><input type="text" value="${row.day}" style="width:45px; text-align:center;" oninput="updateCell(${index}, 'day', this.value)"></td>
+      <td><input type="text" value="${row.fajr}" style="width:65px;" oninput="updateCell(${index}, 'fajr', this.value)"></td>
+      <td><input type="text" value="${row.sunrise}" style="width:65px;" oninput="updateCell(${index}, 'sunrise', this.value)"></td>
+      <td><input type="text" value="${row.zuhr}" style="width:65px;" oninput="updateCell(${index}, 'zuhr', this.value)"></td>
+      <td><input type="text" value="${row.asr}" style="width:65px;" oninput="updateCell(${index}, 'asr', this.value)"></td>
+      <td><input type="text" value="${row.sunset}" style="width:65px;" oninput="updateCell(${index}, 'sunset', this.value)"></td>
+      <td><input type="text" value="${row.isha}" style="width:65px;" oninput="updateCell(${index}, 'isha', this.value)"></td>
       <td style="text-align:center;">
         <button style="color:#dc2626; border:none; background:none; cursor:pointer; font-weight:bold;" onclick="deleteTableRow(${index})">✖</button>
       </td>
@@ -196,6 +204,7 @@ function updateCell(index, key, value) {
   const list = SalahApp.monthsData[SalahApp.currentMonthIndex];
   if (list && list[index]) {
     list[index][key] = value.trim();
+    // Instantly reflect in preview chart
     renderChartPreview();
   }
 }
@@ -251,13 +260,9 @@ function handleFileUpload(e) {
   reader.readAsText(file);
 }
 
-/**
- * Multi-Month Data Fetcher based on Selected Scope
- */
 function getDisplayPillars(mode) {
   const result = [];
 
-  // Mode IV: All 12 Months Full Year (15 & 30 of Each Month -> 24 Pillars)
   if (mode === "two_days_all_year") {
     for (let m = 0; m < 12; m++) {
       const monthList = SalahApp.monthsData[m] || [];
@@ -273,7 +278,6 @@ function getDisplayPillars(mode) {
     return result;
   }
 
-  // Mode I: All 12 Months Weekly (7, 14, 21, 28 -> 48 Pillars)
   if (mode === "weekly_all_year") {
     for (let m = 0; m < 12; m++) {
       const monthList = SalahApp.monthsData[m] || [];
@@ -289,7 +293,6 @@ function getDisplayPillars(mode) {
     return result;
   }
 
-  // Current Month Modes
   const curList = SalahApp.monthsData[SalahApp.currentMonthIndex] || [];
   if (mode === "ten_days_current") {
     return curList.filter(d => {
@@ -307,7 +310,6 @@ function getDisplayPillars(mode) {
   return curList.map(d => ({ ...d, monthLabel: "" }));
 }
 
-// Render Preview
 function renderChartPreview() {
   const container = document.getElementById("previewContainer");
   container.innerHTML = "";
@@ -326,9 +328,12 @@ function renderChartPreview() {
 
   const mosque = document.getElementById("inputMosque").value || "Jamia Masjid";
   const location = document.getElementById("inputLocation").value || "District, State";
-  const gregDate = document.getElementById("inputGregorianDate").value || "Calendar 2026";
+  const gregDate = document.getElementById("inputGregorianDate").value || "October 2026";
   const islamic1 = document.getElementById("inputIslamicDate1").value || "";
   const islamic2 = document.getElementById("inputIslamicDate2").value || "";
+
+  // Check if current mode is single month (Mode V / Mode II / Mode III) or full year (Mode I / Mode IV)
+  const isSingleMonthMode = (mode === "complete" || mode === "ten_days_current" || mode === "three_days_current");
 
   const islamicHtml = `
     <div class="print-islamic-container">
@@ -337,6 +342,11 @@ function renderChartPreview() {
     </div>
   `;
 
+  // Condition 1: When 12-month full year is rendered, hide September/October month name completely!
+  const monthDisplayHtml = isSingleMonthMode 
+    ? `<div class="print-month-year">${escapeHtml(gregDate)}</div>` 
+    : `<div class="print-month-year">FULL YEAR SCHEDULE</div>`;
+
   const headerHtml = `
     <div class="print-header">
       <div class="print-title-area">
@@ -344,7 +354,7 @@ function renderChartPreview() {
         <div class="print-location">${escapeHtml(location)} | Salah Waterfall Chart</div>
       </div>
       <div class="print-date-badge">
-        <div class="print-month-year">${escapeHtml(gregDate)}</div>
+        ${monthDisplayHtml}
         ${islamicHtml}
       </div>
     </div>
@@ -384,12 +394,12 @@ function renderChartPreview() {
   // Generate Pillars with Exact Sub-minute Fractional Y-Percentage
   let pillarsHtml = "";
   pillarsData.forEach(dayRow => {
-    const fMin = timeToMinutes(dayRow.fajr);
-    const srMin = timeToMinutes(dayRow.sunrise);
-    const zMin = timeToMinutes(dayRow.zuhr);
-    const aMin = timeToMinutes(dayRow.asr);
-    const ssMin = timeToMinutes(dayRow.sunset);
-    const iMin = timeToMinutes(dayRow.isha);
+    const fMin = parseTimeToMinutes(dayRow.fajr, "fajr");
+    const srMin = parseTimeToMinutes(dayRow.sunrise, "sunrise");
+    const zMin = parseTimeToMinutes(dayRow.zuhr, "zuhr");
+    const aMin = parseTimeToMinutes(dayRow.asr, "asr");
+    const ssMin = parseTimeToMinutes(dayRow.sunset, "sunset");
+    const iMin = parseTimeToMinutes(dayRow.isha, "isha");
 
     let ribbonHtml = "";
     if (srMin !== null && ssMin !== null) {
@@ -411,7 +421,6 @@ function renderChartPreview() {
     let markersHtml = "";
     markers.forEach(m => {
       if (m.min !== null && m.text) {
-        // High-precision sub-minute percentage
         const yPos = getYPercent(m.min);
         markersHtml += `
           <div class="salah-marker" style="top: ${yPos}%;">
@@ -435,17 +444,21 @@ function renderChartPreview() {
           ${ribbonHtml}
           ${markersHtml}
         </div>
-        ${dayLength ? `<div class="day-length-tag">☀️ ${dayLength}</div>` : ""}
+        ${dayLength ? `<div class="day-length-tag">☀️ ${dayLength}</div>` : `<div class="day-length-tag"></div>`}
       </div>
     `;
   });
 
-  // Note strip removed: chart expands across 100% width
+  // Exactly synchronized vertical height mapping
   sheet.innerHTML = `
     ${headerHtml}
     ${duasHtml}
     <div class="chart-layout-wrapper">
-      <div class="time-scale-col">${timeScaleTicksHtml}</div>
+      <div class="time-scale-col">
+        <div class="time-scale-header">TIME</div>
+        <div class="time-scale-body">${timeScaleTicksHtml}</div>
+        <div class="time-scale-footer">DIFF</div>
+      </div>
       <div class="chart-pillars-container">
         <div class="grid-lines-overlay">${gridLinesHtml}</div>
         ${pillarsHtml}
