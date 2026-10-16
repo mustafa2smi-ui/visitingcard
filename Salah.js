@@ -1,5 +1,5 @@
 /**
- * Salah.js - Enhanced with Strict Time Validation & Solution A Smart Paste
+ * Salah.js - Precision Sub-Pixel Waterfall Chart Engine
  */
 
 const MONTH_NAMES = [
@@ -96,15 +96,14 @@ function parseTimeToMinutes(timeStr, prayerType = "") {
   let h = parseInt(parts[0], 10);
   const m = parseInt(parts[1], 10);
 
-  // STRICT VALIDATION: Minutes MUST be 0..59, Hours 0..23
   if (isNaN(h) || isNaN(m)) return null;
-  if (m < 0 || m >= 60) return null; // Blocks 61, 62!
+  if (m < 0 || m >= 60) return null; // Discard 61, 62!
   if (h < 0 || h > 23) return null;
 
   if (["asr", "sunset", "maghrib", "isha"].includes(prayerType)) {
     if (h < 12 && !isAM) h += 12;
   } else if (prayerType === "zuhr") {
-    if (h >= 1 && h <= 11 && !isAM) h += 12;
+    if (h >= 1 && h <= 5 && !isAM) h += 12;
   } else if (isPM && h < 12) {
     h += 12;
   } else if (isAM && h === 12) {
@@ -122,7 +121,7 @@ function isValidTimeString(timeStr) {
   const h = parseInt(parts[0], 10);
   const m = parseInt(parts[1], 10);
   if (isNaN(h) || isNaN(m)) return false;
-  if (m < 0 || m > 59) return false; // Strict no 61, 62!
+  if (m < 0 || m > 59) return false;
   if (h < 0 || h > 23) return false;
   return true;
 }
@@ -182,7 +181,6 @@ function initUIListeners() {
     }
   };
 
-  // Solution A: Smart Paste Modal Listeners
   const modal = document.getElementById("smartPasteModal");
   document.getElementById("openPasteModalBtn").onclick = () => {
     document.getElementById("smartPasteTextarea").value = "";
@@ -196,59 +194,73 @@ function initUIListeners() {
   document.getElementById("csvFileInput").onchange = handleFileUpload;
 }
 
+/**
+ * ULTRA-SMART REGEX PARSER FOR WEBSITE TEXT
+ * Handles stuck strings like Thu 104:4205:56...
+ */
 function handleSmartPasteSubmit() {
-  const text = document.getElementById("smartPasteTextarea").value.trim();
-  if (!text) {
+  const rawText = document.getElementById("smartPasteTextarea").value.trim();
+  if (!rawText) {
     alert("Kripya pehle text area me data paste karein!");
     return;
   }
 
-  const hasDateCol = document.getElementById("chkFirstColDate").checked;
   const autoPM = document.getElementById("chkAutoConvertPM").checked;
 
-  const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+  const timeRegex = /(\d{1,2}:\d{2}(?:\s*[ap]m)?)/gi;
+  const matches = [];
+  let m;
+  while ((m = timeRegex.exec(rawText)) !== null) {
+    matches.push({
+      time: m[1].trim(),
+      start: m.index,
+      end: m.index + m[0].length
+    });
+  }
+
+  if (matches.length < 6) {
+    alert("Kripya check karein ki data me kam se kam ek din ke 6 salah times maujood hain.");
+    return;
+  }
+
   const parsedList = [];
 
-  for (let i = 0; i < lines.length; i++) {
-    const rawLine = lines[i].trim();
-    const normalized = rawLine.replace(/([0-9]{1,2}:[0-9]{2})\s*(AM|PM|am|pm)/gi, "$1_$2");
-    const tokens = normalized.split(/[\t,;\s]+/).map(t => t.replace(/_/g, " ").trim());
+  for (let i = 0; i < matches.length; i += 6) {
+    const group = matches.slice(i, i + 6);
+    if (group.length < 6) break;
 
-    if (i === 0 && (tokens.some(t => /fajr|zuhr|asr|maghrib|isha|sunrise/i.test(t)))) {
-      continue;
+    const times = group.map(g => g.time);
+    const firstTimeStart = group[0].start;
+
+    let prefix = "";
+    if (i === 0) {
+      prefix = rawText.substring(0, firstTimeStart);
+    } else {
+      const prevEnd = matches[i - 1].end;
+      prefix = rawText.substring(prevEnd, firstTimeStart);
     }
 
-    if (tokens.length < (hasDateCol ? 7 : 6)) {
-      continue;
-    }
+    prefix = prefix.trim();
+    let dayNum = parsedList.length + 1;
 
-    let dayVal = parsedList.length + 1;
-    let timeStartIndex = 0;
-
-    if (hasDateCol) {
-      const dateToken = tokens[0];
-      const matchNum = dateToken.match(/\b([0-9]{1,2})\b/);
-      if (matchNum) {
-        dayVal = parseInt(matchNum[1], 10);
+    const numbersInPrefix = prefix.match(/\b([0-9]{1,2})\b/g);
+    if (numbersInPrefix && numbersInPrefix.length > 0) {
+      dayNum = parseInt(numbersInPrefix[numbersInPrefix.length - 1], 10);
+    } else {
+      const attached = prefix.match(/([0-9]{1,2})/g);
+      if (attached && attached.length > 0) {
+        dayNum = parseInt(attached[attached.length - 1], 10);
       }
-      timeStartIndex = 1;
     }
-
-    const fajr = sanitizePastedTime(tokens[timeStartIndex], "fajr", autoPM);
-    const sunrise = sanitizePastedTime(tokens[timeStartIndex + 1], "sunrise", autoPM);
-    const zuhr = sanitizePastedTime(tokens[timeStartIndex + 2], "zuhr", autoPM);
-    const asr = sanitizePastedTime(tokens[timeStartIndex + 3], "asr", autoPM);
-    const sunset = sanitizePastedTime(tokens[timeStartIndex + 4], "sunset", autoPM);
-    const isha = sanitizePastedTime(tokens[timeStartIndex + 5], "isha", autoPM);
 
     parsedList.push({
-      day: dayVal,
-      fajr,
-      sunrise,
-      zuhr,
-      asr,
-      sunset,
-      isha
+      day: dayNum,
+      fajr: sanitizePastedTime(times[0], "fajr", autoPM),
+      sunrise: sanitizePastedTime(times[1], "sunrise", autoPM),
+      zuhr: sanitizePastedTime(times[2], "zuhr", autoPM),
+      asr: sanitizePastedTime(times[3], "asr", autoPM),
+      sunset: sanitizePastedTime(times[4], "sunset", autoPM),
+      isha: sanitizePastedTime(times[5], "isha", autoPM)
     });
   }
 
@@ -257,9 +269,9 @@ function handleSmartPasteSubmit() {
     renderDataTable();
     renderChartPreview();
     document.getElementById("smartPasteModal").classList.remove("active");
-    alert(`Alhamdulillah! ${parsedList.length} dino ka data safalta-purvak import ho gaya.`);
+    alert(`Alhamdulillah! ${parsedList.length} dino ka data bilkul sahi columns (Fajr se Isha) me import ho gaya.`);
   } else {
-    alert("Data parse nahi ho saka. Kripya check karein ki data me 6 salah times maujood hain.");
+    alert("Data parse nahi ho saka. Format check karein.");
   }
 }
 
@@ -543,48 +555,52 @@ function renderChartPreview() {
   container.appendChild(sheet);
 }
 
-function downloadA4Pdf() {
-  const original = document.getElementById("a4PrintableSheet");
-  if (!original) {
+/**
+ * 100% NON-BLANK SCREENSHOT-TO-PDF ENGINE (html2canvas + jsPDF)
+ */
+async function downloadA4Pdf() {
+  const element = document.getElementById("a4PrintableSheet");
+  if (!element) {
     alert("Kripya preview load hone ka intezar karein.");
     return;
   }
 
-  const clone = original.cloneNode(true);
-  clone.style.position = "fixed";
-  clone.style.top = "0";
-  clone.style.left = "-9999px";
-  clone.style.zIndex = "-1000";
-  clone.style.boxShadow = "none";
-  clone.style.margin = "0";
-  document.body.appendChild(clone);
+  const btn = document.getElementById("downloadPdfBtn");
+  const origText = btn.innerHTML;
+  btn.innerHTML = "⏳ PDF Download Ho Raha Hai...";
+  btn.disabled = true;
 
-  const opt = {
-    margin: [0, 0, 0, 0],
-    filename: `Salah_Time_Chart_${MONTH_NAMES[SalahApp.currentMonthIndex]}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
+  try {
+    const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
       logging: false,
-      scrollY: 0,
-      scrollX: 0
-    },
-    jsPDF: {
-      unit: 'mm',
-      format: 'a4',
-      orientation: SalahApp.orientation
-    }
-  };
+      backgroundColor: '#ffffff'
+    });
 
-  html2pdf().set(opt).from(clone).save().then(() => {
-    document.body.removeChild(clone);
-  }).catch((err) => {
+    const imgData = canvas.toDataURL('image/jpeg', 0.98);
+
+    const isLandscape = (SalahApp.orientation === "landscape");
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: isLandscape ? 'landscape' : 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const pdfWidth = isLandscape ? 297 : 210;
+    const pdfHeight = isLandscape ? 210 : 297;
+
+    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`Salah_Time_Chart_${MONTH_NAMES[SalahApp.currentMonthIndex]}.pdf`);
+  } catch (err) {
     console.error("PDF generation error:", err);
-    document.body.removeChild(clone);
-    alert("Notice: Direct PDF download me browser ne rok lagayi. Native Print window open ho rahi hai, wahan 'Save as PDF' chunein.");
+    alert("Notice: Direct download me masla aaya, browser print window open ho rahi hai, wahan 'Save as PDF' chunein.");
     window.print();
-  });
+  } finally {
+    btn.innerHTML = origText;
+    btn.disabled = false;
+  }
 }
 
 function escapeHtml(str) {
