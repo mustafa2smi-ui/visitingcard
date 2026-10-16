@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Salah Time Chart - Precision Waterfall A4</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Direct Screenshot to PDF libraries (Zero Blank Page Bug) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
       --primary: #113f2a;
@@ -75,7 +77,7 @@
     .print-mosque-name { font-size: 18px; font-weight: 900; text-transform: uppercase; line-height: 1.1; }
     .print-location { font-size: 11px; font-weight: 700; color: #334155; }
     .print-date-badge { text-align: right; border-left: 2px solid #0f172a; padding-left: 10px; }
-    .print-month-year { font-size: 13.5px; font-weight: 900; color: #113f2a; text-transform: uppercase; line-height: 1.1; }
+    .print-month-year { font-size: 13.5px; font-weight: 900; color: var(--primary); text-transform: uppercase; line-height: 1.1; }
 
     .print-islamic-container { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; margin-top: 3px; }
     .print-islamic-pill { font-size: 9px; font-weight: 800; color: #92400e; background: #fef3c7; padding: 1px 6px; border-radius: 3px; border: 0.5px solid #fde68a; white-space: nowrap; }
@@ -118,7 +120,7 @@
     .print-footer { margin-top: 5px; padding-top: 3px; border-top: 1px solid #0f172a; display: flex; justify-content: space-between; align-items: center; font-size: 7.5px; font-weight: 600; color: #334155; }
     .print-order-email { font-weight: 900; color: #b45309; }
 
-    /* Modal Styling for Solution A */
+    /* Modal Styling for Smart Paste */
     .modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.65);
@@ -304,18 +306,14 @@
       </div>
       <div class="modal-body">
         <p style="font-size: 12px; color: var(--text-muted);">
-          Kisi bhi Islamic website ya Excel se copy kiya hua data yahan <code>Ctrl + V</code> karke paste karein. AM / PM aur Dates automatically parse ho jayenge.
+          Kisi bhi Islamic website ya Excel se copy kiya hua data yahan <code>Ctrl + V</code> karke paste karein. Chahe text bina space ke chipka ho ya AM/PM likha ho, sab barabar alag ho jayega.
         </p>
-        <textarea id="smartPasteTextarea" placeholder="Yahan data paste karein (e.g. 1  05:12 AM  06:28 AM  12:15 PM  03:45 PM  06:18 PM  07:55 PM)"></textarea>
+        <textarea id="smartPasteTextarea" placeholder="Yahan data paste karein (e.g. Thu 104:4205:5611:5416:1317:5319:06Fri 204:4205:56...)"></textarea>
         
         <div class="modal-options-row">
           <label>
-            <input type="checkbox" id="chkFirstColDate" checked>
-            Pehle column me Date / Day shamil hai
-          </label>
-          <label>
             <input type="checkbox" id="chkAutoConvertPM" checked>
-            Auto AM / PM convert karein (No distortion)
+            Auto AM / PM convert karein (12-hr to 24-hr scale)
           </label>
         </div>
       </div>
