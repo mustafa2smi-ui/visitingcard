@@ -1,5 +1,5 @@
 /**
- * Salah.js - Precision Sub-Pixel Waterfall Chart Engine
+ * Salah.js - Smart Multi-Page Waterfall Engine
  */
 
 const MONTH_NAMES = [
@@ -97,7 +97,7 @@ function parseTimeToMinutes(timeStr, prayerType = "") {
   const m = parseInt(parts[1], 10);
 
   if (isNaN(h) || isNaN(m)) return null;
-  if (m < 0 || m >= 60) return null; // Discard 61, 62!
+  if (m < 0 || m >= 60) return null;
   if (h < 0 || h > 23) return null;
 
   if (["asr", "sunset", "maghrib", "isha"].includes(prayerType)) {
@@ -148,7 +148,7 @@ function calculateDayLength(srStr, ssStr) {
 
 function initUIListeners() {
   document.getElementById("printBtn").onclick = () => window.print();
-  document.getElementById("downloadPdfBtn").onclick = downloadA4Pdf;
+  document.getElementById("downloadPdfBtn").onclick = downloadMultiPagePdf;
 
   document.getElementById("orientationSelect").onchange = (e) => {
     SalahApp.orientation = e.target.value;
@@ -194,10 +194,6 @@ function initUIListeners() {
   document.getElementById("csvFileInput").onchange = handleFileUpload;
 }
 
-/**
- * ULTRA-SMART REGEX PARSER FOR WEBSITE TEXT
- * Handles stuck strings like Thu 104:4205:56...
- */
 function handleSmartPasteSubmit() {
   const rawText = document.getElementById("smartPasteTextarea").value.trim();
   if (!rawText) {
@@ -269,9 +265,9 @@ function handleSmartPasteSubmit() {
     renderDataTable();
     renderChartPreview();
     document.getElementById("smartPasteModal").classList.remove("active");
-    alert(`Alhamdulillah! ${parsedList.length} dino ka data bilkul sahi columns (Fajr se Isha) me import ho gaya.`);
+    alert(`Alhamdulillah! ${parsedList.length} dino ka data import ho gaya.`);
   } else {
-    alert("Data parse nahi ho saka. Format check karein.");
+    alert("Data parse nahi ho saka.");
   }
 }
 
@@ -348,53 +344,62 @@ function deleteTableRow(index) {
   }
 }
 
-function getDisplayPillars(mode) {
-  const result = [];
-
-  if (mode === "two_days_all_year") {
-    for (let m = 0; m < 12; m++) {
-      const monthList = SalahApp.monthsData[m] || [];
-      const twoDays = monthList.filter(d => [15, 30].includes(parseInt(d.day, 10)));
-      twoDays.forEach((d, idx) => {
-        result.push({
-          ...d,
-          monthLabel: MONTH_SHORT[m],
-          isFirstOfMonth: idx === 0
-        });
-      });
-    }
-    return result;
-  }
-
+function getPagesData(mode) {
   if (mode === "weekly_all_year") {
+    const page1 = [];
+    const page2 = [];
+
     for (let m = 0; m < 12; m++) {
       const monthList = SalahApp.monthsData[m] || [];
       const fourDays = monthList.filter(d => [7, 14, 21, 28].includes(parseInt(d.day, 10)));
       fourDays.forEach((d, idx) => {
-        result.push({
+        const item = { ...d, monthLabel: MONTH_SHORT[m], isFirstOfMonth: idx === 0 };
+        if (m < 6) {
+          page1.push(item);
+        } else {
+          page2.push(item);
+        }
+      });
+    }
+
+    return [
+      { pageTitle: "PART 1: JAN - JUN", pillars: page1, pageNum: 1, totalPages: 2 },
+      { pageTitle: "PART 2: JUL - DEC", pillars: page2, pageNum: 2, totalPages: 2 }
+    ];
+  }
+
+  if (mode === "two_days_all_year") {
+    const page = [];
+    for (let m = 0; m < 12; m++) {
+      const monthList = SalahApp.monthsData[m] || [];
+      const twoDays = monthList.filter(d => [15, 30].includes(parseInt(d.day, 10)));
+      twoDays.forEach((d, idx) => {
+        page.push({
           ...d,
           monthLabel: MONTH_SHORT[m],
           isFirstOfMonth: idx === 0
         });
       });
     }
-    return result;
+    return [{ pageTitle: "FULL YEAR (15 & 30 OF EACH MONTH)", pillars: page, pageNum: 1, totalPages: 1 }];
   }
 
   const curList = SalahApp.monthsData[SalahApp.currentMonthIndex] || [];
+  let currentPillars = [];
+
   if (mode === "ten_days_current") {
-    return curList.filter(d => {
+    currentPillars = curList.filter(d => {
       const n = parseInt(d.day, 10);
       return n % 3 === 0 && n <= 30;
     }).map(d => ({ ...d, monthLabel: "" }));
+  } else if (mode === "three_days_current") {
+    currentPillars = curList.filter(d => [10, 20, 30, 31].includes(parseInt(d.day, 10)))
+                            .map(d => ({ ...d, monthLabel: "" }));
+  } else {
+    currentPillars = curList.map(d => ({ ...d, monthLabel: "" }));
   }
 
-  if (mode === "three_days_current") {
-    return curList.filter(d => [10, 20, 30, 31].includes(parseInt(d.day, 10)))
-                  .map(d => ({ ...d, monthLabel: "" }));
-  }
-
-  return curList.map(d => ({ ...d, monthLabel: "" }));
+  return [{ pageTitle: "", pillars: currentPillars, pageNum: 1, totalPages: 1 }];
 }
 
 function renderChartPreview() {
@@ -402,16 +407,12 @@ function renderChartPreview() {
   container.innerHTML = "";
 
   const mode = document.getElementById("modeSelect").value;
-  const pillarsData = getDisplayPillars(mode);
+  const pagesList = getPagesData(mode);
 
-  if (pillarsData.length === 0) {
+  if (!pagesList || pagesList.length === 0 || pagesList[0].pillars.length === 0) {
     container.innerHTML = `<div style="background:#fff; padding:30px; border-radius:8px; font-weight:bold;">No data available. Fill data for month.</div>`;
     return;
   }
-
-  const sheet = document.createElement("div");
-  sheet.id = "a4PrintableSheet";
-  sheet.className = `a4-sheet ${SalahApp.orientation === "landscape" ? "a4-landscape" : "a4-portrait"}`;
 
   const mosque = document.getElementById("inputMosque").value || "Jamia Masjid";
   const location = document.getElementById("inputLocation").value || "District, State";
@@ -419,53 +420,18 @@ function renderChartPreview() {
   const islamic1 = document.getElementById("inputIslamicDate1").value || "";
   const islamic2 = document.getElementById("inputIslamicDate2").value || "";
 
-  const isSingleMonthMode = (mode === "complete" || mode === "ten_days_current" || mode === "three_days_current");
-
-  const islamicHtml = `
-    <div class="print-islamic-container">
-      ${islamic1 ? `<div class="print-islamic-pill">🌙 ${escapeHtml(islamic1)}</div>` : ""}
-      ${islamic2 ? `<div class="print-islamic-pill">🌙 ${escapeHtml(islamic2)}</div>` : ""}
-    </div>
-  `;
-
-  const monthDisplayHtml = isSingleMonthMode 
-    ? `<div class="print-month-year">${escapeHtml(gregDate)}</div>` 
-    : `<div class="print-month-year">FULL YEAR SCHEDULE</div>`;
-
-  const headerHtml = `
-    <div class="print-header">
-      <div class="print-title-area">
-        <div class="print-mosque-name">${escapeHtml(mosque)}</div>
-        <div class="print-location">${escapeHtml(location)} | Salah Waterfall Chart</div>
-      </div>
-      <div class="print-date-badge">
-        ${monthDisplayHtml}
-        ${islamicHtml}
-      </div>
-    </div>
-  `;
-
   const d1 = document.getElementById("dua1").value;
   const d2 = document.getElementById("dua2").value;
   const d3 = document.getElementById("dua3").value;
   const d4 = document.getElementById("dua4").value;
 
-  const duasHtml = `
-    <div class="print-duas-grid">
-      <div class="print-dua-box"><div class="print-dua-title">Dua 1 (Sehri)</div><div>${escapeHtml(d1)}</div></div>
-      <div class="print-dua-box"><div class="print-dua-title">Dua 2 (Iftar)</div><div>${escapeHtml(d2)}</div></div>
-      <div class="print-dua-box"><div class="print-dua-title">Dua 3 (Entering Mosque)</div><div>${escapeHtml(d3)}</div></div>
-      <div class="print-dua-box"><div class="print-dua-title">Dua 4 (Reminder)</div><div>${escapeHtml(d4)}</div></div>
-    </div>
-  `;
+  const isSingleMonthMode = (mode === "complete" || mode === "ten_days_current" || mode === "three_days_current");
 
   let timeScaleTicksHtml = "";
   let gridLinesHtml = "";
-
   for (let min = SalahApp.config.startMinutes; min <= SalahApp.config.endMinutes; min += SalahApp.config.stepMinutes) {
     const yPercent = getYPercent(min);
     const isHour = (min % 60 === 0);
-
     if (isHour) {
       timeScaleTicksHtml += `<div class="time-tick hour-tick" style="top: ${yPercent}%;">${minutesToTime(min)}</div>`;
       gridLinesHtml += `<div class="grid-line-15m grid-line-hour" style="top: ${yPercent}%;"></div>`;
@@ -475,111 +441,142 @@ function renderChartPreview() {
     }
   }
 
-  let pillarsHtml = "";
-  pillarsData.forEach(dayRow => {
-    const fMin = parseTimeToMinutes(dayRow.fajr, "fajr");
-    const srMin = parseTimeToMinutes(dayRow.sunrise, "sunrise");
-    const zMin = parseTimeToMinutes(dayRow.zuhr, "zuhr");
-    const aMin = parseTimeToMinutes(dayRow.asr, "asr");
-    const ssMin = parseTimeToMinutes(dayRow.sunset, "sunset");
-    const iMin = parseTimeToMinutes(dayRow.isha, "isha");
+  pagesList.forEach((pageObj) => {
+    const sheet = document.createElement("div");
+    sheet.className = `a4-sheet a4-page-node ${SalahApp.orientation === "landscape" ? "a4-landscape" : "a4-portrait"}`;
 
-    let ribbonHtml = "";
-    if (srMin !== null && ssMin !== null) {
-      const topY = getYPercent(srMin);
-      const bottomY = getYPercent(ssMin);
-      const heightY = Math.max(2, bottomY - topY);
-      ribbonHtml = `<div class="vertical-daylight-ribbon" style="top: ${topY}%; height: ${heightY}%;"></div>`;
-    }
-
-    const markers = [
-      { min: fMin, text: dayRow.fajr },
-      { min: srMin, text: dayRow.sunrise },
-      { min: zMin, text: dayRow.zuhr },
-      { min: aMin, text: dayRow.asr },
-      { min: ssMin, text: dayRow.sunset },
-      { min: iMin, text: dayRow.isha }
-    ];
-
-    let markersHtml = "";
-    markers.forEach(m => {
-      if (m.min !== null && m.text) {
-        const yPos = getYPercent(m.min);
-        markersHtml += `
-          <div class="salah-marker" style="top: ${yPos}%;">
-            <div class="marker-pin-line"></div>
-            <span class="marker-time-tag">${m.text}</span>
-          </div>
-        `;
-      }
-    });
-
-    const dayLength = calculateDayLength(dayRow.sunrise, dayRow.sunset);
-    const boundaryClass = dayRow.isFirstOfMonth ? "month-group-boundary" : "";
-
-    pillarsHtml += `
-      <div class="day-column ${boundaryClass}">
-        <div class="day-col-header">
-          ${dayRow.monthLabel ? `<span class="month-sub-tag">${dayRow.monthLabel}</span>` : ""}
-          D${dayRow.day}
-        </div>
-        <div class="day-col-body">
-          ${ribbonHtml}
-          ${markersHtml}
-        </div>
-        ${dayLength ? `<div class="day-length-tag">☀️ ${dayLength}</div>` : `<div class="day-length-tag"></div>`}
+    const islamicHtml = `
+      <div class="print-islamic-container">
+        ${islamic1 ? `<div class="print-islamic-pill">🌙 ${escapeHtml(islamic1)}</div>` : ""}
+        ${islamic2 ? `<div class="print-islamic-pill">🌙 ${escapeHtml(islamic2)}</div>` : ""}
       </div>
     `;
+
+    const titleText = isSingleMonthMode 
+      ? escapeHtml(gregDate) 
+      : (pageObj.pageTitle || "FULL YEAR SCHEDULE");
+
+    const headerHtml = `
+      <div class="print-header">
+        <div class="print-title-area">
+          <div class="print-mosque-name">${escapeHtml(mosque)}</div>
+          <div class="print-location">${escapeHtml(location)} | Salah Waterfall Chart</div>
+        </div>
+        <div class="print-date-badge">
+          <div class="print-month-year">${titleText}</div>
+          ${islamicHtml}
+        </div>
+      </div>
+    `;
+
+    const duasHtml = `
+      <div class="print-duas-grid">
+        <div class="print-dua-box"><div class="print-dua-title">Dua 1 (Sehri)</div><div>${escapeHtml(d1)}</div></div>
+        <div class="print-dua-box"><div class="print-dua-title">Dua 2 (Iftar)</div><div>${escapeHtml(d2)}</div></div>
+        <div class="print-dua-box"><div class="print-dua-title">Dua 3 (Entering Mosque)</div><div>${escapeHtml(d3)}</div></div>
+        <div class="print-dua-box"><div class="print-dua-title">Dua 4 (Reminder)</div><div>${escapeHtml(d4)}</div></div>
+      </div>
+    `;
+
+    let pillarsHtml = "";
+    pageObj.pillars.forEach(dayRow => {
+      const fMin = parseTimeToMinutes(dayRow.fajr, "fajr");
+      const srMin = parseTimeToMinutes(dayRow.sunrise, "sunrise");
+      const zMin = parseTimeToMinutes(dayRow.zuhr, "zuhr");
+      const aMin = parseTimeToMinutes(dayRow.asr, "asr");
+      const ssMin = parseTimeToMinutes(dayRow.sunset, "sunset");
+      const iMin = parseTimeToMinutes(dayRow.isha, "isha");
+
+      let ribbonHtml = "";
+      if (srMin !== null && ssMin !== null) {
+        const topY = getYPercent(srMin);
+        const bottomY = getYPercent(ssMin);
+        const heightY = Math.max(2, bottomY - topY);
+        ribbonHtml = `<div class="vertical-daylight-ribbon" style="top: ${topY}%; height: ${heightY}%;"></div>`;
+      }
+
+      const markers = [
+        { min: fMin, text: dayRow.fajr },
+        { min: srMin, text: dayRow.sunrise },
+        { min: zMin, text: dayRow.zuhr },
+        { min: aMin, text: dayRow.asr },
+        { min: ssMin, text: dayRow.sunset },
+        { min: iMin, text: dayRow.isha }
+      ];
+
+      let markersHtml = "";
+      markers.forEach(m => {
+        if (m.min !== null && m.text) {
+          const yPos = getYPercent(m.min);
+          markersHtml += `
+            <div class="salah-marker" style="top: ${yPos}%;">
+              <div class="marker-pin-line"></div>
+              <span class="marker-time-tag">${m.text}</span>
+            </div>
+          `;
+        }
+      });
+
+      const dayLength = calculateDayLength(dayRow.sunrise, dayRow.sunset);
+      const boundaryClass = dayRow.isFirstOfMonth ? "month-group-boundary" : "";
+
+      pillarsHtml += `
+        <div class="day-column ${boundaryClass}">
+          <div class="day-col-header">
+            ${dayRow.monthLabel ? `<span class="month-sub-tag">${dayRow.monthLabel}</span>` : ""}
+            D${dayRow.day}
+          </div>
+          <div class="day-col-body">
+            ${ribbonHtml}
+            ${markersHtml}
+          </div>
+          ${dayLength ? `<div class="day-length-tag">☀️ ${dayLength}</div>` : `<div class="day-length-tag"></div>`}
+        </div>
+      `;
+    });
+
+    const pageBadge = pageObj.totalPages > 1 
+      ? `<div class="page-badge-counter">PAGE ${pageObj.pageNum} OF ${pageObj.totalPages}</div>` 
+      : "";
+
+    sheet.innerHTML = `
+      ${pageBadge}
+      ${headerHtml}
+      ${duasHtml}
+      <div class="chart-layout-wrapper">
+        <div class="time-scale-col">
+          <div class="time-scale-header">TIME</div>
+          <div class="time-scale-body">${timeScaleTicksHtml}</div>
+          <div class="time-scale-footer">DIFF</div>
+        </div>
+        <div class="chart-pillars-container">
+          <div class="grid-lines-overlay">${gridLinesHtml}</div>
+          ${pillarsHtml}
+        </div>
+      </div>
+      <div class="print-footer">
+        <span>* Precision Sub-minute Scale (03:00-21:00). Yellow bar: Daylight. Bottom: Day Length.</span>
+        <span class="print-order-email">📧 To Order mail:- mustafa2smi@gmail.com</span>
+      </div>
+    `;
+
+    container.appendChild(sheet);
   });
-
-  sheet.innerHTML = `
-    ${headerHtml}
-    ${duasHtml}
-    <div class="chart-layout-wrapper">
-      <div class="time-scale-col">
-        <div class="time-scale-header">TIME</div>
-        <div class="time-scale-body">${timeScaleTicksHtml}</div>
-        <div class="time-scale-footer">DIFF</div>
-      </div>
-      <div class="chart-pillars-container">
-        <div class="grid-lines-overlay">${gridLinesHtml}</div>
-        ${pillarsHtml}
-      </div>
-    </div>
-    <div class="print-footer">
-      <span>* Precision Sub-minute Scale (03:00-21:00). Yellow bar: Daylight. Bottom: Day Length.</span>
-      <span class="print-order-email">📧 To Order mail:- mustafa2smi@gmail.com</span>
-    </div>
-  `;
-
-  container.appendChild(sheet);
 }
 
-/**
- * 100% NON-BLANK SCREENSHOT-TO-PDF ENGINE (html2canvas + jsPDF)
- */
-async function downloadA4Pdf() {
-  const element = document.getElementById("a4PrintableSheet");
-  if (!element) {
+async function downloadMultiPagePdf() {
+  const pageNodes = document.querySelectorAll(".a4-page-node");
+  if (!pageNodes || pageNodes.length === 0) {
     alert("Kripya preview load hone ka intezar karein.");
     return;
   }
 
   const btn = document.getElementById("downloadPdfBtn");
   const origText = btn.innerHTML;
-  btn.innerHTML = "⏳ PDF Download Ho Raha Hai...";
+  btn.innerHTML = `⏳ PDF Exporting (${pageNodes.length} Pages)...`;
   btn.disabled = true;
 
   try {
-    const canvas = await html2canvas(element, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-      backgroundColor: '#ffffff'
-    });
-
-    const imgData = canvas.toDataURL('image/jpeg', 0.98);
-
     const isLandscape = (SalahApp.orientation === "landscape");
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({
@@ -591,7 +588,25 @@ async function downloadA4Pdf() {
     const pdfWidth = isLandscape ? 297 : 210;
     const pdfHeight = isLandscape ? 210 : 297;
 
-    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+    for (let i = 0; i < pageNodes.length; i++) {
+      const node = pageNodes[i];
+
+      const canvas = await html2canvas(node, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+
+      if (i > 0) {
+        pdf.addPage('a4', isLandscape ? 'landscape' : 'portrait');
+      }
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+    }
+
     pdf.save(`Salah_Time_Chart_${MONTH_NAMES[SalahApp.currentMonthIndex]}.pdf`);
   } catch (err) {
     console.error("PDF generation error:", err);
