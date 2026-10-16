@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masnoon Dua Sheet - Islamic A4 Companion</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #113f2a;
+      --primary-light: #1f5f40;
+      --accent: #c59b27;
+      --accent-soft: #fef9ed;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #475569;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.4; padding-bottom: 60px; }
+
+    header.app-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12); position: sticky; top: 0; z-index: 100;
+    }
+
+    .brand-title { font-size: 19px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+    .brand-badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 12px; text-transform: uppercase; }
+
+    .container { max-width: 1400px; margin: 16px auto; padding: 0 16px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .card-title { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 12px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+    input[type="text"], select { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 13px; outline: none; }
+
+    .btn { padding: 6px 14px; border-radius: 5px; font-size: 12.5px; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-accent { background: var(--accent); color: #000; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
+
+    .dua-editor-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+    .dua-edit-card { border: 1px solid var(--border); background: #f8fafc; border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .dua-edit-header { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 13px; color: var(--primary); border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+    .arabic-input { font-family: 'Amiri', 'Noto Naskh Arabic', serif; direction: rtl; font-size: 16px !important; text-align: right; }
+
+    .preview-viewport { background: #94a3b8; padding: 24px; border-radius: 8px; overflow: auto; max-height: 950px; text-align: left; }
+    .preview-viewport-inner { display: inline-flex; flex-direction: column; gap: 30px; min-width: 100%; align-items: center; }
+
+    .a4-sheet {
+      background: #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      position: relative; display: flex; flex-direction: column; box-sizing: border-box; margin: 0 auto; overflow: hidden;
+    }
+    .a4-portrait { width: 210mm; height: 297mm; max-height: 297mm; padding: 8mm 10mm; }
+    .a4-landscape { width: 297mm; height: 210mm; max-height: 210mm; padding: 7mm 10mm; }
+
+    /* Decorative Islamic Double Border */
+    .sheet-islamic-border {
+      border: 2px solid var(--primary);
+      outline: 1.5px solid var(--accent);
+      outline-offset: -5px;
+      flex: 1; display: flex; flex-direction: column; padding: 8mm 6mm;
+      position: relative; background: #ffffff;
+    }
+
+    .corner-ornament { position: absolute; width: 14px; height: 14px; border: 2px solid var(--accent); z-index: 2; }
+    .top-left { top: 2px; left: 2px; border-right: none; border-bottom: none; }
+    .top-right { top: 2px; right: 2px; border-left: none; border-bottom: none; }
+    .bottom-left { bottom: 2px; left: 2px; border-right: none; border-top: none; }
+    .bottom-right { bottom: 2px; right: 2px; border-left: none; border-top: none; }
+
+    .sheet-header { text-align: center; border-bottom: 1.5px solid var(--accent); padding-bottom: 5px; margin-bottom: 8px; }
+    .bismillah-text { font-family: 'Amiri', serif; font-size: 16px; color: var(--primary); margin-bottom: 2px; line-height: 1.1; }
+    .sheet-title { font-size: 16px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.1; }
+    .sheet-subtitle { font-size: 10px; font-weight: 700; color: #475569; }
+
+    .dua-grid-container { flex: 1; display: grid; gap: 8px; min-height: 0; }
+    .grid-layout-2 { grid-template-columns: 1fr; grid-template-rows: repeat(2, 1fr); }
+    .grid-layout-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+    .grid-layout-6 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
+    .a4-landscape .grid-layout-6 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+    .grid-layout-8 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 1fr); }
+    .a4-landscape .grid-layout-8 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); }
+
+    .printed-dua-card {
+      border: 1px solid #cbd5e1; border-radius: 5px; background: var(--accent-soft);
+      padding: 6px 10px; display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03); position: relative;
+    }
+
+    .card-top-title {
+      font-size: 10px; font-weight: 800; color: var(--primary); text-transform: uppercase;
+      border-bottom: 0.5px solid var(--accent); padding-bottom: 2px; margin-bottom: 4px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .card-top-title span.badge { font-size: 8px; background: #e2e8f0; color: #334155; padding: 1px 5px; border-radius: 3px; }
+
+    .arabic-content {
+      font-family: 'Amiri', 'Noto Naskh Arabic', serif; direction: rtl; text-align: center;
+      color: #0f172a; line-height: 1.35; font-weight: 700; margin: auto 0;
+    }
+
+    .grid-layout-2 .arabic-content { font-size: 20px; line-height: 1.5; }
+    .grid-layout-4 .arabic-content { font-size: 15px; line-height: 1.4; }
+    .grid-layout-6 .arabic-content { font-size: 12.5px; line-height: 1.3; }
+    .grid-layout-8 .arabic-content { font-size: 11px; line-height: 1.25; }
+
+    .transliteration-text { font-style: italic; color: #334155; font-size: 8.5px; text-align: center; margin-top: 2px; line-height: 1.15; }
+    .translation-text { font-size: 8.5px; font-weight: 600; color: #0f172a; text-align: center; border-top: 0.5px dotted #cbd5e1; padding-top: 3px; margin-top: 3px; line-height: 1.2; }
+
+    .sheet-footer {
+      border-top: 1.5px solid var(--accent); padding-top: 3px; margin-top: 6px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 7.5px; font-weight: 700; color: var(--primary);
+    }
+
+    @media print {
+      body { background: #fff !important; padding: 0 !important; }
+      .app-header, .container > .card:not(#previewCard), .preview-section-header { display: none !important; }
+      .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      #previewCard { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+      .preview-viewport { background: transparent !important; padding: 0 !important; max-height: none !important; overflow: visible !important; }
+      .preview-viewport-inner { display: block !important; }
+      .a4-sheet { margin: 0 !important; box-shadow: none !important; page-break-after: always !important; break-after: page !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="brand-title">
+      <span>📖 Masnoon Dua Companion Sheet</span>
+      <span class="brand-badge">A4 Companion</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-title">1. Companion Sheet Settings (Layout & Header)</div>
+      <div class="grid-3">
+        <div class="form-group"><label>Mosque / Organization Name</label><input type="text" id="inputDuaMosque" value="Markaz Jamia Masjid"></div>
+        <div class="form-group"><label>Sheet Title</label><input type="text" id="inputDuaTitle" value="Daily Masnoon Duain & Azkaar"></div>
+        <div class="form-group"><label>Order / Contact Email</label><input type="text" id="inputDuaEmail" value="mustafa2smi@gmail.com"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>2. Dua Cards Setup (Choose 2, 4, 6, or 8 Cards)</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <label style="color:var(--primary); font-weight:800;">Card Count:</label>
+          <select id="cardCountSelect" style="width: auto; padding: 4px 8px; font-weight: 800;">
+            <option value="2">2 Big Dua Cards (Spacious / Detailed)</option>
+            <option value="4" selected>4 Dua Cards (Balanced Standard)</option>
+            <option value="6">6 Dua Cards (Daily Routine Pack)</option>
+            <option value="8">8 Dua Cards (Comprehensive Pocket Pack)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-tools" style="display:flex; gap:8px; margin-bottom:10px;">
+        <button class="btn btn-primary" id="loadDuaPresetsBtn">⚡ Load Authentic Masnoon Presets</button>
+        <button class="btn btn-outline" id="clearDuasBtn">🗑 Clear All Text</button>
+      </div>
+
+      <div class="dua-editor-list" id="duaEditorContainer"></div>
+    </div>
+
+    <div class="card" id="previewCard">
+      <div class="preview-section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+        <div class="card-title" style="margin-bottom:0; border:none; padding:0;">3. Print & PDF Preview (A4 Companion Sheet)</div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:4px;">
+            <label style="font-weight:800; color:var(--primary);">Orientation:</label>
+            <select id="orientationSelect" style="width: auto; padding:5px 8px; font-weight:700;">
+              <option value="portrait" selected>📄 Portrait (Lambai)</option>
+              <option value="landscape">📑 Landscape (Choudai)</option>
+            </select>
+          </div>
+          <button class="btn btn-accent" id="downloadDuaPdfBtn">📥 Download A4 Dua PDF</button>
+          <button class="btn btn-primary" id="printDuaBtn">🖨 Browser Print</button>
+        </div>
+      </div>
+
+      <div class="preview-viewport">
+        <div class="preview-viewport-inner" id="previewContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="Dua.js"></script>
+</body>
+</html>
