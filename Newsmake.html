@@ -4,8 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEWS 7AMPM - YouTube Shorts Generator</title>
-  <!-- html2canvas लाइब्रेरी इमेज रेंडरिंग के लिए -->
+  
+  <!-- Libraries: html2canvas (Image), JSZip & FileSaver (Zip/Download) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <style>
     :root {
       --primary: #d32f2f;
@@ -13,6 +17,7 @@
       --card-bg: #1e1e1e;
       --text: #ffffff;
       --accent: #ffd700;
+      --wood: #3e2723;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: var(--dark); color: var(--text); padding: 20px; }
@@ -24,42 +29,57 @@
 
     /* Controls Panel */
     .panel { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid #333; }
-    h2 { color: var(--primary); margin-bottom: 15px; font-size: 20px; text-transform: uppercase; }
-    textarea { width: 100%; height: 160px; background: #2a2a2a; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; resize: vertical; font-size: 14px; }
-    .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-    button { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    h2 { color: var(--primary); margin-bottom: 12px; font-size: 19px; text-transform: uppercase; }
+    textarea { width: 100%; height: 150px; background: #2a2a2a; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; resize: vertical; font-size: 14px; }
+    
+    .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 13px; }
     button:hover { background: #b71c1c; }
     button.secondary { background: #37474f; }
     button.secondary:hover { background: #263238; }
-    
-    .select-box { margin: 15px 0; }
-    .select-box label { display: block; margin-bottom: 6px; font-size: 14px; color: #aaa; }
-    select { width: 100%; padding: 10px; background: #2a2a2a; color: #fff; border: 1px solid #444; border-radius: 6px; }
+    button.success { background: #2e7d32; }
+    button.success:hover { background: #1b5e20; }
+    button.warning { background: #e65100; }
+    button.warning:hover { background: #bf360c; }
+    button:disabled { background: #555; cursor: not-allowed; }
+
+    #statusMessage { font-size: 13px; color: var(--accent); margin-top: 8px; min-height: 18px; }
+
+    /* Voice Selection Styling */
+    .voice-control-box {
+      margin-top: 15px;
+      padding: 12px;
+      background: #252525;
+      border-radius: 8px;
+      border: 1px solid #3d3d3d;
+    }
+    .voice-control-box label { display: block; margin-bottom: 6px; font-size: 13px; color: #aaa; }
+    select { width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #555; border-radius: 6px; font-size: 13px; }
 
     /* YouTube Description Box */
     .desc-box { margin-top: 15px; background: #181818; padding: 12px; border-radius: 8px; border: 1px dashed #555; }
-    .desc-box pre { white-space: pre-wrap; font-size: 13px; color: #ccc; max-height: 120px; overflow-y: auto; }
+    .desc-box pre { white-space: pre-wrap; font-size: 13px; color: #ccc; max-height: 140px; overflow-y: auto; line-height: 1.5; }
 
     /* 9:16 Shorts Preview Frame */
     .preview-container { display: flex; flex-direction: column; align-items: center; }
     .shorts-viewport {
       width: 360px;
-      height: 640px; /* 9:16 Ratio */
-      background: linear-gradient(180deg, #0b1325 0%, #1a1a2e 60%, #111 100%);
+      height: 640px; /* 9:16 YouTube Shorts Ratio */
+      background: linear-gradient(180deg, #0a0f1d 0%, #151928 60%, #111 100%);
       border-radius: 16px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
       border: 3px solid #333;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    /* Template Elements */
+    /* Template Header (LIVE removed completely) */
     .top-bar {
-      background: rgba(0,0,0,0.6);
-      padding: 12px 16px;
+      background: rgba(0,0,0,0.75);
+      padding: 14px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -69,34 +89,16 @@
       background: var(--primary);
       color: white;
       font-weight: 900;
-      padding: 4px 10px;
-      font-size: 14px;
-      letter-spacing: 1px;
+      padding: 5px 12px;
+      font-size: 15px;
+      letter-spacing: 1.5px;
       border-radius: 4px;
-      box-shadow: 0 0 10px rgba(211, 47, 47, 0.6);
+      box-shadow: 0 0 10px rgba(211, 47, 47, 0.7);
     }
-    .live-badge {
-      color: #ff3d00;
-      font-size: 12px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .live-badge::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: #ff3d00;
-      border-radius: 50%;
-      animation: blink 1s infinite alternate;
-    }
-    @keyframes blink { from { opacity: 0.2; } to { opacity: 1; } }
-
     .date-display {
-      font-size: 12px;
-      color: #bbb;
-      text-align: right;
+      font-size: 13px;
+      color: #ddd;
+      font-weight: 600;
     }
 
     /* News Content Area */
@@ -112,22 +114,23 @@
       font-size: 20px;
       font-weight: 800;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       letter-spacing: 1px;
     }
     .news-headline {
-      font-size: 24px;
-      line-height: 1.4;
+      font-size: 23px;
+      line-height: 1.45;
       font-weight: 700;
       color: #ffffff;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.85);
+      word-break: break-word;
     }
 
-    /* Virtual Studio Background / Table / Radio */
+    /* Studio Desk with Vintage Radio & Laptop */
     .studio-desk {
-      height: 180px;
-      background: linear-gradient(180deg, #1b1b1b 0%, #0d0d0d 100%);
-      border-top: 4px solid #3d2b1f; /* Wood desk top edge */
+      height: 170px;
+      background: linear-gradient(180deg, #1f1f1f 0%, #0d0d0d 100%);
+      border-top: 4px solid #4a3525;
       position: relative;
       display: flex;
       justify-content: space-around;
@@ -135,11 +138,10 @@
       padding-bottom: 25px;
     }
 
-    /* Vintage Radio Graphic */
     .radio-unit {
       width: 85px;
       height: 60px;
-      background: #795548;
+      background: #6d4c41;
       border-radius: 8px 8px 3px 3px;
       border: 2px solid #3e2723;
       position: relative;
@@ -153,7 +155,7 @@
       position: absolute;
       width: 2px;
       height: 35px;
-      background: #bbb;
+      background: #ccc;
       top: -35px;
       left: 15px;
       transform: rotate(-15deg);
@@ -170,12 +172,9 @@
       height: 12px;
       background: #d7ccc8;
       border-radius: 50%;
-      box-shadow: 1px 1px 2px #000;
     }
 
-    /* Laptop Graphic */
     .laptop-unit {
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -190,7 +189,7 @@
       align-items: center;
       justify-content: center;
       color: var(--accent);
-      font-size: 9px;
+      font-size: 10px;
       font-weight: bold;
     }
     .laptop-base {
@@ -198,7 +197,6 @@
       height: 6px;
       background: #9e9e9e;
       border-radius: 0 0 4px 4px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
     }
 
     .ticker-bar {
@@ -206,7 +204,7 @@
       color: #fff;
       font-size: 13px;
       font-weight: 800;
-      padding: 6px 12px;
+      padding: 7px 14px;
       text-transform: uppercase;
       display: flex;
       justify-content: space-between;
@@ -217,48 +215,59 @@
 
 <div class="container">
   
-  <!-- Left Side: User Input & Controls -->
+  <!-- Left Side: Controls -->
   <div class="panel">
-    <h2>1. News Headline & Links Paste Karein</h2>
+    <h2>1. Paste URLs or News Headlines</h2>
     <p style="font-size: 13px; color: #aaa; margin-bottom: 8px;">
-      किसी भी वेबसाइट से 5 से 10 हेडलाइन और लिंक कॉपी करके यहाँ सीधे पेस्ट करें:
+      Aap sirf link daalein ya text ke sath link. 1, 2, 3 likhne ki koi zaroorat nahi hai:
     </p>
-    <textarea id="newsInput" placeholder="Udaharan:
-1. India won the match today https://example.com/cricket-news
-2. Nayi tech update aa gayi https://techsite.com/ai-update
-(Aap simple text aur link sath me paste kar sakte hain)"></textarea>
+    <textarea id="newsInput" placeholder="Udaharan (Sirf Link):
+https://example.com/breaking-news-1
+https://example.com/breaking-news-2
+
+Ya fir (Headline + Link):
+Yeh hai pehli badi khabar https://link1.com
+Yeh hai dusri khabar https://link2.com"></textarea>
+
+    <div id="statusMessage"></div>
 
     <div class="btn-group">
-      <button onclick="processNews()">⚡ Parse & Prepare</button>
-      <button class="secondary" onclick="generateAllImages()">📥 Download All Slides (PNG)</button>
+      <button id="btnParse" onclick="processInput()">⚡ Parse & Auto-Fetch</button>
+      <button class="secondary" onclick="downloadCurrentSlide()">💾 Current Template Download</button>
+      <button class="success" onclick="downloadAllAsZip()">📦 Download All as ZIP (.zip)</button>
     </div>
 
-    <div class="select-box">
-      <label for="voiceSelect">🎙️ Voice Selection (Male Voice Chunein):</label>
-      <select id="voiceSelect"></select>
+    <!-- 2. Voice Options & Controls -->
+    <div class="voice-control-box">
+      <label for="voiceMode">🎙️ Select Voice Engine:</label>
+      <select id="voiceMode">
+        <option value="neural_radio">📻 Google Hindi Male + Radio Vintage Effect (Recommended)</option>
+        <option value="custom_speech">🗣️ Device Hindi Voice (SpeechSynthesis hi-IN)</option>
+      </select>
+
+      <div class="btn-group" style="margin-top: 10px;">
+        <button id="playBtn" class="warning" onclick="toggleAudioPlayback()">🎤 Play Voice News</button>
+        <button class="secondary" onclick="stopAudioPlayback()">⏹ Stop</button>
+        <button class="secondary" onclick="downloadRadioAudio()">📥 Download Audio (.wav)</button>
+      </div>
     </div>
 
-    <div class="btn-group">
-      <button onclick="playRadioBroadcast()">📻 Play Radio News Voice</button>
-      <button class="secondary" onclick="stopRadio()">⏹️ Stop</button>
-    </div>
-
-    <!-- YouTube Video Description Export -->
+    <!-- 3. YouTube Description Box -->
     <div class="desc-box">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <strong style="font-size: 13px; color: var(--accent);">📋 YouTube Description Ready:</strong>
-        <button style="padding: 4px 8px; font-size: 12px;" onclick="copyDescription()">Copy Text</button>
+        <strong style="font-size: 13px; color: var(--accent);">📋 YouTube Description (Headlines + Links):</strong>
+        <button style="padding: 4px 10px; font-size: 12px;" onclick="copyDescription()">Copy Text</button>
       </div>
-      <pre id="descContent">Parse karne ke baad yahan links auto ready ho jayenge...</pre>
+      <pre id="descContent">Links aur Headlines parse hone ke baad yahan arrange ho jayenge...</pre>
     </div>
   </div>
 
   <!-- Right Side: 9:16 Shorts Template Preview -->
   <div class="preview-container">
     <div style="margin-bottom: 10px; font-weight: bold; color: #aaa;">
-      Previewing Slide: <span id="slideIndicator" style="color: var(--accent);">1 / 1</span>
-      <button style="padding: 2px 8px; font-size: 12px; margin-left: 10px;" onclick="prevSlide()">◀</button>
-      <button style="padding: 2px 8px; font-size: 12px;" onclick="nextSlide()">▶</button>
+      Previewing Slide: <span id="slideIndicator" style="color: var(--accent);">0 / 0</span>
+      <button style="padding: 2px 10px; font-size: 12px; margin-left: 10px;" onclick="prevSlide()">◀</button>
+      <button style="padding: 2px 10px; font-size: 12px;" onclick="nextSlide()">▶</button>
     </div>
 
     <!-- 9:16 Canvas Area -->
@@ -266,7 +275,6 @@
       <!-- Top News Header -->
       <div class="top-bar">
         <div class="channel-logo">NEWS 7AMPM</div>
-        <div class="live-badge">LIVE</div>
         <div class="date-display" id="currentDate">--/--/----</div>
       </div>
 
@@ -278,19 +286,16 @@
         </div>
       </div>
 
-      <!-- News Desk with Laptop & Radio Graphic -->
+      <!-- Studio Desk Graphic -->
       <div class="studio-desk">
-        <!-- Radio Unit -->
         <div class="radio-unit">
           <div class="radio-antenna"></div>
           <div class="radio-speaker"></div>
           <div class="radio-knob"></div>
         </div>
-
-        <!-- Laptop Unit -->
         <div class="laptop-unit">
           <div class="laptop-screen">
-            <span>7AMPM LIVE</span>
+            <span>7AMPM</span>
           </div>
           <div class="laptop-base"></div>
         </div>
@@ -309,10 +314,13 @@
 <script>
   let parsedNews = [];
   let currentSlide = 0;
-  let synth = window.speechSynthesis;
-  let voices = [];
+  let isPlaying = false;
+  let currentSpeech = null;
+  let audioContext = null;
+  let activeAudioSource = null;
+  let radioNoiseNode = null;
 
-  // 1. Aaj Ki Date Format
+  // 1. Aaj ki date format
   function setTodayDate() {
     const today = new Date();
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
@@ -320,70 +328,84 @@
   }
   setTodayDate();
 
-  // 2. Load Speech Voices (Filter Male / Hindi / English)
-  function populateVoices() {
-    voices = synth.getVoices();
-    const voiceSelect = document.getElementById('voiceSelect');
-    voiceSelect.innerHTML = '';
-
-    voices.forEach((voice, index) => {
-      const option = document.createElement('option');
-      option.value = index;
-      let label = `${voice.name} (${voice.lang})`;
+  // 2. Web Scraper via CORS proxy agar user sirf link de
+  async function fetchTitleFromUrl(url) {
+    try {
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+      const res = await fetch(proxyUrl);
+      if (!res.ok) throw new Error("Network error");
+      const data = await res.json();
       
-      // Male / Deep Voice hint
-      if (voice.name.toLowerCase().includes('male') || voice.name.toLowerCase().includes('david') || voice.name.toLowerCase().includes('madhav') || voice.name.toLowerCase().includes('george')) {
-        label += " 👨 [Recommended Male]";
-      }
-      option.textContent = label;
-      voiceSelect.appendChild(option);
-    });
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data.contents, "text/html");
 
-    // Default Hindi or English Male select
-    const defaultIdx = voices.findIndex(v => v.lang.includes('hi') || v.name.toLowerCase().includes('male'));
-    if (defaultIdx !== -1) voiceSelect.selectedIndex = defaultIdx;
+      let title = doc.querySelector('meta[property="og:title"]')?.content ||
+                  doc.querySelector('title')?.innerText ||
+                  doc.querySelector('h1')?.innerText ||
+                  "Top News Update";
+
+      title = title.replace(/\s*[\-\|]\s*(Aaj Tak|NDTV|ABP|Dainik Bhaskar|India Today|Zee News|BBC).*$/i, '').trim();
+      return title;
+    } catch (e) {
+      const fallback = url.replace(/^https?:\/\//, '').split('/')[1] || "Top News Update";
+      return decodeURIComponent(fallback).replace(/[-_]/g, ' ').substring(0, 70);
+    }
   }
 
-  populateVoices();
-  if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoices;
-  }
-
-  // 3. News Parser (Smart Link and Headline Splitter)
-  function processNews() {
-    const text = document.getElementById('newsInput').value.trim();
-    if (!text) {
-      alert("Kripya news headline aur links paste karein!");
+  // 3. Process Input
+  async function processInput() {
+    const rawInput = document.getElementById('newsInput').value.trim();
+    if (!rawInput) {
+      alert("Kripya links ya headlines paste karein!");
       return;
     }
 
-    const lines = text.split('\n').filter(line => line.trim().length > 0);
+    const statusEl = document.getElementById('statusMessage');
+    const parseBtn = document.getElementById('btnParse');
+    parseBtn.disabled = true;
+    statusEl.innerText = "⏳ Processing links & headlines... Please wait.";
+
+    const lines = rawInput.split('\n').filter(line => line.trim().length > 0);
     parsedNews = [];
-    let descriptionText = "⚡ NEWS 7AMPM - Today's Top Headlines Sources:\n\n";
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-    lines.forEach((line, idx) => {
-      // URL dhoondne ke liye Regex
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      const urls = line.match(urlRegex);
-      let headline = line.replace(urlRegex, '').replace(/^[\d\.\-\)\s]+/, '').trim();
-      let link = urls ? urls[0] : "";
+    let count = 0;
+    for (let line of lines) {
+      if (count >= 10) break;
 
-      if (headline.length > 0) {
-        parsedNews.push({ index: idx + 1, headline: headline, link: link });
-        descriptionText += `${idx + 1}. ${headline}\nSource: ${link || "Direct Update"}\n\n`;
+      let cleanLine = line.replace(/^\s*(\d+[\.\-\)]\s*)+/, '').trim();
+      let matchedUrls = cleanLine.match(urlRegex);
+      let url = matchedUrls ? matchedUrls[0] : "";
+      let headline = cleanLine.replace(urlRegex, '').trim();
+
+      if (!headline && url) {
+        statusEl.innerText = `⏳ Fetching title for link #${count + 1}...`;
+        headline = await fetchTitleFromUrl(url);
+      } else if (!headline && !url) {
+        continue;
       }
-    });
 
-    if (parsedNews.length > 10) {
-      parsedNews = parsedNews.slice(0, 10); // Maximum 10 headlines limit
+      count++;
+      parsedNews.push({
+        index: count,
+        headline: headline || "Breaking News Update",
+        link: url || "Direct Update"
+      });
     }
 
+    let descriptionText = "⚡ NEWS 7AMPM - Today's Top Headlines Sources:\n\n";
+    parsedNews.forEach(item => {
+      descriptionText += `${item.index}. ${item.headline}\n🔗 Link: ${item.link}\n\n`;
+    });
     document.getElementById('descContent').innerText = descriptionText;
+
+    statusEl.innerText = `✅ Total ${parsedNews.length} headlines ready!`;
+    parseBtn.disabled = false;
     currentSlide = 0;
     renderSlide(currentSlide);
   }
 
-  // 4. Slide Preview Update
+  // 4. Slide Preview
   function renderSlide(index) {
     if (parsedNews.length === 0) return;
     const item = parsedNews[index];
@@ -404,104 +426,207 @@
     renderSlide(currentSlide);
   }
 
-  // 5. Download All Templates as Images (Slide 1, Slide 2...)
-  async function generateAllImages() {
+  // 5. Download Current Slide
+  async function downloadCurrentSlide() {
     if (parsedNews.length === 0) {
-      alert("Pehle news paste karke 'Parse & Prepare' par click karein!");
+      alert("Pehle 'Parse & Auto-Fetch' par click karein!");
       return;
     }
 
     const card = document.getElementById('captureCard');
-    for (let i = 0; i < parsedNews.length; i++) {
-      renderSlide(i);
-      // DOM update ke liye thoda wait
-      await new Promise(r => setTimeout(r, 200));
-
-      const canvas = await html2canvas(card, {
-        scale: 3, // Full HD 1080x1920 quality
-        useCORS: true
-      });
-
-      const link = document.createElement('a');
-      link.download = `NEWS_7AMPM_Slide_${i + 1}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      await new Promise(r => setTimeout(r, 300));
-    }
+    const timestamp = Date.now();
+    const canvas = await html2canvas(card, { scale: 3, useCORS: true });
+    
+    canvas.toBlob(blob => {
+      saveAs(blob, `NEWS_7AMPM_Slide_${currentSlide + 1}_${timestamp}.png`);
+    });
   }
 
-  // 6. Radio Vintage Sound Effect + Web Speech TTS
-  let audioCtx = null;
-  function playRadioBroadcast() {
+  // 6. Download All as ZIP
+  async function downloadAllAsZip() {
     if (parsedNews.length === 0) {
-      alert("Pehle news add karein!");
+      alert("Pehle 'Parse & Auto-Fetch' par click karein!");
       return;
     }
 
-    synth.cancel();
+    const statusEl = document.getElementById('statusMessage');
+    statusEl.innerText = "⏳ Generating ZIP file with all slides...";
 
-    // Vintage Radio Sound FX (Web Audio API)
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
-    // Radio Static Noise Generator
-    const bufferSize = audioCtx.sampleRate * 2;
-    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = (Math.random() * 2 - 1) * 0.015; // Low crackle noise
+    const zip = new JSZip();
+    const folder = zip.folder("NEWS_7AMPM_Shorts");
+    const card = document.getElementById('captureCard');
+    const originalSlide = currentSlide;
+
+    for (let i = 0; i < parsedNews.length; i++) {
+      renderSlide(i);
+      await new Promise(r => setTimeout(r, 200));
+
+      const canvas = await html2canvas(card, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL('image/png').split(',')[1];
+      folder.file(`Slide_${i + 1}.png`, imgData, { base64: true });
     }
 
-    const whiteNoise = audioCtx.createBufferSource();
-    whiteNoise.buffer = noiseBuffer;
-    whiteNoise.loop = true;
+    renderSlide(originalSlide);
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, `NEWS_7AMPM_All_Slides_${Date.now()}.zip`);
+    statusEl.innerText = "✅ ZIP download complete!";
+  }
 
-    // Bandpass Filter (AM/Radio effect: 400Hz to 3500Hz)
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = "bandpass";
-    filter.frequency.value = 1600;
-    filter.Q.value = 1.2;
+  // =============================================================
+  // VOICE & AUDIO ENGINE (User's Code + Google Radio Neural Engine)
+  // =============================================================
 
-    whiteNoise.connect(filter);
-    filter.connect(audioCtx.destination);
-    whiteNoise.start();
-
-    // Pura news text ek sequence me read hoga
-    let fullBroadcastText = "News 7AMPM me aapka swagat hai. Aaj ki mukhya khabrein. ";
+  function getBroadcastFullText() {
+    let broadcast = "News 7AMPM me aapka swagat hai. Aaj ki badi khabrein. ";
     parsedNews.forEach(item => {
-      fullBroadcastText += `Khabar number ${item.index}. ${item.headline}. `;
+      broadcast += `Khabar number ${item.index}. ${item.headline}. `;
     });
+    return broadcast;
+  }
 
-    const utter = new SpeechSynthesisUtterance(fullBroadcastText);
-    const selectedVoice = voices[document.getElementById('voiceSelect').value];
-    if (selectedVoice) utter.voice = selectedVoice;
-    
-    // Male Voice tone optimization
-    utter.pitch = 0.85; // Bhaari/Gambhira Male Voice
-    utter.rate = 0.95;  // News presenter speed
+  function toggleAudioPlayback() {
+    if (parsedNews.length === 0) {
+      alert("Pehle news paste aur parse karein!");
+      return;
+    }
 
-    utter.onend = () => {
-      if (audioCtx) {
-        audioCtx.close();
-        audioCtx = null;
+    if (isPlaying) {
+      stopAudioPlayback();
+    } else {
+      const mode = document.getElementById('voiceMode').value;
+      if (mode === 'custom_speech') {
+        playDeviceHindiVoice(getBroadcastFullText());
+      } else {
+        playNeuralRadioStream(getBroadcastFullText());
       }
+    }
+  }
+
+  // Mode A: User's exact SpeechSynthesis code logic
+  function playDeviceHindiVoice(text) {
+    if (!("speechSynthesis" in window)) {
+      alert("माफ़ करें, आपका डिवाइस ऑडियो सपोर्ट नहीं करता।");
+      return;
+    }
+
+    stopAudioPlayback();
+
+    currentSpeech = new SpeechSynthesisUtterance(text);
+    currentSpeech.lang = "hi-IN";
+    currentSpeech.pitch = 0.85; // Bhaari male tone
+    currentSpeech.rate = 0.95;
+
+    currentSpeech.onend = () => {
+      isPlaying = false;
+      document.getElementById('playBtn').textContent = "🎤 Play Voice News";
     };
 
-    synth.speak(utter);
+    speechSynthesis.speak(currentSpeech);
+    isPlaying = true;
+    document.getElementById('playBtn').textContent = "⏹ Stop";
   }
 
-  function stopRadio() {
-    synth.cancel();
-    if (audioCtx) {
-      audioCtx.close();
-      audioCtx = null;
+  // Mode B: High Quality Radio Neural Voice (Streamed + Web Audio Bandpass Filter)
+  function playNeuralRadioStream(text) {
+    stopAudioPlayback();
+
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // 1. Radio Static Background Crackle Noise
+    const bufferSize = audioContext.sampleRate * 2;
+    const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+    const output = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = (Math.random() * 2 - 1) * 0.012; // Vintage crackle
+    }
+
+    radioNoiseNode = audioContext.createBufferSource();
+    radioNoiseNode.buffer = noiseBuffer;
+    radioNoiseNode.loop = true;
+
+    // 2. Vintage Radio Bandpass Filter (Simulates AM radio speakers)
+    const bandpass = audioContext.createBiquadFilter();
+    bandpass.type = "bandpass";
+    bandpass.frequency.value = 1600;
+    bandpass.Q.value = 1.3;
+
+    radioNoiseNode.connect(bandpass);
+    bandpass.connect(audioContext.destination);
+    radioNoiseNode.start();
+
+    // 3. Google High-Quality Hindi Voice Stream
+    const cleanText = encodeURIComponent(text.substring(0, 300));
+    const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=hi&client=tw-ob&q=${cleanText}`;
+    
+    const audioEl = new Audio(audioUrl);
+    activeAudioSource = audioEl;
+
+    const source = audioContext.createMediaElementSource(audioEl);
+    source.connect(bandpass);
+
+    audioEl.play().catch(e => {
+      // Fallback agar direct audio play block ho
+      console.warn("Direct stream restricted, falling back to local voice", e);
+      playDeviceHindiVoice(text);
+    });
+
+    audioEl.onended = () => {
+      stopAudioPlayback();
+    };
+
+    isPlaying = true;
+    document.getElementById('playBtn').textContent = "⏹ Stop";
+  }
+
+  function stopAudioPlayback() {
+    if (window.speechSynthesis && speechSynthesis.speaking) {
+      speechSynthesis.cancel();
+    }
+    if (activeAudioSource) {
+      activeAudioSource.pause();
+      activeAudioSource = null;
+    }
+    if (radioNoiseNode) {
+      try { radioNoiseNode.stop(); } catch(e) {}
+      radioNoiseNode = null;
+    }
+    if (audioContext && audioContext.state !== 'closed') {
+      audioContext.close();
+      audioContext = null;
+    }
+
+    isPlaying = false;
+    document.getElementById('playBtn').textContent = "🎤 Play Voice News";
+  }
+
+  // 7. Audio WAV Downloader
+  async function downloadRadioAudio() {
+    if (parsedNews.length === 0) {
+      alert("Pehle news parse karein!");
+      return;
+    }
+
+    const text = encodeURIComponent(getBroadcastFullText().substring(0, 300));
+    const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=hi&client=tw-ob&q=${text}`;
+    
+    const statusEl = document.getElementById('statusMessage');
+    statusEl.innerText = "⏳ Audio file download ho rahi hai...";
+
+    try {
+      const response = await fetch(audioUrl);
+      const blob = await response.blob();
+      saveAs(blob, `NEWS_7AMPM_Audio_${Date.now()}.mp3`);
+      statusEl.innerText = "✅ Audio MP3 download successful!";
+    } catch (e) {
+      alert("Direct download fail hone par aap 'Play' karke screen recorder se bhi save kar sakte hain.");
     }
   }
 
-  // 7. Copy Description Function
+  // 8. Copy Description Function
   function copyDescription() {
     const text = document.getElementById('descContent').innerText;
     navigator.clipboard.writeText(text).then(() => {
-      alert("YouTube Description clipboard me copy ho gaya!");
+      alert("YouTube Description copy ho gaya!");
     });
   }
 </script>
