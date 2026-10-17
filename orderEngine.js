@@ -4,14 +4,13 @@
 
 const OrderState = {
   adminEmail: "mustafa2smi@gmail.com",
-  adminWhatsApp: "919876543210", // WhatsApp active karte waqt yahan number daalein
+  adminWhatsApp: "919876543210", // WhatsApp active karte waqt apna number update karein
   currentPackage: {
     id: "complete_monthly",
     title: "Dua PDF + Complete Monthly Chart",
     basePrice: 150
   },
-  addonExtraDua: 30,
-  addonUrgent: 50
+  addonExtraDua: 30
 };
 
 function selectPackage(packageId, price, element) {
@@ -33,12 +32,8 @@ function selectPackage(packageId, price, element) {
 
 function calculateTotal() {
   let total = OrderState.currentPackage.basePrice;
-
   const extraDuaChecked = document.getElementById("chkExtraDuaSheet").checked;
-  const urgentChecked = document.getElementById("chkUrgent").checked;
-
   if (extraDuaChecked) total += OrderState.addonExtraDua;
-  if (urgentChecked) total += OrderState.addonUrgent;
 
   document.getElementById("displayTotalPrice").textContent = `₹${total}`;
   return total;
@@ -52,10 +47,49 @@ function setPillActive(element, groupName) {
   if (radio) radio.checked = true;
 }
 
+/**
+ * Point 2: Auto Disable / Enable format combo box
+ */
+function handleDataSourceChange(type, element) {
+  setPillActive(element, 'dataSource');
+  const formatSelect = document.getElementById("dataFormatSelect");
+  const formatLabel = document.getElementById("dataFormatLabel");
+
+  if (type === 'admin') {
+    // Disable format select
+    formatSelect.disabled = true;
+    formatSelect.style.opacity = "0.5";
+    formatLabel.innerHTML = "Aap Data Kis Format Me Bhejna Chahenge? <span style='color:var(--primary);'>(Disabled: Admin khud standard calculation karega)</span>";
+  } else {
+    // Enable format select
+    formatSelect.disabled = false;
+    formatSelect.style.opacity = "1";
+    formatLabel.innerHTML = "Aap Data Kis Format Me Bhejna Chahenge?";
+  }
+}
+
+/**
+ * Point 5: Enable submit button only when screenshot checkbox is checked
+ */
+function toggleSubmitButton() {
+  const chk = document.getElementById("chkScreenshotAttached");
+  const btn = document.getElementById("btnSubmitOrder");
+
+  if (chk.checked) {
+    btn.disabled = false;
+    btn.innerHTML = "🚀 Submit Order & Open Gmail Compose";
+  } else {
+    btn.disabled = true;
+    btn.innerHTML = "🔒 Submit Order & Open Gmail Compose (Checkbox Tick Karein)";
+  }
+}
+
 function resetFormState() {
   setTimeout(() => {
     selectPackage("complete_monthly", 150, document.querySelectorAll(".package-card")[1]);
     calculateTotal();
+    handleDataSourceChange('khud', document.querySelectorAll(".pills-group")[1].children[0]);
+    toggleSubmitButton();
   }, 50);
 }
 
@@ -69,7 +103,7 @@ function handleOrderSubmit(event) {
 
   const name = document.getElementById("custName").value.trim();
   const email = document.getElementById("custEmail").value.trim();
-  const phone = document.getElementById("custPhone").value.trim() || "Not Provided";
+  const phone = document.getElementById("custPhone").value.trim();
   const state = document.getElementById("custState").value.trim();
   const district = document.getElementById("custDistrict").value.trim();
   const title = document.getElementById("custTitle").value.trim();
@@ -77,33 +111,35 @@ function handleOrderSubmit(event) {
 
   const scope = document.querySelector("input[name='orderScope']:checked")?.value || "Masjid";
   const dataSource = document.querySelector("input[name='dataSource']:checked")?.value || "Khud Ka Data";
-  const dataFormat = document.getElementById("dataFormatSelect").value;
+  const formatSelect = document.getElementById("dataFormatSelect");
+  const dataFormat = formatSelect.disabled ? "Admin Auto Calculation (No file needed)" : formatSelect.value;
+  
   const duaContent = document.querySelector("input[name='duaContent']:checked")?.value || "Admin Presets";
   const duaCardCount = document.getElementById("duaCardCountSelect").value;
 
   const totalAmount = calculateTotal();
   const orderId = generateOrderId();
 
-  const addons = [];
-  if (document.getElementById("chkExtraDuaSheet").checked) addons.push("Extra 1 Dua Sheet (+₹30)");
-  if (document.getElementById("chkUrgent").checked) addons.push("12-Hour Urgent Delivery (+₹50)");
-  const addonsText = addons.length > 0 ? addons.join(", ") : "None";
+  const extraDua = document.getElementById("chkExtraDuaSheet").checked ? "Yes (+₹30)" : "No";
 
+  // Modal Summary
   const summaryHtml = `
     <div><strong>Order ID:</strong> ${orderId}</div>
-    <div><strong>Customer:</strong> ${escapeHtml(name)} (${escapeHtml(email)})</div>
-    <div><strong>Phone:</strong> ${escapeHtml(phone)}</div>
+    <div><strong>Customer:</strong> ${escapeHtml(name)}</div>
+    <div><strong>Email:</strong> ${escapeHtml(email)}</div>
+    <div><strong>WhatsApp:</strong> ${escapeHtml(phone)}</div>
     <div><strong>Location:</strong> ${escapeHtml(district)}, ${escapeHtml(state)}</div>
     <div><strong>Display Title:</strong> ${escapeHtml(title)} [${escapeHtml(scope)}]</div>
     <div><strong>Package:</strong> ${escapeHtml(OrderState.currentPackage.title)}</div>
-    <div><strong>Add-ons:</strong> ${escapeHtml(addonsText)}</div>
-    <div><strong>Total Payable:</strong> ₹${totalAmount}</div>
-    <div><strong>Data Source:</strong> ${escapeHtml(dataSource)} via ${escapeHtml(dataFormat)}</div>
-    <div><strong>Dua Preferences:</strong> ${escapeHtml(duaCardCount)} (${escapeHtml(duaContent)})</div>
+    <div><strong>Extra Dua Sheet:</strong> ${escapeHtml(extraDua)}</div>
+    <div><strong>Total Amount:</strong> ₹${totalAmount}</div>
+    <div><strong>Data Source:</strong> ${escapeHtml(dataSource)} (${escapeHtml(dataFormat)})</div>
+    <div><strong>Dua Settings:</strong> ${escapeHtml(duaCardCount)} (${escapeHtml(duaContent)})</div>
     ${notes !== "None" ? `<div><strong>Notes:</strong> ${escapeHtml(notes)}</div>` : ""}
   `;
   document.getElementById("modalSummaryContent").innerHTML = summaryHtml;
 
+  // Pre-filled Email Content
   const emailSubject = `New Salah & Dua Chart Order [${orderId}] - ${title}`;
   const emailBody = `Assalamu Alaikum Mustafa Bhai,
 
@@ -114,27 +150,27 @@ ORDER SUMMARY (${orderId})
 --------------------------------------------------
 Customer Name: ${name}
 Email Address: ${email}
-Phone / WhatsApp: ${phone}
+WhatsApp Number: ${phone}
 Location: ${district}, ${state}
 
 CHART & MOSQUE DETAILS:
 Order For: ${scope}
-Mosque / Home Title to Print: ${title}
+Title to Print on Chart: ${title}
 Package Selected: ${OrderState.currentPackage.title}
-Add-ons: ${addonsText}
-Total Order Value: Rs. ${totalAmount}
+Extra Dua Sheet: ${extraDua}
+Total Amount: Rs. ${totalAmount}
 
-DATA & DUA SETTINGS:
+DATA & DUA PREFERENCES:
 Salah Data Source: ${dataSource}
 Data Delivery Format: ${dataFormat}
-Dua Card Count: ${duaCardCount}
-Dua Content Preference: ${duaContent}
+Dua Sheet Size: ${duaCardCount}
+Dua Preference: ${duaContent}
 
-SPECIAL NOTES / INSTRUCTIONS:
+CUSTOMER NOTES:
 ${notes}
 
 --------------------------------------------------
-Maine data file/screenshot is email ke sath attach kar diya hai (ya upar link de diya hai). Kripya confirm karein.
+Maine Payment aur Data ka screenshot is email ke sath attach kar diya hai. Kripya PDF ready karke mere WhatsApp/Email par bhejein.
 Jazakallah Khaira.
 `;
 
@@ -158,7 +194,11 @@ function submitViaWhatsApp() {
   const title = document.getElementById("custTitle").value.trim() || "Masjid";
   const total = calculateTotal();
 
-  const msg = `Assalamu Alaikum Mustafa Bhai! Mujhe Salah Time Chart order karna hai.\nName: ${name}\nTitle: ${title}\nPlan: ${OrderState.currentPackage.title}\nTotal: Rs. ${total}`;
+  const msg = `Assalamu Alaikum Mustafa Bhai! Mujhe Salah Time Chart order karna hai.
+Name: ${name}
+Title: ${title}
+Plan: ${OrderState.currentPackage.title}
+Total: Rs. ${total}`;
   const waUrl = `https://wa.me/${OrderState.adminWhatsApp}?text=${encodeURIComponent(msg)}`;
   window.open(waUrl, "_blank");
 }
