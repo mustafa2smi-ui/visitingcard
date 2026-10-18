@@ -734,7 +734,7 @@ Teesri headline yahan https://link3.com"></textarea>
   function closeBulkModal() {
     document.getElementById('bulkModal').style.display = 'none';
   }
-
+/*
   function processBulkImport() {
     const text = document.getElementById('bulkInput').value.trim();
     if (!text) {
@@ -771,6 +771,97 @@ Teesri headline yahan https://link3.com"></textarea>
     saveToLocalStorage();
     document.getElementById('slideCountBadge').innerText = `Templates: ${newsList.length}`;
     document.getElementById('statusMessage').innerText = `✅ Successfully added templates! Total: ${newsList.length}`;
+
+    currentSlide = 0;
+    renderSlide(0);
+  }
+*/
+    // ==========================================
+  // BULK IMPORT (SMART PARSER: WhatsApp + Description Format)
+  // ==========================================
+  function processBulkImport() {
+    const rawText = document.getElementById('bulkInput').value.trim();
+    if (!rawText) {
+      alert("Kripya WhatsApp ya Description ka text paste karein!");
+      return;
+    }
+
+    // 1. Header lines jaise '⚡ NEWS 7AMPM...' ya 'Today's Top...' ko filter karein
+    const lines = rawText.split('\n')
+      .map(l => l.trim())
+      .filter(l => l.length > 0 && !l.includes("NEWS 7AMPM") && !l.toLowerCase().includes("top headlines sources"));
+
+    const urlRegex = /(https?:\/\/[^\s]+)/i;
+    let itemsToAdd = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+
+      // Agar ye line alag se aayi hui sirf '🔗 Source: https://...' ya 'Link: ...' hai
+      if (/^(🔗|\ud83d\udd17)?\s*(source|link):\s*/i.test(line) || /^https?:\/\//i.test(line)) {
+        let matched = line.match(urlRegex);
+        let link = matched ? matched[0] : "";
+        // Pichle jode gaye headline me link attach kar do
+        if (itemsToAdd.length > 0 && (itemsToAdd[itemsToAdd.length - 1].link === "Direct News Update" || !itemsToAdd[itemsToAdd.length - 1].link)) {
+          itemsToAdd[itemsToAdd.length - 1].link = link || "Direct News Update";
+        }
+        continue;
+      }
+
+      // Serial numbers jaise '1.', '2)', '#1', '1 -' saaf karein
+      let cleanLine = line.replace(/^[\#\d\.\-\)\s]+/, '').trim();
+
+      // Check karein ki kya link usi line me maujood hai
+      let matchedUrl = cleanLine.match(urlRegex);
+      let url = matchedUrl ? matchedUrl[0] : "";
+      let headline = cleanLine.replace(urlRegex, '').trim();
+
+      // Agar usi line me URL nahi hai, to agli line check karein (Description multi-line format)
+      if (!url && i + 1 < lines.length) {
+        let nextLine = lines[i + 1];
+        if (/^(🔗|\ud83d\udd17)?\s*(source|link):\s*/i.test(nextLine) || /^https?:\/\//i.test(nextLine)) {
+          let nextMatchedUrl = nextLine.match(urlRegex);
+          if (nextMatchedUrl) {
+            url = nextMatchedUrl[0];
+            i++; // Agli link wali line consume ho gayi, skip step
+          }
+        }
+      }
+
+      // Headline ke aakhir me bacha hua '🔗 Source:' ya 'Link:' saaf karein
+      headline = headline.replace(/[-|•]?\s*(🔗|\ud83d\udd17)?\s*(source|link)\s*[:\-]?\s*$/i, '').trim();
+
+      if (headline.length > 0) {
+        itemsToAdd.push({
+          headline: headline,
+          link: url || "Direct News Update"
+        });
+      }
+    }
+
+    if (itemsToAdd.length === 0) {
+      alert("Kripya sahi headlines aur links paste karein!");
+      return;
+    }
+
+    // Maximum 10 limit tak add karein
+    itemsToAdd.forEach(item => {
+      if (newsList.length < 10) {
+        newsList.push({
+          index: newsList.length + 1,
+          headline: item.headline,
+          link: item.link
+        });
+      }
+    });
+
+    document.getElementById('bulkInput').value = "";
+    closeBulkModal();
+
+    updateDescription();
+    saveToLocalStorage();
+    document.getElementById('slideCountBadge').innerText = `Templates: ${newsList.length}`;
+    document.getElementById('statusMessage').innerText = `✅ Total ${newsList.length} templates successfully synced!`;
 
     currentSlide = 0;
     renderSlide(0);
