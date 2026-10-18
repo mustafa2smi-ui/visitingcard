@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEWS 7AMPM - Pro Shorts Studio</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #e50914;
+      --primary-glow: rgba(229, 9, 20, 0.4);
+      --dark: #0f1115;
+      --card-bg: #181b22;
+      --input-bg: #222631;
+      --text: #ffffff;
+      --accent: #ffd700;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--dark); color: var(--text); padding: 12px; font-size: 13px; }
+    .container { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 15px; }
+    
+    @media(max-width: 850px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    /* Left Control Panel */
+    .panel { background: var(--card-bg); padding: 14px; border-radius: 12px; border: 1px solid #2a303c; display: flex; flex-direction: column; gap: 10px; }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a303c; padding-bottom: 8px; }
+    .panel-header h2 { color: var(--primary); font-size: 16px; text-transform: uppercase; font-weight: 800; }
+
+    /* Inline Controls */
+    .inline-row { display: flex; gap: 8px; align-items: center; }
+    .slim-input {
+      flex: 1;
+      height: 36px;
+      background: var(--input-bg);
+      border: 1px solid #363d4e;
+      color: #fff;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+    .slim-input:focus { border-color: var(--primary); }
+
+    .btn {
+      height: 36px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      color: #fff;
+      background: var(--primary);
+      transition: 0.15s;
+    }
+    .btn:hover { background: #b70710; }
+    .btn-secondary { background: #374151; }
+    .btn-secondary:hover { background: #1f2937; }
+    .btn-success { background: #059669; }
+    .btn-success:hover { background: #047857; }
+    .btn-warning { background: #d97706; }
+    .btn-warning:hover { background: #b45309; }
+    .btn-danger { background: #dc2626; }
+    .btn-info { background: #2563eb; }
+    .btn-info:hover { background: #1d4ed8; }
+    .btn:disabled { background: #4b5563; cursor: not-allowed; }
+    .mini-btn { height: 28px; padding: 0 9px; font-size: 11px; }
+
+    #statusMessage { font-size: 11px; color: var(--accent); min-height: 14px; margin-top: -4px; }
+
+    /* Background Switcher */
+    .bg-switcher {
+      background: #11141a;
+      border: 1px solid #282f3d;
+      padding: 8px 10px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .bg-radio-group { display: flex; gap: 14px; align-items: center; font-size: 12px; }
+    .bg-radio-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; color: #ddd; }
+
+    /* Audio Box */
+    .audio-box {
+      background: #11141a;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #282f3d;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .select-slim {
+      height: 32px;
+      padding: 0 6px;
+      background: var(--input-bg);
+      color: #fff;
+      border: 1px solid #363d4e;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    /* Description Box */
+    .desc-box { background: #11141a; padding: 10px; border-radius: 8px; border: 1px dashed #363d4e; }
+    .desc-box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .desc-box pre {
+      white-space: pre-wrap;
+      font-size: 11px;
+      color: #bbb;
+      max-height: 85px;
+      overflow-y: auto;
+      line-height: 1.4;
+      background: #090a0d;
+      padding: 6px 8px;
+      border-radius: 4px;
+    }
+
+    /* Right Preview Section */
+    .preview-container { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    
+    .template-top-bar {
+      width: 340px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #2a303c;
+    }
+    .slide-nav { display: flex; align-items: center; gap: 6px; font-weight: bold; font-size: 12px; color: #ccc; }
+
+    /* 9:16 Canvas Frame */
+    .shorts-viewport {
+      width: 340px;
+      height: 604px; /* 9:16 YouTube Shorts Ratio */
+      border-radius: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.9);
+      border: 2px solid #2a303c;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(180deg, #090d16 0%, #111726 60%, #08090d 100%);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Watermark Overlay */
+    .watermark-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 36px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.07);
+      letter-spacing: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+      text-transform: uppercase;
+    }
+
+    .viewport-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8,11,18,0.75) 0%, rgba(8,11,18,0.3) 40%, rgba(8,11,18,0.85) 85%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Top Header */
+    .top-header {
+      position: relative;
+      z-index: 2;
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--primary);
+    }
+    .channel-logo {
+      background: linear-gradient(90deg, #e50914, #ff3d00);
+      color: white;
+      font-weight: 900;
+      padding: 4px 10px;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      border-radius: 4px;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .date-display { font-size: 12px; color: #e2e8f0; font-weight: 700; }
+
+    /* Middle Headline Glass Card */
+    .news-card-body {
+      position: relative;
+      z-index: 2;
+      padding: 16px;
+      margin: 0 14px;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 4px solid var(--primary);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+    .news-serial {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .news-serial::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .news-headline {
+      font-size: 20px;
+      line-height: 1.45;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.9);
+      word-break: break-word;
+    }
+
+    /* Virtual Studio Graphic */
+    .studio-desk {
+      position: relative;
+      z-index: 2;
+      height: 140px;
+      background: linear-gradient(180deg, #18191f 0%, #0d0d11 100%);
+      border-top: 4px solid #452c1e;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      padding-bottom: 16px;
+    }
+    .radio-unit {
+      width: 70px;
+      height: 48px;
+      background: #5d4037;
+      border-radius: 6px 6px 3px 3px;
+      border: 2px solid #3e2723;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .radio-antenna {
+      position: absolute;
+      width: 2px;
+      height: 28px;
+      background: #ccc;
+      top: -28px;
+      left: 10px;
+      transform: rotate(-15deg);
+    }
+    .radio-speaker {
+      width: 36px;
+      height: 18px;
+      background: repeating-linear-gradient(0deg, #3e2723, #3e2723 2px, #4e342e 3px, #4e342e 4px);
+      border-radius: 3px;
+      margin-bottom: 2px;
+    }
+    .radio-knob { width: 9px; height: 9px; background: #d7ccc8; border-radius: 50%; }
+
+    .laptop-unit { display: flex; flex-direction: column; align-items: center; }
+    .laptop-screen {
+      width: 85px;
+      height: 54px;
+      background: #111827;
+      border: 3px solid #4b5563;
+      border-radius: 5px 5px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 8px;
+      font-weight: 900;
+    }
+    .laptop-base { width: 100px; height: 5px; background: #9ca3af; border-radius: 0 0 3px 3px; }
+
+    .ticker-bar {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(90deg, #b70710, #e50914);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 12px;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Modal for Bulk Import */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 15px;
+    }
+    .modal-card {
+      background: #181b22;
+      border: 1px solid #363d4e;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 580px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+    .modal-card textarea {
+      width: 100%;
+      height: 200px;
+      background: #0f1115;
+      border: 1px solid #363d4e;
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      resize: vertical;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- Left Controls -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>NEWS 7AMPM PRO STUDIO</h2>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span id="slideCountBadge" style="font-size: 12px; color: var(--accent); font-weight: bold;">Templates: 0</span>
+        <!-- Bulk Import Modal Trigger -->
+        <button class="btn btn-info mini-btn" onclick="openBulkModal()">📋 Bulk Import</button>
+      </div>
+    </div>
+
+    <!-- Background Switcher -->
+    <div class="bg-switcher">
+      <div class="bg-radio-group">
+        <strong style="color: var(--accent);">Theme:</strong>
+        <label>
+          <input type="radio" name="bgType" value="studio" id="themeStudio" checked onchange="toggleBackgroundMode('studio')">
+          🏛️ 3D Studio Desk
+        </label>
+        <label>
+          <input type="radio" name="bgType" value="custom" id="themeCustom" onchange="toggleBackgroundMode('custom')">
+          🖼️ Custom AI 3D Image
+        </label>
+      </div>
+      <div id="fileUploadRow" style="display: none; margin-top: 4px;">
+        <input type="file" id="bgUploader" accept="image/*" class="slim-input" style="padding-top: 5px;" onchange="loadCustomBackgroundImage(event)">
+      </div>
+    </div>
+
+    <!-- Step 1: Single URL Input -->
+    <div class="inline-row">
+      <input type="url" id="urlInput" class="slim-input" placeholder="🔗 Step 1: Paste single news URL link..." />
+      <button class="btn btn-secondary" id="btnFetch" onclick="handleFetchClick()">⚡ Fetch</button>
+    </div>
+
+    <div id="statusMessage"></div>
+
+    <!-- Step 2: Headline & Make Template -->
+    <div class="inline-row">
+      <input type="text" id="headlineInput" class="slim-input" placeholder="📝 Step 2: Headline check / edit karein..." />
+      <button class="btn btn-success" id="btnAddSlide" onclick="addSingleTemplateSlide()">➕ Make Template</button>
+    </div>
+
+    <!-- Audio Controls (Engine, Sound Bits & Speed Selector) -->
+    <div class="audio-box">
+      <div class="inline-row">
+        <select id="voiceMode" class="select-slim" style="flex: 1.2;">
+          <option value="neural_radio">📻 Google Hindi Male + Radio Vintage</option>
+          <option value="custom_speech">🗣️ Device Hindi (SpeechSynthesis)</option>
+        </select>
+
+        <!-- Speed Selector -->
+        <select id="audioSpeed" class="select-slim" style="flex: 0.8;">
+          <option value="1.0">⚡ Normal (1.0x)</option>
+          <option value="1.15">🚀 Fast 1 (1.15x)</option>
+          <option value="1.30">🔥 Fast 2 (1.30x)</option>
+        </select>
+      </div>
+
+      <!-- Sound Bits Selector -->
+      <div class="inline-row">
+        <select id="sfxSelect" class="select-slim" style="flex: 1;">
+          <option value="ticker">📡 1. Digital News Beep (Classic Ticker)</option>
+          <option value="radio_chirp">📻 2. Radio Tuning Chirp (Vintage Pulse)</option>
+          <option value="swoosh">⚡ 3. High-Tech Swoosh (Slide)</option>
+          <option value="chime">🔔 4. Crystal News Chime (Alert)</option>
+          <option value="camera">📸 5. Camera Shutter Click</option>
+          <option value="impact">🥁 6. Deep Sub Bass Impact</option>
+          <option value="brass">🚨 7. Breaking News Sting</option>
+          <option value="none">🔇 8. None (No Sound Bit)</option>
+        </select>
+        <button class="btn btn-secondary mini-btn" onclick="testSelectedSfx()">🔊 Test</button>
+        <button id="playBtn" class="btn btn-warning mini-btn" onclick="toggleAudioPlayback()">🎤 Play</button>
+        <button class="btn btn-secondary mini-btn" onclick="stopAudioPlayback()">⏹ Stop</button>
+      </div>
+    </div>
+
+    <!-- YouTube Description Box with Copy, Undo & Reset -->
+    <div class="desc-box">
+      <div class="desc-box-header">
+        <strong style="font-size: 12px; color: var(--accent);">📋 YouTube Description (Auto-Saved):</strong>
+        <div style="display: flex; gap: 5px;">
+          <button class="btn btn-secondary mini-btn" onclick="copyDescription()">📋 Copy</button>
+          <button class="btn btn-warning mini-btn" id="btnUndo" onclick="undoResetAction()" style="display: none;">↩️ Undo</button>
+          <button class="btn btn-danger mini-btn" onclick="clearAllData()">🗑️ Reset</button>
+        </div>
+      </div>
+      <pre id="descContent">Abhi koi link add nahi hui hai...</pre>
+    </div>
+  </div>
+
+  <!-- Right Side: 9:16 Shorts Template Preview -->
+  <div class="preview-container">
+    
+    <!-- Top Bar with Slide Nav & Downloads placed at Corner -->
+    <div class="template-top-bar">
+      <div class="slide-nav">
+        <button class="btn btn-secondary mini-btn" onclick="prevSlide()">◀</button>
+        <span id="slideIndicator" style="color: var(--accent);">0 / 0</span>
+        <button class="btn btn-secondary mini-btn" onclick="nextSlide()">▶</button>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button class="btn btn-secondary mini-btn" onclick="downloadCurrentSlide()">💾 Current</button>
+        <button class="btn btn-success mini-btn" onclick="downloadAllAsZip()">📦 ZIP All</button>
+      </div>
+    </div>
+
+    <!-- 9:16 Canvas Area -->
+    <div class="shorts-viewport" id="captureCard">
+      <!-- Watermark Overlay (Center Rotated Subtle) -->
+      <div class="watermark-overlay">NEWS 7AMPM</div>
+
+      <!-- Dark overlay for Custom AI Image readability -->
+      <div class="viewport-overlay" id="customOverlay" style="display: none;"></div>
+
+      <!-- Top News Header -->
+      <div class="top-header">
+        <div class="channel-logo">NEWS 7AMPM</div>
+        <div class="date-display" id="currentDate">--/--/----</div>
+      </div>
+
+      <!-- Main Headline Body -->
+      <div class="news-card-body">
+        <div class="news-serial" id="newsIndexText">HEADLINE #01</div>
+        <div class="news-headline" id="newsHeadlineText">
+          यहाँ आपकी बड़ी ब्रेकिंग हेडलाइन आएगी।
+        </div>
+      </div>
+
+      <!-- Studio Desk Graphic -->
+      <div class="studio-desk" id="studioDeskGraphic">
+        <div class="radio-unit">
+          <div class="radio-antenna"></div>
+          <div class="radio-speaker"></div>
+          <div class="radio-knob"></div>
+        </div>
+        <div class="laptop-unit">
+          <div class="laptop-screen">
+            <span>NEWS 7AMPM</span>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+      </div>
+
+      <!-- Ticker Footer -->
+      <div class="ticker-bar">
+        <span>🔴 TOP HEADLINES</span>
+        <span style="font-size: 10px;">NEWS 7AMPM</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bulk Import Modal Prompt -->
+<div class="modal-overlay" id="bulkModal">
+  <div class="modal-card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="color: var(--accent); font-size: 15px;">📋 Bulk Paste: WhatsApp / Doc News</h3>
+      <button class="btn btn-secondary mini-btn" onclick="closeBulkModal()">✕ Close</button>
+    </div>
+    <p style="font-size: 12px; color: #aaa;">
+      WhatsApp ya Doc se poori news bina serial number ke paste karein (Headline aur Link aage-piche ho to bhi chalega):
+    </p>
+    <textarea id="bulkInput" placeholder="Udaharan:
+Pehli badi khabar ka text https://link1.com
+Dusri breaking news yahan aayegi https://link2.com
+Teesri headline yahan https://link3.com"></textarea>
+    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+      <button class="btn btn-secondary" onclick="closeBulkModal()">Cancel</button>
+      <button class="btn btn-success" onclick="processBulkImport()">⚡ Generate All Templates</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let newsList = [];
+  let backupNewsList = null; // Undo ke liye backup
+  let currentSlide = 0;
+  let customBgDataUrl = null;
+  let currentBgMode = 'studio';
+
+  let isPlaying = false;
+  let currentSpeech = null;
+  let audioContext = null;
+  let activeAudioSource = null;
+  let radioNoiseNode = null;
+
+  // 1. Current Date
+  function setTodayDate() {
+    const today = new Date();
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    document.getElementById('currentDate').innerText = today.toLocaleDateString('en-GB', options).toUpperCase();
+  }
+  setTodayDate();
+
+  // ==========================================
+  // LOCALSTORAGE AUTO-SAVE & RESTORE
+  // ==========================================
+  function saveToLocalStorage() {
+    try {
+      localStorage.setItem('NEWS7AMPM_DATA', JSON.stringify(newsList));
+      localStorage.setItem('NEWS7AMPM_BG_MODE', currentBgMode);
+      if (customBgDataUrl) {
+        localStorage.setItem('NEWS7AMPM_CUSTOM_BG', customBgDataUrl);
+      }
+    } catch(e) {
+      console.warn("Storage quota full or restricted", e);
+    }
+  }
+
+  function loadFromLocalStorage() {
+    const saved = localStorage.getItem('NEWS7AMPM_DATA');
+    const savedMode = localStorage.getItem('NEWS7AMPM_BG_MODE');
+    const savedBg = localStorage.getItem('NEWS7AMPM_CUSTOM_BG');
+
+    if (saved) {
+      try {
+        newsList = JSON.parse(saved);
+        if (newsList.length > 0) {
+          updateDescription();
+          document.getElementById('slideCountBadge').innerText = `Templates: ${newsList.length}`;
+          currentSlide = 0;
+          renderSlide(0);
+          document.getElementById('statusMessage').innerText = `🔄 Restored ${newsList.length} saved headlines from memory!`;
+        }
+      } catch(e) {}
+    }
+
+    if (savedBg) customBgDataUrl = savedBg;
+    if (savedMode) {
+      if (savedMode === 'custom') {
+        document.getElementById('themeCustom').checked = true;
+        toggleBackgroundMode('custom');
+      } else {
+        document.getElementById('themeStudio').checked = true;
+        toggleBackgroundMode('studio');
+      }
+    }
+  }
+
+  // ==========================================
+  // BACKGROUND THEME SWITCHER
+  // ==========================================
+  function toggleBackgroundMode(mode) {
+    currentBgMode = mode;
+    const fileUploadRow = document.getElementById('fileUploadRow');
+    const studioDesk = document.getElementById('studioDeskGraphic');
+    const customOverlay = document.getElementById('customOverlay');
+    const card = document.getElementById('captureCard');
+
+    if (mode === 'custom') {
+      fileUploadRow.style.display = 'block';
+      studioDesk.style.display = 'none';
+      customOverlay.style.display = 'block';
+      if (customBgDataUrl) card.style.backgroundImage = `url('${customBgDataUrl}')`;
+    } else {
+      fileUploadRow.style.display = 'none';
+      studioDesk.style.display = 'flex';
+      customOverlay.style.display = 'none';
+      card.style.backgroundImage = 'none';
+    }
+    saveToLocalStorage();
+  }
+
+  function loadCustomBackgroundImage(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        customBgDataUrl = evt.target.result;
+        document.getElementById('captureCard').style.backgroundImage = `url('${customBgDataUrl}')`;
+        saveToLocalStorage();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // ==========================================
+  // STEP 1 & 2: SINGLE URL / HEADLINE ADD
+  // ==========================================
+  const urlInput = document.getElementById('urlInput');
+  urlInput.addEventListener('paste', () => setTimeout(handleFetchClick, 150));
+
+  async function fetchTitleFromUrl(url) {
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error("Network error");
+    const data = await res.json();
+    
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data.contents, "text/html");
+
+    let title = doc.querySelector('meta[property="og:title"]')?.content ||
+                doc.querySelector('meta[name="twitter:title"]')?.content ||
+                doc.querySelector('h1')?.innerText ||
+                doc.querySelector('title')?.innerText || "";
+
+    title = title.replace(/\s*[\-\|]\s*(BBC News|NDTV|Aaj Tak|ABP News|Dainik Bhaskar|India Today|Zee News|CNN|Reuters).*$/i, '').trim();
+    if (title.length < 8) {
+      let h1Text = doc.querySelector('h1')?.innerText?.trim();
+      if (h1Text && h1Text.length > 8) title = h1Text;
+    }
+    return title;
+  }
+
+  async function handleFetchClick() {
+    const url = urlInput.value.trim();
+    if (!url || !url.startsWith('http')) return;
+
+    const statusEl = document.getElementById('statusMessage');
+    const fetchBtn = document.getElementById('btnFetch');
+    statusEl.innerText = "⏳ Fetching headline from link...";
+    fetchBtn.disabled = true;
+
+    try {
+      const fetchedTitle = await fetchTitleFromUrl(url);
+      if (fetchedTitle) {
+        document.getElementById('headlineInput').value = fetchedTitle;
+        statusEl.innerText = "✅ Headline auto-fetched! Edit karke 'Make Template' dabayein.";
+      } else {
+        statusEl.innerText = "⚠️ Direct headline nahi mili, kripya manually likhein.";
+      }
+    } catch (e) {
+      statusEl.innerText = "⚠️ Link fetch nahi ho saka. Headline manually daal dijiye.";
+    } finally {
+      fetchBtn.disabled = false;
+    }
+  }
+
+  function addSingleTemplateSlide() {
+    const headline = document.getElementById('headlineInput').value.trim();
+    const url = document.getElementById('urlInput').value.trim();
+    const statusEl = document.getElementById('statusMessage');
+
+    if (!headline) {
+      alert("Kripya Headline box me text likhein!");
+      return;
+    }
+    if (newsList.length >= 10) {
+      alert("Maximum 10 templates hi add kar sakte hain!");
+      return;
+    }
+
+    const nextIndex = newsList.length + 1;
+    newsList.push({
+      index: nextIndex,
+      headline: headline,
+      link: url || "Direct News Update"
+    });
+
+    document.getElementById('urlInput').value = "";
+    document.getElementById('headlineInput').value = "";
+    statusEl.innerText = `✅ Headline #${nextIndex} jud gayi!`;
+    document.getElementById('slideCountBadge').innerText = `Templates: ${newsList.length}`;
+
+    updateDescription();
+    saveToLocalStorage();
+
+    currentSlide = newsList.length - 1;
+    renderSlide(currentSlide);
+  }
+
+  // ==========================================
+  // BULK IMPORT (WHATSAPP / DOC DATA)
+  // ==========================================
+  function openBulkModal() {
+    document.getElementById('bulkModal').style.display = 'flex';
+  }
+  function closeBulkModal() {
+    document.getElementById('bulkModal').style.display = 'none';
+  }
+
+  function processBulkImport() {
+    const text = document.getElementById('bulkInput').value.trim();
+    if (!text) {
+      alert("Kripya WhatsApp ya Doc se text paste karein!");
+      return;
+    }
+
+    const lines = text.split('\n').filter(l => l.trim().length > 0);
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    lines.forEach(line => {
+      if (newsList.length >= 10) return;
+
+      // Clean leading numbers jaise '1.', '2)', '1 -'
+      let cleanLine = line.replace(/^\s*(\d+[\.\-\)]\s*)+/, '').trim();
+      let matchedUrls = cleanLine.match(urlRegex);
+      let url = matchedUrls ? matchedUrls[0] : "";
+      let headline = cleanLine.replace(urlRegex, '').trim();
+
+      if (headline.length > 0 || url.length > 0) {
+        const nextIdx = newsList.length + 1;
+        newsList.push({
+          index: nextIdx,
+          headline: headline || "Top Breaking News Update",
+          link: url || "Direct News Update"
+        });
+      }
+    });
+
+    document.getElementById('bulkInput').value = "";
+    closeBulkModal();
+
+    updateDescription();
+    saveToLocalStorage();
+    document.getElementById('slideCountBadge').innerText = `Templates: ${newsList.length}`;
+    document.getElementById('statusMessage').innerText = `✅ Successfully added templates! Total: ${newsList.length}`;
+
+    currentSlide = 0;
+    renderSlide(0);
+  }
+
+  // ==========================================
+  // DESCRIPTION, UNDO & RESET
+  // ==========================================
+  function updateDescription() {
+    let desc = "⚡ NEWS 7AMPM - Today's Top Headlines Sources:\n\n";
+    newsList.forEach((item, idx) => {
+      item.index = idx + 1; // Ensure strict serial numbering
+      desc += `${item.index}. ${item.headline}\n🔗 Source: ${item.link}\n\n`;
+    });
+    document.getElementById('descContent').innerText = desc;
+  }
+
+  function copyDescription() {
+    navigator.clipboard.writeText(document.getElementById('descContent').innerText).then(() => {
+      alert("YouTube Description copy ho gaya!");
+    });
+  }
+
+  function clearAllData() {
+    if (newsList.length === 0) return;
+    if (confirm("Kya aap saari news delete karna chahte hain? (Aap chahein to Undo kar sakte hain)")) {
+      backupNewsList = [...newsList]; // Backup save
+      newsList = [];
+      saveToLocalStorage();
+
+      document.getElementById('urlInput').value = "";
+      document.getElementById('headlineInput').value = "";
+      document.getElementById('descContent').innerText = "Abhi koi link add nahi hui hai...";
+      document.getElementById('slideCountBadge').innerText = "Templates: 0";
+      document.getElementById('statusMessage').innerText = "🗑️ Sabhi templates clear ho gaye. Galti se hua to Undo dabayein.";
+      document.getElementById('btnUndo').style.display = 'inline-flex';
+      renderSlide(0);
+    }
+  }
+
+  function undoResetAction() {
+    if (backupNewsList && backupNewsList.length > 0) {
+      newsList = [...backupNewsList];
+      backupNewsList = null;
+      saveToLocalStorage();
+
+      document.getElementById('btnUndo').style.display = 'none';
+      document.getElementById('slideCountBadge').innerText = `Templates: ${newsList.length}`;
+      document.getElementById('statusMessage').innerText = "↩️ Saare templates wapis restore kar diye gaye!";
+      updateDescription();
+      currentSlide = 0;
+      renderSlide(0);
+    }
+  }
+
+  // ==========================================
+  // SLIDE PREVIEW & DOWNLOADS
+  // ==========================================
+  function renderSlide(index) {
+    if (newsList.length === 0) {
+      document.getElementById('newsIndexText').innerText = "HEADLINE #01";
+      document.getElementById('newsHeadlineText').innerText = "यहाँ आपकी बड़ी ब्रेकिंग हेडलाइन आएगी।";
+      document.getElementById('slideIndicator').innerText = "0 / 0";
+      return;
+    }
+    const item = newsList[index];
+    document.getElementById('newsIndexText').innerText = `HEADLINE #${String(item.index).padStart(2, '0')}`;
+    document.getElementById('newsHeadlineText').innerText = item.headline;
+    document.getElementById('slideIndicator').innerText = `${index + 1} / ${newsList.length}`;
+  }
+
+  function nextSlide() {
+    if (newsList.length === 0) return;
+    currentSlide = (currentSlide + 1) % newsList.length;
+    renderSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    if (newsList.length === 0) return;
+    currentSlide = (currentSlide - 1 + newsList.length) % newsList.length;
+    renderSlide(currentSlide);
+  }
+
+  async function downloadCurrentSlide() {
+    if (newsList.length === 0) {
+      alert("Pehle template add karein!");
+      return;
+    }
+    const card = document.getElementById('captureCard');
+    const canvas = await html2canvas(card, { scale: 3, useCORS: true });
+    canvas.toBlob(blob => {
+      saveAs(blob, `NEWS_7AMPM_Slide_${currentSlide + 1}_${Date.now()}.png`);
+    });
+  }
+
+  async function downloadAllAsZip() {
+    if (newsList.length === 0) {
+      alert("Pehle templates add karein!");
+      return;
+    }
+
+    const statusEl = document.getElementById('statusMessage');
+    statusEl.innerText = "⏳ ZIP file generate ho rahi hai...";
+
+    const zip = new JSZip();
+    const folder = zip.folder("NEWS_7AMPM_Shorts");
+    const card = document.getElementById('captureCard');
+    const originalSlide = currentSlide;
+
+    for (let i = 0; i < newsList.length; i++) {
+      renderSlide(i);
+      await new Promise(r => setTimeout(r, 200));
+
+      const canvas = await html2canvas(card, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL('image/png').split(',')[1];
+      folder.file(`Slide_${i + 1}.png`, imgData, { base64: true });
+    }
+
+    renderSlide(originalSlide);
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, `NEWS_7AMPM_All_Slides_${Date.now()}.zip`);
+    statusEl.innerText = "✅ ZIP download complete!";
+  }
+
+  // ==========================================
+  // PROCEDURAL SOUND BITS (Web Audio API)
+  // ==========================================
+  function playSoundBit(type) {
+    if (type === 'none') return Promise.resolve();
+
+    return new Promise(resolve => {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const now = ctx.currentTime;
+
+      if (type === 'ticker') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1800, now);
+        osc.frequency.setValueAtTime(2200, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.22);
+        setTimeout(resolve, 250);
+
+      } else if (type === 'radio_chirp') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(2400, now + 0.15);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.2);
+        setTimeout(resolve, 220);
+
+      } else if (type === 'swoosh') {
+        const bufferSize = ctx.sampleRate * 0.25;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(400, now);
+        filter.frequency.exponentialRampToValueAtTime(3200, now + 0.18);
+        filter.Q.value = 3.0;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(now);
+        setTimeout(resolve, 260);
+
+      } else if (type === 'chime') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1318.5, now);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.38);
+        setTimeout(resolve, 380);
+
+      } else if (type === 'camera') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.setValueAtTime(150, now + 0.05);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.14);
+        setTimeout(resolve, 160);
+
+      } else if (type === 'impact') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(35, now + 0.35);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+        setTimeout(resolve, 400);
+
+      } else if (type === 'brass') {
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc1.type = 'sawtooth'; osc2.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(440, now);
+        osc2.frequency.setValueAtTime(554.37, now);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc1.connect(gain); osc2.connect(gain);
+        gain.connect(ctx.destination);
+        osc1.start(now); osc2.start(now);
+        osc1.stop(now + 0.32); osc2.stop(now + 0.32);
+        setTimeout(resolve, 340);
+      }
+    });
+  }
+
+  function testSelectedSfx() {
+    const selected = document.getElementById('sfxSelect').value;
+    playSoundBit(selected);
+  }
+
+  // ==========================================
+  // SEQUENTIAL AUDIO PLAYBACK (SPEED AWARE)
+  // ==========================================
+  function toggleAudioPlayback() {
+    if (newsList.length === 0) {
+      alert("Pehle news add karein!");
+      return;
+    }
+    if (isPlaying) {
+      stopAudioPlayback();
+    } else {
+      playSequentialBroadcast();
+    }
+  }
+
+  async function playSequentialBroadcast() {
+    isPlaying = true;
+    document.getElementById('playBtn').textContent = "⏹ Stop";
+    const sfxType = document.getElementById('sfxSelect').value;
+    const speed = parseFloat(document.getElementById('audioSpeed').value) || 1.0;
+
+    // Intro
+    await speakHeadlineSentence("News 7AMPM me aapka swagat hai. Aaj ki mukhya khabrein.", speed);
+    await playSoundBit(sfxType);
+
+    // Each Headline with Sound Bit
+    for (let i = 0; i < newsList.length; i++) {
+      if (!isPlaying) break;
+
+      currentSlide = i;
+      renderSlide(currentSlide);
+
+      const item = newsList[i];
+      const textToRead = `Khabar number ${item.index}. ${item.headline}`;
+      
+      await speakHeadlineSentence(textToRead, speed);
+      
+      if (isPlaying) {
+        await playSoundBit(sfxType);
+      }
+    }
+
+    stopAudioPlayback();
+  }
+
+  function speakHeadlineSentence(text, speedRate) {
+    return new Promise(resolve => {
+      const mode = document.getElementById('voiceMode').value;
+
+      if (mode === 'neural_radio') {
+        // High quality Google TTS Stream
+        const clean = encodeURIComponent(text.substring(0, 250));
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=hi&client=tw-ob&q=${clean}`;
+        const audio = new Audio(url);
+        audio.playbackRate = speedRate;
+        activeAudioSource = audio;
+
+        audio.onended = resolve;
+        audio.onerror = () => {
+          // Fallback to speechSynthesis if network fails
+          fallbackSpeech(text, speedRate, resolve);
+        };
+        audio.play().catch(() => fallbackSpeech(text, speedRate, resolve));
+
+      } else {
+        fallbackSpeech(text, speedRate, resolve);
+      }
+    });
+  }
+
+  function fallbackSpeech(text, speedRate, resolve) {
+    if (!("speechSynthesis" in window)) {
+      resolve();
+      return;
+    }
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "hi-IN";
+    utter.pitch = 0.85;
+    utter.rate = speedRate;
+
+    utter.onend = resolve;
+    utter.onerror = resolve;
+
+    speechSynthesis.speak(utter);
+  }
+
+  function stopAudioPlayback() {
+    if (window.speechSynthesis && speechSynthesis.speaking) speechSynthesis.cancel();
+    if (activeAudioSource) { activeAudioSource.pause(); activeAudioSource = null; }
+    if (radioNoiseNode) { try { radioNoiseNode.stop(); } catch(e){} radioNoiseNode = null; }
+    if (audioContext && audioContext.state !== 'closed') { audioContext.close(); audioContext = null; }
+    isPlaying = false;
+    document.getElementById('playBtn').textContent = "🎤 Play";
+  }
+
+  // Restore LocalStorage Data on Load
+  window.addEventListener('DOMContentLoaded', loadFromLocalStorage);
+</script>
+
+</body>
+</html>
