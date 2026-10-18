@@ -1153,7 +1153,7 @@ Teesri headline yahan https://link3.com"></textarea>
 
     stopAudioPlayback();
   }
-
+/*
   function speakHeadlineSentence(text, speedRate) {
     return new Promise(resolve => {
       const mode = document.getElementById('voiceMode').value;
@@ -1178,7 +1178,101 @@ Teesri headline yahan https://link3.com"></textarea>
       }
     });
   }
+*/
+    // ==========================================
+  // FIXED AUDIO ENGINE (NO DOUBLE PLAYBACK)
+  // ==========================================
+  function speakHeadlineSentence(text, speedRate) {
+    return new Promise(resolve => {
+      if (!isPlaying) {
+        resolve();
+        return;
+      }
 
+      // Pehle se chal rahi kisi bhi aawaz ko bilkul saaf karein
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      if (activeAudioSource) {
+        activeAudioSource.pause();
+        activeAudioSource = null;
+      }
+
+      const mode = document.getElementById('voiceMode').value;
+
+      if (mode === 'neural_radio') {
+        let isResolved = false;
+        const clean = encodeURIComponent(text.substring(0, 250));
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=hi&client=tw-ob&q=${clean}`;
+        
+        const audio = new Audio(url);
+        audio.playbackRate = speedRate;
+        activeAudioSource = audio;
+
+        // Sirf ek baar finish trigger hone ke liye safe handler
+        const finishAudio = () => {
+          if (!isResolved) {
+            isResolved = true;
+            activeAudioSource = null;
+            resolve();
+          }
+        };
+
+        audio.onended = finishAudio;
+
+        // Agar internet band ho ya network block kare, tabhi sirf 1 baar fallback chale
+        audio.onerror = () => {
+          if (!isResolved) {
+            isResolved = true;
+            fallbackSpeech(text, speedRate, resolve);
+          }
+        };
+
+        audio.play().catch(err => {
+          // Play reject hone par error trigger handle karega, yahan double call nahi karna
+          console.warn("Audio play issue, switching to device voice:", err);
+          if (!isResolved) {
+            isResolved = true;
+            fallbackSpeech(text, speedRate, resolve);
+          }
+        });
+
+      } else {
+        // Mode 2: Device Voice Only
+        fallbackSpeech(text, speedRate, resolve);
+      }
+    });
+  }
+
+  function fallbackSpeech(text, speedRate, resolve) {
+    if (!isPlaying) {
+      resolve();
+      return;
+    }
+    if (!("speechSynthesis" in window)) {
+      resolve();
+      return;
+    }
+
+    speechSynthesis.cancel(); // Double voice rokne ke liye hard cancel
+
+    let hasEnded = false;
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "hi-IN";
+    utter.pitch = 0.85;
+    utter.rate = speedRate;
+
+    const safeEnd = () => {
+      if (!hasEnded) {
+        hasEnded = true;
+        resolve();
+      }
+    };
+
+    utter.onend = safeEnd;
+    utter.onerror = safeEnd;
+
+    speechSynthesis.speak(utter);
+  }
+/*
   function fallbackSpeech(text, speedRate, resolve) {
     if (!("speechSynthesis" in window)) {
       resolve();
@@ -1194,7 +1288,8 @@ Teesri headline yahan https://link3.com"></textarea>
 
     speechSynthesis.speak(utter);
   }
-
+  */
+/*
   function stopAudioPlayback() {
     if (window.speechSynthesis && speechSynthesis.speaking) speechSynthesis.cancel();
     if (activeAudioSource) { activeAudioSource.pause(); activeAudioSource = null; }
@@ -1203,7 +1298,30 @@ Teesri headline yahan https://link3.com"></textarea>
     isPlaying = false;
     document.getElementById('playBtn').textContent = "🎤 Play";
   }
+*/
+  function stopAudioPlayback() {
+    isPlaying = false;
+    
+    // Sabhi active speech aur streams ko freeze/cancel karein
+    if (window.speechSynthesis) {
+      speechSynthesis.cancel();
+    }
+    if (activeAudioSource) {
+      activeAudioSource.pause();
+      activeAudioSource.currentTime = 0;
+      activeAudioSource = null;
+    }
+    if (radioNoiseNode) {
+      try { radioNoiseNode.stop(); } catch(e){}
+      radioNoiseNode = null;
+    }
+    if (audioContext && audioContext.state !== 'closed') {
+      audioContext.close();
+      audioContext = null;
+    }
 
+    document.getElementById('playBtn').textContent = "🎤 Play";
+  }
   // Restore LocalStorage Data on Load
   window.addEventListener('DOMContentLoaded', loadFromLocalStorage);
 </script>
