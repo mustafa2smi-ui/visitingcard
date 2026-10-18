@@ -1123,7 +1123,7 @@ Teesri headline yahan https://link3.com"></textarea>
       playSequentialBroadcast();
     }
   }
-
+/*
   async function playSequentialBroadcast() {
     isPlaying = true;
     document.getElementById('playBtn').textContent = "⏹ Stop";
@@ -1152,7 +1152,50 @@ Teesri headline yahan https://link3.com"></textarea>
     }
 
     stopAudioPlayback();
+  }*/
+    async function playSequentialBroadcast() {
+    isPlaying = true;
+    document.getElementById('playBtn').textContent = "⏹ Stop";
+    const sfxType = document.getElementById('sfxSelect').value;
+    const speed = parseFloat(document.getElementById('audioSpeed').value) || 1.0;
+
+    // 1. Intro Speech
+    await speakHeadlineSentence("News 7AMPM me aapka swagat hai. Aaj ki mukhya khabrein.", speed);
+    await playSoundBit(sfxType);
+
+    // 2. Each Headline with Sound Bit
+    for (let i = 0; i < newsList.length; i++) {
+      if (!isPlaying) break;
+
+      currentSlide = i;
+      renderSlide(currentSlide);
+
+      const item = newsList[i];
+      const textToRead = `Khabar number ${item.index}. ${item.headline}`;
+      
+      await speakHeadlineSentence(textToRead, speed);
+      
+      if (isPlaying) {
+        await playSoundBit(sfxType);
+      }
+    }
+
+    // 3. Outro Dialog 1: Audience Engagement & Comment Hook
+    if (isPlaying) {
+      const outroHook = "आज की सबसे बड़ी खबर पर आपकी क्या राय है? कमेंट में ज़रूर बताएं!";
+      await speakHeadlineSentence(outroHook, speed);
+      await playSoundBit(sfxType);
+    }
+
+    // 4. Outro Dialog 2: Subscribe & Like Call-To-Action
+    if (isPlaying) {
+      const outroCTA = "देश दुनिया की हर ताज़ा सुर्ख़ी सबसे पहले पाने के लिए, वीडियो को लाइक करें, शेयर करें और न्यूज़ सेवन ए एम पी एम चैनल को सब्सक्राइब करना न भूलें। साथ ही, बेल आइकन को दबाकर ऑल नोटिफिकेशन्स चालू कर लें, ताकि हर नई वीडियो की सूचना आपको तुरंत मिल सके। थैंक्स फॉर वाचिंग।";
+      await speakHeadlineSentence(outroCTA, speed);
+    }
+
+    stopAudioPlayback();
   }
+
 /*
   function speakHeadlineSentence(text, speedRate) {
     return new Promise(resolve => {
