@@ -307,6 +307,23 @@
       justify-content: space-between;
       box-shadow: 0 -2px 10px rgba(229, 9, 20, 0.4);
     }
+    /* ================= NEWS 7AMPM WATERMARK ================= */
+.watermark-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg); /* 30-डिग्री झुकाव */
+  font-size: 38px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.07); /* सिर्फ 7% विजिबिलिटी ताकि हेडलाइन साफ़ दिखे */
+  letter-spacing: 4px;
+  white-space: nowrap;
+  pointer-events: none; /* क्लिक डिस्टर्ब न करे */
+  user-select: none;
+  z-index: 1; /* हेडलाइन के पीछे रहेगा */
+  text-transform: uppercase;
+}
+
   </style>
 </head>
 <body>
@@ -363,6 +380,21 @@
         <button class="btn btn-secondary mini-btn" onclick="stopAudioPlayback()">⏹ Stop</button>
         <button class="btn btn-secondary mini-btn" onclick="downloadRadioAudio()">📥 Audio</button>
       </div>
+      <!-- Headline Transition Sound Bit Selector -->
+<div class="inline-row" style="margin-top: 6px;">
+  <select id="sfxSelect" class="select-slim" style="flex: 1;">
+    <option value="ticker">📡 1. Digital News Beep (Classic Ticker)</option>
+    <option value="radio_chirp">📻 2. Radio Tuning Chirp (Vintage Pulse)</option>
+    <option value="swoosh">⚡ 3. High-Tech Swoosh (Slide Transition)</option>
+    <option value="chime">🔔 4. Crystal News Chime (Alert Ding)</option>
+    <option value="camera">📸 5. Camera Shutter Click (Press Snap)</option>
+    <option value="impact">🥁 6. Deep Sub Impact (Breaking Thud)</option>
+    <option value="brass">🚨 7. Breaking News Sting (Dramatic)</option>
+    <option value="none">🔇 8. None (No Sound Bit)</option>
+  </select>
+  <button class="btn btn-secondary mini-btn" onclick="testSelectedSfx()">🔊 Test</button>
+</div>
+
     </div>
 
     <!-- YouTube Description Box -->
@@ -396,6 +428,9 @@
 
     <!-- 9:16 Viewport Canvas Frame -->
     <div class="shorts-viewport" id="captureCard">
+      <!-- Branding Watermark -->
+<div class="watermark-overlay">NEWS 7AMPM</div>
+
       <!-- Dark overlay for readability over custom AI images -->
       <div class="viewport-overlay" id="customOverlay" style="display: none;"></div>
 
@@ -657,7 +692,7 @@
     });
     return broadcast;
   }
-
+/*
   function toggleAudioPlayback() {
     if (newsList.length === 0) {
       alert("Pehle news add karein!");
@@ -674,6 +709,14 @@
       }
     }
   }
+*/
+  function toggleAudioPlayback() {
+  if (isPlaying) {
+    stopAudioPlayback();
+  } else {
+    playSequentialBroadcast();
+  }
+}
 
   function playDeviceHindiVoice(text) {
     if (!("speechSynthesis" in window)) return;
@@ -730,6 +773,155 @@
     isPlaying = true;
     document.getElementById('playBtn').textContent = "⏹ Stop";
   }
+// ==========================================
+// PROCEDURAL NEWS SOUND BITS (Web Audio API)
+// ==========================================
+function playSoundBit(type) {
+  if (type === 'none') return Promise.resolve();
+
+  return new Promise(resolve => {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const now = ctx.currentTime;
+
+    if (type === 'ticker') {
+      // 1. Digital Double Beep
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1800, now);
+      osc.frequency.setValueAtTime(2200, now + 0.08);
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.22);
+      setTimeout(resolve, 250);
+
+    } else if (type === 'radio_chirp') {
+      // 2. Vintage Radio Chirp
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(2400, now + 0.15);
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.18);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.2);
+      setTimeout(resolve, 220);
+
+    } else if (type === 'swoosh') {
+      // 3. Fast High-Tech Swoosh
+      const bufferSize = ctx.sampleRate * 0.25;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(400, now);
+      filter.frequency.exponentialRampToValueAtTime(3200, now + 0.18);
+      filter.Q.value = 3.0;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(now);
+      setTimeout(resolve, 260);
+
+    } else if (type === 'chime') {
+      // 4. Alert Ding / Chime
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1318.5, now); // E6 Note
+
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.38);
+      setTimeout(resolve, 380);
+
+    } else if (type === 'camera') {
+      // 5. Camera Shutter Click
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(300, now);
+      osc.frequency.setValueAtTime(150, now + 0.05);
+
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.14);
+      setTimeout(resolve, 160);
+
+    } else if (type === 'impact') {
+      // 6. Deep Sub Bass Impact
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.exponentialRampToValueAtTime(35, now + 0.35);
+
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.4);
+      setTimeout(resolve, 400);
+
+    } else if (type === 'brass') {
+      // 7. Dramatic Breaking Sting
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc1.type = 'sawtooth';
+      osc2.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(440, now); // A4
+      osc2.frequency.setValueAtTime(554.37, now); // C#5
+
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      osc1.start(now); osc2.start(now);
+      osc1.stop(now + 0.32); osc2.stop(now + 0.32);
+      setTimeout(resolve, 340);
+    }
+  });
+}
+
+// Test Button Click Function
+function testSelectedSfx() {
+  const selected = document.getElementById('sfxSelect').value;
+  playSoundBit(selected);
+}
 
   function stopAudioPlayback() {
     if (window.speechSynthesis && speechSynthesis.speaking) speechSynthesis.cancel();
@@ -739,6 +931,60 @@
     isPlaying = false;
     document.getElementById('playBtn').textContent = "🎤 Play";
   }
+// Sequence Reader: Headline -> Sound Bit -> Next Headline
+async function playSequentialBroadcast() {
+  if (newsList.length === 0) {
+    alert("Pehle news add karein!");
+    return;
+  }
+
+  isPlaying = true;
+  document.getElementById('playBtn').textContent = "⏹ Stop";
+  const sfxType = document.getElementById('sfxSelect').value;
+
+  // Intro
+  await speakHeadlineSentence("News 7AMPM me aapka swagat hai. Aaj ki mukhya khabrein.");
+  await playSoundBit(sfxType);
+
+  // Each Headline with Sound Bit
+  for (let i = 0; i < newsList.length; i++) {
+    if (!isPlaying) break; // Agar user ne Stop dabaya
+
+    // Slide preview auto-sync
+    currentSlide = i;
+    renderSlide(currentSlide);
+
+    const item = newsList[i];
+    const textToRead = `Khabar number ${item.index}. ${item.headline}`;
+    
+    await speakHeadlineSentence(textToRead);
+    
+    // Play selected sound bit after each headline
+    if (isPlaying) {
+      await playSoundBit(sfxType);
+    }
+  }
+
+  stopAudioPlayback();
+}
+
+function speakHeadlineSentence(text) {
+  return new Promise(resolve => {
+    if (!("speechSynthesis" in window)) {
+      resolve();
+      return;
+    }
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "hi-IN";
+    utter.pitch = 0.85;
+    utter.rate = 0.95;
+
+    utter.onend = resolve;
+    utter.onerror = resolve;
+
+    speechSynthesis.speak(utter);
+  });
+}
 
   async function downloadRadioAudio() {
     if (newsList.length === 0) {
