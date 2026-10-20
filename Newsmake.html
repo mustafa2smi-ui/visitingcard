@@ -397,6 +397,81 @@
   50% { opacity: 1; filter: brightness(1.6); }
   100% { filter: brightness(1); transform: scale(1); }
 }
+/* ================= FULLSCREEN FOCUS / RECORD MODE ================= */
+body.record-mode {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #000 !important;
+  overflow: hidden !important;
+}
+
+body.record-mode .panel,
+body.record-mode .template-top-bar {
+  display: none !important; /* Saare controls hide ho jayenge */
+}
+
+body.record-mode .container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+body.record-mode .preview-container {
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+body.record-mode .shorts-viewport {
+  height: 92vh !important;
+  width: calc(92vh * (9 / 16)) !important; /* Perfect 9:16 on any screen */
+  box-shadow: 0 0 50px rgba(0,0,0,0.9) !important;
+}
+
+/* Floating Exit Button */
+#exitRecordBtn {
+  display: none;
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9999;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid #555;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* 3-Second Countdown Display */
+#countdownOverlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#countdownNumber {
+  font-size: 80px;
+  font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 0 30px var(--primary);
+  animation: pulseCount 0.9s infinite;
+}
+@keyframes pulseCount {
+  0% { transform: scale(0.6); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
 
   </style>
 </head>
@@ -521,11 +596,19 @@
       <div style="display: flex; gap: 6px;">
         <button class="btn btn-secondary mini-btn" onclick="downloadCurrentSlide()">💾 Current</button>
         <button class="btn btn-success mini-btn" onclick="downloadAllAsZip()">📦 ZIP All</button>
+      <button class="btn btn-warning mini-btn" onclick="startFocusRecordingMode()">🎥 Record Mode</button>
+
       </div>
     </div>
 
     <!-- 9:16 Canvas Area -->
     <div class="shorts-viewport" id="captureCard">
+      <!-- 3-Second Countdown Overlay -->
+<div id="countdownOverlay">
+  <div style="font-size: 14px; color: #fff; margin-bottom: 10px; font-weight: bold; letter-spacing: 1px;">GET READY TO RECORD...</div>
+  <div id="countdownNumber">3</div>
+</div>
+
       <!-- Watermark Overlay (Center Rotated Subtle) -->
       <div class="watermark-overlay">NEWS 7AMPM</div>
 
@@ -591,6 +674,7 @@ Teesri headline yahan https://link3.com"></textarea>
     </div>
   </div>
 </div>
+<button id="exitRecordBtn" onclick="exitFocusRecordingMode()">✕ Exit Focus Mode</button>
 
 <script>
   let newsList = [];
@@ -1448,6 +1532,47 @@ Teesri headline yahan https://link3.com"></textarea>
 
     document.getElementById('playBtn').textContent = "🎤 Play";
   }
+    // ==========================================
+  // FULLSCREEN FOCUS MODE WITH 3s COUNTDOWN
+  // ==========================================
+  async function startFocusRecordingMode() {
+    if (newsList.length === 0) {
+      alert("Pehle news add karein!");
+      return;
+    }
+
+    // 1. Enter Clean Mode (Hide all UI)
+    document.body.classList.add('record-mode');
+    document.getElementById('exitRecordBtn').style.display = 'block';
+
+    // Slide #01 Reset
+    currentSlide = 0;
+    renderSlide(0);
+
+    // 2. Start 3-Second Countdown
+    const countdownOverlay = document.getElementById('countdownOverlay');
+    const countdownNumber = document.getElementById('countdownNumber');
+    countdownOverlay.style.display = 'flex';
+
+    for (let i = 3; i > 0; i--) {
+      countdownNumber.innerText = i;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+
+    // Hide Countdown
+    countdownOverlay.style.display = 'none';
+
+    // 3. Start Audio & Slide Show automatically from Headline 1
+    playSequentialBroadcast();
+  }
+
+  function exitFocusRecordingMode() {
+    document.body.classList.remove('record-mode');
+    document.getElementById('exitRecordBtn').style.display = 'none';
+    document.getElementById('countdownOverlay').style.display = 'none';
+    stopAudioPlayback();
+  }
+
   // Restore LocalStorage Data on Load
   window.addEventListener('DOMContentLoaded', loadFromLocalStorage);
 </script>
