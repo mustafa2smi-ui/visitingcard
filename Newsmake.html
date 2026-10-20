@@ -356,6 +356,48 @@
       resize: vertical;
       font-size: 13px;
     }
+    /* ================= VN / CAPCUT STYLE ANIMATIONS ================= */
+.anim-zoom-pop {
+  animation: zoomPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes zoomPop {
+  0% { transform: scale(0.65); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.anim-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+@keyframes slideUp {
+  0% { transform: translateY(35px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.anim-slide-left {
+  animation: slideLeft 0.4s ease-out forwards;
+}
+@keyframes slideLeft {
+  0% { transform: translateX(-40px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.anim-fade {
+  animation: fadeIn 0.4s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.anim-flash {
+  animation: flashPulse 0.5s ease-out forwards;
+}
+@keyframes flashPulse {
+  0% { opacity: 0; filter: brightness(3); transform: scale(0.92); }
+  50% { opacity: 1; filter: brightness(1.6); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+
   </style>
 </head>
 <body>
@@ -386,6 +428,19 @@
           🖼️ Custom AI 3D Image
         </label>
       </div>
+      <!-- Headline Animation Selector -->
+<div class="inline-row" style="margin-top: 4px;">
+  <strong style="font-size: 11px; color: var(--accent); white-space: nowrap;">🎬 Animation:</strong>
+  <select id="animSelect" class="select-slim" style="flex: 1;">
+    <option value="anim-zoom-pop">💥 1. Zoom Pop (CapCut Punch)</option>
+    <option value="anim-slide-up">⬆️ 2. Slide Up (Smooth Entry)</option>
+    <option value="anim-slide-left">➡️ 3. Slide Left (News Ticker)</option>
+    <option value="anim-flash">⚡ 4. Flash Pulse (Breaking Alert)</option>
+    <option value="anim-fade">✨ 5. Soft Fade In</option>
+    <option value="none">🚫 No Animation</option>
+  </select>
+</div>
+
       <div id="fileUploadRow" style="display: none; margin-top: 4px;">
         <input type="file" id="bgUploader" accept="image/*" class="slim-input" style="padding-top: 5px;" onchange="loadCustomBackgroundImage(event)">
       </div>
@@ -916,11 +971,39 @@ Teesri headline yahan https://link3.com"></textarea>
       renderSlide(0);
     }
   }
+  function renderSlide(index) {
+    const headlineEl = document.getElementById('newsHeadlineText');
+    const indexEl = document.getElementById('newsIndexText');
+    const animClass = document.getElementById('animSelect')?.value || 'anim-zoom-pop';
+
+    // Purana animation class hatana
+    headlineEl.classList.remove('anim-zoom-pop', 'anim-slide-up', 'anim-slide-left', 'anim-flash', 'anim-fade');
+    indexEl.classList.remove('anim-zoom-pop', 'anim-slide-up', 'anim-slide-left', 'anim-flash', 'anim-fade');
+
+    if (newsList.length === 0) {
+      indexEl.innerText = "HEADLINE #01";
+      headlineEl.innerText = "यहाँ आपकी बड़ी ब्रेकिंग हेडलाइन आएगी।";
+      document.getElementById('slideIndicator').innerText = "0 / 0";
+      return;
+    }
+
+    const item = newsList[index];
+    indexEl.innerText = `HEADLINE #${String(item.index).padStart(2, '0')}`;
+    headlineEl.innerText = item.headline;
+    document.getElementById('slideIndicator').innerText = `${index + 1} / ${newsList.length}`;
+
+    // Reflow trigger karke naya animation apply karna
+    if (animClass !== 'none') {
+      void headlineEl.offsetWidth; // Force Reflow
+      headlineEl.classList.add(animClass);
+      indexEl.classList.add(animClass);
+    }
+  }
 
   // ==========================================
   // SLIDE PREVIEW & DOWNLOADS
   // ==========================================
-  function renderSlide(index) {
+ /* function renderSlide(index) {
     if (newsList.length === 0) {
       document.getElementById('newsIndexText').innerText = "HEADLINE #01";
       document.getElementById('newsHeadlineText').innerText = "यहाँ आपकी बड़ी ब्रेकिंग हेडलाइन आएगी।";
@@ -932,7 +1015,7 @@ Teesri headline yahan https://link3.com"></textarea>
     document.getElementById('newsHeadlineText').innerText = item.headline;
     document.getElementById('slideIndicator').innerText = `${index + 1} / ${newsList.length}`;
   }
-
+*/
   function nextSlide() {
     if (newsList.length === 0) return;
     currentSlide = (currentSlide + 1) % newsList.length;
