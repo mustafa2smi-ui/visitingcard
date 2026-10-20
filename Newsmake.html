@@ -472,6 +472,40 @@ body.record-mode .shorts-viewport {
   50% { transform: scale(1.2); opacity: 1; }
   100% { transform: scale(1); opacity: 0.8; }
 }
+/* ================= 3RD THEME: VISUAL SPLIT SCREEN ================= */
+.split-image-container {
+  display: none;
+  width: 100%;
+  height: 270px; /* Top Half Image Area */
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--primary);
+  background: #000;
+  z-index: 2;
+}
+
+.split-news-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+/* Split Mode me Headline layout automatically adjust hoga */
+.shorts-viewport.theme-split .studio-desk {
+  display: none !important;
+}
+.shorts-viewport.theme-split .split-image-container {
+  display: block !important;
+}
+.shorts-viewport.theme-split .news-card-body {
+  margin: 12px 14px 16px 14px !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
 
   </style>
 </head>
@@ -493,16 +527,21 @@ body.record-mode .shorts-viewport {
     <!-- Background Switcher -->
     <div class="bg-switcher">
       <div class="bg-radio-group">
-        <strong style="color: var(--accent);">Theme:</strong>
-        <label>
-          <input type="radio" name="bgType" value="studio" id="themeStudio" checked onchange="toggleBackgroundMode('studio')">
-          🏛️ 3D Studio Desk
-        </label>
-        <label>
-          <input type="radio" name="bgType" value="custom" id="themeCustom" onchange="toggleBackgroundMode('custom')">
-          🖼️ Custom AI 3D Image
-        </label>
-      </div>
+  <strong style="color: var(--accent);">Theme:</strong>
+  <label>
+    <input type="radio" name="bgType" value="studio" id="themeStudio" checked onchange="toggleTemplateTheme('studio')">
+    🏛️ Studio Desk
+  </label>
+  <label>
+    <input type="radio" name="bgType" value="custom" id="themeCustom" onchange="toggleTemplateTheme('custom')">
+    🖼️ AI Fullscreen
+  </label>
+  <label>
+    <input type="radio" name="bgType" value="split" id="themeSplit" onchange="toggleTemplateTheme('split')">
+    📸 Visual Split (Photo + Text)
+  </label>
+</div>
+
       <!-- Headline Animation Selector -->
 <div class="inline-row" style="margin-top: 4px;">
   <strong style="font-size: 11px; color: var(--accent); white-space: nowrap;">🎬 Animation:</strong>
@@ -620,6 +659,10 @@ body.record-mode .shorts-viewport {
         <div class="channel-logo">NEWS 7AMPM</div>
         <div class="date-display" id="currentDate">--/--/----</div>
       </div>
+<!-- Split Mode Photo Area -->
+<div class="split-image-container" id="splitImgBox">
+  <img id="headlineImage" class="split-news-img" src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800" alt="News Image">
+</div>
 
       <!-- Main Headline Body -->
       <div class="news-card-body">
@@ -628,6 +671,12 @@ body.record-mode .shorts-viewport {
           यहाँ आपकी बड़ी ब्रेकिंग हेडलाइन आएगी।
         </div>
       </div>
+<!-- Headline Image Input / Upload Row (For Visual Split Mode) -->
+<div class="inline-row" id="headlineImgRow" style="display: none; margin-top: 4px;">
+  <input type="text" id="imgUrlInput" class="slim-input" placeholder="🖼️ Image Link (Auto-fetched or paste URL)..." />
+  <input type="file" id="localImgUpload" accept="image/*" style="display: none;" onchange="handleLocalImageUpload(event)">
+  <button class="btn btn-secondary mini-btn" onclick="document.getElementById('localImgUpload').click()">📁 Device Upload</button>
+</div>
 
       <!-- Studio Desk Graphic -->
       <div class="studio-desk" id="studioDeskGraphic">
@@ -1571,6 +1620,73 @@ Teesri headline yahan https://link3.com"></textarea>
     document.getElementById('exitRecordBtn').style.display = 'none';
     document.getElementById('countdownOverlay').style.display = 'none';
     stopAudioPlayback();
+  }
+  let currentUploadedHeadlineImg = null;
+
+  // 1. 3 Themes Switcher
+  function toggleTemplateTheme(theme) {
+    const card = document.getElementById('captureCard');
+    const headlineImgRow = document.getElementById('headlineImgRow');
+    const fileUploadRow = document.getElementById('fileUploadRow');
+
+    card.classList.remove('theme-split');
+
+    if (theme === 'split') {
+      card.classList.add('theme-split');
+      headlineImgRow.style.display = 'flex';
+      fileUploadRow.style.display = 'none';
+      toggleBackgroundMode('split');
+    } else if (theme === 'custom') {
+      headlineImgRow.style.display = 'none';
+      fileUploadRow.style.display = 'block';
+      toggleBackgroundMode('custom');
+    } else {
+      headlineImgRow.style.display = 'none';
+      fileUploadRow.style.display = 'none';
+      toggleBackgroundMode('studio');
+    }
+  }
+
+  // 2. Auto-fetch Image along with Title from Link
+  async function fetchTitleAndImageFromUrl(url) {
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    const data = await res.json();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data.contents, "text/html");
+
+    // Title
+    let title = doc.querySelector('meta[property="og:title"]')?.content ||
+                doc.querySelector('h1')?.innerText ||
+                doc.querySelector('title')?.innerText || "";
+    title = title.replace(/\s*[\-\|]\s*(BBC News|NDTV|Aaj Tak|ABP News|Dainik Bhaskar|India Today|Zee News).*$/i, '').trim();
+
+    // Image from News Article (og:image)
+    let imageUrl = doc.querySelector('meta[property="og:image"]')?.content ||
+                   doc.querySelector('meta[name="twitter:image"]')?.content || "";
+
+    return { title, imageUrl };
+  }
+
+  // 3. Local Gallery Image Upload Handler
+  function handleLocalImageUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        currentUploadedHeadlineImg = evt.target.result;
+        document.getElementById('imgUrlInput').value = "[Device Image Attached]";
+        document.getElementById('headlineImage').src = currentUploadedHeadlineImg;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // 4. Slide Render me Image Update
+  // (Apne renderSlide(index) ke andar bas ye 2 line jodein):
+  const currentItem = newsList[index];
+  if (currentItem && currentItem.image) {
+    document.getElementById('headlineImage').src = currentItem.image;
   }
 
   // Restore LocalStorage Data on Load
