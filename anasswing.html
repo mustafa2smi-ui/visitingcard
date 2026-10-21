@@ -700,94 +700,119 @@
     function switchMode(mode) {
       document.getElementById("bulkPasteCard").style.display = (mode === "bulk") ? "block" : "none";
     }
-
-    // 2. 6-MONTH BULK ARCHIVES PARSER (PURE REPLACEMENT, NO MERGE)
+    // 2. BULLETPROOF 6-MONTH ARCHIVES PARSER (Mobile & PC Friendly)
     function applyBulkArchivesData() {
       const raw = document.getElementById("bulkPasteInput").value.trim();
       if (!raw) {
-        alert("Please paste the historical table data first.");
+        alert("Pehle table data paste karein!");
         return;
       }
 
-      const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+      // Universal Date Pattern: Matches 21-Oct-2026, 21-OCT-2026, 21-10-2026, 21/10/2026, 2026-10-21
+      const dateRegex = /(\d{1,2}[-\/](?:[a-zA-Z]{3}|\d{1,2})[-\/]\d{2,4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/g;
+      
+      // Extract all dates and their positions in text
+      let dateMatches = [];
+      let match;
+      while ((match = dateRegex.exec(raw)) !== null) {
+        dateMatches.push({
+          dateStr: match[0],
+          index: match.index
+        });
+      }
+
+      if (dateMatches.length === 0) {
+        alert("Koi valid Date nahi mili! Kripya NSE Archives se copy kiya hua data paste karein (Example: 21-Oct-2026 ya 21-10-2026).");
+        return;
+      }
+
       const parsedCandles = [];
 
-      for (let line of lines) {
-        // Skip header lines
-        if (line.toLowerCase().includes("open price") || line.toLowerCase().includes("prev close") || line.toLowerCase().includes("deliverable")) {
-          continue;
-        }
+      // Process chunk between each date
+      for (let i = 0; i < dateMatches.length; i++) {
+        const currentDate = dateMatches[i].dateStr;
+        const startIndex = dateMatches[i].index + currentDate.length;
+        const endIndex = (i + 1 < dateMatches.length) ? dateMatches[i + 1].index : raw.length;
+        
+        // Chunk of data belonging to this specific date
+        const block = raw.substring(startIndex, endIndex);
 
-        // Split by tabs or multiple spaces
-        const tokens = line.split(/[\t]+/).length > 4 ? line.split(/[\t]+/) : line.replace(/\s+/g, " ").split(" ");
-        if (tokens.length < 7) continue;
+        // Extract all decimal/integer numbers from this block (handles 1,202.00 and 1,76,07,823)
+        const numberMatches = block.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
+        if (!numberMatches) continue;
 
-        // Extract Date (Look for DD-MMM-YYYY or DD-MM-YYYY)
-        let dateVal = null;
+        // Clean commas to float numbers
+        const nums = numberMatches
+          .map(n => parseFloat(n.replace(/,/g, "")))
+          .filter(n => !isNaN(n) && n > 0);
+
+        // We need at least OHLC (4 numbers)
+        if (nums.length < 4) continue;
+
         let open = 0, high = 0, low = 0, close = 0, vol = 0, delivQty = null, delivPct = null;
 
-        // Try standard format provided: Symbol Series Date PrevClose Open High Low Last Close ... Qty DelivQty Deliv%
-        // Or Date-first format: Date Series Open High Low ...
-        for (let i = 0; i < tokens.length; i++) {
-          if (/^\d{1,2}-[a-zA-Z]{3}-\d{4}$\vert{}^\d{1,2}-\d{2}-\d{4}$/.test(tokens[i])) {
-            dateVal = tokens[i];
-            break;
-          }
+        if (nums.length >= 10) {
+          // Standard NSE Bhavcopy / Archives format:
+          // [PrevClose, Open, High, Low, Last, Close, VWAP, TotalQty, Turnover, Trades, DelivQty, %Deliv]
+          open = nums[1];
+          high = nums[2];
+          low = nums[3];
+          close = nums[5] || nums[4];
+          vol = nums[7] || 0;
+          delivQty = nums[nums.length - 2] || null;
+          delivPct = nums[nums.length - 1] || null;
+        } else if (nums.length >= 5) {
+          // Simplified format: [Open, High, Low, Close, Volume, ...]
+          open = nums[0];
+          high = nums[1];
+          low = nums[2];
+          close = nums[3];
+          vol = nums[4] || 0;
+          if (nums.length >= 6) delivPct = nums[nums.length - 1];
+          if (nums.length >= 7) delivQty = nums[nums.length - 2];
+        } else {
+          open = nums[0];
+          high = nums[1];
+          low = nums[2];
+          close = nums[3];
         }
 
-        if (!dateVal) continue;
-
-        // Clean numbers
-        const cleanNums = tokens.map(t => parseFloat(t.replace(/,/g, ""))).filter(n => !isNaN(n));
-        if (cleanNums.length < 4) continue;
-
-        // Extract OHLC & Delivery based on clean numbers array
-        // Standard NSE Archives has Open, High, Low, Close sequential
-        // Let's identify the 4 price values:
-        open = cleanNums[1] || cleanNums[0];
-        high = cleanNums[2] || cleanNums[1];
-        low = cleanNums[3] || cleanNums[2];
-        close = cleanNums[5] || cleanNums[4] || cleanNums[3];
-
-        // Last 2 items are usually Deliverable Qty and Deliv %
-        if (cleanNums.length >= 7) {
-          delivPct = cleanNums[cleanNums.length - 1];
-          delivQty = cleanNums[cleanNums.length - 2];
-          vol = cleanNums[cleanNums.length - 5] || 0;
+        // Percentage sanity check (delivery percent cannot be > 100)
+        if (delivPct !== null && delivPct > 100) {
+          delivPct = null;
         }
 
         parsedCandles.push({
-          date: dateVal,
-          open: open,
-          high: high,
-          low: low,
-          close: close,
+          date: currentDate,
+          open: Number(open.toFixed(1)),
+          high: Number(high.toFixed(1)),
+          low: Number(low.toFixed(1)),
+          close: Number(close.toFixed(1)),
           volume: vol,
-          delivQty: delivQty,
-          delivPercent: delivPct
+          delivQty: delivQty ? Math.round(delivQty) : null,
+          delivPercent: delivPct ? Number(delivPct.toFixed(2)) : null
         });
       }
 
       if (parsedCandles.length === 0) {
-        alert("Could not detect valid trading rows. Please ensure you copied data from NSE Archives.");
+        alert("Data parse nahi ho saka. Kripya check karein ki data me Date aur Price values barabar hain.");
         return;
       }
 
-      // Check date order: If newest first, reverse so it's chronological for math calculation
-      const firstDate = new Date(parsedCandles[0].date);
-      const lastDate = new Date(parsedCandles[parsedCandles.length - 1].date);
-      if (!isNaN(firstDate) && !isNaN(lastDate) && firstDate > lastDate) {
-        parsedCandles.reverse(); // Now chronologically ascending (Oldest to Newest)
-      }
+      // Ensure chronological order (Oldest to Newest) for correct Moving Average calculation
+      parsedCandles.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      // Save purely this data (NO MERGE with old data)
+      // Overwrite strictly for this stock (NO MERGE with past demo data)
       localStorage.setItem(`stock_data_${currentStock}`, JSON.stringify(parsedCandles));
       document.getElementById("bulkPasteInput").value = "";
-      alert(`Success! Loaded ${parsedCandles.length} trading sessions for ${currentStock}. Fresh calculations ready!`);
+
+      alert(`✅ Zabardast! Total ${parsedCandles.length} trading days ka data fresh load ho gaya!`);
       switchMode('view');
       document.querySelector('input[name="viewMode"][value="view"]').checked = true;
       loadActiveStock(currentStock);
     }
+
+        
 
     // Engine Pipeline
     function loadActiveStock(sym) {
