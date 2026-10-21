@@ -591,6 +591,38 @@
           </div>
         </div>
       </section>
+      <!-- Actionable Trade Signal Card -->
+      <section class="smart-money-card" id="tradeSignalCard" style="border-left: 5px solid var(--accent);">
+        <div class="card-title-bar">
+          <h3>🎯 Actionable Trade Signal & Execution Blueprint</h3>
+          <span class="badge" id="signalStatusBadge" style="font-size:13px;">Analyzing...</span>
+        </div>
+        <div class="smart-money-grid">
+          <div class="sm-item">
+            <div class="sm-label">Recommended Entry Trigger</div>
+            <div class="sm-val" id="sigEntry" style="color:var(--accent);">-</div>
+            <span class="badge badge-blue" id="sigEntrySub">Confirmation Rule</span>
+          </div>
+          <div class="sm-item">
+            <div class="sm-label">Strict Stop Loss (Darvas Floor)</div>
+            <div class="sm-val" id="sigSL" style="color:var(--red);">-</div>
+            <span class="badge badge-red" id="sigSLPct">Risk %</span>
+          </div>
+          <div class="sm-item">
+            <div class="sm-label">Target 1 (+7% Swing)</div>
+            <div class="sm-val" id="sigT1" style="color:var(--green);">-</div>
+            <span class="badge badge-green">R:R 1:1.5</span>
+          </div>
+          <div class="sm-item">
+            <div class="sm-label">Target 2 (+12% Extension)</div>
+            <div class="sm-val" id="sigT2" style="color:var(--green);">-</div>
+            <span class="badge badge-green">R:R 1:2.5+</span>
+          </div>
+        </div>
+        <div style="margin-top:12px; padding:10px 14px; background:#070c14; border-radius:6px; font-size:13px; color:#cbd5e1;" id="sigReason">
+          Waiting for stock data...
+        </div>
+      </section>
 
       <!-- Dual Analysis Row: Visual Pivot Ladder + Darvas Box -->
       <div class="analysis-grid">
@@ -886,7 +918,7 @@
       let native = new Date(str).getTime();
       return isNaN(native) ? 0 : native;
     }
-
+/*
     // 2. BULLETPROOF 6-MONTH ARCHIVES PARSER (Pure Fresh Calculate)
     function applyBulkArchivesData() {
       const raw = document.getElementById("bulkPasteInput").value.trim();
@@ -980,7 +1012,8 @@
       document.querySelector('input[name="viewMode"][value="view"]').checked = true;
       loadActiveStock(currentStock);
     }
-
+*/
+    
     // Engine Pipeline: Zero Mock Data
     async function loadActiveStock(sym) {
       document.getElementById("heroSymbol").innerText = sym;
@@ -1033,6 +1066,215 @@
       renderDarvasInspectorAndBacktest(candles);
       renderTable(candles);
       drawCandlestickChart(candles);
+      renderTradeSignalCard(candles);
+    }
+
+        // 1. Symbol Auto-Detect in Parser
+    function applyBulkArchivesData() {
+      const raw = document.getElementById("bulkPasteInput").value.trim();
+      if (!raw) {
+        alert("Pehle table data paste karein!");
+        return;
+      }
+
+      // Step A: Extract Symbol from pasted text (e.g. RELIANCE, TATACHEM, INFY)
+      const firstLine = raw.split(/\r?\n/)[0].trim().replace(/\s+/g, " ");
+      const firstTokens = firstLine.split(" ");
+      let detectedSymbol = "";
+
+      // Standard NSE line: Symbol is first token (uppercase text, not a date, not header)
+      if (firstTokens.length > 0) {
+        let symCandidate = firstTokens[0].replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+        if (symCandidate && !symCandidate.includes("SYMBOL") && isNaN(symCandidate)) {
+          detectedSymbol = symCandidate;
+        }
+      }
+
+      const dateRegex = /(\d{1,2}[-\/](?:[a-zA-Z]{3}|\d{1,2})[-\/]\d{2,4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/g;
+      let dateMatches = [];
+      let match;
+      while ((match = dateRegex.exec(raw)) !== null) {
+        dateMatches.push({ dateStr: match[0], index: match.index });
+      }
+
+      if (dateMatches.length === 0) {
+        alert("Koi valid Date nahi mili! Kripya NSE Archives se copy kiya hua data paste karein.");
+        return;
+      }
+
+      const parsedCandles = [];
+
+      for (let i = 0; i < dateMatches.length; i++) {
+        const currentDate = dateMatches[i].dateStr;
+        const startIndex = dateMatches[i].index + currentDate.length;
+        const endIndex = (i + 1 < dateMatches.length) ? dateMatches[i + 1].index : raw.length;
+        
+        const block = raw.substring(startIndex, endIndex);
+        const numberMatches = block.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
+        if (!numberMatches) continue;
+
+        const nums = numberMatches
+          .map(n => parseFloat(n.replace(/,/g, "")))
+          .filter(n => !isNaN(n) && n > 0);
+
+        if (nums.length < 4) continue;
+
+        let open = 0, high = 0, low = 0, close = 0, vol = 0, delivQty = null, delivPct = null;
+
+        if (nums.length >= 10) {
+          open = nums[1];
+          high = nums[2];
+          low = nums[3];
+          close = nums[5] || nums[4];
+          vol = nums[7] || 0;
+          delivQty = nums[nums.length - 2] || null;
+          delivPct = nums[nums.length - 1] || null;
+        } else if (nums.length >= 5) {
+          open = nums[0];
+          high = nums[1];
+          low = nums[2];
+          close = nums[3];
+          vol = nums[4] || 0;
+          if (nums.length >= 6) delivPct = nums[nums.length - 1];
+          if (nums.length >= 7) delivQty = nums[nums.length - 2];
+        } else {
+          open = nums[0];
+          high = nums[1];
+          low = nums[2];
+          close = nums[3];
+        }
+
+        if (delivPct !== null && delivPct > 100) delivPct = null;
+
+        parsedCandles.push({
+          date: currentDate,
+          open: Number(open.toFixed(1)),
+          high: Number(high.toFixed(1)),
+          low: Number(low.toFixed(1)),
+          close: Number(close.toFixed(1)),
+          volume: vol,
+          delivQty: delivQty ? Math.round(delivQty) : null,
+          delivPercent: delivPct ? Number(delivPct.toFixed(2)) : null
+        });
+      }
+
+      if (parsedCandles.length === 0) {
+        alert("Data parse nahi ho saka.");
+        return;
+      }
+
+      parsedCandles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
+
+      // Update active stock to detected symbol
+      const targetStock = detectedSymbol || currentStock;
+      currentStock = targetStock;
+
+      // Add to watchlist if not present
+      let all = JSON.parse(localStorage.getItem("anas_stock_list") || "[]");
+      if (!all.includes(targetStock)) {
+        all.push(targetStock);
+        all.sort();
+        localStorage.setItem("anas_stock_list", JSON.stringify(all));
+        renderSidebarList(all);
+      }
+
+      localStorage.setItem(`stock_data_${targetStock}`, JSON.stringify(parsedCandles));
+      document.getElementById("bulkPasteInput").value = "";
+
+      alert(`✅ Success! Stock: ${targetStock} ke ${parsedCandles.length} sessions load ho gaye!`);
+      switchMode('view');
+      document.querySelector('input[name="viewMode"][value="view"]').checked = true;
+      loadActiveStock(targetStock);
+    }
+
+    // 2. Actionable Signal Engine Function
+    function renderTradeSignalCard(data) {
+      if (!data || data.length < 20) return;
+      const latest = data[data.length - 1];
+      const CMP = latest.close;
+      const boxTop = latest.darvasTop;
+      const boxFloor = latest.darvasBottom;
+      const rsi = parseFloat(latest.rsi) || 50;
+      const ma20 = parseFloat(latest.ma20) || 0;
+      const ma50 = parseFloat(latest.ma50) || 0;
+      const delivPct = latest.delivPercent || 0;
+
+      const badge = document.getElementById("signalStatusBadge");
+      const card = document.getElementById("tradeSignalCard");
+      const reasonEl = document.getElementById("sigReason");
+
+      const entryEl = document.getElementById("sigEntry");
+      const slEl = document.getElementById("sigSL");
+      const slPctEl = document.getElementById("sigSLPct");
+      const t1El = document.getElementById("sigT1");
+      const t2El = document.getElementById("sigT2");
+
+      // Calculation of Stop Loss and Targets
+      const stopLoss = boxFloor;
+      const riskAmount = Math.max(1, CMP - stopLoss);
+      const riskPct = ((riskAmount / CMP) * 100).toFixed(1);
+
+      slEl.innerText = `₹${stopLoss.toFixed(1)}`;
+      slPctEl.innerText = `Risk: -${riskPct}%`;
+
+      // Target 1 = +7% | Target 2 = +12%
+      t1El.innerText = `₹${(CMP * 1.07).toFixed(1)}`;
+      t2El.innerText = `₹${(CMP * 1.12).toFixed(1)}`;
+
+      // LOGIC MATRIX:
+      // Condition 1: Fresh Breakout
+      const isBreakout = CMP >= boxTop;
+      const isNearBreakout = !isBreakout && ((boxTop - CMP) / CMP) <= 0.025; // 2.5% away
+      const isBullishTrend = ma20 > 0 && CMP > ma20 && (ma50 === 0 || ma20 >= ma50);
+      const isHighDeliv = delivPct >= 42;
+      const isSafeRSI = rsi >= 48 && rsi <= 72;
+
+      if (isBreakout && isBullishTrend && isSafeRSI) {
+        badge.innerText = "🚀 STRONG BUY (Darvas Breakout)";
+        badge.className = "badge badge-green";
+        card.style.borderLeftColor = "var(--green)";
+        entryEl.innerText = `At CMP ₹${CMP.toFixed(1)}`;
+        document.getElementById("sigEntrySub").innerText = "Breakout Triggered";
+
+        reasonEl.innerHTML = `
+          <strong>Trade Setup:</strong> Stock ne ₹${boxTop.toFixed(1)} ka Darvas ceiling tod diya hai. 
+          20 EMA ke upar chal raha hai (RSI: ${rsi}). ${isHighDeliv ? `Institutional delivery mazboot hai (${delivPct}%).` : ''} 
+          Trailing stop-loss ₹${stopLoss.toFixed(1)} par maintain karein.
+        `;
+      } else if (isNearBreakout && isBullishTrend) {
+        badge.innerText = "👀 WATCHLIST (Setup Forming)";
+        badge.className = "badge badge-yellow";
+        card.style.borderLeftColor = "var(--yellow)";
+        entryEl.innerText = `Above ₹${boxTop.toFixed(1)}`;
+        document.getElementById("sigEntrySub").innerText = "Wait for Daily Close";
+
+        reasonEl.innerHTML = `
+          <strong>Action Plan:</strong> Stock ceiling (₹${boxTop.toFixed(1)}) ke bilkul paas consolidate kar raha hai. 
+          Advance entry lene se bachein. Daily candle ko ₹${boxTop.toFixed(1)} ke upar band hone dein, fir entry trigger hogi.
+        `;
+      } else if (CMP < boxFloor || (ma20 > 0 && CMP < ma20)) {
+        badge.innerText = "⛔ AVOID / CAUTION (Weak Trend)";
+        badge.className = "badge badge-red";
+        card.style.borderLeftColor = "var(--red)";
+        entryEl.innerText = "No Trade";
+        document.getElementById("sigEntrySub").innerText = "Wait for reversal";
+
+        reasonEl.innerHTML = `
+          <strong>Warning:</strong> Stock 20 EMA ke niche ya Box Floor ke niche chal raha hai. 
+          Breakdown ka khatra hai. Jab tak wapas box ke andar ya 20 MA ke upar na aaye, swing trade na lein.
+        `;
+      } else {
+        badge.innerText = "📦 CONSOLIDATION (Inside Box)";
+        badge.className = "badge badge-blue";
+        card.style.borderLeftColor = "var(--accent)";
+        entryEl.innerText = `Above ₹${boxTop.toFixed(1)}`;
+        document.getElementById("sigEntrySub").innerText = "Breakout Level";
+
+        reasonEl.innerHTML = `
+          <strong>Observation:</strong> Stock ₹${boxFloor.toFixed(0)} se ₹${boxTop.toFixed(0)} ke daayre me trade kar raha hai. 
+          Ceiling cross hone par hi fresh swing momentum aayega.
+        `;
+      }
     }
 
     function clearDashboardUI() {
