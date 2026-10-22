@@ -130,12 +130,12 @@
     .main-content {
       flex: 1;
       padding: 20px;
-      max-width: 1320px;
+      max-width: 1340px;
       margin: 0 auto;
       width: 100%;
     }
 
-    /* Status Alert Banner (Connection / Empty State) */
+    /* Status Alert Banner */
     .alert-banner {
       display: none;
       padding: 14px 18px;
@@ -229,7 +229,7 @@
       cursor: pointer;
     }
 
-    /* Step 3: Smart Money & Institutional Delivery Card */
+    /* Actionable Trade Signal Card */
     .smart-money-card {
       background: var(--card-bg);
       border: 1px solid #1e3a5f;
@@ -343,7 +343,6 @@
     }
     .backtest-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
     
-    /* Darvas History Table */
     .darvas-history-wrap {
       max-height: 160px;
       overflow-y: auto;
@@ -407,7 +406,14 @@
       align-items: center;
       border-bottom: 1px solid var(--card-border);
     }
-    .table-responsive { max-height: 480px; overflow: auto; }
+    .table-legend {
+      font-size: 11px;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .table-responsive { max-height: 520px; overflow: auto; }
     table { width: 100%; border-collapse: collapse; text-align: right; font-size: 13px; }
     th {
       background: #090e17;
@@ -420,7 +426,7 @@
       z-index: 5;
     }
     th:first-child, td:first-child { text-align: left; }
-    td { padding: 9px 12px; border-bottom: 1px solid #1a263a; color: var(--text-main); }
+    td { padding: 9px 12px; border-bottom: 1px solid #1a263a; color: var(--text-main); white-space: nowrap; }
     tr:hover { background: rgba(56, 189, 248, 0.05); }
 
     /* Footer */
@@ -517,7 +523,7 @@
       <section class="hero-card">
         <div>
           <div class="hero-metric-title">Active Stock</div>
-          <div class="hero-metric-val" id="heroSymbol">RELIANCE</div>
+          <div class="hero-metric-val" id="heroSymbol">SELECT STOCK</div>
           <span class="badge badge-blue">NSE EQ Series</span>
         </div>
         <div>
@@ -553,7 +559,7 @@
       <section class="bulk-paste-card" id="bulkPasteCard">
         <strong style="color:var(--accent);">📋 Paste 6-Month NSE Security Archives Data (Equity):</strong>
         <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">
-          NSE website ke "Historical / Security Archives" se copy kiya hua data yaha paste karein. Koi purana demo data merge nahi hoga, balki sirf is data par sare indicators fresh calculate honge.
+          NSE website ke "Historical / Security Archives" se copy kiya hua data yaha paste karein. Stock symbol auto-detect ho kar fresh calculate hoga.
         </p>
         <textarea id="bulkPasteInput" placeholder="Symbol  Series  Date  Prev Close  Open Price  High Price  Low Price  Last Price  Close Price  VWAP  Total Traded Quantity  Turnover ₹  No. of Trades  Deliverable Qty  % Dly Qt to Traded Qty... (Paste all rows here)"></textarea>
         <div class="bulk-actions">
@@ -562,35 +568,6 @@
         </div>
       </section>
 
-      <!-- Step 3: Smart Money & Institutional Delivery Card -->
-      <section class="smart-money-card" id="smartMoneyCard">
-        <div class="card-title-bar">
-          <h3>🏛️ Smart Money & Institutional Delivery Tracker</h3>
-          <span style="font-size:12px; color:var(--text-sub);" id="smDateLabel">Data Date: -</span>
-        </div>
-        <div class="smart-money-grid">
-          <div class="sm-item">
-            <div class="sm-label">Latest Delivery %</div>
-            <div class="sm-val" id="smDelivPct">-</div>
-            <span class="badge" id="smDelivBadge">Threshold: 45%</span>
-          </div>
-          <div class="sm-item">
-            <div class="sm-label">Delivery Qty vs 20-Day Avg</div>
-            <div class="sm-val" id="smRatio">-</div>
-            <span class="badge badge-blue" id="smRatioBadge">Volume Multiple</span>
-          </div>
-          <div class="sm-item">
-            <div class="sm-label">Consecutive 2-Day Delivery Trend</div>
-            <div class="sm-val" style="font-size:15px;" id="smConsecutive">-</div>
-            <span class="badge" id="smConsecutiveBadge">Pocket Buying Check</span>
-          </div>
-          <div class="sm-item">
-            <div class="sm-label">Institutional Verdict</div>
-            <div class="sm-val" style="font-size:15px;" id="smVerdict">-</div>
-            <span class="badge" id="smVerdictBadge">Action Signal</span>
-          </div>
-        </div>
-      </section>
       <!-- Actionable Trade Signal Card -->
       <section class="smart-money-card" id="tradeSignalCard" style="border-left: 5px solid var(--accent);">
         <div class="card-title-bar">
@@ -621,6 +598,36 @@
         </div>
         <div style="margin-top:12px; padding:10px 14px; background:#070c14; border-radius:6px; font-size:13px; color:#cbd5e1;" id="sigReason">
           Waiting for stock data...
+        </div>
+      </section>
+
+      <!-- Smart Money & Institutional Delivery Card -->
+      <section class="smart-money-card" id="smartMoneyCard">
+        <div class="card-title-bar">
+          <h3>🏛️ Smart Money & Institutional Delivery Tracker</h3>
+          <span style="font-size:12px; color:var(--text-sub);" id="smDateLabel">Data Date: -</span>
+        </div>
+        <div class="smart-money-grid">
+          <div class="sm-item">
+            <div class="sm-label">Latest Delivery %</div>
+            <div class="sm-val" id="smDelivPct">-</div>
+            <span class="badge" id="smDelivBadge">Threshold: 45%</span>
+          </div>
+          <div class="sm-item">
+            <div class="sm-label">Delivery Qty vs 20-Day Avg</div>
+            <div class="sm-val" id="smRatio">-</div>
+            <span class="badge badge-blue" id="smRatioBadge">Volume Multiple</span>
+          </div>
+          <div class="sm-item">
+            <div class="sm-label">Consecutive 2-Day Delivery Trend</div>
+            <div class="sm-val" style="font-size:15px;" id="smConsecutive">-</div>
+            <span class="badge" id="smConsecutiveBadge">Pocket Buying Check</span>
+          </div>
+          <div class="sm-item">
+            <div class="sm-label">Institutional Verdict</div>
+            <div class="sm-val" style="font-size:15px;" id="smVerdict">-</div>
+            <span class="badge" id="smVerdictBadge">Action Signal</span>
+          </div>
         </div>
       </section>
 
@@ -657,7 +664,7 @@
             <span class="badge" id="darvasStatusBadge">-</span>
           </div>
           <p style="font-size:12px; color:var(--text-sub);">
-            15-day consolidation basis par Box Top (Breakout level) aur Box Floor (Stop Loss level).
+            15-day consolidation basis par Box Top (Breakout) aur Box Floor (Stop Loss).
           </p>
 
           <div class="darvas-metrics-grid">
@@ -684,7 +691,7 @@
             <div class="backtest-row"><span>Historical Win Rate:</span><strong style="color:var(--accent);" id="btWinRate">0%</strong></div>
           </div>
 
-          <!-- Item 3: Darvas Box Breakout History Log Table -->
+          <!-- Darvas History Log Table -->
           <strong style="color:var(--accent); font-size:12px; margin-top:10px; display:block;">📜 Darvas Breakout Trade History Log</strong>
           <div class="darvas-history-wrap">
             <table>
@@ -706,7 +713,7 @@
 
       </div>
 
-      <!-- Real Candlestick Chart Section (2-Week / 10 Sessions) -->
+      <!-- Real Candlestick Chart Section -->
       <section class="candlestick-card">
         <div class="chart-header-row">
           <strong style="color:var(--accent);">🕯️ 2-Week (10 Trading Sessions) Pure Candlestick Chart</strong>
@@ -717,10 +724,17 @@
         </div>
       </section>
 
-      <!-- Data Table -->
+      <!-- Data Table with 2-Day Avg Trend Arrows -->
       <section class="table-container">
         <div class="table-header-bar">
-          <strong>Daily Technical & Delivery Data Table</strong>
+          <div>
+            <strong>Daily Technical & Delivery Data Table</strong>
+            <div class="table-legend">
+              <span>Trend Indicator:</span>
+              <span style="color:var(--green);">▲ = Above 2-Day Prev Avg</span>
+              <span style="color:var(--red);">▼ = Below 2-Day Prev Avg</span>
+            </div>
+          </div>
           <button style="background:var(--card-bg); border:1px solid var(--card-border); color:var(--text-main); padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="toggleDateSort()">
             Date Sort: <span id="sortOrderLabel">Newest First ↓</span>
           </button>
@@ -789,7 +803,7 @@
       window.addEventListener("resize", () => drawCandlestickChart(cachedCandles));
     });
 
-    // 1. ALL CLEAR FUNCTION (Zero leftovers)
+    // 1. ALL CLEAR FUNCTION
     function clearAllData() {
       if (confirm(`Kya aap ${currentStock} ka sara stored historical aur delivery data delete karna chahte hain?`)) {
         localStorage.removeItem(`stock_data_${currentStock}`);
@@ -886,7 +900,7 @@
       document.getElementById("bulkPasteCard").style.display = (mode === "bulk") ? "block" : "none";
     }
 
-    // Precise Custom Date Parser (Handles DD-MMM-YYYY, DD-MM-YYYY, DD/MM/YYYY)
+    // Precise Custom Date Parser
     function parseCustomDate(str) {
       if (!str) return 0;
       str = str.trim();
@@ -918,8 +932,8 @@
       let native = new Date(str).getTime();
       return isNaN(native) ? 0 : native;
     }
-/*
-    // 2. BULLETPROOF 6-MONTH ARCHIVES PARSER (Pure Fresh Calculate)
+
+    // Bulk Archives Parser with Auto-Detected Symbol
     function applyBulkArchivesData() {
       const raw = document.getElementById("bulkPasteInput").value.trim();
       if (!raw) {
@@ -927,162 +941,11 @@
         return;
       }
 
-      const dateRegex = /(\d{1,2}[-\/](?:[a-zA-Z]{3}|\d{1,2})[-\/]\d{2,4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/g;
-      let dateMatches = [];
-      let match;
-      while ((match = dateRegex.exec(raw)) !== null) {
-        dateMatches.push({ dateStr: match[0], index: match.index });
-      }
-
-      if (dateMatches.length === 0) {
-        alert("Koi valid Date nahi mili! Kripya NSE Archives se copy kiya hua data paste karein (e.g. 21-Oct-2026).");
-        return;
-      }
-
-      const parsedCandles = [];
-
-      for (let i = 0; i < dateMatches.length; i++) {
-        const currentDate = dateMatches[i].dateStr;
-        const startIndex = dateMatches[i].index + currentDate.length;
-        const endIndex = (i + 1 < dateMatches.length) ? dateMatches[i + 1].index : raw.length;
-        
-        const block = raw.substring(startIndex, endIndex);
-        const numberMatches = block.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
-        if (!numberMatches) continue;
-
-        const nums = numberMatches
-          .map(n => parseFloat(n.replace(/,/g, "")))
-          .filter(n => !isNaN(n) && n > 0);
-
-        if (nums.length < 4) continue;
-
-        let open = 0, high = 0, low = 0, close = 0, vol = 0, delivQty = null, delivPct = null;
-
-        if (nums.length >= 10) {
-          open = nums[1];
-          high = nums[2];
-          low = nums[3];
-          close = nums[5] || nums[4];
-          vol = nums[7] || 0;
-          delivQty = nums[nums.length - 2] || null;
-          delivPct = nums[nums.length - 1] || null;
-        } else if (nums.length >= 5) {
-          open = nums[0];
-          high = nums[1];
-          low = nums[2];
-          close = nums[3];
-          vol = nums[4] || 0;
-          if (nums.length >= 6) delivPct = nums[nums.length - 1];
-          if (nums.length >= 7) delivQty = nums[nums.length - 2];
-        } else {
-          open = nums[0];
-          high = nums[1];
-          low = nums[2];
-          close = nums[3];
-        }
-
-        if (delivPct !== null && delivPct > 100) delivPct = null;
-
-        parsedCandles.push({
-          date: currentDate,
-          open: Number(open.toFixed(1)),
-          high: Number(high.toFixed(1)),
-          low: Number(low.toFixed(1)),
-          close: Number(close.toFixed(1)),
-          volume: vol,
-          delivQty: delivQty ? Math.round(delivQty) : null,
-          delivPercent: delivPct ? Number(delivPct.toFixed(2)) : null
-        });
-      }
-
-      if (parsedCandles.length === 0) {
-        alert("Data parse nahi ho saka. Kripya check karein.");
-        return;
-      }
-
-      // Chronological sort using custom parser (earliest to latest)
-      parsedCandles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
-
-      // Overwrite strictly (NO MERGE with old data)
-      localStorage.setItem(`stock_data_${currentStock}`, JSON.stringify(parsedCandles));
-      document.getElementById("bulkPasteInput").value = "";
-
-      alert(`✅ Success! Total ${parsedCandles.length} trading days ka data fresh load ho gaya!`);
-      switchMode('view');
-      document.querySelector('input[name="viewMode"][value="view"]').checked = true;
-      loadActiveStock(currentStock);
-    }
-*/
-    
-    // Engine Pipeline: Zero Mock Data
-    async function loadActiveStock(sym) {
-      document.getElementById("heroSymbol").innerText = sym;
-      const banner = document.getElementById("statusBanner");
-      banner.style.display = "none";
-
-      let candles = JSON.parse(localStorage.getItem(`stock_data_${sym}`) || "null");
-
-      // If no pasted data, try Google Apps Script
-      if (!candles || candles.length === 0) {
-        const scriptUrl = localStorage.getItem("anas_script_url");
-        if (!scriptUrl) {
-          banner.className = "alert-banner info";
-          banner.innerHTML = `ℹ️ <strong>Google Apps Script URL nahi mila.</strong> Kripya upar <strong>'⚙️ Apps Script API'</strong> button par click karke URL save karein, ya <strong>'📥 Paste 6-Month NSE Archives Data'</strong> me data paste karein.`;
-          clearDashboardUI();
-          return;
-        }
-
-        try {
-          banner.className = "alert-banner info";
-          banner.innerText = `⏳ Google Sheet Apps Script se ${sym} ka live data fetch ho raha hai...`;
-          const resp = await fetch(`${scriptUrl}?symbol=${sym}&exchange=NSE&days=180`);
-          const json = await resp.json();
-          if (json.candles && json.candles.length > 0) {
-            candles = json.candles;
-            // Ensure ascending sort
-            candles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
-            banner.className = "alert-banner success";
-            banner.innerText = `✅ Google Apps Script se ${candles.length} trading sessions successfully load ho gaye!`;
-          } else {
-            banner.className = "alert-banner error";
-            banner.innerText = `❌ Google Apps Script ne koi data return nahi kiya. Symbol check karein.`;
-            clearDashboardUI();
-            return;
-          }
-        } catch (err) {
-          banner.className = "alert-banner error";
-          banner.innerHTML = `❌ <strong>Connection Error:</strong> Google Apps Script se data fetch nahi ho saka. Make sure karein ki Deployment 'Anyone' access par set hai.`;
-          clearDashboardUI();
-          return;
-        }
-      }
-
-      calculateTechnicalIndicators(candles);
-      cachedCandles = candles;
-
-      updateHeroMetrics(candles);
-      renderSmartMoneySection(candles);
-      renderPivotLadder(candles);
-      renderDarvasInspectorAndBacktest(candles);
-      renderTable(candles);
-      drawCandlestickChart(candles);
-      renderTradeSignalCard(candles);
-    }
-
-        // 1. Symbol Auto-Detect in Parser
-    function applyBulkArchivesData() {
-      const raw = document.getElementById("bulkPasteInput").value.trim();
-      if (!raw) {
-        alert("Pehle table data paste karein!");
-        return;
-      }
-
-      // Step A: Extract Symbol from pasted text (e.g. RELIANCE, TATACHEM, INFY)
+      // Detect Symbol from first line
       const firstLine = raw.split(/\r?\n/)[0].trim().replace(/\s+/g, " ");
       const firstTokens = firstLine.split(" ");
       let detectedSymbol = "";
 
-      // Standard NSE line: Symbol is first token (uppercase text, not a date, not header)
       if (firstTokens.length > 0) {
         let symCandidate = firstTokens[0].replace(/[^A-Za-z0-9]/g, "").toUpperCase();
         if (symCandidate && !symCandidate.includes("SYMBOL") && isNaN(symCandidate)) {
@@ -1165,11 +1028,9 @@
 
       parsedCandles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
 
-      // Update active stock to detected symbol
       const targetStock = detectedSymbol || currentStock;
       currentStock = targetStock;
 
-      // Add to watchlist if not present
       let all = JSON.parse(localStorage.getItem("anas_stock_list") || "[]");
       if (!all.includes(targetStock)) {
         all.push(targetStock);
@@ -1187,94 +1048,57 @@
       loadActiveStock(targetStock);
     }
 
-    // 2. Actionable Signal Engine Function
-    function renderTradeSignalCard(data) {
-      if (!data || data.length < 20) return;
-      const latest = data[data.length - 1];
-      const CMP = latest.close;
-      const boxTop = latest.darvasTop;
-      const boxFloor = latest.darvasBottom;
-      const rsi = parseFloat(latest.rsi) || 50;
-      const ma20 = parseFloat(latest.ma20) || 0;
-      const ma50 = parseFloat(latest.ma50) || 0;
-      const delivPct = latest.delivPercent || 0;
+    // Engine Pipeline
+    async function loadActiveStock(sym) {
+      document.getElementById("heroSymbol").innerText = sym;
+      const banner = document.getElementById("statusBanner");
+      banner.style.display = "none";
 
-      const badge = document.getElementById("signalStatusBadge");
-      const card = document.getElementById("tradeSignalCard");
-      const reasonEl = document.getElementById("sigReason");
+      let candles = JSON.parse(localStorage.getItem(`stock_data_${sym}`) || "null");
 
-      const entryEl = document.getElementById("sigEntry");
-      const slEl = document.getElementById("sigSL");
-      const slPctEl = document.getElementById("sigSLPct");
-      const t1El = document.getElementById("sigT1");
-      const t2El = document.getElementById("sigT2");
+      if (!candles || candles.length === 0) {
+        const scriptUrl = localStorage.getItem("anas_script_url");
+        if (!scriptUrl) {
+          banner.className = "alert-banner info";
+          banner.innerHTML = `ℹ️ <strong>Google Apps Script URL nahi mila.</strong> Kripya upar <strong>'⚙️ Apps Script API'</strong> button par click karke URL save karein, ya <strong>'📥 Paste 6-Month NSE Archives Data'</strong> me data paste karein.`;
+          clearDashboardUI();
+          return;
+        }
 
-      // Calculation of Stop Loss and Targets
-      const stopLoss = boxFloor;
-      const riskAmount = Math.max(1, CMP - stopLoss);
-      const riskPct = ((riskAmount / CMP) * 100).toFixed(1);
-
-      slEl.innerText = `₹${stopLoss.toFixed(1)}`;
-      slPctEl.innerText = `Risk: -${riskPct}%`;
-
-      // Target 1 = +7% | Target 2 = +12%
-      t1El.innerText = `₹${(CMP * 1.07).toFixed(1)}`;
-      t2El.innerText = `₹${(CMP * 1.12).toFixed(1)}`;
-
-      // LOGIC MATRIX:
-      // Condition 1: Fresh Breakout
-      const isBreakout = CMP >= boxTop;
-      const isNearBreakout = !isBreakout && ((boxTop - CMP) / CMP) <= 0.025; // 2.5% away
-      const isBullishTrend = ma20 > 0 && CMP > ma20 && (ma50 === 0 || ma20 >= ma50);
-      const isHighDeliv = delivPct >= 42;
-      const isSafeRSI = rsi >= 48 && rsi <= 72;
-
-      if (isBreakout && isBullishTrend && isSafeRSI) {
-        badge.innerText = "🚀 STRONG BUY (Darvas Breakout)";
-        badge.className = "badge badge-green";
-        card.style.borderLeftColor = "var(--green)";
-        entryEl.innerText = `At CMP ₹${CMP.toFixed(1)}`;
-        document.getElementById("sigEntrySub").innerText = "Breakout Triggered";
-
-        reasonEl.innerHTML = `
-          <strong>Trade Setup:</strong> Stock ne ₹${boxTop.toFixed(1)} ka Darvas ceiling tod diya hai. 
-          20 EMA ke upar chal raha hai (RSI: ${rsi}). ${isHighDeliv ? `Institutional delivery mazboot hai (${delivPct}%).` : ''} 
-          Trailing stop-loss ₹${stopLoss.toFixed(1)} par maintain karein.
-        `;
-      } else if (isNearBreakout && isBullishTrend) {
-        badge.innerText = "👀 WATCHLIST (Setup Forming)";
-        badge.className = "badge badge-yellow";
-        card.style.borderLeftColor = "var(--yellow)";
-        entryEl.innerText = `Above ₹${boxTop.toFixed(1)}`;
-        document.getElementById("sigEntrySub").innerText = "Wait for Daily Close";
-
-        reasonEl.innerHTML = `
-          <strong>Action Plan:</strong> Stock ceiling (₹${boxTop.toFixed(1)}) ke bilkul paas consolidate kar raha hai. 
-          Advance entry lene se bachein. Daily candle ko ₹${boxTop.toFixed(1)} ke upar band hone dein, fir entry trigger hogi.
-        `;
-      } else if (CMP < boxFloor || (ma20 > 0 && CMP < ma20)) {
-        badge.innerText = "⛔ AVOID / CAUTION (Weak Trend)";
-        badge.className = "badge badge-red";
-        card.style.borderLeftColor = "var(--red)";
-        entryEl.innerText = "No Trade";
-        document.getElementById("sigEntrySub").innerText = "Wait for reversal";
-
-        reasonEl.innerHTML = `
-          <strong>Warning:</strong> Stock 20 EMA ke niche ya Box Floor ke niche chal raha hai. 
-          Breakdown ka khatra hai. Jab tak wapas box ke andar ya 20 MA ke upar na aaye, swing trade na lein.
-        `;
-      } else {
-        badge.innerText = "📦 CONSOLIDATION (Inside Box)";
-        badge.className = "badge badge-blue";
-        card.style.borderLeftColor = "var(--accent)";
-        entryEl.innerText = `Above ₹${boxTop.toFixed(1)}`;
-        document.getElementById("sigEntrySub").innerText = "Breakout Level";
-
-        reasonEl.innerHTML = `
-          <strong>Observation:</strong> Stock ₹${boxFloor.toFixed(0)} se ₹${boxTop.toFixed(0)} ke daayre me trade kar raha hai. 
-          Ceiling cross hone par hi fresh swing momentum aayega.
-        `;
+        try {
+          banner.className = "alert-banner info";
+          banner.innerText = `⏳ Google Sheet Apps Script se ${sym} ka live data fetch ho raha hai...`;
+          const resp = await fetch(`${scriptUrl}?symbol=${sym}&exchange=NSE&days=180`);
+          const json = await resp.json();
+          if (json.candles && json.candles.length > 0) {
+            candles = json.candles;
+            candles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
+            banner.className = "alert-banner success";
+            banner.innerText = `✅ Google Apps Script se ${candles.length} trading sessions successfully load ho gaye!`;
+          } else {
+            banner.className = "alert-banner error";
+            banner.innerText = `❌ Google Apps Script ne koi data return nahi kiya. Symbol check karein.`;
+            clearDashboardUI();
+            return;
+          }
+        } catch (err) {
+          banner.className = "alert-banner error";
+          banner.innerHTML = `❌ <strong>Connection Error:</strong> Google Apps Script se data fetch nahi ho saka.`;
+          clearDashboardUI();
+          return;
+        }
       }
+
+      calculateTechnicalIndicators(candles);
+      cachedCandles = candles;
+
+      updateHeroMetrics(candles);
+      renderTradeSignalCard(candles);
+      renderSmartMoneySection(candles);
+      renderPivotLadder(candles);
+      renderDarvasInspectorAndBacktest(candles);
+      renderTable(candles);
+      drawCandlestickChart(candles);
     }
 
     function clearDashboardUI() {
@@ -1295,7 +1119,23 @@
       document.getElementById("darvasHistoryBody").innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-sub);">No data</td></tr>`;
     }
 
-    // Mathematical Calculations (MA, RSI, ADX, Darvas)
+    // Helper: 2-Day Prior Average Trend Arrow
+    function getTrendArrow(currentVal, prev1, prev2) {
+      if (currentVal === null || prev1 === null || prev2 === null || 
+          currentVal === undefined || prev1 === undefined || prev2 === undefined ||
+          isNaN(currentVal) || isNaN(prev1) || isNaN(prev2)) {
+        return "";
+      }
+      const avg2 = (Number(prev1) + Number(prev2)) / 2;
+      if (currentVal > avg2) {
+        return `<span style="color:var(--green); font-size:12px; font-weight:800; margin-left:3px;" title="Above 2-Day Avg (${avg2.toFixed(1)})">▲</span>`;
+      } else if (currentVal < avg2) {
+        return `<span style="color:var(--red); font-size:12px; font-weight:800; margin-left:3px;" title="Below 2-Day Avg (${avg2.toFixed(1)})">▼</span>`;
+      }
+      return `<span style="color:var(--text-sub); font-size:11px; margin-left:3px;">-</span>`;
+    }
+
+    // Mathematical Calculations (MA, RSI, ADX, Darvas & 2-Day Avg Trends)
     function calculateTechnicalIndicators(data) {
       for (let i = 0; i < data.length; i++) {
         data[i].ma20 = calculateSMA(data, i, 20);
@@ -1305,7 +1145,28 @@
       calculateRSI(data, 14);
       calculateADX(data, 14);
 
-      // Darvas Box per candle (15-day consolidation base)
+      // 2-Day Average Trend Arrows (High, Low, Close, Volume, Deliv Qty, Deliv %)
+      for (let i = 0; i < data.length; i++) {
+        if (i >= 2) {
+          const p1 = data[i - 1];
+          const p2 = data[i - 2];
+          data[i].highTrend = getTrendArrow(data[i].high, p1.high, p2.high);
+          data[i].lowTrend = getTrendArrow(data[i].low, p1.low, p2.low);
+          data[i].closeTrend = getTrendArrow(data[i].close, p1.close, p2.close);
+          data[i].volTrend = getTrendArrow(data[i].volume, p1.volume, p2.volume);
+          data[i].delivQtyTrend = (data[i].delivQty && p1.delivQty && p2.delivQty) ? getTrendArrow(data[i].delivQty, p1.delivQty, p2.delivQty) : "";
+          data[i].delivPctTrend = (data[i].delivPercent !== null && p1.delivPercent !== null && p2.delivPercent !== null) ? getTrendArrow(data[i].delivPercent, p1.delivPercent, p2.delivPercent) : "";
+        } else {
+          data[i].highTrend = "";
+          data[i].lowTrend = "";
+          data[i].closeTrend = "";
+          data[i].volTrend = "";
+          data[i].delivQtyTrend = "";
+          data[i].delivPctTrend = "";
+        }
+      }
+
+      // Darvas Box per candle
       for (let i = 0; i < data.length; i++) {
         if (i < 15) {
           data[i].darvasTop = data[i].high;
@@ -1382,7 +1243,93 @@
       }
     }
 
-    // Step 5: Smart Money & Institutional Delivery Section
+    // Actionable Trade Signal Engine
+    function renderTradeSignalCard(data) {
+      if (!data || data.length < 20) return;
+      const latest = data[data.length - 1];
+      const CMP = latest.close;
+      const boxTop = latest.darvasTop;
+      const boxFloor = latest.darvasBottom;
+      const rsi = parseFloat(latest.rsi) || 50;
+      const ma20 = parseFloat(latest.ma20) || 0;
+      const ma50 = parseFloat(latest.ma50) || 0;
+      const delivPct = latest.delivPercent || 0;
+
+      const badge = document.getElementById("signalStatusBadge");
+      const card = document.getElementById("tradeSignalCard");
+      const reasonEl = document.getElementById("sigReason");
+
+      const entryEl = document.getElementById("sigEntry");
+      const slEl = document.getElementById("sigSL");
+      const slPctEl = document.getElementById("sigSLPct");
+      const t1El = document.getElementById("sigT1");
+      const t2El = document.getElementById("sigT2");
+
+      const stopLoss = boxFloor;
+      const riskAmount = Math.max(1, CMP - stopLoss);
+      const riskPct = ((riskAmount / CMP) * 100).toFixed(1);
+
+      slEl.innerText = `₹${stopLoss.toFixed(1)}`;
+      slPctEl.innerText = `Risk: -${riskPct}%`;
+
+      t1El.innerText = `₹${(CMP * 1.07).toFixed(1)}`;
+      t2El.innerText = `₹${(CMP * 1.12).toFixed(1)}`;
+
+      const isBreakout = CMP >= boxTop;
+      const isNearBreakout = !isBreakout && ((boxTop - CMP) / CMP) <= 0.025;
+      const isBullishTrend = ma20 > 0 && CMP > ma20 && (ma50 === 0 || ma20 >= ma50);
+      const isHighDeliv = delivPct >= 42;
+      const isSafeRSI = rsi >= 48 && rsi <= 72;
+
+      if (isBreakout && isBullishTrend && isSafeRSI) {
+        badge.innerText = "🚀 STRONG BUY (Darvas Breakout)";
+        badge.className = "badge badge-green";
+        card.style.borderLeftColor = "var(--green)";
+        entryEl.innerText = `At CMP ₹${CMP.toFixed(1)}`;
+        document.getElementById("sigEntrySub").innerText = "Breakout Triggered";
+
+        reasonEl.innerHTML = `
+          <strong>Trade Setup:</strong> Stock ne ₹${boxTop.toFixed(1)} ka Darvas ceiling tod diya hai. 
+          20 EMA ke upar chal raha hai (RSI: ${rsi}). ${isHighDeliv ? `Institutional delivery mazboot hai (${delivPct}%).` : ''} 
+          Trailing stop-loss ₹${stopLoss.toFixed(1)} par maintain karein.
+        `;
+      } else if (isNearBreakout && isBullishTrend) {
+        badge.innerText = "👀 WATCHLIST (Setup Forming)";
+        badge.className = "badge badge-yellow";
+        card.style.borderLeftColor = "var(--yellow)";
+        entryEl.innerText = `Above ₹${boxTop.toFixed(1)}`;
+        document.getElementById("sigEntrySub").innerText = "Wait for Daily Close";
+
+        reasonEl.innerHTML = `
+          <strong>Action Plan:</strong> Stock ceiling (₹${boxTop.toFixed(1)}) ke bilkul paas consolidate kar raha hai. 
+          Advance entry se bachein. Daily candle ko ₹${boxTop.toFixed(1)} ke upar band hone dein, fir entry trigger hogi.
+        `;
+      } else if (CMP < boxFloor || (ma20 > 0 && CMP < ma20)) {
+        badge.innerText = "⛔ AVOID / CAUTION (Weak Trend)";
+        badge.className = "badge badge-red";
+        card.style.borderLeftColor = "var(--red)";
+        entryEl.innerText = "No Trade";
+        document.getElementById("sigEntrySub").innerText = "Wait for reversal";
+
+        reasonEl.innerHTML = `
+          <strong>Warning:</strong> Stock 20 EMA ke niche ya Box Floor ke niche chal raha hai. 
+          Breakdown ka khatra hai. Jab tak wapas box ke andar ya 20 MA ke upar na aaye, trade na lein.
+        `;
+      } else {
+        badge.innerText = "📦 CONSOLIDATION (Inside Box)";
+        badge.className = "badge badge-blue";
+        card.style.borderLeftColor = "var(--accent)";
+        entryEl.innerText = `Above ₹${boxTop.toFixed(1)}`;
+        document.getElementById("sigEntrySub").innerText = "Breakout Level";
+
+        reasonEl.innerHTML = `
+          <strong>Observation:</strong> Stock ₹${boxFloor.toFixed(0)} se ₹${boxTop.toFixed(0)} ke daayre me trade kar raha hai. 
+          Ceiling cross hone par hi fresh swing momentum aayega.
+        `;
+      }
+    }
+
+    // Smart Money Section
     function renderSmartMoneySection(data) {
       if (!data || data.length === 0) return;
       const latest = data[data.length - 1];
@@ -1391,7 +1338,6 @@
 
       document.getElementById("smDateLabel").innerText = `Latest Session: ${latest.date}`;
 
-      // 1. Delivery %
       const dPct = latest.delivPercent;
       const pctEl = document.getElementById("smDelivPct");
       const badgeEl = document.getElementById("smDelivBadge");
@@ -1411,7 +1357,6 @@
         badgeEl.innerText = "Paste Archives to view";
       }
 
-      // 2. 20-Day Avg Delivery vs Latest
       let sumDeliv = 0, count = 0;
       for (let i = Math.max(0, data.length - 20); i < data.length; i++) {
         if (data[i].delivQty) {
@@ -1438,7 +1383,6 @@
         rBadge.innerText = "Requires Delivery Qty";
       }
 
-      // 3. Consecutive 2-Day Delivery Rise
       const consecEl = document.getElementById("smConsecutive");
       const cBadge = document.getElementById("smConsecutiveBadge");
 
@@ -1462,7 +1406,6 @@
         cBadge.innerText = "Paste Multi-Day Bhavcopy";
       }
 
-      // 4. Institutional Verdict
       const vEl = document.getElementById("smVerdict");
       const vBadge = document.getElementById("smVerdictBadge");
 
@@ -1481,7 +1424,7 @@
       }
     }
 
-    // Pure Candlestick Chart (Fixes 15-Oct date issue permanently)
+    // Candlestick Chart
     function drawCandlestickChart(data) {
       const canvas = document.getElementById("candlestickCanvas");
       const ctx = canvas.getContext("2d");
@@ -1496,11 +1439,9 @@
       const height = rect.height;
       ctx.clearRect(0, 0, width, height);
 
-      // Take last 10 trading sessions
       const candles = data.slice(-10);
       if (candles.length === 0) return;
 
-      // Set default tooltip to LATEST candle (Today's session e.g. 21-Oct-2026)
       const latest = candles[candles.length - 1];
       const isLatestBull = latest.close >= latest.open;
       const tooltip = document.getElementById("candleTooltip");
@@ -1528,7 +1469,6 @@
         return paddingTop + chartH - ((p - minPrice) / (maxPrice - minPrice)) * chartH;
       }
 
-      // Horizontal price grid
       ctx.strokeStyle = "#1a2638";
       ctx.lineWidth = 1;
       ctx.fillStyle = "#64748b";
@@ -1558,7 +1498,6 @@
         const yOpen = getY(c.open);
         const yClose = getY(c.close);
 
-        // Wick
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -1566,13 +1505,11 @@
         ctx.lineTo(xCenter, yLow);
         ctx.stroke();
 
-        // Real body
         const bodyTop = Math.min(yOpen, yClose);
         const bodyHeight = Math.max(3, Math.abs(yOpen - yClose));
         ctx.fillStyle = color;
         ctx.fillRect(xCenter - (candleBodyWidth / 2), bodyTop, candleBodyWidth, bodyHeight);
 
-        // Date label below
         ctx.fillStyle = "#94a3b8";
         ctx.font = "11px sans-serif";
         ctx.textAlign = "center";
@@ -1583,7 +1520,6 @@
         c._slotW = slotWidth;
       });
 
-      // Hover Inspector
       canvas.onmousemove = function(e) {
         const bbox = canvas.getBoundingClientRect();
         const mouseX = e.clientX - bbox.left;
@@ -1658,7 +1594,7 @@
       document.getElementById("ladderStatusLabel").innerText = statusText;
     }
 
-    // Darvas Box Inspector + Breakout Trade History Log
+    // Darvas Box Inspector & History Log
     function renderDarvasInspectorAndBacktest(data) {
       if (!data || data.length < 20) return;
       const latest = data[data.length - 1];
@@ -1669,7 +1605,6 @@
       const heightPct = (((latest.darvasTop - latest.darvasBottom) / latest.darvasBottom) * 100).toFixed(1);
       document.getElementById("dbHeight").innerText = `${heightPct}%`;
 
-      // Proper Color Logic (Green for Breakout, Red for Breakdown, Blue for In-Box)
       const badge = document.getElementById("darvasStatusBadge");
       if (latest.close > latest.darvasTop) {
         badge.innerText = "🚀 Breakout Above Box";
@@ -1683,7 +1618,6 @@
         badge.className = "badge badge-blue";
       }
 
-      // Backtest Engine & Detailed Trade Log Generator
       let totalTrades = 0, wins = 0, losses = 0;
       let tradeLogs = [];
 
@@ -1723,7 +1657,6 @@
       document.getElementById("btLosses").innerText = losses;
       document.getElementById("btWinRate").innerText = `${winRate}%`;
 
-      // Render History Table
       const historyBody = document.getElementById("darvasHistoryBody");
       historyBody.innerHTML = "";
       if (tradeLogs.length === 0) {
@@ -1761,7 +1694,6 @@
         trendEl.innerText = Number(latest.ma20) >= Number(latest.ma50) ? "Bullish (20 > 50 MA)" : "Cautious (20 < 50 MA)";
       }
 
-      // Proper Color for Hero Darvas Badge
       const heroDarvas = document.getElementById("heroDarvasBadge");
       heroDarvas.innerText = `Darvas: ${latest.darvasStatus}`;
       if (latest.darvasStatus.includes("Breakout")) {
@@ -1782,6 +1714,7 @@
       renderTable(cachedCandles);
     }
 
+    // 2-Day Trend Arrows Rendered Directly Beside Values
     function renderTable(data) {
       const tbody = document.getElementById("tableBody");
       tbody.innerHTML = "";
@@ -1795,12 +1728,12 @@
         tr.innerHTML = `
           <td><strong>${r.date}</strong></td>
           <td>${r.open.toFixed(1)}</td>
-          <td>${r.high.toFixed(1)}</td>
-          <td>${r.low.toFixed(1)}</td>
-          <td><strong>${r.close.toFixed(1)}</strong></td>
-          <td>${r.volume ? r.volume.toLocaleString('en-IN') : '-'}</td>
-          <td>${r.delivQty ? r.delivQty.toLocaleString('en-IN') : '-'}</td>
-          <td>${r.delivPercent ? `<span class="badge ${isHighDelivery ? 'badge-green' : 'badge-blue'}">${r.delivPercent}%</span>` : '-'}</td>
+          <td>${r.high.toFixed(1)} ${r.highTrend || ''}</td>
+          <td>${r.low.toFixed(1)} ${r.lowTrend || ''}</td>
+          <td><strong>${r.close.toFixed(1)}</strong> ${r.closeTrend || ''}</td>
+          <td>${r.volume ? r.volume.toLocaleString('en-IN') : '-'} ${r.volTrend || ''}</td>
+          <td>${r.delivQty ? r.delivQty.toLocaleString('en-IN') : '-'} ${r.delivQtyTrend || ''}</td>
+          <td>${r.delivPercent !== null && r.delivPercent !== undefined ? `<span class="badge ${isHighDelivery ? 'badge-green' : 'badge-blue'}">${r.delivPercent}%</span> ${r.delivPctTrend || ''}` : '-'}</td>
           <td><strong>${r.ma20}</strong></td>
           <td>${r.ma50}</td>
           <td>${r.ma100}</td>
