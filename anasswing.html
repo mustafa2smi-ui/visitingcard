@@ -130,7 +130,7 @@
     .main-content {
       flex: 1;
       padding: 20px;
-      max-width: 1340px;
+      max-width: 1360px;
       margin: 0 auto;
       width: 100%;
     }
@@ -182,9 +182,10 @@
       border-radius: 8px;
       padding: 12px 18px;
       display: flex;
-      gap: 25px;
+      gap: 20px;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .mode-selector label {
       display: flex;
@@ -195,7 +196,30 @@
       font-weight: 600;
     }
 
-    /* 6-Month Bulk Archives Paste Box */
+    /* 1. Quick Single-Row Current/Live Paste Box (3:15 PM) */
+    .live-paste-card {
+      background: #0c1a2e;
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .live-paste-card textarea {
+      width: 100%;
+      height: 65px;
+      background: #070c14;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px;
+      border-radius: 6px;
+      outline: none;
+      font-size: 12px;
+      font-family: monospace;
+      margin-top: 8px;
+    }
+
+    /* 2. Bulk Archives Paste Box */
     .bulk-paste-card {
       background: var(--card-bg);
       border: 1px solid var(--accent);
@@ -218,8 +242,8 @@
       margin-top: 8px;
       white-space: pre;
     }
-    .bulk-actions { display: flex; gap: 10px; margin-top: 10px; }
-    .bulk-actions button {
+    .paste-actions { display: flex; gap: 10px; margin-top: 10px; }
+    .paste-actions button {
       background: var(--accent);
       color: #000;
       font-weight: 700;
@@ -228,6 +252,7 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    .btn-live-ok { background: var(--green) !important; color: #000 !important; font-weight: 800 !important; }
 
     /* Actionable Trade Signal Card */
     .smart-money-card {
@@ -405,6 +430,8 @@
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--card-border);
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .table-legend {
       font-size: 11px;
@@ -534,7 +561,7 @@
         <div>
           <div class="hero-metric-title">Trend Status (20 vs 50 MA)</div>
           <div class="hero-metric-val" style="font-size: 18px;" id="heroTrend">-</div>
-          <span class="badge" id="heroDarvasBadge">-</span>
+          <span class="badge badge-green" id="heroDarvasBadge">-</span>
         </div>
         <div>
           <div class="hero-metric-title">Momentum Setup</div>
@@ -549,29 +576,49 @@
           <input type="radio" name="viewMode" value="view" checked onchange="switchMode('view')">
           Dashboard View & Technicals
         </label>
+        <label style="color:var(--green);">
+          <input type="radio" name="viewMode" value="live" onchange="switchMode('live')">
+          ⚡ Paste Today's Live Row (3:15 PM Analysis)
+        </label>
         <label>
           <input type="radio" name="viewMode" value="bulk" onchange="switchMode('bulk')">
-          📥 Paste 6-Month NSE Archives Data (Pure Fresh Calculate)
+          📥 Paste 6-Month NSE Archives Data
         </label>
       </section>
 
-      <!-- 6-Month Bulk Archives Paste Box -->
+      <!-- 1. Quick Single-Row Current/Live Paste Box (3:15 PM Analysis) -->
+      <section class="live-paste-card" id="livePasteCard">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong style="color:var(--green); font-size:14px;">⚡ Paste Single Live / Today's Session Data (3:00 - 3:15 PM):</strong>
+          <span style="font-size:11px; color:#a7f3d0; background:rgba(34,197,94,0.2); padding:3px 8px; border-radius:4px;">Auto-Updates Today's Row</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">
+          NSE website se aaj ka live quote ya bhavcopy line copy karke yaha paste karein. Yeh pichle 180 din ke data me jud jayega aur sare indicators fresh recalculate ho jayenge!
+        </p>
+        <textarea id="livePasteInput" placeholder="Example: RELIANCE EQ 23-Oct-2026 1,202.00 1,212.00 1,234.30 1,199.30 1,209.00 1,209.00 1,216.71 1,76,07,823 21,42,35,87,298.80 3,16,700 81,60,605 46.35"></textarea>
+        <div class="paste-actions">
+          <button class="btn-live-ok" onclick="applySingleLiveRowData()">⚡ OK / Apply Live Data</button>
+          <button style="background:transparent; border:1px solid var(--card-border); color:var(--text-sub);" onclick="document.getElementById('livePasteInput').value=''">Clear</button>
+        </div>
+      </section>
+
+      <!-- 2. 6-Month Bulk Archives Paste Box -->
       <section class="bulk-paste-card" id="bulkPasteCard">
         <strong style="color:var(--accent);">📋 Paste 6-Month NSE Security Archives Data (Equity):</strong>
         <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">
-          NSE website ke "Historical / Security Archives" se copy kiya hua data yaha paste karein. Stock symbol auto-detect ho kar fresh calculate hoga.
+          NSE website ke "Historical / Security Archives" se copy kiya hua data yaha paste karein. Symbol auto-detect hokar fresh calculate hoga.
         </p>
         <textarea id="bulkPasteInput" placeholder="Symbol  Series  Date  Prev Close  Open Price  High Price  Low Price  Last Price  Close Price  VWAP  Total Traded Quantity  Turnover ₹  No. of Trades  Deliverable Qty  % Dly Qt to Traded Qty... (Paste all rows here)"></textarea>
-        <div class="bulk-actions">
+        <div class="paste-actions">
           <button onclick="applyBulkArchivesData()">Apply & Fresh Calculate (No Merge)</button>
           <button style="background:transparent; border:1px solid var(--red); color:var(--red);" onclick="document.getElementById('bulkPasteInput').value=''">Clear Box</button>
         </div>
       </section>
 
-      <!-- Actionable Trade Signal Card -->
+      <!-- Actionable Trade Signal Card with VWAP Benchmark -->
       <section class="smart-money-card" id="tradeSignalCard" style="border-left: 5px solid var(--accent);">
         <div class="card-title-bar">
-          <h3>🎯 Actionable Trade Signal & Execution Blueprint</h3>
+          <h3>🎯 Actionable Trade Signal & Execution Blueprint (with VWAP Check)</h3>
           <span class="badge" id="signalStatusBadge" style="font-size:13px;">Analyzing...</span>
         </div>
         <div class="smart-money-grid">
@@ -724,11 +771,11 @@
         </div>
       </section>
 
-      <!-- Data Table with 2-Day Avg Trend Arrows -->
+      <!-- Data Table with VWAP & 2-Day Avg Trend Arrows -->
       <section class="table-container">
         <div class="table-header-bar">
           <div>
-            <strong>Daily Technical & Delivery Data Table</strong>
+            <strong>Daily Technical, VWAP & Delivery Data Table</strong>
             <div class="table-legend">
               <span>Trend Indicator:</span>
               <span style="color:var(--green);">▲ = Above 2-Day Prev Avg</span>
@@ -748,6 +795,7 @@
                 <th>High</th>
                 <th>Low</th>
                 <th>Close</th>
+                <th>VWAP (Institutional)</th>
                 <th>Traded Vol</th>
                 <th>Deliv Qty</th>
                 <th>Deliv %</th>
@@ -897,6 +945,7 @@
     }
 
     function switchMode(mode) {
+      document.getElementById("livePasteCard").style.display = (mode === "live") ? "block" : "none";
       document.getElementById("bulkPasteCard").style.display = (mode === "bulk") ? "block" : "none";
     }
 
@@ -933,7 +982,132 @@
       return isNaN(native) ? 0 : native;
     }
 
-    // Bulk Archives Parser with Auto-Detected Symbol
+    // Helper: Parse a single raw text string into a clean Candle Object (with VWAP)
+    function parseRowData(rawText) {
+      const clean = rawText.trim();
+      if (!clean) return null;
+
+      // Extract Date
+      const dateMatch = clean.match(/(\d{1,2}[-\/](?:[a-zA-Z]{3}|\d{1,2})[-\/]\d{2,4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/);
+      let dateVal = dateMatch ? dateMatch[0] : null;
+
+      // If no date found, default to today's date formatted
+      if (!dateVal) {
+        const today = new Date();
+        const mNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        dateVal = `${String(today.getDate()).padStart(2, '0')}-${mNames[today.getMonth()]}-${today.getFullYear()}`;
+      }
+
+      // Extract all numbers
+      const numberMatches = clean.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
+      if (!numberMatches) return null;
+
+      const nums = numberMatches
+        .map(n => parseFloat(n.replace(/,/g, "")))
+        .filter(n => !isNaN(n) && n > 0);
+
+      if (nums.length < 4) return null;
+
+      let open = 0, high = 0, low = 0, close = 0, vwap = null, vol = 0, delivQty = null, delivPct = null;
+
+      if (nums.length >= 10) {
+        // Standard NSE row: [PrevClose, Open, High, Low, Last, Close, VWAP, Qty, Turnover, Trades, DelivQty, %Deliv]
+        open = nums[1];
+        high = nums[2];
+        low = nums[3];
+        close = nums[5] || nums[4];
+        vwap = nums[6] || null;
+        vol = nums[7] || 0;
+        delivQty = nums[nums.length - 2] || null;
+        delivPct = nums[nums.length - 1] || null;
+      } else if (nums.length >= 6) {
+        // [Open, High, Low, Close, VWAP, Volume, ...]
+        open = nums[0];
+        high = nums[1];
+        low = nums[2];
+        close = nums[3];
+        vwap = nums[4];
+        vol = nums[5] || 0;
+        if (nums.length >= 7) delivPct = nums[nums.length - 1];
+        if (nums.length >= 8) delivQty = nums[nums.length - 2];
+      } else if (nums.length >= 5) {
+        open = nums[0];
+        high = nums[1];
+        low = nums[2];
+        close = nums[3];
+        vol = nums[4] || 0;
+      } else {
+        open = nums[0];
+        high = nums[1];
+        low = nums[2];
+        close = nums[3];
+      }
+
+      if (delivPct !== null && delivPct > 100) delivPct = null;
+
+      return {
+        date: dateVal,
+        open: Number(open.toFixed(1)),
+        high: Number(high.toFixed(1)),
+        low: Number(low.toFixed(1)),
+        close: Number(close.toFixed(1)),
+        vwap: vwap ? Number(vwap.toFixed(1)) : null,
+        volume: vol,
+        delivQty: delivQty ? Math.round(delivQty) : null,
+        delivPercent: delivPct ? Number(delivPct.toFixed(2)) : null
+      };
+    }
+
+    // 2. LIVE / SINGLE-ROW CURRENT SESSION PASTE ENGINE (3:15 PM)
+    function applySingleLiveRowData() {
+      const raw = document.getElementById("livePasteInput").value.trim();
+      if (!raw) {
+        alert("Pehle live row data paste karein!");
+        return;
+      }
+
+      // Check if symbol is mentioned in line
+      const firstLineTokens = raw.split(/\s+/);
+      if (firstLineTokens.length > 0) {
+        let symCandidate = firstLineTokens[0].replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+        if (symCandidate && !symCandidate.includes("SYMBOL") && isNaN(symCandidate) && symCandidate.length > 2) {
+          currentStock = symCandidate;
+        }
+      }
+
+      const newCandle = parseRowData(raw);
+      if (!newCandle) {
+        alert("Live data parse nahi ho saka! Kripya NSE ki live row verify karein.");
+        return;
+      }
+
+      // Get existing dataset for current stock
+      let candles = JSON.parse(localStorage.getItem(`stock_data_${currentStock}`) || "[]");
+
+      // Check if today's date already exists in candles
+      const existingIdx = candles.findIndex(c => c.date.toLowerCase() === newCandle.date.toLowerCase());
+      if (existingIdx !== -1) {
+        // Update existing row
+        candles[existingIdx] = newCandle;
+      } else {
+        // Append new live session
+        candles.push(newCandle);
+      }
+
+      // Sort chronologically
+      candles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
+
+      // Save back to storage
+      localStorage.setItem(`stock_data_${currentStock}`, JSON.stringify(candles));
+      document.getElementById("livePasteInput").value = "";
+
+      alert(`⚡ Success! ${newCandle.date} ka Live session update ho gaya! Sare technicals naye sire se calculate ho gaye.`);
+      switchMode('view');
+      document.querySelector('input[name="viewMode"][value="view"]').checked = true;
+      loadActiveStock(currentStock);
+    }
+
+    // 3. BULK 6-MONTH ARCHIVES PARSER (Pure Fresh Calculate)
     function applyBulkArchivesData() {
       const raw = document.getElementById("bulkPasteInput").value.trim();
       if (!raw) {
@@ -941,7 +1115,6 @@
         return;
       }
 
-      // Detect Symbol from first line
       const firstLine = raw.split(/\r?\n/)[0].trim().replace(/\s+/g, " ");
       const firstTokens = firstLine.split(" ");
       let detectedSymbol = "";
@@ -973,52 +1146,11 @@
         const endIndex = (i + 1 < dateMatches.length) ? dateMatches[i + 1].index : raw.length;
         
         const block = raw.substring(startIndex, endIndex);
-        const numberMatches = block.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
-        if (!numberMatches) continue;
-
-        const nums = numberMatches
-          .map(n => parseFloat(n.replace(/,/g, "")))
-          .filter(n => !isNaN(n) && n > 0);
-
-        if (nums.length < 4) continue;
-
-        let open = 0, high = 0, low = 0, close = 0, vol = 0, delivQty = null, delivPct = null;
-
-        if (nums.length >= 10) {
-          open = nums[1];
-          high = nums[2];
-          low = nums[3];
-          close = nums[5] || nums[4];
-          vol = nums[7] || 0;
-          delivQty = nums[nums.length - 2] || null;
-          delivPct = nums[nums.length - 1] || null;
-        } else if (nums.length >= 5) {
-          open = nums[0];
-          high = nums[1];
-          low = nums[2];
-          close = nums[3];
-          vol = nums[4] || 0;
-          if (nums.length >= 6) delivPct = nums[nums.length - 1];
-          if (nums.length >= 7) delivQty = nums[nums.length - 2];
-        } else {
-          open = nums[0];
-          high = nums[1];
-          low = nums[2];
-          close = nums[3];
+        const candle = parseRowData(currentDate + " " + block);
+        if (candle) {
+          candle.date = currentDate;
+          parsedCandles.push(candle);
         }
-
-        if (delivPct !== null && delivPct > 100) delivPct = null;
-
-        parsedCandles.push({
-          date: currentDate,
-          open: Number(open.toFixed(1)),
-          high: Number(high.toFixed(1)),
-          low: Number(low.toFixed(1)),
-          close: Number(close.toFixed(1)),
-          volume: vol,
-          delivQty: delivQty ? Math.round(delivQty) : null,
-          delivPercent: delivPct ? Number(delivPct.toFixed(2)) : null
-        });
       }
 
       if (parsedCandles.length === 0) {
@@ -1110,7 +1242,7 @@
       document.getElementById("heroDarvasBadge").innerText = "-";
       document.getElementById("heroRSI").innerText = "RSI: -";
       document.getElementById("heroADX").innerText = "ADX: -";
-      document.getElementById("tableBody").innerHTML = `<tr><td colspan="14" style="text-align:center; padding:30px; color:var(--text-sub);">Koi data nahi hai. Kripya Apps Script connect karein ya NSE Archives data paste karein.</td></tr>`;
+      document.getElementById("tableBody").innerHTML = `<tr><td colspan="15" style="text-align:center; padding:30px; color:var(--text-sub);">Koi data nahi hai. Kripya Apps Script connect karein ya NSE data paste karein.</td></tr>`;
       
       const canvas = document.getElementById("candlestickCanvas");
       const ctx = canvas.getContext("2d");
@@ -1145,7 +1277,7 @@
       calculateRSI(data, 14);
       calculateADX(data, 14);
 
-      // 2-Day Average Trend Arrows (High, Low, Close, Volume, Deliv Qty, Deliv %)
+      // 2-Day Average Trend Arrows
       for (let i = 0; i < data.length; i++) {
         if (i >= 2) {
           const p1 = data[i - 1];
@@ -1243,13 +1375,14 @@
       }
     }
 
-    // Actionable Trade Signal Engine
+    // Actionable Trade Signal Engine with VWAP Integration
     function renderTradeSignalCard(data) {
       if (!data || data.length < 20) return;
       const latest = data[data.length - 1];
       const CMP = latest.close;
       const boxTop = latest.darvasTop;
       const boxFloor = latest.darvasBottom;
+      const vwap = latest.vwap;
       const rsi = parseFloat(latest.rsi) || 50;
       const ma20 = parseFloat(latest.ma20) || 0;
       const ma50 = parseFloat(latest.ma50) || 0;
@@ -1280,18 +1413,30 @@
       const isBullishTrend = ma20 > 0 && CMP > ma20 && (ma50 === 0 || ma20 >= ma50);
       const isHighDeliv = delivPct >= 42;
       const isSafeRSI = rsi >= 48 && rsi <= 72;
+      const isAboveVwap = vwap ? CMP >= vwap : true;
 
-      if (isBreakout && isBullishTrend && isSafeRSI) {
-        badge.innerText = "🚀 STRONG BUY (Darvas Breakout)";
+      if (isBreakout && isBullishTrend && isSafeRSI && isAboveVwap) {
+        badge.innerText = "🚀 STRONG BUY (Darvas Breakout + Above VWAP)";
         badge.className = "badge badge-green";
         card.style.borderLeftColor = "var(--green)";
         entryEl.innerText = `At CMP ₹${CMP.toFixed(1)}`;
-        document.getElementById("sigEntrySub").innerText = "Breakout Triggered";
+        document.getElementById("sigEntrySub").innerText = "Breakout Confirmed";
 
         reasonEl.innerHTML = `
-          <strong>Trade Setup:</strong> Stock ne ₹${boxTop.toFixed(1)} ka Darvas ceiling tod diya hai. 
-          20 EMA ke upar chal raha hai (RSI: ${rsi}). ${isHighDeliv ? `Institutional delivery mazboot hai (${delivPct}%).` : ''} 
-          Trailing stop-loss ₹${stopLoss.toFixed(1)} par maintain karein.
+          <strong>Trade Setup:</strong> Stock ne ₹${boxTop.toFixed(1)} ka Darvas ceiling tod diya hai aur Institutional VWAP ${vwap ? `(₹${vwap.toFixed(1)})` : ''} ke upar mazboot trade kar raha hai. 
+          20 EMA ke upar chal raha hai (RSI: ${rsi}). ${isHighDeliv ? `Delivery bohot solid hai (${delivPct}%).` : ''} 
+          Trailing stop-loss ₹${stopLoss.toFixed(1)} par maintain karein. Target 1: ₹${(CMP * 1.07).toFixed(1)}.
+        `;
+      } else if (isBreakout && !isAboveVwap) {
+        badge.innerText = "⚠️ CAUTION (Breakout Below VWAP)";
+        badge.className = "badge badge-yellow";
+        card.style.borderLeftColor = "var(--yellow)";
+        entryEl.innerText = "Wait for VWAP Cross";
+        document.getElementById("sigEntrySub").innerText = "Fakeout Risk";
+
+        reasonEl.innerHTML = `
+          <strong>Warning:</strong> Price box ke upar nikla hai lekin Institutional VWAP (₹${vwap}) ke niche hai. 
+          Intraday selling pressure ka khatra hai. Jab tak price VWAP ke upar band na ho, breakout entry lene se bachein.
         `;
       } else if (isNearBreakout && isBullishTrend) {
         badge.innerText = "👀 WATCHLIST (Setup Forming)";
@@ -1302,7 +1447,7 @@
 
         reasonEl.innerHTML = `
           <strong>Action Plan:</strong> Stock ceiling (₹${boxTop.toFixed(1)}) ke bilkul paas consolidate kar raha hai. 
-          Advance entry se bachein. Daily candle ko ₹${boxTop.toFixed(1)} ke upar band hone dein, fir entry trigger hogi.
+          Advance entry se bachein. Daily candle ko ₹${boxTop.toFixed(1)} ke upar band hone dein.
         `;
       } else if (CMP < boxFloor || (ma20 > 0 && CMP < ma20)) {
         badge.innerText = "⛔ AVOID / CAUTION (Weak Trend)";
@@ -1714,7 +1859,7 @@
       renderTable(cachedCandles);
     }
 
-    // 2-Day Trend Arrows Rendered Directly Beside Values
+    // Data Table with VWAP Column & 2-Day Trend Arrows
     function renderTable(data) {
       const tbody = document.getElementById("tableBody");
       tbody.innerHTML = "";
@@ -1725,12 +1870,21 @@
       rows.forEach(r => {
         const tr = document.createElement("tr");
         const isHighDelivery = r.delivPercent && r.delivPercent >= 45;
+        
+        let vwapDisplay = "-";
+        if (r.vwap) {
+          const isAboveVwap = r.close >= r.vwap;
+          const diffPct = (((r.close - r.vwap) / r.vwap) * 100).toFixed(1);
+          vwapDisplay = `<span style="color:${isAboveVwap ? 'var(--green)' : 'var(--red)'}; font-weight:700;">₹${r.vwap.toFixed(1)} (${diffPct >= 0 ? '+' : ''}${diffPct}%)</span>`;
+        }
+
         tr.innerHTML = `
           <td><strong>${r.date}</strong></td>
           <td>${r.open.toFixed(1)}</td>
           <td>${r.high.toFixed(1)} ${r.highTrend || ''}</td>
           <td>${r.low.toFixed(1)} ${r.lowTrend || ''}</td>
           <td><strong>${r.close.toFixed(1)}</strong> ${r.closeTrend || ''}</td>
+          <td>${vwapDisplay}</td>
           <td>${r.volume ? r.volume.toLocaleString('en-IN') : '-'} ${r.volTrend || ''}</td>
           <td>${r.delivQty ? r.delivQty.toLocaleString('en-IN') : '-'} ${r.delivQtyTrend || ''}</td>
           <td>${r.delivPercent !== null && r.delivPercent !== undefined ? `<span class="badge ${isHighDelivery ? 'badge-green' : 'badge-blue'}">${r.delivPercent}%</span> ${r.delivPctTrend || ''}` : '-'}</td>
