@@ -593,7 +593,7 @@
           <span style="font-size:11px; color:#a7f3d0; background:rgba(34,197,94,0.2); padding:3px 8px; border-radius:4px;">Auto-Updates Today's Row</span>
         </div>
         <p style="font-size:12px; color:var(--text-sub); margin-top:4px;">
-          NSE website se aaj ka live quote ya bhavcopy line copy karke yaha paste karein. Yeh pichle 180 din ke data me jud jayega aur sare indicators fresh recalculate ho jayenge!
+          NSE website se aaj ka live quote ya bhavcopy line copy karke yaha paste karein. Yeh data me jud jayega aur sare indicators fresh recalculate ho jayenge!
         </p>
         <textarea id="livePasteInput" placeholder="Example: RELIANCE EQ 23-Oct-2026 1,202.00 1,212.00 1,234.30 1,199.30 1,209.00 1,209.00 1,216.71 1,76,07,823 21,42,35,87,298.80 3,16,700 81,60,605 46.35"></textarea>
         <div class="paste-actions">
@@ -982,24 +982,18 @@
       return isNaN(native) ? 0 : native;
     }
 
-    // Helper: Parse a single raw text string into a clean Candle Object (with VWAP)
-    function parseRowData(rawText) {
-      const clean = rawText.trim();
-      if (!clean) return null;
+    // BULLETPROOF CANDLE EXTRACTOR (Date is 100% EXCLUDED from numbers)
+    function extractCandleFromBlock(dateStr, blockText) {
+      if (!blockText) return null;
 
-      // Extract Date
-      const dateMatch = clean.match(/(\d{1,2}[-\/](?:[a-zA-Z]{3}|\d{1,2})[-\/]\d{2,4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/);
-      let dateVal = dateMatch ? dateMatch[0] : null;
-
-      // If no date found, default to today's date formatted
-      if (!dateVal) {
-        const today = new Date();
-        const mNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-        dateVal = `${String(today.getDate()).padStart(2, '0')}-${mNames[today.getMonth()]}-${today.getFullYear()}`;
+      // Crucial Fix: Ensure dateStr numbers (like 21 and 2026) are NEVER present in clean text
+      let cleanText = blockText;
+      if (dateStr) {
+        cleanText = cleanText.split(dateStr).join(" ");
       }
 
-      // Extract all numbers
-      const numberMatches = clean.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
+      // Extract all pure numeric tokens
+      const numberMatches = cleanText.match(/\d+(?:,\d+)*(?:\.\d+)?/g);
       if (!numberMatches) return null;
 
       const nums = numberMatches
@@ -1011,7 +1005,8 @@
       let open = 0, high = 0, low = 0, close = 0, vwap = null, vol = 0, delivQty = null, delivPct = null;
 
       if (nums.length >= 10) {
-        // Standard NSE row: [PrevClose, Open, High, Low, Last, Close, VWAP, Qty, Turnover, Trades, DelivQty, %Deliv]
+        // Standard NSE row:
+        // [0:PrevClose, 1:Open, 2:High, 3:Low, 4:Last, 5:Close, 6:VWAP, 7:Qty, 8:Turnover, 9:Trades, 10:DelivQty, 11:%Deliv]
         open = nums[1];
         high = nums[2];
         low = nums[3];
@@ -1021,7 +1016,6 @@
         delivQty = nums[nums.length - 2] || null;
         delivPct = nums[nums.length - 1] || null;
       } else if (nums.length >= 6) {
-        // [Open, High, Low, Close, VWAP, Volume, ...]
         open = nums[0];
         high = nums[1];
         low = nums[2];
@@ -1030,7 +1024,7 @@
         vol = nums[5] || 0;
         if (nums.length >= 7) delivPct = nums[nums.length - 1];
         if (nums.length >= 8) delivQty = nums[nums.length - 2];
-      } else if (nums.length >= 5) {
+      } else if (nums.length === 5) {
         open = nums[0];
         high = nums[1];
         low = nums[2];
@@ -1043,10 +1037,18 @@
         close = nums[3];
       }
 
-      if (delivPct !== null && delivPct > 100) delivPct = null;
+      // Automatic Sanity: High must always be highest, Low must always be lowest
+      let actualHigh = Math.max(open, close, high);
+      let actualLow = Math.min(open, close, low);
+      high = actualHigh;
+      low = actualLow;
+
+      if (delivPct !== null && delivPct > 100) {
+        delivPct = null;
+      }
 
       return {
-        date: dateVal,
+        date: dateStr,
         open: Number(open.toFixed(1)),
         high: Number(high.toFixed(1)),
         low: Number(low.toFixed(1)),
@@ -1075,33 +1077,43 @@
         }
       }
 
-      const newCandle = parseRowData(raw);
+      // Extract date and strip from block
+      const dateRegex = /(\d{1,2}[-\/](?:[a-zA-Z]{3}|\d{1,2})[-\/]\d{2,4}|\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/;
+      const dateMatch = raw.match(dateRegex);
+      let dateVal = dateMatch ? dateMatch[0] : null;
+
+      if (!dateVal) {
+        const today = new Date();
+        const mNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        dateVal = `${String(today.getDate()).padStart(2, '0')}-${mNames[today.getMonth()]}-${today.getFullYear()}`;
+      }
+
+      let textWithoutDate = raw;
+      if (dateMatch) {
+        textWithoutDate = raw.replace(dateMatch[0], " ");
+      }
+
+      const newCandle = extractCandleFromBlock(dateVal, textWithoutDate);
       if (!newCandle) {
         alert("Live data parse nahi ho saka! Kripya NSE ki live row verify karein.");
         return;
       }
 
-      // Get existing dataset for current stock
       let candles = JSON.parse(localStorage.getItem(`stock_data_${currentStock}`) || "[]");
 
-      // Check if today's date already exists in candles
       const existingIdx = candles.findIndex(c => c.date.toLowerCase() === newCandle.date.toLowerCase());
       if (existingIdx !== -1) {
-        // Update existing row
         candles[existingIdx] = newCandle;
       } else {
-        // Append new live session
         candles.push(newCandle);
       }
 
-      // Sort chronologically
       candles.sort((a, b) => parseCustomDate(a.date) - parseCustomDate(b.date));
 
-      // Save back to storage
       localStorage.setItem(`stock_data_${currentStock}`, JSON.stringify(candles));
       document.getElementById("livePasteInput").value = "";
 
-      alert(`⚡ Success! ${newCandle.date} ka Live session update ho gaya! Sare technicals naye sire se calculate ho gaye.`);
+      alert(`⚡ Success! ${newCandle.date} ka Live session update ho gaya!`);
       switchMode('view');
       document.querySelector('input[name="viewMode"][value="view"]').checked = true;
       loadActiveStock(currentStock);
@@ -1145,10 +1157,10 @@
         const startIndex = dateMatches[i].index + currentDate.length;
         const endIndex = (i + 1 < dateMatches.length) ? dateMatches[i + 1].index : raw.length;
         
+        // This block strictly starts AFTER currentDate - date numbers are never in block!
         const block = raw.substring(startIndex, endIndex);
-        const candle = parseRowData(currentDate + " " + block);
+        const candle = extractCandleFromBlock(currentDate, block);
         if (candle) {
-          candle.date = currentDate;
           parsedCandles.push(candle);
         }
       }
@@ -1174,7 +1186,7 @@
       localStorage.setItem(`stock_data_${targetStock}`, JSON.stringify(parsedCandles));
       document.getElementById("bulkPasteInput").value = "";
 
-      alert(`✅ Success! Stock: ${targetStock} ke ${parsedCandles.length} sessions load ho gaye!`);
+      alert(`✅ Success! Stock: ${targetStock} ke ${parsedCandles.length} sessions fresh load ho gaye!`);
       switchMode('view');
       document.querySelector('input[name="viewMode"][value="view"]').checked = true;
       loadActiveStock(targetStock);
@@ -1569,7 +1581,7 @@
       }
     }
 
-    // Candlestick Chart
+    // Candlestick Chart (With 100% Correct Real Body & Wicks)
     function drawCandlestickChart(data) {
       const canvas = document.getElementById("candlestickCanvas");
       const ctx = canvas.getContext("2d");
@@ -1643,6 +1655,7 @@
         const yOpen = getY(c.open);
         const yClose = getY(c.close);
 
+        // 1. Draw Wick (Upper and Lower thin line)
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -1650,11 +1663,13 @@
         ctx.lineTo(xCenter, yLow);
         ctx.stroke();
 
+        // 2. Draw Real Body
         const bodyTop = Math.min(yOpen, yClose);
         const bodyHeight = Math.max(3, Math.abs(yOpen - yClose));
         ctx.fillStyle = color;
         ctx.fillRect(xCenter - (candleBodyWidth / 2), bodyTop, candleBodyWidth, bodyHeight);
 
+        // 3. Date label below
         ctx.fillStyle = "#94a3b8";
         ctx.font = "11px sans-serif";
         ctx.textAlign = "center";
@@ -1678,7 +1693,8 @@
         }
 
         if (found) {
-          tooltip.innerHTML = `📅 <strong>${found.date}</strong> | O: ₹${found.open.toFixed(1)} | H: ₹${found.high.toFixed(1)} | L: ₹${found.low.toFixed(1)} | C: <strong>₹${found.close.toFixed(1)}</strong> (${found.close >= found.open ? '🟢 +' : '🔴 -'})`;
+          const isFndBull = found.close >= found.open;
+          tooltip.innerHTML = `📅 <strong>${found.date}</strong> | O: ₹${found.open.toFixed(1)} | H: ₹${found.high.toFixed(1)} | L: ₹${found.low.toFixed(1)} | C: <strong>₹${found.close.toFixed(1)}</strong> (${isFndBull ? '🟢 +' : '🔴 -'})`;
         } else {
           tooltip.innerHTML = `📅 <strong>${latest.date}</strong> | O: ₹${latest.open.toFixed(1)} | H: ₹${latest.high.toFixed(1)} | L: ₹${latest.low.toFixed(1)} | C: <strong>₹${latest.close.toFixed(1)}</strong> (${isLatestBull ? '🟢 +' : '🔴 -'})`;
         }
