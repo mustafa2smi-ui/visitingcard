@@ -480,6 +480,51 @@
       resize: vertical;
       font-size: 13px;
     }
+    /* ================= TV NEWS INTRO / COVER SLIDE ================= */
+.intro-slide-box {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  z-index: 3;
+}
+.intro-badge {
+  background: var(--primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+.intro-main-title {
+  font-size: 30px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.9);
+  margin-bottom: 12px;
+}
+.intro-main-title span {
+  color: var(--accent);
+}
+.intro-subtitle {
+  font-size: 16px;
+  color: #cbd5e1;
+  font-weight: 600;
+  background: rgba(15, 23, 42, 0.7);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
   </style>
 </head>
 <body>
@@ -498,6 +543,13 @@
 
     <!-- Theme Switcher -->
     <div class="bg-switcher">
+      <!-- Intro Slide Customizer -->
+<div class="inline-row" style="background: #11141a; padding: 6px 10px; border-radius: 8px; border: 1px solid #282f3d;">
+  <strong style="font-size: 11px; color: var(--accent); white-space: nowrap;">🎬 Intro Title:</strong>
+  <input type="text" id="introTitleInput" class="slim-input" style="height: 30px; font-size: 12px;" value="TODAY'S TOP HEADLINES" oninput="saveIntroText()" />
+  <input type="text" id="introSubInput" class="slim-input" style="height: 30px; font-size: 12px;" value="आज की बड़ी ख़बरें" oninput="saveIntroText()" />
+</div>
+
       <div class="bg-radio-group">
         <strong style="color: var(--accent);">Theme:</strong>
         <label>
@@ -644,6 +696,12 @@
         <div class="channel-logo">NEWS 7AMPM</div>
         <div class="date-display" id="currentDate">--/--/----</div>
       </div>
+<!-- Intro Cover Slide View -->
+<div class="intro-slide-box" id="introSlideView">
+  <div class="intro-badge">⚡ SPECIAL BULLETIN</div>
+  <div class="intro-main-title" id="introDisplayTitle">TODAY'S <span>TOP HEADLINES</span></div>
+  <div class="intro-subtitle" id="introDisplaySub">आज की बड़ी ख़बरें</div>
+</div>
 
       <!-- Visual Split Top Photo Box -->
       <div class="split-image-container" id="splitImgBox">
@@ -1031,7 +1089,121 @@ Dusri breaking news yahan aayegi https://link2.com"></textarea>
       renderSlide(0);
     }
   }
+//New Code
+  // 1. Intro Texts Save/Load
+  function saveIntroText() {
+    const title = document.getElementById('introTitleInput').value.trim();
+    const sub = document.getElementById('introSubInput').value.trim();
+    localStorage.setItem('NEWS7AMPM_INTRO_TITLE', title);
+    localStorage.setItem('NEWS7AMPM_INTRO_SUB', sub);
+    if (currentSlide === -1) renderIntroSlide();
+  }
 
+  function getIntroData() {
+    return {
+      title: localStorage.getItem('NEWS7AMPM_INTRO_TITLE') || document.getElementById('introTitleInput')?.value || "TODAY'S TOP HEADLINES",
+      sub: localStorage.getItem('NEWS7AMPM_INTRO_SUB') || document.getElementById('introSubInput')?.value || "आज की बड़ी ख़बरें"
+    };
+  }
+
+  // 2. Render Intro Slide Function
+  function renderIntroSlide() {
+    currentSlide = -1; // -1 represents Intro Slide
+    const introBox = document.getElementById('introSlideView');
+    const newsBody = document.querySelector('.news-card-body');
+    const splitImgBox = document.getElementById('splitImgBox');
+    const studioDesk = document.getElementById('studioDeskGraphic');
+    const introData = getIntroData();
+
+    // Show Intro, Hide News Card
+    introBox.style.display = 'flex';
+    newsBody.style.display = 'none';
+    if (splitImgBox) splitImgBox.style.display = 'none';
+    if (currentBgMode !== 'custom' && studioDesk) studioDesk.style.display = 'flex';
+
+    // Set Text
+    document.getElementById('introDisplayTitle').innerHTML = introData.title.replace(/HEADLINES|NEWS|खबरे/i, '<span>$&</span>');
+    document.getElementById('introDisplaySub').innerText = introData.sub;
+    document.getElementById('slideIndicator').innerText = "INTRO";
+  }
+
+  // 3. Updated renderSlide (Intro vs News Slides)
+  function renderSlide(index) {
+    if (index === -1) {
+      renderIntroSlide();
+      return;
+    }
+
+    const introBox = document.getElementById('introSlideView');
+    const newsBody = document.querySelector('.news-card-body');
+    const splitImgBox = document.getElementById('splitImgBox');
+    const headlineEl = document.getElementById('newsHeadlineText');
+    const indexEl = document.getElementById('newsIndexText');
+    const imgEl = document.getElementById('headlineImage');
+    const animClass = document.getElementById('animSelect')?.value || 'anim-zoom-pop';
+
+    // Hide Intro, Show News Card
+    introBox.style.display = 'none';
+    newsBody.style.display = 'flex';
+    if (currentBgMode === 'split' && splitImgBox) splitImgBox.style.display = 'block';
+
+    headlineEl.classList.remove('anim-zoom-pop', 'anim-slide-up', 'anim-slide-left', 'anim-flash', 'anim-fade');
+    indexEl.classList.remove('anim-zoom-pop', 'anim-slide-up', 'anim-slide-left', 'anim-flash', 'anim-fade');
+
+    if (newsList.length === 0) {
+      indexEl.innerText = "HEADLINE #01";
+      headlineEl.innerText = "यहाँ आपकी बड़ी ब्रेकिंग हेडलाइन आएगी।";
+      document.getElementById('slideIndicator').innerText = "0 / 0";
+      return;
+    }
+
+    const item = newsList[index];
+    indexEl.innerText = `HEADLINE #${String(item.index).padStart(2, '0')}`;
+    headlineEl.innerText = item.headline;
+    document.getElementById('slideIndicator').innerText = `${index + 1} / ${newsList.length}`;
+    if (document.getElementById('adjusterSlideNum')) {
+      document.getElementById('adjusterSlideNum').innerText = `${index + 1}`;
+    }
+
+    if (imgEl && item.image) {
+      imgEl.src = item.image;
+      const posY = item.imgPosY !== undefined ? item.imgPosY : 50;
+      const zoom = item.imgZoom !== undefined ? item.imgZoom : 100;
+      imgEl.style.objectPosition = `center ${posY}%`;
+      imgEl.style.transform = `scale(${zoom / 100})`;
+    }
+
+    if (animClass !== 'none') {
+      void headlineEl.offsetWidth;
+      headlineEl.classList.add(animClass);
+      indexEl.classList.add(animClass);
+    }
+  }
+
+  // Next & Prev Button Supports Intro
+  function nextSlide() {
+    if (newsList.length === 0) return;
+    if (currentSlide < newsList.length - 1) {
+      currentSlide++;
+    } else {
+      currentSlide = -1; // Loop back to Intro
+    }
+    renderSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    if (newsList.length === 0) return;
+    if (currentSlide > -1) {
+      currentSlide--;
+    } else {
+      currentSlide = newsList.length - 1;
+    }
+    renderSlide(currentSlide);
+  }
+
+  
+
+  /*
   // Slide Render
   function renderSlide(index) {
     const headlineEl = document.getElementById('newsHeadlineText');
@@ -1088,7 +1260,7 @@ Dusri breaking news yahan aayegi https://link2.com"></textarea>
     currentSlide = (currentSlide - 1 + newsList.length) % newsList.length;
     renderSlide(currentSlide);
   }
-
+*/
   // Fullscreen Record Mode
   async function startFocusRecordingMode() {
     if (newsList.length === 0) {
@@ -1257,7 +1429,7 @@ Dusri breaking news yahan aayegi https://link2.com"></textarea>
     if (isPlaying) stopAudioPlayback();
     else playSequentialBroadcast();
   }
-
+/*
   async function playSequentialBroadcast() {
     isPlaying = true;
     document.getElementById('playBtn').textContent = "⏹ Stop";
@@ -1289,7 +1461,47 @@ Dusri breaking news yahan aayegi https://link2.com"></textarea>
 
     stopAudioPlayback();
   }
+*/
+  // 4. Sequential Audio Broadcast (Intro -> Sound -> Headline 1)
+  async function playSequentialBroadcast() {
+    isPlaying = true;
+    document.getElementById('playBtn').textContent = "⏹ Stop";
+    const sfxType = document.getElementById('sfxSelect').value;
+    const speed = parseFloat(document.getElementById('audioSpeed').value) || 1.15;
 
+    // STEP A: SHOW INTRO SLIDE FIRST
+    renderIntroSlide();
+    await speakHeadlineSentence("News 7AMPM me aapka swagat hai. Aaj ki mukhya khabrein.", speed);
+    
+    // STEP B: INTRO KHATAM -> PLAY TRANSITION SOUND
+    if (isPlaying) {
+      await playSoundBit(sfxType);
+    }
+
+    // STEP C: SWITCH TO HEADLINE #01, #02...
+    for (let i = 0; i < newsList.length; i++) {
+      if (!isPlaying) break;
+
+      currentSlide = i;
+      renderSlide(currentSlide); // Headline #1 animates here!
+
+      const item = newsList[i];
+      await speakHeadlineSentence(`Khabar number ${item.index}. ${item.headline}`, speed);
+
+      if (isPlaying) await playSoundBit(sfxType);
+    }
+
+    // STEP D: OUTRO
+    if (isPlaying) {
+      await speakHeadlineSentence("आज की सबसे बड़ी खबर पर आपकी क्या राय है? कमेंट में ज़रूर बताएं!", speed);
+      await playSoundBit(sfxType);
+    }
+    if (isPlaying) {
+      await speakHeadlineSentence("देश दुनिया की हर ताज़ा सुर्ख़ी सबसे पहले पाने के लिए, वीडियो को लाइक करें, शेयर करें और न्यूज़ सेवन ए एम पी एम चैनल को सब्सक्राइब करना न भूलें। साथ ही, बेल आइकन को दबाकर ऑल नोटिफिकेशन्स चालू कर लें, ताकि हर नई वीडियो की सूचना आपको तुरंत मिल सके। थैंक्स फॉर वाचिंग।", speed);
+    }
+
+    stopAudioPlayback();
+  }
   function speakHeadlineSentence(text, speedRate) {
     return new Promise(resolve => {
       if (!isPlaying) { resolve(); return; }
