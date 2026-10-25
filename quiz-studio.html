@@ -705,6 +705,9 @@ Ans: D"></textarea>
   function openBulkModal() { document.getElementById('bulkModal').style.display = 'flex'; }
   function closeBulkModal() { document.getElementById('bulkModal').style.display = 'none'; }
 
+    // ==============================================================
+  // SMART BULK PARSER (FIXED: Answers A, B, C, D bug resolved)
+  // ==============================================================
   function processBulkQuizImport() {
     const rawText = document.getElementById('bulkInput').value.trim();
     if (!rawText) {
@@ -712,7 +715,7 @@ Ans: D"></textarea>
       return;
     }
 
-    // Header filter
+    // Top headers filter
     const cleanLines = rawText.split('\n')
       .map(l => l.trim())
       .filter(l => l.length > 0 && !l.toLowerCase().includes("quiz") && !l.includes("प्रतियोगिता"));
@@ -723,7 +726,7 @@ Ans: D"></textarea>
     cleanLines.forEach(line => {
       const isQuestionLine = /^(\d+[\.\-\)]\s*|Q[:\.\d\s]+|प्रश्न[:\.\d\s]+)/i.test(line);
       const isOptionLine = /^[A-D][\)\.\:\-\s]/i.test(line);
-      const isAnsLine = /^(Ans|Answer|उत्तर|सही उत्तर)[:\.\-\s]+/i.test(line);
+      const isAnsLine = /^(Ans|Answer|उत्तर|सही उत्तर)[:\.\-\s]*/i.test(line);
 
       if (isQuestionLine) {
         if (currentQ && currentQ.question) {
@@ -744,11 +747,14 @@ Ans: D"></textarea>
           });
         }
       } else if (isAnsLine && currentQ) {
-        const match = line.match(/([A-D])/i);
-        if (match) {
-          currentQ.correct = match[1].toUpperCase();
+        // 'Ans:' ya 'उत्तर:' शब्द को पहले पूरी तरह हटाकर सिर्फ आगे का उत्तर देखें
+        const afterPrefix = line.replace(/^(Ans|Answer|उत्तर|सही उत्तर)[:\.\-\s]*/i, '').trim();
+        const letterMatch = afterPrefix.match(/^([A-D])\b/i) || afterPrefix.match(/([A-D])/i);
+
+        if (letterMatch) {
+          currentQ.correct = letterMatch[1].toUpperCase(); // Ab yeh D, B, C ko sahi pakdega
         } else {
-          currentQ.correct = line.replace(/^(Ans|Answer|उत्तर|सही उत्तर)[:\.\-\s]+/i, '').trim();
+          currentQ.correct = afterPrefix;
         }
       } else if (currentQ && currentQ.options.length === 0) {
         currentQ.question += " " + line;
@@ -760,19 +766,19 @@ Ans: D"></textarea>
     }
 
     if (tempQuizList.length === 0) {
-      alert("सवाल पहचाने नहीं जा सके। कृपया सवाल के आगे 1. और ऑप्शन्स के आगे A. ज़रूर लिखें।");
+      alert("सवाल पहचाने नहीं जा सके।");
       return;
     }
 
-    // Append to existing
     quizList = quizList.concat(tempQuizList);
 
     closeBulkModal();
     document.getElementById('bulkInput').value = "";
     currentIndex = 0;
     saveAndRender();
-    alert(`✅ कुल ${tempQuizList.length} सवाल सफलतापूर्वक तैयार हो गए!`);
+    alert(`✅ कुल ${tempQuizList.length} सवाल सही उत्तरों के साथ तैयार हो गए!`);
   }
+
 
   // 4. Render Card
   function renderQuizCard(index) {
