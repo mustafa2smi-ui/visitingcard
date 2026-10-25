@@ -23,7 +23,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
     body { background-color: var(--dark); color: var(--text); padding: 12px; font-size: 13px; }
-    .container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 15px; }
     
     @media(max-width: 950px) {
       .container { grid-template-columns: 1fr; }
@@ -32,7 +32,7 @@
     /* Left Control Panel */
     .panel { background: var(--card-bg); padding: 14px; border-radius: 12px; border: 1px solid #232838; display: flex; flex-direction: column; gap: 10px; }
     .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #232838; padding-bottom: 8px; }
-    .panel-header h2 { color: var(--accent); font-size: 16px; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
+    .panel-header h2 { color: var(--accent); font-size: 16px; text-transform: uppercase; font-weight: 800; }
 
     .inline-row { display: flex; gap: 8px; align-items: center; }
     .slim-input {
@@ -73,7 +73,9 @@
     .btn-warning { background: #d97706; }
     .btn-warning:hover { background: #b45309; }
     .btn-info { background: #2563eb; }
+    .btn-info:hover { background: #1d4ed8; }
     .btn-danger { background: #dc2626; }
+    .btn-danger:hover { background: #b91c1c; }
     .mini-btn { height: 28px; padding: 0 9px; font-size: 11px; }
 
     .setting-box {
@@ -87,7 +89,7 @@
     }
     .setting-label { font-size: 11px; font-weight: bold; color: var(--accent); text-transform: uppercase; }
 
-    /* Right Preview Area */
+    /* Right Preview Section */
     .preview-container { display: flex; flex-direction: column; align-items: center; gap: 8px; overflow: hidden; }
     .template-top-bar {
       width: 100%;
@@ -114,19 +116,46 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
 
-    /* 9:16 Shorts Aspect */
+    /* 9:16 Shorts */
     .quiz-viewport.ratio-9-16 {
       width: 340px;
       height: 604px;
     }
 
-    /* 16:9 Landscape Video Aspect */
+    /* 16:9 Landscape Video Aspect (Mobile Fit - No Screen Cutoff) */
     .quiz-viewport.ratio-16-9 {
-      width: 580px;
-      height: 326px;
+      width: 100% !important;
+      max-width: 540px !important;
+      aspect-ratio: 16 / 9 !important;
+      height: auto !important;
+      min-height: 270px;
+    }
+    .ratio-16-9 .question-card {
+      font-size: 13px !important;
+      padding: 6px 10px !important;
+      margin-bottom: 4px !important;
+    }
+    .ratio-16-9 .options-container {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 5px !important;
+    }
+    .ratio-16-9 .option-btn {
+      padding: 5px 8px !important;
+      font-size: 11px !important;
+    }
+    .ratio-16-9 .circular-timer-svg {
+      width: 38px !important;
+      height: 38px !important;
+    }
+    .ratio-16-9 .timer-number-overlay {
+      font-size: 13px !important;
+    }
+    .ratio-16-9 .timer-center-wrap {
+      margin: 2px 0 5px 0 !important;
     }
 
     /* Header Bar */
@@ -158,7 +187,7 @@
       border: 1px solid #333a4d;
     }
 
-    /* Question Visual Area */
+    /* Visual Image Box */
     .quiz-visual-box {
       width: 100%;
       height: 180px;
@@ -170,7 +199,7 @@
       z-index: 2;
     }
     .ratio-16-9 .quiz-visual-box {
-      width: 40%;
+      width: 38%;
       height: 100%;
       border-bottom: none;
       border-right: 2px solid #333a4d;
@@ -199,7 +228,7 @@
 
     /* Question Box */
     .question-card {
-      background: rgba(20, 24, 35, 0.8);
+      background: rgba(20, 24, 35, 0.85);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-left: 4px solid var(--accent);
@@ -212,30 +241,18 @@
       text-shadow: 0 2px 5px rgba(0,0,0,0.8);
       margin-bottom: 10px;
     }
-    .ratio-16-9 .question-card {
-      font-size: 14px;
-      padding: 8px 10px;
-      margin-bottom: 6px;
-    }
 
-    /* Circular Timer Center Widget */
+    /* Circular Timer Widget */
     .timer-center-wrap {
       display: flex;
       justify-content: center;
       align-items: center;
       margin: 4px 0 10px 0;
     }
-    .ratio-16-9 .timer-center-wrap {
-      margin: 2px 0 6px 0;
-    }
     .circular-timer-svg {
       width: 52px;
       height: 52px;
       transform: rotate(-90deg);
-    }
-    .ratio-16-9 .circular-timer-svg {
-      width: 42px;
-      height: 42px;
     }
     .timer-circle-bg {
       fill: none;
@@ -258,16 +275,11 @@
       color: #fff;
     }
 
-    /* Options Stack / Grid */
+    /* Options Stack */
     .options-container {
       display: flex;
       flex-direction: column;
       gap: 7px;
-    }
-    .ratio-16-9 .options-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
     }
 
     .option-btn {
@@ -282,10 +294,6 @@
       font-weight: 700;
       color: #e2e8f0;
       transition: all 0.25s ease;
-    }
-    .ratio-16-9 .option-btn {
-      padding: 6px 10px;
-      font-size: 12px;
     }
     .opt-letter {
       width: 22px;
@@ -334,7 +342,7 @@
       box-shadow: 0 0 20px var(--correct-glow);
     }
 
-    /* Bottom Ticker */
+    /* Footer Bar */
     .quiz-footer {
       background: #0d1017;
       padding: 6px 12px;
@@ -355,8 +363,7 @@
       overflow: hidden !important;
     }
     body.record-mode .panel,
-    body.record-mode .template-top-bar,
-    body.record-mode #exitRecordBtn {
+    body.record-mode .template-top-bar {
       display: none !important;
     }
     body.record-mode #exitRecordBtn { display: block !important; }
@@ -440,7 +447,7 @@
 
 <div class="container">
   
-  <!-- Left Side: Controls & Bulk Importer -->
+  <!-- Left Side: Controls -->
   <div class="panel">
     <div class="panel-header">
       <h2>🏆 QUIZ 7AMPM STUDIO</h2>
@@ -506,7 +513,7 @@
       <span id="imgStatusText" style="font-size: 11px; color: #94a3b8;">No photo attached</span>
     </div>
 
-    <!-- Audio & Action Buttons -->
+    <!-- Audio Settings -->
     <div class="setting-box">
       <div class="inline-row">
         <select id="audioSpeed" class="slim-input" style="height: 30px; flex: 1;">
@@ -519,23 +526,25 @@
       </div>
     </div>
 
-    <!-- Reset / Undo Row -->
-    <div class="inline-row" style="justify-content: flex-end;">
-      <button class="btn btn-warning mini-btn" id="btnUndo" onclick="undoResetAction()" style="display: none;">↩️ Undo</button>
-      <button class="btn btn-danger mini-btn" onclick="clearAllQuizData()">🗑️ Reset All</button>
+    <!-- Reset / Undo Row (Clean & Clear Controls) -->
+    <div class="inline-row" style="justify-content: space-between; border-top: 1px solid #232838; padding-top: 8px;">
+      <button class="btn btn-warning mini-btn" id="btnUndo" onclick="undoAction()" style="display: none;">↩️ Undo</button>
+      <button class="btn btn-danger mini-btn" onclick="clearAllQuizData()">🗑️ Clear All (Reset)</button>
     </div>
   </div>
 
   <!-- Right Side: Preview Viewport -->
   <div class="preview-container">
     <div class="template-top-bar">
-      <div style="display: flex; gap: 6px; align-items: center;">
+      <!-- Navigation + Individual Delete Card Button -->
+      <div style="display: flex; gap: 5px; align-items: center;">
         <button class="btn btn-secondary mini-btn" onclick="prevQuiz()">◀</button>
         <span id="quizIndicator" style="color: var(--accent); font-weight: bold; font-size: 12px;">0 / 0</span>
         <button class="btn btn-secondary mini-btn" onclick="nextQuiz()">▶</button>
+        <button class="btn btn-danger mini-btn" onclick="deleteCurrentQuizCard()" title="इस सवाल को हटाएं">❌ Delete</button>
       </div>
       <div style="display: flex; gap: 5px;">
-        <button class="btn btn-warning mini-btn" onclick="startFocusRecordingMode()">🎥 Record Mode</button>
+        <button class="btn btn-warning mini-btn" onclick="startFocusRecordingMode()">🎥 Record</button>
         <button class="btn btn-secondary mini-btn" onclick="downloadCurrentCard()">💾 Current</button>
         <button class="btn btn-success mini-btn" onclick="downloadAllAsZip()">📦 ZIP All</button>
       </div>
@@ -613,22 +622,21 @@
       <button class="btn btn-secondary mini-btn" onclick="closeBulkModal()">✕ Close</button>
     </div>
     <p style="font-size: 12px; color: #94a3b8;">
-      WhatsApp या किसी भी डॉक्यूमेंट से सवाल पेस्ट करें। फॉर्मेट:
+      WhatsApp या किसी भी डॉक्यूमेंट से सवाल पेस्ट करें:
     </p>
-    <textarea id="bulkInput" placeholder="Q: भारत का राष्ट्रीय पशु कौन सा है?
-A) हाथी
-B) बाघ
-C) शेर
-D) चीता
-Ans: B
+    <textarea id="bulkInput" placeholder="1. भारत का राष्ट्रीय जलीय जीव कौन-सा है?
+A. नीली व्हेल
+B. समुद्री कछुआ
+C. मगरमच्छ
+D. गंगा नदी डॉल्फिन
+Ans: D
 
-Q: सूर्य किस दिशा से उगता है?
-A) पश्चिम
-B) पूर्व
-Ans: B
-
-Q: भारत की राजधानी क्या है?
-Ans: नई दिल्ली"></textarea>
+2. सौरमंडल का सबसे बड़ा ग्रह कौन-सा है?
+A. शनि
+B. मंगल
+C. पृथ्वी
+D. बृहस्पति
+Ans: D"></textarea>
     <div style="display: flex; justify-content: flex-end; gap: 8px;">
       <button class="btn btn-secondary" onclick="closeBulkModal()">Cancel</button>
       <button class="btn btn-success" onclick="processBulkQuizImport()">⚡ Generate All Cards</button>
@@ -693,54 +701,77 @@ Ans: नई दिल्ली"></textarea>
     saveAndRender();
   }
 
-  // 3. Bulk Import Parser (Smart Parser for 4 opts, 2 opts, Direct ans)
+  // 3. Smart Bulk Import Parser
   function openBulkModal() { document.getElementById('bulkModal').style.display = 'flex'; }
   function closeBulkModal() { document.getElementById('bulkModal').style.display = 'none'; }
 
   function processBulkQuizImport() {
-    const text = document.getElementById('bulkInput').value.trim();
-    if (!text) return;
+    const rawText = document.getElementById('bulkInput').value.trim();
+    if (!rawText) {
+      alert("कृपया सवाल पेस्ट करें!");
+      return;
+    }
 
-    const blocks = text.split(/\n\s*\n|\n(?=Q[:\.\s])/i);
+    // Header filter
+    const cleanLines = rawText.split('\n')
+      .map(l => l.trim())
+      .filter(l => l.length > 0 && !l.toLowerCase().includes("quiz") && !l.includes("प्रतियोगिता"));
 
-    blocks.forEach(block => {
-      const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      let q = "";
-      let opts = [];
-      let ans = "A";
+    let currentQ = null;
+    let tempQuizList = [];
 
-      lines.forEach(line => {
-        if (/^Q[:\.\s]/i.test(line)) {
-          q = line.replace(/^Q[:\.\s]+/i, '').trim();
-        } else if (/^[A-D][\)\.\:\s]/i.test(line)) {
-          const match = line.match(/^([A-D])[\)\.\:\s]+(.*)/i);
-          if (match) opts.push({ letter: match[1].toUpperCase(), text: match[2].trim() });
-        } else if (/^Ans[:\.\s]/i.test(line)) {
-          const match = line.match(/^Ans[:\.\s]+([A-D])/i);
-          if (match) {
-            ans = match[1].toUpperCase();
-          } else {
-            ans = line.replace(/^Ans[:\.\s]+/i, '').trim(); // Direct Ans string
-          }
-        } else if (!q) {
-          q = line; // Fallback question line
+    cleanLines.forEach(line => {
+      const isQuestionLine = /^(\d+[\.\-\)]\s*|Q[:\.\d\s]+|प्रश्न[:\.\d\s]+)/i.test(line);
+      const isOptionLine = /^[A-D][\)\.\:\-\s]/i.test(line);
+      const isAnsLine = /^(Ans|Answer|उत्तर|सही उत्तर)[:\.\-\s]+/i.test(line);
+
+      if (isQuestionLine) {
+        if (currentQ && currentQ.question) {
+          tempQuizList.push(currentQ);
         }
-      });
-
-      if (q) {
-        quizList.push({
-          question: q,
-          options: opts,
-          correct: ans,
+        currentQ = {
+          question: line.replace(/^(\d+[\.\-\)]\s*|Q[:\.\d\s]+|प्रश्न[:\.\d\s]+)/i, '').trim(),
+          options: [],
+          correct: 'A',
           image: null
-        });
+        };
+      } else if (isOptionLine && currentQ) {
+        const match = line.match(/^([A-D])[\)\.\:\-\s]+(.*)/i);
+        if (match) {
+          currentQ.options.push({
+            letter: match[1].toUpperCase(),
+            text: match[2].trim()
+          });
+        }
+      } else if (isAnsLine && currentQ) {
+        const match = line.match(/([A-D])/i);
+        if (match) {
+          currentQ.correct = match[1].toUpperCase();
+        } else {
+          currentQ.correct = line.replace(/^(Ans|Answer|उत्तर|सही उत्तर)[:\.\-\s]+/i, '').trim();
+        }
+      } else if (currentQ && currentQ.options.length === 0) {
+        currentQ.question += " " + line;
       }
     });
+
+    if (currentQ && currentQ.question) {
+      tempQuizList.push(currentQ);
+    }
+
+    if (tempQuizList.length === 0) {
+      alert("सवाल पहचाने नहीं जा सके। कृपया सवाल के आगे 1. और ऑप्शन्स के आगे A. ज़रूर लिखें।");
+      return;
+    }
+
+    // Append to existing
+    quizList = quizList.concat(tempQuizList);
 
     closeBulkModal();
     document.getElementById('bulkInput').value = "";
     currentIndex = 0;
     saveAndRender();
+    alert(`✅ कुल ${tempQuizList.length} सवाल सफलतापूर्वक तैयार हो गए!`);
   }
 
   // 4. Render Card
@@ -752,13 +783,18 @@ Ans: नई दिल्ली"></textarea>
       document.getElementById('quizIndicator').innerText = "0 / 0";
       document.getElementById('cardCounterText').innerText = "QUESTION #01";
       document.getElementById('quizCountBadge').innerText = "Cards: 0";
+      document.getElementById('visualImgBox').style.display = 'none';
       return;
     }
 
-    const item = quizList[index];
+    if (index >= quizList.length) index = quizList.length - 1;
+    if (index < 0) index = 0;
+    currentIndex = index;
+
+    const item = quizList[currentIndex];
     document.getElementById('qDisplayCard').innerText = item.question;
-    document.getElementById('quizIndicator').innerText = `${index + 1} / ${quizList.length}`;
-    document.getElementById('cardCounterText').innerText = `QUESTION #${String(index + 1).padStart(2, '0')}`;
+    document.getElementById('quizIndicator').innerText = `${currentIndex + 1} / ${quizList.length}`;
+    document.getElementById('cardCounterText').innerText = `QUESTION #${String(currentIndex + 1).padStart(2, '0')}`;
     document.getElementById('quizCountBadge').innerText = `Cards: ${quizList.length}`;
 
     // Image Handle
@@ -792,9 +828,8 @@ Ans: नई दिल्ली"></textarea>
         }
       });
     } else {
-      // Direct Ans Flashcard Mode
       optContainer.style.display = 'none';
-      directBox.style.display = 'none'; // Hidden until timer ends
+      directBox.style.display = 'none';
       document.getElementById('directAnsText').innerText = item.correct;
     }
   }
@@ -807,7 +842,6 @@ Ans: नई दिल्ली"></textarea>
     });
     document.getElementById('directAnsCard').style.display = 'none';
 
-    // Reset Circular SVG
     const circle = document.getElementById('timerProgressCircle');
     circle.style.strokeDashoffset = '0';
     circle.style.stroke = 'var(--accent)';
@@ -815,7 +849,7 @@ Ans: नई दिल्ली"></textarea>
     document.getElementById('timerNumberText').innerText = dur;
   }
 
-  // 5. Reveal Answer State (Green Glow + SFX)
+  // 5. Reveal Answer State
   function revealCorrectAnswer(item) {
     playDingSound();
 
@@ -845,7 +879,27 @@ Ans: नई दिल्ली"></textarea>
     renderQuizCard(currentIndex);
   }
 
-  // 7. Image Upload
+  // 7. Delete Individual Current Card
+  function deleteCurrentQuizCard() {
+    if (quizList.length === 0) {
+      alert("हटाने के लिए कोई सवाल मौजूद नहीं है!");
+      return;
+    }
+
+    if (confirm(`क्या आप सवाल #${currentIndex + 1} को हटाना चाहते हैं?`)) {
+      backupQuizList = JSON.parse(JSON.stringify(quizList)); // Save for undo
+      quizList.splice(currentIndex, 1);
+
+      if (currentIndex >= quizList.length) {
+        currentIndex = Math.max(0, quizList.length - 1);
+      }
+
+      document.getElementById('btnUndo').style.display = 'inline-flex';
+      saveAndRender();
+    }
+  }
+
+  // 8. Image Upload & Removal
   function handleImageUpload(e) {
     const file = e.target.files[0];
     if (file) {
@@ -872,7 +926,7 @@ Ans: नई दिल्ली"></textarea>
     }
   }
 
-  // 8. Synthesized Web Audio SFX (Ticking Clock & Winning Ding)
+  // 9. Synthesized Web Audio SFX
   let audioCtx = null;
   function getAudioContext() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -900,8 +954,8 @@ Ans: नई दिल्ली"></textarea>
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(587.33, now); // D5 Note
-    osc.frequency.setValueAtTime(880, now + 0.08); // A5 Note
+    osc.frequency.setValueAtTime(587.33, now);
+    osc.frequency.setValueAtTime(880, now + 0.08);
     gain.gain.setValueAtTime(0.3, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
     osc.connect(gain);
@@ -910,7 +964,7 @@ Ans: नई दिल्ली"></textarea>
     osc.stop(now + 0.52);
   }
 
-  // 9. Full Sequential Quiz Playback (Read -> Countdown -> Reveal)
+  // 10. Sequential Audio Playback
   async function toggleQuizPlayback() {
     if (quizList.length === 0) return;
     if (isPlaying) {
@@ -928,35 +982,34 @@ Ans: नई दिल्ली"></textarea>
 
         const item = quizList[i];
 
-        // 1. Speak Question
-        await speakText(item.question, speed);
+        // 1. Sawaal padhein
+        await speakText(`Sawal number ${i + 1}. ${item.question}`, speed);
         if (!isPlaying) break;
 
-        // 2. Speak Options
+        // 2. Options padhein
         if (item.options && item.options.length > 0) {
           for (let opt of item.options) {
             if (!isPlaying) break;
-            await speakText(`Option ${opt.letter}. ${opt.text}`, speed);
+            await speakText(`Option ${opt.letter}, ${opt.text}`, speed);
           }
         }
         if (!isPlaying) break;
 
-        // 3. Circular Timer Countdown with Ticking SFX
+        // 3. Circular Timer + Ticking SFX
         await runCircularTimer(totalSec);
         if (!isPlaying) break;
 
-        // 4. Reveal Correct Answer
+        // 4. Reveal Answer
         revealCorrectAnswer(item);
         if (item.options && item.options.length > 0) {
           const correctOpt = item.options.find(o => o.letter === item.correct);
           const ansText = correctOpt ? correctOpt.text : item.correct;
-          await speakText(`Sahi uttar hai option ${item.correct}, ${ansText}`, speed);
+          await speakText(`Sahi uttar hai: Option ${item.correct}. ${ansText}`, speed);
         } else {
           await speakText(`Sahi uttar hai: ${item.correct}`, speed);
         }
 
-        // Wait 1.5s before next question
-        await new Promise(r => setTimeout(r, 1500));
+        await new Promise(r => setTimeout(r, 1400));
       }
       stopQuizPlayback();
     }
@@ -967,7 +1020,7 @@ Ans: नई दिल्ली"></textarea>
       let timeLeft = totalSeconds;
       const circle = document.getElementById('timerProgressCircle');
       const numberEl = document.getElementById('timerNumberText');
-      const circumference = 138; // 2 * PI * r (r=22)
+      const circumference = 138;
 
       circle.style.strokeDasharray = circumference;
       numberEl.innerText = timeLeft;
@@ -977,11 +1030,10 @@ Ans: नई दिल्ली"></textarea>
         timeLeft--;
         numberEl.innerText = timeLeft;
 
-        // Animate Circle
         const offset = circumference - (timeLeft / totalSeconds) * circumference;
         circle.style.strokeDashoffset = offset;
 
-        if (timeLeft <= 2) circle.style.stroke = 'var(--primary)'; // Turn Red near end
+        if (timeLeft <= 2) circle.style.stroke = 'var(--primary)';
 
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
@@ -1012,7 +1064,7 @@ Ans: नई दिल्ली"></textarea>
     document.getElementById('playQuizBtn').textContent = "🎤 Play Quiz Audio";
   }
 
-  // 10. Record Mode
+  // 11. Fullscreen Record Mode
   async function startFocusRecordingMode() {
     if (quizList.length === 0) return;
     document.body.classList.add('record-mode');
@@ -1040,7 +1092,7 @@ Ans: नई दिल्ली"></textarea>
     stopQuizPlayback();
   }
 
-  // 11. HD PNG & ZIP Export
+  // 12. HD Export
   async function downloadCurrentCard() {
     if (quizList.length === 0) return;
     const card = document.getElementById('captureCard');
@@ -1060,11 +1112,9 @@ Ans: नई दिल्ली"></textarea>
       renderQuizCard(i);
       await new Promise(r => setTimeout(r, 150));
 
-      // Question State
       const canvasQ = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: "#0a0c10" });
       folder.file(`Q_${i + 1}_Question.png`, canvasQ.toDataURL('image/png').split(',')[1], { base64: true });
 
-      // Answer Reveal State
       revealCorrectAnswer(quizList[i]);
       await new Promise(r => setTimeout(r, 150));
       const canvasA = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: "#0a0c10" });
@@ -1077,7 +1127,7 @@ Ans: नई दिल्ली"></textarea>
     saveAs(zipBlob, `QUIZ_7AMPM_All_Cards_${Date.now()}.zip`);
   }
 
-  // 12. LocalStorage & Undo
+  // 13. LocalStorage, Reset All & Undo
   function saveAndRender() {
     saveToLocalStorage();
     renderQuizCard(currentIndex);
@@ -1100,24 +1150,32 @@ Ans: नई दिल्ली"></textarea>
     }
   }
 
+  // Clear All Data
   function clearAllQuizData() {
-    if (quizList.length === 0) return;
-    if (confirm("क्या आप सभी क्विज़ कार्ड्स रीसेट करना चाहते हैं?")) {
-      backupQuizList = [...quizList];
-      quizList = [];
-      saveToLocalStorage();
-      document.getElementById('btnUndo').style.display = 'inline-flex';
-      renderQuizCard(0);
+    if (quizList.length === 0) {
+      alert("पहले से ही सब साफ़ है!");
+      return;
     }
-  }
-  function undoResetAction() {
-    if (backupQuizList && backupQuizList.length > 0) {
-      quizList = [...backupQuizList];
-      backupQuizList = null;
-      saveToLocalStorage();
-      document.getElementById('btnUndo').style.display = 'none';
+    if (confirm("क्या आप वाकई सभी क्विज़ कार्ड्स हमेशा के लिए हटाना चाहते हैं? (Undo से वापस लाया जा सकेगा)")) {
+      backupQuizList = JSON.parse(JSON.stringify(quizList));
+      quizList = [];
+      localStorage.removeItem('QUIZ7AMPM_DATA'); // LocalStorage clear
+      document.getElementById('btnUndo').style.display = 'inline-flex';
       currentIndex = 0;
       renderQuizCard(0);
+      alert("✅ सारा डेटा साफ़ कर दिया गया है!");
+    }
+  }
+
+  // Undo Action
+  function undoAction() {
+    if (backupQuizList && backupQuizList.length > 0) {
+      quizList = JSON.parse(JSON.stringify(backupQuizList));
+      backupQuizList = null;
+      document.getElementById('btnUndo').style.display = 'none';
+      currentIndex = 0;
+      saveAndRender();
+      alert("↩️ पिछला डेटा सफलतापूर्वक वापस आ गया!");
     }
   }
 
