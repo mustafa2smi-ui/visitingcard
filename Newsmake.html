@@ -1145,6 +1145,8 @@ Dusri breaking news yahan aayegi https://link2.com"></textarea>
     // Hide Intro, Show News Card
     introBox.style.display = 'none';
     newsBody.style.display = 'flex';
+newsBody.style.flexDirection = 'column'; // <- Yeh line jod dein
+
     if (currentBgMode === 'split' && splitImgBox) splitImgBox.style.display = 'block';
 
     headlineEl.classList.remove('anim-zoom-pop', 'anim-slide-up', 'anim-slide-left', 'anim-flash', 'anim-fade');
