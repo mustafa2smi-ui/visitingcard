@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUIZ 7AMPM - YouTube Shorts & Video Studio</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #e50914;
+      --primary-glow: rgba(229, 9, 20, 0.4);
+      --dark: #0a0c10;
+      --card-bg: #141720;
+      --input-bg: #1e2230;
+      --text: #ffffff;
+      --accent: #ffd700;
+      --correct: #10b981;
+      --correct-glow: rgba(16, 185, 129, 0.5);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--dark); color: var(--text); padding: 12px; font-size: 13px; }
+    .container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    
+    @media(max-width: 950px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    /* Left Control Panel */
+    .panel { background: var(--card-bg); padding: 14px; border-radius: 12px; border: 1px solid #232838; display: flex; flex-direction: column; gap: 10px; }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #232838; padding-bottom: 8px; }
+    .panel-header h2 { color: var(--accent); font-size: 16px; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
+
+    .inline-row { display: flex; gap: 8px; align-items: center; }
+    .slim-input {
+      flex: 1;
+      height: 36px;
+      background: var(--input-bg);
+      border: 1px solid #333a4d;
+      color: #fff;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+    .slim-input:focus { border-color: var(--accent); }
+
+    .btn {
+      height: 36px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      color: #fff;
+      background: var(--primary);
+      transition: 0.15s;
+    }
+    .btn:hover { background: #b70710; }
+    .btn-secondary { background: #333a4d; }
+    .btn-secondary:hover { background: #232838; }
+    .btn-success { background: #059669; }
+    .btn-success:hover { background: #047857; }
+    .btn-warning { background: #d97706; }
+    .btn-warning:hover { background: #b45309; }
+    .btn-info { background: #2563eb; }
+    .btn-danger { background: #dc2626; }
+    .mini-btn { height: 28px; padding: 0 9px; font-size: 11px; }
+
+    .setting-box {
+      background: #0f1218;
+      border: 1px solid #232838;
+      padding: 8px 10px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .setting-label { font-size: 11px; font-weight: bold; color: var(--accent); text-transform: uppercase; }
+
+    /* Right Preview Area */
+    .preview-container { display: flex; flex-direction: column; align-items: center; gap: 8px; overflow: hidden; }
+    .template-top-bar {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #232838;
+    }
+
+    /* -------------------------------------------------------------
+       QUIZ VIEWPORT (9:16 Shorts vs 16:9 Landscape)
+       ------------------------------------------------------------- */
+    .quiz-viewport {
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.9);
+      border: 2px solid #232838;
+      background: radial-gradient(circle at 50% 20%, #161b2a 0%, #0a0c12 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    /* 9:16 Shorts Aspect */
+    .quiz-viewport.ratio-9-16 {
+      width: 340px;
+      height: 604px;
+    }
+
+    /* 16:9 Landscape Video Aspect */
+    .quiz-viewport.ratio-16-9 {
+      width: 580px;
+      height: 326px;
+    }
+
+    /* Header Bar */
+    .quiz-header {
+      background: rgba(10, 12, 18, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--accent);
+      z-index: 5;
+    }
+    .quiz-brand {
+      background: linear-gradient(90deg, #ffd700, #ff8800);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    .quiz-counter {
+      background: #1e2433;
+      color: #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid #333a4d;
+    }
+
+    /* Question Visual Area */
+    .quiz-visual-box {
+      width: 100%;
+      height: 180px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      display: none;
+      border-bottom: 2px solid #333a4d;
+      z-index: 2;
+    }
+    .ratio-16-9 .quiz-visual-box {
+      width: 40%;
+      height: 100%;
+      border-bottom: none;
+      border-right: 2px solid #333a4d;
+    }
+    .quiz-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 50%;
+    }
+
+    /* Main Quiz Body */
+    .quiz-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      z-index: 5;
+    }
+    .ratio-16-9 .quiz-main-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Question Box */
+    .question-card {
+      background: rgba(20, 24, 35, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.4;
+      color: #ffffff;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+      margin-bottom: 10px;
+    }
+    .ratio-16-9 .question-card {
+      font-size: 14px;
+      padding: 8px 10px;
+      margin-bottom: 6px;
+    }
+
+    /* Circular Timer Center Widget */
+    .timer-center-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 4px 0 10px 0;
+    }
+    .ratio-16-9 .timer-center-wrap {
+      margin: 2px 0 6px 0;
+    }
+    .circular-timer-svg {
+      width: 52px;
+      height: 52px;
+      transform: rotate(-90deg);
+    }
+    .ratio-16-9 .circular-timer-svg {
+      width: 42px;
+      height: 42px;
+    }
+    .timer-circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.1);
+      stroke-width: 5;
+    }
+    .timer-circle-progress {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 138;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.1s linear, stroke 0.3s;
+    }
+    .timer-number-overlay {
+      position: absolute;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    /* Options Stack / Grid */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .ratio-16-9 .options-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .option-btn {
+      background: rgba(24, 28, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #e2e8f0;
+      transition: all 0.25s ease;
+    }
+    .ratio-16-9 .option-btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .opt-letter {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #333a4d;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* Correct Answer Green Glow */
+    .option-btn.correct-glow {
+      background: rgba(16, 185, 129, 0.25) !important;
+      border-color: var(--correct) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 18px var(--correct-glow) !important;
+      transform: scale(1.02);
+    }
+    .option-btn.correct-glow .opt-letter {
+      background: var(--correct) !important;
+      color: #fff !important;
+    }
+
+    /* Wrong Answer Dimming */
+    .option-btn.dimmed {
+      opacity: 0.35;
+      filter: grayscale(80%);
+    }
+
+    /* Direct Answer Flashcard Mode */
+    .direct-ans-box {
+      display: none;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px dashed var(--correct);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--correct);
+      box-shadow: 0 0 20px var(--correct-glow);
+    }
+
+    /* Bottom Ticker */
+    .quiz-footer {
+      background: #0d1017;
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      border-top: 1px solid #1e2433;
+      z-index: 5;
+    }
+
+    /* Fullscreen Record Mode */
+    body.record-mode {
+      padding: 0 !important;
+      margin: 0 !important;
+      background: #000 !important;
+      overflow: hidden !important;
+    }
+    body.record-mode .panel,
+    body.record-mode .template-top-bar,
+    body.record-mode #exitRecordBtn {
+      display: none !important;
+    }
+    body.record-mode #exitRecordBtn { display: block !important; }
+    body.record-mode .container {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      min-height: 100vh !important;
+      max-width: 100% !important;
+    }
+
+    #exitRecordBtn {
+      display: none;
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 99999;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid #555;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    #countdownOverlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    #countdownNumber {
+      font-size: 80px;
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 0 30px var(--primary);
+    }
+
+    /* Bulk Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 15px;
+    }
+    .modal-card {
+      background: var(--card-bg);
+      border: 1px solid #333a4d;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 600px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .modal-card textarea {
+      width: 100%;
+      height: 220px;
+      background: #0a0c10;
+      border: 1px solid #333a4d;
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- Left Side: Controls & Bulk Importer -->
+  <div class="panel">
+    <div class="panel-header">
+      <h2>🏆 QUIZ 7AMPM STUDIO</h2>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span id="quizCountBadge" style="font-size: 12px; color: var(--accent); font-weight: bold;">Cards: 0</span>
+        <button class="btn btn-info mini-btn" onclick="openBulkModal()">📋 Bulk Paste Quiz</button>
+      </div>
+    </div>
+
+    <!-- Aspect Ratio & Timer Settings -->
+    <div class="setting-box">
+      <div class="inline-row" style="justify-content: space-between;">
+        <div>
+          <span class="setting-label">Format:</span>
+          <select id="aspectRatioSelect" class="slim-input" style="height: 30px; width: 140px;" onchange="changeAspectRatio()">
+            <option value="ratio-9-16">📱 Shorts (9:16)</option>
+            <option value="ratio-16-9">🖥️ YouTube (16:9)</option>
+          </select>
+        </div>
+        <div>
+          <span class="setting-label">Timer Duration:</span>
+          <select id="timerDurationSelect" class="slim-input" style="height: 30px; width: 110px;">
+            <option value="5" selected>⏱️ 5 Seconds</option>
+            <option value="10">⏱️ 10 Seconds</option>
+            <option value="15">⏱️ 15 Seconds</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single Question Editor -->
+    <div class="inline-row">
+      <input type="text" id="qTextInput" class="slim-input" placeholder="❓ Question: भारत का राष्ट्रीय पशु कौन सा है?" />
+    </div>
+
+    <!-- Options Input (A, B, C, D) -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;" id="singleOptionsInputs">
+      <input type="text" id="optAInput" class="slim-input" placeholder="A) हाथी" />
+      <input type="text" id="optBInput" class="slim-input" placeholder="B) बाघ" />
+      <input type="text" id="optCInput" class="slim-input" placeholder="C) शेर" />
+      <input type="text" id="optDInput" class="slim-input" placeholder="D) चीता" />
+    </div>
+
+    <!-- Correct Answer Selector & Make Card -->
+    <div class="inline-row">
+      <span class="setting-label">Correct:</span>
+      <select id="correctOptSelect" class="slim-input" style="width: 100px;">
+        <option value="A">A</option>
+        <option value="B" selected>B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="DIRECT">Direct Ans</option>
+      </select>
+      <button class="btn btn-success" style="flex: 1;" onclick="addSingleQuizCard()">➕ Make Quiz Card</button>
+    </div>
+
+    <!-- Image Attachment Row -->
+    <div class="inline-row" style="background: #0f1218; padding: 6px 10px; border-radius: 6px; border: 1px solid #232838;">
+      <span class="setting-label">Photo:</span>
+      <input type="file" id="qImgUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+      <button class="btn btn-secondary mini-btn" onclick="document.getElementById('qImgUpload').click()">📁 Attach Image</button>
+      <button class="btn btn-secondary mini-btn" onclick="removeCurrentImage()">✕ Remove</button>
+      <span id="imgStatusText" style="font-size: 11px; color: #94a3b8;">No photo attached</span>
+    </div>
+
+    <!-- Audio & Action Buttons -->
+    <div class="setting-box">
+      <div class="inline-row">
+        <select id="audioSpeed" class="slim-input" style="height: 30px; flex: 1;">
+          <option value="1.0">⚡ Speed: Normal (1.0x)</option>
+          <option value="1.15" selected>🚀 Speed: Fast 1 (1.15x)</option>
+          <option value="1.30">🔥 Speed: Fast 2 (1.30x)</option>
+        </select>
+        <button id="playQuizBtn" class="btn btn-warning mini-btn" onclick="toggleQuizPlayback()">🎤 Play Quiz Audio</button>
+        <button class="btn btn-secondary mini-btn" onclick="stopQuizPlayback()">⏹ Stop</button>
+      </div>
+    </div>
+
+    <!-- Reset / Undo Row -->
+    <div class="inline-row" style="justify-content: flex-end;">
+      <button class="btn btn-warning mini-btn" id="btnUndo" onclick="undoResetAction()" style="display: none;">↩️ Undo</button>
+      <button class="btn btn-danger mini-btn" onclick="clearAllQuizData()">🗑️ Reset All</button>
+    </div>
+  </div>
+
+  <!-- Right Side: Preview Viewport -->
+  <div class="preview-container">
+    <div class="template-top-bar">
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <button class="btn btn-secondary mini-btn" onclick="prevQuiz()">◀</button>
+        <span id="quizIndicator" style="color: var(--accent); font-weight: bold; font-size: 12px;">0 / 0</span>
+        <button class="btn btn-secondary mini-btn" onclick="nextQuiz()">▶</button>
+      </div>
+      <div style="display: flex; gap: 5px;">
+        <button class="btn btn-warning mini-btn" onclick="startFocusRecordingMode()">🎥 Record Mode</button>
+        <button class="btn btn-secondary mini-btn" onclick="downloadCurrentCard()">💾 Current</button>
+        <button class="btn btn-success mini-btn" onclick="downloadAllAsZip()">📦 ZIP All</button>
+      </div>
+    </div>
+
+    <!-- Quiz Viewport Frame -->
+    <div class="quiz-viewport ratio-9-16" id="captureCard">
+      <!-- 3-Second Countdown Overlay -->
+      <div id="countdownOverlay">
+        <div style="font-size: 13px; color: #fff; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">GET READY TO RECORD...</div>
+        <div id="countdownNumber">3</div>
+      </div>
+
+      <!-- Header Bar -->
+      <div class="quiz-header">
+        <div class="quiz-brand">QUIZ 7AMPM</div>
+        <div class="quiz-counter" id="cardCounterText">QUESTION #01</div>
+      </div>
+
+      <!-- Main Layout Holder for 16:9 / 9:16 -->
+      <div class="quiz-main-layout">
+        <!-- Visual Image Box (If Attached) -->
+        <div class="quiz-visual-box" id="visualImgBox">
+          <img id="cardImageEl" class="quiz-img" src="" alt="Quiz Image">
+        </div>
+
+        <!-- Quiz Body (Question + Timer + Options) -->
+        <div class="quiz-body">
+          <div class="question-card" id="qDisplayCard">
+            यहाँ आपका सवाल दिखाई देगा?
+          </div>
+
+          <!-- Circular Ring Timer -->
+          <div class="timer-center-wrap" id="timerWidget">
+            <svg class="circular-timer-svg" viewBox="0 0 52 52">
+              <circle class="timer-circle-bg" cx="26" cy="26" r="22"></circle>
+              <circle class="timer-circle-progress" id="timerProgressCircle" cx="26" cy="26" r="22"></circle>
+            </svg>
+            <div class="timer-number-overlay" id="timerNumberText">5</div>
+          </div>
+
+          <!-- Direct Answer Card (Flashcard Mode) -->
+          <div class="direct-ans-box" id="directAnsCard">
+            💡 सही उत्तर: <span id="directAnsText">बाघ</span>
+          </div>
+
+          <!-- Options Stack -->
+          <div class="options-container" id="optionsContainer">
+            <div class="option-btn" id="optCardA"><span class="opt-letter">A</span> <span id="optTextA">विकल्प A</span></div>
+            <div class="option-btn" id="optCardB"><span class="opt-letter">B</span> <span id="optTextB">विकल्प B</span></div>
+            <div class="option-btn" id="optCardC"><span class="opt-letter">C</span> <span id="optTextC">विकल्प C</span></div>
+            <div class="option-btn" id="optCardD"><span class="opt-letter">D</span> <span id="optTextD">विकल्प D</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bar -->
+      <div class="quiz-footer">
+        <span>⏱️ TIME OUT = REVEAL</span>
+        <span>SUBSCRIBE FOR DAILY GK</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Floating Exit Button for Record Mode -->
+<button id="exitRecordBtn" onclick="exitFocusRecordingMode()">✕ Exit Record Mode</button>
+
+<!-- Bulk Import Modal -->
+<div class="modal-overlay" id="bulkModal">
+  <div class="modal-card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="color: var(--accent); font-size: 15px;">📋 Bulk Paste Quiz (WhatsApp / Text)</h3>
+      <button class="btn btn-secondary mini-btn" onclick="closeBulkModal()">✕ Close</button>
+    </div>
+    <p style="font-size: 12px; color: #94a3b8;">
+      WhatsApp या किसी भी डॉक्यूमेंट से सवाल पेस्ट करें। फॉर्मेट:
+    </p>
+    <textarea id="bulkInput" placeholder="Q: भारत का राष्ट्रीय पशु कौन सा है?
+A) हाथी
+B) बाघ
+C) शेर
+D) चीता
+Ans: B
+
+Q: सूर्य किस दिशा से उगता है?
+A) पश्चिम
+B) पूर्व
+Ans: B
+
+Q: भारत की राजधानी क्या है?
+Ans: नई दिल्ली"></textarea>
+    <div style="display: flex; justify-content: flex-end; gap: 8px;">
+      <button class="btn btn-secondary" onclick="closeBulkModal()">Cancel</button>
+      <button class="btn btn-success" onclick="processBulkQuizImport()">⚡ Generate All Cards</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let quizList = [];
+  let backupQuizList = null;
+  let currentIndex = 0;
+  let isPlaying = false;
+  let timerInterval = null;
+
+  // 1. Aspect Ratio Switcher
+  function changeAspectRatio() {
+    const ratio = document.getElementById('aspectRatioSelect').value;
+    const card = document.getElementById('captureCard');
+    card.classList.remove('ratio-9-16', 'ratio-16-9');
+    card.classList.add(ratio);
+  }
+
+  // 2. Single Question Add
+  function addSingleQuizCard() {
+    const qText = document.getElementById('qTextInput').value.trim();
+    const optA = document.getElementById('optAInput').value.trim();
+    const optB = document.getElementById('optBInput').value.trim();
+    const optC = document.getElementById('optCInput').value.trim();
+    const optD = document.getElementById('optDInput').value.trim();
+    const correct = document.getElementById('correctOptSelect').value;
+    const imgData = document.getElementById('cardImageEl').src;
+
+    if (!qText) {
+      alert("सवाल लिखें!");
+      return;
+    }
+
+    let options = [];
+    if (correct !== 'DIRECT') {
+      if (optA) options.push({ letter: 'A', text: optA });
+      if (optB) options.push({ letter: 'B', text: optB });
+      if (optC) options.push({ letter: 'C', text: optC });
+      if (optD) options.push({ letter: 'D', text: optD });
+    }
+
+    quizList.push({
+      question: qText,
+      options: options,
+      correct: correct,
+      image: (imgData && !imgData.endsWith('/')) ? imgData : null
+    });
+
+    // Reset inputs
+    document.getElementById('qTextInput').value = "";
+    document.getElementById('optAInput').value = "";
+    document.getElementById('optBInput').value = "";
+    document.getElementById('optCInput').value = "";
+    document.getElementById('optDInput').value = "";
+    removeCurrentImage();
+
+    currentIndex = quizList.length - 1;
+    saveAndRender();
+  }
+
+  // 3. Bulk Import Parser (Smart Parser for 4 opts, 2 opts, Direct ans)
+  function openBulkModal() { document.getElementById('bulkModal').style.display = 'flex'; }
+  function closeBulkModal() { document.getElementById('bulkModal').style.display = 'none'; }
+
+  function processBulkQuizImport() {
+    const text = document.getElementById('bulkInput').value.trim();
+    if (!text) return;
+
+    const blocks = text.split(/\n\s*\n|\n(?=Q[:\.\s])/i);
+
+    blocks.forEach(block => {
+      const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let q = "";
+      let opts = [];
+      let ans = "A";
+
+      lines.forEach(line => {
+        if (/^Q[:\.\s]/i.test(line)) {
+          q = line.replace(/^Q[:\.\s]+/i, '').trim();
+        } else if (/^[A-D][\)\.\:\s]/i.test(line)) {
+          const match = line.match(/^([A-D])[\)\.\:\s]+(.*)/i);
+          if (match) opts.push({ letter: match[1].toUpperCase(), text: match[2].trim() });
+        } else if (/^Ans[:\.\s]/i.test(line)) {
+          const match = line.match(/^Ans[:\.\s]+([A-D])/i);
+          if (match) {
+            ans = match[1].toUpperCase();
+          } else {
+            ans = line.replace(/^Ans[:\.\s]+/i, '').trim(); // Direct Ans string
+          }
+        } else if (!q) {
+          q = line; // Fallback question line
+        }
+      });
+
+      if (q) {
+        quizList.push({
+          question: q,
+          options: opts,
+          correct: ans,
+          image: null
+        });
+      }
+    });
+
+    closeBulkModal();
+    document.getElementById('bulkInput').value = "";
+    currentIndex = 0;
+    saveAndRender();
+  }
+
+  // 4. Render Card
+  function renderQuizCard(index) {
+    resetVisualState();
+
+    if (quizList.length === 0) {
+      document.getElementById('qDisplayCard').innerText = "यहाँ आपका सवाल दिखाई देगा?";
+      document.getElementById('quizIndicator').innerText = "0 / 0";
+      document.getElementById('cardCounterText').innerText = "QUESTION #01";
+      document.getElementById('quizCountBadge').innerText = "Cards: 0";
+      return;
+    }
+
+    const item = quizList[index];
+    document.getElementById('qDisplayCard').innerText = item.question;
+    document.getElementById('quizIndicator').innerText = `${index + 1} / ${quizList.length}`;
+    document.getElementById('cardCounterText').innerText = `QUESTION #${String(index + 1).padStart(2, '0')}`;
+    document.getElementById('quizCountBadge').innerText = `Cards: ${quizList.length}`;
+
+    // Image Handle
+    const visualBox = document.getElementById('visualImgBox');
+    const imgEl = document.getElementById('cardImageEl');
+    if (item.image) {
+      imgEl.src = item.image;
+      visualBox.style.display = 'block';
+    } else {
+      imgEl.src = "";
+      visualBox.style.display = 'none';
+    }
+
+    // Options vs Direct Ans
+    const optContainer = document.getElementById('optionsContainer');
+    const directBox = document.getElementById('directAnsCard');
+
+    if (item.options && item.options.length > 0) {
+      optContainer.style.display = 'flex';
+      directBox.style.display = 'none';
+
+      const letters = ['A', 'B', 'C', 'D'];
+      letters.forEach(letter => {
+        const btn = document.getElementById(`optCard${letter}`);
+        const found = item.options.find(o => o.letter === letter);
+        if (found) {
+          btn.style.display = 'flex';
+          document.getElementById(`optText${letter}`).innerText = found.text;
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+    } else {
+      // Direct Ans Flashcard Mode
+      optContainer.style.display = 'none';
+      directBox.style.display = 'none'; // Hidden until timer ends
+      document.getElementById('directAnsText').innerText = item.correct;
+    }
+  }
+
+  function resetVisualState() {
+    clearInterval(timerInterval);
+    ['A', 'B', 'C', 'D'].forEach(l => {
+      const btn = document.getElementById(`optCard${l}`);
+      btn.classList.remove('correct-glow', 'dimmed');
+    });
+    document.getElementById('directAnsCard').style.display = 'none';
+
+    // Reset Circular SVG
+    const circle = document.getElementById('timerProgressCircle');
+    circle.style.strokeDashoffset = '0';
+    circle.style.stroke = 'var(--accent)';
+    const dur = document.getElementById('timerDurationSelect').value;
+    document.getElementById('timerNumberText').innerText = dur;
+  }
+
+  // 5. Reveal Answer State (Green Glow + SFX)
+  function revealCorrectAnswer(item) {
+    playDingSound();
+
+    if (item.options && item.options.length > 0) {
+      ['A', 'B', 'C', 'D'].forEach(l => {
+        const btn = document.getElementById(`optCard${l}`);
+        if (l === item.correct) {
+          btn.classList.add('correct-glow');
+        } else {
+          btn.classList.add('dimmed');
+        }
+      });
+    } else {
+      document.getElementById('directAnsCard').style.display = 'block';
+    }
+  }
+
+  // 6. Navigation
+  function nextQuiz() {
+    if (quizList.length === 0) return;
+    currentIndex = (currentIndex + 1) % quizList.length;
+    renderQuizCard(currentIndex);
+  }
+  function prevQuiz() {
+    if (quizList.length === 0) return;
+    currentIndex = (currentIndex - 1 + quizList.length) % quizList.length;
+    renderQuizCard(currentIndex);
+  }
+
+  // 7. Image Upload
+  function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('cardImageEl').src = evt.target.result;
+        document.getElementById('visualImgBox').style.display = 'block';
+        document.getElementById('imgStatusText').innerText = "Attached: " + file.name.substring(0, 15);
+        if (quizList[currentIndex]) {
+          quizList[currentIndex].image = evt.target.result;
+          saveToLocalStorage();
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  function removeCurrentImage() {
+    document.getElementById('cardImageEl').src = "";
+    document.getElementById('visualImgBox').style.display = 'none';
+    document.getElementById('imgStatusText').innerText = "No photo attached";
+    if (quizList[currentIndex]) {
+      quizList[currentIndex].image = null;
+      saveToLocalStorage();
+    }
+  }
+
+  // 8. Synthesized Web Audio SFX (Ticking Clock & Winning Ding)
+  let audioCtx = null;
+  function getAudioContext() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+
+  function playTickSound() {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(1200, now);
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.06);
+  }
+
+  function playDingSound() {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, now); // D5 Note
+    osc.frequency.setValueAtTime(880, now + 0.08); // A5 Note
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.52);
+  }
+
+  // 9. Full Sequential Quiz Playback (Read -> Countdown -> Reveal)
+  async function toggleQuizPlayback() {
+    if (quizList.length === 0) return;
+    if (isPlaying) {
+      stopQuizPlayback();
+    } else {
+      isPlaying = true;
+      document.getElementById('playQuizBtn').textContent = "⏹ Stop";
+      const speed = parseFloat(document.getElementById('audioSpeed').value) || 1.15;
+      const totalSec = parseInt(document.getElementById('timerDurationSelect').value) || 5;
+
+      for (let i = 0; i < quizList.length; i++) {
+        if (!isPlaying) break;
+        currentIndex = i;
+        renderQuizCard(currentIndex);
+
+        const item = quizList[i];
+
+        // 1. Speak Question
+        await speakText(item.question, speed);
+        if (!isPlaying) break;
+
+        // 2. Speak Options
+        if (item.options && item.options.length > 0) {
+          for (let opt of item.options) {
+            if (!isPlaying) break;
+            await speakText(`Option ${opt.letter}. ${opt.text}`, speed);
+          }
+        }
+        if (!isPlaying) break;
+
+        // 3. Circular Timer Countdown with Ticking SFX
+        await runCircularTimer(totalSec);
+        if (!isPlaying) break;
+
+        // 4. Reveal Correct Answer
+        revealCorrectAnswer(item);
+        if (item.options && item.options.length > 0) {
+          const correctOpt = item.options.find(o => o.letter === item.correct);
+          const ansText = correctOpt ? correctOpt.text : item.correct;
+          await speakText(`Sahi uttar hai option ${item.correct}, ${ansText}`, speed);
+        } else {
+          await speakText(`Sahi uttar hai: ${item.correct}`, speed);
+        }
+
+        // Wait 1.5s before next question
+        await new Promise(r => setTimeout(r, 1500));
+      }
+      stopQuizPlayback();
+    }
+  }
+
+  function runCircularTimer(totalSeconds) {
+    return new Promise(resolve => {
+      let timeLeft = totalSeconds;
+      const circle = document.getElementById('timerProgressCircle');
+      const numberEl = document.getElementById('timerNumberText');
+      const circumference = 138; // 2 * PI * r (r=22)
+
+      circle.style.strokeDasharray = circumference;
+      numberEl.innerText = timeLeft;
+
+      timerInterval = setInterval(() => {
+        playTickSound();
+        timeLeft--;
+        numberEl.innerText = timeLeft;
+
+        // Animate Circle
+        const offset = circumference - (timeLeft / totalSeconds) * circumference;
+        circle.style.strokeDashoffset = offset;
+
+        if (timeLeft <= 2) circle.style.stroke = 'var(--primary)'; // Turn Red near end
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          resolve();
+        }
+      }, 1000);
+    });
+  }
+
+  function speakText(text, speed) {
+    return new Promise(resolve => {
+      if (!isPlaying || !("speechSynthesis" in window)) { resolve(); return; }
+      speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "hi-IN";
+      utter.rate = speed;
+      utter.pitch = 0.9;
+      utter.onend = resolve;
+      utter.onerror = resolve;
+      speechSynthesis.speak(utter);
+    });
+  }
+
+  function stopQuizPlayback() {
+    isPlaying = false;
+    clearInterval(timerInterval);
+    if (window.speechSynthesis) speechSynthesis.cancel();
+    document.getElementById('playQuizBtn').textContent = "🎤 Play Quiz Audio";
+  }
+
+  // 10. Record Mode
+  async function startFocusRecordingMode() {
+    if (quizList.length === 0) return;
+    document.body.classList.add('record-mode');
+    document.getElementById('exitRecordBtn').style.display = 'block';
+
+    currentIndex = 0;
+    renderQuizCard(0);
+
+    const overlay = document.getElementById('countdownOverlay');
+    const num = document.getElementById('countdownNumber');
+    overlay.style.display = 'flex';
+
+    for (let i = 3; i > 0; i--) {
+      num.innerText = i;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    overlay.style.display = 'none';
+    toggleQuizPlayback();
+  }
+
+  function exitFocusRecordingMode() {
+    document.body.classList.remove('record-mode');
+    document.getElementById('exitRecordBtn').style.display = 'none';
+    document.getElementById('countdownOverlay').style.display = 'none';
+    stopQuizPlayback();
+  }
+
+  // 11. HD PNG & ZIP Export
+  async function downloadCurrentCard() {
+    if (quizList.length === 0) return;
+    const card = document.getElementById('captureCard');
+    const canvas = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: "#0a0c10" });
+    canvas.toBlob(blob => saveAs(blob, `QUIZ_Card_${currentIndex + 1}_${Date.now()}.png`));
+  }
+
+  async function downloadAllAsZip() {
+    if (quizList.length === 0) return;
+    const zip = new JSZip();
+    const folder = zip.folder("QUIZ_Cards_HD");
+    const card = document.getElementById('captureCard');
+    const original = currentIndex;
+
+    for (let i = 0; i < quizList.length; i++) {
+      currentIndex = i;
+      renderQuizCard(i);
+      await new Promise(r => setTimeout(r, 150));
+
+      // Question State
+      const canvasQ = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: "#0a0c10" });
+      folder.file(`Q_${i + 1}_Question.png`, canvasQ.toDataURL('image/png').split(',')[1], { base64: true });
+
+      // Answer Reveal State
+      revealCorrectAnswer(quizList[i]);
+      await new Promise(r => setTimeout(r, 150));
+      const canvasA = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: "#0a0c10" });
+      folder.file(`Q_${i + 1}_Answer.png`, canvasA.toDataURL('image/png').split(',')[1], { base64: true });
+    }
+
+    currentIndex = original;
+    renderQuizCard(original);
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, `QUIZ_7AMPM_All_Cards_${Date.now()}.zip`);
+  }
+
+  // 12. LocalStorage & Undo
+  function saveAndRender() {
+    saveToLocalStorage();
+    renderQuizCard(currentIndex);
+  }
+  function saveToLocalStorage() {
+    try {
+      localStorage.setItem('QUIZ7AMPM_DATA', JSON.stringify(quizList));
+    } catch(e) {}
+  }
+  function loadFromLocalStorage() {
+    const saved = localStorage.getItem('QUIZ7AMPM_DATA');
+    if (saved) {
+      try {
+        quizList = JSON.parse(saved);
+        if (quizList.length > 0) {
+          currentIndex = 0;
+          renderQuizCard(0);
+        }
+      } catch(e) {}
+    }
+  }
+
+  function clearAllQuizData() {
+    if (quizList.length === 0) return;
+    if (confirm("क्या आप सभी क्विज़ कार्ड्स रीसेट करना चाहते हैं?")) {
+      backupQuizList = [...quizList];
+      quizList = [];
+      saveToLocalStorage();
+      document.getElementById('btnUndo').style.display = 'inline-flex';
+      renderQuizCard(0);
+    }
+  }
+  function undoResetAction() {
+    if (backupQuizList && backupQuizList.length > 0) {
+      quizList = [...backupQuizList];
+      backupQuizList = null;
+      saveToLocalStorage();
+      document.getElementById('btnUndo').style.display = 'none';
+      currentIndex = 0;
+      renderQuizCard(0);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', loadFromLocalStorage);
+</script>
+
+</body>
+</html>
