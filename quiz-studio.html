@@ -511,6 +511,59 @@
       font-size: 13px;
       resize: vertical;
     }
+    /* ================= LIVE SLIDE ACTION BUTTONS ================= */
+.live-slide-controls {
+  display: none; /* Mode 1 me chup rahega */
+  gap: 8px;
+  align-items: center;
+}
+
+/* Mode 2 me footer ke andar buttons dikhenge */
+.live-mode-active .live-slide-controls {
+  display: flex !important;
+}
+.live-mode-active #footerStaticRule {
+  display: none !important; /* Purana static text hide ho jayega */
+}
+
+.slide-action-btn {
+  background: linear-gradient(90deg, #059669, #10b981);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  transition: 0.15s;
+}
+.slide-action-btn:active {
+  transform: scale(0.95);
+}
+.slide-action-btn.btn-pulse {
+  animation: pulseNext 1.2s infinite;
+}
+@keyframes pulseNext {
+  0% { box-shadow: 0 0 5px #10b981; }
+  50% { box-shadow: 0 0 18px #10b981; transform: scale(1.03); }
+  100% { box-shadow: 0 0 5px #10b981; }
+}
+
+.slide-reveal-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
@@ -721,10 +774,21 @@
         </div>
       </div>
 
-      <!-- Footer Bar -->
+            <!-- Footer Bar with Live In-Slide Controls -->
       <div class="quiz-footer">
-        <span id="footerRuleText">📝 SUBMIT IN GOOGLE FORM</span>
-        <span>NEWS 7AMPM LIVE</span>
+        <span id="footerStaticRule">⏱️ TIME OUT = REVEAL</span>
+
+        <!-- Ye Buttons sirf Mode 2 (Live) me Slide ke andar aayenge -->
+        <div class="live-slide-controls" id="liveSlideControls">
+          <button id="slideNextBtn" class="slide-action-btn" onclick="manualHostNextAndPlay()">
+            ⏭️ Next Question ▶
+          </button>
+          <button class="slide-reveal-btn" onclick="manualHostRevealAnswer()" title="Show Answer">
+            👁️ Reveal
+          </button>
+        </div>
+
+        <span style="font-size: 10px;">NEWS 7AMPM LIVE</span>
       </div>
     </div>
   </div>
@@ -774,26 +838,27 @@ Ans: D"></textarea>
   let isRulesSlide = false;
 
   // 1. Mode Change Handler
-  function handleModeChange() {
+    function handleModeChange() {
     currentMode = document.getElementById('modeSelect').value;
+    const card = document.getElementById('captureCard');
     const liveTag = document.getElementById('liveTagBadge');
-    const footerRule = document.getElementById('footerRuleText');
     const playBtn = document.getElementById('playQuizBtn');
     const timerSelect = document.getElementById('timerDurationSelect');
 
     if (currentMode === 'live') {
+      card.classList.add('live-mode-active');
       liveTag.style.display = 'inline-block';
-      footerRule.innerText = "📝 SUBMIT IN GOOGLE FORM";
       playBtn.innerText = "▶️ Play Question & Timer";
       timerSelect.value = "60";
     } else {
+      card.classList.remove('live-mode-active');
       liveTag.style.display = 'none';
-      footerRule.innerText = "⏱️ TIME OUT = REVEAL";
       playBtn.innerText = "🎤 Play All Questions (Auto)";
       timerSelect.value = "5";
     }
     resetVisualState();
   }
+
 
   // 2. Aspect Ratio Switcher
   function changeAspectRatio() {
@@ -1056,13 +1121,17 @@ Ans: D"></textarea>
   }
 
   // 8. Next Question & Immediately Play (Live Stream Host Friendly)
-  function manualHostNextAndPlay() {
+    function manualHostNextAndPlay() {
     stopQuizPlayback();
+    const slideBtn = document.getElementById('slideNextBtn');
+    if (slideBtn) slideBtn.classList.remove('btn-pulse');
+
     if (quizList.length === 0) return;
     currentIndex = (currentIndex + 1) % quizList.length;
     renderQuizCard(currentIndex);
     handlePlaybackAction();
   }
+
 
   // Navigation
   function nextQuiz() {
@@ -1267,11 +1336,16 @@ Ans: D"></textarea>
     if (!isPlaying) return;
 
     // 5. Time's Up Buzzer + Polished Outro Audio (No layout shift!)
+        // 5. Time's Up Buzzer + Outro Audio
     playTimeOverBuzzer();
     await speakText("Samay samapt! Chaliye dekhte hain kitne logon ne sahi jawab diya hai.", speed);
 
     isPlaying = false;
     document.getElementById('playQuizBtn').textContent = "▶️ Re-play Question";
+
+    // Slide ke andar Next Button ko chamkayein taki host ko tap karne me aasani ho
+    const slideBtn = document.getElementById('slideNextBtn');
+    if (slideBtn) slideBtn.classList.add('btn-pulse');
   }
 
   function runCircularTimer(totalSeconds) {
