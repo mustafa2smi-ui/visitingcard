@@ -563,6 +563,13 @@
   font-weight: 700;
   cursor: pointer;
 }
+/* Simple Mode me Circular Timer widget chup jayega */
+.simple-mode-active #timerWidget {
+  display: none !important;
+}
+.simple-mode-active .options-container {
+  margin-top: 14px;
+}
 
   </style>
 </head>
@@ -586,9 +593,21 @@
         <div style="flex: 1;">
           <span class="setting-label">Studio Mode:</span>
           <select id="modeSelect" class="slim-input" style="height: 32px;" onchange="handleModeChange()">
-            <option value="auto">🎬 Standard Video (Auto Reveal)</option>
-            <option value="live" selected>🔴 Live Contest (Google Form Mode)</option>
-          </select>
+  <option value="auto">🎬 Standard Video (Timer + Auto Reveal)</option>
+  <option value="live">🔴 Live Contest (Google Form Mode)</option>
+  <option value="simple" selected>📄 Simple Card (No Timer / Fast GK)</option>
+</select>
+          <!-- Simple Mode Action Options -->
+<div id="simpleModeSettings" class="setting-box" style="display: none;">
+  <div class="inline-row" style="justify-content: space-between;">
+    <span class="setting-label">Simple Card End Action:</span>
+    <select id="simpleEndAction" class="slim-input" style="height: 30px; width: 190px;">
+      <option value="comment" selected>💬 Leave in Comment Hook</option>
+      <option value="reveal">✅ Reveal Answer Instantly</option>
+    </select>
+  </div>
+</div>
+
         </div>
         <div style="flex: 1;">
           <span class="setting-label">Format:</span>
@@ -838,26 +857,35 @@ Ans: D"></textarea>
   let isRulesSlide = false;
 
   // 1. Mode Change Handler
-    function handleModeChange() {
+      function handleModeChange() {
     currentMode = document.getElementById('modeSelect').value;
     const card = document.getElementById('captureCard');
     const liveTag = document.getElementById('liveTagBadge');
     const playBtn = document.getElementById('playQuizBtn');
-    const timerSelect = document.getElementById('timerDurationSelect');
+    const simpleSettings = document.getElementById('simpleModeSettings');
+    const timerBox = document.getElementById('timerDurationSelect').parentElement.parentElement;
+
+    card.classList.remove('live-mode-active', 'simple-mode-active');
+    simpleSettings.style.display = 'none';
+    timerBox.style.display = 'block';
 
     if (currentMode === 'live') {
       card.classList.add('live-mode-active');
       liveTag.style.display = 'inline-block';
       playBtn.innerText = "▶️ Play Question & Timer";
-      timerSelect.value = "60";
+    } else if (currentMode === 'simple') {
+      card.classList.add('simple-mode-active'); // Timer gayab karega
+      liveTag.style.display = 'none';
+      simpleSettings.style.display = 'block';
+      timerBox.style.display = 'none'; // Timer duration ki zaroorat nahi
+      playBtn.innerText = "🎤 Play Simple Cards (No Timer)";
     } else {
-      card.classList.remove('live-mode-active');
       liveTag.style.display = 'none';
       playBtn.innerText = "🎤 Play All Questions (Auto)";
-      timerSelect.value = "5";
     }
     resetVisualState();
   }
+
 
 
   // 2. Aspect Ratio Switcher
@@ -1238,7 +1266,73 @@ Ans: D"></textarea>
     osc.start(now);
     osc.stop(now + 0.62);
   }
+  function handlePlaybackAction() {
+    if (isPlaying) {
+      stopQuizPlayback();
+      return;
+    }
 
+    if (currentMode === 'live') {
+      playSingleLiveQuestion();
+    } else if (currentMode === 'simple') {
+      playSimpleCardsBroadcast();
+    } else {
+      playAutoBroadcast();
+    }
+  }
+
+  // ==========================================
+  // SIMPLE CARDS (NO TIMER) PLAYBACK ENGINE
+  // ==========================================
+  async function playSimpleCardsBroadcast() {
+    if (quizList.length === 0) return;
+    isPlaying = true;
+    document.getElementById('playQuizBtn').textContent = "⏹ Stop";
+    const speed = parseFloat(document.getElementById('audioSpeed').value) || 1.15;
+    const endAction = document.getElementById('simpleEndAction').value; // 'comment' ya 'reveal'
+
+    for (let i = 0; i < quizList.length; i++) {
+      if (!isPlaying) break;
+      currentIndex = i;
+      renderQuizCard(currentIndex);
+
+      const item = quizList[i];
+
+      // 1. Sawaal Padhein
+      await speakText(`Sawal number ${i + 1}. ${item.question}`, speed);
+      if (!isPlaying) break;
+
+      // 2. Options Padhein
+      if (item.options && item.options.length > 0) {
+        for (let opt of item.options) {
+          if (!isPlaying) break;
+          await speakText(`Option ${opt.letter}, ${opt.text}`, speed);
+        }
+      }
+      if (!isPlaying) break;
+
+      // 3. Ending Decision (Comment Hook vs Direct Reveal)
+      if (endAction === 'comment') {
+        // Bina answer reveal kiye audience ko comment me bhejein
+        await speakText("Iska sahi jawab kya hai? Comment me zarur batayein, sahi uttar comment box me pin kar diya gaya hai!", speed);
+      } else {
+        // Direct Reveal (Green Glow + Answer Sound)
+        await new Promise(r => setTimeout(r, 600)); // Chhota natural pause
+        revealCorrectAnswer(item);
+        if (item.options && item.options.length > 0) {
+          const correctOpt = item.options.find(o => o.letter === item.correct);
+          const ansText = correctOpt ? correctOpt.text : item.correct;
+          await speakText(`Sahi uttar hai: Option ${item.correct}. ${ansText}`, speed);
+        } else {
+          await speakText(`Sahi uttar hai: ${item.correct}`, speed);
+        }
+      }
+
+      await new Promise(r => setTimeout(r, 1200)); // Next card pause
+    }
+    stopQuizPlayback();
+  }
+/*
   // 11. Playback Actions
   function handlePlaybackAction() {
     if (isPlaying) {
@@ -1252,7 +1346,7 @@ Ans: D"></textarea>
       playAutoBroadcast();
     }
   }
-
+*/
   // Mode A: Auto Video
   async function playAutoBroadcast() {
     if (quizList.length === 0) return;
