@@ -1298,11 +1298,11 @@ Ans: D"></textarea>
 
       const item = quizList[i];
 
-      // 1. Sawaal Padhein
+      // 1. सवाल पढ़ें
       await speakText(`Sawal number ${i + 1}. ${item.question}`, speed);
       if (!isPlaying) break;
 
-      // 2. Options Padhein
+      // 2. ऑप्शन्स पढ़ें (A, B, C, D)
       if (item.options && item.options.length > 0) {
         for (let opt of item.options) {
           if (!isPlaying) break;
@@ -1311,14 +1311,11 @@ Ans: D"></textarea>
       }
       if (!isPlaying) break;
 
-      // 3. Ending Decision (Comment Hook vs Direct Reveal)
-      if (endAction === 'comment') {
-        // Bina answer reveal kiye audience ko comment me bhejein
-        await speakText("Iska sahi jawab kya hai? Comment me zarur batayein, sahi uttar comment box me pin kar diya gaya hai!", speed);
-      } else {
-        // Direct Reveal (Green Glow + Answer Sound)
-        await new Promise(r => setTimeout(r, 600)); // Chhota natural pause
-        revealCorrectAnswer(item);
+      // 3. अगर 'Reveal' मोड चुना है तो तुरंत जवाब दिखाएं और बोलें
+      if (endAction === 'reveal') {
+        await new Promise(r => setTimeout(r, 600)); // छोटा सस्पेंस पॉज
+        revealCorrectAnswer(item); // हरा ग्लो + डिंग साउंड
+
         if (item.options && item.options.length > 0) {
           const correctOpt = item.options.find(o => o.letter === item.correct);
           const ansText = correctOpt ? correctOpt.text : item.correct;
@@ -1328,10 +1325,18 @@ Ans: D"></textarea>
         }
       }
 
-      await new Promise(r => setTimeout(r, 1200)); // Next card pause
+      // अगले सवाल पर जाने से पहले 1 सेकंड का नेचुरल गैप
+      await new Promise(r => setTimeout(r, 1000));
     }
+
+    // 4. अगर 'Comment Hook' मोड है, तो सारे सवाल खत्म होने पर सिर्फ एक बार आउट्रो बोलें
+    if (isPlaying && endAction === 'comment') {
+      await speakText("Dosto, sabhi sawalon ke sahi answer ke liye comment box check karein!", speed);
+    }
+
     stopQuizPlayback();
   }
+
 /*
   // 11. Playback Actions
   function handlePlaybackAction() {
