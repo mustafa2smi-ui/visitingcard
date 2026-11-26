@@ -1,87 +1,2361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quick Order — Universal Order Builder for Any Shop</title>
-<meta name="description" content="Build an order for any shop — restaurant, grocery, hotel, loading — add customers by table, generate a QR code, and let the shopkeeper scan it instantly. No app, no login.">
-<link rel="stylesheet" href="style.css">
-<!-- AdSense: paste your AdSense script here after approval -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Strict Content Security Policy (XSS & Injection Shield) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Primary SEO Meta Tags -->
+  <title>Order List Maker — Universal Restaurant, Grocery &amp; Loading Slip PWA</title>
+  <meta name="title" content="Order List Maker — Universal Restaurant, Grocery &amp; Loading Slip PWA" />
+  <meta name="description" content="Fast, offline-first universal order list maker for restaurants (table &amp; guest wise), grocery stores, shipping, and loading. Generate 2-inch thermal slips, QR code summaries, barcode scans, and Bluetooth prints." />
+  <meta name="keywords" content="order list maker, restaurant table order app, 58mm thermal slip generator, grocery order maker, loading slip app, bluetooth thermal print pwa, qr order summary, pos order maker" />
+  <meta name="author" content="Order List Maker" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="canonical" href="https://orderlistmaker.app/" />
+  <link rel="manifest" href="./manifest.json" />
+
+  <!-- Open Graph / Facebook / WhatsApp Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Order List Maker" />
+  <meta property="og:title" content="Order List Maker — Universal POS, Table Order &amp; Thermal Slip PWA" />
+  <meta property="og:description" content="Create instant restaurant table-guest orders, kirana lists, and transport loading slips with 58mm thermal preview, QR code, and Bluetooth print." />
+  <meta property="og:url" content="https://orderlistmaker.app/" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Order List Maker — Universal Order &amp; Thermal Slip PWA" />
+  <meta name="twitter:description" content="Compact, light-theme universal order list builder with big emoji icons, camera mini photos, barcode scan, QR summary &amp; 2-inch Bluetooth thermal print." />
+
+  <!-- Schema.org Structured Data (SoftwareApplication + WebApplication) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Order List Maker",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Android, iOS, Windows, Linux, Web",
+    "browserRequirements": "Requires HTML5, LocalStorage, optional Web Bluetooth & Camera",
+    "inLanguage": ["en-IN", "hi"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "description": "Universal order list builder for hotels, restaurants with table and guest split, grocery stores, shipping, and loading logistics with 58mm thermal slip preview, QR code summary, and Bluetooth printing.",
+    "featureList": [
+      "Restaurant Table and Individual Guest Order Grouping",
+      "Big Emoji and Camera Mini-Icon Product Catalogue",
+      "Barcode Scanner and Custom Item Memory",
+      "2-Inch (58mm) Thermal Receipt Slip Preview",
+      "Offline Plain-Text Order Summary QR Code",
+      "Direct 58mm Bluetooth ESC/POS Thermal Printing"
+    ]
+  }
+  </script>
+
+  <!-- Lightweight Libraries for QR Generation & Slip Image Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <style>
+    :root {
+      --bg-app: #f4f6f9;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border-color: #dce3ec;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --primary: #0f62fe;
+      --primary-soft: #eef5ff;
+      --accent: #059669;
+      --accent-soft: #ecfdf5;
+      --warn: #d97706;
+      --warn-soft: #fffbeb;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --header-h: 42px;
+      --tabs-h: 36px;
+      --footer-h: 28px;
+      --quickbar-h: 50px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg-app);
+      color: var(--text-main);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    /* App Shell Layout (Fits Single Viewport - Zero Page Scroll) */
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--bg-surface);
+      border-left: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+    }
+
+    /* 1. Top Header Bar */
+    .app-header {
+      height: var(--header-h);
+      min-height: var(--header-h);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      gap: 6px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hdr-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border-radius: 6px;
+      padding: 4px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+
+    .hdr-btn:active {
+      transform: scale(0.97);
+    }
+
+    .hdr-btn.bt-connected {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* 2. Category Tabs Bar */
+    .category-bar {
+      height: var(--tabs-h);
+      min-height: var(--tabs-h);
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .category-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-tab {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      border-radius: 16px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: 0.15s ease;
+    }
+
+    .cat-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .cat-tab.add-cat-btn {
+      border-style: dashed;
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    /* 3. Main 2-Column Split Section (Catalogue Left | Divider | Live Order Right) */
+    .split-workspace {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 46% 54%;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+
+    /* Left Section: Product Catalogue (Flipkart/Amazon Compact Grid) */
+    .catalogue-pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border-right: 1.5px solid var(--border-strong);
+      background: var(--bg-subtle);
+    }
+
+    .pane-subbar {
+      padding: 4px 5px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .compact-input {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      padding: 4px 6px;
+      font-size: 11px;
+      color: var(--text-main);
+      background: var(--bg-subtle);
+      outline: none;
+    }
+
+    .compact-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .catalogue-grid {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 5px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+      align-content: start;
+    }
+
+    @media (min-width: 720px) {
+      .catalogue-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .prod-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 7px;
+      padding: 5px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.08s ease, border-color 0.12s ease;
+      user-select: none;
+    }
+
+    .prod-card:active {
+      transform: scale(0.95);
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .prod-icon-wrap {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 3px;
+    }
+
+    .prod-emoji {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .prod-thumb {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .prod-name {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.15;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    .prod-meta {
+      font-size: 9.5px;
+      color: var(--text-light);
+      margin-top: 1px;
+    }
+
+    .prod-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 8px;
+    }
+
+    /* Right Section: Live Order & AI-Chat Style Direct Entry */
+    .order-pane {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--bg-surface);
+    }
+
+    /* Dynamic Context Bar (Restaurant Table+Guest OR Grocery/Loading Details) */
+    .context-strip {
+      padding: 4px 6px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pill-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .pill-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-right: 2px;
+      white-space: nowrap;
+    }
+
+    .mini-pill {
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-main);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .mini-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .mini-pill.has-items::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+      margin-left: 3px;
+      vertical-align: middle;
+    }
+
+    .mini-pill.active.has-items::after {
+      background: #fde047;
+    }
+
+    .meta-inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    /* AI-Chat Style Quick Command Bar */
+    .quick-type-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      border-bottom: 1px solid var(--border-color);
+      background: #ffffff;
+    }
+
+    .quick-type-input {
+      flex: 1;
+      border: 1px solid var(--primary);
+      background: var(--primary-soft);
+      border-radius: 6px;
+      padding: 5px 7px;
+      font-size: 11px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .quick-type-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .send-item-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Live Order List Feed */
+    .live-order-feed {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 4px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .guest-group-header {
+      background: var(--warn-soft);
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2px;
+    }
+
+    .order-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      padding: 4px 5px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-subtle);
+    }
+
+    .order-row-left {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .order-row-icon {
+      font-size: 18px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .order-row-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .order-row-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .order-row-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-row-sub {
+      font-size: 9.5px;
+      color: var(--text-light);
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .qty-btn {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+    }
+
+    .qty-val {
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* 4. Side-Scroll Preview Strip (2-Inch Thermal Paper Slip + Live QR Code) */
+    .preview-strip {
+      height: 148px;
+      min-height: 148px;
+      background: #eef2f6;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      gap: 8px;
+      padding: 6px 8px;
+      overflow-x: auto;
+      align-items: stretch;
+    }
+
+    .preview-card {
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      border-radius: 7px;
+      padding: 5px 7px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .preview-card-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      border-bottom: 1px dashed var(--border-color);
+      padding-bottom: 2px;
+    }
+
+    .preview-card-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .mini-action-link {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border: none;
+      border-radius: 4px;
+      padding: 2px 5px;
+      cursor: pointer;
+    }
+
+    /* Authentic 2-Inch (58mm) Thermal Paper Replica */
+    .thermal-paper-wrap {
+      flex: 1;
+      overflow-y: auto;
+      background: #fffdf7;
+      border: 1px dashed #cbd5e1;
+      padding: 5px 6px;
+      width: 215px; /* Visual 58mm thermal width */
+      font-family: "Courier New", Courier, monospace;
+      font-size: 10px;
+      line-height: 1.22;
+      color: #111827;
+    }
+
+    .th-center { text-align: center; }
+    .th-bold { font-weight: 700; }
+    .th-line {
+      border-top: 1px dashed #374151;
+      margin: 3px 0;
+    }
+    .th-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    /* QR Card */
+    .qr-card {
+      width: 145px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #qrContainer {
+      width: 92px;
+      height: 92px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+
+    #qrContainer img, #qrContainer canvas {
+      max-width: 100% !important;
+      max-height: 100% !important;
+    }
+
+    /* 5. Compact Footer */
+    .app-footer {
+      height: var(--footer-h);
+      min-height: var(--footer-h);
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .footer-highlight {
+      color: var(--primary);
+    }
+
+    /* 6. Bottom Fixed Quick Bar */
+    .quick-bar {
+      height: var(--quickbar-h);
+      min-height: var(--quickbar-h);
+      background: #ffffff;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      padding: 4px 6px;
+    }
+
+    .qb-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      border-radius: 7px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      cursor: pointer;
+      color: var(--text-main);
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px;
+    }
+
+    .qb-btn:active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+    }
+
+    .qb-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* Modals (Camera Photo, Barcode Scanner, Custom Emoji, History, Shop Settings) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 12px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 380px;
+      max-height: 85dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal-hdr {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .modal-body {
+      padding: 10px 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .emoji-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      padding: 5px;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+    }
+
+    .emoji-opt {
+      font-size: 22px;
+      text-align: center;
+      padding: 3px;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .emoji-opt.selected {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .video-preview-box {
+      width: 100%;
+      height: 180px;
+      background: #0f172a;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-preview-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .toast-msg {
+      position: fixed;
+      top: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      z-index: 1200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .toast-msg.show {
+      opacity: 1;
+    }
+
+    /* Browser Print Fallback Styling (58mm Thermal Width) */
+    @media print {
+      body * { visibility: hidden; }
+      #thermalSlipContent, #thermalSlipContent * { visibility: visible; }
+      #thermalSlipContent {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 58mm;
+        font-size: 11px;
+        border: none;
+        background: #ffffff;
+      }
+    }
+  </style>
 </head>
 <body>
-<header class="app-header">
-  <h1>Quick Order</h1>
-  <p class="tagline">Build it. Scan it. Done.</p>
-</header>
+  <div class="app-shell">
+    <!-- 1. TOP HEADER BAR -->
+    <header class="app-header">
+      <div class="brand-box">
+        <span class="brand-logo" aria-hidden="true">🧾</span>
+        <h1 class="brand-title">Order List Maker</h1>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="hdr-btn" id="btnSlipHeader" title="Shop / Business Name">🏪 Setup</button>
+        <button type="button" class="hdr-btn" id="btnBtConnect" title="Connect 58mm Bluetooth Printer">📶 BT</button>
+        <button type="button" class="hdr-btn" id="btnHistory" title="Saved Orders">📂 Orders</button>
+        <button type="button" class="hdr-btn" id="btnClearOrder" title="Reset Current Slip">🗑️ New</button>
+      </div>
+    </header>
 
-<main>
-  <section class="context-bar">
-    <label for="bizType">Order type</label>
-    <select id="bizType">
-      <option value="restaurant">Restaurant</option>
-      <option value="grocery">Grocery</option>
-      <option value="hotel">Hotel</option>
-      <option value="loading">Loading</option>
-      <option value="custom">Custom</option>
-    </select>
+    <!-- 2. CATEGORY TABS BAR -->
+    <nav class="category-bar" id="categoryBar" aria-label="Order Categories"></nav>
 
-    <label for="location" id="locationLabel">Table Number</label>
-    <input type="text" id="location" placeholder="e.g. Table 5" autocomplete="off">
-    <div id="quickTables" class="quick-tables"></div>
-  </section>
+    <!-- 3. MAIN 2-SECTION SPLIT (Catalogue Left | Divider | Live Order Right) -->
+    <main class="split-workspace">
+      <!-- LEFT SECTION: Product Catalogue (Flipkart / Amazon Compact Mini Cards) -->
+      <section class="catalogue-pane" aria-label="Product Catalogue">
+        <div class="pane-subbar">
+          <input type="search" id="catalogueSearch" class="compact-input" placeholder="🔍 Search item..." maxlength="40" autocomplete="off" />
+        </div>
+        <div class="catalogue-grid" id="catalogueGrid"></div>
+      </section>
 
-  <section id="guestsSection">
-    <div id="guestList"></div>
-    <button class="btn-secondary" id="addGuestBtn" type="button">+ Add Customer</button>
-  </section>
+      <!-- RIGHT SECTION: Dynamic Table/Guest or Shipping Controls + AI-Chat Quick Entry + Live Order List -->
+      <section class="order-pane" aria-label="Live Order List">
+        <div class="context-strip" id="contextStrip"></div>
 
-  <section class="payment-note-bar">
-    <label for="paymentNote">Payment note (shown on order slip)</label>
-    <input type="text" id="paymentNote" value="Pay at counter" autocomplete="off">
-  </section>
+        <!-- AI-Chat Style Direct Quick Item Entry -->
+        <form class="quick-type-bar" id="quickTypeForm" autocomplete="off">
+          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="Type e.g. 2 Half Biryani, 5kg Sugar..." maxlength="60" />
+          <button type="submit" class="send-item-btn">Add ↵</button>
+        </form>
 
-  <!-- AdSense slot: place ad code below this comment -->
-  <div class="ad-slot"></div>
+        <!-- Live Itemized Order Feed -->
+        <div class="live-order-feed" id="liveOrderFeed"></div>
+      </section>
+    </main>
 
-  <section class="info-section">
-    <h2>How it works</h2>
-    <p>Enter the table or location, add each customer and their items, then tap <strong>Generate QR</strong>. The shopkeeper scans the QR code with any phone camera and sees the complete order instantly — no app to install, no account to create.</p>
-    <p>You can also tap <strong>Share</strong> to send the order link via WhatsApp or SMS, or <strong>Copy Link</strong> to paste it anywhere.</p>
-    <h2>Frequently asked questions</h2>
-    <h3>Does the shopkeeper need to install anything?</h3>
-    <p>No. They scan the QR with their phone camera and the order opens in their browser.</p>
-    <h3>Can multiple customers order at the same table?</h3>
-    <p>Yes. Add a customer card for each person. Everything stays grouped under the same table number on the order slip.</p>
-    <h3>Is my order saved?</h3>
-    <p>Your order is saved in this browser only. It is not sent to any server. The QR code contains the order data itself.</p>
-  </section>
-</main>
+    <!-- 4. HORIZONTAL SIDE-SCROLL PREVIEW STRIP (2-Inch Thermal Slip + QR Code Summary) -->
+    <section class="preview-strip" aria-label="Slip and QR Preview">
+      <!-- 2-Inch (58mm) Thermal Slip Preview Card -->
+      <div class="preview-card">
+        <div class="preview-card-hdr">
+          <span class="preview-card-title">🧾 2" Thermal Slip (58mm)</span>
+          <div style="display:flex; gap:4px;">
+            <button type="button" class="mini-action-link" id="btnTogglePrice">₹ Price: OFF</button>
+            <button type="button" class="mini-action-link" id="btnSavePng">📥 PNG</button>
+          </div>
+        </div>
+        <div class="thermal-paper-wrap" id="thermalSlipContent"></div>
+      </div>
 
-<footer class="app-footer">
-  <div class="footer-summary" id="footerSummary">No items yet</div>
-  <button class="btn-primary" id="generateBtn" type="button">Generate QR</button>
-  <button class="btn-link" id="clearBtn" type="button">Clear Order</button>
-  <p class="footer-links"><a href="privacy.html">Privacy</a> · <a href="about.html">About</a></p>
-</footer>
+      <!-- Offline Plain-Text Order Summary QR Code Card -->
+      <div class="preview-card qr-card">
+        <div class="preview-card-hdr" style="width:100%;">
+          <span class="preview-card-title">📱 Order QR</span>
+          <span style="font-size:9px; color:#059669; font-weight:700;">Offline Text</span>
+        </div>
+        <div id="qrContainer" title="Scan to read full order summary"></div>
+        <span style="font-size:9px; color:#64748b; text-align:center;">Scan for instant list</span>
+      </div>
+    </section>
 
-<!-- QR Modal -->
-<div class="modal-overlay hidden" id="qrModal">
-  <div class="modal">
-    <button class="modal-close" id="closeModal" type="button" aria-label="Close">&times;</button>
-    <h2 id="modalTitle">Your Order QR</h2>
-    <canvas id="qrCanvas"></canvas>
-    <p class="modal-summary" id="modalSummary"></p>
-    <p class="modal-warning hidden" id="modalWarning">This order is too large for a QR code. Use Share or Copy Link instead.</p>
-    <div class="modal-actions">
-      <button class="btn-secondary" id="copyLinkBtn" type="button">Copy Link</button>
-      <button class="btn-secondary" id="shareBtn" type="button">Share</button>
-      <button class="btn-secondary" id="downloadQrBtn" type="button">Download QR</button>
+    <!-- 5. COMPACT FOOTER -->
+    <footer class="app-footer">
+      <span id="footerLeftStats">Items: 0 | Qty: 0</span>
+      <span id="footerRightContext" class="footer-highlight">Restaurant • T-1 (G-1)</span>
+    </footer>
+
+    <!-- 6. BOTTOM FIXED QUICK BAR (5 Thumb-Ready Tools) -->
+    <nav class="quick-bar" aria-label="Quick Tools">
+      <button type="button" class="qb-btn" id="qbPhotoItem">
+        <span class="qb-icon">📷</span>
+        <span>Photo Item</span>
+      </button>
+      <button type="button" class="qb-btn" id="qbScanBarcode">
+        <span class="qb-icon">🔍</span>
+        <span>Barcode</span>
+      </button>
+      <button type="button" class="qb-btn" id="qbCustomEmoji">
+        <span class="qb-icon">➕</span>
+        <span>Emoji Item</span>
+      </button>
+      <button type="button" class="qb-btn" id="qbBtPrint">
+        <span class="qb-icon">🖨️</span>
+        <span>BT Print</span>
+      </button>
+      <button type="button" class="qb-btn" id="qbShare">
+        <span class="qb-icon">📤</span>
+        <span>Share</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toastMsg" role="status" aria-live="polite"></div>
+
+  <!-- MODAL 1: Custom Emoji Item Maker -->
+  <div class="modal-backdrop" id="modalEmoji">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>➕ Add Custom Emoji Item</span>
+        <button type="button" class="modal-close" data-close="modalEmoji">&times;</button>
+      </div>
+      <form class="modal-body" id="formEmojiItem" autocomplete="off">
+        <div>
+          <label class="form-label">Select Big Emoji Icon</label>
+          <div class="emoji-picker-grid" id="emojiPickerGrid"></div>
+        </div>
+        <div>
+          <label class="form-label" for="customItemName">Item Name *</label>
+          <input type="text" id="customItemName" class="compact-input" placeholder="e.g. Masala Dosa / Basmati Rice / Cement Bag" required maxlength="35" />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <div>
+            <label class="form-label" for="customItemUnit">Unit / Size</label>
+            <input type="text" id="customItemUnit" class="compact-input" placeholder="e.g. Plate / 1kg / Bag" maxlength="15" />
+          </div>
+          <div>
+            <label class="form-label" for="customItemRate">Rate ₹ (Optional)</label>
+            <input type="number" id="customItemRate" class="compact-input" placeholder="0" min="0" max="999999" step="any" />
+          </div>
+        </div>
+        <button type="submit" class="primary-btn">Save to Catalogue</button>
+      </form>
     </div>
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script src="script.js"></script>
+  <!-- MODAL 2: Camera Photo Mini-Icon Item Maker -->
+  <div class="modal-backdrop" id="modalPhoto">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>📷 Capture Mini-Icon Item</span>
+        <button type="button" class="modal-close" data-close="modalPhoto">&times;</button>
+      </div>
+      <form class="modal-body" id="formPhotoItem" autocomplete="off">
+        <div class="video-preview-box" id="photoCamBox">
+          <video id="photoVideo" autoplay playsinline muted></video>
+          <img id="photoPreviewImg" alt="Captured Mini Icon" style="display:none; width:96px; height:96px; object-fit:cover; border-radius:10px; border:2px solid #fff;" />
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="hdr-btn" id="btnSnapPhoto" style="flex:1; justify-content:center; padding:6px;">📸 Capture Photo</button>
+          <label class="hdr-btn" style="flex:1; justify-content:center; padding:6px; cursor:pointer;">
+            🖼️ Gallery / Cam
+            <input type="file" id="filePhotoInput" accept="image/*" capture="environment" style="display:none;" />
+          </label>
+        </div>
+        <div>
+          <label class="form-label" for="photoItemName">Item Name *</label>
+          <input type="text" id="photoItemName" class="compact-input" placeholder="Enter product name" required maxlength="35" />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <div>
+            <label class="form-label" for="photoItemUnit">Unit</label>
+            <input type="text" id="photoItemUnit" class="compact-input" placeholder="pcs / kg / box" maxlength="15" />
+          </div>
+          <div>
+            <label class="form-label" for="photoItemRate">Rate ₹ (Optional)</label>
+            <input type="number" id="photoItemRate" class="compact-input" placeholder="0" min="0" max="999999" step="any" />
+          </div>
+        </div>
+        <button type="submit" class="primary-btn">Save Mini-Photo Item</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Barcode Scanner & Product Linker -->
+  <div class="modal-backdrop" id="modalBarcode">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>🔍 Scan Product Barcode</span>
+        <button type="button" class="modal-close" data-close="modalBarcode">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="video-preview-box">
+          <video id="barcodeVideo" autoplay playsinline muted></video>
+        </div>
+        <div id="barcodeStatus" style="font-size:11px; color:#0f62fe; font-weight:700; text-align:center;">Point camera at barcode or enter code below</div>
+        <form id="formManualBarcode" style="display:flex; gap:5px;" autocomplete="off">
+          <input type="text" id="manualBarcodeInput" class="compact-input" placeholder="Barcode number..." maxlength="32" required />
+          <button type="submit" class="send-item-btn">Lookup</button>
+        </form>
+        <div id="newBarcodeRegisterBox" style="display:none; border-top:1px dashed #cbd5e1; padding-top:8px;">
+          <div style="font-size:11px; font-weight:800; color:#d97706; margin-bottom:4px;">New Barcode Detected! Link it once:</div>
+          <input type="text" id="bcItemName" class="compact-input" placeholder="Product Name *" maxlength="35" style="margin-bottom:5px;" />
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:6px;">
+            <input type="text" id="bcItemUnit" class="compact-input" placeholder="Unit (pcs/kg)" maxlength="12" />
+            <input type="number" id="bcItemRate" class="compact-input" placeholder="Rate ₹" min="0" step="any" />
+          </div>
+          <button type="button" class="primary-btn" id="btnSaveBarcodeProduct">Save &amp; Add to Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Business / Slip Header Setup -->
+  <div class="modal-backdrop" id="modalSetup">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>🏪 Slip Header &amp; Store Setup</span>
+        <button type="button" class="modal-close" data-close="modalSetup">&times;</button>
+      </div>
+      <form class="modal-body" id="formSetup" autocomplete="off">
+        <div>
+          <label class="form-label" for="setupBusinessName">Business / Hotel / Transport Name</label>
+          <input type="text" id="setupBusinessName" class="compact-input" maxlength="32" placeholder="e.g. Royal Zaika Hotel / Khan Kirana" />
+        </div>
+        <div>
+          <label class="form-label" for="setupSubHeader">Address / Phone / Tagline</label>
+          <input type="text" id="setupSubHeader" class="compact-input" maxlength="42" placeholder="e.g. Main Road | Ph: 9876543210" />
+        </div>
+        <div>
+          <label class="form-label" for="setupFooterNote">Slip Footer Greeting</label>
+          <input type="text" id="setupFooterNote" class="compact-input" maxlength="36" placeholder="e.g. Thank You! Visit Again" />
+        </div>
+        <button type="submit" class="primary-btn">Save Slip Header</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: Saved Orders & Active Restaurant Tables -->
+  <div class="modal-backdrop" id="modalHistory">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>📂 Active Tables &amp; Saved Orders</span>
+        <button type="button" class="modal-close" data-close="modalHistory">&times;</button>
+      </div>
+      <div class="modal-body" id="historyListContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* =========================================================================
+         1. SECURITY & STRICT INPUT SANITIZATION (XSS & INJECTION PROTECTION)
+         ========================================================================= */
+      function sanitizeText(str, maxLen = 50) {
+        if (typeof str !== "string") return "";
+        // Strip control characters, angle brackets, and script vectors
+        return str
+          .replace(/[\u0000-\u001F\u007F<>]/g, "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, maxLen);
+      }
+
+      function escapeHTML(str) {
+        const safe = String(str ?? "");
+        return safe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function safeParseJSON(raw, fallback) {
+        try {
+          if (!raw) return fallback;
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === "object" ? parsed : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      /* =========================================================================
+         2. DEFAULT CATEGORIES & BIG EMOJI UNIVERSAL CATALOGUE
+         ========================================================================= */
+      const STORAGE_KEY = "olm_universal_pos_v1";
+
+      const DEFAULT_CATEGORIES = [
+        { id: "restaurant", name: "Restaurant", icon: "🍽️", mode: "restaurant" },
+        { id: "grocery", name: "Grocery", icon: "🛒", mode: "grocery" },
+        { id: "loading", name: "Loading / Ship", icon: "🚚", mode: "loading" }
+      ];
+
+      const DEFAULT_ITEMS = [
+        // Restaurant
+        { id: "r1", cat: "restaurant", name: "Masala Dosa", emoji: "🥞", unit: "Plate", rate: 70 },
+        { id: "r2", cat: "restaurant", name: "Idli Sambar", emoji: "🥟", unit: "Plate", rate: 40 },
+        { id: "r3", cat: "restaurant", name: "Poori Sabji", emoji: "🫓", unit: "Plate", rate: 50 },
+        { id: "r4", cat: "restaurant", name: "Chicken Biryani (Half)", emoji: "🍗", unit: "Half", rate: 110 },
+        { id: "r5", cat: "restaurant", name: "Chicken Biryani (Full)", emoji: "🍛", unit: "Full", rate: 190 },
+        { id: "r6", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
+        { id: "r7", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
+        { id: "r8", cat: "restaurant", name: "Cold Drink", emoji: "🥤", unit: "Btl", rate: 40 },
+
+        // Grocery
+        { id: "g1", cat: "grocery", name: "Basmati Rice", emoji: "🌾", unit: "1 kg", rate: 85 },
+        { id: "g2", cat: "grocery", name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg", rate: 44 },
+        { id: "g3", cat: "grocery", name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr", rate: 135 },
+        { id: "g4", cat: "grocery", name: "Toor Dal", emoji: "🫘", unit: "1 kg", rate: 150 },
+        { id: "g5", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
+        { id: "g6", cat: "grocery", name: "Milk Packet", emoji: "🥛", unit: "500ml", rate: 28 },
+        { id: "g7", cat: "grocery", name: "Bath Soap", emoji: "🧼", unit: "Pcs", rate: 35 },
+        { id: "g8", cat: "grocery", name: "Tea Patti", emoji: "🍃", unit: "250g", rate: 95 },
+
+        // Loading / Shipping
+        { id: "l1", cat: "loading", name: "Cement Bags", emoji: "🧱", unit: "Bags", rate: 360 },
+        { id: "l2", cat: "loading", name: "Sand / Reti", emoji: "⏳", unit: "Ton", rate: 1200 },
+        { id: "l3", cat: "loading", name: "Carton Boxes", emoji: "📦", unit: "Box", rate: 0 },
+        { id: "l4", cat: "loading", name: "Steel Rods", emoji: "🏗️", unit: "Qntl", rate: 5400 },
+        { id: "l5", cat: "loading", name: "Rice Sacks", emoji: "🎒", unit: "Bora", rate: 0 },
+        { id: "l6", cat: "loading", name: "Hardware Pkts", emoji: "🧰", unit: "Pkt", rate: 0 }
+      ];
+
+      const EMOJI_BANK = [
+        "🍛","🍗","🥞","🥟","🫓","🍚","🍜","🍔","🍕","🥪","☕","🥤","🧃","🍰",
+        "🌾","🧂","🫗","🫘","🥛","🧼","🧅","🥔","🍅","🍎","🍌","🥚","🍞","🧀",
+        "📦","🧱","🏗️","🚚","🛻","🧰","⚙️","🛢️","🎒","🪵","🧴","💊","📱","🔌"
+      ];
+
+      /* =========================================================================
+         3. APPLICATION STATE
+         ========================================================================= */
+      const savedState = safeParseJSON(localStorage.getItem(STORAGE_KEY), {});
+
+      const state = {
+        activeCat: savedState.activeCat || "restaurant",
+        categories: Array.isArray(savedState.categories) && savedState.categories.length ? savedState.categories : DEFAULT_CATEGORIES,
+        items: Array.isArray(savedState.items) && savedState.items.length ? savedState.items : DEFAULT_ITEMS,
+        barcodes: savedState.barcodes || {},
+        showPrice: Boolean(savedState.showPrice),
+        setup: savedState.setup || {
+          businessName: "ORDER LIST MAKER",
+          subHeader: "Universal Slip & Order Desk",
+          footerNote: "Thank You! Visit Again"
+        },
+        // Restaurant table & guest split state
+        activeTable: "T-1",
+        activeGuest: "G-1",
+        // Table orders store: { "T-1": [ { uid, guest, name, emoji, thumb, unit, rate, qty } ], ... }
+        restaurantTables: savedState.restaurantTables || {},
+        // Standard category orders: { "grocery": { meta: { customer: "", note: "" }, items: [] }, "loading": { meta: { vehicle: "", party: "" }, items: [] } }
+        generalOrders: savedState.generalOrders || {},
+        savedArchive: Array.isArray(savedState.savedArchive) ? savedState.savedArchive : [],
+        searchQuery: "",
+        selectedEmoji: "🍛",
+        capturedDataUrl: "",
+        pendingBarcode: ""
+      };
+
+      function persistState() {
+        try {
+          const payload = {
+            activeCat: state.activeCat,
+            categories: state.categories,
+            items: state.items,
+            barcodes: state.barcodes,
+            showPrice: state.showPrice,
+            setup: state.setup,
+            restaurantTables: state.restaurantTables,
+            generalOrders: state.generalOrders,
+            savedArchive: state.savedArchive.slice(0, 30)
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (err) {
+          showToast("Storage full! Delete old archived orders.");
+        }
+      }
+
+      /* =========================================================================
+         4. HELPER UTILITIES (TOAST, CURRENT ORDER ACCESSORS)
+         ========================================================================= */
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = document.getElementById("toastMsg");
+        el.textContent = msg;
+        el.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+      }
+
+      function getActiveCategoryObj() {
+        return state.categories.find(c => c.id === state.activeCat) || state.categories[0];
+      }
+
+      function getCurrentOrderItems() {
+        const cat = getActiveCategoryObj();
+        if (cat.mode === "restaurant") {
+          if (!state.restaurantTables[state.activeTable]) {
+            state.restaurantTables[state.activeTable] = [];
+          }
+          return state.restaurantTables[state.activeTable];
+        } else {
+          if (!state.generalOrders[cat.id]) {
+            state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
+          }
+          return state.generalOrders[cat.id].items;
+        }
+      }
+
+      function addItemToCurrentOrder(itemObj, customQty = 1) {
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+        const guestTag = cat.mode === "restaurant" ? state.activeGuest : "ALL";
+
+        const existing = list.find(
+          x => x.name.toLowerCase() === itemObj.name.toLowerCase() && x.guest === guestTag
+        );
+
+        if (existing) {
+          existing.qty += customQty;
+        } else {
+          list.push({
+            uid: "ord_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+            guest: guestTag,
+            name: sanitizeText(itemObj.name, 40),
+            emoji: itemObj.emoji || "📦",
+            thumb: itemObj.thumb || "",
+            unit: sanitizeText(itemObj.unit || "", 15),
+            rate: Number(itemObj.rate) || 0,
+            qty: customQty
+          });
+        }
+
+        persistState();
+        renderAll();
+      }
+
+      /* =========================================================================
+         5. RENDERING ENGINE (TABS, CATALOGUE, CONTEXT BAR, LIVE LIST, SLIP, QR)
+         ========================================================================= */
+      function renderCategoryTabs() {
+        const bar = document.getElementById("categoryBar");
+        bar.innerHTML = "";
+
+        state.categories.forEach(cat => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "cat-tab" + (cat.id === state.activeCat ? " active" : "");
+          btn.textContent = `${cat.icon} ${cat.name}`;
+          btn.addEventListener("click", () => {
+            state.activeCat = cat.id;
+            state.searchQuery = "";
+            document.getElementById("catalogueSearch").value = "";
+            persistState();
+            renderAll();
+          });
+          bar.appendChild(btn);
+        });
+
+        const addBtn = document.createElement("button");
+        addBtn.type = "button";
+        addBtn.className = "cat-tab add-cat-btn";
+        addBtn.textContent = "+ Category";
+        addBtn.addEventListener("click", () => {
+          const rawName = prompt("New Category Name (e.g. Hardware, Medical, Bakery):");
+          const cleanName = sanitizeText(rawName, 20);
+          if (!cleanName) return;
+          const id = "cat_" + Date.now();
+          state.categories.push({ id, name: cleanName, icon: "🏷️", mode: "grocery" });
+          state.activeCat = id;
+          persistState();
+          renderAll();
+          showToast(`Added "${cleanName}" category`);
+        });
+        bar.appendChild(addBtn);
+      }
+
+      function renderCatalogue() {
+        const grid = document.getElementById("catalogueGrid");
+        grid.innerHTML = "";
+
+        const currentList = getCurrentOrderItems();
+        const q = state.searchQuery.toLowerCase();
+
+        const filtered = state.items.filter(it => {
+          const matchCat = it.cat === state.activeCat;
+          const matchSearch = !q || it.name.toLowerCase().includes(q);
+          return matchCat && matchSearch;
+        });
+
+        if (!filtered.length) {
+          const empty = document.createElement("div");
+          empty.style.cssText = "grid-column: 1/-1; text-align:center; color:#64748b; padding:18px 6px; font-size:11px;";
+          empty.textContent = "No items here yet. Use ➕ Emoji Item or 📷 Photo Item below.";
+          grid.appendChild(empty);
+          return;
+        }
+
+        filtered.forEach(item => {
+          // Calculate total qty of this item in active order
+          const inOrderQty = currentList
+            .filter(o => o.name.toLowerCase() === item.name.toLowerCase())
+            .reduce((sum, o) => sum + o.qty, 0);
+
+          const card = document.createElement("div");
+          card.className = "prod-card";
+          card.setAttribute("role", "button");
+          card.setAttribute("tabindex", "0");
+
+          if (inOrderQty > 0) {
+            const badge = document.createElement("span");
+            badge.className = "prod-badge";
+            badge.textContent = `×${inOrderQty}`;
+            card.appendChild(badge);
+          }
+
+          const iconWrap = document.createElement("div");
+          iconWrap.className = "prod-icon-wrap";
+          if (item.thumb) {
+            const img = document.createElement("img");
+            img.src = item.thumb;
+            img.alt = item.name;
+            img.className = "prod-thumb";
+            iconWrap.appendChild(img);
+          } else {
+            const em = document.createElement("span");
+            em.className = "prod-emoji";
+            em.textContent = item.emoji || "📦";
+            iconWrap.appendChild(em);
+          }
+          card.appendChild(iconWrap);
+
+          const title = document.createElement("div");
+          title.className = "prod-name";
+          title.textContent = item.name;
+          card.appendChild(title);
+
+          const meta = document.createElement("div");
+          meta.className = "prod-meta";
+          const rateTxt = item.rate > 0 ? `₹${item.rate}` : "";
+          meta.textContent = [item.unit, rateTxt].filter(Boolean).join(" • ") || "Tap +1";
+          card.appendChild(meta);
+
+          card.addEventListener("click", () => addItemToCurrentOrder(item, 1));
+          grid.appendChild(card);
+        });
+      }
+
+      function renderContextStrip() {
+        const strip = document.getElementById("contextStrip");
+        strip.innerHTML = "";
+        const cat = getActiveCategoryObj();
+
+        if (cat.mode === "restaurant") {
+          // Row 1: Tables T-1 to T-8
+          const tableRow = document.createElement("div");
+          tableRow.className = "pill-row";
+          const tLbl = document.createElement("span");
+          tLbl.className = "pill-label";
+          tLbl.textContent = "Table:";
+          tableRow.appendChild(tLbl);
+
+          for (let i = 1; i <= 8; i++) {
+            const tCode = `T-${i}`;
+            const hasItems = (state.restaurantTables[tCode] || []).length > 0;
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className =
+              "mini-pill" +
+              (state.activeTable === tCode ? " active" : "") +
+              (hasItems ? " has-items" : "");
+            btn.textContent = tCode;
+            btn.addEventListener("click", () => {
+              state.activeTable = tCode;
+              renderAll();
+            });
+            tableRow.appendChild(btn);
+          }
+          strip.appendChild(tableRow);
+
+          // Row 2: Guests / Persons at Table (G-1 to G-5 + Custom)
+          const guestRow = document.createElement("div");
+          guestRow.className = "pill-row";
+          const gLbl = document.createElement("span");
+          gLbl.className = "pill-label";
+          gLbl.textContent = "Seat:";
+          guestRow.appendChild(gLbl);
+
+          const tableItems = state.restaurantTables[state.activeTable] || [];
+          const guests = ["G-1", "G-2", "G-3", "G-4", "G-5"];
+          if (!guests.includes(state.activeGuest)) guests.push(state.activeGuest);
+
+          guests.forEach(gCode => {
+            const hasG = tableItems.some(x => x.guest === gCode);
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className =
+              "mini-pill" +
+              (state.activeGuest === gCode ? " active" : "") +
+              (hasG ? " has-items" : "");
+            btn.textContent = gCode;
+            btn.addEventListener("click", () => {
+              state.activeGuest = gCode;
+              renderAll();
+            });
+            guestRow.appendChild(btn);
+          });
+
+          const customG = document.createElement("button");
+          customG.type = "button";
+          customG.className = "mini-pill";
+          customG.textContent = "+Name";
+          customG.addEventListener("click", () => {
+            const nm = sanitizeText(prompt("Guest / Person Name (e.g. Rahul):"), 12);
+            if (nm) {
+              state.activeGuest = nm;
+              renderAll();
+            }
+          });
+          guestRow.appendChild(customG);
+          strip.appendChild(guestRow);
+        } else {
+          // Grocery / Loading / Custom Mode Inputs
+          if (!state.generalOrders[cat.id]) {
+            state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
+          }
+          const meta = state.generalOrders[cat.id].meta;
+          const grid = document.createElement("div");
+          grid.className = "meta-inputs-grid";
+
+          const inp1 = document.createElement("input");
+          inp1.type = "text";
+          inp1.className = "compact-input";
+          inp1.maxLength = 25;
+          inp1.placeholder = cat.mode === "loading" ? "🚚 Gaadi / Vehicle No." : "👤 Customer / Slip Name";
+          inp1.value = meta.field1 || "";
+          inp1.addEventListener("input", e => {
+            meta.field1 = sanitizeText(e.target.value, 25);
+            persistState();
+            renderThermalAndQR();
+          });
+
+          const inp2 = document.createElement("input");
+          inp2.type = "text";
+          inp2.className = "compact-input";
+          inp2.maxLength = 25;
+          inp2.placeholder = cat.mode === "loading" ? "🏢 Party / Destination" : "📞 Phone / Address";
+          inp2.value = meta.field2 || "";
+          inp2.addEventListener("input", e => {
+            meta.field2 = sanitizeText(e.target.value, 25);
+            persistState();
+            renderThermalAndQR();
+          });
+
+          grid.appendChild(inp1);
+          grid.appendChild(inp2);
+          strip.appendChild(grid);
+        }
+      }
+
+      function renderLiveOrderFeed() {
+        const feed = document.getElementById("liveOrderFeed");
+        feed.innerHTML = "";
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+
+        if (!list.length) {
+          const empty = document.createElement("div");
+          empty.style.cssText = "text-align:center; color:#64748b; padding:20px 8px; font-size:11px;";
+          empty.textContent =
+            cat.mode === "restaurant"
+              ? `Tap items on left for ${state.activeTable} (${state.activeGuest}) or type above.`
+              : "Tap catalogue items on left or type order above.";
+          feed.appendChild(empty);
+          return;
+        }
+
+        if (cat.mode === "restaurant") {
+          // Group items by Guest/Seat so table order stays crystal clear
+          const guestMap = {};
+          list.forEach(item => {
+            if (!guestMap[item.guest]) guestMap[item.guest] = [];
+            guestMap[item.guest].push(item);
+          });
+
+          Object.keys(guestMap).forEach(guestKey => {
+            const gHdr = document.createElement("div");
+            gHdr.className = "guest-group-header";
+            const gCount = guestMap[guestKey].reduce((s, x) => s + x.qty, 0);
+            gHdr.innerHTML = `<span>👤 ${escapeHTML(guestKey)}</span><span>${gCount} items</span>`;
+            feed.appendChild(gHdr);
+
+            guestMap[guestKey].forEach(item => feed.appendChild(createOrderRowEl(item, list)));
+          });
+        } else {
+          list.forEach(item => feed.appendChild(createOrderRowEl(item, list)));
+        }
+      }
+
+      function createOrderRowEl(item, parentList) {
+        const row = document.createElement("div");
+        row.className = "order-row";
+
+        const left = document.createElement("div");
+        left.className = "order-row-left";
+
+        if (item.thumb) {
+          const img = document.createElement("img");
+          img.src = item.thumb;
+          img.alt = "";
+          img.className = "order-row-thumb";
+          left.appendChild(img);
+        } else {
+          const ic = document.createElement("span");
+          ic.className = "order-row-icon";
+          ic.textContent = item.emoji || "📦";
+          left.appendChild(ic);
+        }
+
+        const info = document.createElement("div");
+        info.className = "order-row-info";
+
+        const title = document.createElement("div");
+        title.className = "order-row-title";
+        title.textContent = item.name;
+        info.appendChild(title);
+
+        if (item.unit || (state.showPrice && item.rate > 0)) {
+          const sub = document.createElement("div");
+          sub.className = "order-row-sub";
+          const amt = state.showPrice && item.rate > 0 ? `₹${(item.rate * item.qty).toFixed(0)}` : "";
+          sub.textContent = [item.unit, amt].filter(Boolean).join(" • ");
+          info.appendChild(sub);
+        }
+
+        left.appendChild(info);
+        row.appendChild(left);
+
+        const ctrls = document.createElement("div");
+        ctrls.className = "qty-controls";
+
+        const minusBtn = document.createElement("button");
+        minusBtn.type = "button";
+        minusBtn.className = "qty-btn";
+        minusBtn.textContent = "−";
+        minusBtn.addEventListener("click", () => {
+          if (item.qty > 1) {
+            item.qty -= 1;
+          } else {
+            const idx = parentList.indexOf(item);
+            if (idx > -1) parentList.splice(idx, 1);
+          }
+          persistState();
+          renderAll();
+        });
+
+        const qtySpan = document.createElement("span");
+        qtySpan.className = "qty-val";
+        qtySpan.textContent = item.qty;
+
+        const plusBtn = document.createElement("button");
+        plusBtn.type = "button";
+        plusBtn.className = "qty-btn";
+        plusBtn.textContent = "+";
+        plusBtn.addEventListener("click", () => {
+          item.qty += 1;
+          persistState();
+          renderAll();
+        });
+
+        ctrls.appendChild(minusBtn);
+        ctrls.appendChild(qtySpan);
+        ctrls.appendChild(plusBtn);
+        row.appendChild(ctrls);
+
+        return row;
+      }
+
+      /* =========================================================================
+         6. 2-INCH (58MM) THERMAL SLIP BUILDER & OFFLINE QR SUMMARY
+         ========================================================================= */
+      function buildPlainTextSlip() {
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+        const dateStr = now.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "2-digit" });
+
+        const lines = [];
+        lines.push(state.setup.businessName.toUpperCase());
+        if (state.setup.subHeader) lines.push(state.setup.subHeader);
+        lines.push("--------------------------------");
+        lines.push(`MODE: ${cat.name.toUpperCase()} | ${dateStr} ${timeStr}`);
+
+        if (cat.mode === "restaurant") {
+          lines.push(`TABLE: ${state.activeTable}`);
+        } else {
+          const meta = (state.generalOrders[cat.id] || {}).meta || {};
+          if (meta.field1) lines.push(`${cat.mode === "loading" ? "VEHICLE" : "NAME"}: ${meta.field1}`);
+          if (meta.field2) lines.push(`${cat.mode === "loading" ? "PARTY" : "INFO"}: ${meta.field2}`);
+        }
+        lines.push("--------------------------------");
+
+        if (!list.length) {
+          lines.push("(No items added yet)");
+        } else if (cat.mode === "restaurant") {
+          const guestMap = {};
+          list.forEach(it => {
+            if (!guestMap[it.guest]) guestMap[it.guest] = [];
+            guestMap[it.guest].push(it);
+          });
+
+          Object.keys(guestMap).forEach(g => {
+            lines.push(`[${g}]`);
+            guestMap[g].forEach(it => {
+              const pricePart = state.showPrice && it.rate > 0 ? ` Rs.${it.rate * it.qty}` : "";
+              lines.push(` - ${it.name} x${it.qty}${pricePart}`);
+            });
+          });
+        } else {
+          list.forEach((it, idx) => {
+            const unitPart = it.unit ? ` (${it.unit})` : "";
+            const pricePart = state.showPrice && it.rate > 0 ? ` Rs.${it.rate * it.qty}` : "";
+            lines.push(`${idx + 1}. ${it.name}${unitPart} x${it.qty}${pricePart}`);
+          });
+        }
+
+        lines.push("--------------------------------");
+        const totalQty = list.reduce((s, x) => s + x.qty, 0);
+        const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
+        lines.push(`ITEMS: ${list.length} | TOTAL QTY: ${totalQty}`);
+        if (state.showPrice && totalAmt > 0) {
+          lines.push(`EST. TOTAL: Rs.${totalAmt.toFixed(2)}`);
+        }
+        if (state.setup.footerNote) {
+          lines.push("--------------------------------");
+          lines.push(state.setup.footerNote);
+        }
+
+        return lines.join("\n");
+      }
+
+      let qrInstance = null;
+      function renderThermalAndQR() {
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+        const slipEl = document.getElementById("thermalSlipContent");
+        const priceBtn = document.getElementById("btnTogglePrice");
+
+        priceBtn.textContent = `₹ Price: ${state.showPrice ? "ON" : "OFF"}`;
+
+        const now = new Date();
+        const dt = `${now.toLocaleDateString("en-IN", { day: "2-digit", month: "short" })} ${now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}`;
+
+        let html = `<div class="th-center th-bold">${escapeHTML(state.setup.businessName)}</div>`;
+        if (state.setup.subHeader) {
+          html += `<div class="th-center" style="font-size:9px;">${escapeHTML(state.setup.subHeader)}</div>`;
+        }
+        html += `<div class="th-line"></div>`;
+        html += `<div class="th-row"><span>${escapeHTML(cat.name.toUpperCase())}</span><span>${escapeHTML(dt)}</span></div>`;
+
+        if (cat.mode === "restaurant") {
+          html += `<div class="th-bold">TABLE: ${escapeHTML(state.activeTable)}</div>`;
+        } else {
+          const meta = (state.generalOrders[cat.id] || {}).meta || {};
+          if (meta.field1) html += `<div>${cat.mode === "loading" ? "VEH" : "TO"}: ${escapeHTML(meta.field1)}</div>`;
+          if (meta.field2) html += `<div>${cat.mode === "loading" ? "PTY" : "INF"}: ${escapeHTML(meta.field2)}</div>`;
+        }
+        html += `<div class="th-line"></div>`;
+
+        if (!list.length) {
+          html += `<div class="th-center" style="padding:8px 0; color:#6b7280;">-- Empty Order Slip --</div>`;
+        } else if (cat.mode === "restaurant") {
+          const guestMap = {};
+          list.forEach(it => {
+            if (!guestMap[it.guest]) guestMap[it.guest] = [];
+            guestMap[it.guest].push(it);
+          });
+          Object.keys(guestMap).forEach(g => {
+            html += `<div class="th-bold" style="margin-top:2px;">[${escapeHTML(g)}]</div>`;
+            guestMap[g].forEach(it => {
+              const amt = state.showPrice && it.rate > 0 ? ` ₹${it.rate * it.qty}` : "";
+              html += `<div class="th-row"><span>${escapeHTML(it.name)}</span><span class="th-bold">x${it.qty}${amt}</span></div>`;
+            });
+          });
+        } else {
+          list.forEach((it, idx) => {
+            const u = it.unit ? ` (${escapeHTML(it.unit)})` : "";
+            const amt = state.showPrice && it.rate > 0 ? ` ₹${it.rate * it.qty}` : "";
+            html += `<div class="th-row"><span>${idx + 1}. ${escapeHTML(it.name)}${u}</span><span class="th-bold">x${it.qty}${amt}</span></div>`;
+          });
+        }
+
+        const totalQty = list.reduce((s, x) => s + x.qty, 0);
+        const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
+
+        html += `<div class="th-line"></div>`;
+        html += `<div class="th-row th-bold"><span>Items: ${list.length}</span><span>Qty: ${totalQty}</span></div>`;
+        if (state.showPrice && totalAmt > 0) {
+          html += `<div class="th-row th-bold" style="font-size:11px; margin-top:2px;"><span>TOTAL</span><span>₹${totalAmt.toFixed(2)}</span></div>`;
+        }
+        if (state.setup.footerNote) {
+          html += `<div class="th-line"></div><div class="th-center" style="font-size:9px;">${escapeHTML(state.setup.footerNote)}</div>`;
+        }
+
+        slipEl.innerHTML = html;
+
+        // Footer stats update
+        document.getElementById("footerLeftStats").textContent =
+          `Items: ${list.length} | Qty: ${totalQty}` + (state.showPrice && totalAmt > 0 ? ` | ₹${totalAmt.toFixed(0)}` : "");
+        document.getElementById("footerRightContext").textContent =
+          cat.mode === "restaurant"
+            ? `${cat.name} • ${state.activeTable} (${state.activeGuest})`
+            : `${cat.icon} ${cat.name}`;
+
+        // Live Offline Plain-Text QR Code Update
+        const qrBox = document.getElementById("qrContainer");
+        const qrText = buildPlainTextSlip().slice(0, 480); // Keep QR crisp & fast-scanning
+        if (typeof QRCode !== "undefined") {
+          qrBox.innerHTML = "";
+          qrInstance = new QRCode(qrBox, {
+            text: qrText,
+            width: 86,
+            height: 86,
+            colorDark: "#0f172a",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L
+          });
+        }
+      }
+
+      function renderAll() {
+        renderCategoryTabs();
+        renderCatalogue();
+        renderContextStrip();
+        renderLiveOrderFeed();
+        renderThermalAndQR();
+      }
+
+      /* =========================================================================
+         7. AI-CHAT STYLE QUICK TEXT PARSER ("2 Half Biryani", "5kg Sugar")
+         ========================================================================= */
+      document.getElementById("quickTypeForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const inp = document.getElementById("quickTypeInput");
+        const raw = sanitizeText(inp.value, 60);
+        if (!raw) return;
+
+        // Parse leading quantity if present e.g. "3 Masala Dosa" or "2x Tea"
+        let qty = 1;
+        let namePart = raw;
+        const match = raw.match(/^(\d+)\s*(?:x|pcs|pkt|plate)?\s+(.+)$/i);
+        if (match) {
+          qty = Math.max(1, Math.min(999, parseInt(match[1], 10)));
+          namePart = match[2];
+        }
+
+        // Check if item exists in catalogue to inherit its emoji/rate
+        const found = state.items.find(
+          it => it.cat === state.activeCat && it.name.toLowerCase() === namePart.toLowerCase()
+        );
+
+        if (found) {
+          addItemToCurrentOrder(found, qty);
+        } else {
+          addItemToCurrentOrder({ name: namePart, emoji: "📝", unit: "", rate: 0 }, qty);
+        }
+
+        inp.value = "";
+      });
+
+      /* =========================================================================
+         8. SEARCH, PRICE TOGGLE, PNG EXPORT, SHARE & ARCHIVE
+         ========================================================================= */
+      document.getElementById("catalogueSearch").addEventListener("input", e => {
+        state.searchQuery = sanitizeText(e.target.value, 40);
+        renderCatalogue();
+      });
+
+      document.getElementById("btnTogglePrice").addEventListener("click", () => {
+        state.showPrice = !state.showPrice;
+        persistState();
+        renderAll();
+      });
+
+      document.getElementById("btnSavePng").addEventListener("click", async () => {
+        if (typeof html2canvas === "undefined") {
+          window.print();
+          return;
+        }
+        const slipEl = document.getElementById("thermalSlipContent");
+        try {
+          const canvas = await html2canvas(slipEl, { scale: 2, backgroundColor: "#fffdf7" });
+          const link = document.createElement("a");
+          link.download = `Order-Slip-${Date.now()}.png`;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+          showToast("Thermal slip PNG saved!");
+        } catch (err) {
+          showToast("Could not export PNG");
+        }
+      });
+
+      document.getElementById("qbShare").addEventListener("click", async () => {
+        const slipText = buildPlainTextSlip();
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: "Order List Slip",
+              text: slipText
+            });
+            return;
+          } catch (e) {
+            // User cancelled or fallback to clipboard
+          }
+        }
+        try {
+          await navigator.clipboard.writeText(slipText);
+          showToast("Order slip copied! Paste in WhatsApp / Bluetooth.");
+        } catch (err) {
+          showToast("Share ready");
+        }
+      });
+
+      document.getElementById("btnClearOrder").addEventListener("click", () => {
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+        if (!list.length) {
+          showToast("Order list is already empty");
+          return;
+        }
+
+        // Archive current order before clearing
+        state.savedArchive.unshift({
+          id: Date.now(),
+          label: cat.mode === "restaurant" ? `${cat.name} (${state.activeTable})` : cat.name,
+          time: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+          text: buildPlainTextSlip()
+        });
+
+        if (cat.mode === "restaurant") {
+          state.restaurantTables[state.activeTable] = [];
+        } else {
+          state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
+        }
+        persistState();
+        renderAll();
+        showToast("Order saved to history & cleared!");
+      });
+
+      /* =========================================================================
+         9. WEB BLUETOOTH 58MM THERMAL PRINTER (ESC/POS)
+         ========================================================================= */
+      let btCharacteristic = null;
+
+      async function connectBluetoothPrinter() {
+        if (!navigator.bluetooth) {
+          showToast("Web Bluetooth not supported here. Using Print Preview.");
+          window.print();
+          return;
+        }
+        try {
+          showToast("Searching Bluetooth Printers...");
+          const device = await navigator.bluetooth.requestDevice({
+            acceptAllDevices: true,
+            optionalServices: [
+              "000018f0-0000-1000-8000-00805f9b34fb",
+              "49535343-fe7d-4ae5-8fa9-9fafd205e455",
+              "e7810a71-73ae-499d-8c15-faa9aef0c3f2"
+            ]
+          });
+          const server = await device.gatt.connect();
+          const services = await server.getPrimaryServices();
+          for (const service of services) {
+            const chars = await service.getCharacteristics();
+            for (const ch of chars) {
+              if (ch.properties.write || ch.properties.writeWithoutResponse) {
+                btCharacteristic = ch;
+                break;
+              }
+            }
+            if (btCharacteristic) break;
+          }
+          if (btCharacteristic) {
+            document.getElementById("btnBtConnect").classList.add("bt-connected");
+            document.getElementById("btnBtConnect").textContent = "📶 Ready";
+            showToast(`Connected: ${device.name || "Thermal Printer"}`);
+          } else {
+            showToast("No writable print channel found");
+          }
+        } catch (err) {
+          showToast("Bluetooth connection cancelled");
+        }
+      }
+
+      async function printViaBluetooth() {
+        if (!btCharacteristic) {
+          await connectBluetoothPrinter();
+          if (!btCharacteristic) return;
+        }
+        try {
+          const encoder = new TextEncoder();
+          const initCmd = new Uint8Array([0x1b, 0x40]); // ESC @
+          const feedCutCmd = new Uint8Array([0x0a, 0x0a, 0x0a, 0x1d, 0x56, 0x42, 0x00]);
+          const bodyBytes = encoder.encode(buildPlainTextSlip() + "\n");
+
+          const fullPayload = new Uint8Array(initCmd.length + bodyBytes.length + feedCutCmd.length);
+          fullPayload.set(initCmd, 0);
+          fullPayload.set(bodyBytes, initCmd.length);
+          fullPayload.set(feedCutCmd, initCmd.length + bodyBytes.length);
+
+          // Send in 100-byte BLE chunks
+          const chunkSize = 100;
+          for (let i = 0; i < fullPayload.length; i += chunkSize) {
+            const slice = fullPayload.slice(i, i + chunkSize);
+            if (btCharacteristic.properties.writeWithoutResponse) {
+              await btCharacteristic.writeValueWithoutResponse(slice);
+            } else {
+              await btCharacteristic.writeValue(slice);
+            }
+          }
+          showToast("Printed on 58mm Thermal Printer!");
+        } catch (err) {
+          btCharacteristic = null;
+          document.getElementById("btnBtConnect").classList.remove("bt-connected");
+          showToast("Print failed. Reconnect printer.");
+        }
+      }
+
+      document.getElementById("btnBtConnect").addEventListener("click", connectBluetoothPrinter);
+      document.getElementById("qbBtPrint").addEventListener("click", printViaBluetooth);
+
+      /* =========================================================================
+         10. MODALS MANAGEMENT (CUSTOM EMOJI, CAMERA PHOTO ICON, BARCODE, SETUP)
+         ========================================================================= */
+      function openModal(id) {
+        document.getElementById(id).classList.add("open");
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("open");
+        stopMediaStreams();
+      }
+
+      document.querySelectorAll("[data-close]").forEach(btn => {
+        btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
+      });
+
+      // A. Custom Big Emoji Item Modal
+      function initEmojiPicker() {
+        const grid = document.getElementById("emojiPickerGrid");
+        grid.innerHTML = "";
+        EMOJI_BANK.forEach(em => {
+          const cell = document.createElement("div");
+          cell.className = "emoji-opt" + (em === state.selectedEmoji ? " selected" : "");
+          cell.textContent = em;
+          cell.addEventListener("click", () => {
+            state.selectedEmoji = em;
+            grid.querySelectorAll(".emoji-opt").forEach(el => el.classList.remove("selected"));
+            cell.classList.add("selected");
+          });
+          grid.appendChild(cell);
+        });
+      }
+
+      document.getElementById("qbCustomEmoji").addEventListener("click", () => {
+        initEmojiPicker();
+        openModal("modalEmoji");
+      });
+
+      document.getElementById("formEmojiItem").addEventListener("submit", e => {
+        e.preventDefault();
+        const name = sanitizeText(document.getElementById("customItemName").value, 35);
+        const unit = sanitizeText(document.getElementById("customItemUnit").value, 15);
+        const rate = Math.max(0, parseFloat(document.getElementById("customItemRate").value) || 0);
+        if (!name) return;
+
+        const newItem = {
+          id: "itm_" + Date.now(),
+          cat: state.activeCat,
+          name,
+          emoji: state.selectedEmoji,
+          unit,
+          rate
+        };
+        state.items.unshift(newItem);
+        persistState();
+        e.target.reset();
+        closeModal("modalEmoji");
+        renderCatalogue();
+        showToast(`Added "${name}" to catalogue!`);
+      });
+
+      // B. Camera Mini-Icon Item Modal (Auto-compresses photo to 80x80px ~4KB)
+      let activeMediaStream = null;
+      function stopMediaStreams() {
+        if (activeMediaStream) {
+          activeMediaStream.getTracks().forEach(t => t.stop());
+          activeMediaStream = null;
+        }
+      }
+
+      function compressImageToMiniIcon(sourceEl) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 80;
+        canvas.height = 80;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(sourceEl, 0, 0, 80, 80);
+        return canvas.toDataURL("image/jpeg", 0.72);
+      }
+
+      document.getElementById("qbPhotoItem").addEventListener("click", async () => {
+        state.capturedDataUrl = "";
+        const vid = document.getElementById("photoVideo");
+        const prev = document.getElementById("photoPreviewImg");
+        vid.style.display = "block";
+        prev.style.display = "none";
+        openModal("modalPhoto");
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          try {
+            activeMediaStream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: "environment", width: { ideal: 320 }, height: { ideal: 320 } }
+            });
+            vid.srcObject = activeMediaStream;
+          } catch (err) {
+            showToast("Use Gallery/Cam button if camera blocked");
+          }
+        }
+      });
+
+      document.getElementById("btnSnapPhoto").addEventListener("click", () => {
+        const vid = document.getElementById("photoVideo");
+        const prev = document.getElementById("photoPreviewImg");
+        if (vid.readyState >= 2) {
+          state.capturedDataUrl = compressImageToMiniIcon(vid);
+          prev.src = state.capturedDataUrl;
+          vid.style.display = "none";
+          prev.style.display = "block";
+          stopMediaStreams();
+        }
+      });
+
+      document.getElementById("filePhotoInput").addEventListener("change", e => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            state.capturedDataUrl = compressImageToMiniIcon(img);
+            const prev = document.getElementById("photoPreviewImg");
+            document.getElementById("photoVideo").style.display = "none";
+            prev.src = state.capturedDataUrl;
+            prev.style.display = "block";
+            stopMediaStreams();
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById("formPhotoItem").addEventListener("submit", e => {
+        e.preventDefault();
+        const name = sanitizeText(document.getElementById("photoItemName").value, 35);
+        const unit = sanitizeText(document.getElementById("photoItemUnit").value, 15);
+        const rate = Math.max(0, parseFloat(document.getElementById("photoItemRate").value) || 0);
+        if (!name) return;
+
+        state.items.unshift({
+          id: "pht_" + Date.now(),
+          cat: state.activeCat,
+          name,
+          emoji: "📷",
+          thumb: state.capturedDataUrl || "",
+          unit,
+          rate
+        });
+        persistState();
+        e.target.reset();
+        closeModal("modalPhoto");
+        renderCatalogue();
+        showToast(`Saved photo item "${name}"`);
+      });
+
+      // C. Barcode Scanner & Product Linker
+      let barcodeLoopActive = false;
+
+      function handleScannedBarcode(codeRaw) {
+        const code = sanitizeText(codeRaw, 32);
+        if (!code) return;
+        state.pendingBarcode = code;
+        document.getElementById("manualBarcodeInput").value = code;
+
+        const linkedItemId = state.barcodes[code];
+        const existingItem = linkedItemId ? state.items.find(it => it.id === linkedItemId) : null;
+
+        if (existingItem) {
+          addItemToCurrentOrder(existingItem, 1);
+          closeModal("modalBarcode");
+          showToast(`Scanned & Added: ${existingItem.name}`);
+        } else {
+          document.getElementById("barcodeStatus").textContent = `Barcode [${code}] not linked yet.`;
+          document.getElementById("newBarcodeRegisterBox").style.display = "block";
+        }
+      }
+
+      document.getElementById("qbScanBarcode").addEventListener("click", async () => {
+        document.getElementById("newBarcodeRegisterBox").style.display = "none";
+        document.getElementById("manualBarcodeInput").value = "";
+        document.getElementById("barcodeStatus").textContent = "Point camera at barcode or enter code below";
+        openModal("modalBarcode");
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          try {
+            const vid = document.getElementById("barcodeVideo");
+            activeMediaStream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: "environment" }
+            });
+            vid.srcObject = activeMediaStream;
+
+            if ("BarcodeDetector" in window) {
+              const detector = new window.BarcodeDetector();
+              barcodeLoopActive = true;
+              const scanTick = async () => {
+                if (!barcodeLoopActive || !document.getElementById("modalBarcode").classList.contains("open")) return;
+                try {
+                  const codes = await detector.detect(vid);
+                  if (codes && codes.length > 0 && codes[0].rawValue) {
+                    barcodeLoopActive = false;
+                    handleScannedBarcode(codes[0].rawValue);
+                    return;
+                  }
+                } catch (e) {}
+                requestAnimationFrame(scanTick);
+              };
+              requestAnimationFrame(scanTick);
+            }
+          } catch (err) {
+            document.getElementById("barcodeStatus").textContent = "Camera unavailable — type barcode below.";
+          }
+        }
+      });
+
+      document.getElementById("formManualBarcode").addEventListener("submit", e => {
+        e.preventDefault();
+        handleScannedBarcode(document.getElementById("manualBarcodeInput").value);
+      });
+
+      document.getElementById("btnSaveBarcodeProduct").addEventListener("click", () => {
+        const name = sanitizeText(document.getElementById("bcItemName").value, 35);
+        const unit = sanitizeText(document.getElementById("bcItemUnit").value, 12);
+        const rate = Math.max(0, parseFloat(document.getElementById("bcItemRate").value) || 0);
+        if (!name || !state.pendingBarcode) return;
+
+        const newItm = {
+          id: "bc_" + Date.now(),
+          cat: state.activeCat,
+          name,
+          emoji: "🏷️",
+          unit,
+          rate
+        };
+        state.items.unshift(newItm);
+        state.barcodes[state.pendingBarcode] = newItm.id;
+        persistState();
+
+        addItemToCurrentOrder(newItm, 1);
+        document.getElementById("bcItemName").value = "";
+        closeModal("modalBarcode");
+        showToast(`Linked & Added "${name}"!`);
+      });
+
+      // D. Slip Header Setup Modal
+      document.getElementById("btnSlipHeader").addEventListener("click", () => {
+        document.getElementById("setupBusinessName").value = state.setup.businessName;
+        document.getElementById("setupSubHeader").value = state.setup.subHeader;
+        document.getElementById("setupFooterNote").value = state.setup.footerNote;
+        openModal("modalSetup");
+      });
+
+      document.getElementById("formSetup").addEventListener("submit", e => {
+        e.preventDefault();
+        state.setup.businessName = sanitizeText(document.getElementById("setupBusinessName").value, 32) || "ORDER LIST MAKER";
+        state.setup.subHeader = sanitizeText(document.getElementById("setupSubHeader").value, 42);
+        state.setup.footerNote = sanitizeText(document.getElementById("setupFooterNote").value, 36);
+        persistState();
+        closeModal("modalSetup");
+        renderThermalAndQR();
+        showToast("Slip header updated!");
+      });
+
+      // E. Saved Orders & Active Tables Drawer
+      document.getElementById("btnHistory").addEventListener("click", () => {
+        const box = document.getElementById("historyListContainer");
+        box.innerHTML = "";
+
+        // Show Active Restaurant Tables summary first
+        const activeTables = Object.keys(state.restaurantTables).filter(
+          t => (state.restaurantTables[t] || []).length > 0
+        );
+        if (activeTables.length) {
+          const h = document.createElement("div");
+          h.style.cssText = "font-size:11px; font-weight:800; color:#059669;";
+          h.textContent = "🍽️ Running Restaurant Tables:";
+          box.appendChild(h);
+
+          activeTables.forEach(t => {
+            const row = document.createElement("div");
+            row.className = "order-row";
+            const cnt = state.restaurantTables[t].reduce((s, x) => s + x.qty, 0);
+            row.innerHTML = `<span style="font-weight:700;">${escapeHTML(t)} (${cnt} items)</span>`;
+            const openBtn = document.createElement("button");
+            openBtn.type = "button";
+            openBtn.className = "mini-action-link";
+            openBtn.textContent = "Switch";
+            openBtn.addEventListener("click", () => {
+              state.activeCat = "restaurant";
+              state.activeTable = t;
+              closeModal("modalHistory");
+              renderAll();
+            });
+            row.appendChild(openBtn);
+            box.appendChild(row);
+          });
+        }
+
+        const h2 = document.createElement("div");
+        h2.style.cssText = "font-size:11px; font-weight:800; color:#475569; margin-top:4px;";
+        h2.textContent = "📜 Completed / Cleared Slips:";
+        box.appendChild(h2);
+
+        if (!state.savedArchive.length) {
+          const p = document.createElement("div");
+          p.style.cssText = "font-size:11px; color:#64748b; padding:8px 0;";
+          p.textContent = "No archived orders yet. Clicking 'New' archives the current slip.";
+          box.appendChild(p);
+        } else {
+          state.savedArchive.forEach(entry => {
+            const card = document.createElement("div");
+            card.style.cssText = "border:1px solid #dce3ec; border-radius:6px; padding:6px; background:#f8fafc;";
+            card.innerHTML = `<div style="display:flex; justify-content:space-between; font-weight:700; font-size:11px; margin-bottom:3px;">
+              <span>${escapeHTML(entry.label)}</span>
+              <span style="color:#64748b;">${escapeHTML(entry.time)}</span>
+            </div>
+            <pre style="font-family:monospace; font-size:9.5px; white-space:pre-wrap; color:#1e293b;">${escapeHTML(entry.text)}</pre>`;
+            box.appendChild(card);
+          });
+        }
+
+        openModal("modalHistory");
+      });
+
+      /* =========================================================================
+         11. SERVICE WORKER REGISTRATION & INITIAL BOOT
+         ========================================================================= */
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
+
+      renderAll();
+    })();
+  </script>
 </body>
 </html>
