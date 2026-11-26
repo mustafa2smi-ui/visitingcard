@@ -10,10 +10,10 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- Primary SEO Meta Tags -->
-  <title>Order List Maker — Universal General, Restaurant, Ticket, Grocery &amp; Loading PWA</title>
-  <meta name="title" content="Order List Maker — Universal General, Restaurant, Ticket, Grocery &amp; Loading PWA" />
-  <meta name="description" content="Offline-first universal order list maker for shops, restaurants (table &amp; guest wise), bus/travel tickets, grocery, and loading. TTS voice readout, continuous barcode beep scan, 58mm thermal print &amp; QR summary." />
-  <meta name="keywords" content="order list maker, tts order reader, continuous barcode scanner pos, ticket slip generator, restaurant table order, 58mm thermal print pwa, qr order summary" />
+  <title>Order List Maker — Universal General, Restaurant, Bus Ticket, Grocery &amp; Loading PWA</title>
+  <meta name="title" content="Order List Maker — Universal General, Restaurant, Bus Ticket, Grocery &amp; Loading PWA" />
+  <meta name="description" content="Offline-first universal order list maker for shops, restaurants (table &amp; guest wise), bus/travel tickets (Male/Female/Child/Senior), grocery, and loading. Senior-friendly font zoom, 58mm thermal print &amp; QR summary." />
+  <meta name="keywords" content="order list maker, bus ticket booking slip app, tts order reader, continuous barcode scanner pos, restaurant table order, 58mm thermal print pwa, qr order summary" />
   <meta name="author" content="Order List Maker" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <meta name="theme-color" content="#ffffff" />
@@ -24,14 +24,14 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Order List Maker" />
   <meta property="og:title" content="Order List Maker — Universal POS, Ticket, Voice &amp; Thermal Slip PWA" />
-  <meta property="og:description" content="Create instant orders via tap, voice, continuous barcode scan, or WhatsApp paste with TTS audio readout, 58mm thermal preview, QR code &amp; calculator." />
+  <meta property="og:description" content="Create instant orders via tap, voice, continuous barcode scan, or WhatsApp paste with bus ticket fare table, category-wise headers, and 58mm thermal print." />
   <meta property="og:url" content="https://orderlistmaker.app/" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Order List Maker — Universal Order &amp; Thermal Slip PWA" />
-  <meta name="twitter:description" content="Light-theme universal order list builder with alphabetical emoji/photo catalogue, TTS voice player, continuous barcode scanner, ticket booking slip &amp; thermal print." />
+  <meta name="twitter:description" content="Light-theme universal order list builder with senior-friendly font zoom, bus ticket route fares, TTS voice player &amp; 58mm thermal print." />
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -47,7 +47,7 @@
       "price": "0",
       "priceCurrency": "INR"
     },
-    "description": "Universal order list builder with General, Restaurant Table/Guest split, Passenger Ticket mode, Grocery, and Loading modes, TTS audio readout, continuous beep barcode scanner, and 58mm/80mm/A4 printing."
+    "description": "Universal order list builder with General, Restaurant Table/Guest split, Passenger Bus Ticket mode (Male, Female, Child, Senior), Grocery, and Loading modes, TTS audio readout, continuous beep barcode scanner, and 58mm/80mm/A4 printing."
   }
   </script>
 
@@ -74,9 +74,36 @@
       --danger: #dc2626;
       --danger-soft: #fef2f2;
       --header-h: 42px;
-      --tabs-h: 34px;
+      --tabs-h: 35px;
       --footer-h: 26px;
       --quickbar-h: 48px;
+      --fs-base: 12px;
+      --fs-sm: 10.5px;
+      --fs-xs: 9.5px;
+      --fs-md: 13px;
+    }
+
+    /* Senior-Friendly Font Size Tiers (Preserves Single-Viewport Non-Scroll Layout) */
+    body.font-lg {
+      --fs-base: 14px;
+      --fs-sm: 12.5px;
+      --fs-xs: 11px;
+      --fs-md: 15px;
+      --header-h: 46px;
+      --tabs-h: 38px;
+      --footer-h: 28px;
+      --quickbar-h: 52px;
+    }
+
+    body.font-xl {
+      --fs-base: 16px;
+      --fs-sm: 14px;
+      --fs-xs: 12.5px;
+      --fs-md: 17px;
+      --header-h: 48px;
+      --tabs-h: 40px;
+      --footer-h: 30px;
+      --quickbar-h: 56px;
     }
 
     * {
@@ -93,7 +120,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
       background: var(--bg-app);
       color: var(--text-main);
-      font-size: 12px;
+      font-size: var(--fs-base);
       line-height: 1.3;
     }
 
@@ -147,7 +174,7 @@
     }
 
     .brand-title {
-      font-size: 13px;
+      font-size: var(--fs-md);
       font-weight: 800;
       color: var(--text-main);
       letter-spacing: -0.2px;
@@ -169,7 +196,7 @@
       color: var(--text-main);
       border-radius: 6px;
       padding: 4px 6px;
-      font-size: 10.5px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -225,7 +252,7 @@
       color: var(--text-muted);
       border-radius: 15px;
       padding: 3px 9px;
-      font-size: 11px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
@@ -246,7 +273,7 @@
       background: var(--primary-soft);
     }
 
-    /* 3. Main 2-Column Split Section (Fixed 1fr Single-Column Collapse when Hidden) */
+    /* 3. Main 2-Column Split Section */
     .split-workspace {
       flex: 1;
       min-height: 0;
@@ -288,7 +315,7 @@
       border: 1px solid var(--border-color);
       border-radius: 5px;
       padding: 4px 6px;
-      font-size: 11px;
+      font-size: var(--fs-sm);
       color: var(--text-main);
       background: var(--bg-subtle);
       outline: none;
@@ -356,7 +383,7 @@
       right: 2px;
       background: var(--primary);
       color: #fff;
-      font-size: 9px;
+      font-size: var(--fs-xs);
       font-weight: 800;
       padding: 1px 4px;
       border-radius: 8px;
@@ -387,7 +414,7 @@
     }
 
     .prod-name {
-      font-size: 10.5px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       color: var(--text-main);
       line-height: 1.15;
@@ -399,12 +426,12 @@
     }
 
     .prod-meta {
-      font-size: 9px;
+      font-size: var(--fs-xs);
       color: var(--text-light);
       margin-top: 1px;
     }
 
-    /* Right Section: Live Order & Direct Entry */
+    /* Right Section: Live Order & Ticket Booking */
     .order-pane {
       display: flex;
       flex-direction: column;
@@ -419,7 +446,7 @@
       border-bottom: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
 
     .pill-row {
@@ -435,7 +462,7 @@
     }
 
     .pill-label {
-      font-size: 9.5px;
+      font-size: var(--fs-xs);
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -447,9 +474,9 @@
       border: 1px solid var(--border-color);
       background: #ffffff;
       color: var(--text-main);
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 10px;
+      border-radius: 5px;
+      padding: 3px 6px;
+      font-size: var(--fs-xs);
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
@@ -482,6 +509,51 @@
       gap: 4px;
     }
 
+    /* Ticket Route Fare Table inside Ticket Mode */
+    .ticket-route-box {
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: #ffffff;
+      max-height: 118px;
+      overflow-y: auto;
+    }
+
+    .ticket-route-hdr {
+      display: grid;
+      grid-template-columns: 1fr 1fr 48px 22px;
+      gap: 3px;
+      padding: 3px 5px;
+      background: #e2e8f0;
+      font-size: var(--fs-xs);
+      font-weight: 800;
+      color: var(--text-main);
+      position: sticky;
+      top: 0;
+    }
+
+    .ticket-route-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 48px 22px;
+      gap: 3px;
+      padding: 4px 5px;
+      border-top: 1px solid var(--border-color);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .ticket-route-row:active {
+      background: var(--primary-soft);
+    }
+
+    .ticket-add-route-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 52px auto;
+      gap: 3px;
+      align-items: center;
+    }
+
     /* Quick Entry + Hide Toggle + Voice + WhatsApp Paste */
     .quick-type-bar {
       display: flex;
@@ -498,7 +570,7 @@
       color: var(--text-main);
       border-radius: 5px;
       padding: 4px 5px;
-      font-size: 10px;
+      font-size: var(--fs-xs);
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
@@ -512,7 +584,7 @@
       background: var(--primary-soft);
       border-radius: 6px;
       padding: 4px 6px;
-      font-size: 11px;
+      font-size: var(--fs-sm);
       color: var(--text-main);
       outline: none;
     }
@@ -533,7 +605,7 @@
       border: none;
       border-radius: 6px;
       padding: 5px 7px;
-      font-size: 11px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
@@ -549,7 +621,7 @@
       padding: 3px 6px;
       background: #f1f5f9;
       border-bottom: 1px solid var(--border-color);
-      font-size: 10px;
+      font-size: var(--fs-xs);
       font-weight: 700;
       color: var(--text-muted);
     }
@@ -566,7 +638,7 @@
       color: var(--text-main);
       border-radius: 4px;
       padding: 2px 7px;
-      font-size: 10px;
+      font-size: var(--fs-xs);
       font-weight: 800;
       cursor: pointer;
     }
@@ -593,7 +665,7 @@
       background: var(--danger-soft);
       border-bottom: 1px solid #fecaca;
       color: var(--danger);
-      font-size: 11px;
+      font-size: var(--fs-sm);
       font-weight: 700;
     }
 
@@ -607,7 +679,7 @@
       border: none;
       border-radius: 5px;
       padding: 4px 9px;
-      font-size: 11px;
+      font-size: var(--fs-sm);
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
@@ -628,7 +700,7 @@
       background: var(--warn-soft);
       border: 1px solid #fde68a;
       color: #92400e;
-      font-size: 10px;
+      font-size: var(--fs-xs);
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 4px;
@@ -678,7 +750,7 @@
     }
 
     .order-row-title {
-      font-size: 11px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       color: var(--text-main);
       white-space: nowrap;
@@ -687,7 +759,7 @@
     }
 
     .order-row-sub {
-      font-size: 9.5px;
+      font-size: var(--fs-xs);
       color: var(--primary);
       font-weight: 600;
     }
@@ -700,8 +772,8 @@
     }
 
     .qty-btn {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border: 1px solid var(--border-strong);
       background: #ffffff;
       border-radius: 4px;
@@ -722,17 +794,31 @@
       margin-left: 2px;
     }
 
-    .qty-val {
-      font-size: 11px;
-      font-weight: 800;
-      min-width: 17px;
+    /* Direct Editable Qty Input Box (Type 20 or 25 directly) */
+    .qty-direct-input {
+      width: 36px;
+      height: 22px;
+      border: 1px solid var(--primary);
+      background: #ffffff;
+      border-radius: 4px;
       text-align: center;
+      font-size: var(--fs-sm);
+      font-weight: 800;
+      color: var(--text-main);
+      padding: 0 2px;
+      -moz-appearance: textfield;
+    }
+
+    .qty-direct-input::-webkit-outer-spin-button,
+    .qty-direct-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
 
     /* 4. Side-Scroll Preview Strip */
     .preview-strip {
-      height: 142px;
-      min-height: 142px;
+      height: 140px;
+      min-height: 140px;
       background: #eef2f6;
       border-bottom: 1px solid var(--border-color);
       display: flex;
@@ -815,6 +901,9 @@
     .th-tbl-hdr.no-price, .th-tbl-row.no-price {
       grid-template-columns: 1fr 34px;
     }
+    .th-tbl-hdr.ticket-cols, .th-tbl-row.ticket-cols {
+      grid-template-columns: 1fr 48px;
+    }
     .th-num { text-align: right; }
 
     .qr-card {
@@ -850,7 +939,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 10.5px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       color: var(--text-muted);
     }
@@ -881,7 +970,7 @@
       gap: 1px;
       cursor: pointer;
       color: var(--text-main);
-      font-size: 9.5px;
+      font-size: var(--fs-xs);
       font-weight: 700;
       padding: 2px;
     }
@@ -914,8 +1003,8 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: 270px;
-      max-width: 82vw;
+      width: 275px;
+      max-width: 84vw;
       background: #ffffff;
       border-right: 1px solid var(--border-color);
       z-index: 1001;
@@ -964,7 +1053,7 @@
       border-radius: 7px;
       padding: 8px 10px;
       text-align: left;
-      font-size: 12px;
+      font-size: var(--fs-base);
       font-weight: 700;
       color: var(--text-main);
       cursor: pointer;
@@ -1015,7 +1104,7 @@
       justify-content: space-between;
       align-items: center;
       font-weight: 800;
-      font-size: 13px;
+      font-size: var(--fs-md);
       background: var(--bg-subtle);
     }
 
@@ -1039,7 +1128,7 @@
     }
 
     .form-label {
-      font-size: 11px;
+      font-size: var(--fs-sm);
       font-weight: 700;
       color: var(--text-muted);
       margin-bottom: 2px;
@@ -1052,7 +1141,7 @@
       border: none;
       border-radius: 6px;
       padding: 8px 12px;
-      font-size: 12px;
+      font-size: var(--fs-base);
       font-weight: 700;
       cursor: pointer;
       width: 100%;
@@ -1230,14 +1319,15 @@
         <h1 class="brand-title">🧾 Order List Maker</h1>
       </div>
       <div class="header-actions">
+        <button type="button" class="hdr-btn" id="btnFontZoom" title="Change Font Size for Easy Reading">🔍A+</button>
         <button type="button" class="hdr-btn" id="btnUndo" title="Undo" disabled>↩️</button>
         <button type="button" class="hdr-btn" id="btnBtConnect" title="Bluetooth Printer">📶 BT</button>
-        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save to History & Start New">💾 Save</button>
-        <button type="button" class="hdr-btn clear-btn" id="btnClearOrder" title="Clear Current Order">🧹 Clear</button>
+        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save to History">💾 Save</button>
+        <button type="button" class="hdr-btn clear-btn" id="btnClearOrder" title="Clear Current Order">🧹</button>
       </div>
     </header>
 
-    <!-- 2. CATEGORY TABS BAR (General, Restaurant, Ticket, Grocery, Loading) -->
+    <!-- 2. CATEGORY TABS BAR -->
     <nav class="category-bar" id="categoryBar" aria-label="Order Categories"></nav>
 
     <!-- 3. MAIN 2-SECTION SPLIT -->
@@ -1254,10 +1344,10 @@
       <section class="order-pane" aria-label="Live Order List">
         <div class="context-strip" id="contextStrip"></div>
 
-        <!-- Quick Type (supports "@price" e.g. "2kg Aloo @30") + Hide Catalogue + Voice + Paste -->
+        <!-- Quick Type + Hide Catalogue + Voice + Paste -->
         <form class="quick-type-bar" id="quickTypeForm" autocomplete="off">
           <button type="button" class="toggle-cat-btn" id="btnToggleCatalogue" title="Hide/Show Item Icons">◀ Hide</button>
-          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="e.g. 2 Aloo @30, Tea..." maxlength="60" />
+          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="e.g. 20 Aloo @30, Tea..." maxlength="60" />
           <button type="button" class="icon-tool-btn" id="btnVoiceOrder" title="Speak Order">🎤</button>
           <button type="button" class="icon-tool-btn" id="btnPasteWhatsapp" title="Paste WhatsApp Order">📋</button>
           <button type="submit" class="send-item-btn">Add ↵</button>
@@ -1267,7 +1357,7 @@
         <div class="tts-reader-bar">
           <span>🔊 Read List Audio</span>
           <div class="tts-btns">
-            <button type="button" class="tts-btn play" id="btnTtsPlay">▶ Play / Listen</button>
+            <button type="button" class="tts-btn play" id="btnTtsPlay">▶ Play</button>
             <button type="button" class="tts-btn stop" id="btnTtsStop">⏹️ Stop</button>
           </div>
         </div>
@@ -1283,9 +1373,8 @@
       </section>
     </main>
 
-    <!-- 4. SIDE-SCROLL PREVIEW STRIP (Tap Any Card for Large Lightbox) -->
+    <!-- 4. SIDE-SCROLL PREVIEW STRIP -->
     <section class="preview-strip" aria-label="Slip and QR Preview">
-      <!-- 2-Inch Thermal Slip Card -->
       <div class="preview-card" id="cardThermalPreview" title="Tap to open full-screen Thermal Bill">
         <div class="preview-card-hdr">
           <span class="preview-card-title">🧾 Thermal Bill (Tap 🔍)</span>
@@ -1294,14 +1383,13 @@
         <div class="thermal-paper-wrap" id="thermalSlipContent"></div>
       </div>
 
-      <!-- Offline Order Summary QR Card -->
       <div class="preview-card qr-card" id="cardQrPreview" title="Tap to enlarge Order QR Code">
         <div class="preview-card-hdr" style="width:100%;">
           <span class="preview-card-title">📱 Order QR</span>
-          <span style="font-size:9px; color:#059669; font-weight:700;">Tap 🔍</span>
+          <span style="font-size:9px; color:#059669; font-weight:700;">.TXT+URL</span>
         </div>
         <div id="qrContainer"></div>
-        <span style="font-size:9px; color:#64748b; text-align:center;">Offline order summary</span>
+        <span style="font-size:9px; color:#64748b; text-align:center;">Instant camera scan</span>
       </div>
     </section>
 
@@ -1347,13 +1435,14 @@
       <button type="button" class="drawer-close-btn" id="btnCloseDrawer">✕ Close</button>
     </div>
     <div class="drawer-list">
+      <button type="button" class="drawer-item" id="menuSlipSetup">🏪 Category Bill Title &amp; Tagline Setup</button>
+      <button type="button" class="drawer-item" id="menuFontToggle">🔍 Text Size: Normal / Large / XL</button>
       <button type="button" class="drawer-item" id="menuAppShareQr">📲 Share App QR &amp; Install PWA</button>
       <button type="button" class="drawer-item" id="menuHistory">📂 Saved Orders History</button>
       <button type="button" class="drawer-item" id="menuWhatsappPaste">📋 Paste WhatsApp Order List</button>
       <button type="button" class="drawer-item" id="menuVoiceOrder">🎤 Voice Order (Bol Kar Likhein)</button>
       <button type="button" class="drawer-item" id="menuCalculator">🧮 Simple POS Calculator</button>
       <button type="button" class="drawer-item" id="menuPrintSettings">🖨️ Print &amp; Paper Size (58mm/80mm/A4)</button>
-      <button type="button" class="drawer-item" id="menuSlipSetup">🏪 Shop / Business Header Setup</button>
       <button type="button" class="drawer-item danger" id="menuResetAll">🗑️ Reset All Data (Clear Storage)</button>
     </div>
   </aside>
@@ -1370,16 +1459,17 @@
       </div>
       <div class="modal-body" style="align-items:center;">
         <div id="lightboxContent" style="width:100%; display:flex; flex-direction:column; align-items:center;"></div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; width:100%; margin-top:6px;">
-          <button type="button" class="primary-btn" id="lbShareBtn" style="background:#059669;">📤 Share</button>
-          <button type="button" class="primary-btn" id="lbPngBtn">📥 PNG</button>
-          <button type="button" class="primary-btn" id="lbPrintBtn" style="background:#0f172a;">🖨️ Print</button>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:5px; width:100%; margin-top:6px;">
+          <button type="button" class="primary-btn" id="lbShareBtn" style="background:#059669; padding:7px 4px;">📤 Share</button>
+          <button type="button" class="primary-btn" id="lbTxtBtn" style="background:#475569; padding:7px 4px;">📄 .TXT</button>
+          <button type="button" class="primary-btn" id="lbPngBtn" style="padding:7px 4px;">📥 PNG</button>
+          <button type="button" class="primary-btn" id="lbPrintBtn" style="background:#0f172a; padding:7px 4px;">🖨️ Print</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: Edit Live Order Row (Qty / Price / Name) -->
+  <!-- MODAL: Edit Live Order Row -->
   <div class="modal-backdrop" id="modalEditOrderRow">
     <div class="modal-box" style="max-width:340px;">
       <div class="modal-hdr">
@@ -1415,7 +1505,7 @@
         <button type="button" class="modal-close" data-close="modalWhatsapp">✕</button>
       </div>
       <form class="modal-body" id="formWhatsappPaste" autocomplete="off">
-        <label class="form-label" for="whatsappRawText">Paste customer message (supports qty &amp; @price e.g. "2kg Sugar @44, 3 Dosa"):</label>
+        <label class="form-label" for="whatsappRawText">Paste customer message (supports qty &amp; @price e.g. "20kg Sugar @44, 3 Dosa"):</label>
         <textarea id="whatsappRawText" class="compact-input" rows="6" placeholder="Paste WhatsApp order text here..." required maxlength="2000"></textarea>
         <button type="submit" class="primary-btn">Convert to Order List</button>
       </form>
@@ -1512,7 +1602,7 @@
     </div>
   </div>
 
-  <!-- MODAL: Continuous Barcode Scanner with Beep & Stop/Close Button -->
+  <!-- MODAL: Continuous Barcode Scanner -->
   <div class="modal-backdrop" id="modalBarcode">
     <div class="modal-box">
       <div class="modal-hdr">
@@ -1530,7 +1620,6 @@
           <button type="submit" class="send-item-btn">Add ↵</button>
         </form>
 
-        <!-- New Barcode Registration OR Link to Existing Item -->
         <div id="newBarcodeRegisterBox" style="display:none; border-top:1px dashed #cbd5e1; padding-top:7px;">
           <div style="font-size:11px; font-weight:800; color:#d97706; margin-bottom:4px;">Option A: Link Barcode to Existing Item</div>
           <div style="display:flex; gap:4px; margin-bottom:7px;">
@@ -1550,7 +1639,6 @@
           <button type="button" class="primary-btn" id="btnSaveBarcodeProduct">Save New &amp; Keep Scanning</button>
         </div>
 
-        <!-- Quick Add Existing Catalogue Item Directly inside Barcode Screen -->
         <div style="border-top:1px solid #e2e8f0; padding-top:6px;">
           <label class="form-label" for="quickExistingSelect">Quick Add Existing Item to Bill:</label>
           <div style="display:flex; gap:4px;">
@@ -1656,27 +1744,28 @@
     </div>
   </div>
 
-  <!-- MODAL: Slip Header Setup -->
+  <!-- MODAL: Category-Wise Bill Title & Tagline Setup -->
   <div class="modal-backdrop" id="modalSetup">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>🏪 Shop / Slip Header Setup</span>
+        <span id="setupModalTitle">🏪 Bill Title &amp; Tagline Setup</span>
         <button type="button" class="modal-close" data-close="modalSetup">✕</button>
       </div>
       <form class="modal-body" id="formSetup" autocomplete="off">
+        <div style="font-size:11px; color:#0f62fe; font-weight:700;" id="setupCategoryBadge">Editing Header for: General</div>
         <div>
-          <label class="form-label" for="setupBusinessName">Business / Shop / Hotel Name</label>
-          <input type="text" id="setupBusinessName" class="compact-input" maxlength="32" />
+          <label class="form-label" for="setupBusinessName">Bill Title (e.g. Mustafa General Store / Bharat Travels)</label>
+          <input type="text" id="setupBusinessName" class="compact-input" maxlength="32" required />
         </div>
         <div>
-          <label class="form-label" for="setupSubHeader">Address / Phone / Tagline</label>
+          <label class="form-label" for="setupSubHeader">Tagline / Address / Route Info</label>
           <input type="text" id="setupSubHeader" class="compact-input" maxlength="42" />
         </div>
         <div>
           <label class="form-label" for="setupFooterNote">Slip Footer Greeting</label>
           <input type="text" id="setupFooterNote" class="compact-input" maxlength="36" />
         </div>
-        <button type="submit" class="primary-btn">Save Slip Header</button>
+        <button type="submit" class="primary-btn">Save Title for This Category</button>
       </form>
     </div>
   </div>
@@ -1736,7 +1825,7 @@
       }
 
       /* =========================================================================
-         2. POS BEEP SOUND GENERATOR (WEB AUDIO API — ZERO EXTERNAL FILES)
+         2. POS BEEP SOUND GENERATOR
          ========================================================================= */
       function playPosBeep() {
         try {
@@ -1757,9 +1846,9 @@
       }
 
       /* =========================================================================
-         3. DEFAULT CATEGORIES (INCLUDING TICKET), ITEMS & EMOJI BANK
+         3. DEFAULT CATEGORIES, CATEGORY HEADERS, BUS TICKET ROUTES & ITEMS
          ========================================================================= */
-      const STORAGE_KEY = "olm_universal_pos_v3";
+      const STORAGE_KEY = "olm_universal_pos_v4";
 
       const DEFAULT_CATEGORIES = [
         { id: "general", name: "General", icon: "📋", mode: "grocery" },
@@ -1767,6 +1856,44 @@
         { id: "ticket", name: "Ticket", icon: "🎫", mode: "ticket" },
         { id: "grocery", name: "Grocery", icon: "🛒", mode: "grocery" },
         { id: "loading", name: "Loading / Ship", icon: "🚚", mode: "loading" }
+      ];
+
+      // Distinct Business Title & Tagline per Category
+      const DEFAULT_CATEGORY_SETUPS = {
+        general: {
+          businessName: "MUSTAFA GENERAL STORE",
+          subHeader: "Quality Daily Needs & General Order",
+          footerNote: "Thank You! Visit Again"
+        },
+        restaurant: {
+          businessName: "ROYAL ZAIKA RESTAURANT",
+          subHeader: "Fresh & Hot Family Dining",
+          footerNote: "Thank You! Enjoy Your Meal"
+        },
+        ticket: {
+          businessName: "BHARAT TRAVELS",
+          subHeader: "Safe & Comfortable Bus Service",
+          footerNote: "Happy Journey! Keep Ticket Safe"
+        },
+        grocery: {
+          businessName: "MOON STAR SUPER MARKET",
+          subHeader: "Wholesale & Retail Kirana Store",
+          footerNote: "Thank You for Shopping With Us"
+        },
+        loading: {
+          businessName: "FAST CARGO & LOADING",
+          subHeader: "Transport & Goods Dispatch Slip",
+          footerNote: "Goods Checked & Loaded OK"
+        }
+      };
+
+      // Pre-populated Bus Stoppage Fare Table (Boarding | Destination | Fare)
+      const DEFAULT_TICKET_ROUTES = [
+        { id: "rt1", from: "Sukma", to: "Dantewada", fare: 100 },
+        { id: "rt2", from: "Sukma", to: "Mailawada", fare: 80 },
+        { id: "rt3", from: "Sukma", to: "Gadiras", fare: 60 },
+        { id: "rt4", from: "Gadiras", to: "Dantewada", fare: 90 },
+        { id: "rt5", from: "Bacheli", to: "Dantewada", fare: 50 }
       ];
 
       const DEFAULT_ITEMS = [
@@ -1788,11 +1915,9 @@
         { id: "r7", code: "R207", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
         { id: "r8", code: "R208", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
 
-        // Ticket
-        { id: "tk1", code: "T501", cat: "ticket", name: "Male Ticket (Full)", emoji: "👨", unit: "Full", rate: 100 },
-        { id: "tk2", code: "T502", cat: "ticket", name: "Female Ticket (Full)", emoji: "👩", unit: "Full", rate: 100 },
-        { id: "tk3", code: "T503", cat: "ticket", name: "Child Ticket (Half)", emoji: "🧒", unit: "Half", rate: 50 },
-        { id: "tk4", code: "T504", cat: "ticket", name: "Luggage Pass", emoji: "🧳", unit: "Bag", rate: 30 },
+        // Ticket Catalogue Quick Items
+        { id: "tk1", code: "T501", cat: "ticket", name: "Luggage Pass", emoji: "🧳", unit: "Bag", rate: 30 },
+        { id: "tk2", code: "T502", cat: "ticket", name: "Express Seat Pass", emoji: "💺", unit: "Seat", rate: 20 },
 
         // Grocery
         { id: "g1", code: "K301", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
@@ -1870,45 +1995,25 @@
       };
 
       /* =========================================================================
-         4. APPLICATION STATE & MIGRATION
+         4. APPLICATION STATE & CATEGORY-SPECIFIC SETUP
          ========================================================================= */
       const savedState = safeParseJSON(localStorage.getItem(STORAGE_KEY), {});
 
-      let loadedCats = Array.isArray(savedState.categories) && savedState.categories.length
-        ? savedState.categories
-        : DEFAULT_CATEGORIES;
-
-      // Ensure Ticket category exists even for existing users
-      if (!loadedCats.some(c => c.id === "ticket")) {
-        loadedCats.splice(2, 0, { id: "ticket", name: "Ticket", icon: "🎫", mode: "ticket" });
-      }
-
-      let loadedItems = Array.isArray(savedState.items) && savedState.items.length
-        ? savedState.items
-        : DEFAULT_ITEMS;
-
-      if (!loadedItems.some(it => it.cat === "ticket")) {
-        loadedItems = loadedItems.concat(DEFAULT_ITEMS.filter(it => it.cat === "ticket"));
-      }
-
       const state = {
         activeCat: savedState.activeCat || "general",
-        categories: loadedCats,
-        items: loadedItems,
+        categories: Array.isArray(savedState.categories) && savedState.categories.length ? savedState.categories : DEFAULT_CATEGORIES,
+        items: Array.isArray(savedState.items) && savedState.items.length ? savedState.items : DEFAULT_ITEMS,
+        ticketRoutes: Array.isArray(savedState.ticketRoutes) && savedState.ticketRoutes.length ? savedState.ticketRoutes : DEFAULT_TICKET_ROUTES,
         barcodes: savedState.barcodes || {},
         showPrice: Boolean(savedState.showPrice),
         catalogueHidden: Boolean(savedState.catalogueHidden),
+        fontScale: savedState.fontScale || "normal", // "normal" | "lg" | "xl"
         paperSize: savedState.paperSize || "58mm",
         btPrintMode: savedState.btPrintMode || "bitmap",
-        setup: savedState.setup || {
-          businessName: "ORDER LIST MAKER",
-          subHeader: "Universal Order & Slip Desk",
-          footerNote: "Thank You! Visit Again"
-        },
+        categorySetups: savedState.categorySetups || DEFAULT_CATEGORY_SETUPS,
         activeTable: "T-1",
         activeGuest: "G-1",
-        ticketPassenger: "Male",
-        ticketFareType: "Full",
+        ticketPassenger: "Male", // "Male" | "Female" | "Child" | "Senior"
         restaurantTables: savedState.restaurantTables || {},
         generalOrders: savedState.generalOrders || {},
         savedArchive: Array.isArray(savedState.savedArchive) ? savedState.savedArchive : [],
@@ -1951,12 +2056,14 @@
             activeCat: state.activeCat,
             categories: state.categories,
             items: state.items,
+            ticketRoutes: state.ticketRoutes,
             barcodes: state.barcodes,
             showPrice: state.showPrice,
             catalogueHidden: state.catalogueHidden,
+            fontScale: state.fontScale,
             paperSize: state.paperSize,
             btPrintMode: state.btPrintMode,
-            setup: state.setup,
+            categorySetups: state.categorySetups,
             restaurantTables: state.restaurantTables,
             generalOrders: state.generalOrders,
             savedArchive: state.savedArchive.slice(0, 40)
@@ -1968,7 +2075,53 @@
       }
 
       /* =========================================================================
-         5. TOAST & ORDER + AUTO-CATALOGUE SAVING HELPERS
+         5. FONT SIZE ZOOM (SENIOR-FRIENDLY MODE) & CATEGORY HEADER HELPERS
+         ========================================================================= */
+      function applyFontScale() {
+        document.body.classList.remove("font-lg", "font-xl");
+        const btn = document.getElementById("btnFontZoom");
+        if (state.fontScale === "lg") {
+          document.body.classList.add("font-lg");
+          btn.textContent = "🔍A++";
+        } else if (state.fontScale === "xl") {
+          document.body.classList.add("font-xl");
+          btn.textContent = "🔍A-";
+        } else {
+          btn.textContent = "🔍A+";
+        }
+      }
+
+      function cycleFontScale() {
+        if (state.fontScale === "normal") {
+          state.fontScale = "lg";
+          showToast("Font Size: Large (Bada)");
+        } else if (state.fontScale === "lg") {
+          state.fontScale = "xl";
+          showToast("Font Size: Extra Large");
+        } else {
+          state.fontScale = "normal";
+          showToast("Font Size: Normal");
+        }
+        persistState();
+        applyFontScale();
+      }
+
+      document.getElementById("btnFontZoom").addEventListener("click", cycleFontScale);
+
+      function getCurrentCategorySetup() {
+        const cat = getActiveCategoryObj();
+        if (!state.categorySetups[cat.id]) {
+          state.categorySetups[cat.id] = {
+            businessName: cat.name.toUpperCase(),
+            subHeader: "Order & Slip Desk",
+            footerNote: "Thank You! Visit Again"
+          };
+        }
+        return state.categorySetups[cat.id];
+      }
+
+      /* =========================================================================
+         6. TOAST & ORDER + TICKET MUTATION HELPERS
          ========================================================================= */
       let toastTimer = null;
       function showToast(msg) {
@@ -1998,7 +2151,6 @@
         }
       }
 
-      // Automatically saves brand-new manual/voice items to Left Catalogue for future 1-tap billing
       function ensureItemInCatalogue(itemObj) {
         const cleanName = sanitizeText(itemObj.name, 35);
         if (!cleanName || cleanName.toLowerCase() === "calc amount") return;
@@ -2034,24 +2186,41 @@
           ensureItemInCatalogue(itemObj);
         }
 
-        const existing = list.find(
-          x => x.name.toLowerCase() === itemObj.name.toLowerCase() && x.guest === guestTag && x.rate === rateNum
-        );
-
-        if (existing) {
-          existing.qty += customQty;
-        } else {
+        // In Ticket mode, each passenger ticket is added as a separate line without qty merging
+        if (cat.mode === "ticket" || itemObj.isIndividualTicket) {
           list.push({
-            uid: "ord_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
-            guest: guestTag,
-            code: sanitizeText(itemObj.code || generateUniqueCode("M"), 24),
-            name: sanitizeText(itemObj.name, 40),
-            emoji: itemObj.emoji || "📦",
-            thumb: itemObj.thumb || "",
-            unit: sanitizeText(itemObj.unit || "", 15),
+            uid: "tkt_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+            guest: "ALL",
+            isTicket: true,
+            code: sanitizeText(itemObj.code || "TKT", 24),
+            name: sanitizeText(itemObj.name, 45),
+            emoji: itemObj.emoji || "🎫",
+            thumb: "",
+            unit: sanitizeText(itemObj.unit || "", 25),
             rate: rateNum,
-            qty: customQty
+            qty: 1
           });
+        } else {
+          const existing = list.find(
+            x => x.name.toLowerCase() === itemObj.name.toLowerCase() && x.guest === guestTag && x.rate === rateNum
+          );
+
+          if (existing) {
+            existing.qty += customQty;
+          } else {
+            list.push({
+              uid: "ord_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+              guest: guestTag,
+              isTicket: false,
+              code: sanitizeText(itemObj.code || generateUniqueCode("M"), 24),
+              name: sanitizeText(itemObj.name, 40),
+              emoji: itemObj.emoji || "📦",
+              thumb: itemObj.thumb || "",
+              unit: sanitizeText(itemObj.unit || "", 15),
+              rate: rateNum,
+              qty: customQty
+            });
+          }
         }
 
         persistState();
@@ -2059,7 +2228,7 @@
       }
 
       /* =========================================================================
-         6. RENDERING ENGINE (HIDE TOGGLE FIX, TICKET MODE, TTS, SLIP & QR)
+         7. RENDERING ENGINE (TABS, CATALOGUE, TICKET ROUTE TABLE, LIVE FEED)
          ========================================================================= */
       function applyCatalogueVisibility() {
         const ws = document.getElementById("splitWorkspace");
@@ -2108,6 +2277,11 @@
           if (!cleanName) return;
           const id = "cat_" + Date.now();
           state.categories.push({ id, name: cleanName, icon: "🏷️", mode: "grocery" });
+          state.categorySetups[id] = {
+            businessName: cleanName.toUpperCase(),
+            subHeader: "Order & Slip Desk",
+            footerNote: "Thank You! Visit Again"
+          };
           state.activeCat = id;
           persistState();
           renderAll();
@@ -2272,100 +2446,135 @@
           guestRow.appendChild(customG);
           strip.appendChild(guestRow);
         } else if (cat.mode === "ticket") {
-          // TICKET MODE: Boarding Point -> Destination + Passenger (Male/Female/Child) + Full/Half Fare
-          if (!state.generalOrders[cat.id]) {
-            state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
-          }
-          const meta = state.generalOrders[cat.id].meta;
+          // 1. Passenger Selection Row: Male, Female, Child (Half), Senior Citizen
+          const paxRow = document.createElement("div");
+          paxRow.className = "pill-row";
 
-          const routeGrid = document.createElement("div");
-          routeGrid.className = "meta-inputs-grid";
+          const paxOptions = [
+            { id: "Male", icon: "👨", label: "Male" },
+            { id: "Female", icon: "👩", label: "Female" },
+            { id: "Child", icon: "🧒", label: "Child (½)" },
+            { id: "Senior", icon: "👴", label: "Senior" }
+          ];
+
+          paxOptions.forEach(p => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "mini-pill" + (state.ticketPassenger === p.id ? " active" : "");
+            b.textContent = `${p.icon} ${p.label}`;
+            b.addEventListener("click", () => {
+              state.ticketPassenger = p.id;
+              renderContextStrip();
+            });
+            paxRow.appendChild(b);
+          });
+          strip.appendChild(paxRow);
+
+          // 2. Boarding | Destination | Fare Stoppage List
+          const routeBox = document.createElement("div");
+          routeBox.className = "ticket-route-box";
+
+          const rHdr = document.createElement("div");
+          rHdr.className = "ticket-route-hdr";
+          rHdr.innerHTML = `<span>Boarding</span><span>Destination</span><span style="text-align:right;">Fare</span><span></span>`;
+          routeBox.appendChild(rHdr);
+
+          state.ticketRoutes.forEach((rt, idx) => {
+            const rRow = document.createElement("div");
+            rRow.className = "ticket-route-row";
+            rRow.title = "Tap to issue ticket for selected passenger";
+
+            // Child automatically gets Half Fare (50%)
+            const effectiveFare = state.ticketPassenger === "Child" ? Math.round(rt.fare / 2) : rt.fare;
+
+            rRow.innerHTML = `
+              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(rt.from)}</span>
+              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(rt.to)}</span>
+              <span style="text-align:right; color:#0f62fe;">₹${effectiveFare}</span>
+            `;
+
+            const delRt = document.createElement("button");
+            delRt.type = "button";
+            delRt.style.cssText = "border:none; background:none; color:#dc2626; font-weight:800; cursor:pointer; font-size:11px;";
+            delRt.textContent = "✕";
+            delRt.title = "Remove Stop";
+            delRt.addEventListener("click", ev => {
+              ev.stopPropagation();
+              state.ticketRoutes.splice(idx, 1);
+              persistState();
+              renderContextStrip();
+            });
+            rRow.appendChild(delRt);
+
+            rRow.addEventListener("click", () => {
+              const pIcon =
+                state.ticketPassenger === "Male" ? "👨" :
+                state.ticketPassenger === "Female" ? "👩" :
+                state.ticketPassenger === "Child" ? "🧒" : "👴";
+              const fareTag = state.ticketPassenger === "Child" ? "Half" : "Full";
+              addItemToCurrentOrder({
+                isIndividualTicket: true,
+                name: `${rt.from}→${rt.to} (${state.ticketPassenger})`,
+                code: `TK-${state.ticketPassenger[0]}`,
+                emoji: pIcon,
+                unit: `${state.ticketPassenger} • ${fareTag}`,
+                rate: effectiveFare
+              }, 1);
+              showToast(`🎫 ${state.ticketPassenger}: ${rt.from} → ${rt.to} (₹${effectiveFare})`);
+            });
+
+            routeBox.appendChild(rRow);
+          });
+          strip.appendChild(routeBox);
+
+          // 3. Quick Add New Stoppage Row (Boarding, Destination, Fare)
+          const addForm = document.createElement("form");
+          addForm.className = "ticket-add-route-bar";
+          addForm.autocomplete = "off";
 
           const inpFrom = document.createElement("input");
           inpFrom.type = "text";
           inpFrom.className = "compact-input";
-          inpFrom.maxLength = 22;
-          inpFrom.placeholder = "🚏 Boarding Point (From)";
-          inpFrom.value = meta.field1 || "";
-          inpFrom.addEventListener("input", e => {
-            meta.field1 = sanitizeText(e.target.value, 22);
-            persistState();
-            renderThermalAndQR();
-          });
+          inpFrom.placeholder = "Boarding";
+          inpFrom.maxLength = 18;
+          inpFrom.required = true;
 
           const inpTo = document.createElement("input");
           inpTo.type = "text";
           inpTo.className = "compact-input";
-          inpTo.maxLength = 22;
-          inpTo.placeholder = "🏁 Destination (To)";
-          inpTo.value = meta.field2 || "";
-          inpTo.addEventListener("input", e => {
-            meta.field2 = sanitizeText(e.target.value, 22);
+          inpTo.placeholder = "Destination";
+          inpTo.maxLength = 18;
+          inpTo.required = true;
+
+          const inpFare = document.createElement("input");
+          inpFare.type = "number";
+          inpFare.className = "compact-input";
+          inpFare.placeholder = "₹ Fare";
+          inpFare.min = "1";
+          inpFare.required = true;
+
+          const addBtn = document.createElement("button");
+          addBtn.type = "submit";
+          addBtn.className = "send-item-btn";
+          addBtn.textContent = "+Stop";
+
+          addForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const f = sanitizeText(inpFrom.value, 18);
+            const t = sanitizeText(inpTo.value, 18);
+            const pr = Math.max(1, parseFloat(inpFare.value) || 0);
+            if (!f || !t || !pr) return;
+            state.ticketRoutes.push({ id: "rt_" + Date.now(), from: f, to: t, fare: pr });
             persistState();
-            renderThermalAndQR();
+            renderContextStrip();
+            showToast(`Added Stop: ${f} → ${t} (₹${pr})`);
           });
 
-          routeGrid.appendChild(inpFrom);
-          routeGrid.appendChild(inpTo);
-          strip.appendChild(routeGrid);
-
-          // Passenger Type & Full/Half Fare Quick Builder Row
-          const paxRow = document.createElement("div");
-          paxRow.className = "pill-row";
-
-          ["Male", "Female", "Child"].forEach(pType => {
-            const b = document.createElement("button");
-            b.type = "button";
-            b.className = "mini-pill" + (state.ticketPassenger === pType ? " active" : "");
-            b.textContent = pType === "Male" ? "👨 Male" : pType === "Female" ? "👩 Female" : "🧒 Child";
-            b.addEventListener("click", () => {
-              state.ticketPassenger = pType;
-              if (pType === "Child") state.ticketFareType = "Half";
-              renderContextStrip();
-            });
-            paxRow.appendChild(b);
-          });
-
-          ["Full", "Half"].forEach(fType => {
-            const b = document.createElement("button");
-            b.type = "button";
-            b.className = "mini-pill" + (state.ticketFareType === fType ? " active" : "");
-            b.textContent = fType;
-            b.addEventListener("click", () => {
-              state.ticketFareType = fType;
-              renderContextStrip();
-            });
-            paxRow.appendChild(b);
-          });
-
-          const fareInp = document.createElement("input");
-          fareInp.type = "number";
-          fareInp.className = "compact-input";
-          fareInp.style.cssText = "width:54px; padding:2px 4px; font-size:10px;";
-          fareInp.placeholder = "₹ Fare";
-          fareInp.min = "0";
-
-          const addTkBtn = document.createElement("button");
-          addTkBtn.type = "button";
-          addTkBtn.className = "send-item-btn";
-          addTkBtn.style.cssText = "padding:2px 6px; font-size:10px;";
-          addTkBtn.textContent = "+Ticket";
-          addTkBtn.addEventListener("click", () => {
-            const fareVal = Math.max(0, parseFloat(fareInp.value) || 0);
-            const em = state.ticketPassenger === "Male" ? "👨" : state.ticketPassenger === "Female" ? "👩" : "🧒";
-            const label = `${state.ticketPassenger} (${state.ticketFareType})`;
-            addItemToCurrentOrder({
-              name: label,
-              code: `TK-${state.ticketPassenger[0]}${state.ticketFareType[0]}`,
-              emoji: em,
-              unit: state.ticketFareType,
-              rate: fareVal
-            }, 1);
-          });
-
-          paxRow.appendChild(fareInp);
-          paxRow.appendChild(addTkBtn);
-          strip.appendChild(paxRow);
+          addForm.appendChild(inpFrom);
+          addForm.appendChild(inpTo);
+          addForm.appendChild(inpFare);
+          addForm.appendChild(addBtn);
+          strip.appendChild(addForm);
         } else {
           if (!state.generalOrders[cat.id]) {
             state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
@@ -2415,8 +2624,8 @@
           empty.style.cssText = "text-align:center; color:#64748b; padding:18px 8px; font-size:11px;";
           empty.textContent =
             cat.mode === "ticket"
-              ? "Enter From/To above, pick Male/Female/Child + Full/Half & tap +Ticket."
-              : "Tap items on left, speak via 🎤 Mic, or type '2 Aloo @30' above.";
+              ? "Select Male / Female / Child / Senior above, then tap any Boarding → Destination fare row."
+              : "Tap items on left, speak via 🎤 Mic, or type '20 Aloo @30' above.";
           feed.appendChild(empty);
           return;
         }
@@ -2443,12 +2652,15 @@
       }
 
       function createOrderRowEl(item, parentList) {
+        const cat = getActiveCategoryObj();
+        const isTicketMode = cat.mode === "ticket" || item.isTicket;
+
         const row = document.createElement("div");
         row.className = "order-row";
 
         const left = document.createElement("div");
         left.className = "order-row-left";
-        left.title = "Tap to edit Price / Qty";
+        left.title = "Tap to edit Price / Details";
         left.addEventListener("click", () => openEditOrderRowModal(item));
 
         if (item.thumb) {
@@ -2474,8 +2686,12 @@
 
         const sub = document.createElement("div");
         sub.className = "order-row-sub";
-        const priceTxt = item.rate > 0 ? `₹${item.rate} × ${item.qty} = ₹${(item.rate * item.qty).toFixed(0)}` : "Tap to add ₹ price";
-        sub.textContent = [item.unit, priceTxt].filter(Boolean).join(" • ");
+        if (isTicketMode) {
+          sub.textContent = `Fare: ₹${item.rate}`;
+        } else {
+          const priceTxt = item.rate > 0 ? `₹${item.rate} × ${item.qty} = ₹${(item.rate * item.qty).toFixed(0)}` : "Tap to add ₹ price";
+          sub.textContent = [item.unit, priceTxt].filter(Boolean).join(" • ");
+        }
         info.appendChild(sub);
 
         left.appendChild(info);
@@ -2484,41 +2700,67 @@
         const ctrls = document.createElement("div");
         ctrls.className = "qty-controls";
 
-        const minusBtn = document.createElement("button");
-        minusBtn.type = "button";
-        minusBtn.className = "qty-btn";
-        minusBtn.textContent = "−";
-        minusBtn.addEventListener("click", () => {
-          pushUndoSnapshot();
-          if (item.qty > 1) {
-            item.qty -= 1;
-          } else {
-            const idx = parentList.indexOf(item);
-            if (idx > -1) parentList.splice(idx, 1);
-          }
-          persistState();
-          renderAll();
-        });
+        // In Ticket mode, Qty controls are removed (only single ticket + Remove button)
+        if (!isTicketMode) {
+          const minusBtn = document.createElement("button");
+          minusBtn.type = "button";
+          minusBtn.className = "qty-btn";
+          minusBtn.textContent = "−";
+          minusBtn.addEventListener("click", () => {
+            pushUndoSnapshot();
+            if (item.qty > 1) {
+              item.qty -= 1;
+            } else {
+              const idx = parentList.indexOf(item);
+              if (idx > -1) parentList.splice(idx, 1);
+            }
+            persistState();
+            renderAll();
+          });
 
-        const qtySpan = document.createElement("span");
-        qtySpan.className = "qty-val";
-        qtySpan.textContent = item.qty;
+          // Direct Editable Qty Box (Type 20 or 25 directly without tapping + 25 times)
+          const qtyInput = document.createElement("input");
+          qtyInput.type = "number";
+          qtyInput.className = "qty-direct-input";
+          qtyInput.min = "0.1";
+          qtyInput.max = "99999";
+          qtyInput.step = "any";
+          qtyInput.value = item.qty;
+          qtyInput.title = "Type Qty directly (e.g. 20 or 25)";
+          qtyInput.addEventListener("focus", () => qtyInput.select());
+          qtyInput.addEventListener("change", () => {
+            const val = parseFloat(qtyInput.value);
+            pushUndoSnapshot();
+            if (!val || val <= 0) {
+              const idx = parentList.indexOf(item);
+              if (idx > -1) parentList.splice(idx, 1);
+            } else {
+              item.qty = Math.min(99999, Math.round(val * 100) / 100);
+            }
+            persistState();
+            renderAll();
+          });
 
-        const plusBtn = document.createElement("button");
-        plusBtn.type = "button";
-        plusBtn.className = "qty-btn";
-        plusBtn.textContent = "+";
-        plusBtn.addEventListener("click", () => {
-          pushUndoSnapshot();
-          item.qty += 1;
-          persistState();
-          renderAll();
-        });
+          const plusBtn = document.createElement("button");
+          plusBtn.type = "button";
+          plusBtn.className = "qty-btn";
+          plusBtn.textContent = "+";
+          plusBtn.addEventListener("click", () => {
+            pushUndoSnapshot();
+            item.qty += 1;
+            persistState();
+            renderAll();
+          });
+
+          ctrls.appendChild(minusBtn);
+          ctrls.appendChild(qtyInput);
+          ctrls.appendChild(plusBtn);
+        }
 
         const removeBtn = document.createElement("button");
         removeBtn.type = "button";
         removeBtn.className = "qty-btn del-row";
-        removeBtn.title = "Remove Item";
+        removeBtn.title = "Remove";
         removeBtn.textContent = "✕";
         removeBtn.addEventListener("click", () => {
           pushUndoSnapshot();
@@ -2528,9 +2770,6 @@
           renderAll();
         });
 
-        ctrls.appendChild(minusBtn);
-        ctrls.appendChild(qtySpan);
-        ctrls.appendChild(plusBtn);
         ctrls.appendChild(removeBtn);
         row.appendChild(ctrls);
 
@@ -2538,7 +2777,7 @@
       }
 
       /* =========================================================================
-         7. 58MM THERMAL SLIP BUILDER & OFFLINE QR SUMMARY
+         8. 58MM THERMAL SLIP BUILDER & CLEAN .TXT+URL QR CODE
          ========================================================================= */
       function formatCompactDateTime() {
         const now = new Date();
@@ -2567,33 +2806,31 @@
 
       function buildPlainTextSlip(asciiFallbackMode = false) {
         const cat = getActiveCategoryObj();
+        const setup = getCurrentCategorySetup();
         const list = getCurrentOrderItems();
         const compactModeName = cat.name.replace(/\s+/g, "");
         const compactDT = formatCompactDateTime();
 
         const lines = [];
-        lines.push(centerText32(state.setup.businessName.toUpperCase()));
-        if (state.setup.subHeader) {
-          lines.push(centerText32(state.setup.subHeader));
+        lines.push(centerText32(setup.businessName.toUpperCase()));
+        if (setup.subHeader) {
+          lines.push(centerText32(setup.subHeader));
         }
         lines.push("--------------------------------");
         lines.push(`Mode:${compactModeName}|${compactDT}`.slice(0, 32));
 
         if (cat.mode === "restaurant") {
           lines.push(`Table:${state.activeTable}`);
-        } else if (cat.mode === "ticket") {
-          const meta = (state.generalOrders[cat.id] || {}).meta || {};
-          if (meta.field1 || meta.field2) {
-            lines.push(`Route:${meta.field1 || "?"} -> ${meta.field2 || "?"}`.slice(0, 32));
-          }
-        } else {
+        } else if (cat.mode !== "ticket") {
           const meta = (state.generalOrders[cat.id] || {}).meta || {};
           if (meta.field1) lines.push(`${cat.mode === "loading" ? "Veh" : "Name"}:${meta.field1}`.slice(0, 32));
           if (meta.field2) lines.push(`${cat.mode === "loading" ? "Pty" : "Info"}:${meta.field2}`.slice(0, 32));
         }
         lines.push("--------------------------------");
 
-        if (state.showPrice) {
+        if (cat.mode === "ticket") {
+          lines.push("Route / Passenger           Fare");
+        } else if (state.showPrice) {
           lines.push("Item        Qty  Price   Amount");
         } else {
           lines.push("Item                        Qty");
@@ -2612,32 +2849,43 @@
           Object.keys(guestMap).forEach(g => {
             lines.push(`[${g}]`);
             guestMap[g].forEach(it => {
-              lines.push(formatPlainColumnLine(it, asciiFallbackMode));
+              lines.push(formatPlainColumnLine(it, asciiFallbackMode, false));
             });
           });
         } else {
           list.forEach(it => {
-            lines.push(formatPlainColumnLine(it, asciiFallbackMode));
+            lines.push(formatPlainColumnLine(it, asciiFallbackMode, cat.mode === "ticket"));
           });
         }
 
         lines.push("--------------------------------");
         const totalQty = list.reduce((s, x) => s + x.qty, 0);
         const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
-        lines.push(`Items:${list.length}  TotalQty:${totalQty}`);
-        if (state.showPrice && totalAmt > 0) {
-          lines.push(`GRAND TOTAL: Rs.${totalAmt.toFixed(2)}`);
+
+        if (cat.mode === "ticket") {
+          lines.push(`Passengers:${list.length}  Total:Rs.${totalAmt.toFixed(0)}`);
+        } else {
+          lines.push(`Items:${list.length}  TotalQty:${totalQty}`);
+          if (state.showPrice && totalAmt > 0) {
+            lines.push(`GRAND TOTAL: Rs.${totalAmt.toFixed(2)}`);
+          }
         }
-        if (state.setup.footerNote) {
+
+        if (setup.footerNote) {
           lines.push("--------------------------------");
-          lines.push(centerText32(state.setup.footerNote));
+          lines.push(centerText32(setup.footerNote));
         }
 
         return lines.join("\n");
       }
 
-      function formatPlainColumnLine(it, asciiFallbackMode) {
+      function formatPlainColumnLine(it, asciiFallbackMode, isTicketMode) {
         const label = getPrintableItemLabel(it, asciiFallbackMode);
+        if (isTicketMode) {
+          const colRoute = label.slice(0, 24).padEnd(24, " ");
+          const colFare = `Rs.${Math.round(it.rate || 0)}`.padStart(8, " ");
+          return `${colRoute}${colFare}`;
+        }
         if (state.showPrice) {
           const colItem = label.slice(0, 11).padEnd(11, " ");
           const colQty = String(it.qty).padStart(4, " ");
@@ -2651,8 +2899,37 @@
         }
       }
 
+      // Ultra-Clean .TXT + Website URL QR Payload (Scans in 0.5s on any phone camera)
+      function buildQrTxtWithUrl() {
+        const cat = getActiveCategoryObj();
+        const setup = getCurrentCategorySetup();
+        const list = getCurrentOrderItems();
+        const appUrl = window.location.origin + window.location.pathname;
+        const lines = [];
+
+        lines.push(`${setup.businessName} (${cat.name})`);
+        if (cat.mode === "restaurant") lines.push(`Table: ${state.activeTable}`);
+
+        list.forEach((it, idx) => {
+          if (cat.mode === "ticket") {
+            lines.push(`${idx + 1}. ${it.name} = Rs.${Math.round(it.rate || 0)}`);
+          } else {
+            const amt = state.showPrice && it.rate > 0 ? ` = Rs.${Math.round(it.rate * it.qty)}` : "";
+            lines.push(`${idx + 1}. ${it.name} x${it.qty}${amt}`);
+          }
+        });
+
+        const totalQty = list.reduce((s, x) => s + x.qty, 0);
+        const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
+        lines.push(`Total Qty: ${totalQty}` + (totalAmt > 0 ? ` | Total: Rs.${totalAmt.toFixed(0)}` : ""));
+        lines.push(`App: ${appUrl}`);
+
+        return lines.join("\n").slice(0, 320);
+      }
+
       function renderThermalAndQR() {
         const cat = getActiveCategoryObj();
+        const setup = getCurrentCategorySetup();
         const list = getCurrentOrderItems();
         const slipEl = document.getElementById("thermalSlipContent");
         const priceBtn = document.getElementById("btnTogglePrice");
@@ -2662,28 +2939,25 @@
         const compactModeName = cat.name.replace(/\s+/g, "");
         const compactDT = formatCompactDateTime();
 
-        let html = `<div class="th-center th-bold" style="font-size:11px;">${escapeHTML(state.setup.businessName)}</div>`;
-        if (state.setup.subHeader) {
-          html += `<div class="th-center" style="font-size:8.5px;">${escapeHTML(state.setup.subHeader)}</div>`;
+        let html = `<div class="th-center th-bold" style="font-size:11px;">${escapeHTML(setup.businessName)}</div>`;
+        if (setup.subHeader) {
+          html += `<div class="th-center" style="font-size:8.5px;">${escapeHTML(setup.subHeader)}</div>`;
         }
         html += `<div class="th-line"></div>`;
         html += `<div class="th-mode-line">Mode:${escapeHTML(compactModeName)}|${escapeHTML(compactDT)}</div>`;
 
         if (cat.mode === "restaurant") {
           html += `<div class="th-bold" style="font-size:9px;">Table: ${escapeHTML(state.activeTable)}</div>`;
-        } else if (cat.mode === "ticket") {
-          const meta = (state.generalOrders[cat.id] || {}).meta || {};
-          if (meta.field1 || meta.field2) {
-            html += `<div class="th-bold" style="font-size:9px;">${escapeHTML(meta.field1 || "?")} ➔ ${escapeHTML(meta.field2 || "?")}</div>`;
-          }
-        } else {
+        } else if (cat.mode !== "ticket") {
           const meta = (state.generalOrders[cat.id] || {}).meta || {};
           if (meta.field1) html += `<div style="font-size:9px;">${cat.mode === "loading" ? "Veh" : "Name"}: ${escapeHTML(meta.field1)}</div>`;
           if (meta.field2) html += `<div style="font-size:9px;">${cat.mode === "loading" ? "Pty" : "Info"}: ${escapeHTML(meta.field2)}</div>`;
         }
         html += `<div class="th-line"></div>`;
 
-        if (state.showPrice) {
+        if (cat.mode === "ticket") {
+          html += `<div class="th-tbl-hdr ticket-cols th-bold"><span>Route / Pax</span><span class="th-num">Fare</span></div>`;
+        } else if (state.showPrice) {
           html += `<div class="th-tbl-hdr th-bold"><span>Item</span><span class="th-num">Qty</span><span class="th-num">Price</span><span class="th-num">Amt</span></div>`;
         } else {
           html += `<div class="th-tbl-hdr no-price th-bold"><span>Item</span><span class="th-num">Qty</span></div>`;
@@ -2701,12 +2975,12 @@
           Object.keys(guestMap).forEach(g => {
             html += `<div class="th-bold" style="margin-top:2px;">[${escapeHTML(g)}]</div>`;
             guestMap[g].forEach(it => {
-              html += buildHtmlSlipRow(it);
+              html += buildHtmlSlipRow(it, false);
             });
           });
         } else {
           list.forEach(it => {
-            html += buildHtmlSlipRow(it);
+            html += buildHtmlSlipRow(it, cat.mode === "ticket");
           });
         }
 
@@ -2714,29 +2988,34 @@
         const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
 
         html += `<div class="th-line"></div>`;
-        html += `<div class="th-row th-bold"><span>Items:${list.length}</span><span>Qty:${totalQty}</span></div>`;
-        if (state.showPrice && totalAmt > 0) {
-          html += `<div class="th-row th-bold" style="font-size:11px; margin-top:2px;"><span>TOTAL</span><span>₹${totalAmt.toFixed(2)}</span></div>`;
+        if (cat.mode === "ticket") {
+          html += `<div class="th-row th-bold" style="font-size:11px;"><span>Tickets:${list.length}</span><span>TOTAL: ₹${totalAmt.toFixed(0)}</span></div>`;
+        } else {
+          html += `<div class="th-row th-bold"><span>Items:${list.length}</span><span>Qty:${totalQty}</span></div>`;
+          if (state.showPrice && totalAmt > 0) {
+            html += `<div class="th-row th-bold" style="font-size:11px; margin-top:2px;"><span>TOTAL</span><span>₹${totalAmt.toFixed(2)}</span></div>`;
+          }
         }
-        if (state.setup.footerNote) {
-          html += `<div class="th-line"></div><div class="th-center" style="font-size:8.5px;">${escapeHTML(state.setup.footerNote)}</div>`;
+        if (setup.footerNote) {
+          html += `<div class="th-line"></div><div class="th-center" style="font-size:8.5px;">${escapeHTML(setup.footerNote)}</div>`;
         }
 
         slipEl.innerHTML = html;
 
         document.getElementById("footerLeftStats").textContent =
-          `Items: ${list.length} | Qty: ${totalQty}` + (state.showPrice && totalAmt > 0 ? ` | ₹${totalAmt.toFixed(0)}` : "");
+          cat.mode === "ticket"
+            ? `Tickets: ${list.length} | Total: ₹${totalAmt.toFixed(0)}`
+            : `Items: ${list.length} | Qty: ${totalQty}` + (state.showPrice && totalAmt > 0 ? ` | ₹${totalAmt.toFixed(0)}` : "");
         document.getElementById("footerRightContext").textContent =
           cat.mode === "restaurant"
             ? `${cat.name} • ${state.activeTable} (${state.activeGuest})`
             : `${cat.icon} ${cat.name}`;
 
         const qrBox = document.getElementById("qrContainer");
-        const qrText = buildPlainTextSlip(false).slice(0, 480);
         if (typeof QRCode !== "undefined") {
           qrBox.innerHTML = "";
           new QRCode(qrBox, {
-            text: qrText,
+            text: buildQrTxtWithUrl(),
             width: 82,
             height: 82,
             colorDark: "#0f172a",
@@ -2746,7 +3025,13 @@
         }
       }
 
-      function buildHtmlSlipRow(it) {
+      function buildHtmlSlipRow(it, isTicketMode) {
+        if (isTicketMode) {
+          return `<div class="th-tbl-row ticket-cols">
+            <span style="word-break:break-word;">${escapeHTML(it.name)}</span>
+            <span class="th-num th-bold">₹${Math.round(it.rate || 0)}</span>
+          </div>`;
+        }
         if (state.showPrice) {
           const amt = Math.round((it.rate || 0) * it.qty);
           return `<div class="th-tbl-row">
@@ -2764,6 +3049,7 @@
       }
 
       function renderAll() {
+        applyFontScale();
         applyCatalogueVisibility();
         renderCategoryTabs();
         renderCatalogue();
@@ -2773,75 +3059,55 @@
       }
 
       /* =========================================================================
-         8. GOOGLE/BROWSER TTS AUDIO PLAYER (PLAY / LISTEN & STOP)
+         9. TTS AUDIO PLAYER (PLAY / LISTEN & STOP)
          ========================================================================= */
       function buildSpeechScript() {
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
-        if (!list.length) {
-          return "Order list is currently empty.";
-        }
+        if (!list.length) return "Order list is currently empty.";
 
         const parts = [];
-        parts.push(`${cat.name} order list.`);
-
-        if (cat.mode === "restaurant") {
-          parts.push(`Table ${state.activeTable.replace("T-", "")}.`);
-        } else if (cat.mode === "ticket") {
-          const meta = (state.generalOrders[cat.id] || {}).meta || {};
-          if (meta.field1 && meta.field2) {
-            parts.push(`From ${meta.field1} to ${meta.field2}.`);
-          }
-        }
+        parts.push(`${cat.name} list.`);
 
         list.forEach((it, index) => {
-          const ratePart = state.showPrice && it.rate > 0 ? `, rupees ${it.rate * it.qty}` : "";
-          parts.push(`${index + 1}. ${it.name}, quantity ${it.qty}${ratePart}.`);
+          if (cat.mode === "ticket") {
+            parts.push(`${index + 1}. ${it.name}, fare ${it.rate} rupees.`);
+          } else {
+            const ratePart = state.showPrice && it.rate > 0 ? `, rupees ${it.rate * it.qty}` : "";
+            parts.push(`${index + 1}. ${it.name}, quantity ${it.qty}${ratePart}.`);
+          }
         });
 
-        const totalQty = list.reduce((s, x) => s + x.qty, 0);
         const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
-        parts.push(`Total ${list.length} items, total quantity ${totalQty}.`);
-        if (state.showPrice && totalAmt > 0) {
-          parts.push(`Grand total ${totalAmt} rupees.`);
-        }
-
+        if (totalAmt > 0) parts.push(`Total ${totalAmt} rupees.`);
         return parts.join(" ");
       }
 
-      function playOrderTts() {
+      document.getElementById("btnTtsPlay").addEventListener("click", () => {
         if (!("speechSynthesis" in window)) {
           showToast("Audio TTS not supported in this browser");
           return;
         }
         window.speechSynthesis.cancel();
-        const script = buildSpeechScript();
-        const utter = new SpeechSynthesisUtterance(script);
+        const utter = new SpeechSynthesisUtterance(buildSpeechScript());
         utter.lang = "en-IN";
         utter.rate = 0.96;
-
-        // Prefer Google Hindi / Indian English voice if installed
         const voices = window.speechSynthesis.getVoices();
         const preferred = voices.find(v => /Google.*(Hindi|India|English)/i.test(v.name) || v.lang === "en-IN" || v.lang === "hi-IN");
         if (preferred) utter.voice = preferred;
-
-        utter.onstart = () => showToast("🔊 Reading order list aloud...");
-        utter.onerror = () => showToast("Audio playback stopped");
+        utter.onstart = () => showToast("🔊 Reading list aloud...");
         window.speechSynthesis.speak(utter);
-      }
+      });
 
-      function stopOrderTts() {
+      document.getElementById("btnTtsStop").addEventListener("click", () => {
         if ("speechSynthesis" in window) {
           window.speechSynthesis.cancel();
           showToast("⏹️ Audio stopped");
         }
-      }
-
-      document.getElementById("btnTtsPlay").addEventListener("click", playOrderTts);
-      document.getElementById("btnTtsStop").addEventListener("click", stopOrderTts);
+      });
 
       /* =========================================================================
-         9. SMART PARSERS (AUTO-SAVES NEW ITEMS TO LEFT CATALOGUE)
+         10. SMART PARSERS (AUTO-SAVES NEW ITEMS TO LEFT CATALOGUE)
          ========================================================================= */
       function parseAndAddBulkText(rawText, isContinuousSpeech = false) {
         const clean = sanitizeText(rawText, 2000);
@@ -2919,40 +3185,22 @@
 
           if (catFound) {
             addItemToCurrentOrder(
-              {
-                ...catFound,
-                unit: unit || catFound.unit,
-                rate: explicitRate !== null ? explicitRate : catFound.rate
-              },
+              { ...catFound, unit: unit || catFound.unit, rate: explicitRate !== null ? explicitRate : catFound.rate },
               qty,
               true,
               false
             );
           } else if (mapped) {
-            // Auto-save mapped voice/manual item into Left Catalogue as well
             addItemToCurrentOrder(
-              {
-                name: mapped.name,
-                code: mapped.code,
-                emoji: mapped.emoji,
-                unit: unit || mapped.unit,
-                rate: explicitRate !== null ? explicitRate : 0
-              },
+              { name: mapped.name, code: mapped.code, emoji: mapped.emoji, unit: unit || mapped.unit, rate: explicitRate !== null ? explicitRate : 0 },
               qty,
               true,
               true
             );
           } else {
             const titled = itemName.charAt(0).toUpperCase() + itemName.slice(1);
-            // Auto-save brand-new typed/spoken item into Left Catalogue
             addItemToCurrentOrder(
-              {
-                name: titled,
-                code: generateUniqueCode("A"),
-                emoji: "📝",
-                unit,
-                rate: explicitRate !== null ? explicitRate : 0
-              },
+              { name: titled, code: generateUniqueCode("A"), emoji: "📝", unit, rate: explicitRate !== null ? explicitRate : 0 },
               qty,
               true,
               true
@@ -2973,7 +3221,6 @@
         if (count > 0) inp.value = "";
       });
 
-      // Edit Live Order Line Item (Also syncs price back to Catalogue if rate was 0)
       function openEditOrderRowModal(item) {
         document.getElementById("editRowUid").value = item.uid;
         document.getElementById("editRowName").value = item.name;
@@ -2989,12 +3236,11 @@
         const target = list.find(x => x.uid === uid);
         if (target) {
           pushUndoSnapshot();
-          target.name = sanitizeText(document.getElementById("editRowName").value, 40) || target.name;
-          target.qty = Math.max(0.1, parseFloat(document.getElementById("editRowQty").value) || 1);
+          target.name = sanitizeText(document.getElementById("editRowName").value, 45) || target.name;
+          target.qty = target.isTicket ? 1 : Math.max(0.1, parseFloat(document.getElementById("editRowQty").value) || 1);
           target.rate = Math.max(0, parseFloat(document.getElementById("editRowRate").value) || 0);
           if (target.rate > 0) {
             state.showPrice = true;
-            // Update catalogue item rate if it had 0 rate
             const catItm = state.items.find(it => it.cat === state.activeCat && it.name.toLowerCase() === target.name.toLowerCase());
             if (catItm && (!catItm.rate || catItm.rate === 0)) {
               catItm.rate = target.rate;
@@ -3002,12 +3248,11 @@
           }
           persistState();
           renderAll();
-          showToast("Line item & price updated!");
+          showToast("Line item updated!");
         }
         closeModal("modalEditOrderRow");
       });
 
-      // WhatsApp Paste Modal
       document.getElementById("btnPasteWhatsapp").addEventListener("click", () => {
         document.getElementById("whatsappRawText").value = "";
         openModal("modalWhatsapp");
@@ -3021,7 +3266,6 @@
         if (count > 0) showToast(`✅ Added ${count} items & saved to catalogue!`);
       });
 
-      // Voice-to-Order with Manual Stop Button
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       let activeRecognition = null;
 
@@ -3047,7 +3291,6 @@
         activeRecognition.lang = "en-IN";
         activeRecognition.interimResults = false;
         activeRecognition.maxAlternatives = 1;
-
         banner.classList.add("active");
 
         activeRecognition.onresult = event => {
@@ -3055,16 +3298,11 @@
           const count = parseAndAddBulkText(transcript, true);
           showToast(`🎤 "${transcript}" → ${count} items added!`);
         };
-
-        activeRecognition.onerror = () => {
-          showToast("Voice stopped / not clear");
-        };
-
+        activeRecognition.onerror = () => showToast("Voice stopped / not clear");
         activeRecognition.onend = () => {
           banner.classList.remove("active");
           activeRecognition = null;
         };
-
         activeRecognition.start();
       }
 
@@ -3072,7 +3310,7 @@
       document.getElementById("btnStopVoice").addEventListener("click", stopVoiceOrder);
 
       /* =========================================================================
-         10. LIGHTBOX PREVIEW FOR THERMAL BILL & ORDER QR CODE
+         11. LIGHTBOX PREVIEW (WITH .TXT DOWNLOAD, SHARE, PNG & PRINT)
          ========================================================================= */
       function openLightbox(mode) {
         const titleEl = document.getElementById("lightboxTitle");
@@ -3090,14 +3328,14 @@
           clone.style.padding = "10px";
           contentEl.appendChild(clone);
         } else {
-          titleEl.textContent = "📱 Order Summary QR Code";
+          titleEl.textContent = "📱 Order .TXT + Website QR Code";
           const bigQrWrap = document.createElement("div");
           bigQrWrap.style.cssText = "padding:12px; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px;";
           contentEl.appendChild(bigQrWrap);
 
           if (typeof QRCode !== "undefined") {
             new QRCode(bigQrWrap, {
-              text: buildPlainTextSlip(false).slice(0, 480),
+              text: buildQrTxtWithUrl(),
               width: 220,
               height: 220,
               colorDark: "#0f172a",
@@ -3107,7 +3345,7 @@
           }
           const hint = document.createElement("div");
           hint.style.cssText = "font-size:11px; color:#475569; margin-top:8px; text-align:center;";
-          hint.textContent = "Scan with any phone camera to read full order text offline";
+          hint.textContent = "Scan with phone camera or Google Lens to view .TXT list & website link";
           contentEl.appendChild(hint);
         }
 
@@ -3137,6 +3375,16 @@
         } catch (err) {}
       });
 
+      document.getElementById("lbTxtBtn").addEventListener("click", () => {
+        const blob = new Blob([buildPlainTextSlip(false)], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Order-List-${Date.now()}.txt`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast("📄 .TXT file downloaded!");
+      });
+
       document.getElementById("lbPngBtn").addEventListener("click", async () => {
         if (typeof html2canvas === "undefined") {
           window.print();
@@ -3161,7 +3409,7 @@
       });
 
       /* =========================================================================
-         11. MULTI-LANGUAGE BLUETOOTH PRINT + DESKTOP PAPER SIZE PRINT
+         12. BLUETOOTH PRINT + DESKTOP PAPER SIZE PRINT
          ========================================================================= */
       let btCharacteristic = null;
 
@@ -3268,13 +3516,11 @@
         try {
           let payload;
           if (state.btPrintMode === "bitmap") {
-            const text = buildPlainTextSlip(false);
-            payload = buildRasterEscPosBytes(text);
+            payload = buildRasterEscPosBytes(buildPlainTextSlip(false));
           } else {
-            const textAscii = buildPlainTextSlip(true);
             const encoder = new TextEncoder();
             const init = new Uint8Array([0x1b, 0x40]);
-            const body = encoder.encode(textAscii + "\n\n\n\n");
+            const body = encoder.encode(buildPlainTextSlip(true) + "\n\n\n\n");
             payload = new Uint8Array(init.length + body.length);
             payload.set(init, 0);
             payload.set(body, init.length);
@@ -3334,7 +3580,7 @@
       document.getElementById("btnExecDesktopPrint").addEventListener("click", executeDesktopSystemPrint);
 
       /* =========================================================================
-         12. FULL EMOJI PICKER & CATALOGUE ITEM EDITOR
+         13. EMOJI PICKER, CATALOGUE EDITOR, CALCULATOR & CONTINUOUS BARCODE SCAN
          ========================================================================= */
       function renderEmojiPickerUI() {
         const tabs = document.getElementById("emojiGroupTabs");
@@ -3421,15 +3667,7 @@
           }
           showToast(`Updated "${name}" [${code}]!`);
         } else {
-          state.items.push({
-            id: "itm_" + Date.now(),
-            code,
-            cat: state.activeCat,
-            name,
-            emoji: chosenEmoji,
-            unit,
-            rate
-          });
+          state.items.push({ id: "itm_" + Date.now(), code, cat: state.activeCat, name, emoji: chosenEmoji, unit, rate });
           showToast(`Added "${name}" [${code}]!`);
         }
 
@@ -3448,9 +3686,7 @@
         showToast("Item removed from catalogue");
       });
 
-      /* =========================================================================
-         13. CSP-SAFE POS CALCULATOR
-         ========================================================================= */
+      // CSP-Safe Calculator
       let calcBuffer = "";
       function updateCalcScreen(resultPreview = null) {
         document.getElementById("calcExpr").textContent = calcBuffer || "0";
@@ -3461,7 +3697,6 @@
         try {
           const clean = expr.replace(/\s+/g, "").replace(/%/g, "/100");
           if (!clean || !/^[0-9+\-*/.]+$/.test(clean)) return "Error";
-
           const tokens = clean.match(/(?:^|(?<=[+\-*/]))-?\d+(?:\.\d+)?|[+\-*/]/g);
           if (!tokens || tokens.length === 0) return "Error";
 
@@ -3490,7 +3725,6 @@
             if (op === "+") total += val;
             else if (op === "-") total -= val;
           }
-
           return Number.isFinite(total) ? String(Math.round(total * 100) / 100) : "Error";
         } catch (e) {
           return "Error";
@@ -3532,9 +3766,7 @@
 
       document.getElementById("qbCalc").addEventListener("click", () => openModal("modalCalc"));
 
-      /* =========================================================================
-         14. CONTINUOUS BARCODE SCANNER (WITH BEEP + UNIQUE CODE MATCH + KEEP OPEN)
-         ========================================================================= */
+      // Continuous Barcode Scanner
       let barcodeLoopActive = false;
       let barcodeCooldown = false;
 
@@ -3565,33 +3797,26 @@
         state.pendingBarcode = code;
         document.getElementById("manualBarcodeInput").value = code;
 
-        // 1. Check dedicated barcode map
         let existingItem = null;
         const linkedId = state.barcodes[code];
-        if (linkedId) {
-          existingItem = state.items.find(it => it.id === linkedId) || null;
-        }
+        if (linkedId) existingItem = state.items.find(it => it.id === linkedId) || null;
 
-        // 2. Also match against item's Unique Code field!
         if (!existingItem) {
-          existingItem = state.items.find(
-            it => it.code && it.code.toLowerCase() === code.toLowerCase()
-          ) || null;
+          existingItem = state.items.find(it => it.code && it.code.toLowerCase() === code.toLowerCase()) || null;
           if (existingItem) {
             state.barcodes[code] = existingItem.id;
             persistState();
           }
         }
 
+        playPosBeep();
         if (existingItem) {
-          playPosBeep();
           addItemToCurrentOrder(existingItem, 1);
           document.getElementById("newBarcodeRegisterBox").style.display = "none";
           document.getElementById("manualBarcodeInput").value = "";
           document.getElementById("barcodeStatus").textContent = `✅ Added: ${existingItem.name} (Scan next item...)`;
           showToast(`🔊 +1 ${existingItem.name}`);
         } else {
-          playPosBeep();
           populateBarcodeExistingSelects();
           document.getElementById("bcItemCode").value = code;
           document.getElementById("barcodeStatus").textContent = `⚠️ New Barcode [${code}] — link or save once:`;
@@ -3615,7 +3840,6 @@
               const detector = new window.BarcodeDetector();
               barcodeLoopActive = true;
               barcodeCooldown = false;
-
               const scanTick = async () => {
                 if (!barcodeLoopActive || !document.getElementById("modalBarcode").classList.contains("open")) return;
                 if (!barcodeCooldown) {
@@ -3624,7 +3848,6 @@
                     if (codes && codes.length > 0 && codes[0].rawValue) {
                       barcodeCooldown = true;
                       handleScannedBarcode(codes[0].rawValue);
-                      // 1.4s cooldown so same product doesn't double-trigger, keeps scanner open!
                       setTimeout(() => { barcodeCooldown = false; }, 1400);
                     }
                   } catch (e) {}
@@ -3688,8 +3911,32 @@
       });
 
       /* =========================================================================
-         15. VIRAL APP SHARE QR, DRAWER, SAVE vs CLEAR, HISTORY & CAMERA
+         14. CATEGORY-WISE SETUP, VIRAL SHARE QR, DRAWER, SAVE/CLEAR & CAMERA
          ========================================================================= */
+      function openCategorySetupModal() {
+        const cat = getActiveCategoryObj();
+        const setup = getCurrentCategorySetup();
+        document.getElementById("setupCategoryBadge").textContent = `Editing Header for Category: ${cat.icon} ${cat.name}`;
+        document.getElementById("setupBusinessName").value = setup.businessName;
+        document.getElementById("setupSubHeader").value = setup.subHeader;
+        document.getElementById("setupFooterNote").value = setup.footerNote;
+        openModal("modalSetup");
+      }
+
+      document.getElementById("formSetup").addEventListener("submit", e => {
+        e.preventDefault();
+        const cat = getActiveCategoryObj();
+        state.categorySetups[cat.id] = {
+          businessName: sanitizeText(document.getElementById("setupBusinessName").value, 32) || cat.name.toUpperCase(),
+          subHeader: sanitizeText(document.getElementById("setupSubHeader").value, 42),
+          footerNote: sanitizeText(document.getElementById("setupFooterNote").value, 36)
+        };
+        persistState();
+        closeModal("modalSetup");
+        renderThermalAndQR();
+        showToast(`Saved title for ${cat.name}!`);
+      });
+
       let deferredInstallPrompt = null;
       window.addEventListener("beforeinstallprompt", e => {
         e.preventDefault();
@@ -3753,19 +4000,14 @@
       document.getElementById("btnCloseDrawer").addEventListener("click", closeDrawer);
       document.getElementById("drawerBackdrop").addEventListener("click", closeDrawer);
 
+      document.getElementById("menuSlipSetup").addEventListener("click", () => { closeDrawer(); openCategorySetupModal(); });
+      document.getElementById("menuFontToggle").addEventListener("click", () => { closeDrawer(); cycleFontScale(); });
       document.getElementById("menuAppShareQr").addEventListener("click", () => { closeDrawer(); openAppShareModal(); });
       document.getElementById("menuHistory").addEventListener("click", () => { closeDrawer(); renderHistoryModal(); });
       document.getElementById("menuWhatsappPaste").addEventListener("click", () => { closeDrawer(); openModal("modalWhatsapp"); });
       document.getElementById("menuVoiceOrder").addEventListener("click", () => { closeDrawer(); startVoiceOrder(); });
       document.getElementById("menuCalculator").addEventListener("click", () => { closeDrawer(); openModal("modalCalc"); });
       document.getElementById("menuPrintSettings").addEventListener("click", () => { closeDrawer(); openModal("modalPrintOptions"); });
-      document.getElementById("menuSlipSetup").addEventListener("click", () => {
-        closeDrawer();
-        document.getElementById("setupBusinessName").value = state.setup.businessName;
-        document.getElementById("setupSubHeader").value = state.setup.subHeader;
-        document.getElementById("setupFooterNote").value = state.setup.footerNote;
-        openModal("modalSetup");
-      });
 
       document.getElementById("menuResetAll").addEventListener("click", () => {
         closeDrawer();
@@ -3860,16 +4102,7 @@
         const rate = Math.max(0, parseFloat(document.getElementById("photoItemRate").value) || 0);
         if (!name) return;
 
-        state.items.push({
-          id: "pht_" + Date.now(),
-          code,
-          cat: state.activeCat,
-          name,
-          emoji: "📷",
-          thumb: state.capturedDataUrl || "",
-          unit,
-          rate
-        });
+        state.items.push({ id: "pht_" + Date.now(), code, cat: state.activeCat, name, emoji: "📷", thumb: state.capturedDataUrl || "", unit, rate });
         persistState();
         e.target.reset();
         closeModal("modalPhoto");
@@ -3877,26 +4110,11 @@
         showToast(`Saved photo item "${name}" [${code}]`);
       });
 
-      // Setup Form
-      document.getElementById("formSetup").addEventListener("submit", e => {
-        e.preventDefault();
-        state.setup.businessName = sanitizeText(document.getElementById("setupBusinessName").value, 32) || "ORDER LIST MAKER";
-        state.setup.subHeader = sanitizeText(document.getElementById("setupSubHeader").value, 42);
-        state.setup.footerNote = sanitizeText(document.getElementById("setupFooterNote").value, 36);
-        persistState();
-        closeModal("modalSetup");
-        renderThermalAndQR();
-        showToast("Slip header updated!");
-      });
-
-      // History Modal
       function renderHistoryModal() {
         const box = document.getElementById("historyListContainer");
         box.innerHTML = "";
 
-        const activeTables = Object.keys(state.restaurantTables).filter(
-          t => (state.restaurantTables[t] || []).length > 0
-        );
+        const activeTables = Object.keys(state.restaurantTables).filter(t => (state.restaurantTables[t] || []).length > 0);
         if (activeTables.length) {
           const h = document.createElement("div");
           h.style.cssText = "font-size:11px; font-weight:800; color:#059669;";
