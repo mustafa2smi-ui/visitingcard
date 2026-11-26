@@ -10,10 +10,10 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- Primary SEO Meta Tags -->
-  <title>Order List Maker — Universal General, Restaurant, Bus Ticket, Grocery &amp; Loading PWA</title>
-  <meta name="title" content="Order List Maker — Universal General, Restaurant, Bus Ticket, Grocery &amp; Loading PWA" />
-  <meta name="description" content="Offline-first universal order list maker for shops, restaurants (table &amp; guest wise), bus/travel tickets (Male/Female/Child/Senior), Hindi/English WhatsApp kirana paste, 58mm thermal print &amp; QR summary." />
-  <meta name="keywords" content="order list maker, hindi whatsapp order parser, bus ticket booking slip app, tts order reader, continuous barcode scanner pos, 58mm thermal print pwa, qr order summary" />
+  <title>Order List Maker — Simple Shopping Checklist &amp; Universal POS Thermal Slip PWA</title>
+  <meta name="title" content="Order List Maker — Simple Shopping Checklist &amp; Universal POS Thermal Slip PWA" />
+  <meta name="description" content="Easy-to-use Simple Shopping List &amp; Advance Universal POS PWA for shops, restaurants, bus tickets, grocery, and loading. Features bazaar checklist ticks, voice order, Hindi/English WhatsApp paste, 58mm thermal print &amp; QR summary." />
+  <meta name="keywords" content="order list maker, simple shopping list app, bazaar checklist pwa, hindi whatsapp order parser, bus ticket booking slip, 58mm thermal print pwa, qr order summary" />
   <meta name="author" content="Order List Maker" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <meta name="theme-color" content="#ffffff" />
@@ -23,15 +23,15 @@
   <!-- Open Graph / WhatsApp Preview -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Order List Maker" />
-  <meta property="og:title" content="Order List Maker — Universal POS, Ticket, Voice &amp; Thermal Slip PWA" />
-  <meta property="og:description" content="Create instant orders via tap, voice, continuous barcode scan, or Hindi/English WhatsApp paste with bus ticket fare table, category-wise headers, and 58mm thermal print." />
+  <meta property="og:title" content="Order List Maker — Simple Checklist &amp; Advance POS Slip PWA" />
+  <meta property="og:description" content="Switch between ultra-simple shopping checklist and full POS thermal slip mode with voice input, WhatsApp paste, QR summary &amp; Bluetooth print." />
   <meta property="og:url" content="https://orderlistmaker.app/" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Order List Maker — Universal Order &amp; Thermal Slip PWA" />
-  <meta name="twitter:description" content="Light-theme universal order list builder with senior-friendly font zoom, bus ticket route fares, Hindi WhatsApp list parser &amp; 58mm thermal print." />
+  <meta name="twitter:title" content="Order List Maker — Simple Shopping List &amp; POS PWA" />
+  <meta name="twitter:description" content="Default Simple Mode for fast home &amp; grocery lists + Advance POS Mode for shops, restaurants, tickets &amp; 58mm thermal printing." />
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -47,7 +47,7 @@
       "price": "0",
       "priceCurrency": "INR"
     },
-    "description": "Universal order list builder with General, Restaurant Table/Guest split, Passenger Bus Ticket mode (Male, Female, Child, Senior), Grocery, and Loading modes, Hindi/English WhatsApp list parser, TTS audio readout, and 58mm/80mm/A4 printing."
+    "description": "Dual-mode Order List Maker PWA featuring an easy Simple Shopping Checklist mode with bazaar tick-off and an Advance Universal POS mode for restaurants, bus tickets, grocery, and 58mm thermal printing."
   }
   </script>
 
@@ -73,33 +73,33 @@
       --warn-soft: #fffbeb;
       --danger: #dc2626;
       --danger-soft: #fef2f2;
-      --header-h: 42px;
+      --header-h: 44px;
       --tabs-h: 35px;
       --footer-h: 26px;
       --quickbar-h: 48px;
-      --fs-base: 12px;
-      --fs-sm: 10.5px;
+      --fs-base: 12.5px;
+      --fs-sm: 11px;
       --fs-xs: 9.5px;
-      --fs-md: 13px;
+      --fs-md: 13.5px;
     }
 
     body.font-lg {
-      --fs-base: 14px;
-      --fs-sm: 12.5px;
+      --fs-base: 14.5px;
+      --fs-sm: 13px;
       --fs-xs: 11px;
-      --fs-md: 15px;
-      --header-h: 46px;
+      --fs-md: 15.5px;
+      --header-h: 48px;
       --tabs-h: 38px;
       --footer-h: 28px;
       --quickbar-h: 52px;
     }
 
     body.font-xl {
-      --fs-base: 16px;
-      --fs-sm: 14px;
+      --fs-base: 16.5px;
+      --fs-sm: 14.5px;
       --fs-xs: 12.5px;
-      --fs-md: 17px;
-      --header-h: 48px;
+      --fs-md: 17.5px;
+      --header-h: 50px;
       --tabs-h: 40px;
       --footer-h: 30px;
       --quickbar-h: 56px;
@@ -136,7 +136,7 @@
       position: relative;
     }
 
-    /* 1. Top Header Bar */
+    /* 1. Top Header Bar + Simple/Advance Mode Switch */
     .app-header {
       height: var(--header-h);
       min-height: var(--header-h);
@@ -180,6 +180,39 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    /* 2-Way Mode Switch Pill (Simple vs Advance) */
+    .mode-switch-pill {
+      display: inline-flex;
+      background: #e2e8f0;
+      border-radius: 16px;
+      padding: 2px;
+      border: 1px solid var(--border-strong);
+      flex-shrink: 0;
+    }
+
+    .mode-opt-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 7px;
+      border-radius: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.15s ease;
+    }
+
+    .mode-opt-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .mode-opt-btn.active.simple-on {
+      color: var(--accent);
     }
 
     .header-actions {
@@ -227,7 +260,184 @@
       color: var(--primary);
     }
 
-    /* 2. Category Tabs Bar */
+    /* =========================================================================
+       SIMPLE MODE VIEW (Play Store Shopping Checklist Style — Default)
+       ========================================================================= */
+    .simple-workspace {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      background: var(--bg-subtle);
+    }
+
+    body.mode-simple .simple-workspace {
+      display: flex;
+    }
+
+    body.mode-simple .advance-only {
+      display: none !important;
+    }
+
+    .simple-top-strip {
+      padding: 6px 8px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .simple-list-title-input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid transparent;
+      background: var(--bg-subtle);
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: var(--fs-base);
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .simple-list-title-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .simple-feed {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .simple-item-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    }
+
+    .simple-item-card.checked {
+      background: #f1f5f9;
+      opacity: 0.68;
+    }
+
+    .simple-item-card.checked .simple-item-name {
+      text-decoration: line-through;
+      color: var(--text-light);
+    }
+
+    .simple-check-box {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .simple-item-main {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+    }
+
+    .simple-item-name {
+      font-size: var(--fs-md);
+      font-weight: 700;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .simple-item-sub {
+      font-size: var(--fs-xs);
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* Simple Mode Rapid Entry Dock (Triggered by Big + Add Item Button) */
+    .simple-entry-dock {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      background: #ffffff;
+      border-top: 1.5px solid var(--primary);
+      box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.08);
+    }
+
+    .simple-entry-dock.open {
+      display: flex;
+    }
+
+    .simple-suggestions-row {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .simple-suggestions-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .simple-bottom-bar {
+      padding: 6px 8px;
+      background: #ffffff;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .big-plus-fab {
+      flex: 2;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 14px;
+      font-size: var(--fs-md);
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 10px rgba(15, 98, 254, 0.28);
+    }
+
+    .big-plus-fab:active {
+      transform: scale(0.98);
+    }
+
+    .simple-util-btn {
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* =========================================================================
+       ADVANCE POS MODE STYLES
+       ========================================================================= */
     .category-bar {
       height: var(--tabs-h);
       min-height: var(--tabs-h);
@@ -272,7 +482,6 @@
       background: var(--primary-soft);
     }
 
-    /* 3. Main 2-Column Split Section */
     .split-workspace {
       flex: 1;
       min-height: 0;
@@ -290,7 +499,6 @@
       display: none !important;
     }
 
-    /* Left Section: Alphabetical Product Catalogue OR Ticket Route Fare Table */
     .catalogue-pane {
       display: flex;
       flex-direction: column;
@@ -313,7 +521,7 @@
       width: 100%;
       border: 1px solid var(--border-color);
       border-radius: 5px;
-      padding: 4px 6px;
+      padding: 5px 6px;
       font-size: var(--fs-sm);
       color: var(--text-main);
       background: var(--bg-subtle);
@@ -430,7 +638,7 @@
       margin-top: 1px;
     }
 
-    /* Left-Pane Ticket Route Fare Table Styling */
+    /* Ticket Route Table */
     .ticket-left-wrap {
       flex: 1;
       min-height: 0;
@@ -489,7 +697,7 @@
       border-radius: 6px;
     }
 
-    /* Right Section: Live Order & Ticket Booking */
+    /* Right Section */
     .order-pane {
       display: flex;
       flex-direction: column;
@@ -567,7 +775,6 @@
       gap: 4px;
     }
 
-    /* Quick Entry + Hide Toggle + Voice + WhatsApp Paste */
     .quick-type-bar {
       display: flex;
       align-items: center;
@@ -596,7 +803,7 @@
       border: 1px solid var(--primary);
       background: var(--primary-soft);
       border-radius: 6px;
-      padding: 4px 6px;
+      padding: 5px 6px;
       font-size: var(--fs-sm);
       color: var(--text-main);
       outline: none;
@@ -606,8 +813,8 @@
       border: 1px solid var(--border-color);
       background: var(--bg-subtle);
       border-radius: 6px;
-      padding: 4px 6px;
-      font-size: 12px;
+      padding: 5px 6px;
+      font-size: 13px;
       cursor: pointer;
       flex-shrink: 0;
     }
@@ -617,7 +824,7 @@
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      padding: 5px 7px;
+      padding: 5px 8px;
       font-size: var(--fs-sm);
       font-weight: 700;
       cursor: pointer;
@@ -625,7 +832,6 @@
       flex-shrink: 0;
     }
 
-    /* TTS Audio Reader Mini Bar */
     .tts-reader-bar {
       display: flex;
       align-items: center;
@@ -668,7 +874,6 @@
       background: var(--danger-soft);
     }
 
-    /* Voice Active Banner */
     .voice-live-banner {
       display: none;
       align-items: center;
@@ -698,7 +903,6 @@
       white-space: nowrap;
     }
 
-    /* Live Order Feed */
     .live-order-feed {
       flex: 1;
       min-height: 0;
@@ -1285,14 +1489,14 @@
 
     .toast-msg {
       position: fixed;
-      top: 48px;
+      top: 50px;
       left: 50%;
       transform: translateX(-50%);
       background: #0f172a;
       color: #ffffff;
       padding: 6px 14px;
       border-radius: 20px;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 600;
       z-index: 1500;
       opacity: 0;
@@ -1322,37 +1526,83 @@
   </style>
   <style id="dynamicPageRule">@page { size: 58mm auto; margin: 2mm; }</style>
 </head>
-<body>
+<body class="mode-simple">
   <div class="app-shell">
-    <!-- 1. TOP HEADER BAR (With Direct 📂 Saved Bills Button) -->
+    <!-- 1. TOP HEADER BAR WITH SIMPLE / ADVANCE SWITCH -->
     <header class="app-header">
       <div class="brand-box">
         <button type="button" class="hamburger-btn" id="btnHamburger" aria-label="Open Menu">☰</button>
-        <h1 class="brand-title">🧾 Order List Maker</h1>
+        <h1 class="brand-title">🧾 Order List</h1>
       </div>
+
+      <!-- 2-Way Mode Switch Pill (Default: Simple) -->
+      <div class="mode-switch-pill" role="group" aria-label="App Complexity Mode">
+        <button type="button" class="mode-opt-btn simple-on active" id="btnModeSimple">🟢 Simple</button>
+        <button type="button" class="mode-opt-btn" id="btnModeAdvance">⚡ Advance</button>
+      </div>
+
       <div class="header-actions">
         <button type="button" class="hdr-btn" id="btnFontZoom" title="Font Size">🔍A+</button>
         <button type="button" class="hdr-btn" id="btnUndo" title="Undo" disabled>↩️</button>
-        <button type="button" class="hdr-btn" id="btnBtConnect" title="Bluetooth Printer / Send to Phone">📶 BT</button>
-        <button type="button" class="hdr-btn" id="btnHistory" title="View Saved Bills & Tables">📂</button>
-        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save Bill to History">💾</button>
-        <button type="button" class="hdr-btn clear-btn" id="btnClearOrder" title="Clear Current Order">🧹</button>
+        <button type="button" class="hdr-btn advance-only" id="btnBtConnect" title="Bluetooth">📶</button>
+        <button type="button" class="hdr-btn" id="btnHistory" title="Saved Lists & Bills">📂</button>
+        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save List">💾</button>
+        <button type="button" class="hdr-btn clear-btn advance-only" id="btnClearOrder" title="Clear Order">🧹</button>
       </div>
     </header>
 
+    <!-- =======================================================================
+         SIMPLE MODE WORKSPACE (Play Store Shopping List Style — Default Open)
+         ======================================================================= -->
+    <section class="simple-workspace" id="simpleWorkspace" aria-label="Simple Shopping List">
+      <div class="simple-top-strip">
+        <input type="text" id="simpleListTitle" class="simple-list-title-input" placeholder="📝 List Name (e.g. Ghar ka Kirana / Bazaar)..." maxlength="30" />
+        <button type="button" class="tts-btn play" id="btnSimpleTtsPlay" title="Listen List Audio">🔊 Listen</button>
+        <button type="button" class="tts-btn stop" id="btnSimpleTtsStop" title="Stop Audio">⏹️</button>
+      </div>
+
+      <!-- Manual Stop Banner for Voice in Simple Mode -->
+      <div class="voice-live-banner" id="simpleVoiceBanner">
+        <span>🎙️ Bolte jayein (e.g. 2kg Aloo, Bread, Tea)...</span>
+        <button type="button" class="voice-stop-btn" id="btnSimpleStopVoice">⏹️ Stop</button>
+      </div>
+
+      <!-- Clean Bazaar Checklist Feed -->
+      <div class="simple-feed" id="simpleOrderFeed"></div>
+
+      <!-- Rapid-Fire Entry Dock (Opens on tapping Big + Add Item button) -->
+      <div class="simple-entry-dock" id="simpleEntryDock">
+        <div class="simple-suggestions-row" id="simpleSuggestionsRow"></div>
+        <form id="simpleAddForm" style="display:flex; gap:5px; align-items:center;" autocomplete="off">
+          <input type="text" id="simpleQuickInput" class="quick-type-input" style="padding:8px 10px; font-size:var(--fs-base);" placeholder="Item name & qty (e.g. 2kg Sugar, 1 Milk)..." maxlength="60" />
+          <button type="button" class="icon-tool-btn" style="padding:7px 9px;" id="btnSimpleMic" title="Speak Items">🎤</button>
+          <button type="button" class="icon-tool-btn" style="padding:7px 9px;" id="btnSimplePaste" title="Paste WhatsApp List">📋</button>
+          <button type="submit" class="send-item-btn" style="padding:8px 12px;">Add ↵</button>
+        </form>
+      </div>
+
+      <!-- Simple Bottom Action Bar with Prominent + Add Item Button -->
+      <div class="simple-bottom-bar">
+        <button type="button" class="simple-util-btn" id="btnSimpleShare" title="Share List on WhatsApp / Bluetooth">📤 Share</button>
+        <button type="button" class="big-plus-fab" id="btnSimpleBigPlus">➕ Add Item</button>
+        <button type="button" class="simple-util-btn" id="btnSimpleQr" title="Show QR Code">📱 QR</button>
+        <button type="button" class="simple-util-btn" id="btnSimpleClear" style="color:#dc2626;" title="Clear List">🧹</button>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         ADVANCE POS WORKSPACE (Full 2-Column POS, Restaurant, Ticket, Thermal)
+         ======================================================================= -->
     <!-- 2. CATEGORY TABS BAR -->
-    <nav class="category-bar" id="categoryBar" aria-label="Order Categories"></nav>
+    <nav class="category-bar advance-only" id="categoryBar" aria-label="Order Categories"></nav>
 
     <!-- 3. MAIN 2-SECTION SPLIT -->
-    <main class="split-workspace" id="splitWorkspace">
-      <!-- LEFT SECTION: Product Catalogue OR Ticket Boarding/Destination Fare Table -->
+    <main class="split-workspace advance-only" id="splitWorkspace">
       <section class="catalogue-pane" id="leftWorkspacePane" aria-label="Catalogue or Route Table"></section>
 
-      <!-- RIGHT SECTION: Context Controls + Direct/Voice/WhatsApp Entry + TTS + Live Feed -->
       <section class="order-pane" aria-label="Live Order List">
         <div class="context-strip" id="contextStrip"></div>
 
-        <!-- Quick Type + Hide Left Toggle + Voice + WhatsApp Paste -->
         <form class="quick-type-bar" id="quickTypeForm" autocomplete="off">
           <button type="button" class="toggle-cat-btn" id="btnToggleCatalogue" title="Hide/Show Left Panel">◀ Hide</button>
           <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="e.g. 20 Aloo @30, Tea..." maxlength="60" />
@@ -1361,7 +1611,6 @@
           <button type="submit" class="send-item-btn">Add ↵</button>
         </form>
 
-        <!-- Free Google/Browser TTS Audio Readout Bar -->
         <div class="tts-reader-bar">
           <span>🔊 Read List Audio</span>
           <div class="tts-btns">
@@ -1370,19 +1619,17 @@
           </div>
         </div>
 
-        <!-- Manual Stop Banner for Voice Order -->
         <div class="voice-live-banner" id="voiceLiveBanner">
           <span>🎙️ Sun raha hai... (Bolne ke baad Stop dabayein)</span>
           <button type="button" class="voice-stop-btn" id="btnStopVoice">⏹️ Stop</button>
         </div>
 
-        <!-- Live Itemized Order Feed -->
         <div class="live-order-feed" id="liveOrderFeed"></div>
       </section>
     </main>
 
     <!-- 4. SIDE-SCROLL PREVIEW STRIP -->
-    <section class="preview-strip" aria-label="Slip and QR Preview">
+    <section class="preview-strip advance-only" aria-label="Slip and QR Preview">
       <div class="preview-card" id="cardThermalPreview" title="Tap to open full-screen Thermal Bill">
         <div class="preview-card-hdr">
           <span class="preview-card-title">🧾 Thermal Bill (Tap 🔍)</span>
@@ -1402,13 +1649,13 @@
     </section>
 
     <!-- 5. COMPACT FOOTER -->
-    <footer class="app-footer">
+    <footer class="app-footer advance-only">
       <span id="footerLeftStats">Items: 0 | Qty: 0</span>
       <span id="footerRightContext" class="footer-highlight">📋 General</span>
     </footer>
 
     <!-- 6. BOTTOM FIXED QUICK BAR -->
-    <nav class="quick-bar" aria-label="Quick Tools">
+    <nav class="quick-bar advance-only" aria-label="Quick Tools">
       <button type="button" class="qb-btn" id="qbPhotoItem">
         <span class="qb-icon">📷</span>
         <span>Photo Item</span>
@@ -1434,6 +1681,7 @@
 
   <!-- Hidden Print Target -->
   <div id="printAreaTarget" style="display:none;"></div>
+  <input type="file" id="restoreBackupInput" accept=".json,application/json" style="display:none;" />
 
   <!-- HAMBURGER MENU DRAWER -->
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
@@ -1443,15 +1691,18 @@
       <button type="button" class="drawer-close-btn" id="btnCloseDrawer">✕ Close</button>
     </div>
     <div class="drawer-list">
-      <button type="button" class="drawer-item" id="menuHistory">📂 Saved Bills &amp; Running Tables</button>
+      <button type="button" class="drawer-item" id="menuToggleAppMode">🔄 Switch Simple / Advance POS Mode</button>
+      <button type="button" class="drawer-item" id="menuHistory">📂 Saved Lists &amp; Bills History</button>
+      <button type="button" class="drawer-item" id="menuWhatsappPaste">📋 Paste WhatsApp Order List</button>
+      <button type="button" class="drawer-item" id="menuVoiceOrder">🎤 Voice Order (Bol Kar Likhein)</button>
+      <button type="button" class="drawer-item" id="menuCalculator">🧮 Simple POS Calculator</button>
       <button type="button" class="drawer-item" id="menuSlipSetup">🏪 Category Bill Title &amp; Tagline Setup</button>
       <button type="button" class="drawer-item" id="menuBtOptions">📶 Bluetooth Printer &amp; Send to Mobile</button>
       <button type="button" class="drawer-item" id="menuFontToggle">🔍 Text Size: Normal / Large / XL</button>
       <button type="button" class="drawer-item" id="menuAppShareQr">📲 Share App QR &amp; Install PWA</button>
-      <button type="button" class="drawer-item" id="menuWhatsappPaste">📋 Paste WhatsApp Order List</button>
-      <button type="button" class="drawer-item" id="menuVoiceOrder">🎤 Voice Order (Bol Kar Likhein)</button>
-      <button type="button" class="drawer-item" id="menuCalculator">🧮 Simple POS Calculator</button>
       <button type="button" class="drawer-item" id="menuPrintSettings">🖨️ Print &amp; Paper Size (58mm/80mm/A4)</button>
+      <button type="button" class="drawer-item" id="menuExportBackup">💾 Export Backup (.JSON File)</button>
+      <button type="button" class="drawer-item" id="menuRestoreBackup">📥 Restore Backup (.JSON File)</button>
       <button type="button" class="drawer-item danger" id="menuResetAll">🗑️ Reset All Data (Clear Storage)</button>
     </div>
   </aside>
@@ -1523,7 +1774,7 @@
     </div>
   </div>
 
-  <!-- MODAL: WhatsApp Order Paste Parser (Supports Hindi & English Kirana Lists) -->
+  <!-- MODAL: WhatsApp Order Paste Parser -->
   <div class="modal-backdrop" id="modalWhatsapp">
     <div class="modal-box">
       <div class="modal-hdr">
@@ -1800,7 +2051,7 @@
   <div class="modal-backdrop" id="modalHistory">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>📂 Saved Bills &amp; Tables</span>
+        <span>📂 Saved Lists &amp; Bills</span>
         <div style="display:flex; gap:5px; align-items:center;">
           <button type="button" class="mini-action-link" id="btnDeleteAllHistory" style="background:#fef2f2; color:#dc2626;">🗑️ Delete All</button>
           <button type="button" class="modal-close" data-close="modalHistory">✕</button>
@@ -1872,9 +2123,9 @@
       }
 
       /* =========================================================================
-         3. DEFAULT CATEGORIES, CATEGORY HEADERS, BUS TICKET ROUTES & ITEMS
+         3. DEFAULT CATEGORIES, CATEGORY HEADERS, TICKET ROUTES & ITEMS
          ========================================================================= */
-      const STORAGE_KEY = "olm_universal_pos_v5";
+      const STORAGE_KEY = "olm_universal_pos_v6";
 
       const DEFAULT_CATEGORIES = [
         { id: "general", name: "General", icon: "📋", mode: "grocery" },
@@ -1921,7 +2172,6 @@
       ];
 
       const DEFAULT_ITEMS = [
-        // General
         { id: "gen1", code: "G101", cat: "general", name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg", rate: 30 },
         { id: "gen2", code: "G102", cat: "general", name: "Bread Packet", emoji: "🍞", unit: "Pkt", rate: 35 },
         { id: "gen3", code: "G103", cat: "general", name: "Milk Packet", emoji: "🥛", unit: "500ml", rate: 28 },
@@ -1929,7 +2179,6 @@
         { id: "gen5", code: "G105", cat: "general", name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs", rate: 35 },
         { id: "gen6", code: "G106", cat: "general", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
 
-        // Restaurant
         { id: "r1", code: "R201", cat: "restaurant", name: "Chicken Biryani (Full)", emoji: "🍛", unit: "Full", rate: 190 },
         { id: "r2", code: "R202", cat: "restaurant", name: "Chicken Biryani (Half)", emoji: "🍗", unit: "Half", rate: 110 },
         { id: "r3", code: "R203", cat: "restaurant", name: "Cold Drink", emoji: "🥤", unit: "Btl", rate: 40 },
@@ -1939,7 +2188,6 @@
         { id: "r7", code: "R207", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
         { id: "r8", code: "R208", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
 
-        // Grocery
         { id: "g1", code: "K301", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
         { id: "g2", code: "K302", cat: "grocery", name: "Basmati Rice", emoji: "🌾", unit: "1 kg", rate: 85 },
         { id: "g3", code: "K303", cat: "grocery", name: "Bath Soap", emoji: "🧼", unit: "Pcs", rate: 35 },
@@ -1948,7 +2196,6 @@
         { id: "g6", code: "K306", cat: "grocery", name: "Tea Patti", emoji: "🍃", unit: "250g", rate: 95 },
         { id: "g7", code: "K307", cat: "grocery", name: "Toor Dal", emoji: "🫘", unit: "1 kg", rate: 150 },
 
-        // Loading / Shipping
         { id: "l1", code: "L401", cat: "loading", name: "Carton Boxes", emoji: "📦", unit: "Box", rate: 0 },
         { id: "l2", code: "L402", cat: "loading", name: "Cement Bags", emoji: "🧱", unit: "Bags", rate: 360 },
         { id: "l3", code: "L403", cat: "loading", name: "Hardware Pkts", emoji: "🧰", unit: "Pkt", rate: 0 },
@@ -2021,16 +2268,18 @@
       ];
 
       /* =========================================================================
-         4. APPLICATION STATE
+         4. APPLICATION STATE (DEFAULT: SIMPLE MODE)
          ========================================================================= */
       const savedState = safeParseJSON(localStorage.getItem(STORAGE_KEY), {});
 
       const state = {
+        appMode: savedState.appMode === "advance" ? "advance" : "simple", // Default: "simple"
         activeCat: savedState.activeCat || "general",
         categories: Array.isArray(savedState.categories) && savedState.categories.length ? savedState.categories : DEFAULT_CATEGORIES,
         items: Array.isArray(savedState.items) && savedState.items.length ? savedState.items : DEFAULT_ITEMS,
         ticketRoutes: Array.isArray(savedState.ticketRoutes) && savedState.ticketRoutes.length ? savedState.ticketRoutes : DEFAULT_TICKET_ROUTES,
         barcodes: savedState.barcodes || {},
+        priceMemory: savedState.priceMemory || {},
         showPrice: Boolean(savedState.showPrice),
         catalogueHidden: Boolean(savedState.catalogueHidden),
         fontScale: savedState.fontScale || "normal",
@@ -2079,11 +2328,13 @@
       function persistState() {
         try {
           const payload = {
+            appMode: state.appMode,
             activeCat: state.activeCat,
             categories: state.categories,
             items: state.items,
             ticketRoutes: state.ticketRoutes,
             barcodes: state.barcodes,
+            priceMemory: state.priceMemory,
             showPrice: state.showPrice,
             catalogueHidden: state.catalogueHidden,
             fontScale: state.fontScale,
@@ -2101,7 +2352,44 @@
       }
 
       /* =========================================================================
-         5. FONT ZOOM & CATEGORY HEADER HELPERS
+         5. SIMPLE vs ADVANCE MODE SWITCHER
+         ========================================================================= */
+      function setAppMode(newMode) {
+        state.appMode = newMode === "advance" ? "advance" : "simple";
+        if (state.appMode === "simple") {
+          state.activeCat = "general";
+        }
+        persistState();
+        applyAppModeUI();
+        renderAll();
+      }
+
+      function applyAppModeUI() {
+        const btnSimple = document.getElementById("btnModeSimple");
+        const btnAdv = document.getElementById("btnModeAdvance");
+        if (state.appMode === "simple") {
+          document.body.classList.add("mode-simple");
+          btnSimple.classList.add("active", "simple-on");
+          btnAdv.classList.remove("active");
+        } else {
+          document.body.classList.remove("mode-simple");
+          btnAdv.classList.add("active");
+          btnSimple.classList.remove("active", "simple-on");
+        }
+      }
+
+      document.getElementById("btnModeSimple").addEventListener("click", () => {
+        setAppMode("simple");
+        showToast("🟢 Simple Shopping List Mode");
+      });
+
+      document.getElementById("btnModeAdvance").addEventListener("click", () => {
+        setAppMode("advance");
+        showToast("⚡ Advance POS & Thermal Mode");
+      });
+
+      /* =========================================================================
+         6. FONT ZOOM & CATEGORY HEADER HELPERS
          ========================================================================= */
       function applyFontScale() {
         document.body.classList.remove("font-lg", "font-xl");
@@ -2147,7 +2435,7 @@
       }
 
       /* =========================================================================
-         6. TOAST & ORDER MUTATION HELPERS
+         7. TOAST, AUTO-PRICE MEMORY & ORDER MUTATION HELPERS
          ========================================================================= */
       let toastTimer = null;
       function showToast(msg) {
@@ -2202,7 +2490,17 @@
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
         const guestTag = cat.mode === "restaurant" ? state.activeGuest : "ALL";
-        const rateNum = Number(itemObj.rate) || 0;
+        const cleanName = sanitizeText(itemObj.name, 45);
+        const lowerName = cleanName.toLowerCase();
+
+        // Auto-Price Memory lookup if rate not explicitly given
+        let rateNum = Number(itemObj.rate) || 0;
+        if (rateNum === 0 && state.priceMemory[lowerName]) {
+          rateNum = Number(state.priceMemory[lowerName]) || 0;
+        } else if (rateNum > 0) {
+          state.priceMemory[lowerName] = rateNum;
+        }
+
         const unitStr = sanitizeText(itemObj.unit || "", 15);
 
         if (rateNum > 0) {
@@ -2210,7 +2508,7 @@
         }
 
         if (autoSaveCatalogue) {
-          ensureItemInCatalogue(itemObj);
+          ensureItemInCatalogue({ ...itemObj, name: cleanName, rate: rateNum });
         }
 
         if (cat.mode === "ticket" || itemObj.isIndividualTicket) {
@@ -2218,8 +2516,9 @@
             uid: "tkt_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
             guest: "ALL",
             isTicket: true,
+            checked: false,
             code: sanitizeText(itemObj.code || "TKT", 24),
-            name: sanitizeText(itemObj.name, 45),
+            name: cleanName,
             emoji: itemObj.emoji || "🎫",
             thumb: "",
             unit: sanitizeText(itemObj.unit || "", 25),
@@ -2229,10 +2528,11 @@
         } else {
           const existing = list.find(
             x =>
-              x.name.toLowerCase() === itemObj.name.toLowerCase() &&
+              x.name.toLowerCase() === lowerName &&
               x.guest === guestTag &&
               x.rate === rateNum &&
-              (x.unit || "") === unitStr
+              (x.unit || "") === unitStr &&
+              !x.checked
           );
 
           if (existing) {
@@ -2242,8 +2542,9 @@
               uid: "ord_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
               guest: guestTag,
               isTicket: false,
+              checked: false,
               code: sanitizeText(itemObj.code || generateUniqueCode("M"), 24),
-              name: sanitizeText(itemObj.name, 40),
+              name: cleanName,
               emoji: itemObj.emoji || "📦",
               thumb: itemObj.thumb || "",
               unit: unitStr,
@@ -2260,7 +2561,213 @@
       }
 
       /* =========================================================================
-         7. RENDERING ENGINE (LEFT PANE SWITCHES BETWEEN CATALOGUE & TICKET ROUTES)
+         8. SIMPLE MODE RENDERING & INTERACTIONS (PLAY STORE CHECKLIST STYLE)
+         ========================================================================= */
+      function renderSimpleWorkspace() {
+        if (!state.generalOrders["general"]) {
+          state.generalOrders["general"] = { meta: { field1: "", field2: "" }, items: [] };
+        }
+        const meta = state.generalOrders["general"].meta;
+        const titleInp = document.getElementById("simpleListTitle");
+        if (document.activeElement !== titleInp) {
+          titleInp.value = meta.field1 || "";
+        }
+
+        const feed = document.getElementById("simpleOrderFeed");
+        feed.innerHTML = "";
+        const list = state.generalOrders["general"].items;
+
+        if (!list.length) {
+          const empty = document.createElement("div");
+          empty.style.cssText = "text-align:center; color:#64748b; padding:38px 16px; display:flex; flex-direction:column; align-items:center; gap:8px;";
+          empty.innerHTML = `<div style="font-size:38px;">🛒</div>
+            <div style="font-size:14px; font-weight:800; color:#0f172a;">Aapki Order List Khali Hai</div>
+            <div style="font-size:12px;">Neeche <strong>➕ Add Item</strong> dabakar likhein, mic 🎤 se bolein, ya WhatsApp list 📋 paste karein.</div>`;
+          feed.appendChild(empty);
+          return;
+        }
+
+        // Unchecked items first, checked (bought) items at the bottom
+        const sortedList = [...list].sort((a, b) => Number(Boolean(a.checked)) - Number(Boolean(b.checked)));
+
+        sortedList.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "simple-item-card" + (item.checked ? " checked" : "");
+
+          // Bazaar Checkbox
+          const chk = document.createElement("input");
+          chk.type = "checkbox";
+          chk.className = "simple-check-box";
+          chk.checked = Boolean(item.checked);
+          chk.title = "Mark as bought / done";
+          chk.addEventListener("change", () => {
+            item.checked = chk.checked;
+            persistState();
+            renderSimpleWorkspace();
+          });
+          card.appendChild(chk);
+
+          // Item Name & Unit/Price Info (Tap to edit price/qty)
+          const main = document.createElement("div");
+          main.className = "simple-item-main";
+          main.addEventListener("click", () => openEditOrderRowModal(item));
+
+          const nm = document.createElement("div");
+          nm.className = "simple-item-name";
+          nm.textContent = `${item.emoji ? item.emoji + " " : ""}${item.name}`;
+          main.appendChild(nm);
+
+          const sub = document.createElement("div");
+          sub.className = "simple-item-sub";
+          const priceStr = item.rate > 0 ? `₹${item.rate} × ${item.qty} = ₹${Math.round(item.rate * item.qty)}` : "Tap to set ₹ rate";
+          sub.textContent = [item.unit, priceStr].filter(Boolean).join(" • ");
+          main.appendChild(sub);
+          card.appendChild(main);
+
+          // Qty Controls (- [20] + ✕)
+          const ctrls = document.createElement("div");
+          ctrls.className = "qty-controls";
+
+          const minusBtn = document.createElement("button");
+          minusBtn.type = "button";
+          minusBtn.className = "qty-btn";
+          minusBtn.textContent = "−";
+          minusBtn.addEventListener("click", () => {
+            pushUndoSnapshot();
+            if (item.qty > 1) {
+              item.qty -= 1;
+            } else {
+              const idx = list.indexOf(item);
+              if (idx > -1) list.splice(idx, 1);
+            }
+            persistState();
+            renderAll();
+          });
+
+          const qtyInput = document.createElement("input");
+          qtyInput.type = "number";
+          qtyInput.className = "qty-direct-input";
+          qtyInput.min = "0.1";
+          qtyInput.step = "any";
+          qtyInput.value = item.qty;
+          qtyInput.addEventListener("focus", () => qtyInput.select());
+          qtyInput.addEventListener("change", () => {
+            const val = parseFloat(qtyInput.value);
+            pushUndoSnapshot();
+            if (!val || val <= 0) {
+              const idx = list.indexOf(item);
+              if (idx > -1) list.splice(idx, 1);
+            } else {
+              item.qty = Math.min(99999, Math.round(val * 100) / 100);
+            }
+            persistState();
+            renderAll();
+          });
+
+          const plusBtn = document.createElement("button");
+          plusBtn.type = "button";
+          plusBtn.className = "qty-btn";
+          plusBtn.textContent = "+";
+          plusBtn.addEventListener("click", () => {
+            pushUndoSnapshot();
+            item.qty += 1;
+            persistState();
+            renderAll();
+          });
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "qty-btn del-row";
+          delBtn.textContent = "✕";
+          delBtn.addEventListener("click", () => {
+            pushUndoSnapshot();
+            const idx = list.indexOf(item);
+            if (idx > -1) list.splice(idx, 1);
+            persistState();
+            renderAll();
+          });
+
+          ctrls.appendChild(minusBtn);
+          ctrls.appendChild(qtyInput);
+          ctrls.appendChild(plusBtn);
+          ctrls.appendChild(delBtn);
+          card.appendChild(ctrls);
+
+          feed.appendChild(card);
+        });
+
+        renderSimpleSuggestions("");
+      }
+
+      function renderSimpleSuggestions(query) {
+        const row = document.getElementById("simpleSuggestionsRow");
+        row.innerHTML = "";
+        const q = query.toLowerCase().trim();
+        const matches = state.items
+          .filter(it => it.cat === "general" && (!q || it.name.toLowerCase().includes(q)))
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .slice(0, 8);
+
+        matches.forEach(it => {
+          const pill = document.createElement("button");
+          pill.type = "button";
+          pill.className = "mini-pill";
+          pill.textContent = `${it.emoji || "📝"} ${it.name}`;
+          pill.addEventListener("click", () => {
+            addItemToCurrentOrder(it, 1);
+            document.getElementById("simpleQuickInput").value = "";
+            document.getElementById("simpleQuickInput").focus();
+          });
+          row.appendChild(pill);
+        });
+      }
+
+      document.getElementById("simpleListTitle").addEventListener("input", e => {
+        if (!state.generalOrders["general"]) {
+          state.generalOrders["general"] = { meta: { field1: "", field2: "" }, items: [] };
+        }
+        state.generalOrders["general"].meta.field1 = sanitizeText(e.target.value, 30);
+        persistState();
+        renderThermalAndQR();
+      });
+
+      document.getElementById("btnSimpleBigPlus").addEventListener("click", () => {
+        const dock = document.getElementById("simpleEntryDock");
+        dock.classList.toggle("open");
+        if (dock.classList.contains("open")) {
+          renderSimpleSuggestions("");
+          document.getElementById("simpleQuickInput").focus();
+        }
+      });
+
+      document.getElementById("simpleQuickInput").addEventListener("input", e => {
+        renderSimpleSuggestions(e.target.value);
+      });
+
+      document.getElementById("simpleAddForm").addEventListener("submit", e => {
+        e.preventDefault();
+        const inp = document.getElementById("simpleQuickInput");
+        const count = parseAndAddBulkText(inp.value, false);
+        if (count > 0) {
+          inp.value = "";
+          inp.focus(); // Keep focus open for rapid-fire next item entry!
+        }
+      });
+
+      document.getElementById("btnSimpleMic").addEventListener("click", () => startVoiceOrder("simple"));
+      document.getElementById("btnSimpleStopVoice").addEventListener("click", stopVoiceOrder);
+      document.getElementById("btnSimplePaste").addEventListener("click", () => {
+        document.getElementById("whatsappRawText").value = "";
+        openModal("modalWhatsapp");
+      });
+      document.getElementById("btnSimpleShare").addEventListener("click", shareSlipToMobile);
+      document.getElementById("btnSimpleQr").addEventListener("click", () => openLightbox("qr"));
+      document.getElementById("btnSimpleClear").addEventListener("click", () => {
+        document.getElementById("btnClearOrder").click();
+      });
+
+      /* =========================================================================
+         9. ADVANCE MODE RENDERING ENGINE
          ========================================================================= */
       function applyCatalogueVisibility() {
         const ws = document.getElementById("splitWorkspace");
@@ -2326,7 +2833,6 @@
         leftPane.innerHTML = "";
         const cat = getActiveCategoryObj();
 
-        // In Ticket Mode: Left Side shows Boarding | Destination | Fare Route List + Add Stop
         if (cat.mode === "ticket") {
           const wrap = document.createElement("div");
           wrap.className = "ticket-left-wrap";
@@ -2356,7 +2862,6 @@
             delRt.type = "button";
             delRt.style.cssText = "border:none; background:none; color:#dc2626; font-weight:800; cursor:pointer; font-size:11px;";
             delRt.textContent = "✕";
-            delRt.title = "Remove Stop";
             delRt.addEventListener("click", ev => {
               ev.stopPropagation();
               state.ticketRoutes.splice(idx, 1);
@@ -2386,7 +2891,6 @@
           });
           wrap.appendChild(routeBox);
 
-          // Add New Stop Form at Bottom of Left Pane
           const addForm = document.createElement("form");
           addForm.className = "ticket-add-route-bar";
           addForm.autocomplete = "off";
@@ -2444,7 +2948,6 @@
           return;
         }
 
-        // Standard Modes: Alphabetical Emoji / Photo Product Catalogue
         const subbar = document.createElement("div");
         subbar.className = "pane-subbar";
         const searchInp = document.createElement("input");
@@ -2620,7 +3123,6 @@
           guestRow.appendChild(customG);
           strip.appendChild(guestRow);
         } else if (cat.mode === "ticket") {
-          // Right Pane Top Strip: Passenger Selection Only (Male, Female, Child Half, Senior)
           const paxRow = document.createElement("div");
           paxRow.className = "pill-row";
 
@@ -2639,7 +3141,7 @@
             b.addEventListener("click", () => {
               state.ticketPassenger = p.id;
               renderContextStrip();
-              renderLeftPane(); // Updates half/full fare preview on left list immediately
+              renderLeftPane();
             });
             paxRow.appendChild(b);
           });
@@ -2844,7 +3346,7 @@
       }
 
       /* =========================================================================
-         8. 58MM THERMAL SLIP BUILDER & CLEAN .TXT+URL QR CODE
+         10. 58MM THERMAL SLIP BUILDER & CLEAN .TXT+URL QR CODE
          ========================================================================= */
       function formatCompactDateTime() {
         const now = new Date();
@@ -3119,17 +3621,22 @@
       }
 
       function renderAll() {
+        applyAppModeUI();
         applyFontScale();
-        applyCatalogueVisibility();
-        renderCategoryTabs();
-        renderLeftPane();
-        renderContextStrip();
-        renderLiveOrderFeed();
+        if (state.appMode === "simple") {
+          renderSimpleWorkspace();
+        } else {
+          applyCatalogueVisibility();
+          renderCategoryTabs();
+          renderLeftPane();
+          renderContextStrip();
+          renderLiveOrderFeed();
+        }
         renderThermalAndQR();
       }
 
       /* =========================================================================
-         9. TTS AUDIO PLAYER (PLAY / LISTEN & STOP)
+         11. TTS AUDIO PLAYER (PLAY / LISTEN & STOP)
          ========================================================================= */
       function buildSpeechScript() {
         const cat = getActiveCategoryObj();
@@ -3154,7 +3661,7 @@
         return parts.join(" ");
       }
 
-      document.getElementById("btnTtsPlay").addEventListener("click", () => {
+      function startTtsPlayback() {
         if (!("speechSynthesis" in window)) {
           showToast("Audio TTS not supported in this browser");
           return;
@@ -3168,17 +3675,22 @@
         if (preferred) utter.voice = preferred;
         utter.onstart = () => showToast("🔊 Reading list aloud...");
         window.speechSynthesis.speak(utter);
-      });
+      }
 
-      document.getElementById("btnTtsStop").addEventListener("click", () => {
+      function stopTtsPlayback() {
         if ("speechSynthesis" in window) {
           window.speechSynthesis.cancel();
           showToast("⏹️ Audio stopped");
         }
-      });
+      }
+
+      document.getElementById("btnTtsPlay").addEventListener("click", startTtsPlayback);
+      document.getElementById("btnTtsStop").addEventListener("click", stopTtsPlayback);
+      document.getElementById("btnSimpleTtsPlay").addEventListener("click", startTtsPlayback);
+      document.getElementById("btnSimpleTtsStop").addEventListener("click", stopTtsPlayback);
 
       /* =========================================================================
-         10. UPGRADED HINDI & ENGLISH KIRANA / WHATSAPP / VOICE PARSER
+         12. HINDI & ENGLISH KIRANA / WHATSAPP / VOICE PARSER
          ========================================================================= */
       function parseAndAddBulkText(rawText, isContinuousSpeech = false) {
         if (typeof rawText !== "string" || !rawText.trim()) return 0;
@@ -3186,13 +3698,11 @@
         pushUndoSnapshot();
         let addedCount = 0;
 
-        // Split strictly by line breaks (\r\n or \n) first, plus commas/semicolons
         let segments = rawText
           .split(/\r?\n|[,;•]+/)
           .map(s => sanitizeText(s, 80))
           .filter(Boolean);
 
-        // If single-line continuous speech without newlines/commas
         if (isContinuousSpeech && segments.length === 1 && segments[0].split(" ").length >= 2) {
           const words = segments[0].toLowerCase().split(/\s+/);
           const smartChunks = [];
@@ -3224,7 +3734,6 @@
         const unitPattern = `(?:kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag|${HINDI_UNITS_LIST.join("|")})`;
 
         segments.forEach(seg => {
-          // Clean Hindi danda (।), bullet symbols, and leading serial numbers
           let line = seg
             .replace(/।/g, " ")
             .replace(/^[\d]+[.)]\s*|^[-*]\s*/, "")
@@ -3232,7 +3741,6 @@
             .trim();
           if (!line) return;
 
-          // Extract explicit @price or rs price
           let explicitRate = null;
           const priceMatch = line.match(/(?:@|rs\.?\s*|₹\s*)(\d+(?:\.\d+)?)\s*$/i);
           if (priceMatch) {
@@ -3244,22 +3752,18 @@
           let unit = "";
           let itemName = line;
 
-          // Pattern 1: Hindi/Desi MRP + Qty e.g. "एप्पी नूडल्स 10 में 2 दर्जन" or "ब्रेड 10 एक दर्जन"
           const mHindiMrp = line.match(
             new RegExp(`^(.+?)\\s+(\\d+)\\s*(?:में|wala|rs)?\\s*(\\d+(?:\\.\\d+)?|एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|आधा)\\s*(${unitPattern})?$`, "i")
           );
 
-          // Pattern 2: Repeated Qty e.g. "लैस ग्रीन ब्लू में 3 3 पत्ता" -> qty = 3+3 = 6
           const mDoubleQty = line.match(
             new RegExp(`^(.+?)\\s+(\\d+)\\s+(\\d+)\\s*(${unitPattern})?$`, "i")
           );
 
-          // Pattern 3: Number/Word at START e.g. "2kg Sugar", "20 Aloo", "दो किलो चीनी"
           const mStart = line.match(
             new RegExp(`^(\\d+(?:\\.\\d+)?|एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|आधा)\\s*(${unitPattern}|x)?\\s+(.+)$`, "i")
           );
 
-          // Pattern 4: Number/Word at END e.g. "मंच 2 पूड़ा", "कपिल 02 दर्जन", "विमल 02"
           const mEnd = line.match(
             new RegExp(`^(.+?)\\s*[-:x×]?\\s*(\\d+(?:\\.\\d+)?|एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|आधा)\\s*(${unitPattern})?$`, "i")
           );
@@ -3354,6 +3858,7 @@
           target.rate = Math.max(0, parseFloat(document.getElementById("editRowRate").value) || 0);
           if (target.rate > 0) {
             state.showPrice = true;
+            state.priceMemory[target.name.toLowerCase()] = target.rate;
             const catItm = state.items.find(it => it.cat === state.activeCat && it.name.toLowerCase() === target.name.toLowerCase());
             if (catItm && (!catItm.rate || catItm.rate === 0)) {
               catItm.rate = target.rate;
@@ -3376,7 +3881,7 @@
         const raw = document.getElementById("whatsappRawText").value;
         const count = parseAndAddBulkText(raw, false);
         closeModal("modalWhatsapp");
-        if (count > 0) showToast(`✅ Added ${count} items to list & catalogue!`);
+        if (count > 0) showToast(`✅ Added ${count} items to list!`);
       });
 
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3388,9 +3893,10 @@
           activeRecognition = null;
         }
         document.getElementById("voiceLiveBanner").classList.remove("active");
+        document.getElementById("simpleVoiceBanner").classList.remove("active");
       }
 
-      function startVoiceOrder() {
+      function startVoiceOrder(sourceMode = "advance") {
         if (!SpeechRec) {
           showToast("Voice recognition not supported in this browser");
           return;
@@ -3399,7 +3905,7 @@
           stopVoiceOrder();
           return;
         }
-        const banner = document.getElementById("voiceLiveBanner");
+        const banner = sourceMode === "simple" ? document.getElementById("simpleVoiceBanner") : document.getElementById("voiceLiveBanner");
         activeRecognition = new SpeechRec();
         activeRecognition.lang = "en-IN";
         activeRecognition.interimResults = false;
@@ -3419,11 +3925,11 @@
         activeRecognition.start();
       }
 
-      document.getElementById("btnVoiceOrder").addEventListener("click", startVoiceOrder);
+      document.getElementById("btnVoiceOrder").addEventListener("click", () => startVoiceOrder("advance"));
       document.getElementById("btnStopVoice").addEventListener("click", stopVoiceOrder);
 
       /* =========================================================================
-         11. LIGHTBOX PREVIEW
+         13. LIGHTBOX PREVIEW & SHARE
          ========================================================================= */
       function openLightbox(mode) {
         const titleEl = document.getElementById("lightboxTitle");
@@ -3498,7 +4004,7 @@
 
         try {
           await navigator.clipboard.writeText(slipText);
-          showToast("Order copied! Paste in Bluetooth / WhatsApp.");
+          showToast("Order copied! Paste in WhatsApp / Bluetooth.");
         } catch (err) {}
       }
 
@@ -3538,7 +4044,7 @@
       });
 
       /* =========================================================================
-         12. BLUETOOTH PRINTER & MOBILE BLUETOOTH/QUICK-SHARE BRIDGE
+         14. BLUETOOTH PRINTER & DESKTOP PRINT
          ========================================================================= */
       let btCharacteristic = null;
 
@@ -3571,7 +4077,7 @@
           }
           if (btCharacteristic) {
             document.getElementById("btnBtConnect").classList.add("bt-connected");
-            document.getElementById("btnBtConnect").textContent = "📶 Ready";
+            document.getElementById("btnBtConnect").textContent = "📶✓";
             showToast(`Connected: ${device.name || "Thermal Printer"}`);
             return true;
           }
@@ -3717,7 +4223,7 @@
       document.getElementById("btnExecDesktopPrint").addEventListener("click", executeDesktopSystemPrint);
 
       /* =========================================================================
-         13. EMOJI PICKER, CATALOGUE EDITOR, CALCULATOR & CONTINUOUS BARCODE SCAN
+         15. EMOJI PICKER, CATALOGUE EDITOR, CALCULATOR & CONTINUOUS BARCODE SCAN
          ========================================================================= */
       function renderEmojiPickerUI() {
         const tabs = document.getElementById("emojiGroupTabs");
@@ -3792,6 +4298,8 @@
         const rate = Math.max(0, parseFloat(document.getElementById("customItemRate").value) || 0);
         const chosenEmoji = sanitizeText(document.getElementById("directEmojiInput").value, 4) || state.selectedEmoji;
         if (!name) return;
+
+        if (rate > 0) state.priceMemory[name.toLowerCase()] = rate;
 
         if (editId) {
           const target = state.items.find(it => it.id === editId);
@@ -4048,8 +4556,56 @@
       });
 
       /* =========================================================================
-         14. CATEGORY-WISE SETUP, VIRAL SHARE QR, DRAWER, HISTORY & CAMERA
+         16. BACKUP & RESTORE (.JSON), DRAWER, HISTORY, SAVE/CLEAR & CAMERA
          ========================================================================= */
+      function exportJsonBackup() {
+        const backupObj = {
+          app: "OrderListMaker",
+          exportedAt: new Date().toISOString(),
+          data: {
+            categories: state.categories,
+            items: state.items,
+            ticketRoutes: state.ticketRoutes,
+            barcodes: state.barcodes,
+            priceMemory: state.priceMemory,
+            categorySetups: state.categorySetups,
+            savedArchive: state.savedArchive
+          }
+        };
+        const blob = new Blob([JSON.stringify(backupObj, null, 2)], { type: "application/json" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `OrderListMaker-Backup-${Date.now()}.json`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast("💾 Backup .JSON downloaded!");
+      }
+
+      document.getElementById("restoreBackupInput").addEventListener("change", e => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const parsed = safeParseJSON(ev.target.result, null);
+          if (!parsed || !parsed.data || !Array.isArray(parsed.data.items)) {
+            showToast("Invalid backup file!");
+            return;
+          }
+          state.categories = parsed.data.categories || state.categories;
+          state.items = parsed.data.items;
+          state.ticketRoutes = parsed.data.ticketRoutes || state.ticketRoutes;
+          state.barcodes = parsed.data.barcodes || {};
+          state.priceMemory = parsed.data.priceMemory || {};
+          state.categorySetups = parsed.data.categorySetups || state.categorySetups;
+          state.savedArchive = parsed.data.savedArchive || [];
+          persistState();
+          renderAll();
+          showToast("✅ Backup restored successfully!");
+        };
+        reader.readAsText(file);
+        e.target.value = "";
+      });
+
       function openCategorySetupModal() {
         const cat = getActiveCategoryObj();
         const setup = getCurrentCategorySetup();
@@ -4137,15 +4693,24 @@
       document.getElementById("btnCloseDrawer").addEventListener("click", closeDrawer);
       document.getElementById("drawerBackdrop").addEventListener("click", closeDrawer);
 
+      document.getElementById("menuToggleAppMode").addEventListener("click", () => {
+        closeDrawer();
+        setAppMode(state.appMode === "simple" ? "advance" : "simple");
+      });
       document.getElementById("menuHistory").addEventListener("click", () => { closeDrawer(); renderHistoryModal(); });
+      document.getElementById("menuWhatsappPaste").addEventListener("click", () => { closeDrawer(); openModal("modalWhatsapp"); });
+      document.getElementById("menuVoiceOrder").addEventListener("click", () => { closeDrawer(); startVoiceOrder(state.appMode); });
+      document.getElementById("menuCalculator").addEventListener("click", () => { closeDrawer(); openModal("modalCalc"); });
       document.getElementById("menuSlipSetup").addEventListener("click", () => { closeDrawer(); openCategorySetupModal(); });
       document.getElementById("menuBtOptions").addEventListener("click", () => { closeDrawer(); openModal("modalBtChoice"); });
       document.getElementById("menuFontToggle").addEventListener("click", () => { closeDrawer(); cycleFontScale(); });
       document.getElementById("menuAppShareQr").addEventListener("click", () => { closeDrawer(); openAppShareModal(); });
-      document.getElementById("menuWhatsappPaste").addEventListener("click", () => { closeDrawer(); openModal("modalWhatsapp"); });
-      document.getElementById("menuVoiceOrder").addEventListener("click", () => { closeDrawer(); startVoiceOrder(); });
-      document.getElementById("menuCalculator").addEventListener("click", () => { closeDrawer(); openModal("modalCalc"); });
       document.getElementById("menuPrintSettings").addEventListener("click", () => { closeDrawer(); openModal("modalPrintOptions"); });
+      document.getElementById("menuExportBackup").addEventListener("click", () => { closeDrawer(); exportJsonBackup(); });
+      document.getElementById("menuRestoreBackup").addEventListener("click", () => {
+        closeDrawer();
+        document.getElementById("restoreBackupInput").click();
+      });
 
       document.getElementById("menuResetAll").addEventListener("click", () => {
         closeDrawer();
@@ -4269,6 +4834,7 @@
             openBtn.className = "mini-action-link";
             openBtn.textContent = "Switch";
             openBtn.addEventListener("click", () => {
+              state.appMode = "advance";
               state.activeCat = "restaurant";
               state.activeTable = t;
               closeModal("modalHistory");
@@ -4340,7 +4906,7 @@
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
         if (!list.length) {
-          showToast("Nothing to save — order is empty");
+          showToast("Nothing to save — list is empty");
           return;
         }
         pushUndoSnapshot();
@@ -4358,14 +4924,14 @@
         }
         persistState();
         renderAll();
-        showToast("💾 Bill Saved to History!");
+        showToast("💾 List Saved to History!");
       });
 
       document.getElementById("btnClearOrder").addEventListener("click", () => {
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
         if (!list.length) {
-          showToast("Order list is already empty");
+          showToast("List is already empty");
           return;
         }
         pushUndoSnapshot();
@@ -4376,7 +4942,7 @@
         }
         persistState();
         renderAll();
-        showToast("🧹 Current order cleared (Undo available)");
+        showToast("🧹 List cleared (Undo available)");
       });
 
       document.getElementById("btnTogglePrice").addEventListener("click", e => {
