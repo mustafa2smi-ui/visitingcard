@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Slip — Quick Order</title>
+<link rel="stylesheet" href="style.css">
+<!-- AdSense: paste your AdSense script here after approval -->
+</head>
+<body class="view-body">
+<header class="app-header">
+  <h1>Order Slip</h1>
+</header>
+
+<main id="slipMain">
+  <div id="slipContent">
+    <p class="empty-hint">Loading order…</p>
+  </div>
+
+  <!-- AdSense slot: place ad code below this comment -->
+  <div class="ad-slot"></div>
+
+  <div class="slip-actions">
+    <button class="btn-primary" id="printBtn" type="button">Print</button>
+    <button class="btn-secondary" id="shareSlipBtn" type="button">Share</button>
+  </div>
+</main>
+
+<footer class="app-footer">
+  <p class="footer-links"><a href="index.html">Build another order</a> · <a href="privacy.html">Privacy</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+<script src="view.js"></script>
+</body>
+</html>
