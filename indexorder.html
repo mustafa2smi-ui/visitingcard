@@ -12,8 +12,8 @@
   <!-- Primary SEO Meta Tags -->
   <title>Order List Maker — Universal General, Restaurant, Bus Ticket, Grocery &amp; Loading PWA</title>
   <meta name="title" content="Order List Maker — Universal General, Restaurant, Bus Ticket, Grocery &amp; Loading PWA" />
-  <meta name="description" content="Offline-first universal order list maker for shops, restaurants (table &amp; guest wise), bus/travel tickets (Male/Female/Child/Senior), grocery, and loading. Senior-friendly font zoom, 58mm thermal print &amp; QR summary." />
-  <meta name="keywords" content="order list maker, bus ticket booking slip app, tts order reader, continuous barcode scanner pos, restaurant table order, 58mm thermal print pwa, qr order summary" />
+  <meta name="description" content="Offline-first universal order list maker for shops, restaurants (table &amp; guest wise), bus/travel tickets (Male/Female/Child/Senior), Hindi/English WhatsApp kirana paste, 58mm thermal print &amp; QR summary." />
+  <meta name="keywords" content="order list maker, hindi whatsapp order parser, bus ticket booking slip app, tts order reader, continuous barcode scanner pos, 58mm thermal print pwa, qr order summary" />
   <meta name="author" content="Order List Maker" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <meta name="theme-color" content="#ffffff" />
@@ -24,14 +24,14 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Order List Maker" />
   <meta property="og:title" content="Order List Maker — Universal POS, Ticket, Voice &amp; Thermal Slip PWA" />
-  <meta property="og:description" content="Create instant orders via tap, voice, continuous barcode scan, or WhatsApp paste with bus ticket fare table, category-wise headers, and 58mm thermal print." />
+  <meta property="og:description" content="Create instant orders via tap, voice, continuous barcode scan, or Hindi/English WhatsApp paste with bus ticket fare table, category-wise headers, and 58mm thermal print." />
   <meta property="og:url" content="https://orderlistmaker.app/" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Order List Maker — Universal Order &amp; Thermal Slip PWA" />
-  <meta name="twitter:description" content="Light-theme universal order list builder with senior-friendly font zoom, bus ticket route fares, TTS voice player &amp; 58mm thermal print." />
+  <meta name="twitter:description" content="Light-theme universal order list builder with senior-friendly font zoom, bus ticket route fares, Hindi WhatsApp list parser &amp; 58mm thermal print." />
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -47,7 +47,7 @@
       "price": "0",
       "priceCurrency": "INR"
     },
-    "description": "Universal order list builder with General, Restaurant Table/Guest split, Passenger Bus Ticket mode (Male, Female, Child, Senior), Grocery, and Loading modes, TTS audio readout, continuous beep barcode scanner, and 58mm/80mm/A4 printing."
+    "description": "Universal order list builder with General, Restaurant Table/Guest split, Passenger Bus Ticket mode (Male, Female, Child, Senior), Grocery, and Loading modes, Hindi/English WhatsApp list parser, TTS audio readout, and 58mm/80mm/A4 printing."
   }
   </script>
 
@@ -83,7 +83,6 @@
       --fs-md: 13px;
     }
 
-    /* Senior-Friendly Font Size Tiers (Preserves Single-Viewport Non-Scroll Layout) */
     body.font-lg {
       --fs-base: 14px;
       --fs-sm: 12.5px;
@@ -195,7 +194,7 @@
       background: var(--bg-subtle);
       color: var(--text-main);
       border-radius: 6px;
-      padding: 4px 6px;
+      padding: 4px 5px;
       font-size: var(--fs-sm);
       font-weight: 700;
       cursor: pointer;
@@ -278,7 +277,7 @@
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: 45% 55%;
+      grid-template-columns: 46% 54%;
       border-bottom: 1px solid var(--border-color);
       background: var(--bg-surface);
     }
@@ -291,7 +290,7 @@
       display: none !important;
     }
 
-    /* Left Section: Alphabetical Product Catalogue */
+    /* Left Section: Alphabetical Product Catalogue OR Ticket Route Fare Table */
     .catalogue-pane {
       display: flex;
       flex-direction: column;
@@ -431,6 +430,65 @@
       margin-top: 1px;
     }
 
+    /* Left-Pane Ticket Route Fare Table Styling */
+    .ticket-left-wrap {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .ticket-route-box {
+      flex: 1;
+      min-height: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      background: #ffffff;
+      overflow-y: auto;
+    }
+
+    .ticket-route-hdr {
+      display: grid;
+      grid-template-columns: 1fr 1fr 44px 18px;
+      gap: 2px;
+      padding: 4px 5px;
+      background: #e2e8f0;
+      font-size: var(--fs-xs);
+      font-weight: 800;
+      color: var(--text-main);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .ticket-route-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 44px 18px;
+      gap: 2px;
+      padding: 6px 5px;
+      border-top: 1px solid var(--border-color);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .ticket-route-row:active {
+      background: var(--primary-soft);
+    }
+
+    .ticket-add-route-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      background: #ffffff;
+      padding: 4px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+    }
+
     /* Right Section: Live Order & Ticket Booking */
     .order-pane {
       display: flex;
@@ -507,51 +565,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4px;
-    }
-
-    /* Ticket Route Fare Table inside Ticket Mode */
-    .ticket-route-box {
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      background: #ffffff;
-      max-height: 118px;
-      overflow-y: auto;
-    }
-
-    .ticket-route-hdr {
-      display: grid;
-      grid-template-columns: 1fr 1fr 48px 22px;
-      gap: 3px;
-      padding: 3px 5px;
-      background: #e2e8f0;
-      font-size: var(--fs-xs);
-      font-weight: 800;
-      color: var(--text-main);
-      position: sticky;
-      top: 0;
-    }
-
-    .ticket-route-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 48px 22px;
-      gap: 3px;
-      padding: 4px 5px;
-      border-top: 1px solid var(--border-color);
-      font-size: var(--fs-sm);
-      font-weight: 700;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .ticket-route-row:active {
-      background: var(--primary-soft);
-    }
-
-    .ticket-add-route-bar {
-      display: grid;
-      grid-template-columns: 1fr 1fr 52px auto;
-      gap: 3px;
-      align-items: center;
     }
 
     /* Quick Entry + Hide Toggle + Voice + WhatsApp Paste */
@@ -655,7 +668,7 @@
       background: var(--danger-soft);
     }
 
-    /* Voice Active Banner with Manual Stop Button */
+    /* Voice Active Banner */
     .voice-live-banner {
       display: none;
       align-items: center;
@@ -794,7 +807,6 @@
       margin-left: 2px;
     }
 
-    /* Direct Editable Qty Input Box (Type 20 or 25 directly) */
     .qty-direct-input {
       width: 36px;
       height: 22px;
@@ -1312,17 +1324,18 @@
 </head>
 <body>
   <div class="app-shell">
-    <!-- 1. TOP HEADER BAR -->
+    <!-- 1. TOP HEADER BAR (With Direct 📂 Saved Bills Button) -->
     <header class="app-header">
       <div class="brand-box">
         <button type="button" class="hamburger-btn" id="btnHamburger" aria-label="Open Menu">☰</button>
         <h1 class="brand-title">🧾 Order List Maker</h1>
       </div>
       <div class="header-actions">
-        <button type="button" class="hdr-btn" id="btnFontZoom" title="Change Font Size for Easy Reading">🔍A+</button>
+        <button type="button" class="hdr-btn" id="btnFontZoom" title="Font Size">🔍A+</button>
         <button type="button" class="hdr-btn" id="btnUndo" title="Undo" disabled>↩️</button>
-        <button type="button" class="hdr-btn" id="btnBtConnect" title="Bluetooth Printer">📶 BT</button>
-        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save to History">💾 Save</button>
+        <button type="button" class="hdr-btn" id="btnBtConnect" title="Bluetooth Printer / Send to Phone">📶 BT</button>
+        <button type="button" class="hdr-btn" id="btnHistory" title="View Saved Bills & Tables">📂</button>
+        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save Bill to History">💾</button>
         <button type="button" class="hdr-btn clear-btn" id="btnClearOrder" title="Clear Current Order">🧹</button>
       </div>
     </header>
@@ -1332,21 +1345,16 @@
 
     <!-- 3. MAIN 2-SECTION SPLIT -->
     <main class="split-workspace" id="splitWorkspace">
-      <!-- LEFT SECTION: Alphabetical Product Catalogue -->
-      <section class="catalogue-pane" aria-label="Product Catalogue">
-        <div class="pane-subbar">
-          <input type="search" id="catalogueSearch" class="compact-input" placeholder="🔍 Search A–Z or Code..." maxlength="40" autocomplete="off" />
-        </div>
-        <div class="catalogue-grid" id="catalogueGrid"></div>
-      </section>
+      <!-- LEFT SECTION: Product Catalogue OR Ticket Boarding/Destination Fare Table -->
+      <section class="catalogue-pane" id="leftWorkspacePane" aria-label="Catalogue or Route Table"></section>
 
       <!-- RIGHT SECTION: Context Controls + Direct/Voice/WhatsApp Entry + TTS + Live Feed -->
       <section class="order-pane" aria-label="Live Order List">
         <div class="context-strip" id="contextStrip"></div>
 
-        <!-- Quick Type + Hide Catalogue + Voice + Paste -->
+        <!-- Quick Type + Hide Left Toggle + Voice + WhatsApp Paste -->
         <form class="quick-type-bar" id="quickTypeForm" autocomplete="off">
-          <button type="button" class="toggle-cat-btn" id="btnToggleCatalogue" title="Hide/Show Item Icons">◀ Hide</button>
+          <button type="button" class="toggle-cat-btn" id="btnToggleCatalogue" title="Hide/Show Left Panel">◀ Hide</button>
           <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="e.g. 20 Aloo @30, Tea..." maxlength="60" />
           <button type="button" class="icon-tool-btn" id="btnVoiceOrder" title="Speak Order">🎤</button>
           <button type="button" class="icon-tool-btn" id="btnPasteWhatsapp" title="Paste WhatsApp Order">📋</button>
@@ -1424,7 +1432,7 @@
     </nav>
   </div>
 
-  <!-- Hidden Print Target for Desktop & Multi-Size Paper -->
+  <!-- Hidden Print Target -->
   <div id="printAreaTarget" style="display:none;"></div>
 
   <!-- HAMBURGER MENU DRAWER -->
@@ -1435,10 +1443,11 @@
       <button type="button" class="drawer-close-btn" id="btnCloseDrawer">✕ Close</button>
     </div>
     <div class="drawer-list">
+      <button type="button" class="drawer-item" id="menuHistory">📂 Saved Bills &amp; Running Tables</button>
       <button type="button" class="drawer-item" id="menuSlipSetup">🏪 Category Bill Title &amp; Tagline Setup</button>
+      <button type="button" class="drawer-item" id="menuBtOptions">📶 Bluetooth Printer &amp; Send to Mobile</button>
       <button type="button" class="drawer-item" id="menuFontToggle">🔍 Text Size: Normal / Large / XL</button>
       <button type="button" class="drawer-item" id="menuAppShareQr">📲 Share App QR &amp; Install PWA</button>
-      <button type="button" class="drawer-item" id="menuHistory">📂 Saved Orders History</button>
       <button type="button" class="drawer-item" id="menuWhatsappPaste">📋 Paste WhatsApp Order List</button>
       <button type="button" class="drawer-item" id="menuVoiceOrder">🎤 Voice Order (Bol Kar Likhein)</button>
       <button type="button" class="drawer-item" id="menuCalculator">🧮 Simple POS Calculator</button>
@@ -1449,6 +1458,23 @@
 
   <!-- Toast Notification -->
   <div class="toast-msg" id="toastMsg" role="status" aria-live="polite"></div>
+
+  <!-- MODAL: Bluetooth Printer OR Send to Another Mobile -->
+  <div class="modal-backdrop" id="modalBtChoice">
+    <div class="modal-box" style="max-width:360px;">
+      <div class="modal-hdr">
+        <span>📶 Bluetooth Options</span>
+        <button type="button" class="modal-close" data-close="modalBtChoice">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:11px; color:#475569; line-height:1.4;">
+          <strong>Note:</strong> Browser direct Bluetooth sirf <strong>58mm Thermal Printer</strong> ko search karta hai. Dusre <strong>Mobile</strong> par bhejne ke liye niche wala button dabayein (usme Bluetooth / Quick Share dikhega):
+        </div>
+        <button type="button" class="primary-btn" id="btnConnectBlePrinter">🖨️ Connect 58mm Thermal Printer</button>
+        <button type="button" class="primary-btn" id="btnSendViaMobileBt" style="background:#059669;">📲 Send Order to Mobile (Bluetooth / Share)</button>
+      </div>
+    </div>
+  </div>
 
   <!-- LIGHTBOX MODAL: Large Thermal Bill & QR Code View -->
   <div class="modal-backdrop" id="modalLightbox">
@@ -1480,7 +1506,7 @@
         <input type="hidden" id="editRowUid" />
         <div>
           <label class="form-label" for="editRowName">Item Name</label>
-          <input type="text" id="editRowName" class="compact-input" maxlength="40" required />
+          <input type="text" id="editRowName" class="compact-input" maxlength="45" required />
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
           <div>
@@ -1497,7 +1523,7 @@
     </div>
   </div>
 
-  <!-- MODAL: WhatsApp Order Paste Parser -->
+  <!-- MODAL: WhatsApp Order Paste Parser (Supports Hindi & English Kirana Lists) -->
   <div class="modal-backdrop" id="modalWhatsapp">
     <div class="modal-box">
       <div class="modal-hdr">
@@ -1505,9 +1531,9 @@
         <button type="button" class="modal-close" data-close="modalWhatsapp">✕</button>
       </div>
       <form class="modal-body" id="formWhatsappPaste" autocomplete="off">
-        <label class="form-label" for="whatsappRawText">Paste customer message (supports qty &amp; @price e.g. "20kg Sugar @44, 3 Dosa"):</label>
-        <textarea id="whatsappRawText" class="compact-input" rows="6" placeholder="Paste WhatsApp order text here..." required maxlength="2000"></textarea>
-        <button type="submit" class="primary-btn">Convert to Order List</button>
+        <label class="form-label" for="whatsappRawText">Hindi ya English WhatsApp list paste karein (e.g. मंच 2 पूड़ा, कपिल 02 दर्जन, 2kg Sugar):</label>
+        <textarea id="whatsappRawText" class="compact-input" rows="7" placeholder="Paste WhatsApp order text here..." required maxlength="3000"></textarea>
+        <button type="submit" class="primary-btn">Convert All Lines to Order List</button>
       </form>
     </div>
   </div>
@@ -1543,7 +1569,7 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
           <div>
             <label class="form-label" for="customItemUnit">Unit / Size</label>
-            <input type="text" id="customItemUnit" class="compact-input" placeholder="e.g. Plate / 1kg" maxlength="15" />
+            <input type="text" id="customItemUnit" class="compact-input" placeholder="e.g. Plate / दर्जन / 1kg" maxlength="15" />
           </div>
           <div>
             <label class="form-label" for="customItemRate">Price / Rate ₹</label>
@@ -1748,7 +1774,7 @@
   <div class="modal-backdrop" id="modalSetup">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span id="setupModalTitle">🏪 Bill Title &amp; Tagline Setup</span>
+        <span>🏪 Bill Title &amp; Tagline Setup</span>
         <button type="button" class="modal-close" data-close="modalSetup">✕</button>
       </div>
       <form class="modal-body" id="formSetup" autocomplete="off">
@@ -1774,7 +1800,7 @@
   <div class="modal-backdrop" id="modalHistory">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>📂 Saved Orders History</span>
+        <span>📂 Saved Bills &amp; Tables</span>
         <div style="display:flex; gap:5px; align-items:center;">
           <button type="button" class="mini-action-link" id="btnDeleteAllHistory" style="background:#fef2f2; color:#dc2626;">🗑️ Delete All</button>
           <button type="button" class="modal-close" data-close="modalHistory">✕</button>
@@ -1848,7 +1874,7 @@
       /* =========================================================================
          3. DEFAULT CATEGORIES, CATEGORY HEADERS, BUS TICKET ROUTES & ITEMS
          ========================================================================= */
-      const STORAGE_KEY = "olm_universal_pos_v4";
+      const STORAGE_KEY = "olm_universal_pos_v5";
 
       const DEFAULT_CATEGORIES = [
         { id: "general", name: "General", icon: "📋", mode: "grocery" },
@@ -1858,7 +1884,6 @@
         { id: "loading", name: "Loading / Ship", icon: "🚚", mode: "loading" }
       ];
 
-      // Distinct Business Title & Tagline per Category
       const DEFAULT_CATEGORY_SETUPS = {
         general: {
           businessName: "MUSTAFA GENERAL STORE",
@@ -1887,7 +1912,6 @@
         }
       };
 
-      // Pre-populated Bus Stoppage Fare Table (Boarding | Destination | Fare)
       const DEFAULT_TICKET_ROUTES = [
         { id: "rt1", from: "Sukma", to: "Dantewada", fare: 100 },
         { id: "rt2", from: "Sukma", to: "Mailawada", fare: 80 },
@@ -1914,10 +1938,6 @@
         { id: "r6", code: "R206", cat: "restaurant", name: "Poori Sabji", emoji: "🫓", unit: "Plate", rate: 50 },
         { id: "r7", code: "R207", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
         { id: "r8", code: "R208", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
-
-        // Ticket Catalogue Quick Items
-        { id: "tk1", code: "T501", cat: "ticket", name: "Luggage Pass", emoji: "🧳", unit: "Bag", rate: 30 },
-        { id: "tk2", code: "T502", cat: "ticket", name: "Express Seat Pass", emoji: "💺", unit: "Seat", rate: 20 },
 
         // Grocery
         { id: "g1", code: "K301", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
@@ -1982,20 +2002,26 @@
       };
 
       const NUMBER_WORDS = {
-        "ek": 1, "one": 1, "a": 1,
-        "do": 2, "two": 2,
-        "teen": 3, "three": 3,
-        "char": 4, "four": 4,
-        "paanch": 5, "panch": 5, "five": 5,
-        "chhe": 6, "six": 6,
-        "saat": 7, "seven": 7,
-        "aath": 8, "eight": 8,
-        "nau": 9, "nine": 9,
-        "das": 10, "ten": 10
+        "ek": 1, "one": 1, "a": 1, "एक": 1,
+        "do": 2, "two": 2, "दो": 2,
+        "teen": 3, "three": 3, "तीन": 3,
+        "char": 4, "four": 4, "चार": 4,
+        "paanch": 5, "panch": 5, "five": 5, "पांच": 5, "पाँच": 5,
+        "chhe": 6, "six": 6, "छह": 6,
+        "saat": 7, "seven": 7, "सात": 7,
+        "aath": 8, "eight": 8, "आठ": 8,
+        "nau": 9, "nine": 9, "नौ": 9,
+        "das": 10, "ten": 10, "दस": 10,
+        "आधा": 0.5, "half": 0.5
       };
 
+      const HINDI_UNITS_LIST = [
+        "दर्जन", "पूड़ा", "पुड़ा", "पुडिया", "पुड़िया", "पत्ता", "पत्ते", "पेटी",
+        "बोरा", "पैकेट", "किलो", "ग्राम", "लीटर", "नग", "पीस", "डिब्बा", "बंडल"
+      ];
+
       /* =========================================================================
-         4. APPLICATION STATE & CATEGORY-SPECIFIC SETUP
+         4. APPLICATION STATE
          ========================================================================= */
       const savedState = safeParseJSON(localStorage.getItem(STORAGE_KEY), {});
 
@@ -2007,13 +2033,13 @@
         barcodes: savedState.barcodes || {},
         showPrice: Boolean(savedState.showPrice),
         catalogueHidden: Boolean(savedState.catalogueHidden),
-        fontScale: savedState.fontScale || "normal", // "normal" | "lg" | "xl"
+        fontScale: savedState.fontScale || "normal",
         paperSize: savedState.paperSize || "58mm",
         btPrintMode: savedState.btPrintMode || "bitmap",
         categorySetups: savedState.categorySetups || DEFAULT_CATEGORY_SETUPS,
         activeTable: "T-1",
         activeGuest: "G-1",
-        ticketPassenger: "Male", // "Male" | "Female" | "Child" | "Senior"
+        ticketPassenger: "Male",
         restaurantTables: savedState.restaurantTables || {},
         generalOrders: savedState.generalOrders || {},
         savedArchive: Array.isArray(savedState.savedArchive) ? savedState.savedArchive : [],
@@ -2075,7 +2101,7 @@
       }
 
       /* =========================================================================
-         5. FONT SIZE ZOOM (SENIOR-FRIENDLY MODE) & CATEGORY HEADER HELPERS
+         5. FONT ZOOM & CATEGORY HEADER HELPERS
          ========================================================================= */
       function applyFontScale() {
         document.body.classList.remove("font-lg", "font-xl");
@@ -2121,7 +2147,7 @@
       }
 
       /* =========================================================================
-         6. TOAST & ORDER + TICKET MUTATION HELPERS
+         6. TOAST & ORDER MUTATION HELPERS
          ========================================================================= */
       let toastTimer = null;
       function showToast(msg) {
@@ -2160,7 +2186,7 @@
         );
         if (!existsInCat) {
           state.items.push({
-            id: "auto_" + Date.now() + "_" + Math.random().toString(36).slice(2, 5),
+            id: "auto_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
             code: sanitizeText(itemObj.code || generateUniqueCode("A"), 24),
             cat: state.activeCat,
             name: cleanName,
@@ -2177,6 +2203,7 @@
         const list = getCurrentOrderItems();
         const guestTag = cat.mode === "restaurant" ? state.activeGuest : "ALL";
         const rateNum = Number(itemObj.rate) || 0;
+        const unitStr = sanitizeText(itemObj.unit || "", 15);
 
         if (rateNum > 0) {
           state.showPrice = true;
@@ -2186,7 +2213,6 @@
           ensureItemInCatalogue(itemObj);
         }
 
-        // In Ticket mode, each passenger ticket is added as a separate line without qty merging
         if (cat.mode === "ticket" || itemObj.isIndividualTicket) {
           list.push({
             uid: "tkt_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
@@ -2202,7 +2228,11 @@
           });
         } else {
           const existing = list.find(
-            x => x.name.toLowerCase() === itemObj.name.toLowerCase() && x.guest === guestTag && x.rate === rateNum
+            x =>
+              x.name.toLowerCase() === itemObj.name.toLowerCase() &&
+              x.guest === guestTag &&
+              x.rate === rateNum &&
+              (x.unit || "") === unitStr
           );
 
           if (existing) {
@@ -2216,26 +2246,28 @@
               name: sanitizeText(itemObj.name, 40),
               emoji: itemObj.emoji || "📦",
               thumb: itemObj.thumb || "",
-              unit: sanitizeText(itemObj.unit || "", 15),
+              unit: unitStr,
               rate: rateNum,
               qty: customQty
             });
           }
         }
 
-        persistState();
-        renderAll();
+        if (!skipUndo) {
+          persistState();
+          renderAll();
+        }
       }
 
       /* =========================================================================
-         7. RENDERING ENGINE (TABS, CATALOGUE, TICKET ROUTE TABLE, LIVE FEED)
+         7. RENDERING ENGINE (LEFT PANE SWITCHES BETWEEN CATALOGUE & TICKET ROUTES)
          ========================================================================= */
       function applyCatalogueVisibility() {
         const ws = document.getElementById("splitWorkspace");
         const btn = document.getElementById("btnToggleCatalogue");
         if (state.catalogueHidden) {
           ws.classList.add("catalogue-hidden");
-          btn.textContent = "▶ Items";
+          btn.textContent = "▶ Show";
         } else {
           ws.classList.remove("catalogue-hidden");
           btn.textContent = "◀ Hide";
@@ -2260,7 +2292,6 @@
           btn.addEventListener("click", () => {
             state.activeCat = cat.id;
             state.searchQuery = "";
-            document.getElementById("catalogueSearch").value = "";
             persistState();
             renderAll();
           });
@@ -2290,10 +2321,153 @@
         bar.appendChild(addBtn);
       }
 
-      function renderCatalogue() {
-        const grid = document.getElementById("catalogueGrid");
-        grid.innerHTML = "";
+      function renderLeftPane() {
+        const leftPane = document.getElementById("leftWorkspacePane");
+        leftPane.innerHTML = "";
+        const cat = getActiveCategoryObj();
 
+        // In Ticket Mode: Left Side shows Boarding | Destination | Fare Route List + Add Stop
+        if (cat.mode === "ticket") {
+          const wrap = document.createElement("div");
+          wrap.className = "ticket-left-wrap";
+
+          const routeBox = document.createElement("div");
+          routeBox.className = "ticket-route-box";
+
+          const rHdr = document.createElement("div");
+          rHdr.className = "ticket-route-hdr";
+          rHdr.innerHTML = `<span>Boarding</span><span>Destination</span><span style="text-align:right;">Fare</span><span></span>`;
+          routeBox.appendChild(rHdr);
+
+          state.ticketRoutes.forEach((rt, idx) => {
+            const rRow = document.createElement("div");
+            rRow.className = "ticket-route-row";
+            rRow.title = "Tap to issue ticket";
+
+            const effectiveFare = state.ticketPassenger === "Child" ? Math.round(rt.fare / 2) : rt.fare;
+
+            rRow.innerHTML = `
+              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(rt.from)}</span>
+              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(rt.to)}</span>
+              <span style="text-align:right; color:#0f62fe;">₹${effectiveFare}</span>
+            `;
+
+            const delRt = document.createElement("button");
+            delRt.type = "button";
+            delRt.style.cssText = "border:none; background:none; color:#dc2626; font-weight:800; cursor:pointer; font-size:11px;";
+            delRt.textContent = "✕";
+            delRt.title = "Remove Stop";
+            delRt.addEventListener("click", ev => {
+              ev.stopPropagation();
+              state.ticketRoutes.splice(idx, 1);
+              persistState();
+              renderLeftPane();
+            });
+            rRow.appendChild(delRt);
+
+            rRow.addEventListener("click", () => {
+              const pIcon =
+                state.ticketPassenger === "Male" ? "👨" :
+                state.ticketPassenger === "Female" ? "👩" :
+                state.ticketPassenger === "Child" ? "🧒" : "👴";
+              const fareTag = state.ticketPassenger === "Child" ? "Half" : "Full";
+              addItemToCurrentOrder({
+                isIndividualTicket: true,
+                name: `${rt.from}→${rt.to} (${state.ticketPassenger})`,
+                code: `TK-${state.ticketPassenger[0]}`,
+                emoji: pIcon,
+                unit: `${state.ticketPassenger} • ${fareTag}`,
+                rate: effectiveFare
+              }, 1);
+              showToast(`🎫 ${state.ticketPassenger}: ${rt.from} → ${rt.to} (₹${effectiveFare})`);
+            });
+
+            routeBox.appendChild(rRow);
+          });
+          wrap.appendChild(routeBox);
+
+          // Add New Stop Form at Bottom of Left Pane
+          const addForm = document.createElement("form");
+          addForm.className = "ticket-add-route-bar";
+          addForm.autocomplete = "off";
+
+          const row1 = document.createElement("div");
+          row1.style.cssText = "display:grid; grid-template-columns:1fr 1fr; gap:3px;";
+          const inpFrom = document.createElement("input");
+          inpFrom.type = "text";
+          inpFrom.className = "compact-input";
+          inpFrom.placeholder = "Boarding";
+          inpFrom.maxLength = 18;
+          inpFrom.required = true;
+
+          const inpTo = document.createElement("input");
+          inpTo.type = "text";
+          inpTo.className = "compact-input";
+          inpTo.placeholder = "Destination";
+          inpTo.maxLength = 18;
+          inpTo.required = true;
+          row1.appendChild(inpFrom);
+          row1.appendChild(inpTo);
+
+          const row2 = document.createElement("div");
+          row2.style.cssText = "display:grid; grid-template-columns:1fr auto; gap:3px;";
+          const inpFare = document.createElement("input");
+          inpFare.type = "number";
+          inpFare.className = "compact-input";
+          inpFare.placeholder = "₹ Full Fare";
+          inpFare.min = "1";
+          inpFare.required = true;
+
+          const addBtn = document.createElement("button");
+          addBtn.type = "submit";
+          addBtn.className = "send-item-btn";
+          addBtn.textContent = "+ Add Stop";
+          row2.appendChild(inpFare);
+          row2.appendChild(addBtn);
+
+          addForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const f = sanitizeText(inpFrom.value, 18);
+            const t = sanitizeText(inpTo.value, 18);
+            const pr = Math.max(1, parseFloat(inpFare.value) || 0);
+            if (!f || !t || !pr) return;
+            state.ticketRoutes.push({ id: "rt_" + Date.now(), from: f, to: t, fare: pr });
+            persistState();
+            renderLeftPane();
+            showToast(`Added Stop: ${f} → ${t} (₹${pr})`);
+          });
+
+          addForm.appendChild(row1);
+          addForm.appendChild(row2);
+          wrap.appendChild(addForm);
+          leftPane.appendChild(wrap);
+          return;
+        }
+
+        // Standard Modes: Alphabetical Emoji / Photo Product Catalogue
+        const subbar = document.createElement("div");
+        subbar.className = "pane-subbar";
+        const searchInp = document.createElement("input");
+        searchInp.type = "search";
+        searchInp.className = "compact-input";
+        searchInp.placeholder = "🔍 Search A–Z or Code...";
+        searchInp.maxLength = 40;
+        searchInp.value = state.searchQuery;
+        searchInp.addEventListener("input", e => {
+          state.searchQuery = sanitizeText(e.target.value, 40);
+          renderCatalogueCards(grid);
+        });
+        subbar.appendChild(searchInp);
+        leftPane.appendChild(subbar);
+
+        const grid = document.createElement("div");
+        grid.className = "catalogue-grid";
+        leftPane.appendChild(grid);
+        renderCatalogueCards(grid);
+      }
+
+      function renderCatalogueCards(grid) {
+        grid.innerHTML = "";
         const currentList = getCurrentOrderItems();
         const q = state.searchQuery.toLowerCase();
 
@@ -2446,7 +2620,7 @@
           guestRow.appendChild(customG);
           strip.appendChild(guestRow);
         } else if (cat.mode === "ticket") {
-          // 1. Passenger Selection Row: Male, Female, Child (Half), Senior Citizen
+          // Right Pane Top Strip: Passenger Selection Only (Male, Female, Child Half, Senior)
           const paxRow = document.createElement("div");
           paxRow.className = "pill-row";
 
@@ -2465,116 +2639,11 @@
             b.addEventListener("click", () => {
               state.ticketPassenger = p.id;
               renderContextStrip();
+              renderLeftPane(); // Updates half/full fare preview on left list immediately
             });
             paxRow.appendChild(b);
           });
           strip.appendChild(paxRow);
-
-          // 2. Boarding | Destination | Fare Stoppage List
-          const routeBox = document.createElement("div");
-          routeBox.className = "ticket-route-box";
-
-          const rHdr = document.createElement("div");
-          rHdr.className = "ticket-route-hdr";
-          rHdr.innerHTML = `<span>Boarding</span><span>Destination</span><span style="text-align:right;">Fare</span><span></span>`;
-          routeBox.appendChild(rHdr);
-
-          state.ticketRoutes.forEach((rt, idx) => {
-            const rRow = document.createElement("div");
-            rRow.className = "ticket-route-row";
-            rRow.title = "Tap to issue ticket for selected passenger";
-
-            // Child automatically gets Half Fare (50%)
-            const effectiveFare = state.ticketPassenger === "Child" ? Math.round(rt.fare / 2) : rt.fare;
-
-            rRow.innerHTML = `
-              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(rt.from)}</span>
-              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(rt.to)}</span>
-              <span style="text-align:right; color:#0f62fe;">₹${effectiveFare}</span>
-            `;
-
-            const delRt = document.createElement("button");
-            delRt.type = "button";
-            delRt.style.cssText = "border:none; background:none; color:#dc2626; font-weight:800; cursor:pointer; font-size:11px;";
-            delRt.textContent = "✕";
-            delRt.title = "Remove Stop";
-            delRt.addEventListener("click", ev => {
-              ev.stopPropagation();
-              state.ticketRoutes.splice(idx, 1);
-              persistState();
-              renderContextStrip();
-            });
-            rRow.appendChild(delRt);
-
-            rRow.addEventListener("click", () => {
-              const pIcon =
-                state.ticketPassenger === "Male" ? "👨" :
-                state.ticketPassenger === "Female" ? "👩" :
-                state.ticketPassenger === "Child" ? "🧒" : "👴";
-              const fareTag = state.ticketPassenger === "Child" ? "Half" : "Full";
-              addItemToCurrentOrder({
-                isIndividualTicket: true,
-                name: `${rt.from}→${rt.to} (${state.ticketPassenger})`,
-                code: `TK-${state.ticketPassenger[0]}`,
-                emoji: pIcon,
-                unit: `${state.ticketPassenger} • ${fareTag}`,
-                rate: effectiveFare
-              }, 1);
-              showToast(`🎫 ${state.ticketPassenger}: ${rt.from} → ${rt.to} (₹${effectiveFare})`);
-            });
-
-            routeBox.appendChild(rRow);
-          });
-          strip.appendChild(routeBox);
-
-          // 3. Quick Add New Stoppage Row (Boarding, Destination, Fare)
-          const addForm = document.createElement("form");
-          addForm.className = "ticket-add-route-bar";
-          addForm.autocomplete = "off";
-
-          const inpFrom = document.createElement("input");
-          inpFrom.type = "text";
-          inpFrom.className = "compact-input";
-          inpFrom.placeholder = "Boarding";
-          inpFrom.maxLength = 18;
-          inpFrom.required = true;
-
-          const inpTo = document.createElement("input");
-          inpTo.type = "text";
-          inpTo.className = "compact-input";
-          inpTo.placeholder = "Destination";
-          inpTo.maxLength = 18;
-          inpTo.required = true;
-
-          const inpFare = document.createElement("input");
-          inpFare.type = "number";
-          inpFare.className = "compact-input";
-          inpFare.placeholder = "₹ Fare";
-          inpFare.min = "1";
-          inpFare.required = true;
-
-          const addBtn = document.createElement("button");
-          addBtn.type = "submit";
-          addBtn.className = "send-item-btn";
-          addBtn.textContent = "+Stop";
-
-          addForm.addEventListener("submit", e => {
-            e.preventDefault();
-            const f = sanitizeText(inpFrom.value, 18);
-            const t = sanitizeText(inpTo.value, 18);
-            const pr = Math.max(1, parseFloat(inpFare.value) || 0);
-            if (!f || !t || !pr) return;
-            state.ticketRoutes.push({ id: "rt_" + Date.now(), from: f, to: t, fare: pr });
-            persistState();
-            renderContextStrip();
-            showToast(`Added Stop: ${f} → ${t} (₹${pr})`);
-          });
-
-          addForm.appendChild(inpFrom);
-          addForm.appendChild(inpTo);
-          addForm.appendChild(inpFare);
-          addForm.appendChild(addBtn);
-          strip.appendChild(addForm);
         } else {
           if (!state.generalOrders[cat.id]) {
             state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
@@ -2624,8 +2693,8 @@
           empty.style.cssText = "text-align:center; color:#64748b; padding:18px 8px; font-size:11px;";
           empty.textContent =
             cat.mode === "ticket"
-              ? "Select Male / Female / Child / Senior above, then tap any Boarding → Destination fare row."
-              : "Tap items on left, speak via 🎤 Mic, or type '20 Aloo @30' above.";
+              ? "1. Select Male / Female / Child / Senior above.\n2. Tap any Boarding → Destination fare on the left."
+              : "Tap items on left, speak via 🎤 Mic, or paste WhatsApp list 📋.";
           feed.appendChild(empty);
           return;
         }
@@ -2700,7 +2769,6 @@
         const ctrls = document.createElement("div");
         ctrls.className = "qty-controls";
 
-        // In Ticket mode, Qty controls are removed (only single ticket + Remove button)
         if (!isTicketMode) {
           const minusBtn = document.createElement("button");
           minusBtn.type = "button";
@@ -2718,7 +2786,6 @@
             renderAll();
           });
 
-          // Direct Editable Qty Box (Type 20 or 25 directly without tapping + 25 times)
           const qtyInput = document.createElement("input");
           qtyInput.type = "number";
           qtyInput.className = "qty-direct-input";
@@ -2798,9 +2865,11 @@
       }
 
       function getPrintableItemLabel(item, asciiFallbackMode) {
-        if (!asciiFallbackMode) return item.name;
-        const isPureAscii = /^[\x20-\x7E]+$/.test(item.name);
-        if (isPureAscii) return item.name;
+        const unitLabel = item.unit ? ` (${item.unit})` : "";
+        const fullName = `${item.name}${unitLabel}`;
+        if (!asciiFallbackMode) return fullName;
+        const isPureAscii = /^[\x20-\x7E]+$/.test(fullName);
+        if (isPureAscii) return fullName;
         return `[${item.code || "ITEM"}]`;
       }
 
@@ -2893,13 +2962,12 @@
           const colAmt = String(Math.round((it.rate || 0) * it.qty)).padStart(8, " ");
           return `${colItem}${colQty}${colPrice}${colAmt}`;
         } else {
-          const colItem = label.slice(0, 26).padEnd(26, " ");
-          const colQty = String(it.qty).padStart(6, " ");
+          const colItem = label.slice(0, 25).padEnd(25, " ");
+          const colQty = String(it.qty).padStart(7, " ");
           return `${colItem}${colQty}`;
         }
       }
 
-      // Ultra-Clean .TXT + Website URL QR Payload (Scans in 0.5s on any phone camera)
       function buildQrTxtWithUrl() {
         const cat = getActiveCategoryObj();
         const setup = getCurrentCategorySetup();
@@ -2914,8 +2982,9 @@
           if (cat.mode === "ticket") {
             lines.push(`${idx + 1}. ${it.name} = Rs.${Math.round(it.rate || 0)}`);
           } else {
+            const u = it.unit ? ` ${it.unit}` : "";
             const amt = state.showPrice && it.rate > 0 ? ` = Rs.${Math.round(it.rate * it.qty)}` : "";
-            lines.push(`${idx + 1}. ${it.name} x${it.qty}${amt}`);
+            lines.push(`${idx + 1}. ${it.name} x${it.qty}${u}${amt}`);
           }
         });
 
@@ -3032,17 +3101,18 @@
             <span class="th-num th-bold">₹${Math.round(it.rate || 0)}</span>
           </div>`;
         }
+        const unitPart = it.unit ? ` (${escapeHTML(it.unit)})` : "";
         if (state.showPrice) {
           const amt = Math.round((it.rate || 0) * it.qty);
           return `<div class="th-tbl-row">
-            <span style="word-break:break-word;">${escapeHTML(it.name)}</span>
+            <span style="word-break:break-word;">${escapeHTML(it.name)}${unitPart}</span>
             <span class="th-num">${escapeHTML(it.qty)}</span>
             <span class="th-num">${escapeHTML(it.rate || 0)}</span>
             <span class="th-num th-bold">${amt}</span>
           </div>`;
         } else {
           return `<div class="th-tbl-row no-price">
-            <span style="word-break:break-word;">${escapeHTML(it.name)}</span>
+            <span style="word-break:break-word;">${escapeHTML(it.name)}${unitPart}</span>
             <span class="th-num th-bold">${escapeHTML(it.qty)}</span>
           </div>`;
         }
@@ -3052,7 +3122,7 @@
         applyFontScale();
         applyCatalogueVisibility();
         renderCategoryTabs();
-        renderCatalogue();
+        renderLeftPane();
         renderContextStrip();
         renderLiveOrderFeed();
         renderThermalAndQR();
@@ -3073,8 +3143,9 @@
           if (cat.mode === "ticket") {
             parts.push(`${index + 1}. ${it.name}, fare ${it.rate} rupees.`);
           } else {
+            const unitTxt = it.unit ? ` ${it.unit}` : "";
             const ratePart = state.showPrice && it.rate > 0 ? `, rupees ${it.rate * it.qty}` : "";
-            parts.push(`${index + 1}. ${it.name}, quantity ${it.qty}${ratePart}.`);
+            parts.push(`${index + 1}. ${it.name}, quantity ${it.qty}${unitTxt}${ratePart}.`);
           }
         });
 
@@ -3107,20 +3178,21 @@
       });
 
       /* =========================================================================
-         10. SMART PARSERS (AUTO-SAVES NEW ITEMS TO LEFT CATALOGUE)
+         10. UPGRADED HINDI & ENGLISH KIRANA / WHATSAPP / VOICE PARSER
          ========================================================================= */
       function parseAndAddBulkText(rawText, isContinuousSpeech = false) {
-        const clean = sanitizeText(rawText, 2000);
-        if (!clean) return 0;
+        if (typeof rawText !== "string" || !rawText.trim()) return 0;
 
         pushUndoSnapshot();
         let addedCount = 0;
 
+        // Split strictly by line breaks (\r\n or \n) first, plus commas/semicolons
         let segments = rawText
-          .split(/[\n,;•]+|\baur\b|\band\b/gi)
-          .map(s => sanitizeText(s, 60))
+          .split(/\r?\n|[,;•]+/)
+          .map(s => sanitizeText(s, 80))
           .filter(Boolean);
 
+        // If single-line continuous speech without newlines/commas
         if (isContinuousSpeech && segments.length === 1 && segments[0].split(" ").length >= 2) {
           const words = segments[0].toLowerCase().split(/\s+/);
           const smartChunks = [];
@@ -3149,10 +3221,18 @@
           if (smartChunks.length > 1) segments = smartChunks;
         }
 
+        const unitPattern = `(?:kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag|${HINDI_UNITS_LIST.join("|")})`;
+
         segments.forEach(seg => {
-          let line = seg.replace(/^[\d]+[.)]\s*|^[-*]\s*/, "").trim();
+          // Clean Hindi danda (।), bullet symbols, and leading serial numbers
+          let line = seg
+            .replace(/।/g, " ")
+            .replace(/^[\d]+[.)]\s*|^[-*]\s*/, "")
+            .replace(/\s+/g, " ")
+            .trim();
           if (!line) return;
 
+          // Extract explicit @price or rs price
           let explicitRate = null;
           const priceMatch = line.match(/(?:@|rs\.?\s*|₹\s*)(\d+(?:\.\d+)?)\s*$/i);
           if (priceMatch) {
@@ -3164,23 +3244,51 @@
           let unit = "";
           let itemName = line;
 
-          const mStart = line.match(/^(\d+(?:\.\d+)?)\s*(kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag|x)?\s+(.+)$/i);
-          const mEnd = line.match(/^(.+?)\s*[-:x×]?\s*(\d+(?:\.\d+)?)\s*(kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag)?$/i);
+          // Pattern 1: Hindi/Desi MRP + Qty e.g. "एप्पी नूडल्स 10 में 2 दर्जन" or "ब्रेड 10 एक दर्जन"
+          const mHindiMrp = line.match(
+            new RegExp(`^(.+?)\\s+(\\d+)\\s*(?:में|wala|rs)?\\s*(\\d+(?:\\.\\d+)?|एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|आधा)\\s*(${unitPattern})?$`, "i")
+          );
 
-          if (mStart) {
-            qty = Math.max(0.5, parseFloat(mStart[1]) || 1);
+          // Pattern 2: Repeated Qty e.g. "लैस ग्रीन ब्लू में 3 3 पत्ता" -> qty = 3+3 = 6
+          const mDoubleQty = line.match(
+            new RegExp(`^(.+?)\\s+(\\d+)\\s+(\\d+)\\s*(${unitPattern})?$`, "i")
+          );
+
+          // Pattern 3: Number/Word at START e.g. "2kg Sugar", "20 Aloo", "दो किलो चीनी"
+          const mStart = line.match(
+            new RegExp(`^(\\d+(?:\\.\\d+)?|एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|आधा)\\s*(${unitPattern}|x)?\\s+(.+)$`, "i")
+          );
+
+          // Pattern 4: Number/Word at END e.g. "मंच 2 पूड़ा", "कपिल 02 दर्जन", "विमल 02"
+          const mEnd = line.match(
+            new RegExp(`^(.+?)\\s*[-:x×]?\\s*(\\d+(?:\\.\\d+)?|एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|आधा)\\s*(${unitPattern})?$`, "i")
+          );
+
+          if (mHindiMrp) {
+            itemName = `${mHindiMrp[1].trim()} (₹${mHindiMrp[2]})`;
+            const qRaw = mHindiMrp[3].toLowerCase();
+            qty = NUMBER_WORDS[qRaw] !== undefined ? NUMBER_WORDS[qRaw] : parseFloat(qRaw) || 1;
+            unit = mHindiMrp[4] || "";
+          } else if (mDoubleQty) {
+            itemName = mDoubleQty[1].replace(/\s+में$/i, "").trim();
+            qty = (parseFloat(mDoubleQty[2]) || 0) + (parseFloat(mDoubleQty[3]) || 0);
+            unit = mDoubleQty[4] || "";
+          } else if (mStart) {
+            const qRaw = mStart[1].toLowerCase();
+            qty = NUMBER_WORDS[qRaw] !== undefined ? NUMBER_WORDS[qRaw] : parseFloat(qRaw) || 1;
             unit = mStart[2] && mStart[2].toLowerCase() !== "x" ? mStart[2] : "";
             itemName = mStart[3].trim();
-          } else if (mEnd && mEnd[1].length > 1) {
+          } else if (mEnd && mEnd[1].trim().length > 0) {
             itemName = mEnd[1].trim();
-            qty = Math.max(0.5, parseFloat(mEnd[2]) || 1);
+            const qRaw = mEnd[2].toLowerCase();
+            qty = NUMBER_WORDS[qRaw] !== undefined ? NUMBER_WORDS[qRaw] : parseFloat(qRaw) || 1;
             unit = mEnd[3] || "";
           }
 
           const lowerKey = itemName.toLowerCase();
           const mapped = VOICE_ITEM_MAP[lowerKey];
           const catFound = state.items.find(
-            it => it.cat === state.activeCat && (it.name.toLowerCase() === lowerKey || it.name.toLowerCase().includes(lowerKey))
+            it => it.cat === state.activeCat && it.name.toLowerCase() === lowerKey
           );
 
           if (catFound) {
@@ -3209,7 +3317,12 @@
           addedCount++;
         });
 
-        if (addedCount === 0) undoStack.pop();
+        if (addedCount === 0) {
+          undoStack.pop();
+        } else {
+          persistState();
+          renderAll();
+        }
         updateUndoButton();
         return addedCount;
       }
@@ -3263,7 +3376,7 @@
         const raw = document.getElementById("whatsappRawText").value;
         const count = parseAndAddBulkText(raw, false);
         closeModal("modalWhatsapp");
-        if (count > 0) showToast(`✅ Added ${count} items & saved to catalogue!`);
+        if (count > 0) showToast(`✅ Added ${count} items to list & catalogue!`);
       });
 
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3310,7 +3423,7 @@
       document.getElementById("btnStopVoice").addEventListener("click", stopVoiceOrder);
 
       /* =========================================================================
-         11. LIGHTBOX PREVIEW (WITH .TXT DOWNLOAD, SHARE, PNG & PRINT)
+         11. LIGHTBOX PREVIEW
          ========================================================================= */
       function openLightbox(mode) {
         const titleEl = document.getElementById("lightboxTitle");
@@ -3361,19 +3474,35 @@
         openLightbox("qr");
       });
 
-      document.getElementById("lbShareBtn").addEventListener("click", async () => {
+      async function shareSlipToMobile() {
         const slipText = buildPlainTextSlip(false);
+        const txtFile = new File([slipText], `Order-Slip-${Date.now()}.txt`, { type: "text/plain" });
+
+        if (navigator.canShare && navigator.canShare({ files: [txtFile] })) {
+          try {
+            await navigator.share({
+              title: "Order List Slip",
+              text: slipText,
+              files: [txtFile]
+            });
+            return;
+          } catch (e) {}
+        }
+
         if (navigator.share) {
           try {
             await navigator.share({ title: "Order Slip", text: slipText });
             return;
           } catch (e) {}
         }
+
         try {
           await navigator.clipboard.writeText(slipText);
-          showToast("Order copied! Paste in WhatsApp / Bluetooth.");
+          showToast("Order copied! Paste in Bluetooth / WhatsApp.");
         } catch (err) {}
-      });
+      }
+
+      document.getElementById("lbShareBtn").addEventListener("click", shareSlipToMobile);
 
       document.getElementById("lbTxtBtn").addEventListener("click", () => {
         const blob = new Blob([buildPlainTextSlip(false)], { type: "text/plain;charset=utf-8" });
@@ -3409,18 +3538,17 @@
       });
 
       /* =========================================================================
-         12. BLUETOOTH PRINT + DESKTOP PAPER SIZE PRINT
+         12. BLUETOOTH PRINTER & MOBILE BLUETOOTH/QUICK-SHARE BRIDGE
          ========================================================================= */
       let btCharacteristic = null;
 
       async function connectBluetoothPrinter() {
         if (!navigator.bluetooth) {
-          showToast("Web Bluetooth not available here. Opening Print Options.");
-          openModal("modalPrintOptions");
+          showToast("Web Bluetooth not available in this browser.");
           return false;
         }
         try {
-          showToast("Searching Bluetooth Printers...");
+          showToast("Searching 58mm Bluetooth Printers...");
           const device = await navigator.bluetooth.requestDevice({
             acceptAllDevices: true,
             optionalServices: [
@@ -3448,10 +3576,20 @@
             return true;
           }
         } catch (err) {
-          showToast("Bluetooth connection cancelled");
+          showToast("Bluetooth printer search cancelled");
         }
         return false;
       }
+
+      document.getElementById("btnBtConnect").addEventListener("click", () => openModal("modalBtChoice"));
+      document.getElementById("btnConnectBlePrinter").addEventListener("click", async () => {
+        closeModal("modalBtChoice");
+        await connectBluetoothPrinter();
+      });
+      document.getElementById("btnSendViaMobileBt").addEventListener("click", async () => {
+        closeModal("modalBtChoice");
+        await shareSlipToMobile();
+      });
 
       function buildRasterEscPosBytes(slipText) {
         const lines = slipText.split("\n");
@@ -3562,7 +3700,6 @@
         setTimeout(() => window.print(), 150);
       }
 
-      document.getElementById("btnBtConnect").addEventListener("click", connectBluetoothPrinter);
       document.getElementById("qbPrint").addEventListener("click", () => {
         document.getElementById("printPaperSize").value = state.paperSize;
         document.getElementById("btPrintMode").value = state.btPrintMode;
@@ -3673,7 +3810,7 @@
 
         persistState();
         closeModal("modalEmoji");
-        renderCatalogue();
+        renderLeftPane();
       });
 
       document.getElementById("btnDeleteCatItem").addEventListener("click", () => {
@@ -3682,7 +3819,7 @@
         state.items = state.items.filter(it => it.id !== editId);
         persistState();
         closeModal("modalEmoji");
-        renderCatalogue();
+        renderLeftPane();
         showToast("Item removed from catalogue");
       });
 
@@ -3911,7 +4048,7 @@
       });
 
       /* =========================================================================
-         14. CATEGORY-WISE SETUP, VIRAL SHARE QR, DRAWER, SAVE/CLEAR & CAMERA
+         14. CATEGORY-WISE SETUP, VIRAL SHARE QR, DRAWER, HISTORY & CAMERA
          ========================================================================= */
       function openCategorySetupModal() {
         const cat = getActiveCategoryObj();
@@ -4000,10 +4137,11 @@
       document.getElementById("btnCloseDrawer").addEventListener("click", closeDrawer);
       document.getElementById("drawerBackdrop").addEventListener("click", closeDrawer);
 
+      document.getElementById("menuHistory").addEventListener("click", () => { closeDrawer(); renderHistoryModal(); });
       document.getElementById("menuSlipSetup").addEventListener("click", () => { closeDrawer(); openCategorySetupModal(); });
+      document.getElementById("menuBtOptions").addEventListener("click", () => { closeDrawer(); openModal("modalBtChoice"); });
       document.getElementById("menuFontToggle").addEventListener("click", () => { closeDrawer(); cycleFontScale(); });
       document.getElementById("menuAppShareQr").addEventListener("click", () => { closeDrawer(); openAppShareModal(); });
-      document.getElementById("menuHistory").addEventListener("click", () => { closeDrawer(); renderHistoryModal(); });
       document.getElementById("menuWhatsappPaste").addEventListener("click", () => { closeDrawer(); openModal("modalWhatsapp"); });
       document.getElementById("menuVoiceOrder").addEventListener("click", () => { closeDrawer(); startVoiceOrder(); });
       document.getElementById("menuCalculator").addEventListener("click", () => { closeDrawer(); openModal("modalCalc"); });
@@ -4106,7 +4244,7 @@
         persistState();
         e.target.reset();
         closeModal("modalPhoto");
-        renderCatalogue();
+        renderLeftPane();
         showToast(`Saved photo item "${name}" [${code}]`);
       });
 
@@ -4149,7 +4287,7 @@
         if (!state.savedArchive.length) {
           const p = document.createElement("div");
           p.style.cssText = "font-size:11px; color:#64748b; padding:8px 0;";
-          p.textContent = "No saved orders yet. Click '💾 Save' in top bar to archive an order.";
+          p.textContent = "No saved bills yet. Click '💾' in top bar to save an order.";
           box.appendChild(p);
         } else {
           state.savedArchive.forEach((entry, idx) => {
@@ -4186,6 +4324,8 @@
         openModal("modalHistory");
       }
 
+      document.getElementById("btnHistory").addEventListener("click", renderHistoryModal);
+
       document.getElementById("btnDeleteAllHistory").addEventListener("click", () => {
         if (!state.savedArchive.length) return;
         if (confirm("Delete ALL saved orders from history?")) {
@@ -4218,7 +4358,7 @@
         }
         persistState();
         renderAll();
-        showToast("💾 Order Saved to History!");
+        showToast("💾 Bill Saved to History!");
       });
 
       document.getElementById("btnClearOrder").addEventListener("click", () => {
@@ -4237,11 +4377,6 @@
         persistState();
         renderAll();
         showToast("🧹 Current order cleared (Undo available)");
-      });
-
-      document.getElementById("catalogueSearch").addEventListener("input", e => {
-        state.searchQuery = sanitizeText(e.target.value, 40);
-        renderCatalogue();
       });
 
       document.getElementById("btnTogglePrice").addEventListener("click", e => {
