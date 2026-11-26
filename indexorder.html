@@ -74,7 +74,7 @@
       --danger: #dc2626;
       --danger-soft: #fef2f2;
       --header-h: 42px;
-      --tabs-h: 35px;
+      --tabs-h: 34px;
       --footer-h: 26px;
       --quickbar-h: 48px;
     }
@@ -97,7 +97,6 @@
       line-height: 1.3;
     }
 
-    /* Main Viewport Shell */
     .app-shell {
       display: flex;
       flex-direction: column;
@@ -120,14 +119,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 6px;
+      padding: 0 5px;
       gap: 4px;
     }
 
     .brand-box {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       min-width: 0;
     }
 
@@ -136,9 +135,9 @@
       background: var(--bg-subtle);
       color: var(--text-main);
       border-radius: 6px;
-      width: 30px;
+      width: 28px;
       height: 28px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
@@ -148,7 +147,7 @@
     }
 
     .brand-title {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       color: var(--text-main);
       letter-spacing: -0.2px;
@@ -180,18 +179,26 @@
     }
 
     .hdr-btn:disabled {
-      opacity: 0.45;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .hdr-btn:active:not(:disabled) {
-      transform: scale(0.96);
-    }
-
-    .hdr-btn.bt-connected {
+    .hdr-btn.save-btn {
       background: var(--accent-soft);
       border-color: var(--accent);
       color: var(--accent);
+    }
+
+    .hdr-btn.clear-btn {
+      background: var(--danger-soft);
+      border-color: #fecaca;
+      color: var(--danger);
+    }
+
+    .hdr-btn.bt-connected {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
     /* 2. Category Tabs Bar */
@@ -239,14 +246,23 @@
       background: var(--primary-soft);
     }
 
-    /* 3. Main 2-Column Split Section */
+    /* 3. Main 2-Column Split Section (Collapsible Left Catalogue) */
     .split-workspace {
       flex: 1;
       min-height: 0;
       display: grid;
-      grid-template-columns: 46% 54%;
+      grid-template-columns: 45% 55%;
       border-bottom: 1px solid var(--border-color);
       background: var(--bg-surface);
+      transition: grid-template-columns 0.18s ease;
+    }
+
+    .split-workspace.catalogue-hidden {
+      grid-template-columns: 0px 1fr;
+    }
+
+    .split-workspace.catalogue-hidden .catalogue-pane {
+      display: none;
     }
 
     /* Left Section: Alphabetical Product Catalogue */
@@ -256,6 +272,7 @@
       min-height: 0;
       border-right: 1.5px solid var(--border-strong);
       background: var(--bg-subtle);
+      overflow: hidden;
     }
 
     .pane-subbar {
@@ -348,8 +365,8 @@
     }
 
     .prod-icon-wrap {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -358,13 +375,13 @@
     }
 
     .prod-emoji {
-      font-size: 33px;
+      font-size: 32px;
       line-height: 1;
     }
 
     .prod-thumb {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       object-fit: cover;
       border-radius: 6px;
       border: 1px solid var(--border-color);
@@ -383,12 +400,12 @@
     }
 
     .prod-meta {
-      font-size: 9.5px;
+      font-size: 9px;
       color: var(--text-light);
       margin-top: 1px;
     }
 
-    /* Right Section: Live Order & AI-Chat Direct Entry */
+    /* Right Section: Live Order & Direct Entry */
     .order-pane {
       display: flex;
       flex-direction: column;
@@ -465,7 +482,7 @@
       gap: 4px;
     }
 
-    /* AI-Chat Style Quick Input + Voice + WhatsApp Paste */
+    /* Quick Entry + Hide Toggle + Voice + WhatsApp Paste */
     .quick-type-bar {
       display: flex;
       align-items: center;
@@ -473,6 +490,19 @@
       padding: 4px 5px;
       border-bottom: 1px solid var(--border-color);
       background: #ffffff;
+    }
+
+    .toggle-cat-btn {
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border-radius: 5px;
+      padding: 4px 5px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .quick-type-input {
@@ -497,28 +527,47 @@
       flex-shrink: 0;
     }
 
-    .icon-tool-btn.listening {
-      background: var(--danger-soft);
-      border-color: var(--danger);
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
     .send-item-btn {
       background: var(--primary);
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      padding: 5px 8px;
+      padding: 5px 7px;
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
+    }
+
+    /* Voice Active Banner with Manual Stop Button */
+    .voice-live-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 5px 8px;
+      background: var(--danger-soft);
+      border-bottom: 1px solid #fecaca;
+      color: var(--danger);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .voice-live-banner.active {
+      display: flex;
+    }
+
+    .voice-stop-btn {
+      background: var(--danger);
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
     /* Live Order Feed */
@@ -550,7 +599,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
+      gap: 3px;
       padding: 4px 5px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
@@ -560,20 +609,21 @@
     .order-row-left {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       min-width: 0;
       flex: 1;
+      cursor: pointer;
     }
 
     .order-row-icon {
-      font-size: 17px;
+      font-size: 16px;
       line-height: 1;
       flex-shrink: 0;
     }
 
     .order-row-thumb {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       border-radius: 4px;
       object-fit: cover;
       flex-shrink: 0;
@@ -595,13 +645,14 @@
 
     .order-row-sub {
       font-size: 9.5px;
-      color: var(--text-light);
+      color: var(--primary);
+      font-weight: 600;
     }
 
     .qty-controls {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       flex-shrink: 0;
     }
 
@@ -620,17 +671,25 @@
       color: var(--text-main);
     }
 
+    .qty-btn.del-row {
+      border-color: #fecaca;
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 10px;
+      margin-left: 2px;
+    }
+
     .qty-val {
       font-size: 11px;
       font-weight: 800;
-      min-width: 18px;
+      min-width: 17px;
       text-align: center;
     }
 
     /* 4. Side-Scroll Preview Strip (Tappable for Lightbox) */
     .preview-strip {
-      height: 142px;
-      min-height: 142px;
+      height: 146px;
+      min-height: 146px;
       background: #eef2f6;
       border-bottom: 1px solid var(--border-color);
       display: flex;
@@ -679,23 +738,42 @@
       cursor: pointer;
     }
 
+    /* 58mm Thermal Paper Preview with Tabular Columns */
     .thermal-paper-wrap {
       flex: 1;
       overflow-y: auto;
       background: #fffdf7;
       border: 1px dashed #cbd5e1;
       padding: 5px 6px;
-      width: 215px;
+      width: 224px;
       font-family: "Courier New", Courier, monospace;
-      font-size: 10px;
-      line-height: 1.22;
+      font-size: 9.5px;
+      line-height: 1.24;
       color: #111827;
     }
 
     .th-center { text-align: center; }
     .th-bold { font-weight: 700; }
     .th-line { border-top: 1px dashed #374151; margin: 3px 0; }
-    .th-row { display: flex; justify-content: space-between; gap: 4px; }
+    .th-row { display: flex; justify-content: space-between; gap: 3px; }
+    .th-mode-line {
+      font-size: 8.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.3px;
+    }
+    .th-tbl-hdr, .th-tbl-row {
+      display: grid;
+      grid-template-columns: 1fr 26px 36px 42px;
+      gap: 2px;
+      align-items: start;
+    }
+    .th-tbl-hdr.no-price, .th-tbl-row.no-price {
+      grid-template-columns: 1fr 34px;
+    }
+    .th-num { text-align: right; }
 
     .qr-card {
       width: 142px;
@@ -853,11 +931,6 @@
       gap: 8px;
     }
 
-    .drawer-item:active {
-      background: var(--primary-soft);
-      border-color: var(--primary);
-    }
-
     .drawer-item.danger {
       background: var(--danger-soft);
       border-color: #fecaca;
@@ -884,7 +957,7 @@
       background: #ffffff;
       border-radius: 10px;
       width: 100%;
-      max-width: 390px;
+      max-width: 395px;
       max-height: 88dvh;
       display: flex;
       flex-direction: column;
@@ -943,7 +1016,6 @@
       width: 100%;
     }
 
-    /* Full Emoji Picker Categories */
     .emoji-cat-pills {
       display: flex;
       gap: 4px;
@@ -956,7 +1028,7 @@
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
-      max-height: 155px;
+      max-height: 145px;
       overflow-y: auto;
       border: 1px solid var(--border-color);
       padding: 5px;
@@ -1037,7 +1109,7 @@
 
     .video-preview-box {
       width: 100%;
-      height: 170px;
+      height: 155px;
       background: #0f172a;
       border-radius: 8px;
       overflow: hidden;
@@ -1073,7 +1145,6 @@
       opacity: 1;
     }
 
-    /* Dynamic Print CSS (Supports 58mm, 80mm, A5, A4) */
     @media print {
       body * { visibility: hidden; }
       #printAreaTarget, #printAreaTarget * { visibility: visible; }
@@ -1101,10 +1172,10 @@
         <h1 class="brand-title">🧾 Order List Maker</h1>
       </div>
       <div class="header-actions">
-        <button type="button" class="hdr-btn" id="btnUndo" title="Undo Last Action" disabled>↩️ Undo</button>
+        <button type="button" class="hdr-btn" id="btnUndo" title="Undo" disabled>↩️</button>
         <button type="button" class="hdr-btn" id="btnBtConnect" title="Bluetooth Printer">📶 BT</button>
-        <button type="button" class="hdr-btn" id="btnHistory" title="Saved Orders">📂</button>
-        <button type="button" class="hdr-btn" id="btnClearOrder" title="Save &amp; Start New Slip">🆕</button>
+        <button type="button" class="hdr-btn save-btn" id="btnSaveOrder" title="Save to History & Start New">💾 Save</button>
+        <button type="button" class="hdr-btn clear-btn" id="btnClearOrder" title="Clear / Cancel Current Order">🧹 Clear</button>
       </div>
     </header>
 
@@ -1112,26 +1183,33 @@
     <nav class="category-bar" id="categoryBar" aria-label="Order Categories"></nav>
 
     <!-- 3. MAIN 2-SECTION SPLIT -->
-    <main class="split-workspace">
-      <!-- LEFT SECTION: Alphabetically Sorted Product Catalogue -->
+    <main class="split-workspace" id="splitWorkspace">
+      <!-- LEFT SECTION: Alphabetical Product Catalogue -->
       <section class="catalogue-pane" aria-label="Product Catalogue">
         <div class="pane-subbar">
-          <input type="search" id="catalogueSearch" class="compact-input" placeholder="🔍 Search A–Z..." maxlength="40" autocomplete="off" />
+          <input type="search" id="catalogueSearch" class="compact-input" placeholder="🔍 Search A–Z or Code..." maxlength="40" autocomplete="off" />
         </div>
         <div class="catalogue-grid" id="catalogueGrid"></div>
       </section>
 
-      <!-- RIGHT SECTION: Context Controls + AI-Chat/Voice/WhatsApp Entry + Live Order Feed -->
+      <!-- RIGHT SECTION: Context Controls + Direct/Voice/WhatsApp Entry + Live Feed -->
       <section class="order-pane" aria-label="Live Order List">
         <div class="context-strip" id="contextStrip"></div>
 
-        <!-- AI-Chat Style Input + Voice Mic + WhatsApp Paste -->
+        <!-- Quick Type (supports "@price" e.g. "2kg Aloo @30") + Hide Catalogue + Voice + Paste -->
         <form class="quick-type-bar" id="quickTypeForm" autocomplete="off">
-          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="Type 2kg Aloo, Tea..." maxlength="60" />
-          <button type="button" class="icon-tool-btn" id="btnVoiceOrder" title="Speak Order (Hindi/English)">🎤</button>
-          <button type="button" class="icon-tool-btn" id="btnPasteWhatsapp" title="Paste WhatsApp List">📋</button>
+          <button type="button" class="toggle-cat-btn" id="btnToggleCatalogue" title="Hide/Show Item Icons">◀ Hide</button>
+          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="e.g. 2 Aloo @30, Tea..." maxlength="60" />
+          <button type="button" class="icon-tool-btn" id="btnVoiceOrder" title="Speak Order">🎤</button>
+          <button type="button" class="icon-tool-btn" id="btnPasteWhatsapp" title="Paste WhatsApp Order">📋</button>
           <button type="submit" class="send-item-btn">Add ↵</button>
         </form>
+
+        <!-- Manual Stop Banner for Voice Order -->
+        <div class="voice-live-banner" id="voiceLiveBanner">
+          <span>🎙️ Sun raha hai... (Bolne ke baad Stop dabayein)</span>
+          <button type="button" class="voice-stop-btn" id="btnStopVoice">⏹️ Stop</button>
+        </div>
 
         <!-- Live Itemized Order Feed -->
         <div class="live-order-feed" id="liveOrderFeed"></div>
@@ -1203,12 +1281,12 @@
     </div>
     <div class="drawer-list">
       <button type="button" class="drawer-item" id="menuAppShareQr">📲 Share App QR &amp; Install PWA</button>
+      <button type="button" class="drawer-item" id="menuHistory">📂 Saved Orders History</button>
       <button type="button" class="drawer-item" id="menuWhatsappPaste">📋 Paste WhatsApp Order List</button>
       <button type="button" class="drawer-item" id="menuVoiceOrder">🎤 Voice Order (Bol Kar Likhein)</button>
       <button type="button" class="drawer-item" id="menuCalculator">🧮 Simple POS Calculator</button>
       <button type="button" class="drawer-item" id="menuPrintSettings">🖨️ Print &amp; Paper Size (58mm/80mm/A4)</button>
       <button type="button" class="drawer-item" id="menuSlipSetup">🏪 Shop / Business Header Setup</button>
-      <button type="button" class="drawer-item" id="menuHistory">📂 Active Tables &amp; Saved Slips</button>
       <button type="button" class="drawer-item danger" id="menuResetAll">🗑️ Reset All Data (Clear Storage)</button>
     </div>
   </aside>
@@ -1234,6 +1312,34 @@
     </div>
   </div>
 
+  <!-- MODAL: Edit Live Order Row (Qty / Price / Name) -->
+  <div class="modal-backdrop" id="modalEditOrderRow">
+    <div class="modal-box" style="max-width:340px;">
+      <div class="modal-hdr">
+        <span>✏️ Edit Order Item &amp; Price</span>
+        <button type="button" class="modal-close" data-close="modalEditOrderRow">✕</button>
+      </div>
+      <form class="modal-body" id="formEditOrderRow" autocomplete="off">
+        <input type="hidden" id="editRowUid" />
+        <div>
+          <label class="form-label" for="editRowName">Item Name</label>
+          <input type="text" id="editRowName" class="compact-input" maxlength="40" required />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <div>
+            <label class="form-label" for="editRowQty">Quantity</label>
+            <input type="number" id="editRowQty" class="compact-input" min="0.1" step="any" required />
+          </div>
+          <div>
+            <label class="form-label" for="editRowRate">Price / Rate ₹</label>
+            <input type="number" id="editRowRate" class="compact-input" min="0" step="any" />
+          </div>
+        </div>
+        <button type="submit" class="primary-btn">Update Line Item</button>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL: WhatsApp Order Paste Parser -->
   <div class="modal-backdrop" id="modalWhatsapp">
     <div class="modal-box">
@@ -1242,14 +1348,14 @@
         <button type="button" class="modal-close" data-close="modalWhatsapp">✕</button>
       </div>
       <form class="modal-body" id="formWhatsappPaste" autocomplete="off">
-        <label class="form-label" for="whatsappRawText">Paste customer message below (e.g. "2kg Sugar, 3 Masala Dosa, 1 Oil"):</label>
+        <label class="form-label" for="whatsappRawText">Paste customer message (supports qty &amp; @price e.g. "2kg Sugar @44, 3 Dosa"):</label>
         <textarea id="whatsappRawText" class="compact-input" rows="6" placeholder="Paste WhatsApp order text here..." required maxlength="2000"></textarea>
         <button type="submit" class="primary-btn">Convert to Order List</button>
       </form>
     </div>
   </div>
 
-  <!-- MODAL: Custom Emoji Item Maker & Catalogue Item Editor -->
+  <!-- MODAL: Custom Emoji Item Maker & Catalogue Item Editor (With Unique Product Code) -->
   <div class="modal-backdrop" id="modalEmoji">
     <div class="modal-box">
       <div class="modal-hdr">
@@ -1267,14 +1373,20 @@
             <input type="text" id="directEmojiInput" class="compact-input" style="width:65px; text-align:center; font-size:16px;" maxlength="4" placeholder="😀" />
           </div>
         </div>
-        <div>
-          <label class="form-label" for="customItemName">2. Item Name *</label>
-          <input type="text" id="customItemName" class="compact-input" placeholder="e.g. Masala Dosa / Basmati Rice" required maxlength="35" />
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:6px;">
+          <div>
+            <label class="form-label" for="customItemName">2. Item Name *</label>
+            <input type="text" id="customItemName" class="compact-input" placeholder="e.g. Masala Dosa / आलू" required maxlength="35" />
+          </div>
+          <div>
+            <label class="form-label" for="customItemCode">Unique Code *</label>
+            <input type="text" id="customItemCode" class="compact-input" placeholder="e.g. P101" required maxlength="12" />
+          </div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
           <div>
             <label class="form-label" for="customItemUnit">Unit / Size</label>
-            <input type="text" id="customItemUnit" class="compact-input" placeholder="e.g. Plate / 1kg / Bag" maxlength="15" />
+            <input type="text" id="customItemUnit" class="compact-input" placeholder="e.g. Plate / 1kg" maxlength="15" />
           </div>
           <div>
             <label class="form-label" for="customItemRate">Price / Rate ₹</label>
@@ -1308,9 +1420,15 @@
             <input type="file" id="filePhotoInput" accept="image/*" capture="environment" style="display:none;" />
           </label>
         </div>
-        <div>
-          <label class="form-label" for="photoItemName">Item Name *</label>
-          <input type="text" id="photoItemName" class="compact-input" placeholder="Enter product name" required maxlength="35" />
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:6px;">
+          <div>
+            <label class="form-label" for="photoItemName">Item Name *</label>
+            <input type="text" id="photoItemName" class="compact-input" placeholder="Product name" required maxlength="35" />
+          </div>
+          <div>
+            <label class="form-label" for="photoItemCode">Unique Code *</label>
+            <input type="text" id="photoItemCode" class="compact-input" placeholder="M101" required maxlength="12" />
+          </div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
           <div>
@@ -1327,11 +1445,11 @@
     </div>
   </div>
 
-  <!-- MODAL: Barcode Scanner -->
+  <!-- MODAL: Advanced Barcode Scanner (Supports Existing Item Linking & Quick Bill Add) -->
   <div class="modal-backdrop" id="modalBarcode">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>🔍 Scan Product Barcode</span>
+        <span>🔍 Barcode Scanner &amp; Quick Bill</span>
         <button type="button" class="modal-close" data-close="modalBarcode">✕</button>
       </div>
       <div class="modal-body">
@@ -1341,22 +1459,42 @@
         <div id="barcodeStatus" style="font-size:11px; color:#0f62fe; font-weight:700; text-align:center;">Point camera at barcode or enter code below</div>
         <form id="formManualBarcode" style="display:flex; gap:5px;" autocomplete="off">
           <input type="text" id="manualBarcodeInput" class="compact-input" placeholder="Barcode number..." maxlength="32" required />
-          <button type="submit" class="send-item-btn">Lookup</button>
+          <button type="submit" class="send-item-btn">Scan / Find</button>
         </form>
-        <div id="newBarcodeRegisterBox" style="display:none; border-top:1px dashed #cbd5e1; padding-top:8px;">
-          <div style="font-size:11px; font-weight:800; color:#d97706; margin-bottom:4px;">New Barcode! Save once:</div>
-          <input type="text" id="bcItemName" class="compact-input" placeholder="Product Name *" maxlength="35" style="margin-bottom:5px;" />
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:6px;">
+
+        <!-- New Barcode Registration OR Link to Existing Item -->
+        <div id="newBarcodeRegisterBox" style="display:none; border-top:1px dashed #cbd5e1; padding-top:7px;">
+          <div style="font-size:11px; font-weight:800; color:#d97706; margin-bottom:4px;">Option A: Link to Existing Catalogue Item</div>
+          <div style="display:flex; gap:4px; margin-bottom:7px;">
+            <select id="existingItemLinkSelect" class="compact-input"></select>
+            <button type="button" class="send-item-btn" id="btnLinkExistingBarcode" style="background:#059669;">Link &amp; Add</button>
+          </div>
+
+          <div style="font-size:11px; font-weight:800; color:#0f62fe; margin-bottom:4px;">Option B: Create New Product for Barcode</div>
+          <div style="display:grid; grid-template-columns:2fr 1fr; gap:4px; margin-bottom:4px;">
+            <input type="text" id="bcItemName" class="compact-input" placeholder="New Product Name *" maxlength="35" />
+            <input type="text" id="bcItemCode" class="compact-input" placeholder="Code *" maxlength="12" />
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:6px;">
             <input type="text" id="bcItemUnit" class="compact-input" placeholder="Unit (pcs/kg)" maxlength="12" />
             <input type="number" id="bcItemRate" class="compact-input" placeholder="Rate ₹" min="0" step="any" />
           </div>
-          <button type="button" class="primary-btn" id="btnSaveBarcodeProduct">Save &amp; Add to Order</button>
+          <button type="button" class="primary-btn" id="btnSaveBarcodeProduct">Save New &amp; Add to Bill</button>
+        </div>
+
+        <!-- Quick Add Existing Catalogue Item Directly inside Barcode Screen -->
+        <div style="border-top:1px solid #e2e8f0; padding-top:6px;">
+          <label class="form-label" for="quickExistingSelect">Quick Add Existing Item to Bill:</label>
+          <div style="display:flex; gap:4px;">
+            <select id="quickExistingSelect" class="compact-input"></select>
+            <button type="button" class="send-item-btn" id="btnQuickAddExisting">+ Add</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: Print Settings (Multi-Language BT Graphic + Desktop Paper Size) -->
+  <!-- MODAL: Print Settings (Multi-Language BT Graphic + ASCII Code Fallback + Paper Size) -->
   <div class="modal-backdrop" id="modalPrintOptions">
     <div class="modal-box">
       <div class="modal-hdr">
@@ -1374,10 +1512,10 @@
           </select>
         </div>
         <div>
-          <label class="form-label" for="btPrintMode">2. Bluetooth 58mm Printer Language Mode:</label>
+          <label class="form-label" for="btPrintMode">2. Bluetooth 58mm Printer Mode:</label>
           <select id="btPrintMode" class="compact-input">
             <option value="bitmap">All Languages Graphic Mode (Hindi, Urdu, Tamil, English)</option>
-            <option value="ascii">Fast Plain Text Mode (English / Hinglish)</option>
+            <option value="ascii">Fast English / Unique Code Mode (Prints Code if Hindi/Urdu)</option>
           </select>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px;">
@@ -1407,7 +1545,7 @@
     </div>
   </div>
 
-  <!-- MODAL: Simple POS Calculator -->
+  <!-- MODAL: Simple POS Calculator (CSP-Safe Evaluator) -->
   <div class="modal-backdrop" id="modalCalc">
     <div class="modal-box" style="max-width:320px;">
       <div class="modal-hdr">
@@ -1475,12 +1613,15 @@
     </div>
   </div>
 
-  <!-- MODAL: Saved Orders & Active Restaurant Tables -->
+  <!-- MODAL: Saved Orders & Active Restaurant Tables (Individual + Delete All) -->
   <div class="modal-backdrop" id="modalHistory">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>📂 Active Tables &amp; Saved Orders</span>
-        <button type="button" class="modal-close" data-close="modalHistory">✕</button>
+        <span>📂 Saved Orders History</span>
+        <div style="display:flex; gap:5px; align-items:center;">
+          <button type="button" class="mini-action-link" id="btnDeleteAllHistory" style="background:#fef2f2; color:#dc2626;">🗑️ Delete All</button>
+          <button type="button" class="modal-close" data-close="modalHistory">✕</button>
+        </div>
       </div>
       <div class="modal-body" id="historyListContainer"></div>
     </div>
@@ -1521,10 +1662,15 @@
         }
       }
 
+      function generateUniqueCode(prefix = "P") {
+        const rand = Math.floor(100 + Math.random() * 900);
+        return `${prefix}${rand}`;
+      }
+
       /* =========================================================================
-         2. DEFAULT CATEGORIES (GENERAL FIRST), ITEMS & FULL EMOJI CATALOGUE
+         2. DEFAULT CATEGORIES, ITEMS (WITH UNIQUE CODES) & EMOJI BANK
          ========================================================================= */
-      const STORAGE_KEY = "olm_universal_pos_v2";
+      const STORAGE_KEY = "olm_universal_pos_v3";
 
       const DEFAULT_CATEGORIES = [
         { id: "general", name: "General", icon: "📋", mode: "grocery" },
@@ -1535,85 +1681,83 @@
 
       const DEFAULT_ITEMS = [
         // General
-        { id: "gen1", cat: "general", name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg", rate: 30 },
-        { id: "gen2", cat: "general", name: "Bread Packet", emoji: "🍞", unit: "Pkt", rate: 35 },
-        { id: "gen3", cat: "general", name: "Milk Packet", emoji: "🥛", unit: "500ml", rate: 28 },
-        { id: "gen4", cat: "general", name: "Palak Bajji", emoji: "🥬", unit: "Plate", rate: 30 },
-        { id: "gen5", cat: "general", name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs", rate: 35 },
-        { id: "gen6", cat: "general", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
+        { id: "gen1", code: "G101", cat: "general", name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg", rate: 30 },
+        { id: "gen2", code: "G102", cat: "general", name: "Bread Packet", emoji: "🍞", unit: "Pkt", rate: 35 },
+        { id: "gen3", code: "G103", cat: "general", name: "Milk Packet", emoji: "🥛", unit: "500ml", rate: 28 },
+        { id: "gen4", code: "G104", cat: "general", name: "Palak Bajji", emoji: "🥬", unit: "Plate", rate: 30 },
+        { id: "gen5", code: "G105", cat: "general", name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs", rate: 35 },
+        { id: "gen6", code: "G106", cat: "general", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
 
         // Restaurant
-        { id: "r1", cat: "restaurant", name: "Chicken Biryani (Full)", emoji: "🍛", unit: "Full", rate: 190 },
-        { id: "r2", cat: "restaurant", name: "Chicken Biryani (Half)", emoji: "🍗", unit: "Half", rate: 110 },
-        { id: "r3", cat: "restaurant", name: "Cold Drink", emoji: "🥤", unit: "Btl", rate: 40 },
-        { id: "r4", cat: "restaurant", name: "Idli Sambar", emoji: "🥟", unit: "Plate", rate: 40 },
-        { id: "r5", cat: "restaurant", name: "Masala Dosa", emoji: "🥞", unit: "Plate", rate: 70 },
-        { id: "r6", cat: "restaurant", name: "Poori Sabji", emoji: "🫓", unit: "Plate", rate: 50 },
-        { id: "r7", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
-        { id: "r8", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
+        { id: "r1", code: "R201", cat: "restaurant", name: "Chicken Biryani (Full)", emoji: "🍛", unit: "Full", rate: 190 },
+        { id: "r2", code: "R202", cat: "restaurant", name: "Chicken Biryani (Half)", emoji: "🍗", unit: "Half", rate: 110 },
+        { id: "r3", code: "R203", cat: "restaurant", name: "Cold Drink", emoji: "🥤", unit: "Btl", rate: 40 },
+        { id: "r4", code: "R204", cat: "restaurant", name: "Idli Sambar", emoji: "🥟", unit: "Plate", rate: 40 },
+        { id: "r5", code: "R205", cat: "restaurant", name: "Masala Dosa", emoji: "🥞", unit: "Plate", rate: 70 },
+        { id: "r6", code: "R206", cat: "restaurant", name: "Poori Sabji", emoji: "🫓", unit: "Plate", rate: 50 },
+        { id: "r7", code: "R207", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
+        { id: "r8", code: "R208", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
 
         // Grocery
-        { id: "g1", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
-        { id: "g2", cat: "grocery", name: "Basmati Rice", emoji: "🌾", unit: "1 kg", rate: 85 },
-        { id: "g3", cat: "grocery", name: "Bath Soap", emoji: "🧼", unit: "Pcs", rate: 35 },
-        { id: "g4", cat: "grocery", name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr", rate: 135 },
-        { id: "g5", cat: "grocery", name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg", rate: 44 },
-        { id: "g6", cat: "grocery", name: "Tea Patti", emoji: "🍃", unit: "250g", rate: 95 },
-        { id: "g7", cat: "grocery", name: "Toor Dal", emoji: "🫘", unit: "1 kg", rate: 150 },
+        { id: "g1", code: "K301", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
+        { id: "g2", code: "K302", cat: "grocery", name: "Basmati Rice", emoji: "🌾", unit: "1 kg", rate: 85 },
+        { id: "g3", code: "K303", cat: "grocery", name: "Bath Soap", emoji: "🧼", unit: "Pcs", rate: 35 },
+        { id: "g4", code: "K304", cat: "grocery", name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr", rate: 135 },
+        { id: "g5", code: "K305", cat: "grocery", name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg", rate: 44 },
+        { id: "g6", code: "K306", cat: "grocery", name: "Tea Patti", emoji: "🍃", unit: "250g", rate: 95 },
+        { id: "g7", code: "K307", cat: "grocery", name: "Toor Dal", emoji: "🫘", unit: "1 kg", rate: 150 },
 
         // Loading / Shipping
-        { id: "l1", cat: "loading", name: "Carton Boxes", emoji: "📦", unit: "Box", rate: 0 },
-        { id: "l2", cat: "loading", name: "Cement Bags", emoji: "🧱", unit: "Bags", rate: 360 },
-        { id: "l3", cat: "loading", name: "Hardware Pkts", emoji: "🧰", unit: "Pkt", rate: 0 },
-        { id: "l4", cat: "loading", name: "Rice Sacks", emoji: "🎒", unit: "Bora", rate: 0 },
-        { id: "l5", cat: "loading", name: "Sand / Reti", emoji: "⏳", unit: "Ton", rate: 1200 },
-        { id: "l6", cat: "loading", name: "Steel Rods", emoji: "🏗️", unit: "Qntl", rate: 5400 }
+        { id: "l1", code: "L401", cat: "loading", name: "Carton Boxes", emoji: "📦", unit: "Box", rate: 0 },
+        { id: "l2", code: "L402", cat: "loading", name: "Cement Bags", emoji: "🧱", unit: "Bags", rate: 360 },
+        { id: "l3", code: "L403", cat: "loading", name: "Hardware Pkts", emoji: "🧰", unit: "Pkt", rate: 0 },
+        { id: "l4", code: "L404", cat: "loading", name: "Rice Sacks", emoji: "🎒", unit: "Bora", rate: 0 },
+        { id: "l5", code: "L405", cat: "loading", name: "Sand / Reti", emoji: "⏳", unit: "Ton", rate: 1200 },
+        { id: "l6", code: "L406", cat: "loading", name: "Steel Rods", emoji: "🏗️", unit: "Qntl", rate: 5400 }
       ];
 
-      // Categorized Full Emoji Library (250+ Emojis covering every business)
       const EMOJI_GROUPS = {
         "🍛 Food": ["🍛","🍗","🥞","🥟","🫓","🍚","🍜","🍝","🍔","🍕","🌭","🥪","🌮","🌯","🥙","🧆","🥚","🍳","🥘","🍲","🥣","🥗","🍿","🧈","🧂","🥫","🍱","🍘","🍙","🍢","🍣","🍤","🍥","🥮","🍡","🍦","🍧","🍨","🍩","🍪","🎂","🍰","🧁","🥧","🍫","🍬","🍭","🍮","🍯","☕","🍵","🧃","🥤","🧋","🥛"],
         "🥬 Veg/Fruit": ["🥔","🧅","🧄","🍅","🍆","🥑","🥦","🥬","🥒","🌶️","🫑","🌽","🥕","🫒","🍄","🥜","🫘","🌰","🍞","🥐","🥖","🥨","🥯","🧀","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥","🥝"],
         "🛒 Kirana": ["🧼","🧽","🧴","🧻","🧺","🧹","🪣","🪒","🪥","💊","🩹","🩺","🍼","🛍️","🎁","🎈","🕯️","🪔","🧯","🔋","🔌","💡","🔦","📱","💻","⌚","📷","🎧","🖨️","🖱️","⌨️"],
         "🚚 Transport": ["📦","🧱","🏗️","🚚","🚛","🛻","🚐","🚗","🚕","🚌","🚜","🛵","🚲","⛽","🛢️","🧰","🔧","🔨","⚒️","🛠️","⛏️","🔩","⚙️","⛓️","🧲","🪜","🪵","🪨","🎒","🧳"],
-        "👕 Fashion/Office": ["👕","👖","👗","👘","🥻","🧥","👔","👟","👞","👠"," sandal","🧢","🎒","👜","👛","👓","🕶️","💍","💄","📝","📄","📃","📑","📊","📈","📁","📂","📅","📌","📎","📏","📐","✂️","🖊️","✏️","📚","📖"]
+        "👕 Fashion/Office": ["👕","👖","👗","👘","🥻","🧥","👔","👟","👞","👠","🧢","🎒","👜","👛","👓","🕶️","💍","💄","📝","📄","📃","📑","📊","📈","📁","📂","📅","📌","📎","📏","📐","✂️","🖊️","✏️","📚","📖"]
       };
 
-      // Bilingual Voice & WhatsApp Item Mapping Dictionary
       const VOICE_ITEM_MAP = {
-        "aalu": { name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg" },
-        "aloo": { name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg" },
-        "potato": { name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg" },
-        "pyaz": { name: "Pyaz (Onion)", emoji: "🧅", unit: "1 kg" },
-        "pyaaz": { name: "Pyaz (Onion)", emoji: "🧅", unit: "1 kg" },
-        "onion": { name: "Pyaz (Onion)", emoji: "🧅", unit: "1 kg" },
-        "tamatar": { name: "Tamatar (Tomato)", emoji: "🍅", unit: "1 kg" },
-        "tomato": { name: "Tamatar (Tomato)", emoji: "🍅", unit: "1 kg" },
-        "palak": { name: "Palak (Spinach)", emoji: "🥬", unit: "Bundle" },
-        "bajji": { name: "Bajji / Bhaji", emoji: "🥘", unit: "Plate" },
-        "bhaji": { name: "Bajji / Bhaji", emoji: "🥘", unit: "Plate" },
-        "palak bajji": { name: "Palak Bajji", emoji: "🥬", unit: "Plate" },
-        "soap": { name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs" },
-        "sabun": { name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs" },
-        "bread": { name: "Bread Packet", emoji: "🍞", unit: "Pkt" },
-        "doodh": { name: "Milk Packet", emoji: "🥛", unit: "500ml" },
-        "milk": { name: "Milk Packet", emoji: "🥛", unit: "500ml" },
-        "cheeni": { name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg" },
-        "sugar": { name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg" },
-        "chawal": { name: "Basmati Rice", emoji: "🌾", unit: "1 kg" },
-        "rice": { name: "Basmati Rice", emoji: "🌾", unit: "1 kg" },
-        "atta": { name: "Atta (Wheat)", emoji: "🥖", unit: "1 kg" },
-        "tel": { name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr" },
-        "oil": { name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr" },
-        "dal": { name: "Toor Dal", emoji: "🫘", unit: "1 kg" },
-        "chai": { name: "Tea / Chai", emoji: "☕", unit: "Cup" },
-        "tea": { name: "Tea / Chai", emoji: "☕", unit: "Cup" },
-        "dosa": { name: "Masala Dosa", emoji: "🥞", unit: "Plate" },
-        "idli": { name: "Idli Sambar", emoji: "🥟", unit: "Plate" },
-        "poori": { name: "Poori Sabji", emoji: "🫓", unit: "Plate" },
-        "biryani": { name: "Chicken Biryani", emoji: "🍛", unit: "Plate" },
-        "cement": { name: "Cement Bags", emoji: "🧱", unit: "Bags" },
-        "reti": { name: "Sand / Reti", emoji: "⏳", unit: "Ton" }
+        "aalu": { name: "Aloo (Potato)", code: "G101", emoji: "🥔", unit: "1 kg" },
+        "aloo": { name: "Aloo (Potato)", code: "G101", emoji: "🥔", unit: "1 kg" },
+        "potato": { name: "Aloo (Potato)", code: "G101", emoji: "🥔", unit: "1 kg" },
+        "pyaz": { name: "Pyaz (Onion)", code: "V102", emoji: "🧅", unit: "1 kg" },
+        "pyaaz": { name: "Pyaz (Onion)", code: "V102", emoji: "🧅", unit: "1 kg" },
+        "onion": { name: "Pyaz (Onion)", code: "V102", emoji: "🧅", unit: "1 kg" },
+        "tamatar": { name: "Tamatar (Tomato)", code: "V103", emoji: "🍅", unit: "1 kg" },
+        "tomato": { name: "Tamatar (Tomato)", code: "V103", emoji: "🍅", unit: "1 kg" },
+        "palak": { name: "Palak (Spinach)", code: "V104", emoji: "🥬", unit: "Bundle" },
+        "bajji": { name: "Bajji / Bhaji", code: "F105", emoji: "🥘", unit: "Plate" },
+        "bhaji": { name: "Bajji / Bhaji", code: "F105", emoji: "🥘", unit: "Plate" },
+        "palak bajji": { name: "Palak Bajji", code: "G104", emoji: "🥬", unit: "Plate" },
+        "soap": { name: "Soap (Sabun)", code: "G105", emoji: "🧼", unit: "Pcs" },
+        "sabun": { name: "Soap (Sabun)", code: "G105", emoji: "🧼", unit: "Pcs" },
+        "bread": { name: "Bread Packet", code: "G102", emoji: "🍞", unit: "Pkt" },
+        "doodh": { name: "Milk Packet", code: "G103", emoji: "🥛", unit: "500ml" },
+        "milk": { name: "Milk Packet", code: "G103", emoji: "🥛", unit: "500ml" },
+        "cheeni": { name: "Sugar (Cheeni)", code: "K305", emoji: "🧂", unit: "1 kg" },
+        "sugar": { name: "Sugar (Cheeni)", code: "K305", emoji: "🧂", unit: "1 kg" },
+        "chawal": { name: "Basmati Rice", code: "K302", emoji: "🌾", unit: "1 kg" },
+        "rice": { name: "Basmati Rice", code: "K302", emoji: "🌾", unit: "1 kg" },
+        "atta": { name: "Atta (Wheat)", code: "K301", emoji: "🥖", unit: "1 kg" },
+        "tel": { name: "Cooking Oil", code: "K304", emoji: "🫗", unit: "1 Ltr" },
+        "oil": { name: "Cooking Oil", code: "K304", emoji: "🫗", unit: "1 Ltr" },
+        "dal": { name: "Toor Dal", code: "K307", emoji: "🫘", unit: "1 kg" },
+        "chai": { name: "Tea / Chai", code: "G106", emoji: "☕", unit: "Cup" },
+        "tea": { name: "Tea / Chai", code: "G106", emoji: "☕", unit: "Cup" },
+        "dosa": { name: "Masala Dosa", code: "R205", emoji: "🥞", unit: "Plate" },
+        "idli": { name: "Idli Sambar", code: "R204", emoji: "🥟", unit: "Plate" },
+        "poori": { name: "Poori Sabji", code: "R206", emoji: "🫓", unit: "Plate" },
+        "biryani": { name: "Chicken Biryani", code: "R201", emoji: "🍛", unit: "Plate" },
+        "cement": { name: "Cement Bags", code: "L402", emoji: "🧱", unit: "Bags" },
+        "reti": { name: "Sand / Reti", code: "L405", emoji: "⏳", unit: "Ton" }
       };
 
       const NUMBER_WORDS = {
@@ -1640,6 +1784,7 @@
         items: Array.isArray(savedState.items) && savedState.items.length ? savedState.items : DEFAULT_ITEMS,
         barcodes: savedState.barcodes || {},
         showPrice: Boolean(savedState.showPrice),
+        catalogueHidden: Boolean(savedState.catalogueHidden),
         paperSize: savedState.paperSize || "58mm",
         btPrintMode: savedState.btPrintMode || "bitmap",
         setup: savedState.setup || {
@@ -1671,8 +1816,7 @@
       }
 
       function updateUndoButton() {
-        const btn = document.getElementById("btnUndo");
-        btn.disabled = undoStack.length === 0;
+        document.getElementById("btnUndo").disabled = undoStack.length === 0;
       }
 
       function performUndo() {
@@ -1694,16 +1838,17 @@
             items: state.items,
             barcodes: state.barcodes,
             showPrice: state.showPrice,
+            catalogueHidden: state.catalogueHidden,
             paperSize: state.paperSize,
             btPrintMode: state.btPrintMode,
             setup: state.setup,
             restaurantTables: state.restaurantTables,
             generalOrders: state.generalOrders,
-            savedArchive: state.savedArchive.slice(0, 30)
+            savedArchive: state.savedArchive.slice(0, 40)
           };
           localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
         } catch (err) {
-          showToast("Storage full! Clear old archived orders.");
+          showToast("Storage full! Delete old saved orders.");
         }
       }
 
@@ -1743,9 +1888,15 @@
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
         const guestTag = cat.mode === "restaurant" ? state.activeGuest : "ALL";
+        const rateNum = Number(itemObj.rate) || 0;
+
+        // Auto-turn Price ON if user explicitly entered a price > 0
+        if (rateNum > 0) {
+          state.showPrice = true;
+        }
 
         const existing = list.find(
-          x => x.name.toLowerCase() === itemObj.name.toLowerCase() && x.guest === guestTag
+          x => x.name.toLowerCase() === itemObj.name.toLowerCase() && x.guest === guestTag && x.rate === rateNum
         );
 
         if (existing) {
@@ -1754,11 +1905,12 @@
           list.push({
             uid: "ord_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
             guest: guestTag,
+            code: sanitizeText(itemObj.code || generateUniqueCode("M"), 12),
             name: sanitizeText(itemObj.name, 40),
             emoji: itemObj.emoji || "📦",
             thumb: itemObj.thumb || "",
             unit: sanitizeText(itemObj.unit || "", 15),
-            rate: Number(itemObj.rate) || 0,
+            rate: rateNum,
             qty: customQty
           });
         }
@@ -1770,6 +1922,24 @@
       /* =========================================================================
          5. RENDERING ENGINE (ALPHABETICAL CATALOGUE, CONTEXT, FEED, SLIP, QR)
          ========================================================================= */
+      function applyCatalogueVisibility() {
+        const ws = document.getElementById("splitWorkspace");
+        const btn = document.getElementById("btnToggleCatalogue");
+        if (state.catalogueHidden) {
+          ws.classList.add("catalogue-hidden");
+          btn.textContent = "▶ Items";
+        } else {
+          ws.classList.remove("catalogue-hidden");
+          btn.textContent = "◀ Hide";
+        }
+      }
+
+      document.getElementById("btnToggleCatalogue").addEventListener("click", () => {
+        state.catalogueHidden = !state.catalogueHidden;
+        persistState();
+        applyCatalogueVisibility();
+      });
+
       function renderCategoryTabs() {
         const bar = document.getElementById("categoryBar");
         bar.innerHTML = "";
@@ -1818,7 +1988,10 @@
         const filtered = state.items
           .filter(it => {
             const matchCat = it.cat === state.activeCat;
-            const matchSearch = !q || it.name.toLowerCase().includes(q);
+            const matchSearch =
+              !q ||
+              it.name.toLowerCase().includes(q) ||
+              (it.code && it.code.toLowerCase().includes(q));
             return matchCat && matchSearch;
           })
           .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
@@ -1839,11 +2012,10 @@
           const card = document.createElement("div");
           card.className = "prod-card";
 
-          // Price / Item Edit Button on every card
           const editBtn = document.createElement("button");
           editBtn.type = "button";
           editBtn.className = "prod-edit-btn";
-          editBtn.title = "Edit Price / Name";
+          editBtn.title = "Edit Price / Code / Name";
           editBtn.textContent = "✏️";
           editBtn.addEventListener("click", ev => {
             ev.stopPropagation();
@@ -1882,7 +2054,7 @@
           const meta = document.createElement("div");
           meta.className = "prod-meta";
           const rateTxt = item.rate > 0 ? `₹${item.rate}` : "";
-          meta.textContent = [item.unit, rateTxt].filter(Boolean).join(" • ") || "Tap +1";
+          meta.textContent = [item.code, item.unit, rateTxt].filter(Boolean).join("•");
           card.appendChild(meta);
 
           card.addEventListener("click", () => addItemToCurrentOrder(item, 1));
@@ -2007,8 +2179,8 @@
 
         if (!list.length) {
           const empty = document.createElement("div");
-          empty.style.cssText = "text-align:center; color:#64748b; padding:20px 8px; font-size:11px;";
-          empty.textContent = "Tap items on left, speak via 🎤 Mic, or paste WhatsApp list 📋.";
+          empty.style.cssText = "text-align:center; color:#64748b; padding:18px 8px; font-size:11px;";
+          empty.textContent = "Tap items on left, speak via 🎤 Mic, or type '2 Aloo @30' above.";
           feed.appendChild(empty);
           return;
         }
@@ -2040,6 +2212,8 @@
 
         const left = document.createElement("div");
         left.className = "order-row-left";
+        left.title = "Tap to edit Price / Qty";
+        left.addEventListener("click", () => openEditOrderRowModal(item));
 
         if (item.thumb) {
           const img = document.createElement("img");
@@ -2062,13 +2236,11 @@
         title.textContent = item.name;
         info.appendChild(title);
 
-        if (item.unit || (state.showPrice && item.rate > 0)) {
-          const sub = document.createElement("div");
-          sub.className = "order-row-sub";
-          const amt = state.showPrice && item.rate > 0 ? `₹${(item.rate * item.qty).toFixed(0)}` : "";
-          sub.textContent = [item.unit, amt].filter(Boolean).join(" • ");
-          info.appendChild(sub);
-        }
+        const sub = document.createElement("div");
+        sub.className = "order-row-sub";
+        const priceTxt = item.rate > 0 ? `₹${item.rate} × ${item.qty} = ₹${(item.rate * item.qty).toFixed(0)}` : "Tap to set ₹ price";
+        sub.textContent = [item.unit, priceTxt].filter(Boolean).join(" • ");
+        info.appendChild(sub);
 
         left.appendChild(info);
         row.appendChild(left);
@@ -2107,41 +2279,92 @@
           renderAll();
         });
 
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "qty-btn del-row";
+        removeBtn.title = "Remove Item";
+        removeBtn.textContent = "✕";
+        removeBtn.addEventListener("click", () => {
+          pushUndoSnapshot();
+          const idx = parentList.indexOf(item);
+          if (idx > -1) parentList.splice(idx, 1);
+          persistState();
+          renderAll();
+        });
+
         ctrls.appendChild(minusBtn);
         ctrls.appendChild(qtySpan);
         ctrls.appendChild(plusBtn);
+        ctrls.appendChild(removeBtn);
         row.appendChild(ctrls);
 
         return row;
       }
 
       /* =========================================================================
-         6. THERMAL SLIP BUILDER & OFFLINE QR SUMMARY
+         6. 58MM THERMAL SLIP BUILDER (CENTER HEADING, COMPACT DATE, ITEM QTY PRICE AMT)
          ========================================================================= */
-      function buildPlainTextSlip() {
+      function formatCompactDateTime() {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, "0");
+        const mon = now.toLocaleString("en-US", { month: "short" });
+        const yr = String(now.getFullYear()).slice(-2);
+        let hrs = now.getHours();
+        const mins = String(now.getMinutes()).padStart(2, "0");
+        const ampm = hrs >= 12 ? "PM" : "AM";
+        hrs = hrs % 12 || 12;
+        return `${day}${mon}${yr} ${hrs}:${mins}${ampm}`;
+      }
+
+      function centerText32(str) {
+        const s = String(str || "").slice(0, 32);
+        const pad = Math.max(0, Math.floor((32 - s.length) / 2));
+        return " ".repeat(pad) + s;
+      }
+
+      // If ASCII-only print mode is selected, replace non-ASCII Hindi/Urdu names with Unique Product Code
+      function getPrintableItemLabel(item, asciiFallbackMode) {
+        if (!asciiFallbackMode) return item.name;
+        const isPureAscii = /^[\x20-\x7E]+$/.test(item.name);
+        if (isPureAscii) return item.name;
+        return `[${item.code || "ITEM"}]`;
+      }
+
+      function buildPlainTextSlip(asciiFallbackMode = false) {
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
-        const dateStr = now.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "2-digit" });
+        const compactModeName = cat.name.replace(/\s+/g, "");
+        const compactDT = formatCompactDateTime();
 
         const lines = [];
-        lines.push(state.setup.businessName.toUpperCase());
-        if (state.setup.subHeader) lines.push(state.setup.subHeader);
+        // 1. Centered Heading
+        lines.push(centerText32(state.setup.businessName.toUpperCase()));
+        if (state.setup.subHeader) {
+          lines.push(centerText32(state.setup.subHeader));
+        }
         lines.push("--------------------------------");
-        lines.push(`MODE: ${cat.name.toUpperCase()} | ${dateStr} ${timeStr}`);
+        // 2. Compact Single-Line Mode & Timestamp (e.g. Mode:General|26Nov26 2:39PM)
+        lines.push(`Mode:${compactModeName}|${compactDT}`.slice(0, 32));
 
         if (cat.mode === "restaurant") {
-          lines.push(`TABLE: ${state.activeTable}`);
+          lines.push(`Table:${state.activeTable}`);
         } else {
           const meta = (state.generalOrders[cat.id] || {}).meta || {};
-          if (meta.field1) lines.push(`${cat.mode === "loading" ? "VEHICLE" : "NAME"}: ${meta.field1}`);
-          if (meta.field2) lines.push(`${cat.mode === "loading" ? "PARTY" : "INFO"}: ${meta.field2}`);
+          if (meta.field1) lines.push(`${cat.mode === "loading" ? "Veh" : "Name"}:${meta.field1}`.slice(0, 32));
+          if (meta.field2) lines.push(`${cat.mode === "loading" ? "Pty" : "Info"}:${meta.field2}`.slice(0, 32));
+        }
+        lines.push("--------------------------------");
+
+        // 3. Column Header: Item Qty Price Amount
+        if (state.showPrice) {
+          lines.push("Item        Qty  Price   Amount");
+        } else {
+          lines.push("Item                        Qty");
         }
         lines.push("--------------------------------");
 
         if (!list.length) {
-          lines.push("(No items added yet)");
+          lines.push(centerText32("(No items added)"));
         } else if (cat.mode === "restaurant") {
           const guestMap = {};
           list.forEach(it => {
@@ -2152,31 +2375,43 @@
           Object.keys(guestMap).forEach(g => {
             lines.push(`[${g}]`);
             guestMap[g].forEach(it => {
-              const pricePart = state.showPrice && it.rate > 0 ? ` Rs.${it.rate * it.qty}` : "";
-              lines.push(` - ${it.name} x${it.qty}${pricePart}`);
+              lines.push(formatPlainColumnLine(it, asciiFallbackMode));
             });
           });
         } else {
-          list.forEach((it, idx) => {
-            const unitPart = it.unit ? ` (${it.unit})` : "";
-            const pricePart = state.showPrice && it.rate > 0 ? ` Rs.${it.rate * it.qty}` : "";
-            lines.push(`${idx + 1}. ${it.name}${unitPart} x${it.qty}${pricePart}`);
+          list.forEach(it => {
+            lines.push(formatPlainColumnLine(it, asciiFallbackMode));
           });
         }
 
         lines.push("--------------------------------");
         const totalQty = list.reduce((s, x) => s + x.qty, 0);
         const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
-        lines.push(`ITEMS: ${list.length} | TOTAL QTY: ${totalQty}`);
+        lines.push(`Items:${list.length}  TotalQty:${totalQty}`);
         if (state.showPrice && totalAmt > 0) {
-          lines.push(`EST. TOTAL: Rs.${totalAmt.toFixed(2)}`);
+          lines.push(`GRAND TOTAL: Rs.${totalAmt.toFixed(2)}`);
         }
         if (state.setup.footerNote) {
           lines.push("--------------------------------");
-          lines.push(state.setup.footerNote);
+          lines.push(centerText32(state.setup.footerNote));
         }
 
         return lines.join("\n");
+      }
+
+      function formatPlainColumnLine(it, asciiFallbackMode) {
+        const label = getPrintableItemLabel(it, asciiFallbackMode);
+        if (state.showPrice) {
+          const colItem = label.slice(0, 11).padEnd(11, " ");
+          const colQty = String(it.qty).padStart(4, " ");
+          const colPrice = String(it.rate || 0).padStart(7, " ");
+          const colAmt = String(Math.round((it.rate || 0) * it.qty)).padStart(8, " ");
+          return `${colItem}${colQty}${colPrice}${colAmt}`;
+        } else {
+          const colItem = label.slice(0, 26).padEnd(26, " ");
+          const colQty = String(it.qty).padStart(6, " ");
+          return `${colItem}${colQty}`;
+        }
       }
 
       function renderThermalAndQR() {
@@ -2187,22 +2422,33 @@
 
         priceBtn.textContent = `₹ Price: ${state.showPrice ? "ON" : "OFF"}`;
 
-        const now = new Date();
-        const dt = `${now.toLocaleDateString("en-IN", { day: "2-digit", month: "short" })} ${now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}`;
+        const compactModeName = cat.name.replace(/\s+/g, "");
+        const compactDT = formatCompactDateTime();
 
-        let html = `<div class="th-center th-bold">${escapeHTML(state.setup.businessName)}</div>`;
+        // 1. Centered Heading
+        let html = `<div class="th-center th-bold" style="font-size:11px;">${escapeHTML(state.setup.businessName)}</div>`;
         if (state.setup.subHeader) {
-          html += `<div class="th-center" style="font-size:9px;">${escapeHTML(state.setup.subHeader)}</div>`;
+          html += `<div class="th-center" style="font-size:8.5px;">${escapeHTML(state.setup.subHeader)}</div>`;
         }
         html += `<div class="th-line"></div>`;
-        html += `<div class="th-row"><span>${escapeHTML(cat.name.toUpperCase())}</span><span>${escapeHTML(dt)}</span></div>`;
+
+        // 2. Single-line Compact Mode & Timestamp
+        html += `<div class="th-mode-line">Mode:${escapeHTML(compactModeName)}|${escapeHTML(compactDT)}</div>`;
 
         if (cat.mode === "restaurant") {
-          html += `<div class="th-bold">TABLE: ${escapeHTML(state.activeTable)}</div>`;
+          html += `<div class="th-bold" style="font-size:9px;">Table: ${escapeHTML(state.activeTable)}</div>`;
         } else {
           const meta = (state.generalOrders[cat.id] || {}).meta || {};
-          if (meta.field1) html += `<div>${cat.mode === "loading" ? "VEH" : "TO"}: ${escapeHTML(meta.field1)}</div>`;
-          if (meta.field2) html += `<div>${cat.mode === "loading" ? "PTY" : "INF"}: ${escapeHTML(meta.field2)}</div>`;
+          if (meta.field1) html += `<div style="font-size:9px;">${cat.mode === "loading" ? "Veh" : "Name"}: ${escapeHTML(meta.field1)}</div>`;
+          if (meta.field2) html += `<div style="font-size:9px;">${cat.mode === "loading" ? "Pty" : "Info"}: ${escapeHTML(meta.field2)}</div>`;
+        }
+        html += `<div class="th-line"></div>`;
+
+        // 3. Column Headers: Item Qty Price Amount
+        if (state.showPrice) {
+          html += `<div class="th-tbl-hdr th-bold"><span>Item</span><span class="th-num">Qty</span><span class="th-num">Price</span><span class="th-num">Amt</span></div>`;
+        } else {
+          html += `<div class="th-tbl-hdr no-price th-bold"><span>Item</span><span class="th-num">Qty</span></div>`;
         }
         html += `<div class="th-line"></div>`;
 
@@ -2217,15 +2463,12 @@
           Object.keys(guestMap).forEach(g => {
             html += `<div class="th-bold" style="margin-top:2px;">[${escapeHTML(g)}]</div>`;
             guestMap[g].forEach(it => {
-              const amt = state.showPrice && it.rate > 0 ? ` ₹${it.rate * it.qty}` : "";
-              html += `<div class="th-row"><span>${escapeHTML(it.name)}</span><span class="th-bold">x${it.qty}${amt}</span></div>`;
+              html += buildHtmlSlipRow(it);
             });
           });
         } else {
-          list.forEach((it, idx) => {
-            const u = it.unit ? ` (${escapeHTML(it.unit)})` : "";
-            const amt = state.showPrice && it.rate > 0 ? ` ₹${it.rate * it.qty}` : "";
-            html += `<div class="th-row"><span>${idx + 1}. ${escapeHTML(it.name)}${u}</span><span class="th-bold">x${it.qty}${amt}</span></div>`;
+          list.forEach(it => {
+            html += buildHtmlSlipRow(it);
           });
         }
 
@@ -2233,12 +2476,12 @@
         const totalAmt = list.reduce((s, x) => s + x.qty * (x.rate || 0), 0);
 
         html += `<div class="th-line"></div>`;
-        html += `<div class="th-row th-bold"><span>Items: ${list.length}</span><span>Qty: ${totalQty}</span></div>`;
+        html += `<div class="th-row th-bold"><span>Items:${list.length}</span><span>Qty:${totalQty}</span></div>`;
         if (state.showPrice && totalAmt > 0) {
           html += `<div class="th-row th-bold" style="font-size:11px; margin-top:2px;"><span>TOTAL</span><span>₹${totalAmt.toFixed(2)}</span></div>`;
         }
         if (state.setup.footerNote) {
-          html += `<div class="th-line"></div><div class="th-center" style="font-size:9px;">${escapeHTML(state.setup.footerNote)}</div>`;
+          html += `<div class="th-line"></div><div class="th-center" style="font-size:8.5px;">${escapeHTML(state.setup.footerNote)}</div>`;
         }
 
         slipEl.innerHTML = html;
@@ -2252,7 +2495,7 @@
 
         // Live Order Summary QR Code
         const qrBox = document.getElementById("qrContainer");
-        const qrText = buildPlainTextSlip().slice(0, 480);
+        const qrText = buildPlainTextSlip(false).slice(0, 480);
         if (typeof QRCode !== "undefined") {
           qrBox.innerHTML = "";
           new QRCode(qrBox, {
@@ -2266,7 +2509,25 @@
         }
       }
 
+      function buildHtmlSlipRow(it) {
+        if (state.showPrice) {
+          const amt = Math.round((it.rate || 0) * it.qty);
+          return `<div class="th-tbl-row">
+            <span style="word-break:break-word;">${escapeHTML(it.name)}</span>
+            <span class="th-num">${escapeHTML(it.qty)}</span>
+            <span class="th-num">${escapeHTML(it.rate || 0)}</span>
+            <span class="th-num th-bold">${amt}</span>
+          </div>`;
+        } else {
+          return `<div class="th-tbl-row no-price">
+            <span style="word-break:break-word;">${escapeHTML(it.name)}</span>
+            <span class="th-num th-bold">${escapeHTML(it.qty)}</span>
+          </div>`;
+        }
+      }
+
       function renderAll() {
+        applyCatalogueVisibility();
         renderCategoryTabs();
         renderCatalogue();
         renderContextStrip();
@@ -2275,7 +2536,7 @@
       }
 
       /* =========================================================================
-         7. SMART PARSERS: AI-CHAT TEXT, WHATSAPP LIST & CONTINUOUS VOICE-TO-ORDER
+         7. SMART PARSERS (SUPPORTS "@PRICE", WHATSAPP PASTE & VOICE WITH STOP BTN)
          ========================================================================= */
       function parseAndAddBulkText(rawText, isContinuousSpeech = false) {
         const clean = sanitizeText(rawText, 2000);
@@ -2284,13 +2545,11 @@
         pushUndoSnapshot();
         let addedCount = 0;
 
-        // First split by newlines, commas, semicolons, or Hindi "aur"
         let segments = rawText
           .split(/[\n,;•]+|\baur\b|\band\b/gi)
           .map(s => sanitizeText(s, 60))
           .filter(Boolean);
 
-        // If user spoke a continuous phrase without commas e.g. "aalu soap bread palak bajji"
         if (isContinuousSpeech && segments.length === 1 && segments[0].split(" ").length >= 2) {
           const words = segments[0].toLowerCase().split(/\s+/);
           const smartChunks = [];
@@ -2306,7 +2565,6 @@
             }
             if (i >= words.length) break;
 
-            // Check 2-word phrase match first (e.g. "palak bajji", "masala dosa")
             const twoWord = words[i + 1] ? `${words[i]} ${words[i + 1]}` : "";
             const catMatch2 = state.items.find(it => it.name.toLowerCase().includes(twoWord));
             if (twoWord && (VOICE_ITEM_MAP[twoWord] || catMatch2)) {
@@ -2321,17 +2579,22 @@
         }
 
         segments.forEach(seg => {
-          // Strip leading numbering like "1." or "-" or "*"
           let line = seg.replace(/^[\d]+[.)]\s*|^[-*]\s*/, "").trim();
           if (!line) return;
+
+          // Extract explicit @price or rs price e.g. "2kg Aloo @30" or "Dosa @70"
+          let explicitRate = null;
+          const priceMatch = line.match(/(?:@|rs\.?\s*|₹\s*)(\d+(?:\.\d+)?)\s*$/i);
+          if (priceMatch) {
+            explicitRate = parseFloat(priceMatch[1]);
+            line = line.replace(priceMatch[0], "").trim();
+          }
 
           let qty = 1;
           let unit = "";
           let itemName = line;
 
-          // Pattern A: "2kg Sugar" or "2 kg Sugar" or "3x Dosa" or "5 pcs Soap"
           const mStart = line.match(/^(\d+(?:\.\d+)?)\s*(kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag|x)?\s+(.+)$/i);
-          // Pattern B: "Sugar - 2kg" or "Sugar 2 kg" or "Sugar x2"
           const mEnd = line.match(/^(.+?)\s*[-:x×]?\s*(\d+(?:\.\d+)?)\s*(kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag)?$/i);
 
           if (mStart) {
@@ -2352,20 +2615,36 @@
 
           if (catFound) {
             addItemToCurrentOrder(
-              { ...catFound, unit: unit || catFound.unit },
+              {
+                ...catFound,
+                unit: unit || catFound.unit,
+                rate: explicitRate !== null ? explicitRate : catFound.rate
+              },
               qty,
               true
             );
           } else if (mapped) {
             addItemToCurrentOrder(
-              { name: mapped.name, emoji: mapped.emoji, unit: unit || mapped.unit, rate: 0 },
+              {
+                name: mapped.name,
+                code: mapped.code,
+                emoji: mapped.emoji,
+                unit: unit || mapped.unit,
+                rate: explicitRate !== null ? explicitRate : 0
+              },
               qty,
               true
             );
           } else {
             const titled = itemName.charAt(0).toUpperCase() + itemName.slice(1);
             addItemToCurrentOrder(
-              { name: titled, emoji: "📝", unit, rate: 0 },
+              {
+                name: titled,
+                code: generateUniqueCode("M"),
+                emoji: "📝",
+                unit,
+                rate: explicitRate !== null ? explicitRate : 0
+              },
               qty,
               true
             );
@@ -2385,6 +2664,33 @@
         if (count > 0) inp.value = "";
       });
 
+      // Edit Live Order Line Item (Qty / Rate / Name)
+      function openEditOrderRowModal(item) {
+        document.getElementById("editRowUid").value = item.uid;
+        document.getElementById("editRowName").value = item.name;
+        document.getElementById("editRowQty").value = item.qty;
+        document.getElementById("editRowRate").value = item.rate || "";
+        openModal("modalEditOrderRow");
+      }
+
+      document.getElementById("formEditOrderRow").addEventListener("submit", e => {
+        e.preventDefault();
+        const uid = document.getElementById("editRowUid").value;
+        const list = getCurrentOrderItems();
+        const target = list.find(x => x.uid === uid);
+        if (target) {
+          pushUndoSnapshot();
+          target.name = sanitizeText(document.getElementById("editRowName").value, 40) || target.name;
+          target.qty = Math.max(0.1, parseFloat(document.getElementById("editRowQty").value) || 1);
+          target.rate = Math.max(0, parseFloat(document.getElementById("editRowRate").value) || 0);
+          if (target.rate > 0) state.showPrice = true;
+          persistState();
+          renderAll();
+          showToast("Line item updated!");
+        }
+        closeModal("modalEditOrderRow");
+      });
+
       // WhatsApp Paste Modal
       document.getElementById("btnPasteWhatsapp").addEventListener("click", () => {
         document.getElementById("whatsappRawText").value = "";
@@ -2399,9 +2705,17 @@
         if (count > 0) showToast(`✅ Added ${count} items from WhatsApp list!`);
       });
 
-      // Voice-to-Order (Web Speech API)
+      // Voice-to-Order with Manual Stop Button
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       let activeRecognition = null;
+
+      function stopVoiceOrder() {
+        if (activeRecognition) {
+          try { activeRecognition.stop(); } catch (e) {}
+          activeRecognition = null;
+        }
+        document.getElementById("voiceLiveBanner").classList.remove("active");
+      }
 
       function startVoiceOrder() {
         if (!SpeechRec) {
@@ -2409,17 +2723,16 @@
           return;
         }
         if (activeRecognition) {
-          activeRecognition.stop();
+          stopVoiceOrder();
           return;
         }
-        const micBtn = document.getElementById("btnVoiceOrder");
+        const banner = document.getElementById("voiceLiveBanner");
         activeRecognition = new SpeechRec();
-        activeRecognition.lang = "en-IN"; // Understands Hindi + Indian English items naturally
+        activeRecognition.lang = "en-IN";
         activeRecognition.interimResults = false;
         activeRecognition.maxAlternatives = 1;
 
-        micBtn.classList.add("listening");
-        showToast("🎤 Bolna shuru karein (e.g. aalu soap bread palak bajji)...");
+        banner.classList.add("active");
 
         activeRecognition.onresult = event => {
           const transcript = event.results[0][0].transcript;
@@ -2428,11 +2741,11 @@
         };
 
         activeRecognition.onerror = () => {
-          showToast("Voice not clear, please try again");
+          showToast("Voice stopped / not clear");
         };
 
         activeRecognition.onend = () => {
-          micBtn.classList.remove("listening");
+          banner.classList.remove("active");
           activeRecognition = null;
         };
 
@@ -2440,6 +2753,7 @@
       }
 
       document.getElementById("btnVoiceOrder").addEventListener("click", startVoiceOrder);
+      document.getElementById("btnStopVoice").addEventListener("click", stopVoiceOrder);
 
       /* =========================================================================
          8. LIGHTBOX PREVIEW FOR THERMAL BILL & ORDER QR CODE
@@ -2454,9 +2768,9 @@
           const clone = document.getElementById("thermalSlipContent").cloneNode(true);
           clone.id = "lightboxSlipNode";
           clone.style.width = "100%";
-          clone.style.maxWidth = "310px";
+          clone.style.maxWidth = "315px";
           clone.style.maxHeight = "56dvh";
-          clone.style.fontSize = "13px";
+          clone.style.fontSize = "12px";
           clone.style.padding = "10px";
           contentEl.appendChild(clone);
         } else {
@@ -2467,7 +2781,7 @@
 
           if (typeof QRCode !== "undefined") {
             new QRCode(bigQrWrap, {
-              text: buildPlainTextSlip().slice(0, 480),
+              text: buildPlainTextSlip(false).slice(0, 480),
               width: 220,
               height: 220,
               colorDark: "#0f172a",
@@ -2494,7 +2808,7 @@
       });
 
       document.getElementById("lbShareBtn").addEventListener("click", async () => {
-        const slipText = buildPlainTextSlip();
+        const slipText = buildPlainTextSlip(false);
         if (navigator.share) {
           try {
             await navigator.share({ title: "Order Slip", text: slipText });
@@ -2531,7 +2845,7 @@
       });
 
       /* =========================================================================
-         9. MULTI-LANGUAGE BLUETOOTH GRAPHIC PRINT + DESKTOP PAPER SIZE PRINT
+         9. MULTI-LANGUAGE BLUETOOTH PRINT + ASCII UNIQUE CODE FALLBACK + PAPER SIZE
          ========================================================================= */
       let btCharacteristic = null;
 
@@ -2575,11 +2889,10 @@
         return false;
       }
 
-      // Converts multi-language text slip into 1-bit ESC/POS Raster Bitmap (GS v 0)
       function buildRasterEscPosBytes(slipText) {
         const lines = slipText.split("\n");
-        const width = 384; // Standard 58mm thermal head dots
-        const lineHeight = 26;
+        const width = 384;
+        const lineHeight = 25;
         const height = Math.max(60, lines.length * lineHeight + 30);
 
         const canvas = document.createElement("canvas");
@@ -2590,18 +2903,18 @@
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, width, height);
         ctx.fillStyle = "#000000";
-        ctx.font = "bold 19px sans-serif";
+        ctx.font = "bold 18px monospace";
         ctx.textBaseline = "top";
 
         lines.forEach((ln, idx) => {
-          ctx.fillText(ln, 6, 10 + idx * lineHeight, width - 12);
+          ctx.fillText(ln, 4, 10 + idx * lineHeight, width - 8);
         });
 
         const imgData = ctx.getImageData(0, 0, width, height).data;
         const bytesPerRow = width / 8;
         const header = [
-          0x1b, 0x40, // ESC @
-          0x1d, 0x76, 0x30, 0x00, // GS v 0
+          0x1b, 0x40,
+          0x1d, 0x76, 0x30, 0x00,
           bytesPerRow & 0xff, (bytesPerRow >> 8) & 0xff,
           height & 0xff, (height >> 8) & 0xff
         ];
@@ -2624,7 +2937,6 @@
             raster[offset++] = byte;
           }
         }
-        // Feed 3 lines
         raster[offset++] = 0x0a;
         raster[offset++] = 0x0a;
         raster[offset++] = 0x0a;
@@ -2638,16 +2950,16 @@
           if (!ok) return;
         }
         try {
-          const text = buildPlainTextSlip();
           let payload;
-
           if (state.btPrintMode === "bitmap") {
-            // Prints Hindi, Urdu, Tamil, Bengali, English crisply as thermal graphic!
+            const text = buildPlainTextSlip(false);
             payload = buildRasterEscPosBytes(text);
           } else {
+            // In ASCII English-only mode, non-English items print their Unique Code!
+            const textAscii = buildPlainTextSlip(true);
             const encoder = new TextEncoder();
             const init = new Uint8Array([0x1b, 0x40]);
-            const body = encoder.encode(text + "\n\n\n\n");
+            const body = encoder.encode(textAscii + "\n\n\n\n");
             payload = new Uint8Array(init.length + body.length);
             payload.set(init, 0);
             payload.set(body, init.length);
@@ -2707,7 +3019,7 @@
       document.getElementById("btnExecDesktopPrint").addEventListener("click", executeDesktopSystemPrint);
 
       /* =========================================================================
-         10. FULL EMOJI PICKER & CATALOGUE ITEM PRICE/NAME EDITOR
+         10. FULL EMOJI PICKER & CATALOGUE ITEM EDITOR (WITH UNIQUE CODE)
          ========================================================================= */
       function renderEmojiPickerUI() {
         const tabs = document.getElementById("emojiGroupTabs");
@@ -2744,9 +3056,10 @@
       function openEditItemModal(item = null) {
         const delBtn = document.getElementById("btnDeleteCatItem");
         if (item) {
-          document.getElementById("emojiModalTitle").textContent = "✏️ Edit Item & Price";
+          document.getElementById("emojiModalTitle").textContent = "✏️ Edit Item, Code & Price";
           document.getElementById("editItemId").value = item.id;
           document.getElementById("customItemName").value = item.name;
+          document.getElementById("customItemCode").value = item.code || generateUniqueCode("P");
           document.getElementById("customItemUnit").value = item.unit || "";
           document.getElementById("customItemRate").value = item.rate || "";
           state.selectedEmoji = item.emoji || "📦";
@@ -2756,6 +3069,7 @@
           document.getElementById("emojiModalTitle").textContent = "➕ Add Custom Emoji Item";
           document.getElementById("editItemId").value = "";
           document.getElementById("formEmojiItem").reset();
+          document.getElementById("customItemCode").value = generateUniqueCode("P");
           state.selectedEmoji = "📦";
           document.getElementById("directEmojiInput").value = "📦";
           delBtn.style.display = "none";
@@ -2775,6 +3089,7 @@
         e.preventDefault();
         const editId = document.getElementById("editItemId").value;
         const name = sanitizeText(document.getElementById("customItemName").value, 35);
+        const code = sanitizeText(document.getElementById("customItemCode").value, 12) || generateUniqueCode("P");
         const unit = sanitizeText(document.getElementById("customItemUnit").value, 15);
         const rate = Math.max(0, parseFloat(document.getElementById("customItemRate").value) || 0);
         const chosenEmoji = sanitizeText(document.getElementById("directEmojiInput").value, 4) || state.selectedEmoji;
@@ -2784,21 +3099,23 @@
           const target = state.items.find(it => it.id === editId);
           if (target) {
             target.name = name;
+            target.code = code;
             target.unit = unit;
             target.rate = rate;
             target.emoji = chosenEmoji;
           }
-          showToast(`Updated "${name}"!`);
+          showToast(`Updated "${name}" [${code}]!`);
         } else {
           state.items.push({
             id: "itm_" + Date.now(),
+            code,
             cat: state.activeCat,
             name,
             emoji: chosenEmoji,
             unit,
             rate
           });
-          showToast(`Added "${name}" to catalogue!`);
+          showToast(`Added "${name}" [${code}]!`);
         }
 
         persistState();
@@ -2817,7 +3134,7 @@
       });
 
       /* =========================================================================
-         11. SIMPLE POS CALCULATOR
+         11. CSP-SAFE POS CALCULATOR (FIXES 56+44 = 100 WITHOUT EVAL/FUNCTION)
          ========================================================================= */
       let calcBuffer = "";
       function updateCalcScreen(resultPreview = null) {
@@ -2826,11 +3143,43 @@
       }
 
       function safeEvaluateMath(expr) {
-        const clean = expr.replace(/[^0-9+\-*/.%]/g, "").replace(/%/g, "/100");
-        if (!clean) return "0";
         try {
-          const val = Function(`"use strict"; return (${clean})`)();
-          return Number.isFinite(val) ? String(Math.round(val * 100) / 100) : "Error";
+          const clean = expr.replace(/\s+/g, "").replace(/%/g, "/100");
+          if (!clean || !/^[0-9+\-*/.]+$/.test(clean)) return "Error";
+
+          // Tokenize numbers (including leading unary minus) and operators
+          const tokens = clean.match(/(?:^|(?<=[+\-*/]))-?\d+(?:\.\d+)?|[+\-*/]/g);
+          if (!tokens || tokens.length === 0) return "Error";
+
+          // Pass 1: Multiplication & Division
+          const pass1 = [];
+          let i = 0;
+          while (i < tokens.length) {
+            const tk = tokens[i];
+            if (tk === "*" || tk === "/") {
+              const prev = parseFloat(pass1.pop());
+              const next = parseFloat(tokens[i + 1]);
+              if (Number.isNaN(prev) || Number.isNaN(next) || (tk === "/" && next === 0)) return "Error";
+              pass1.push(tk === "*" ? prev * next : prev / next);
+              i += 2;
+            } else {
+              pass1.push(tk);
+              i += 1;
+            }
+          }
+
+          // Pass 2: Addition & Subtraction
+          let total = parseFloat(pass1[0]);
+          if (Number.isNaN(total)) return "Error";
+          for (let j = 1; j < pass1.length; j += 2) {
+            const op = pass1[j];
+            const val = parseFloat(pass1[j + 1]);
+            if (Number.isNaN(val)) return "Error";
+            if (op === "+") total += val;
+            else if (op === "-") total -= val;
+          }
+
+          return Number.isFinite(total) ? String(Math.round(total * 100) / 100) : "Error";
         } catch (e) {
           return "Error";
         }
@@ -2864,7 +3213,7 @@
           return;
         }
         state.showPrice = true;
-        addItemToCurrentOrder({ name: "Calc Amount", emoji: "🧮", unit: "", rate: val }, 1);
+        addItemToCurrentOrder({ name: "Calc Amount", code: "CALC", emoji: "🧮", unit: "", rate: val }, 1);
         closeModal("modalCalc");
         showToast(`Added ₹${val} to order!`);
       });
@@ -2872,7 +3221,128 @@
       document.getElementById("qbCalc").addEventListener("click", () => openModal("modalCalc"));
 
       /* =========================================================================
-         12. VIRAL APP SHARE QR CODE & PWA INSTALL PROMPT
+         12. ADVANCED BARCODE SCANNER (LINKS EXISTING ITEMS + NEW ITEMS + QUICK BILL)
+         ========================================================================= */
+      let barcodeLoopActive = false;
+
+      function populateBarcodeExistingSelects() {
+        const sortedItems = [...state.items].sort((a, b) => a.name.localeCompare(b.name));
+        const linkSel = document.getElementById("existingItemLinkSelect");
+        const quickSel = document.getElementById("quickExistingSelect");
+        linkSel.innerHTML = "";
+        quickSel.innerHTML = "";
+
+        sortedItems.forEach(it => {
+          const label = `${it.emoji || "📦"} ${it.name} [${it.code || ""}]${it.rate > 0 ? " - ₹" + it.rate : ""}`;
+          const opt1 = document.createElement("option");
+          opt1.value = it.id;
+          opt1.textContent = label;
+          linkSel.appendChild(opt1);
+
+          const opt2 = document.createElement("option");
+          opt2.value = it.id;
+          opt2.textContent = label;
+          quickSel.appendChild(opt2);
+        });
+      }
+
+      function handleScannedBarcode(codeRaw) {
+        const code = sanitizeText(codeRaw, 32);
+        if (!code) return;
+        state.pendingBarcode = code;
+        document.getElementById("manualBarcodeInput").value = code;
+
+        const linkedId = state.barcodes[code];
+        const existingItem = linkedId ? state.items.find(it => it.id === linkedId) : null;
+
+        if (existingItem) {
+          addItemToCurrentOrder(existingItem, 1);
+          closeModal("modalBarcode");
+          showToast(`Scanned & Added: ${existingItem.name}`);
+        } else {
+          populateBarcodeExistingSelects();
+          document.getElementById("bcItemCode").value = generateUniqueCode("B");
+          document.getElementById("barcodeStatus").textContent = `Barcode [${code}] not linked yet — link existing or create new:`;
+          document.getElementById("newBarcodeRegisterBox").style.display = "block";
+        }
+      }
+
+      document.getElementById("qbScanBarcode").addEventListener("click", async () => {
+        document.getElementById("newBarcodeRegisterBox").style.display = "none";
+        document.getElementById("manualBarcodeInput").value = "";
+        populateBarcodeExistingSelects();
+        openModal("modalBarcode");
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          try {
+            const vid = document.getElementById("barcodeVideo");
+            activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            vid.srcObject = activeMediaStream;
+            if ("BarcodeDetector" in window) {
+              const detector = new window.BarcodeDetector();
+              barcodeLoopActive = true;
+              const scanTick = async () => {
+                if (!barcodeLoopActive || !document.getElementById("modalBarcode").classList.contains("open")) return;
+                try {
+                  const codes = await detector.detect(vid);
+                  if (codes && codes.length > 0 && codes[0].rawValue) {
+                    barcodeLoopActive = false;
+                    handleScannedBarcode(codes[0].rawValue);
+                    return;
+                  }
+                } catch (e) {}
+                requestAnimationFrame(scanTick);
+              };
+              requestAnimationFrame(scanTick);
+            }
+          } catch (err) {}
+        }
+      });
+
+      document.getElementById("formManualBarcode").addEventListener("submit", e => {
+        e.preventDefault();
+        handleScannedBarcode(document.getElementById("manualBarcodeInput").value);
+      });
+
+      document.getElementById("btnLinkExistingBarcode").addEventListener("click", () => {
+        const selectedId = document.getElementById("existingItemLinkSelect").value;
+        const itm = state.items.find(x => x.id === selectedId);
+        if (!itm || !state.pendingBarcode) return;
+        state.barcodes[state.pendingBarcode] = itm.id;
+        persistState();
+        addItemToCurrentOrder(itm, 1);
+        closeModal("modalBarcode");
+        showToast(`Linked [${state.pendingBarcode}] → ${itm.name} & Added!`);
+      });
+
+      document.getElementById("btnQuickAddExisting").addEventListener("click", () => {
+        const selectedId = document.getElementById("quickExistingSelect").value;
+        const itm = state.items.find(x => x.id === selectedId);
+        if (!itm) return;
+        addItemToCurrentOrder(itm, 1);
+        showToast(`Added: ${itm.name}`);
+      });
+
+      document.getElementById("btnSaveBarcodeProduct").addEventListener("click", () => {
+        const name = sanitizeText(document.getElementById("bcItemName").value, 35);
+        const code = sanitizeText(document.getElementById("bcItemCode").value, 12) || generateUniqueCode("B");
+        const unit = sanitizeText(document.getElementById("bcItemUnit").value, 12);
+        const rate = Math.max(0, parseFloat(document.getElementById("bcItemRate").value) || 0);
+        if (!name || !state.pendingBarcode) return;
+
+        const newItm = { id: "bc_" + Date.now(), code, cat: state.activeCat, name, emoji: "🏷️", unit, rate };
+        state.items.push(newItm);
+        state.barcodes[state.pendingBarcode] = newItm.id;
+        persistState();
+
+        addItemToCurrentOrder(newItm, 1);
+        document.getElementById("bcItemName").value = "";
+        closeModal("modalBarcode");
+        showToast(`Linked & Added "${name}"!`);
+      });
+
+      /* =========================================================================
+         13. VIRAL APP SHARE QR, DRAWER, SAVE vs CLEAR, HISTORY DELETE & CAMERA
          ========================================================================= */
       let deferredInstallPrompt = null;
       window.addEventListener("beforeinstallprompt", e => {
@@ -2924,14 +3394,10 @@
         showToast("App link copied!");
       });
 
-      /* =========================================================================
-         13. HAMBURGER DRAWER, FACTORY RESET, CAMERA, BARCODE, SETUP & HISTORY
-         ========================================================================= */
       function openDrawer() {
         document.getElementById("drawerBackdrop").classList.add("open");
         document.getElementById("sideDrawer").classList.add("open");
       }
-
       function closeDrawer() {
         document.getElementById("drawerBackdrop").classList.remove("open");
         document.getElementById("sideDrawer").classList.remove("open");
@@ -2942,6 +3408,7 @@
       document.getElementById("drawerBackdrop").addEventListener("click", closeDrawer);
 
       document.getElementById("menuAppShareQr").addEventListener("click", () => { closeDrawer(); openAppShareModal(); });
+      document.getElementById("menuHistory").addEventListener("click", () => { closeDrawer(); renderHistoryModal(); });
       document.getElementById("menuWhatsappPaste").addEventListener("click", () => { closeDrawer(); openModal("modalWhatsapp"); });
       document.getElementById("menuVoiceOrder").addEventListener("click", () => { closeDrawer(); startVoiceOrder(); });
       document.getElementById("menuCalculator").addEventListener("click", () => { closeDrawer(); openModal("modalCalc"); });
@@ -2953,21 +3420,15 @@
         document.getElementById("setupFooterNote").value = state.setup.footerNote;
         openModal("modalSetup");
       });
-      document.getElementById("menuHistory").addEventListener("click", () => {
-        closeDrawer();
-        document.getElementById("btnHistory").click();
-      });
 
-      // Full LocalStorage Factory Reset
       document.getElementById("menuResetAll").addEventListener("click", () => {
         closeDrawer();
-        if (confirm("⚠️ Kya aap sach mein LocalStorage ka saara data (custom items, orders, settings) delete karke naye sire se shuru karna chahte hain?")) {
+        if (confirm("⚠️ Kya aap sach mein LocalStorage ka saara data delete karke naye sire se shuru karna chahte hain?")) {
           localStorage.removeItem(STORAGE_KEY);
           location.reload();
         }
       });
 
-      // Modal open/close helpers
       function openModal(id) { document.getElementById(id).classList.add("open"); }
       function closeModal(id) {
         document.getElementById(id).classList.remove("open");
@@ -2996,6 +3457,7 @@
 
       document.getElementById("qbPhotoItem").addEventListener("click", async () => {
         state.capturedDataUrl = "";
+        document.getElementById("photoItemCode").value = generateUniqueCode("C");
         const vid = document.getElementById("photoVideo");
         const prev = document.getElementById("photoPreviewImg");
         vid.style.display = "block";
@@ -3046,12 +3508,14 @@
       document.getElementById("formPhotoItem").addEventListener("submit", e => {
         e.preventDefault();
         const name = sanitizeText(document.getElementById("photoItemName").value, 35);
+        const code = sanitizeText(document.getElementById("photoItemCode").value, 12) || generateUniqueCode("C");
         const unit = sanitizeText(document.getElementById("photoItemUnit").value, 15);
         const rate = Math.max(0, parseFloat(document.getElementById("photoItemRate").value) || 0);
         if (!name) return;
 
         state.items.push({
           id: "pht_" + Date.now(),
+          code,
           cat: state.activeCat,
           name,
           emoji: "📷",
@@ -3063,84 +3527,10 @@
         e.target.reset();
         closeModal("modalPhoto");
         renderCatalogue();
-        showToast(`Saved photo item "${name}"`);
+        showToast(`Saved photo item "${name}" [${code}]`);
       });
 
-      // Barcode Scanner
-      let barcodeLoopActive = false;
-      function handleScannedBarcode(codeRaw) {
-        const code = sanitizeText(codeRaw, 32);
-        if (!code) return;
-        state.pendingBarcode = code;
-        document.getElementById("manualBarcodeInput").value = code;
-
-        const linkedId = state.barcodes[code];
-        const existingItem = linkedId ? state.items.find(it => it.id === linkedId) : null;
-
-        if (existingItem) {
-          addItemToCurrentOrder(existingItem, 1);
-          closeModal("modalBarcode");
-          showToast(`Scanned: ${existingItem.name}`);
-        } else {
-          document.getElementById("barcodeStatus").textContent = `New Barcode [${code}] — save once:`;
-          document.getElementById("newBarcodeRegisterBox").style.display = "block";
-        }
-      }
-
-      document.getElementById("qbScanBarcode").addEventListener("click", async () => {
-        document.getElementById("newBarcodeRegisterBox").style.display = "none";
-        document.getElementById("manualBarcodeInput").value = "";
-        openModal("modalBarcode");
-
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          try {
-            const vid = document.getElementById("barcodeVideo");
-            activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-            vid.srcObject = activeMediaStream;
-            if ("BarcodeDetector" in window) {
-              const detector = new window.BarcodeDetector();
-              barcodeLoopActive = true;
-              const scanTick = async () => {
-                if (!barcodeLoopActive || !document.getElementById("modalBarcode").classList.contains("open")) return;
-                try {
-                  const codes = await detector.detect(vid);
-                  if (codes && codes.length > 0 && codes[0].rawValue) {
-                    barcodeLoopActive = false;
-                    handleScannedBarcode(codes[0].rawValue);
-                    return;
-                  }
-                } catch (e) {}
-                requestAnimationFrame(scanTick);
-              };
-              requestAnimationFrame(scanTick);
-            }
-          } catch (err) {}
-        }
-      });
-
-      document.getElementById("formManualBarcode").addEventListener("submit", e => {
-        e.preventDefault();
-        handleScannedBarcode(document.getElementById("manualBarcodeInput").value);
-      });
-
-      document.getElementById("btnSaveBarcodeProduct").addEventListener("click", () => {
-        const name = sanitizeText(document.getElementById("bcItemName").value, 35);
-        const unit = sanitizeText(document.getElementById("bcItemUnit").value, 12);
-        const rate = Math.max(0, parseFloat(document.getElementById("bcItemRate").value) || 0);
-        if (!name || !state.pendingBarcode) return;
-
-        const newItm = { id: "bc_" + Date.now(), cat: state.activeCat, name, emoji: "🏷️", unit, rate };
-        state.items.push(newItm);
-        state.barcodes[state.pendingBarcode] = newItm.id;
-        persistState();
-
-        addItemToCurrentOrder(newItm, 1);
-        document.getElementById("bcItemName").value = "";
-        closeModal("modalBarcode");
-        showToast(`Linked & Added "${name}"!`);
-      });
-
-      // Setup & History & Search & Undo & New Order
+      // Setup Form
       document.getElementById("formSetup").addEventListener("submit", e => {
         e.preventDefault();
         state.setup.businessName = sanitizeText(document.getElementById("setupBusinessName").value, 32) || "ORDER LIST MAKER";
@@ -3152,7 +3542,8 @@
         showToast("Slip header updated!");
       });
 
-      document.getElementById("btnHistory").addEventListener("click", () => {
+      // History Modal with Individual Delete & Delete All
+      function renderHistoryModal() {
         const box = document.getElementById("historyListContainer");
         box.innerHTML = "";
 
@@ -3187,42 +3578,73 @@
 
         const h2 = document.createElement("div");
         h2.style.cssText = "font-size:11px; font-weight:800; color:#475569; margin-top:4px;";
-        h2.textContent = "📜 Archived Slips:";
+        h2.textContent = "📜 Saved Slips:";
         box.appendChild(h2);
 
         if (!state.savedArchive.length) {
           const p = document.createElement("div");
           p.style.cssText = "font-size:11px; color:#64748b; padding:8px 0;";
-          p.textContent = "No archived orders yet.";
+          p.textContent = "No saved orders yet. Click '💾 Save' in top bar to archive an order.";
           box.appendChild(p);
         } else {
-          state.savedArchive.forEach(entry => {
+          state.savedArchive.forEach((entry, idx) => {
             const card = document.createElement("div");
             card.style.cssText = "border:1px solid #dce3ec; border-radius:6px; padding:6px; background:#f8fafc;";
-            card.innerHTML = `<div style="display:flex; justify-content:space-between; font-weight:700; font-size:11px; margin-bottom:3px;">
-              <span>${escapeHTML(entry.label)}</span>
-              <span style="color:#64748b;">${escapeHTML(entry.time)}</span>
-            </div>
-            <pre style="font-family:monospace; font-size:9.5px; white-space:pre-wrap; color:#1e293b;">${escapeHTML(entry.text)}</pre>`;
+
+            const topBar = document.createElement("div");
+            topBar.style.cssText = "display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:11px; margin-bottom:4px;";
+            topBar.innerHTML = `<span>${escapeHTML(entry.label)} • ${escapeHTML(entry.time)}</span>`;
+
+            const delOneBtn = document.createElement("button");
+            delOneBtn.type = "button";
+            delOneBtn.className = "mini-action-link";
+            delOneBtn.style.cssText = "background:#fef2f2; color:#dc2626;";
+            delOneBtn.textContent = "🗑️ Delete";
+            delOneBtn.addEventListener("click", () => {
+              state.savedArchive.splice(idx, 1);
+              persistState();
+              renderHistoryModal();
+              showToast("Saved order deleted");
+            });
+
+            topBar.appendChild(delOneBtn);
+            card.appendChild(topBar);
+
+            const pre = document.createElement("pre");
+            pre.style.cssText = "font-family:monospace; font-size:9.5px; white-space:pre-wrap; color:#1e293b;";
+            pre.textContent = entry.text;
+            card.appendChild(pre);
+
             box.appendChild(card);
           });
         }
         openModal("modalHistory");
+      }
+
+      document.getElementById("btnDeleteAllHistory").addEventListener("click", () => {
+        if (!state.savedArchive.length) return;
+        if (confirm("Delete ALL saved orders from history?")) {
+          state.savedArchive = [];
+          persistState();
+          renderHistoryModal();
+          showToast("All saved history deleted!");
+        }
       });
 
-      document.getElementById("btnClearOrder").addEventListener("click", () => {
+      // Dedicated SAVE Button (Archives current order & resets workspace)
+      document.getElementById("btnSaveOrder").addEventListener("click", () => {
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
         if (!list.length) {
-          showToast("Order list is already empty");
+          showToast("Nothing to save — order is empty");
           return;
         }
         pushUndoSnapshot();
         state.savedArchive.unshift({
           id: Date.now(),
           label: cat.mode === "restaurant" ? `${cat.name} (${state.activeTable})` : cat.name,
-          time: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
-          text: buildPlainTextSlip()
+          time: formatCompactDateTime(),
+          text: buildPlainTextSlip(false)
         });
 
         if (cat.mode === "restaurant") {
@@ -3232,7 +3654,26 @@
         }
         persistState();
         renderAll();
-        showToast("Saved to Orders & started new slip!");
+        showToast("💾 Order Saved to History!");
+      });
+
+      // Dedicated CLEAR / CANCEL Button (Empties current order cleanly)
+      document.getElementById("btnClearOrder").addEventListener("click", () => {
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+        if (!list.length) {
+          showToast("Order list is already empty");
+          return;
+        }
+        pushUndoSnapshot();
+        if (cat.mode === "restaurant") {
+          state.restaurantTables[state.activeTable] = [];
+        } else {
+          state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
+        }
+        persistState();
+        renderAll();
+        showToast("🧹 Current order cleared (Undo available)");
       });
 
       document.getElementById("catalogueSearch").addEventListener("input", e => {
