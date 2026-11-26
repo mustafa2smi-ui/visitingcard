@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Order — Universal Order Builder for Any Shop</title>
+<meta name="description" content="Build an order for any shop — restaurant, grocery, hotel, loading — add customers by table, generate a QR code, and let the shopkeeper scan it instantly. No app, no login.">
+<link rel="stylesheet" href="style.css">
+<!-- AdSense: paste your AdSense script here after approval -->
+</head>
+<body>
+<header class="app-header">
+  <h1>Quick Order</h1>
+  <p class="tagline">Build it. Scan it. Done.</p>
+</header>
+
+<main>
+  <section class="context-bar">
+    <label for="bizType">Order type</label>
+    <select id="bizType">
+      <option value="restaurant">Restaurant</option>
+      <option value="grocery">Grocery</option>
+      <option value="hotel">Hotel</option>
+      <option value="loading">Loading</option>
+      <option value="custom">Custom</option>
+    </select>
+
+    <label for="location" id="locationLabel">Table Number</label>
+    <input type="text" id="location" placeholder="e.g. Table 5" autocomplete="off">
+    <div id="quickTables" class="quick-tables"></div>
+  </section>
+
+  <section id="guestsSection">
+    <div id="guestList"></div>
+    <button class="btn-secondary" id="addGuestBtn" type="button">+ Add Customer</button>
+  </section>
+
+  <section class="payment-note-bar">
+    <label for="paymentNote">Payment note (shown on order slip)</label>
+    <input type="text" id="paymentNote" value="Pay at counter" autocomplete="off">
+  </section>
+
+  <!-- AdSense slot: place ad code below this comment -->
+  <div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How it works</h2>
+    <p>Enter the table or location, add each customer and their items, then tap <strong>Generate QR</strong>. The shopkeeper scans the QR code with any phone camera and sees the complete order instantly — no app to install, no account to create.</p>
+    <p>You can also tap <strong>Share</strong> to send the order link via WhatsApp or SMS, or <strong>Copy Link</strong> to paste it anywhere.</p>
+    <h2>Frequently asked questions</h2>
+    <h3>Does the shopkeeper need to install anything?</h3>
+    <p>No. They scan the QR with their phone camera and the order opens in their browser.</p>
+    <h3>Can multiple customers order at the same table?</h3>
+    <p>Yes. Add a customer card for each person. Everything stays grouped under the same table number on the order slip.</p>
+    <h3>Is my order saved?</h3>
+    <p>Your order is saved in this browser only. It is not sent to any server. The QR code contains the order data itself.</p>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <div class="footer-summary" id="footerSummary">No items yet</div>
+  <button class="btn-primary" id="generateBtn" type="button">Generate QR</button>
+  <button class="btn-link" id="clearBtn" type="button">Clear Order</button>
+  <p class="footer-links"><a href="privacy.html">Privacy</a> · <a href="about.html">About</a></p>
+</footer>
+
+<!-- QR Modal -->
+<div class="modal-overlay hidden" id="qrModal">
+  <div class="modal">
+    <button class="modal-close" id="closeModal" type="button" aria-label="Close">&times;</button>
+    <h2 id="modalTitle">Your Order QR</h2>
+    <canvas id="qrCanvas"></canvas>
+    <p class="modal-summary" id="modalSummary"></p>
+    <p class="modal-warning hidden" id="modalWarning">This order is too large for a QR code. Use Share or Copy Link instead.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="copyLinkBtn" type="button">Copy Link</button>
+      <button class="btn-secondary" id="shareBtn" type="button">Share</button>
+      <button class="btn-secondary" id="downloadQrBtn" type="button">Download QR</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
