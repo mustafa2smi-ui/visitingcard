@@ -10,30 +10,30 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- Primary SEO Meta Tags -->
-  <title>Order List Maker — Universal Restaurant, Grocery &amp; Loading Slip PWA</title>
-  <meta name="title" content="Order List Maker — Universal Restaurant, Grocery &amp; Loading Slip PWA" />
-  <meta name="description" content="Fast, offline-first universal order list maker for restaurants (table &amp; guest wise), grocery stores, shipping, and loading. Generate 2-inch thermal slips, QR code summaries, barcode scans, and Bluetooth prints." />
-  <meta name="keywords" content="order list maker, restaurant table order app, 58mm thermal slip generator, grocery order maker, loading slip app, bluetooth thermal print pwa, qr order summary, pos order maker" />
+  <title>Order List Maker — Universal General, Restaurant, Grocery &amp; Loading Slip PWA</title>
+  <meta name="title" content="Order List Maker — Universal General, Restaurant, Grocery &amp; Loading Slip PWA" />
+  <meta name="description" content="Offline-first universal order list maker for shops, restaurants (table &amp; guest wise), grocery, and loading. Voice order, WhatsApp paste, 58mm/80mm/A4 multi-language print, QR summary &amp; POS calculator." />
+  <meta name="keywords" content="order list maker, voice order list app, whatsapp order parser, restaurant table order, 58mm thermal slip generator, multi language bluetooth print, qr order summary, pos calculator pwa" />
   <meta name="author" content="Order List Maker" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <meta name="theme-color" content="#ffffff" />
   <link rel="canonical" href="https://orderlistmaker.app/" />
   <link rel="manifest" href="./manifest.json" />
 
-  <!-- Open Graph / Facebook / WhatsApp Preview -->
+  <!-- Open Graph / WhatsApp Preview -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Order List Maker" />
-  <meta property="og:title" content="Order List Maker — Universal POS, Table Order &amp; Thermal Slip PWA" />
-  <meta property="og:description" content="Create instant restaurant table-guest orders, kirana lists, and transport loading slips with 58mm thermal preview, QR code, and Bluetooth print." />
+  <meta property="og:title" content="Order List Maker — Universal POS, Voice Order &amp; Thermal Slip PWA" />
+  <meta property="og:description" content="Create instant orders via tap, voice, or WhatsApp paste with 58mm thermal preview, multi-language print, QR code, and built-in POS calculator." />
   <meta property="og:url" content="https://orderlistmaker.app/" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Order List Maker — Universal Order &amp; Thermal Slip PWA" />
-  <meta name="twitter:description" content="Compact, light-theme universal order list builder with big emoji icons, camera mini photos, barcode scan, QR summary &amp; 2-inch Bluetooth thermal print." />
+  <meta name="twitter:description" content="Light-theme universal order list builder with alphabetical emoji/photo catalogue, voice order, WhatsApp paste, QR summary &amp; multi-language print." />
 
-  <!-- Schema.org Structured Data (SoftwareApplication + WebApplication) -->
+  <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -41,26 +41,17 @@
     "name": "Order List Maker",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Android, iOS, Windows, Linux, Web",
-    "browserRequirements": "Requires HTML5, LocalStorage, optional Web Bluetooth & Camera",
-    "inLanguage": ["en-IN", "hi"],
+    "inLanguage": ["en-IN", "hi", "ur", "mr", "ta", "te", "bn"],
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "INR"
     },
-    "description": "Universal order list builder for hotels, restaurants with table and guest split, grocery stores, shipping, and loading logistics with 58mm thermal slip preview, QR code summary, and Bluetooth printing.",
-    "featureList": [
-      "Restaurant Table and Individual Guest Order Grouping",
-      "Big Emoji and Camera Mini-Icon Product Catalogue",
-      "Barcode Scanner and Custom Item Memory",
-      "2-Inch (58mm) Thermal Receipt Slip Preview",
-      "Offline Plain-Text Order Summary QR Code",
-      "Direct 58mm Bluetooth ESC/POS Thermal Printing"
-    ]
+    "description": "Universal order list builder with General, Restaurant Table/Guest split, Grocery, and Loading modes, Voice-to-Order mapping, WhatsApp list import, 58mm/80mm/A4 multi-language printing, QR code summary, and POS calculator."
   }
   </script>
 
-  <!-- Lightweight Libraries for QR Generation & Slip Image Export -->
+  <!-- Libraries for QR Code & PNG Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -83,9 +74,9 @@
       --danger: #dc2626;
       --danger-soft: #fef2f2;
       --header-h: 42px;
-      --tabs-h: 36px;
-      --footer-h: 28px;
-      --quickbar-h: 50px;
+      --tabs-h: 35px;
+      --footer-h: 26px;
+      --quickbar-h: 48px;
     }
 
     * {
@@ -106,7 +97,7 @@
       line-height: 1.3;
     }
 
-    /* App Shell Layout (Fits Single Viewport - Zero Page Scroll) */
+    /* Main Viewport Shell */
     .app-shell {
       display: flex;
       flex-direction: column;
@@ -117,6 +108,7 @@
       background: var(--bg-surface);
       border-left: 1px solid var(--border-color);
       border-right: 1px solid var(--border-color);
+      position: relative;
     }
 
     /* 1. Top Header Bar */
@@ -128,24 +120,35 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 8px;
-      gap: 6px;
+      padding: 0 6px;
+      gap: 4px;
     }
 
     .brand-box {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       min-width: 0;
     }
 
-    .brand-logo {
-      font-size: 18px;
-      line-height: 1;
+    .hamburger-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border-radius: 6px;
+      width: 30px;
+      height: 28px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .brand-title {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: var(--text-main);
       letter-spacing: -0.2px;
@@ -157,7 +160,8 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
+      flex-shrink: 0;
     }
 
     .hdr-btn {
@@ -165,18 +169,23 @@
       background: var(--bg-subtle);
       color: var(--text-main);
       border-radius: 6px;
-      padding: 4px 7px;
-      font-size: 11px;
-      font-weight: 600;
+      padding: 4px 6px;
+      font-size: 10.5px;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       white-space: nowrap;
     }
 
-    .hdr-btn:active {
-      transform: scale(0.97);
+    .hdr-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .hdr-btn:active:not(:disabled) {
+      transform: scale(0.96);
     }
 
     .hdr-btn.bt-connected {
@@ -193,7 +202,7 @@
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       padding: 0 6px;
       overflow-x: auto;
       scrollbar-width: none;
@@ -207,16 +216,15 @@
       border: 1px solid var(--border-color);
       background: var(--bg-surface);
       color: var(--text-muted);
-      border-radius: 16px;
-      padding: 4px 10px;
-      font-size: 11.5px;
-      font-weight: 600;
+      border-radius: 15px;
+      padding: 3px 9px;
+      font-size: 11px;
+      font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      transition: 0.15s ease;
+      gap: 3px;
     }
 
     .cat-tab.active {
@@ -231,7 +239,7 @@
       background: var(--primary-soft);
     }
 
-    /* 3. Main 2-Column Split Section (Catalogue Left | Divider | Live Order Right) */
+    /* 3. Main 2-Column Split Section */
     .split-workspace {
       flex: 1;
       min-height: 0;
@@ -241,7 +249,7 @@
       background: var(--bg-surface);
     }
 
-    /* Left Section: Product Catalogue (Flipkart/Amazon Compact Grid) */
+    /* Left Section: Alphabetical Product Catalogue */
     .catalogue-pane {
       display: flex;
       flex-direction: column;
@@ -255,7 +263,7 @@
       border-bottom: 1px solid var(--border-color);
       background: var(--bg-surface);
       display: flex;
-      gap: 4px;
+      gap: 3px;
       align-items: center;
     }
 
@@ -279,10 +287,10 @@
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      padding: 5px;
+      padding: 4px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 5px;
+      gap: 4px;
       align-content: start;
     }
 
@@ -296,40 +304,67 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: 7px;
-      padding: 5px 4px;
+      padding: 5px 3px 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
       position: relative;
-      transition: transform 0.08s ease, border-color 0.12s ease;
       user-select: none;
     }
 
     .prod-card:active {
-      transform: scale(0.95);
+      transform: scale(0.96);
       border-color: var(--primary);
       background: var(--primary-soft);
     }
 
+    .prod-edit-btn {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 9px;
+      padding: 1px 3px;
+      cursor: pointer;
+      color: var(--text-muted);
+      z-index: 2;
+    }
+
+    .prod-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 8px;
+      z-index: 2;
+    }
+
     .prod-icon-wrap {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 3px;
+      margin-top: 4px;
+      margin-bottom: 2px;
     }
 
     .prod-emoji {
-      font-size: 34px;
+      font-size: 33px;
       line-height: 1;
     }
 
     .prod-thumb {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       object-fit: cover;
       border-radius: 6px;
       border: 1px solid var(--border-color);
@@ -353,19 +388,7 @@
       margin-top: 1px;
     }
 
-    .prod-badge {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: var(--primary);
-      color: #fff;
-      font-size: 9px;
-      font-weight: 700;
-      padding: 1px 4px;
-      border-radius: 8px;
-    }
-
-    /* Right Section: Live Order & AI-Chat Style Direct Entry */
+    /* Right Section: Live Order & AI-Chat Direct Entry */
     .order-pane {
       display: flex;
       flex-direction: column;
@@ -373,14 +396,13 @@
       background: var(--bg-surface);
     }
 
-    /* Dynamic Context Bar (Restaurant Table+Guest OR Grocery/Loading Details) */
     .context-strip {
-      padding: 4px 6px;
+      padding: 4px 5px;
       background: var(--bg-subtle);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .pill-row {
@@ -414,7 +436,6 @@
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
-      position: relative;
     }
 
     .mini-pill.active {
@@ -444,29 +465,47 @@
       gap: 4px;
     }
 
-    /* AI-Chat Style Quick Command Bar */
+    /* AI-Chat Style Quick Input + Voice + WhatsApp Paste */
     .quick-type-bar {
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px 6px;
+      gap: 3px;
+      padding: 4px 5px;
       border-bottom: 1px solid var(--border-color);
       background: #ffffff;
     }
 
     .quick-type-input {
       flex: 1;
+      min-width: 0;
       border: 1px solid var(--primary);
       background: var(--primary-soft);
       border-radius: 6px;
-      padding: 5px 7px;
+      padding: 4px 6px;
       font-size: 11px;
       color: var(--text-main);
       outline: none;
     }
 
-    .quick-type-input::placeholder {
-      color: var(--text-muted);
+    .icon-tool-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .icon-tool-btn.listening {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
     .send-item-btn {
@@ -474,22 +513,23 @@
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      padding: 5px 9px;
+      padding: 5px 8px;
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    /* Live Order List Feed */
+    /* Live Order Feed */
     .live-order-feed {
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      padding: 4px 6px;
+      padding: 4px 5px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .guest-group-header {
@@ -526,7 +566,7 @@
     }
 
     .order-row-icon {
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1;
       flex-shrink: 0;
     }
@@ -587,15 +627,15 @@
       text-align: center;
     }
 
-    /* 4. Side-Scroll Preview Strip (2-Inch Thermal Paper Slip + Live QR Code) */
+    /* 4. Side-Scroll Preview Strip (Tappable for Lightbox) */
     .preview-strip {
-      height: 148px;
-      min-height: 148px;
+      height: 142px;
+      min-height: 142px;
       background: #eef2f6;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       gap: 8px;
-      padding: 6px 8px;
+      padding: 5px 8px;
       overflow-x: auto;
       align-items: stretch;
     }
@@ -608,20 +648,21 @@
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     .preview-card-hdr {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
+      gap: 6px;
+      margin-bottom: 3px;
       border-bottom: 1px dashed var(--border-color);
       padding-bottom: 2px;
     }
 
     .preview-card-title {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -638,14 +679,13 @@
       cursor: pointer;
     }
 
-    /* Authentic 2-Inch (58mm) Thermal Paper Replica */
     .thermal-paper-wrap {
       flex: 1;
       overflow-y: auto;
       background: #fffdf7;
       border: 1px dashed #cbd5e1;
       padding: 5px 6px;
-      width: 215px; /* Visual 58mm thermal width */
+      width: 215px;
       font-family: "Courier New", Courier, monospace;
       font-size: 10px;
       line-height: 1.22;
@@ -654,26 +694,18 @@
 
     .th-center { text-align: center; }
     .th-bold { font-weight: 700; }
-    .th-line {
-      border-top: 1px dashed #374151;
-      margin: 3px 0;
-    }
-    .th-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 4px;
-    }
+    .th-line { border-top: 1px dashed #374151; margin: 3px 0; }
+    .th-row { display: flex; justify-content: space-between; gap: 4px; }
 
-    /* QR Card */
     .qr-card {
-      width: 145px;
+      width: 142px;
       align-items: center;
       justify-content: space-between;
     }
 
     #qrContainer {
-      width: 92px;
-      height: 92px;
+      width: 88px;
+      height: 88px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -740,19 +772,107 @@
     }
 
     .qb-icon {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1;
     }
 
-    /* Modals (Camera Photo, Barcode Scanner, Custom Emoji, History, Shop Settings) */
+    /* Hamburger Slide-Out Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      z-index: 1000;
+      display: none;
+    }
+
+    .drawer-backdrop.open {
+      display: block;
+    }
+
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 270px;
+      max-width: 82vw;
+      background: #ffffff;
+      border-right: 1px solid var(--border-color);
+      z-index: 1001;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .side-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-hdr {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-subtle);
+    }
+
+    .drawer-close-btn {
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--danger);
+    }
+
+    .drawer-list {
+      padding: 8px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .drawer-item {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      border-radius: 7px;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drawer-item:active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+    }
+
+    .drawer-item.danger {
+      background: var(--danger-soft);
+      border-color: #fecaca;
+      color: var(--danger);
+    }
+
+    /* Modals & Lightbox */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(15, 23, 42, 0.65);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 1100;
       padding: 12px;
     }
 
@@ -764,13 +884,13 @@
       background: #ffffff;
       border-radius: 10px;
       width: 100%;
-      max-width: 380px;
-      max-height: 85dvh;
+      max-width: 390px;
+      max-height: 88dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       border: 1px solid var(--border-color);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
     }
 
     .modal-hdr {
@@ -781,14 +901,18 @@
       align-items: center;
       font-weight: 800;
       font-size: 13px;
+      background: var(--bg-subtle);
     }
 
     .modal-close {
-      background: none;
-      border: none;
-      font-size: 18px;
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 14px;
+      font-weight: 800;
       cursor: pointer;
-      color: var(--text-muted);
+      color: var(--text-main);
     }
 
     .modal-body {
@@ -807,11 +931,32 @@
       display: block;
     }
 
+    .primary-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Full Emoji Picker Categories */
+    .emoji-cat-pills {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
     .emoji-picker-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
-      max-height: 150px;
+      max-height: 155px;
       overflow-y: auto;
       border: 1px solid var(--border-color);
       padding: 5px;
@@ -833,25 +978,69 @@
       border-color: var(--primary);
     }
 
-    .primary-btn {
+    /* Simple POS Calculator */
+    .calc-display {
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: right;
+      font-family: monospace;
+    }
+
+    .calc-expr {
+      font-size: 11px;
+      color: #94a3b8;
+      min-height: 14px;
+    }
+
+    .calc-val {
+      font-size: 24px;
+      font-weight: 800;
+      overflow-x: auto;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .calc-key {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      border-radius: 7px;
+      padding: 11px 0;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .calc-key.op {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: #bfdbfe;
+    }
+
+    .calc-key.eq {
       background: var(--primary);
       color: #ffffff;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
+      border-color: var(--primary);
+    }
+
+    .calc-key.clr {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: #fecaca;
     }
 
     .video-preview-box {
       width: 100%;
-      height: 180px;
+      height: 170px;
       background: #0f172a;
       border-radius: 8px;
       overflow: hidden;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -870,11 +1059,11 @@
       transform: translateX(-50%);
       background: #0f172a;
       color: #ffffff;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
-      z-index: 1200;
+      z-index: 1500;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
@@ -884,58 +1073,63 @@
       opacity: 1;
     }
 
-    /* Browser Print Fallback Styling (58mm Thermal Width) */
+    /* Dynamic Print CSS (Supports 58mm, 80mm, A5, A4) */
     @media print {
       body * { visibility: hidden; }
-      #thermalSlipContent, #thermalSlipContent * { visibility: visible; }
-      #thermalSlipContent {
+      #printAreaTarget, #printAreaTarget * { visibility: visible; }
+      #printAreaTarget {
         position: fixed;
         left: 0;
         top: 0;
-        width: 58mm;
-        font-size: 11px;
-        border: none;
+        width: var(--print-width, 58mm);
+        font-family: "Courier New", Courier, monospace;
+        font-size: var(--print-font, 11px);
+        color: #000000;
         background: #ffffff;
+        padding: 4px;
       }
     }
   </style>
+  <style id="dynamicPageRule">@page { size: 58mm auto; margin: 2mm; }</style>
 </head>
 <body>
   <div class="app-shell">
     <!-- 1. TOP HEADER BAR -->
     <header class="app-header">
       <div class="brand-box">
-        <span class="brand-logo" aria-hidden="true">🧾</span>
-        <h1 class="brand-title">Order List Maker</h1>
+        <button type="button" class="hamburger-btn" id="btnHamburger" aria-label="Open Menu">☰</button>
+        <h1 class="brand-title">🧾 Order List Maker</h1>
       </div>
       <div class="header-actions">
-        <button type="button" class="hdr-btn" id="btnSlipHeader" title="Shop / Business Name">🏪 Setup</button>
-        <button type="button" class="hdr-btn" id="btnBtConnect" title="Connect 58mm Bluetooth Printer">📶 BT</button>
-        <button type="button" class="hdr-btn" id="btnHistory" title="Saved Orders">📂 Orders</button>
-        <button type="button" class="hdr-btn" id="btnClearOrder" title="Reset Current Slip">🗑️ New</button>
+        <button type="button" class="hdr-btn" id="btnUndo" title="Undo Last Action" disabled>↩️ Undo</button>
+        <button type="button" class="hdr-btn" id="btnBtConnect" title="Bluetooth Printer">📶 BT</button>
+        <button type="button" class="hdr-btn" id="btnHistory" title="Saved Orders">📂</button>
+        <button type="button" class="hdr-btn" id="btnClearOrder" title="Save &amp; Start New Slip">🆕</button>
       </div>
     </header>
 
-    <!-- 2. CATEGORY TABS BAR -->
+    <!-- 2. CATEGORY TABS BAR (Default: General) -->
     <nav class="category-bar" id="categoryBar" aria-label="Order Categories"></nav>
 
-    <!-- 3. MAIN 2-SECTION SPLIT (Catalogue Left | Divider | Live Order Right) -->
+    <!-- 3. MAIN 2-SECTION SPLIT -->
     <main class="split-workspace">
-      <!-- LEFT SECTION: Product Catalogue (Flipkart / Amazon Compact Mini Cards) -->
+      <!-- LEFT SECTION: Alphabetically Sorted Product Catalogue -->
       <section class="catalogue-pane" aria-label="Product Catalogue">
         <div class="pane-subbar">
-          <input type="search" id="catalogueSearch" class="compact-input" placeholder="🔍 Search item..." maxlength="40" autocomplete="off" />
+          <input type="search" id="catalogueSearch" class="compact-input" placeholder="🔍 Search A–Z..." maxlength="40" autocomplete="off" />
         </div>
         <div class="catalogue-grid" id="catalogueGrid"></div>
       </section>
 
-      <!-- RIGHT SECTION: Dynamic Table/Guest or Shipping Controls + AI-Chat Quick Entry + Live Order List -->
+      <!-- RIGHT SECTION: Context Controls + AI-Chat/Voice/WhatsApp Entry + Live Order Feed -->
       <section class="order-pane" aria-label="Live Order List">
         <div class="context-strip" id="contextStrip"></div>
 
-        <!-- AI-Chat Style Direct Quick Item Entry -->
+        <!-- AI-Chat Style Input + Voice Mic + WhatsApp Paste -->
         <form class="quick-type-bar" id="quickTypeForm" autocomplete="off">
-          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="Type e.g. 2 Half Biryani, 5kg Sugar..." maxlength="60" />
+          <input type="text" id="quickTypeInput" class="quick-type-input" placeholder="Type 2kg Aloo, Tea..." maxlength="60" />
+          <button type="button" class="icon-tool-btn" id="btnVoiceOrder" title="Speak Order (Hindi/English)">🎤</button>
+          <button type="button" class="icon-tool-btn" id="btnPasteWhatsapp" title="Paste WhatsApp List">📋</button>
           <button type="submit" class="send-item-btn">Add ↵</button>
         </form>
 
@@ -944,38 +1138,35 @@
       </section>
     </main>
 
-    <!-- 4. HORIZONTAL SIDE-SCROLL PREVIEW STRIP (2-Inch Thermal Slip + QR Code Summary) -->
+    <!-- 4. SIDE-SCROLL PREVIEW STRIP (Tap Any Card for Large Lightbox) -->
     <section class="preview-strip" aria-label="Slip and QR Preview">
-      <!-- 2-Inch (58mm) Thermal Slip Preview Card -->
-      <div class="preview-card">
+      <!-- 2-Inch Thermal Slip Card -->
+      <div class="preview-card" id="cardThermalPreview" title="Tap to open full-screen Thermal Bill">
         <div class="preview-card-hdr">
-          <span class="preview-card-title">🧾 2" Thermal Slip (58mm)</span>
-          <div style="display:flex; gap:4px;">
-            <button type="button" class="mini-action-link" id="btnTogglePrice">₹ Price: OFF</button>
-            <button type="button" class="mini-action-link" id="btnSavePng">📥 PNG</button>
-          </div>
+          <span class="preview-card-title">🧾 Thermal Bill (Tap 🔍)</span>
+          <button type="button" class="mini-action-link" id="btnTogglePrice">₹ Price: OFF</button>
         </div>
         <div class="thermal-paper-wrap" id="thermalSlipContent"></div>
       </div>
 
-      <!-- Offline Plain-Text Order Summary QR Code Card -->
-      <div class="preview-card qr-card">
+      <!-- Offline Order Summary QR Card -->
+      <div class="preview-card qr-card" id="cardQrPreview" title="Tap to enlarge Order QR Code">
         <div class="preview-card-hdr" style="width:100%;">
           <span class="preview-card-title">📱 Order QR</span>
-          <span style="font-size:9px; color:#059669; font-weight:700;">Offline Text</span>
+          <span style="font-size:9px; color:#059669; font-weight:700;">Tap 🔍</span>
         </div>
-        <div id="qrContainer" title="Scan to read full order summary"></div>
-        <span style="font-size:9px; color:#64748b; text-align:center;">Scan for instant list</span>
+        <div id="qrContainer"></div>
+        <span style="font-size:9px; color:#64748b; text-align:center;">Offline order summary</span>
       </div>
     </section>
 
     <!-- 5. COMPACT FOOTER -->
     <footer class="app-footer">
       <span id="footerLeftStats">Items: 0 | Qty: 0</span>
-      <span id="footerRightContext" class="footer-highlight">Restaurant • T-1 (G-1)</span>
+      <span id="footerRightContext" class="footer-highlight">📋 General</span>
     </footer>
 
-    <!-- 6. BOTTOM FIXED QUICK BAR (5 Thumb-Ready Tools) -->
+    <!-- 6. BOTTOM FIXED QUICK BAR -->
     <nav class="quick-bar" aria-label="Quick Tools">
       <button type="button" class="qb-btn" id="qbPhotoItem">
         <span class="qb-icon">📷</span>
@@ -989,35 +1180,96 @@
         <span class="qb-icon">➕</span>
         <span>Emoji Item</span>
       </button>
-      <button type="button" class="qb-btn" id="qbBtPrint">
-        <span class="qb-icon">🖨️</span>
-        <span>BT Print</span>
+      <button type="button" class="qb-btn" id="qbCalc">
+        <span class="qb-icon">🧮</span>
+        <span>Calculator</span>
       </button>
-      <button type="button" class="qb-btn" id="qbShare">
-        <span class="qb-icon">📤</span>
-        <span>Share</span>
+      <button type="button" class="qb-btn" id="qbPrint">
+        <span class="qb-icon">🖨️</span>
+        <span>Print</span>
       </button>
     </nav>
   </div>
 
+  <!-- Hidden Print Target for Desktop & Multi-Size Paper -->
+  <div id="printAreaTarget" style="display:none;"></div>
+
+  <!-- HAMBURGER MENU DRAWER -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="side-drawer" id="sideDrawer" aria-label="App Menu">
+    <div class="drawer-hdr">
+      <span style="font-weight:800; font-size:13px;">☰ Order List Menu</span>
+      <button type="button" class="drawer-close-btn" id="btnCloseDrawer">✕ Close</button>
+    </div>
+    <div class="drawer-list">
+      <button type="button" class="drawer-item" id="menuAppShareQr">📲 Share App QR &amp; Install PWA</button>
+      <button type="button" class="drawer-item" id="menuWhatsappPaste">📋 Paste WhatsApp Order List</button>
+      <button type="button" class="drawer-item" id="menuVoiceOrder">🎤 Voice Order (Bol Kar Likhein)</button>
+      <button type="button" class="drawer-item" id="menuCalculator">🧮 Simple POS Calculator</button>
+      <button type="button" class="drawer-item" id="menuPrintSettings">🖨️ Print &amp; Paper Size (58mm/80mm/A4)</button>
+      <button type="button" class="drawer-item" id="menuSlipSetup">🏪 Shop / Business Header Setup</button>
+      <button type="button" class="drawer-item" id="menuHistory">📂 Active Tables &amp; Saved Slips</button>
+      <button type="button" class="drawer-item danger" id="menuResetAll">🗑️ Reset All Data (Clear Storage)</button>
+    </div>
+  </aside>
+
   <!-- Toast Notification -->
   <div class="toast-msg" id="toastMsg" role="status" aria-live="polite"></div>
 
-  <!-- MODAL 1: Custom Emoji Item Maker -->
+  <!-- LIGHTBOX MODAL: Large Thermal Bill & QR Code View -->
+  <div class="modal-backdrop" id="modalLightbox">
+    <div class="modal-box" style="max-width:420px;">
+      <div class="modal-hdr">
+        <span id="lightboxTitle">🧾 Full Preview</span>
+        <button type="button" class="modal-close" data-close="modalLightbox">✕ Close</button>
+      </div>
+      <div class="modal-body" style="align-items:center;">
+        <div id="lightboxContent" style="width:100%; display:flex; flex-direction:column; align-items:center;"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; width:100%; margin-top:6px;">
+          <button type="button" class="primary-btn" id="lbShareBtn" style="background:#059669;">📤 Share</button>
+          <button type="button" class="primary-btn" id="lbPngBtn">📥 PNG</button>
+          <button type="button" class="primary-btn" id="lbPrintBtn" style="background:#0f172a;">🖨️ Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: WhatsApp Order Paste Parser -->
+  <div class="modal-backdrop" id="modalWhatsapp">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>📋 Paste WhatsApp Order List</span>
+        <button type="button" class="modal-close" data-close="modalWhatsapp">✕</button>
+      </div>
+      <form class="modal-body" id="formWhatsappPaste" autocomplete="off">
+        <label class="form-label" for="whatsappRawText">Paste customer message below (e.g. "2kg Sugar, 3 Masala Dosa, 1 Oil"):</label>
+        <textarea id="whatsappRawText" class="compact-input" rows="6" placeholder="Paste WhatsApp order text here..." required maxlength="2000"></textarea>
+        <button type="submit" class="primary-btn">Convert to Order List</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Custom Emoji Item Maker & Catalogue Item Editor -->
   <div class="modal-backdrop" id="modalEmoji">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>➕ Add Custom Emoji Item</span>
-        <button type="button" class="modal-close" data-close="modalEmoji">&times;</button>
+        <span id="emojiModalTitle">➕ Add / Edit Catalogue Item</span>
+        <button type="button" class="modal-close" data-close="modalEmoji">✕</button>
       </div>
       <form class="modal-body" id="formEmojiItem" autocomplete="off">
+        <input type="hidden" id="editItemId" value="" />
         <div>
-          <label class="form-label">Select Big Emoji Icon</label>
+          <label class="form-label">1. Pick Emoji Group or Type Any Phone Emoji:</label>
+          <div class="emoji-cat-pills" id="emojiGroupTabs"></div>
           <div class="emoji-picker-grid" id="emojiPickerGrid"></div>
+          <div style="display:flex; gap:5px; margin-top:5px; align-items:center;">
+            <span style="font-size:10.5px; color:#475569; font-weight:700;">Custom Emoji:</span>
+            <input type="text" id="directEmojiInput" class="compact-input" style="width:65px; text-align:center; font-size:16px;" maxlength="4" placeholder="😀" />
+          </div>
         </div>
         <div>
-          <label class="form-label" for="customItemName">Item Name *</label>
-          <input type="text" id="customItemName" class="compact-input" placeholder="e.g. Masala Dosa / Basmati Rice / Cement Bag" required maxlength="35" />
+          <label class="form-label" for="customItemName">2. Item Name *</label>
+          <input type="text" id="customItemName" class="compact-input" placeholder="e.g. Masala Dosa / Basmati Rice" required maxlength="35" />
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
           <div>
@@ -1025,31 +1277,34 @@
             <input type="text" id="customItemUnit" class="compact-input" placeholder="e.g. Plate / 1kg / Bag" maxlength="15" />
           </div>
           <div>
-            <label class="form-label" for="customItemRate">Rate ₹ (Optional)</label>
+            <label class="form-label" for="customItemRate">Price / Rate ₹</label>
             <input type="number" id="customItemRate" class="compact-input" placeholder="0" min="0" max="999999" step="any" />
           </div>
         </div>
-        <button type="submit" class="primary-btn">Save to Catalogue</button>
+        <div style="display:flex; gap:6px;">
+          <button type="submit" class="primary-btn" style="flex:2;">Save Item</button>
+          <button type="button" id="btnDeleteCatItem" class="primary-btn" style="flex:1; background:#dc2626; display:none;">Delete</button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL 2: Camera Photo Mini-Icon Item Maker -->
+  <!-- MODAL: Camera Mini-Icon Item Maker -->
   <div class="modal-backdrop" id="modalPhoto">
     <div class="modal-box">
       <div class="modal-hdr">
         <span>📷 Capture Mini-Icon Item</span>
-        <button type="button" class="modal-close" data-close="modalPhoto">&times;</button>
+        <button type="button" class="modal-close" data-close="modalPhoto">✕</button>
       </div>
       <form class="modal-body" id="formPhotoItem" autocomplete="off">
-        <div class="video-preview-box" id="photoCamBox">
+        <div class="video-preview-box">
           <video id="photoVideo" autoplay playsinline muted></video>
           <img id="photoPreviewImg" alt="Captured Mini Icon" style="display:none; width:96px; height:96px; object-fit:cover; border-radius:10px; border:2px solid #fff;" />
         </div>
         <div style="display:flex; gap:6px;">
-          <button type="button" class="hdr-btn" id="btnSnapPhoto" style="flex:1; justify-content:center; padding:6px;">📸 Capture Photo</button>
+          <button type="button" class="hdr-btn" id="btnSnapPhoto" style="flex:1; justify-content:center; padding:6px;">📸 Capture</button>
           <label class="hdr-btn" style="flex:1; justify-content:center; padding:6px; cursor:pointer;">
-            🖼️ Gallery / Cam
+            🖼️ Gallery/Cam
             <input type="file" id="filePhotoInput" accept="image/*" capture="environment" style="display:none;" />
           </label>
         </div>
@@ -1063,7 +1318,7 @@
             <input type="text" id="photoItemUnit" class="compact-input" placeholder="pcs / kg / box" maxlength="15" />
           </div>
           <div>
-            <label class="form-label" for="photoItemRate">Rate ₹ (Optional)</label>
+            <label class="form-label" for="photoItemRate">Rate ₹</label>
             <input type="number" id="photoItemRate" class="compact-input" placeholder="0" min="0" max="999999" step="any" />
           </div>
         </div>
@@ -1072,12 +1327,12 @@
     </div>
   </div>
 
-  <!-- MODAL 3: Barcode Scanner & Product Linker -->
+  <!-- MODAL: Barcode Scanner -->
   <div class="modal-backdrop" id="modalBarcode">
     <div class="modal-box">
       <div class="modal-hdr">
         <span>🔍 Scan Product Barcode</span>
-        <button type="button" class="modal-close" data-close="modalBarcode">&times;</button>
+        <button type="button" class="modal-close" data-close="modalBarcode">✕</button>
       </div>
       <div class="modal-body">
         <div class="video-preview-box">
@@ -1089,7 +1344,7 @@
           <button type="submit" class="send-item-btn">Lookup</button>
         </form>
         <div id="newBarcodeRegisterBox" style="display:none; border-top:1px dashed #cbd5e1; padding-top:8px;">
-          <div style="font-size:11px; font-weight:800; color:#d97706; margin-bottom:4px;">New Barcode Detected! Link it once:</div>
+          <div style="font-size:11px; font-weight:800; color:#d97706; margin-bottom:4px;">New Barcode! Save once:</div>
           <input type="text" id="bcItemName" class="compact-input" placeholder="Product Name *" maxlength="35" style="margin-bottom:5px;" />
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:6px;">
             <input type="text" id="bcItemUnit" class="compact-input" placeholder="Unit (pcs/kg)" maxlength="12" />
@@ -1101,37 +1356,131 @@
     </div>
   </div>
 
-  <!-- MODAL 4: Business / Slip Header Setup -->
+  <!-- MODAL: Print Settings (Multi-Language BT Graphic + Desktop Paper Size) -->
+  <div class="modal-backdrop" id="modalPrintOptions">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>🖨️ Print &amp; Language Settings</span>
+        <button type="button" class="modal-close" data-close="modalPrintOptions">✕</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label class="form-label" for="printPaperSize">1. Desktop / System Paper Size:</label>
+          <select id="printPaperSize" class="compact-input">
+            <option value="58mm">2-Inch Thermal Roll (58mm)</option>
+            <option value="80mm">3-Inch Thermal Roll (80mm)</option>
+            <option value="A5">A5 Half-Page Slip (148mm)</option>
+            <option value="A4">A4 Full-Page Invoice (210mm)</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="btPrintMode">2. Bluetooth 58mm Printer Language Mode:</label>
+          <select id="btPrintMode" class="compact-input">
+            <option value="bitmap">All Languages Graphic Mode (Hindi, Urdu, Tamil, English)</option>
+            <option value="ascii">Fast Plain Text Mode (English / Hinglish)</option>
+          </select>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px;">
+          <button type="button" class="primary-btn" id="btnExecBtPrint">📶 Bluetooth Print</button>
+          <button type="button" class="primary-btn" id="btnExecDesktopPrint" style="background:#059669;">🖥️ Desktop / PDF Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Viral App Share QR & PWA Install -->
+  <div class="modal-backdrop" id="modalAppShare">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <span>📲 Share App &amp; Install PWA</span>
+        <button type="button" class="modal-close" data-close="modalAppShare">✕</button>
+      </div>
+      <div class="modal-body" style="align-items:center; text-align:center;">
+        <div style="font-size:11.5px; font-weight:700; color:#0f172a;">Customer ya Dukan-daar ko ye QR scan karwayein — seedha mobile mein app khulega aur install hoga!</div>
+        <div id="appViralQrBox" style="padding:10px; background:#fff; border:1px solid #cbd5e1; border-radius:8px;"></div>
+        <input type="text" id="appShareUrlInput" class="compact-input" style="text-align:center;" readonly />
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; width:100%;">
+          <button type="button" class="primary-btn" id="btnInstallPwa" style="background:#059669;">⬇️ Install App</button>
+          <button type="button" class="primary-btn" id="btnShareAppLink">📤 Share Link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Simple POS Calculator -->
+  <div class="modal-backdrop" id="modalCalc">
+    <div class="modal-box" style="max-width:320px;">
+      <div class="modal-hdr">
+        <span>🧮 Simple POS Calculator</span>
+        <button type="button" class="modal-close" data-close="modalCalc">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="calc-display">
+          <div class="calc-expr" id="calcExpr">0</div>
+          <div class="calc-val" id="calcVal">0</div>
+        </div>
+        <div class="calc-grid" id="calcGrid">
+          <button type="button" class="calc-key clr" data-k="AC">AC</button>
+          <button type="button" class="calc-key op" data-k="DEL">⌫</button>
+          <button type="button" class="calc-key op" data-k="%">%</button>
+          <button type="button" class="calc-key op" data-k="/">÷</button>
+
+          <button type="button" class="calc-key" data-k="7">7</button>
+          <button type="button" class="calc-key" data-k="8">8</button>
+          <button type="button" class="calc-key" data-k="9">9</button>
+          <button type="button" class="calc-key op" data-k="*">×</button>
+
+          <button type="button" class="calc-key" data-k="4">4</button>
+          <button type="button" class="calc-key" data-k="5">5</button>
+          <button type="button" class="calc-key" data-k="6">6</button>
+          <button type="button" class="calc-key op" data-k="-">−</button>
+
+          <button type="button" class="calc-key" data-k="1">1</button>
+          <button type="button" class="calc-key" data-k="2">2</button>
+          <button type="button" class="calc-key" data-k="3">3</button>
+          <button type="button" class="calc-key op" data-k="+">+</button>
+
+          <button type="button" class="calc-key" data-k="00">00</button>
+          <button type="button" class="calc-key" data-k="0">0</button>
+          <button type="button" class="calc-key" data-k=".">.</button>
+          <button type="button" class="calc-key eq" data-k="=">=</button>
+        </div>
+        <button type="button" class="primary-btn" id="btnCalcAddToOrder" style="background:#059669;">➕ Add Result as Item in Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Slip Header Setup -->
   <div class="modal-backdrop" id="modalSetup">
     <div class="modal-box">
       <div class="modal-hdr">
-        <span>🏪 Slip Header &amp; Store Setup</span>
-        <button type="button" class="modal-close" data-close="modalSetup">&times;</button>
+        <span>🏪 Shop / Slip Header Setup</span>
+        <button type="button" class="modal-close" data-close="modalSetup">✕</button>
       </div>
       <form class="modal-body" id="formSetup" autocomplete="off">
         <div>
-          <label class="form-label" for="setupBusinessName">Business / Hotel / Transport Name</label>
-          <input type="text" id="setupBusinessName" class="compact-input" maxlength="32" placeholder="e.g. Royal Zaika Hotel / Khan Kirana" />
+          <label class="form-label" for="setupBusinessName">Business / Shop / Hotel Name</label>
+          <input type="text" id="setupBusinessName" class="compact-input" maxlength="32" />
         </div>
         <div>
           <label class="form-label" for="setupSubHeader">Address / Phone / Tagline</label>
-          <input type="text" id="setupSubHeader" class="compact-input" maxlength="42" placeholder="e.g. Main Road | Ph: 9876543210" />
+          <input type="text" id="setupSubHeader" class="compact-input" maxlength="42" />
         </div>
         <div>
           <label class="form-label" for="setupFooterNote">Slip Footer Greeting</label>
-          <input type="text" id="setupFooterNote" class="compact-input" maxlength="36" placeholder="e.g. Thank You! Visit Again" />
+          <input type="text" id="setupFooterNote" class="compact-input" maxlength="36" />
         </div>
         <button type="submit" class="primary-btn">Save Slip Header</button>
       </form>
     </div>
   </div>
 
-  <!-- MODAL 5: Saved Orders & Active Restaurant Tables -->
+  <!-- MODAL: Saved Orders & Active Restaurant Tables -->
   <div class="modal-backdrop" id="modalHistory">
     <div class="modal-box">
       <div class="modal-hdr">
         <span>📂 Active Tables &amp; Saved Orders</span>
-        <button type="button" class="modal-close" data-close="modalHistory">&times;</button>
+        <button type="button" class="modal-close" data-close="modalHistory">✕</button>
       </div>
       <div class="modal-body" id="historyListContainer"></div>
     </div>
@@ -1142,11 +1491,10 @@
       "use strict";
 
       /* =========================================================================
-         1. SECURITY & STRICT INPUT SANITIZATION (XSS & INJECTION PROTECTION)
+         1. SECURITY & STRICT INPUT SANITIZATION
          ========================================================================= */
       function sanitizeText(str, maxLen = 50) {
         if (typeof str !== "string") return "";
-        // Strip control characters, angle brackets, and script vectors
         return str
           .replace(/[\u0000-\u001F\u007F<>]/g, "")
           .replace(/\s+/g, " ")
@@ -1155,8 +1503,7 @@
       }
 
       function escapeHTML(str) {
-        const safe = String(str ?? "");
-        return safe
+        return String(str ?? "")
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;")
@@ -1175,81 +1522,169 @@
       }
 
       /* =========================================================================
-         2. DEFAULT CATEGORIES & BIG EMOJI UNIVERSAL CATALOGUE
+         2. DEFAULT CATEGORIES (GENERAL FIRST), ITEMS & FULL EMOJI CATALOGUE
          ========================================================================= */
-      const STORAGE_KEY = "olm_universal_pos_v1";
+      const STORAGE_KEY = "olm_universal_pos_v2";
 
       const DEFAULT_CATEGORIES = [
+        { id: "general", name: "General", icon: "📋", mode: "grocery" },
         { id: "restaurant", name: "Restaurant", icon: "🍽️", mode: "restaurant" },
         { id: "grocery", name: "Grocery", icon: "🛒", mode: "grocery" },
         { id: "loading", name: "Loading / Ship", icon: "🚚", mode: "loading" }
       ];
 
       const DEFAULT_ITEMS = [
+        // General
+        { id: "gen1", cat: "general", name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg", rate: 30 },
+        { id: "gen2", cat: "general", name: "Bread Packet", emoji: "🍞", unit: "Pkt", rate: 35 },
+        { id: "gen3", cat: "general", name: "Milk Packet", emoji: "🥛", unit: "500ml", rate: 28 },
+        { id: "gen4", cat: "general", name: "Palak Bajji", emoji: "🥬", unit: "Plate", rate: 30 },
+        { id: "gen5", cat: "general", name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs", rate: 35 },
+        { id: "gen6", cat: "general", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
+
         // Restaurant
-        { id: "r1", cat: "restaurant", name: "Masala Dosa", emoji: "🥞", unit: "Plate", rate: 70 },
-        { id: "r2", cat: "restaurant", name: "Idli Sambar", emoji: "🥟", unit: "Plate", rate: 40 },
-        { id: "r3", cat: "restaurant", name: "Poori Sabji", emoji: "🫓", unit: "Plate", rate: 50 },
-        { id: "r4", cat: "restaurant", name: "Chicken Biryani (Half)", emoji: "🍗", unit: "Half", rate: 110 },
-        { id: "r5", cat: "restaurant", name: "Chicken Biryani (Full)", emoji: "🍛", unit: "Full", rate: 190 },
-        { id: "r6", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
+        { id: "r1", cat: "restaurant", name: "Chicken Biryani (Full)", emoji: "🍛", unit: "Full", rate: 190 },
+        { id: "r2", cat: "restaurant", name: "Chicken Biryani (Half)", emoji: "🍗", unit: "Half", rate: 110 },
+        { id: "r3", cat: "restaurant", name: "Cold Drink", emoji: "🥤", unit: "Btl", rate: 40 },
+        { id: "r4", cat: "restaurant", name: "Idli Sambar", emoji: "🥟", unit: "Plate", rate: 40 },
+        { id: "r5", cat: "restaurant", name: "Masala Dosa", emoji: "🥞", unit: "Plate", rate: 70 },
+        { id: "r6", cat: "restaurant", name: "Poori Sabji", emoji: "🫓", unit: "Plate", rate: 50 },
         { id: "r7", cat: "restaurant", name: "Tea / Chai", emoji: "☕", unit: "Cup", rate: 15 },
-        { id: "r8", cat: "restaurant", name: "Cold Drink", emoji: "🥤", unit: "Btl", rate: 40 },
+        { id: "r8", cat: "restaurant", name: "Veg Fried Rice", emoji: "🍚", unit: "Plate", rate: 90 },
 
         // Grocery
-        { id: "g1", cat: "grocery", name: "Basmati Rice", emoji: "🌾", unit: "1 kg", rate: 85 },
-        { id: "g2", cat: "grocery", name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg", rate: 44 },
-        { id: "g3", cat: "grocery", name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr", rate: 135 },
-        { id: "g4", cat: "grocery", name: "Toor Dal", emoji: "🫘", unit: "1 kg", rate: 150 },
-        { id: "g5", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
-        { id: "g6", cat: "grocery", name: "Milk Packet", emoji: "🥛", unit: "500ml", rate: 28 },
-        { id: "g7", cat: "grocery", name: "Bath Soap", emoji: "🧼", unit: "Pcs", rate: 35 },
-        { id: "g8", cat: "grocery", name: "Tea Patti", emoji: "🍃", unit: "250g", rate: 95 },
+        { id: "g1", cat: "grocery", name: "Atta (Wheat)", emoji: "🥖", unit: "5 kg", rate: 210 },
+        { id: "g2", cat: "grocery", name: "Basmati Rice", emoji: "🌾", unit: "1 kg", rate: 85 },
+        { id: "g3", cat: "grocery", name: "Bath Soap", emoji: "🧼", unit: "Pcs", rate: 35 },
+        { id: "g4", cat: "grocery", name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr", rate: 135 },
+        { id: "g5", cat: "grocery", name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg", rate: 44 },
+        { id: "g6", cat: "grocery", name: "Tea Patti", emoji: "🍃", unit: "250g", rate: 95 },
+        { id: "g7", cat: "grocery", name: "Toor Dal", emoji: "🫘", unit: "1 kg", rate: 150 },
 
         // Loading / Shipping
-        { id: "l1", cat: "loading", name: "Cement Bags", emoji: "🧱", unit: "Bags", rate: 360 },
-        { id: "l2", cat: "loading", name: "Sand / Reti", emoji: "⏳", unit: "Ton", rate: 1200 },
-        { id: "l3", cat: "loading", name: "Carton Boxes", emoji: "📦", unit: "Box", rate: 0 },
-        { id: "l4", cat: "loading", name: "Steel Rods", emoji: "🏗️", unit: "Qntl", rate: 5400 },
-        { id: "l5", cat: "loading", name: "Rice Sacks", emoji: "🎒", unit: "Bora", rate: 0 },
-        { id: "l6", cat: "loading", name: "Hardware Pkts", emoji: "🧰", unit: "Pkt", rate: 0 }
+        { id: "l1", cat: "loading", name: "Carton Boxes", emoji: "📦", unit: "Box", rate: 0 },
+        { id: "l2", cat: "loading", name: "Cement Bags", emoji: "🧱", unit: "Bags", rate: 360 },
+        { id: "l3", cat: "loading", name: "Hardware Pkts", emoji: "🧰", unit: "Pkt", rate: 0 },
+        { id: "l4", cat: "loading", name: "Rice Sacks", emoji: "🎒", unit: "Bora", rate: 0 },
+        { id: "l5", cat: "loading", name: "Sand / Reti", emoji: "⏳", unit: "Ton", rate: 1200 },
+        { id: "l6", cat: "loading", name: "Steel Rods", emoji: "🏗️", unit: "Qntl", rate: 5400 }
       ];
 
-      const EMOJI_BANK = [
-        "🍛","🍗","🥞","🥟","🫓","🍚","🍜","🍔","🍕","🥪","☕","🥤","🧃","🍰",
-        "🌾","🧂","🫗","🫘","🥛","🧼","🧅","🥔","🍅","🍎","🍌","🥚","🍞","🧀",
-        "📦","🧱","🏗️","🚚","🛻","🧰","⚙️","🛢️","🎒","🪵","🧴","💊","📱","🔌"
-      ];
+      // Categorized Full Emoji Library (250+ Emojis covering every business)
+      const EMOJI_GROUPS = {
+        "🍛 Food": ["🍛","🍗","🥞","🥟","🫓","🍚","🍜","🍝","🍔","🍕","🌭","🥪","🌮","🌯","🥙","🧆","🥚","🍳","🥘","🍲","🥣","🥗","🍿","🧈","🧂","🥫","🍱","🍘","🍙","🍢","🍣","🍤","🍥","🥮","🍡","🍦","🍧","🍨","🍩","🍪","🎂","🍰","🧁","🥧","🍫","🍬","🍭","🍮","🍯","☕","🍵","🧃","🥤","🧋","🥛"],
+        "🥬 Veg/Fruit": ["🥔","🧅","🧄","🍅","🍆","🥑","🥦","🥬","🥒","🌶️","🫑","🌽","🥕","🫒","🍄","🥜","🫘","🌰","🍞","🥐","🥖","🥨","🥯","🧀","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍈","🍒","🍑","🥭","🍍","🥥","🥝"],
+        "🛒 Kirana": ["🧼","🧽","🧴","🧻","🧺","🧹","🪣","🪒","🪥","💊","🩹","🩺","🍼","🛍️","🎁","🎈","🕯️","🪔","🧯","🔋","🔌","💡","🔦","📱","💻","⌚","📷","🎧","🖨️","🖱️","⌨️"],
+        "🚚 Transport": ["📦","🧱","🏗️","🚚","🚛","🛻","🚐","🚗","🚕","🚌","🚜","🛵","🚲","⛽","🛢️","🧰","🔧","🔨","⚒️","🛠️","⛏️","🔩","⚙️","⛓️","🧲","🪜","🪵","🪨","🎒","🧳"],
+        "👕 Fashion/Office": ["👕","👖","👗","👘","🥻","🧥","👔","👟","👞","👠"," sandal","🧢","🎒","👜","👛","👓","🕶️","💍","💄","📝","📄","📃","📑","📊","📈","📁","📂","📅","📌","📎","📏","📐","✂️","🖊️","✏️","📚","📖"]
+      };
+
+      // Bilingual Voice & WhatsApp Item Mapping Dictionary
+      const VOICE_ITEM_MAP = {
+        "aalu": { name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg" },
+        "aloo": { name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg" },
+        "potato": { name: "Aloo (Potato)", emoji: "🥔", unit: "1 kg" },
+        "pyaz": { name: "Pyaz (Onion)", emoji: "🧅", unit: "1 kg" },
+        "pyaaz": { name: "Pyaz (Onion)", emoji: "🧅", unit: "1 kg" },
+        "onion": { name: "Pyaz (Onion)", emoji: "🧅", unit: "1 kg" },
+        "tamatar": { name: "Tamatar (Tomato)", emoji: "🍅", unit: "1 kg" },
+        "tomato": { name: "Tamatar (Tomato)", emoji: "🍅", unit: "1 kg" },
+        "palak": { name: "Palak (Spinach)", emoji: "🥬", unit: "Bundle" },
+        "bajji": { name: "Bajji / Bhaji", emoji: "🥘", unit: "Plate" },
+        "bhaji": { name: "Bajji / Bhaji", emoji: "🥘", unit: "Plate" },
+        "palak bajji": { name: "Palak Bajji", emoji: "🥬", unit: "Plate" },
+        "soap": { name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs" },
+        "sabun": { name: "Soap (Sabun)", emoji: "🧼", unit: "Pcs" },
+        "bread": { name: "Bread Packet", emoji: "🍞", unit: "Pkt" },
+        "doodh": { name: "Milk Packet", emoji: "🥛", unit: "500ml" },
+        "milk": { name: "Milk Packet", emoji: "🥛", unit: "500ml" },
+        "cheeni": { name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg" },
+        "sugar": { name: "Sugar (Cheeni)", emoji: "🧂", unit: "1 kg" },
+        "chawal": { name: "Basmati Rice", emoji: "🌾", unit: "1 kg" },
+        "rice": { name: "Basmati Rice", emoji: "🌾", unit: "1 kg" },
+        "atta": { name: "Atta (Wheat)", emoji: "🥖", unit: "1 kg" },
+        "tel": { name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr" },
+        "oil": { name: "Cooking Oil", emoji: "🫗", unit: "1 Ltr" },
+        "dal": { name: "Toor Dal", emoji: "🫘", unit: "1 kg" },
+        "chai": { name: "Tea / Chai", emoji: "☕", unit: "Cup" },
+        "tea": { name: "Tea / Chai", emoji: "☕", unit: "Cup" },
+        "dosa": { name: "Masala Dosa", emoji: "🥞", unit: "Plate" },
+        "idli": { name: "Idli Sambar", emoji: "🥟", unit: "Plate" },
+        "poori": { name: "Poori Sabji", emoji: "🫓", unit: "Plate" },
+        "biryani": { name: "Chicken Biryani", emoji: "🍛", unit: "Plate" },
+        "cement": { name: "Cement Bags", emoji: "🧱", unit: "Bags" },
+        "reti": { name: "Sand / Reti", emoji: "⏳", unit: "Ton" }
+      };
+
+      const NUMBER_WORDS = {
+        "ek": 1, "one": 1, "a": 1,
+        "do": 2, "two": 2,
+        "teen": 3, "three": 3,
+        "char": 4, "four": 4,
+        "paanch": 5, "panch": 5, "five": 5,
+        "chhe": 6, "six": 6,
+        "saat": 7, "seven": 7,
+        "aath": 8, "eight": 8,
+        "nau": 9, "nine": 9,
+        "das": 10, "ten": 10
+      };
 
       /* =========================================================================
-         3. APPLICATION STATE
+         3. APPLICATION STATE & UNDO HISTORY
          ========================================================================= */
       const savedState = safeParseJSON(localStorage.getItem(STORAGE_KEY), {});
 
       const state = {
-        activeCat: savedState.activeCat || "restaurant",
+        activeCat: savedState.activeCat || "general",
         categories: Array.isArray(savedState.categories) && savedState.categories.length ? savedState.categories : DEFAULT_CATEGORIES,
         items: Array.isArray(savedState.items) && savedState.items.length ? savedState.items : DEFAULT_ITEMS,
         barcodes: savedState.barcodes || {},
         showPrice: Boolean(savedState.showPrice),
+        paperSize: savedState.paperSize || "58mm",
+        btPrintMode: savedState.btPrintMode || "bitmap",
         setup: savedState.setup || {
           businessName: "ORDER LIST MAKER",
-          subHeader: "Universal Slip & Order Desk",
+          subHeader: "Universal Order & Slip Desk",
           footerNote: "Thank You! Visit Again"
         },
-        // Restaurant table & guest split state
         activeTable: "T-1",
         activeGuest: "G-1",
-        // Table orders store: { "T-1": [ { uid, guest, name, emoji, thumb, unit, rate, qty } ], ... }
         restaurantTables: savedState.restaurantTables || {},
-        // Standard category orders: { "grocery": { meta: { customer: "", note: "" }, items: [] }, "loading": { meta: { vehicle: "", party: "" }, items: [] } }
         generalOrders: savedState.generalOrders || {},
         savedArchive: Array.isArray(savedState.savedArchive) ? savedState.savedArchive : [],
         searchQuery: "",
-        selectedEmoji: "🍛",
+        selectedEmojiGroup: "🍛 Food",
+        selectedEmoji: "📦",
         capturedDataUrl: "",
         pendingBarcode: ""
       };
+
+      const undoStack = [];
+
+      function pushUndoSnapshot() {
+        undoStack.push({
+          restaurantTables: JSON.parse(JSON.stringify(state.restaurantTables)),
+          generalOrders: JSON.parse(JSON.stringify(state.generalOrders))
+        });
+        if (undoStack.length > 25) undoStack.shift();
+        updateUndoButton();
+      }
+
+      function updateUndoButton() {
+        const btn = document.getElementById("btnUndo");
+        btn.disabled = undoStack.length === 0;
+      }
+
+      function performUndo() {
+        if (!undoStack.length) return;
+        const prev = undoStack.pop();
+        state.restaurantTables = prev.restaurantTables;
+        state.generalOrders = prev.generalOrders;
+        updateUndoButton();
+        persistState();
+        renderAll();
+        showToast("↩️ Last action undone");
+      }
 
       function persistState() {
         try {
@@ -1259,6 +1694,8 @@
             items: state.items,
             barcodes: state.barcodes,
             showPrice: state.showPrice,
+            paperSize: state.paperSize,
+            btPrintMode: state.btPrintMode,
             setup: state.setup,
             restaurantTables: state.restaurantTables,
             generalOrders: state.generalOrders,
@@ -1266,12 +1703,12 @@
           };
           localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
         } catch (err) {
-          showToast("Storage full! Delete old archived orders.");
+          showToast("Storage full! Clear old archived orders.");
         }
       }
 
       /* =========================================================================
-         4. HELPER UTILITIES (TOAST, CURRENT ORDER ACCESSORS)
+         4. TOAST & ORDER MUTATION HELPERS
          ========================================================================= */
       let toastTimer = null;
       function showToast(msg) {
@@ -1279,7 +1716,7 @@
         el.textContent = msg;
         el.classList.add("show");
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+        toastTimer = setTimeout(() => el.classList.remove("show"), 2300);
       }
 
       function getActiveCategoryObj() {
@@ -1301,7 +1738,8 @@
         }
       }
 
-      function addItemToCurrentOrder(itemObj, customQty = 1) {
+      function addItemToCurrentOrder(itemObj, customQty = 1, skipUndo = false) {
+        if (!skipUndo) pushUndoSnapshot();
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
         const guestTag = cat.mode === "restaurant" ? state.activeGuest : "ALL";
@@ -1330,7 +1768,7 @@
       }
 
       /* =========================================================================
-         5. RENDERING ENGINE (TABS, CATALOGUE, CONTEXT BAR, LIVE LIST, SLIP, QR)
+         5. RENDERING ENGINE (ALPHABETICAL CATALOGUE, CONTEXT, FEED, SLIP, QR)
          ========================================================================= */
       function renderCategoryTabs() {
         const bar = document.getElementById("categoryBar");
@@ -1376,30 +1814,42 @@
         const currentList = getCurrentOrderItems();
         const q = state.searchQuery.toLowerCase();
 
-        const filtered = state.items.filter(it => {
-          const matchCat = it.cat === state.activeCat;
-          const matchSearch = !q || it.name.toLowerCase().includes(q);
-          return matchCat && matchSearch;
-        });
+        // Filter & Sort Alphabetically (A -> Z)
+        const filtered = state.items
+          .filter(it => {
+            const matchCat = it.cat === state.activeCat;
+            const matchSearch = !q || it.name.toLowerCase().includes(q);
+            return matchCat && matchSearch;
+          })
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 
         if (!filtered.length) {
           const empty = document.createElement("div");
           empty.style.cssText = "grid-column: 1/-1; text-align:center; color:#64748b; padding:18px 6px; font-size:11px;";
-          empty.textContent = "No items here yet. Use ➕ Emoji Item or 📷 Photo Item below.";
+          empty.textContent = "No items here. Tap ➕ Emoji Item or 📷 Photo Item below.";
           grid.appendChild(empty);
           return;
         }
 
         filtered.forEach(item => {
-          // Calculate total qty of this item in active order
           const inOrderQty = currentList
             .filter(o => o.name.toLowerCase() === item.name.toLowerCase())
             .reduce((sum, o) => sum + o.qty, 0);
 
           const card = document.createElement("div");
           card.className = "prod-card";
-          card.setAttribute("role", "button");
-          card.setAttribute("tabindex", "0");
+
+          // Price / Item Edit Button on every card
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.className = "prod-edit-btn";
+          editBtn.title = "Edit Price / Name";
+          editBtn.textContent = "✏️";
+          editBtn.addEventListener("click", ev => {
+            ev.stopPropagation();
+            openEditItemModal(item);
+          });
+          card.appendChild(editBtn);
 
           if (inOrderQty > 0) {
             const badge = document.createElement("span");
@@ -1446,7 +1896,6 @@
         const cat = getActiveCategoryObj();
 
         if (cat.mode === "restaurant") {
-          // Row 1: Tables T-1 to T-8
           const tableRow = document.createElement("div");
           tableRow.className = "pill-row";
           const tLbl = document.createElement("span");
@@ -1472,7 +1921,6 @@
           }
           strip.appendChild(tableRow);
 
-          // Row 2: Guests / Persons at Table (G-1 to G-5 + Custom)
           const guestRow = document.createElement("div");
           guestRow.className = "pill-row";
           const gLbl = document.createElement("span");
@@ -1505,7 +1953,7 @@
           customG.className = "mini-pill";
           customG.textContent = "+Name";
           customG.addEventListener("click", () => {
-            const nm = sanitizeText(prompt("Guest / Person Name (e.g. Rahul):"), 12);
+            const nm = sanitizeText(prompt("Guest / Person Name:"), 12);
             if (nm) {
               state.activeGuest = nm;
               renderAll();
@@ -1514,7 +1962,6 @@
           guestRow.appendChild(customG);
           strip.appendChild(guestRow);
         } else {
-          // Grocery / Loading / Custom Mode Inputs
           if (!state.generalOrders[cat.id]) {
             state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
           }
@@ -1538,7 +1985,7 @@
           inp2.type = "text";
           inp2.className = "compact-input";
           inp2.maxLength = 25;
-          inp2.placeholder = cat.mode === "loading" ? "🏢 Party / Destination" : "📞 Phone / Address";
+          inp2.placeholder = cat.mode === "loading" ? "🏢 Party / Destination" : "📞 Phone / Note";
           inp2.value = meta.field2 || "";
           inp2.addEventListener("input", e => {
             meta.field2 = sanitizeText(e.target.value, 25);
@@ -1561,16 +2008,12 @@
         if (!list.length) {
           const empty = document.createElement("div");
           empty.style.cssText = "text-align:center; color:#64748b; padding:20px 8px; font-size:11px;";
-          empty.textContent =
-            cat.mode === "restaurant"
-              ? `Tap items on left for ${state.activeTable} (${state.activeGuest}) or type above.`
-              : "Tap catalogue items on left or type order above.";
+          empty.textContent = "Tap items on left, speak via 🎤 Mic, or paste WhatsApp list 📋.";
           feed.appendChild(empty);
           return;
         }
 
         if (cat.mode === "restaurant") {
-          // Group items by Guest/Seat so table order stays crystal clear
           const guestMap = {};
           list.forEach(item => {
             if (!guestMap[item.guest]) guestMap[item.guest] = [];
@@ -1638,6 +2081,7 @@
         minusBtn.className = "qty-btn";
         minusBtn.textContent = "−";
         minusBtn.addEventListener("click", () => {
+          pushUndoSnapshot();
           if (item.qty > 1) {
             item.qty -= 1;
           } else {
@@ -1657,6 +2101,7 @@
         plusBtn.className = "qty-btn";
         plusBtn.textContent = "+";
         plusBtn.addEventListener("click", () => {
+          pushUndoSnapshot();
           item.qty += 1;
           persistState();
           renderAll();
@@ -1671,7 +2116,7 @@
       }
 
       /* =========================================================================
-         6. 2-INCH (58MM) THERMAL SLIP BUILDER & OFFLINE QR SUMMARY
+         6. THERMAL SLIP BUILDER & OFFLINE QR SUMMARY
          ========================================================================= */
       function buildPlainTextSlip() {
         const cat = getActiveCategoryObj();
@@ -1734,7 +2179,6 @@
         return lines.join("\n");
       }
 
-      let qrInstance = null;
       function renderThermalAndQR() {
         const cat = getActiveCategoryObj();
         const list = getCurrentOrderItems();
@@ -1799,7 +2243,6 @@
 
         slipEl.innerHTML = html;
 
-        // Footer stats update
         document.getElementById("footerLeftStats").textContent =
           `Items: ${list.length} | Qty: ${totalQty}` + (state.showPrice && totalAmt > 0 ? ` | ₹${totalAmt.toFixed(0)}` : "");
         document.getElementById("footerRightContext").textContent =
@@ -1807,15 +2250,15 @@
             ? `${cat.name} • ${state.activeTable} (${state.activeGuest})`
             : `${cat.icon} ${cat.name}`;
 
-        // Live Offline Plain-Text QR Code Update
+        // Live Order Summary QR Code
         const qrBox = document.getElementById("qrContainer");
-        const qrText = buildPlainTextSlip().slice(0, 480); // Keep QR crisp & fast-scanning
+        const qrText = buildPlainTextSlip().slice(0, 480);
         if (typeof QRCode !== "undefined") {
           qrBox.innerHTML = "";
-          qrInstance = new QRCode(qrBox, {
+          new QRCode(qrBox, {
             text: qrText,
-            width: 86,
-            height: 86,
+            width: 82,
+            height: 82,
             colorDark: "#0f172a",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.L
@@ -1832,126 +2275,271 @@
       }
 
       /* =========================================================================
-         7. AI-CHAT STYLE QUICK TEXT PARSER ("2 Half Biryani", "5kg Sugar")
+         7. SMART PARSERS: AI-CHAT TEXT, WHATSAPP LIST & CONTINUOUS VOICE-TO-ORDER
          ========================================================================= */
+      function parseAndAddBulkText(rawText, isContinuousSpeech = false) {
+        const clean = sanitizeText(rawText, 2000);
+        if (!clean) return 0;
+
+        pushUndoSnapshot();
+        let addedCount = 0;
+
+        // First split by newlines, commas, semicolons, or Hindi "aur"
+        let segments = rawText
+          .split(/[\n,;•]+|\baur\b|\band\b/gi)
+          .map(s => sanitizeText(s, 60))
+          .filter(Boolean);
+
+        // If user spoke a continuous phrase without commas e.g. "aalu soap bread palak bajji"
+        if (isContinuousSpeech && segments.length === 1 && segments[0].split(" ").length >= 2) {
+          const words = segments[0].toLowerCase().split(/\s+/);
+          const smartChunks = [];
+          let i = 0;
+          while (i < words.length) {
+            let pendingQty = 1;
+            if (/^\d+$/.test(words[i])) {
+              pendingQty = parseInt(words[i], 10);
+              i++;
+            } else if (NUMBER_WORDS[words[i]]) {
+              pendingQty = NUMBER_WORDS[words[i]];
+              i++;
+            }
+            if (i >= words.length) break;
+
+            // Check 2-word phrase match first (e.g. "palak bajji", "masala dosa")
+            const twoWord = words[i + 1] ? `${words[i]} ${words[i + 1]}` : "";
+            const catMatch2 = state.items.find(it => it.name.toLowerCase().includes(twoWord));
+            if (twoWord && (VOICE_ITEM_MAP[twoWord] || catMatch2)) {
+              smartChunks.push(`${pendingQty} ${twoWord}`);
+              i += 2;
+            } else {
+              smartChunks.push(`${pendingQty} ${words[i]}`);
+              i += 1;
+            }
+          }
+          if (smartChunks.length > 1) segments = smartChunks;
+        }
+
+        segments.forEach(seg => {
+          // Strip leading numbering like "1." or "-" or "*"
+          let line = seg.replace(/^[\d]+[.)]\s*|^[-*]\s*/, "").trim();
+          if (!line) return;
+
+          let qty = 1;
+          let unit = "";
+          let itemName = line;
+
+          // Pattern A: "2kg Sugar" or "2 kg Sugar" or "3x Dosa" or "5 pcs Soap"
+          const mStart = line.match(/^(\d+(?:\.\d+)?)\s*(kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag|x)?\s+(.+)$/i);
+          // Pattern B: "Sugar - 2kg" or "Sugar 2 kg" or "Sugar x2"
+          const mEnd = line.match(/^(.+?)\s*[-:x×]?\s*(\d+(?:\.\d+)?)\s*(kg|gm|g|ltr|ml|pkt|pcs|plate|half|full|box|bag)?$/i);
+
+          if (mStart) {
+            qty = Math.max(0.5, parseFloat(mStart[1]) || 1);
+            unit = mStart[2] && mStart[2].toLowerCase() !== "x" ? mStart[2] : "";
+            itemName = mStart[3].trim();
+          } else if (mEnd && mEnd[1].length > 1) {
+            itemName = mEnd[1].trim();
+            qty = Math.max(0.5, parseFloat(mEnd[2]) || 1);
+            unit = mEnd[3] || "";
+          }
+
+          const lowerKey = itemName.toLowerCase();
+          const mapped = VOICE_ITEM_MAP[lowerKey];
+          const catFound = state.items.find(
+            it => it.name.toLowerCase() === lowerKey || it.name.toLowerCase().includes(lowerKey)
+          );
+
+          if (catFound) {
+            addItemToCurrentOrder(
+              { ...catFound, unit: unit || catFound.unit },
+              qty,
+              true
+            );
+          } else if (mapped) {
+            addItemToCurrentOrder(
+              { name: mapped.name, emoji: mapped.emoji, unit: unit || mapped.unit, rate: 0 },
+              qty,
+              true
+            );
+          } else {
+            const titled = itemName.charAt(0).toUpperCase() + itemName.slice(1);
+            addItemToCurrentOrder(
+              { name: titled, emoji: "📝", unit, rate: 0 },
+              qty,
+              true
+            );
+          }
+          addedCount++;
+        });
+
+        if (addedCount === 0) undoStack.pop();
+        updateUndoButton();
+        return addedCount;
+      }
+
       document.getElementById("quickTypeForm").addEventListener("submit", e => {
         e.preventDefault();
         const inp = document.getElementById("quickTypeInput");
-        const raw = sanitizeText(inp.value, 60);
-        if (!raw) return;
-
-        // Parse leading quantity if present e.g. "3 Masala Dosa" or "2x Tea"
-        let qty = 1;
-        let namePart = raw;
-        const match = raw.match(/^(\d+)\s*(?:x|pcs|pkt|plate)?\s+(.+)$/i);
-        if (match) {
-          qty = Math.max(1, Math.min(999, parseInt(match[1], 10)));
-          namePart = match[2];
-        }
-
-        // Check if item exists in catalogue to inherit its emoji/rate
-        const found = state.items.find(
-          it => it.cat === state.activeCat && it.name.toLowerCase() === namePart.toLowerCase()
-        );
-
-        if (found) {
-          addItemToCurrentOrder(found, qty);
-        } else {
-          addItemToCurrentOrder({ name: namePart, emoji: "📝", unit: "", rate: 0 }, qty);
-        }
-
-        inp.value = "";
+        const count = parseAndAddBulkText(inp.value, false);
+        if (count > 0) inp.value = "";
       });
+
+      // WhatsApp Paste Modal
+      document.getElementById("btnPasteWhatsapp").addEventListener("click", () => {
+        document.getElementById("whatsappRawText").value = "";
+        openModal("modalWhatsapp");
+      });
+
+      document.getElementById("formWhatsappPaste").addEventListener("submit", e => {
+        e.preventDefault();
+        const raw = document.getElementById("whatsappRawText").value;
+        const count = parseAndAddBulkText(raw, false);
+        closeModal("modalWhatsapp");
+        if (count > 0) showToast(`✅ Added ${count} items from WhatsApp list!`);
+      });
+
+      // Voice-to-Order (Web Speech API)
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      let activeRecognition = null;
+
+      function startVoiceOrder() {
+        if (!SpeechRec) {
+          showToast("Voice recognition not supported in this browser");
+          return;
+        }
+        if (activeRecognition) {
+          activeRecognition.stop();
+          return;
+        }
+        const micBtn = document.getElementById("btnVoiceOrder");
+        activeRecognition = new SpeechRec();
+        activeRecognition.lang = "en-IN"; // Understands Hindi + Indian English items naturally
+        activeRecognition.interimResults = false;
+        activeRecognition.maxAlternatives = 1;
+
+        micBtn.classList.add("listening");
+        showToast("🎤 Bolna shuru karein (e.g. aalu soap bread palak bajji)...");
+
+        activeRecognition.onresult = event => {
+          const transcript = event.results[0][0].transcript;
+          const count = parseAndAddBulkText(transcript, true);
+          showToast(`🎤 "${transcript}" → ${count} items added!`);
+        };
+
+        activeRecognition.onerror = () => {
+          showToast("Voice not clear, please try again");
+        };
+
+        activeRecognition.onend = () => {
+          micBtn.classList.remove("listening");
+          activeRecognition = null;
+        };
+
+        activeRecognition.start();
+      }
+
+      document.getElementById("btnVoiceOrder").addEventListener("click", startVoiceOrder);
 
       /* =========================================================================
-         8. SEARCH, PRICE TOGGLE, PNG EXPORT, SHARE & ARCHIVE
+         8. LIGHTBOX PREVIEW FOR THERMAL BILL & ORDER QR CODE
          ========================================================================= */
-      document.getElementById("catalogueSearch").addEventListener("input", e => {
-        state.searchQuery = sanitizeText(e.target.value, 40);
-        renderCatalogue();
+      function openLightbox(mode) {
+        const titleEl = document.getElementById("lightboxTitle");
+        const contentEl = document.getElementById("lightboxContent");
+        contentEl.innerHTML = "";
+
+        if (mode === "slip") {
+          titleEl.textContent = "🧾 Full Thermal Bill Preview";
+          const clone = document.getElementById("thermalSlipContent").cloneNode(true);
+          clone.id = "lightboxSlipNode";
+          clone.style.width = "100%";
+          clone.style.maxWidth = "310px";
+          clone.style.maxHeight = "56dvh";
+          clone.style.fontSize = "13px";
+          clone.style.padding = "10px";
+          contentEl.appendChild(clone);
+        } else {
+          titleEl.textContent = "📱 Order Summary QR Code";
+          const bigQrWrap = document.createElement("div");
+          bigQrWrap.style.cssText = "padding:12px; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px;";
+          contentEl.appendChild(bigQrWrap);
+
+          if (typeof QRCode !== "undefined") {
+            new QRCode(bigQrWrap, {
+              text: buildPlainTextSlip().slice(0, 480),
+              width: 220,
+              height: 220,
+              colorDark: "#0f172a",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.L
+            });
+          }
+          const hint = document.createElement("div");
+          hint.style.cssText = "font-size:11px; color:#475569; margin-top:8px; text-align:center;";
+          hint.textContent = "Scan with any phone camera to read full order text offline";
+          contentEl.appendChild(hint);
+        }
+
+        openModal("modalLightbox");
+      }
+
+      document.getElementById("cardThermalPreview").addEventListener("click", e => {
+        if (e.target.id === "btnTogglePrice") return;
+        openLightbox("slip");
       });
 
-      document.getElementById("btnTogglePrice").addEventListener("click", () => {
-        state.showPrice = !state.showPrice;
-        persistState();
-        renderAll();
+      document.getElementById("cardQrPreview").addEventListener("click", () => {
+        openLightbox("qr");
       });
 
-      document.getElementById("btnSavePng").addEventListener("click", async () => {
+      document.getElementById("lbShareBtn").addEventListener("click", async () => {
+        const slipText = buildPlainTextSlip();
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "Order Slip", text: slipText });
+            return;
+          } catch (e) {}
+        }
+        try {
+          await navigator.clipboard.writeText(slipText);
+          showToast("Order copied! Paste in WhatsApp / Bluetooth.");
+        } catch (err) {}
+      });
+
+      document.getElementById("lbPngBtn").addEventListener("click", async () => {
         if (typeof html2canvas === "undefined") {
           window.print();
           return;
         }
-        const slipEl = document.getElementById("thermalSlipContent");
+        const target = document.getElementById("lightboxContent");
         try {
-          const canvas = await html2canvas(slipEl, { scale: 2, backgroundColor: "#fffdf7" });
+          const canvas = await html2canvas(target, { scale: 2, backgroundColor: "#ffffff" });
           const link = document.createElement("a");
           link.download = `Order-Slip-${Date.now()}.png`;
           link.href = canvas.toDataURL("image/png");
           link.click();
-          showToast("Thermal slip PNG saved!");
+          showToast("Saved PNG image!");
         } catch (err) {
-          showToast("Could not export PNG");
+          showToast("PNG export failed");
         }
       });
 
-      document.getElementById("qbShare").addEventListener("click", async () => {
-        const slipText = buildPlainTextSlip();
-        if (navigator.share) {
-          try {
-            await navigator.share({
-              title: "Order List Slip",
-              text: slipText
-            });
-            return;
-          } catch (e) {
-            // User cancelled or fallback to clipboard
-          }
-        }
-        try {
-          await navigator.clipboard.writeText(slipText);
-          showToast("Order slip copied! Paste in WhatsApp / Bluetooth.");
-        } catch (err) {
-          showToast("Share ready");
-        }
-      });
-
-      document.getElementById("btnClearOrder").addEventListener("click", () => {
-        const cat = getActiveCategoryObj();
-        const list = getCurrentOrderItems();
-        if (!list.length) {
-          showToast("Order list is already empty");
-          return;
-        }
-
-        // Archive current order before clearing
-        state.savedArchive.unshift({
-          id: Date.now(),
-          label: cat.mode === "restaurant" ? `${cat.name} (${state.activeTable})` : cat.name,
-          time: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
-          text: buildPlainTextSlip()
-        });
-
-        if (cat.mode === "restaurant") {
-          state.restaurantTables[state.activeTable] = [];
-        } else {
-          state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
-        }
-        persistState();
-        renderAll();
-        showToast("Order saved to history & cleared!");
+      document.getElementById("lbPrintBtn").addEventListener("click", () => {
+        closeModal("modalLightbox");
+        openModal("modalPrintOptions");
       });
 
       /* =========================================================================
-         9. WEB BLUETOOTH 58MM THERMAL PRINTER (ESC/POS)
+         9. MULTI-LANGUAGE BLUETOOTH GRAPHIC PRINT + DESKTOP PAPER SIZE PRINT
          ========================================================================= */
       let btCharacteristic = null;
 
       async function connectBluetoothPrinter() {
         if (!navigator.bluetooth) {
-          showToast("Web Bluetooth not supported here. Using Print Preview.");
-          window.print();
-          return;
+          showToast("Web Bluetooth not available here. Opening Print Options.");
+          openModal("modalPrintOptions");
+          return false;
         }
         try {
           showToast("Searching Bluetooth Printers...");
@@ -1979,34 +2567,95 @@
             document.getElementById("btnBtConnect").classList.add("bt-connected");
             document.getElementById("btnBtConnect").textContent = "📶 Ready";
             showToast(`Connected: ${device.name || "Thermal Printer"}`);
-          } else {
-            showToast("No writable print channel found");
+            return true;
           }
         } catch (err) {
           showToast("Bluetooth connection cancelled");
         }
+        return false;
       }
 
-      async function printViaBluetooth() {
+      // Converts multi-language text slip into 1-bit ESC/POS Raster Bitmap (GS v 0)
+      function buildRasterEscPosBytes(slipText) {
+        const lines = slipText.split("\n");
+        const width = 384; // Standard 58mm thermal head dots
+        const lineHeight = 26;
+        const height = Math.max(60, lines.length * lineHeight + 30);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold 19px sans-serif";
+        ctx.textBaseline = "top";
+
+        lines.forEach((ln, idx) => {
+          ctx.fillText(ln, 6, 10 + idx * lineHeight, width - 12);
+        });
+
+        const imgData = ctx.getImageData(0, 0, width, height).data;
+        const bytesPerRow = width / 8;
+        const header = [
+          0x1b, 0x40, // ESC @
+          0x1d, 0x76, 0x30, 0x00, // GS v 0
+          bytesPerRow & 0xff, (bytesPerRow >> 8) & 0xff,
+          height & 0xff, (height >> 8) & 0xff
+        ];
+
+        const raster = new Uint8Array(header.length + bytesPerRow * height + 4);
+        raster.set(header, 0);
+
+        let offset = header.length;
+        for (let y = 0; y < height; y++) {
+          for (let xb = 0; xb < bytesPerRow; xb++) {
+            let byte = 0;
+            for (let bit = 0; bit < 8; bit++) {
+              const x = xb * 8 + bit;
+              const pIdx = (y * width + x) * 4;
+              const luminance = 0.299 * imgData[pIdx] + 0.587 * imgData[pIdx + 1] + 0.114 * imgData[pIdx + 2];
+              if (luminance < 160) {
+                byte |= (1 << (7 - bit));
+              }
+            }
+            raster[offset++] = byte;
+          }
+        }
+        // Feed 3 lines
+        raster[offset++] = 0x0a;
+        raster[offset++] = 0x0a;
+        raster[offset++] = 0x0a;
+        raster[offset++] = 0x0a;
+        return raster;
+      }
+
+      async function executeBluetoothPrint() {
         if (!btCharacteristic) {
-          await connectBluetoothPrinter();
-          if (!btCharacteristic) return;
+          const ok = await connectBluetoothPrinter();
+          if (!ok) return;
         }
         try {
-          const encoder = new TextEncoder();
-          const initCmd = new Uint8Array([0x1b, 0x40]); // ESC @
-          const feedCutCmd = new Uint8Array([0x0a, 0x0a, 0x0a, 0x1d, 0x56, 0x42, 0x00]);
-          const bodyBytes = encoder.encode(buildPlainTextSlip() + "\n");
+          const text = buildPlainTextSlip();
+          let payload;
 
-          const fullPayload = new Uint8Array(initCmd.length + bodyBytes.length + feedCutCmd.length);
-          fullPayload.set(initCmd, 0);
-          fullPayload.set(bodyBytes, initCmd.length);
-          fullPayload.set(feedCutCmd, initCmd.length + bodyBytes.length);
+          if (state.btPrintMode === "bitmap") {
+            // Prints Hindi, Urdu, Tamil, Bengali, English crisply as thermal graphic!
+            payload = buildRasterEscPosBytes(text);
+          } else {
+            const encoder = new TextEncoder();
+            const init = new Uint8Array([0x1b, 0x40]);
+            const body = encoder.encode(text + "\n\n\n\n");
+            payload = new Uint8Array(init.length + body.length);
+            payload.set(init, 0);
+            payload.set(body, init.length);
+          }
 
-          // Send in 100-byte BLE chunks
           const chunkSize = 100;
-          for (let i = 0; i < fullPayload.length; i += chunkSize) {
-            const slice = fullPayload.slice(i, i + chunkSize);
+          for (let i = 0; i < payload.length; i += chunkSize) {
+            const slice = payload.slice(i, i + chunkSize);
             if (btCharacteristic.properties.writeWithoutResponse) {
               await btCharacteristic.writeValueWithoutResponse(slice);
             } else {
@@ -2021,35 +2670,70 @@
         }
       }
 
+      function executeDesktopSystemPrint() {
+        const sizeMap = {
+          "58mm": { page: "58mm auto", width: "54mm", font: "11px" },
+          "80mm": { page: "80mm auto", width: "74mm", font: "12px" },
+          "A5": { page: "A5 portrait", width: "136mm", font: "14px" },
+          "A4": { page: "A4 portrait", width: "190mm", font: "15px" }
+        };
+        const cfg = sizeMap[state.paperSize] || sizeMap["58mm"];
+        document.getElementById("dynamicPageRule").textContent = `@page { size: ${cfg.page}; margin: 4mm; }`;
+
+        const target = document.getElementById("printAreaTarget");
+        target.style.setProperty("--print-width", cfg.width);
+        target.style.setProperty("--print-font", cfg.font);
+        target.innerHTML = document.getElementById("thermalSlipContent").innerHTML;
+
+        closeModal("modalPrintOptions");
+        setTimeout(() => window.print(), 150);
+      }
+
       document.getElementById("btnBtConnect").addEventListener("click", connectBluetoothPrinter);
-      document.getElementById("qbBtPrint").addEventListener("click", printViaBluetooth);
+      document.getElementById("qbPrint").addEventListener("click", () => {
+        document.getElementById("printPaperSize").value = state.paperSize;
+        document.getElementById("btPrintMode").value = state.btPrintMode;
+        openModal("modalPrintOptions");
+      });
+      document.getElementById("printPaperSize").addEventListener("change", e => {
+        state.paperSize = e.target.value;
+        persistState();
+      });
+      document.getElementById("btPrintMode").addEventListener("change", e => {
+        state.btPrintMode = e.target.value;
+        persistState();
+      });
+      document.getElementById("btnExecBtPrint").addEventListener("click", executeBluetoothPrint);
+      document.getElementById("btnExecDesktopPrint").addEventListener("click", executeDesktopSystemPrint);
 
       /* =========================================================================
-         10. MODALS MANAGEMENT (CUSTOM EMOJI, CAMERA PHOTO ICON, BARCODE, SETUP)
+         10. FULL EMOJI PICKER & CATALOGUE ITEM PRICE/NAME EDITOR
          ========================================================================= */
-      function openModal(id) {
-        document.getElementById(id).classList.add("open");
-      }
-
-      function closeModal(id) {
-        document.getElementById(id).classList.remove("open");
-        stopMediaStreams();
-      }
-
-      document.querySelectorAll("[data-close]").forEach(btn => {
-        btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
-      });
-
-      // A. Custom Big Emoji Item Modal
-      function initEmojiPicker() {
+      function renderEmojiPickerUI() {
+        const tabs = document.getElementById("emojiGroupTabs");
         const grid = document.getElementById("emojiPickerGrid");
+        tabs.innerHTML = "";
         grid.innerHTML = "";
-        EMOJI_BANK.forEach(em => {
+
+        Object.keys(EMOJI_GROUPS).forEach(grp => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "mini-pill" + (grp === state.selectedEmojiGroup ? " active" : "");
+          b.textContent = grp;
+          b.addEventListener("click", () => {
+            state.selectedEmojiGroup = grp;
+            renderEmojiPickerUI();
+          });
+          tabs.appendChild(b);
+        });
+
+        (EMOJI_GROUPS[state.selectedEmojiGroup] || []).forEach(em => {
           const cell = document.createElement("div");
           cell.className = "emoji-opt" + (em === state.selectedEmoji ? " selected" : "");
           cell.textContent = em;
           cell.addEventListener("click", () => {
             state.selectedEmoji = em;
+            document.getElementById("directEmojiInput").value = em;
             grid.querySelectorAll(".emoji-opt").forEach(el => el.classList.remove("selected"));
             cell.classList.add("selected");
           });
@@ -2057,35 +2741,243 @@
         });
       }
 
-      document.getElementById("qbCustomEmoji").addEventListener("click", () => {
-        initEmojiPicker();
+      function openEditItemModal(item = null) {
+        const delBtn = document.getElementById("btnDeleteCatItem");
+        if (item) {
+          document.getElementById("emojiModalTitle").textContent = "✏️ Edit Item & Price";
+          document.getElementById("editItemId").value = item.id;
+          document.getElementById("customItemName").value = item.name;
+          document.getElementById("customItemUnit").value = item.unit || "";
+          document.getElementById("customItemRate").value = item.rate || "";
+          state.selectedEmoji = item.emoji || "📦";
+          document.getElementById("directEmojiInput").value = state.selectedEmoji;
+          delBtn.style.display = "block";
+        } else {
+          document.getElementById("emojiModalTitle").textContent = "➕ Add Custom Emoji Item";
+          document.getElementById("editItemId").value = "";
+          document.getElementById("formEmojiItem").reset();
+          state.selectedEmoji = "📦";
+          document.getElementById("directEmojiInput").value = "📦";
+          delBtn.style.display = "none";
+        }
+        renderEmojiPickerUI();
         openModal("modalEmoji");
+      }
+
+      document.getElementById("qbCustomEmoji").addEventListener("click", () => openEditItemModal(null));
+
+      document.getElementById("directEmojiInput").addEventListener("input", e => {
+        const val = sanitizeText(e.target.value, 4);
+        if (val) state.selectedEmoji = val;
       });
 
       document.getElementById("formEmojiItem").addEventListener("submit", e => {
         e.preventDefault();
+        const editId = document.getElementById("editItemId").value;
         const name = sanitizeText(document.getElementById("customItemName").value, 35);
         const unit = sanitizeText(document.getElementById("customItemUnit").value, 15);
         const rate = Math.max(0, parseFloat(document.getElementById("customItemRate").value) || 0);
+        const chosenEmoji = sanitizeText(document.getElementById("directEmojiInput").value, 4) || state.selectedEmoji;
         if (!name) return;
 
-        const newItem = {
-          id: "itm_" + Date.now(),
-          cat: state.activeCat,
-          name,
-          emoji: state.selectedEmoji,
-          unit,
-          rate
-        };
-        state.items.unshift(newItem);
+        if (editId) {
+          const target = state.items.find(it => it.id === editId);
+          if (target) {
+            target.name = name;
+            target.unit = unit;
+            target.rate = rate;
+            target.emoji = chosenEmoji;
+          }
+          showToast(`Updated "${name}"!`);
+        } else {
+          state.items.push({
+            id: "itm_" + Date.now(),
+            cat: state.activeCat,
+            name,
+            emoji: chosenEmoji,
+            unit,
+            rate
+          });
+          showToast(`Added "${name}" to catalogue!`);
+        }
+
         persistState();
-        e.target.reset();
         closeModal("modalEmoji");
         renderCatalogue();
-        showToast(`Added "${name}" to catalogue!`);
       });
 
-      // B. Camera Mini-Icon Item Modal (Auto-compresses photo to 80x80px ~4KB)
+      document.getElementById("btnDeleteCatItem").addEventListener("click", () => {
+        const editId = document.getElementById("editItemId").value;
+        if (!editId) return;
+        state.items = state.items.filter(it => it.id !== editId);
+        persistState();
+        closeModal("modalEmoji");
+        renderCatalogue();
+        showToast("Item removed from catalogue");
+      });
+
+      /* =========================================================================
+         11. SIMPLE POS CALCULATOR
+         ========================================================================= */
+      let calcBuffer = "";
+      function updateCalcScreen(resultPreview = null) {
+        document.getElementById("calcExpr").textContent = calcBuffer || "0";
+        document.getElementById("calcVal").textContent = resultPreview !== null ? resultPreview : (calcBuffer || "0");
+      }
+
+      function safeEvaluateMath(expr) {
+        const clean = expr.replace(/[^0-9+\-*/.%]/g, "").replace(/%/g, "/100");
+        if (!clean) return "0";
+        try {
+          const val = Function(`"use strict"; return (${clean})`)();
+          return Number.isFinite(val) ? String(Math.round(val * 100) / 100) : "Error";
+        } catch (e) {
+          return "Error";
+        }
+      }
+
+      document.getElementById("calcGrid").addEventListener("click", e => {
+        const btn = e.target.closest("[data-k]");
+        if (!btn) return;
+        const k = btn.getAttribute("data-k");
+
+        if (k === "AC") {
+          calcBuffer = "";
+          updateCalcScreen("0");
+        } else if (k === "DEL") {
+          calcBuffer = calcBuffer.slice(0, -1);
+          updateCalcScreen();
+        } else if (k === "=") {
+          const res = safeEvaluateMath(calcBuffer);
+          calcBuffer = res === "Error" ? "" : res;
+          updateCalcScreen(res);
+        } else {
+          calcBuffer += k;
+          updateCalcScreen();
+        }
+      });
+
+      document.getElementById("btnCalcAddToOrder").addEventListener("click", () => {
+        const val = parseFloat(document.getElementById("calcVal").textContent);
+        if (!val || val <= 0) {
+          showToast("Calculate a valid amount first");
+          return;
+        }
+        state.showPrice = true;
+        addItemToCurrentOrder({ name: "Calc Amount", emoji: "🧮", unit: "", rate: val }, 1);
+        closeModal("modalCalc");
+        showToast(`Added ₹${val} to order!`);
+      });
+
+      document.getElementById("qbCalc").addEventListener("click", () => openModal("modalCalc"));
+
+      /* =========================================================================
+         12. VIRAL APP SHARE QR CODE & PWA INSTALL PROMPT
+         ========================================================================= */
+      let deferredInstallPrompt = null;
+      window.addEventListener("beforeinstallprompt", e => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+      });
+
+      function openAppShareModal() {
+        const appUrl = window.location.href.split("#")[0];
+        document.getElementById("appShareUrlInput").value = appUrl;
+        const qrBox = document.getElementById("appViralQrBox");
+        qrBox.innerHTML = "";
+        if (typeof QRCode !== "undefined") {
+          new QRCode(qrBox, {
+            text: appUrl,
+            width: 190,
+            height: 190,
+            colorDark: "#0f172a",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+          });
+        }
+        openModal("modalAppShare");
+      }
+
+      document.getElementById("btnInstallPwa").addEventListener("click", async () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+        } else {
+          showToast("Browser Menu (⋮) → 'Add to Home Screen' dabayein!");
+        }
+      });
+
+      document.getElementById("btnShareAppLink").addEventListener("click", async () => {
+        const url = document.getElementById("appShareUrlInput").value;
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: "Order List Maker PWA",
+              text: "Fast Order List & Thermal Slip App — Scan ya link khol kar install karein:",
+              url
+            });
+            return;
+          } catch (e) {}
+        }
+        await navigator.clipboard.writeText(url);
+        showToast("App link copied!");
+      });
+
+      /* =========================================================================
+         13. HAMBURGER DRAWER, FACTORY RESET, CAMERA, BARCODE, SETUP & HISTORY
+         ========================================================================= */
+      function openDrawer() {
+        document.getElementById("drawerBackdrop").classList.add("open");
+        document.getElementById("sideDrawer").classList.add("open");
+      }
+
+      function closeDrawer() {
+        document.getElementById("drawerBackdrop").classList.remove("open");
+        document.getElementById("sideDrawer").classList.remove("open");
+      }
+
+      document.getElementById("btnHamburger").addEventListener("click", openDrawer);
+      document.getElementById("btnCloseDrawer").addEventListener("click", closeDrawer);
+      document.getElementById("drawerBackdrop").addEventListener("click", closeDrawer);
+
+      document.getElementById("menuAppShareQr").addEventListener("click", () => { closeDrawer(); openAppShareModal(); });
+      document.getElementById("menuWhatsappPaste").addEventListener("click", () => { closeDrawer(); openModal("modalWhatsapp"); });
+      document.getElementById("menuVoiceOrder").addEventListener("click", () => { closeDrawer(); startVoiceOrder(); });
+      document.getElementById("menuCalculator").addEventListener("click", () => { closeDrawer(); openModal("modalCalc"); });
+      document.getElementById("menuPrintSettings").addEventListener("click", () => { closeDrawer(); openModal("modalPrintOptions"); });
+      document.getElementById("menuSlipSetup").addEventListener("click", () => {
+        closeDrawer();
+        document.getElementById("setupBusinessName").value = state.setup.businessName;
+        document.getElementById("setupSubHeader").value = state.setup.subHeader;
+        document.getElementById("setupFooterNote").value = state.setup.footerNote;
+        openModal("modalSetup");
+      });
+      document.getElementById("menuHistory").addEventListener("click", () => {
+        closeDrawer();
+        document.getElementById("btnHistory").click();
+      });
+
+      // Full LocalStorage Factory Reset
+      document.getElementById("menuResetAll").addEventListener("click", () => {
+        closeDrawer();
+        if (confirm("⚠️ Kya aap sach mein LocalStorage ka saara data (custom items, orders, settings) delete karke naye sire se shuru karna chahte hain?")) {
+          localStorage.removeItem(STORAGE_KEY);
+          location.reload();
+        }
+      });
+
+      // Modal open/close helpers
+      function openModal(id) { document.getElementById(id).classList.add("open"); }
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("open");
+        stopMediaStreams();
+      }
+      document.querySelectorAll("[data-close]").forEach(btn => {
+        btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
+      });
+
+      // Camera Photo Mini-Icon
       let activeMediaStream = null;
       function stopMediaStreams() {
         if (activeMediaStream) {
@@ -2098,8 +2990,7 @@
         const canvas = document.createElement("canvas");
         canvas.width = 80;
         canvas.height = 80;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(sourceEl, 0, 0, 80, 80);
+        canvas.getContext("2d").drawImage(sourceEl, 0, 0, 80, 80);
         return canvas.toDataURL("image/jpeg", 0.72);
       }
 
@@ -2117,9 +3008,7 @@
               video: { facingMode: "environment", width: { ideal: 320 }, height: { ideal: 320 } }
             });
             vid.srcObject = activeMediaStream;
-          } catch (err) {
-            showToast("Use Gallery/Cam button if camera blocked");
-          }
+          } catch (err) {}
         }
       });
 
@@ -2161,7 +3050,7 @@
         const rate = Math.max(0, parseFloat(document.getElementById("photoItemRate").value) || 0);
         if (!name) return;
 
-        state.items.unshift({
+        state.items.push({
           id: "pht_" + Date.now(),
           cat: state.activeCat,
           name,
@@ -2177,24 +3066,23 @@
         showToast(`Saved photo item "${name}"`);
       });
 
-      // C. Barcode Scanner & Product Linker
+      // Barcode Scanner
       let barcodeLoopActive = false;
-
       function handleScannedBarcode(codeRaw) {
         const code = sanitizeText(codeRaw, 32);
         if (!code) return;
         state.pendingBarcode = code;
         document.getElementById("manualBarcodeInput").value = code;
 
-        const linkedItemId = state.barcodes[code];
-        const existingItem = linkedItemId ? state.items.find(it => it.id === linkedItemId) : null;
+        const linkedId = state.barcodes[code];
+        const existingItem = linkedId ? state.items.find(it => it.id === linkedId) : null;
 
         if (existingItem) {
           addItemToCurrentOrder(existingItem, 1);
           closeModal("modalBarcode");
-          showToast(`Scanned & Added: ${existingItem.name}`);
+          showToast(`Scanned: ${existingItem.name}`);
         } else {
-          document.getElementById("barcodeStatus").textContent = `Barcode [${code}] not linked yet.`;
+          document.getElementById("barcodeStatus").textContent = `New Barcode [${code}] — save once:`;
           document.getElementById("newBarcodeRegisterBox").style.display = "block";
         }
       }
@@ -2202,17 +3090,13 @@
       document.getElementById("qbScanBarcode").addEventListener("click", async () => {
         document.getElementById("newBarcodeRegisterBox").style.display = "none";
         document.getElementById("manualBarcodeInput").value = "";
-        document.getElementById("barcodeStatus").textContent = "Point camera at barcode or enter code below";
         openModal("modalBarcode");
 
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           try {
             const vid = document.getElementById("barcodeVideo");
-            activeMediaStream = await navigator.mediaDevices.getUserMedia({
-              video: { facingMode: "environment" }
-            });
+            activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
             vid.srcObject = activeMediaStream;
-
             if ("BarcodeDetector" in window) {
               const detector = new window.BarcodeDetector();
               barcodeLoopActive = true;
@@ -2230,9 +3114,7 @@
               };
               requestAnimationFrame(scanTick);
             }
-          } catch (err) {
-            document.getElementById("barcodeStatus").textContent = "Camera unavailable — type barcode below.";
-          }
+          } catch (err) {}
         }
       });
 
@@ -2247,15 +3129,8 @@
         const rate = Math.max(0, parseFloat(document.getElementById("bcItemRate").value) || 0);
         if (!name || !state.pendingBarcode) return;
 
-        const newItm = {
-          id: "bc_" + Date.now(),
-          cat: state.activeCat,
-          name,
-          emoji: "🏷️",
-          unit,
-          rate
-        };
-        state.items.unshift(newItm);
+        const newItm = { id: "bc_" + Date.now(), cat: state.activeCat, name, emoji: "🏷️", unit, rate };
+        state.items.push(newItm);
         state.barcodes[state.pendingBarcode] = newItm.id;
         persistState();
 
@@ -2265,14 +3140,7 @@
         showToast(`Linked & Added "${name}"!`);
       });
 
-      // D. Slip Header Setup Modal
-      document.getElementById("btnSlipHeader").addEventListener("click", () => {
-        document.getElementById("setupBusinessName").value = state.setup.businessName;
-        document.getElementById("setupSubHeader").value = state.setup.subHeader;
-        document.getElementById("setupFooterNote").value = state.setup.footerNote;
-        openModal("modalSetup");
-      });
-
+      // Setup & History & Search & Undo & New Order
       document.getElementById("formSetup").addEventListener("submit", e => {
         e.preventDefault();
         state.setup.businessName = sanitizeText(document.getElementById("setupBusinessName").value, 32) || "ORDER LIST MAKER";
@@ -2284,12 +3152,10 @@
         showToast("Slip header updated!");
       });
 
-      // E. Saved Orders & Active Tables Drawer
       document.getElementById("btnHistory").addEventListener("click", () => {
         const box = document.getElementById("historyListContainer");
         box.innerHTML = "";
 
-        // Show Active Restaurant Tables summary first
         const activeTables = Object.keys(state.restaurantTables).filter(
           t => (state.restaurantTables[t] || []).length > 0
         );
@@ -2321,13 +3187,13 @@
 
         const h2 = document.createElement("div");
         h2.style.cssText = "font-size:11px; font-weight:800; color:#475569; margin-top:4px;";
-        h2.textContent = "📜 Completed / Cleared Slips:";
+        h2.textContent = "📜 Archived Slips:";
         box.appendChild(h2);
 
         if (!state.savedArchive.length) {
           const p = document.createElement("div");
           p.style.cssText = "font-size:11px; color:#64748b; padding:8px 0;";
-          p.textContent = "No archived orders yet. Clicking 'New' archives the current slip.";
+          p.textContent = "No archived orders yet.";
           box.appendChild(p);
         } else {
           state.savedArchive.forEach(entry => {
@@ -2341,13 +3207,48 @@
             box.appendChild(card);
           });
         }
-
         openModal("modalHistory");
       });
 
-      /* =========================================================================
-         11. SERVICE WORKER REGISTRATION & INITIAL BOOT
-         ========================================================================= */
+      document.getElementById("btnClearOrder").addEventListener("click", () => {
+        const cat = getActiveCategoryObj();
+        const list = getCurrentOrderItems();
+        if (!list.length) {
+          showToast("Order list is already empty");
+          return;
+        }
+        pushUndoSnapshot();
+        state.savedArchive.unshift({
+          id: Date.now(),
+          label: cat.mode === "restaurant" ? `${cat.name} (${state.activeTable})` : cat.name,
+          time: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+          text: buildPlainTextSlip()
+        });
+
+        if (cat.mode === "restaurant") {
+          state.restaurantTables[state.activeTable] = [];
+        } else {
+          state.generalOrders[cat.id] = { meta: { field1: "", field2: "" }, items: [] };
+        }
+        persistState();
+        renderAll();
+        showToast("Saved to Orders & started new slip!");
+      });
+
+      document.getElementById("catalogueSearch").addEventListener("input", e => {
+        state.searchQuery = sanitizeText(e.target.value, 40);
+        renderCatalogue();
+      });
+
+      document.getElementById("btnTogglePrice").addEventListener("click", e => {
+        e.stopPropagation();
+        state.showPrice = !state.showPrice;
+        persistState();
+        renderAll();
+      });
+
+      document.getElementById("btnUndo").addEventListener("click", performUndo);
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.register("./sw.js").catch(() => {});
