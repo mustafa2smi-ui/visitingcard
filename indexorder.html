@@ -1573,11 +1573,12 @@
       <!-- Rapid-Fire Entry Dock (Opens on tapping Big + Add Item button) -->
       <div class="simple-entry-dock" id="simpleEntryDock">
         <div class="simple-suggestions-row" id="simpleSuggestionsRow"></div>
-        <form id="simpleAddForm" style="display:flex; gap:5px; align-items:center;" autocomplete="off">
-          <input type="text" id="simpleQuickInput" class="quick-type-input" style="padding:8px 10px; font-size:var(--fs-base);" placeholder="Item name & qty (e.g. 2kg Sugar, 1 Milk)..." maxlength="60" />
-          <button type="button" class="icon-tool-btn" style="padding:7px 9px;" id="btnSimpleMic" title="Speak Items">🎤</button>
-          <button type="button" class="icon-tool-btn" style="padding:7px 9px;" id="btnSimplePaste" title="Paste WhatsApp List">📋</button>
-          <button type="submit" class="send-item-btn" style="padding:8px 12px;">Add ↵</button>
+                <form id="simpleAddForm" style="display:flex; gap:4px; align-items:center;" autocomplete="off">
+          <input type="text" id="simpleQuickInput" class="quick-type-input" style="padding:7px 8px; font-size:var(--fs-base);" placeholder="Item name & qty (e.g. 2kg Sugar)..." maxlength="60" />
+          <button type="button" class="icon-tool-btn" style="padding:6px 8px;" id="btnSimpleMic" title="Speak Items">🎤</button>
+          <button type="button" class="icon-tool-btn" style="padding:6px 8px;" id="btnSimplePaste" title="Paste WhatsApp List">📋</button>
+          <button type="submit" class="send-item-btn" style="padding:7px 10px;">Add ↵</button>
+          <button type="button" class="icon-tool-btn" style="padding:6px 8px; color:#dc2626;" id="btnCloseSimpleDock" title="Close Input Box">✕</button>
         </form>
       </div>
 
@@ -2696,7 +2697,10 @@
           feed.appendChild(card);
         });
 
-        renderSimpleSuggestions("");
+                renderSimpleSuggestions("");
+        // Naya item add hote hi list ko bottom/top par visible rakhein
+        feed.scrollTop = feed.scrollHeight;
+        
       }
 
       function renderSimpleSuggestions(query) {
@@ -2738,6 +2742,10 @@
           renderSimpleSuggestions("");
           document.getElementById("simpleQuickInput").focus();
         }
+      });
+      document.getElementById("btnCloseSimpleDock").addEventListener("click", () => {
+        document.getElementById("simpleEntryDock").classList.remove("open");
+        document.getElementById("simpleQuickInput").blur();
       });
 
       document.getElementById("simpleQuickInput").addEventListener("input", e => {
