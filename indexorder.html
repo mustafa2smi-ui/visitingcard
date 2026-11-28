@@ -2588,8 +2588,13 @@
           return;
         }
 
-        // Unchecked items first, checked (bought) items at the bottom
+      /*  // Unchecked items first, checked (bought) items at the bottom
         const sortedList = [...list].sort((a, b) => Number(Boolean(a.checked)) - Number(Boolean(b.checked)));
+*/
+                // Unchecked naye items sabse UPAR dikhenge, checked items neeche
+        const unchecked = list.filter(x => !x.checked).reverse();
+        const checked = list.filter(x => x.checked);
+        const sortedList = [...unchecked, ...checked];
 
         sortedList.forEach(item => {
           const card = document.createElement("div");
