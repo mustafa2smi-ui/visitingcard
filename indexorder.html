@@ -1529,6 +1529,11 @@
         padding: 4px;
       }
     }
+        /* Advance mode mein keyboard khulne par Thermal Bill/QR upar na sarke */
+    body.kb-open:not(.mode-simple) .preview-strip,
+    body.kb-open:not(.mode-simple) .quick-bar {
+      display: none !important;
+    }
   </style>
   <style id="dynamicPageRule">@page { size: 58mm auto; margin: 2mm; }</style>
 </head>
@@ -3639,15 +3644,38 @@
         }
       }
       // Android Chrome keyboard khulne par Header ko freeze rakhne ke liye
+            // Keyboard khulne par Header freeze rakhne aur Advance mode mein Preview hide karne ke liye
+      const baseScreenHeight = window.innerHeight;
       function lockViewportHeight() {
         const shell = document.querySelector(".app-shell");
         if (!shell) return;
         if (window.visualViewport) {
-          shell.style.height = window.visualViewport.height + "px";
+          const vh = window.visualViewport.height;
+          shell.style.height = vh + "px";
           shell.style.top = window.visualViewport.offsetTop + "px";
+
+          // Agar keyboard khulne se screen 22% se zyada choti ho jaye toh kb-open lagayein
+          if (vh < baseScreenHeight * 0.78) {
+            document.body.classList.add("kb-open");
+          } else {
+            document.body.classList.remove("kb-open");
+          }
         }
         window.scrollTo(0, 0);
       }
+
+      document.addEventListener("focusin", e => {
+        if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
+          setTimeout(lockViewportHeight, 120);
+        }
+      });
+
+      document.addEventListener("focusout", () => {
+        setTimeout(() => {
+          document.body.classList.remove("kb-open");
+          lockViewportHeight();
+        }, 150);
+      });
 
       if (window.visualViewport) {
         window.visualViewport.addEventListener("resize", lockViewportHeight);
@@ -3655,6 +3683,7 @@
       }
       window.addEventListener("scroll", () => window.scrollTo(0, 0));
       lockViewportHeight();
+
 
       function renderAll() {
         applyAppModeUI();
