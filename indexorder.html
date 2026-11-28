@@ -123,18 +123,24 @@
       line-height: 1.3;
     }
 
-    .app-shell {
+        .app-shell {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       display: flex;
       flex-direction: column;
-      height: 100dvh;
+      height: 100%;
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
       background: var(--bg-surface);
       border-left: 1px solid var(--border-color);
       border-right: 1px solid var(--border-color);
-      position: relative;
+      overflow: hidden;
     }
+
 
     /* 1. Top Header Bar + Simple/Advance Mode Switch */
     .app-header {
@@ -3632,6 +3638,23 @@
           </div>`;
         }
       }
+      // Android Chrome keyboard khulne par Header ko freeze rakhne ke liye
+      function lockViewportHeight() {
+        const shell = document.querySelector(".app-shell");
+        if (!shell) return;
+        if (window.visualViewport) {
+          shell.style.height = window.visualViewport.height + "px";
+          shell.style.top = window.visualViewport.offsetTop + "px";
+        }
+        window.scrollTo(0, 0);
+      }
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", lockViewportHeight);
+        window.visualViewport.addEventListener("scroll", lockViewportHeight);
+      }
+      window.addEventListener("scroll", () => window.scrollTo(0, 0));
+      lockViewportHeight();
 
       function renderAll() {
         applyAppModeUI();
